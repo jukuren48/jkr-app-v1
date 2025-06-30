@@ -1,0 +1,332 @@
+[
+  {
+    "id": 1,
+    "unit": "現在形と三単現",
+    "question": "These days, my sister usually (  ) to school by bike.",
+    "choices": ["go", "goes", "going", "went"],
+    "correct": "goes",
+    "explanation": "現在の習慣を表し、主語が三人称単数なので 'goes'。",
+    "incorrectExplanations": {
+      "go": "三人称単数（my sister）の場合、動詞に -s が必要です。",
+      "going": "動名詞 'going' は文の動詞として使えません。",
+      "went": "'went' は過去形。'These days' は現在の習慣を示しています。"
+    }
+  },
+  {
+    "id": 2,
+    "unit": "助動詞",
+    "question": "In our school rules, students (  ) bring their ID cards every day.",
+    "choices": ["must", "must to", "have to", "has to"],
+    "correct": "must",
+    "explanation": "'must' は助動詞で、義務やルールを示すときに使います。",
+    "incorrectExplanations": {
+      "must to": "'must' の後ろに 'to' は不要です。",
+      "have to": "文法的には正しいが、学校のルールでは 'must' の方が自然です。",
+      "has to": "'students' は複数形なので 'has' は使えません。"
+    }
+  },
+  {
+    "id": 3,
+    "unit": "現在完了形",
+    "question": "I have never (  ) a whale before.",
+    "choices": ["see", "saw", "seen", "seeing"],
+    "correct": "seen",
+    "explanation": "現在完了（have + 過去分詞）なので 'seen' を使います。",
+    "incorrectExplanations": {
+      "see": "'have' の後は過去分詞が必要です。",
+      "saw": "'saw' は過去形で、現在完了には使えません。",
+      "seeing": "進行形ではなく、完了形を求めています。"
+    }
+  },
+  {
+    "id": 4,
+    "unit": "動名詞と不定詞",
+    "question": "I enjoy (  ) tennis with my friends.",
+    "choices": ["play", "to play", "playing", "played"],
+    "correct": "playing",
+    "explanation": "'enjoy' の後ろは動名詞を使います。",
+    "incorrectExplanations": {
+      "play": "'enjoy' の後には動名詞が必要です。",
+      "to play": "'to不定詞' ではなく、'動名詞' を使います。",
+      "played": "'played' は過去形で、文法的に不自然です。"
+    }
+  },
+  {
+    "id": 5,
+    "unit": "接続詞（if / when）",
+    "question": "I will call you (  ) I get home.",
+    "choices": ["if", "when", "because", "so"],
+    "correct": "when",
+    "explanation": "'get home' は確実に起こる未来の出来事なので 'when' が自然です。",
+    "incorrectExplanations": {
+      "if": "不確実な条件に使いますが、この文では帰宅は確定しているので不自然です。",
+      "because": "理由ではないため使えません。",
+      "so": "'so' は結果を表す接続詞で、この文には合いません。"
+    }
+  },
+  {
+    "id": 6,
+    "unit": "be動詞",
+    "question": "My brother (  ) a good soccer player.",
+    "choices": ["is", "are", "am", "be"],
+    "correct": "is",
+    "explanation": "'brother' は三人称単数なので、be動詞は 'is' を使います。",
+    "incorrectExplanations": {
+      "are": "'are' は複数主語に使います。",
+      "am": "'am' は 'I' にしか使えません。",
+      "be": "'be' は原形でこの文には使えません。"
+    }
+  },
+  {
+    "id": 7,
+    "unit": "一般動詞",
+    "question": "I (  ) tennis every Sunday.",
+    "choices": ["play", "plays", "playing", "played"],
+    "correct": "play",
+    "explanation": "'I' は主語なので三単現のsは不要。現在の習慣には現在形の 'play' を使います。",
+    "incorrectExplanations": {
+      "plays": "三単現の 's' は三人称単数にしか使いません。",
+      "playing": "進行形ではないので 'playing' は不適切です。",
+      "played": "過去の話ではないので不適切です。"
+    }
+  },
+  {
+    "id": 8,
+    "unit": "冠詞",
+    "question": "He has (  ) orange in his bag.",
+    "choices": ["a", "an", "the", "no"],
+    "correct": "an",
+    "explanation": "母音で始まる 'orange' の前には 'an' を使います。",
+    "incorrectExplanations": {
+      "a": "'a' は子音で始まる単語の前に使います。",
+      "the": "特定されていない 'orange' なので 'the' は不自然です。",
+      "no": "意味が変わってしまいます。"
+    }
+  },
+  {
+    "id": 9,
+    "unit": "名詞",
+    "question": "There are many (  ) in the park.",
+    "choices": ["child", "childs", "children", "childrens"],
+    "correct": "children",
+    "explanation": "'children' は 'child' の正しい複数形です。",
+    "incorrectExplanations": {
+      "child": "単数形なので 'are many' と合いません。",
+      "childs": "間違った複数形です。",
+      "childrens": "'children' 自体が複数形なので 's' は不要です。"
+    }
+  },
+  {
+    "id": 10,
+    "unit": "形容詞",
+    "question": "This is a (  ) story.",
+    "choices": ["interest", "interested", "interesting", "interests"],
+    "correct": "interesting",
+    "explanation": "'story' は人ではないので、性質を表す 'interesting' を使います。",
+    "incorrectExplanations": {
+      "interest": "名詞で文法的に使えません。",
+      "interested": "人の感情に使います。物には使いません。",
+      "interests": "三単現の動詞、または名詞の複数形で文脈に合いません。"
+    }
+  },
+  {
+    "id": 11,
+    "unit": "現在進行形",
+    "question": "Look! The baby (  ) now.",
+    "choices": ["sleep", "sleeps", "sleeping", "is sleeping"],
+    "correct": "is sleeping",
+    "explanation": "現在進行形は be動詞＋動詞のing形で表現します。この場合は 'is sleeping'。",
+    "incorrectExplanations": {
+      "sleep": "原形の 'sleep' は進行形では使えません。",
+      "sleeps": "現在形で、進行中の動作を表すには不適切です。",
+      "sleeping": "be動詞がないので文として不完全です。"
+    }
+  },
+  {
+    "id": 12,
+    "unit": "過去形",
+    "question": "I (  ) to Kyoto last weekend.",
+    "choices": ["go", "went", "going", "gone"],
+    "correct": "went",
+    "explanation": "'last weekend' があるため、過去形の 'went' を使います。",
+    "incorrectExplanations": {
+      "go": "現在形なので過去の出来事には合いません。",
+      "going": "進行形や名詞的用法で、時制に合いません。",
+      "gone": "'have gone' のように完了形で使う形なので不適切です。"
+    }
+  },
+  {
+    "id": 13,
+    "unit": "未来形",
+    "question": "She (  ) visit her grandma next week.",
+    "choices": ["will", "is", "was", "are"],
+    "correct": "will",
+    "explanation": "未来の予定には 'will＋動詞の原形' を使います。",
+    "incorrectExplanations": {
+      "is": "'is' だけでは未来形になりません。",
+      "was": "過去形で、未来には合いません。",
+      "are": "主語 'she' に対して文法的に不適切です。"
+    }
+  },
+  {
+    "id": 14,
+    "unit": "助動詞",
+    "question": "You (  ) take an umbrella. It looks like rain.",
+    "choices": ["should", "must to", "can to", "has to"],
+    "correct": "should",
+    "explanation": "'should' は助言や提案を表す助動詞で、文脈に最も合っています。",
+    "incorrectExplanations": {
+      "must to": "'must' の後ろに 'to' は不要です。",
+      "can to": "'can' にも 'to' は不要で、使い方が間違っています。",
+      "has to": "'has to' は三人称単数にしか使えません。主語が 'you' なので不適切です。"
+    }
+  },
+  {
+    "id": 15,
+    "unit": "疑問詞",
+    "question": "(  ) do you go to school? – By bike.",
+    "choices": ["When", "How", "What", "Where"],
+    "correct": "How",
+    "explanation": "'By bike'（自転車で）という答え方に合う疑問詞は 'How'（どうやって）です。",
+    "incorrectExplanations": {
+      "When": "'When' は「いつ」に対する質問です。",
+      "What": "'What' は「何」に対する質問なので不自然です。",
+      "Where": "'Where' は「どこに」で、移動手段には使いません。"
+    }
+  },
+  {
+    "id": 16,
+    "unit": "接続詞",
+    "question": "I stayed home (  ) it was raining.",
+    "choices": ["and", "but", "because", "or"],
+    "correct": "because",
+    "explanation": "理由を表す接続詞は 'because'。雨が降っていたから家にいた、という因果関係を表す。",
+    "incorrectExplanations": {
+      "and": "'and' は並列の意味で、理由には使えません。",
+      "but": "'but' は逆接なので、文意と合いません。",
+      "or": "'or' は選択肢を示すときに使います。"
+    }
+  },
+  {
+    "id": 17,
+    "unit": "比較",
+    "question": "This book is (  ) than that one.",
+    "choices": [
+      "interesting",
+      "more interesting",
+      "most interesting",
+      "very interesting"
+    ],
+    "correct": "more interesting",
+    "explanation": "2つの物を比べる場合は比較級 'more 〜 than' を使います。",
+    "incorrectExplanations": {
+      "interesting": "比較の表現ではないため不適切。",
+      "most interesting": "'most' は最上級で、3つ以上の中で使います。",
+      "very interesting": "'very' は程度を強調するだけで比較には使えません。"
+    }
+  },
+  {
+    "id": 18,
+    "unit": "不定詞",
+    "question": "I want (  ) a new bike.",
+    "choices": ["buy", "to buy", "buying", "bought"],
+    "correct": "to buy",
+    "explanation": "'want' の後ろには不定詞（to + 動詞の原形）が続きます。",
+    "incorrectExplanations": {
+      "buy": "'to' がないため文法的に不完全です。",
+      "buying": "動名詞は 'enjoy' などに使いますが 'want' には不適切です。",
+      "bought": "過去形で使い方が誤っています。"
+    }
+  },
+  {
+    "id": 19,
+    "unit": "動名詞",
+    "question": "He enjoys (  ) tennis after school.",
+    "choices": ["play", "to play", "playing", "played"],
+    "correct": "playing",
+    "explanation": "'enjoy' の後ろは動名詞（動詞 + ing）を使うのがルールです。",
+    "incorrectExplanations": {
+      "play": "原形は 'enjoy' の後には使えません。",
+      "to play": "'to不定詞' は 'want' や 'hope' などに使います。",
+      "played": "過去形で、名詞的役割を果たしません。"
+    }
+  },
+  {
+    "id": 20,
+    "unit": "受動態",
+    "question": "English (  ) in many countries.",
+    "choices": ["speaks", "is speaking", "is spoken", "was spoken"],
+    "correct": "is spoken",
+    "explanation": "現在形の受動態は 'is + 過去分詞'。多くの国で英語が話されている、という意味です。",
+    "incorrectExplanations": {
+      "speaks": "能動態であり、主語が人でないため不適切です。",
+      "is speaking": "進行形で、受動態の形ではありません。",
+      "was spoken": "過去形なので '現在形' の文と時制が合いません。"
+    }
+  },
+  {
+    "id": 21,
+    "unit": "間接疑問文",
+    "question": "I don’t know (  ) she is coming to the party.",
+    "choices": ["when", "is", "does", "whether"],
+    "correct": "whether",
+    "explanation": "間接疑問文では 'if' や 'whether' を使って「〜かどうか」を表します。この文では 'whether' が適切です。",
+    "incorrectExplanations": {
+      "when": "'when' は「いつ」を聞くときで、'かどうか' の意味にはなりません。",
+      "is": "文の構造が崩れるため不適切です。",
+      "does": "助動詞 'does' はここでは不要です。"
+    }
+  },
+  {
+    "id": 22,
+    "unit": "５文型",
+    "question": "She gave me (  ).",
+    "choices": ["book", "a book", "books", "the books"],
+    "correct": "a book",
+    "explanation": "SVOO（第4文型）の例で、'me'（人）と 'a book'（物）の順で与える行為を表します。",
+    "incorrectExplanations": {
+      "book": "冠詞がないため文法的に不自然です。",
+      "books": "複数形にする理由が文中にありません。",
+      "the books": "特定の本ではない場合は不自然です。"
+    }
+  },
+  {
+    "id": 23,
+    "unit": "関係代名詞",
+    "question": "The girl (  ) is singing is my sister.",
+    "choices": ["who", "which", "where", "what"],
+    "correct": "who",
+    "explanation": "'who' は人を先行詞に取る関係代名詞。'The girl' を修飾しているので 'who' が正解です。",
+    "incorrectExplanations": {
+      "which": "'which' は物を修飾する関係代名詞です。",
+      "where": "'where' は場所を表す関係副詞です。",
+      "what": "'what' は先行詞を含む形なので使えません。"
+    }
+  },
+  {
+    "id": 24,
+    "unit": "仮定法",
+    "question": "If I were you, I (  ) take the job.",
+    "choices": ["will", "would", "can", "am"],
+    "correct": "would",
+    "explanation": "仮定法過去の表現では 'If I were 〜, I would 〜' の形を取ります。現実と異なる仮の状況を表します。",
+    "incorrectExplanations": {
+      "will": "仮定法では 'would' を使います。",
+      "can": "'can' は現実的な可能性を表し、仮定法には合いません。",
+      "am": "'I were' が正しい仮定法の形です。"
+    }
+  },
+  {
+    "id": 25,
+    "unit": "付加疑問文",
+    "question": "You’re from Tokyo, (  )?",
+    "choices": ["aren’t you", "don’t you", "are you", "isn't it"],
+    "correct": "aren’t you",
+    "explanation": "肯定文のあとには否定の疑問タグをつけます。'You are' に対して 'aren’t you?' が適切です。",
+    "incorrectExplanations": {
+      "don’t you": "'are' に対して 'don’t' を使うのは誤りです。",
+      "are you": "これは否定文のあとに付ける形式です。",
+      "isn't it": "'you' に対して 'it' は代名詞の一致が取れません。"
+    }
+  }
+]

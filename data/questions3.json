@@ -1,0 +1,15 @@
+[
+  {
+    "id": 1,
+    "unit": "現在形",
+    "question": "He ( ) soccer every Sunday.",
+    "choices": ["play", "plays", "played", "playing"],
+    "correct": "plays",
+    "explanation": "主語が He で三人称単数のため、現在形は plays。",
+    "incorrectExplanations": [
+      "主語が三人称単数なので play は使えません。",
+      "過去形の played は文に合いません。",
+      "playing は動名詞なので不適切です。"
+    ]
+  }
+]
