@@ -1,6 +1,5 @@
-// EnglishTrapQuestions.jsx - 完全修正版（読み込み表示＆fetch修正済み）
+// EnglishTrapQuestions.jsx - 完全修正版（読み込み表示・解説表示・「次へ」ボタン対応）
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
 function shuffleArray(array) {
   const copy = [...array];
@@ -16,11 +15,8 @@ export default function EnglishTrapQuestions() {
   const [units, setUnits] = useState([]);
   const [selectedUnits, setSelectedUnits] = useState([]);
   const [questionCount, setQuestionCount] = useState(null);
-  const [initialQuestions, setInitialQuestions] = useState([]);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(10);
-  const [isPaused, setIsPaused] = useState(false);
   const [showQuestions, setShowQuestions] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [answers, setAnswers] = useState({});
@@ -64,11 +60,12 @@ export default function EnglishTrapQuestions() {
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
     setFilteredQuestions(limited);
-    setInitialQuestions(limited);
     setCurrentIndex(0);
     setAnswers({});
     setShowQuestions(true);
     setShowResult(false);
+    setShowFeedback(false);
+    setSelectedChoice(null);
   };
 
   const handleAnswer = (choice) => {
@@ -76,21 +73,6 @@ export default function EnglishTrapQuestions() {
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: choice }));
     setSelectedChoice(choice);
     setShowFeedback(true);
-  };
-
-  const correctAnswers = filteredQuestions.filter(
-    (q) => answers[q.id] === q.correct
-  );
-  const incorrectAnswers = filteredQuestions.filter(
-    (q) => answers[q.id] !== q.correct
-  );
-
-  const handleRetry = () => {
-    setShowQuestions(false);
-    setShowResult(false);
-    setSelectedUnits([]);
-    setQuestionCount(null);
-    setAnswers({});
   };
 
   const handleNext = () => {
@@ -104,16 +86,88 @@ export default function EnglishTrapQuestions() {
     }
   };
 
+  const handleRetry = () => {
+    setShowQuestions(false);
+    setShowResult(false);
+    setSelectedUnits([]);
+    setQuestionCount(null);
+    setAnswers({});
+    setShowFeedback(false);
+    setSelectedChoice(null);
+  };
+
+  const correctAnswers = filteredQuestions.filter(
+    (q) => answers[q.id] === q.correct
+  );
+  const incorrectAnswers = filteredQuestions.filter(
+    (q) => answers[q.id] !== q.correct
+  );
+
   if (!showQuestions && !showResult && units.length === 0) {
     return <div className="p-8 text-lg">読み込み中です...</div>;
   }
 
   return (
     <div className="max-w-4xl mx-auto p-4">
+      {/* クイズ開始前の設定画面 */}
+      {!showQuestions && !showResult && units.length > 0 && (
+        <div>
+          <h2 className="text-xl font-bold mb-2">単元を選んでください</h2>
+          <div className="flex gap-4 mb-2">
+            <button
+              onClick={selectAllUnits}
+              className="bg-green-200 px-3 py-1 rounded"
+            >
+              全選択
+            </button>
+            <button
+              onClick={clearAllUnits}
+              className="bg-red-200 px-3 py-1 rounded"
+            >
+              全解除
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {units.map((unit) => (
+              <button
+                key={unit}
+                onClick={() => toggleUnit(unit)}
+                className={`px-4 py-2 rounded border ${
+                  selectedUnits.includes(unit) ? "bg-blue-300" : "bg-white"
+                }`}
+              >
+                {unit}
+              </button>
+            ))}
+          </div>
+          <h2 className="text-xl font-bold mb-2">出題数を選んでください</h2>
+          <div className="flex gap-4 mb-4">
+            {[5, 10, 15, "all"].map((count) => (
+              <button
+                key={count}
+                onClick={() => setQuestionCount(count)}
+                className={`px-4 py-2 rounded border ${
+                  questionCount === count ? "bg-green-300" : "bg-white"
+                }`}
+              >
+                {count === "all" ? "すべて" : `${count}問`}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={startQuiz}
+            disabled={selectedUnits.length === 0 || !questionCount}
+            className="bg-blue-500 text-white px-6 py-2 rounded mt-4"
+          >
+            開始
+          </button>
+        </div>
+      )}
+
+      {/* クイズ進行中 */}
       {showQuestions && !showResult && (
         <div>
           {showFeedback ? (
-            // 解答後フィードバック画面
             <div>
               <h2 className="text-xl font-bold mb-4">解答結果</h2>
               <p className="mb-2">
@@ -141,12 +195,10 @@ export default function EnglishTrapQuestions() {
               </button>
             </div>
           ) : (
-            // 問題を選ぶ画面
             <div>
               <h2 className="text-xl font-bold mb-4">
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
-              <div className="mb-2">残り時間: {timeLeft}秒</div>
               <div className="mb-4 text-lg font-semibold">
                 {filteredQuestions[currentIndex]?.question}
               </div>
@@ -168,6 +220,7 @@ export default function EnglishTrapQuestions() {
         </div>
       )}
 
+      {/* 結果画面 */}
       {showResult && (
         <div>
           <h2 className="text-2xl font-bold mb-4">結果発表</h2>
