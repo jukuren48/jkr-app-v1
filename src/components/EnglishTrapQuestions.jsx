@@ -164,31 +164,6 @@ export default function EnglishTrapQuestions() {
         </div>
       )}
 
-      {showQuestions && !showResult && (
-        <div>
-          <h2 className="text-xl font-bold mb-4">
-            第{currentIndex + 1}問 / 全{filteredQuestions.length}問
-          </h2>
-          <div className="mb-2">残り時間: {timeLeft}秒</div>
-          <div className="mb-4 text-lg font-semibold">
-            {filteredQuestions[currentIndex]?.question}
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {shuffleArray(filteredQuestions[currentIndex]?.choices || []).map(
-              (choice, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(choice)}
-                  className="bg-white border rounded px-4 py-2 hover:bg-gray-100"
-                >
-                  {choice}
-                </button>
-              )
-            )}
-          </div>
-        </div>
-      )}
-
       {showResult && (
         <div>
           <h2 className="text-2xl font-bold mb-4">結果発表</h2>
