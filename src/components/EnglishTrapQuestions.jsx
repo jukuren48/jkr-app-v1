@@ -23,6 +23,7 @@ export default function EnglishTrapQuestions() {
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [mistakes, setMistakes] = useState({});
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -72,6 +73,12 @@ export default function EnglishTrapQuestions() {
   const handleAnswer = (choice) => {
     const currentQuestion = filteredQuestions[currentIndex];
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: choice }));
+
+    // もし初めての回答で間違えたら記録
+    if (!mistakes[currentQuestion.id] && choice !== currentQuestion.correct) {
+      setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
+    }
+
     setSelectedChoice(choice);
     setIsCorrect(choice === currentQuestion.correct);
     setShowFeedback(true);
@@ -108,6 +115,11 @@ export default function EnglishTrapQuestions() {
   const incorrectAnswers = filteredQuestions.filter(
     (q) => answers[q.id] !== q.correct
   );
+
+  const totalQuestions = filteredQuestions.length;
+  const incorrectCount = Object.keys(mistakes).length;
+  const correctCount = totalQuestions - incorrectCount;
+  const correctRate = Math.round((correctCount / totalQuestions) * 100);
 
   if (!showQuestions && !showResult && units.length === 0) {
     return <div className="p-8 text-lg">読み込み中です...</div>;
@@ -177,9 +189,29 @@ export default function EnglishTrapQuestions() {
             <div>
               <h2 className="text-xl font-bold mb-4">解答結果</h2>
               <p className="mb-2">
-                {isCorrect
-                  ? "正解です！"
-                  : "不正解です。もう一度挑戦しましょう。"}
+                {isCorrect ? (
+                  <>
+                    <p className="mb-2 text-green-700 font-bold">正解です！</p>
+                    <p className="mb-2">
+                      解説: {filteredQuestions[currentIndex].explanation}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="mb-2 text-red-700 font-bold">
+                      不正解です。もう一度挑戦しましょう。
+                    </p>
+                    <p className="mb-2">あなたの答え: {selectedChoice}</p>
+                    <p className="mb-2">
+                      理由:{" "}
+                      {
+                        filteredQuestions[currentIndex].incorrectExplanations[
+                          selectedChoice
+                        ]
+                      }
+                    </p>
+                  </>
+                )}
               </p>
               <p className="mb-2">あなたの答え: {selectedChoice}</p>
               <p className="mb-2">
@@ -231,13 +263,9 @@ export default function EnglishTrapQuestions() {
         <div>
           <h2 className="text-2xl font-bold mb-4">結果発表</h2>
           <p className="text-lg mb-2">
-            正解数: {correctAnswers.length} / {filteredQuestions.length}
-            （正答率:{" "}
-            {Math.round(
-              (correctAnswers.length / filteredQuestions.length) * 100
-            )}
-            %）
+            正解数: {correctCount} / {totalQuestions}（正答率: {correctRate}%）
           </p>
+
           <div className="mb-4">
             {incorrectAnswers.map((q) => (
               <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
