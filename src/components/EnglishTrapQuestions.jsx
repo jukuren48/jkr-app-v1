@@ -193,7 +193,10 @@ export default function EnglishTrapQuestions() {
                 <p className="font-semibold">問題: {q.question}</p>
                 <p className="text-red-600">あなたの答え: {answers[q.id]}</p>
                 <p className="text-green-600">正解: {q.correct}</p>
-                <p className="mt-1">解説: {q.explanation}</p>
+                <p className="mt-1 text-gray-700">
+                  解説:{" "}
+                  {q.incorrectExplanations?.[answers[q.id]] || q.explanation}
+                </p>
               </div>
             ))}
           </div>
