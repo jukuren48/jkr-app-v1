@@ -213,18 +213,7 @@ export default function EnglishTrapQuestions() {
                   </>
                 )}
               </p>
-              <p className="mb-2">あなたの答え: {selectedChoice}</p>
-              <p className="mb-2">
-                正解: {filteredQuestions[currentIndex].correct}
-              </p>
-              <p className="mb-2">
-                解説:{" "}
-                {selectedChoice === filteredQuestions[currentIndex].correct
-                  ? filteredQuestions[currentIndex].explanation
-                  : filteredQuestions[currentIndex].incorrectExplanations[
-                      selectedChoice
-                    ] || filteredQuestions[currentIndex].explanation}
-              </p>
+
               <button
                 onClick={handleNext}
                 className="bg-blue-500 text-white px-6 py-2 rounded"
