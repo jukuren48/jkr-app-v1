@@ -22,6 +22,7 @@ export default function EnglishTrapQuestions() {
   const [answers, setAnswers] = useState({});
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState(null);
+  const [isCorrect, setIsCorrect] = useState(false);
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -72,18 +73,22 @@ export default function EnglishTrapQuestions() {
     const currentQuestion = filteredQuestions[currentIndex];
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: choice }));
     setSelectedChoice(choice);
+    setIsCorrect(choice === currentQuestion.correct);
     setShowFeedback(true);
   };
 
   const handleNext = () => {
-    if (currentIndex + 1 < filteredQuestions.length) {
-      setCurrentIndex(currentIndex + 1);
-      setSelectedChoice(null);
-      setShowFeedback(false);
-    } else {
-      setShowQuestions(false);
-      setShowResult(true);
+    if (isCorrect) {
+      if (currentIndex + 1 < filteredQuestions.length) {
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        setShowQuestions(false);
+        setShowResult(true);
+      }
     }
+    // 正解じゃない場合は同じ問題を再出す
+    setSelectedChoice(null);
+    setShowFeedback(false);
   };
 
   const handleRetry = () => {
@@ -94,6 +99,7 @@ export default function EnglishTrapQuestions() {
     setAnswers({});
     setShowFeedback(false);
     setSelectedChoice(null);
+    setIsCorrect(false);
   };
 
   const correctAnswers = filteredQuestions.filter(
@@ -171,9 +177,9 @@ export default function EnglishTrapQuestions() {
             <div>
               <h2 className="text-xl font-bold mb-4">解答結果</h2>
               <p className="mb-2">
-                {selectedChoice === filteredQuestions[currentIndex].correct
+                {isCorrect
                   ? "正解です！"
-                  : "不正解です。"}
+                  : "不正解です。もう一度挑戦しましょう。"}
               </p>
               <p className="mb-2">あなたの答え: {selectedChoice}</p>
               <p className="mb-2">
