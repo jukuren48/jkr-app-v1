@@ -56,6 +56,10 @@ export default function EnglishTrapQuestions() {
 
   const startQuiz = () => {
     const filtered = questions.filter((q) => selectedUnits.includes(q.unit));
+    if (filtered.length === 0) {
+      alert("選択した単元に問題がありません。");
+      return;
+    }
     const shuffled = shuffleArray(filtered);
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
