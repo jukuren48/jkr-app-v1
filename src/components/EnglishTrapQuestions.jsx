@@ -159,7 +159,7 @@ export default function EnglishTrapQuestions() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div className="min-h-screen bg-gradient-to-r from-pink-100 to-yellow-100 max-w-4xl mx-auto p-4">
       {/* クイズ開始前の設定画面 */}
       {!showQuestions && !showResult && units.length > 0 && (
         <div>
@@ -208,7 +208,7 @@ export default function EnglishTrapQuestions() {
           <button
             onClick={startQuiz}
             disabled={selectedUnits.length === 0 || !questionCount}
-            className="bg-blue-500 text-white px-6 py-2 rounded mt-4"
+            className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
           >
             開始
           </button>
@@ -219,7 +219,13 @@ export default function EnglishTrapQuestions() {
       {showQuestions && !showResult && (
         <div>
           {showFeedback ? (
-            <div>
+            <div
+              className={`p-4 rounded-lg shadow-md mb-4 ${
+                isCorrect
+                  ? "bg-green-100 border-green-300"
+                  : "bg-red-100 border-red-300"
+              }`}
+            >
               <h2 className="text-xl font-bold mb-4">解答結果</h2>
               <p className="mb-2">
                 {isCorrect ? (
@@ -249,7 +255,7 @@ export default function EnglishTrapQuestions() {
 
               <button
                 onClick={handleNext}
-                className="bg-blue-500 text-white px-6 py-2 rounded"
+                className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
               >
                 次へ
               </button>
@@ -259,6 +265,16 @@ export default function EnglishTrapQuestions() {
               <h2 className="text-xl font-bold mb-4">
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
+              <div className="w-full bg-gray-300 rounded-full h-3 mb-4">
+                <div
+                  className="bg-green-400 h-3 rounded-full"
+                  style={{
+                    width: `${
+                      ((currentIndex + 1) / filteredQuestions.length) * 100
+                    }%`,
+                  }}
+                />
+              </div>
               <div className="mb-4 text-lg font-semibold">
                 {filteredQuestions[currentIndex]?.question}
               </div>
@@ -284,6 +300,15 @@ export default function EnglishTrapQuestions() {
       {showResult && (
         <div>
           <h2 className="text-2xl font-bold mb-4">結果発表</h2>
+          <p className="text-2xl font-bold mb-4">
+            {correctRate >= 90
+              ? "🎉 すばらしい！🥇"
+              : correctRate >= 80
+              ? "✨ よくできました！🥈"
+              : correctRate >= 70
+              ? "👍 もう少し！🥉"
+              : "💪 何度も挑戦しよう！"}
+          </p>
           <p className="text-lg mb-2">
             正解数: {correctCount} / {totalQuestions}（正答率: {correctRate}%）
           </p>
@@ -313,13 +338,13 @@ export default function EnglishTrapQuestions() {
           <div className="flex gap-4">
             <button
               onClick={handleRetrySame}
-              className="bg-blue-500 text-white px-6 py-2 rounded"
+              className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
             >
               同じ問題でもう一度
             </button>
             <button
               onClick={handleRetryNew}
-              className="bg-green-500 text-white px-6 py-2 rounded"
+              className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
             >
               別の問題にチャレンジ
             </button>
