@@ -165,6 +165,7 @@ export default function EnglishTrapQuestions() {
     (q) => mistakes[q.id]
   );
 
+  const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
   const totalQuestions = filteredQuestions.length;
   const incorrectCount = Object.keys(mistakes).length;
   const correctCount = totalQuestions - incorrectCount;
