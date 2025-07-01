@@ -25,6 +25,7 @@ export default function EnglishTrapQuestions() {
   const [isCorrect, setIsCorrect] = useState(false);
   const [mistakes, setMistakes] = useState({});
   const [initialQuestions, setInitialQuestions] = useState([]);
+  const [firstMistakeAnswers, setFirstMistakeAnswers] = useState({});
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -77,9 +78,12 @@ export default function EnglishTrapQuestions() {
     const currentQuestion = filteredQuestions[currentIndex];
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: choice }));
 
-    // もし初めての回答で間違えたら記録
     if (!mistakes[currentQuestion.id] && choice !== currentQuestion.correct) {
       setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
+      setFirstMistakeAnswers((prev) => ({
+        ...prev,
+        [currentQuestion.id]: choice,
+      }));
     }
 
     setSelectedChoice(choice);
@@ -117,6 +121,7 @@ export default function EnglishTrapQuestions() {
     setShowFeedback(false);
     setSelectedChoice(null);
     setIsCorrect(false);
+    setFirstMistakeAnswers({});
   };
 
   const handleRetryNew = () => {
@@ -131,6 +136,7 @@ export default function EnglishTrapQuestions() {
     setMistakes({});
     setFilteredQuestions([]);
     setInitialQuestions([]);
+    setFirstMistakeAnswers({});
   };
 
   const correctAnswers = filteredQuestions.filter(
@@ -291,7 +297,7 @@ export default function EnglishTrapQuestions() {
                   <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
                     <p className="font-semibold">問題: {q.question}</p>
                     <p className="text-red-600">
-                      あなたの答え: {answers[q.id]}
+                      あなたの答え: {firstMistakeAnswers[q.id]}
                     </p>
                     <p className="text-green-600">正解: {q.correct}</p>
                     <p className="mt-1 text-gray-700">
