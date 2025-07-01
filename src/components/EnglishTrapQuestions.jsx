@@ -106,6 +106,17 @@ export default function EnglishTrapQuestions() {
     setShowFeedback(false);
   };
 
+  const speakText = (text) => {
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "ja-JP"; // 日本語で読み上げ
+      window.speechSynthesis.cancel(); // 前の読み上げを止める
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert("このブラウザは音声読み上げに対応していません。");
+    }
+  };
+
   const handleRetrySame = () => {
     if (initialQuestions.length === 0) {
       // safety guard: fallback to full reset if no previous questions
@@ -242,7 +253,13 @@ export default function EnglishTrapQuestions() {
                     ✅ 正解です！
                   </p>
                   <p className="mb-2">
-                    解説: {filteredQuestions[currentIndex].explanation}
+                    解説: {currentQuestion.explanation}
+                    <button
+                      onClick={() => speakText(currentQuestion.explanation)}
+                      className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
+                    >
+                      🔊 聞く
+                    </button>
                   </p>
                 </>
               ) : (
@@ -255,9 +272,21 @@ export default function EnglishTrapQuestions() {
                       <p className="mb-2">あなたの答え: {selectedChoice}</p>
                       <p className="mb-2">
                         理由:{" "}
-                        {filteredQuestions[currentIndex]
-                          ?.incorrectExplanations?.[selectedChoice] ||
-                          filteredQuestions[currentIndex]?.explanation}
+                        {currentQuestion.incorrectExplanations?.[
+                          selectedChoice
+                        ] || currentQuestion.explanation}
+                        <button
+                          onClick={() =>
+                            speakText(
+                              currentQuestion.incorrectExplanations?.[
+                                selectedChoice
+                              ] || currentQuestion.explanation
+                            )
+                          }
+                          className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
+                        >
+                          🔊 聞く
+                        </button>
                       </p>
                     </>
                   )}
@@ -338,8 +367,20 @@ export default function EnglishTrapQuestions() {
                     <p className="text-green-600">正解: {q.correct}</p>
                     <p className="mt-1 text-gray-700">
                       解説:{" "}
-                      {q.incorrectExplanations?.[answers[q.id]] ||
+                      {q.incorrectExplanations?.[firstMistakeAnswers[q.id]] ||
                         q.explanation}
+                      <button
+                        onClick={() =>
+                          speakText(
+                            q.incorrectExplanations?.[
+                              firstMistakeAnswers[q.id]
+                            ] || q.explanation
+                          )
+                        }
+                        className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
+                      >
+                        🔊 聞く
+                      </button>
                     </p>
                   </div>
                 ))}
