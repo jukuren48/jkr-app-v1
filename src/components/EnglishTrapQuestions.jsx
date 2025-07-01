@@ -107,10 +107,14 @@ export default function EnglishTrapQuestions() {
   };
 
   const speakText = (text) => {
+    if (!text) {
+      alert("読み上げるテキストがありません。");
+      return;
+    }
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "ja-JP"; // 日本語で読み上げ
-      window.speechSynthesis.cancel(); // 前の読み上げを止める
+      utterance.lang = "ja-JP";
+      window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
     } else {
       alert("このブラウザは音声読み上げに対応していません。");
@@ -253,13 +257,15 @@ export default function EnglishTrapQuestions() {
                     ✅ 正解です！
                   </p>
                   <p className="mb-2">
-                    解説: {currentQuestion.explanation}
-                    <button
-                      onClick={() => speakText(currentQuestion.explanation)}
-                      className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
-                    >
-                      🔊 聞く
-                    </button>
+                    解説:{" "}
+                    {currentQuestion?.explanation && (
+                      <button
+                        onClick={() => speakText(currentQuestion.explanation)}
+                        className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
+                      >
+                        🔊 聞く
+                      </button>
+                    )}
                   </p>
                 </>
               ) : (
@@ -272,21 +278,23 @@ export default function EnglishTrapQuestions() {
                       <p className="mb-2">あなたの答え: {selectedChoice}</p>
                       <p className="mb-2">
                         理由:{" "}
-                        {currentQuestion.incorrectExplanations?.[
-                          selectedChoice
-                        ] || currentQuestion.explanation}
-                        <button
-                          onClick={() =>
-                            speakText(
-                              currentQuestion.incorrectExplanations?.[
-                                selectedChoice
-                              ] || currentQuestion.explanation
-                            )
-                          }
-                          className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
-                        >
-                          🔊 聞く
-                        </button>
+                        {selectedChoice &&
+                          currentQuestion?.incorrectExplanations?.[
+                            selectedChoice
+                          ] && (
+                            <button
+                              onClick={() =>
+                                speakText(
+                                  currentQuestion.incorrectExplanations[
+                                    selectedChoice
+                                  ]
+                                )
+                              }
+                              className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
+                            >
+                              🔊 聞く
+                            </button>
+                          )}
                       </p>
                     </>
                   )}
@@ -367,20 +375,21 @@ export default function EnglishTrapQuestions() {
                     <p className="text-green-600">正解: {q.correct}</p>
                     <p className="mt-1 text-gray-700">
                       解説:{" "}
-                      {q.incorrectExplanations?.[firstMistakeAnswers[q.id]] ||
-                        q.explanation}
-                      <button
-                        onClick={() =>
-                          speakText(
-                            q.incorrectExplanations?.[
-                              firstMistakeAnswers[q.id]
-                            ] || q.explanation
-                          )
-                        }
-                        className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
-                      >
-                        🔊 聞く
-                      </button>
+                      {(q.incorrectExplanations?.[firstMistakeAnswers[q.id]] ||
+                        q.explanation) && (
+                        <button
+                          onClick={() =>
+                            speakText(
+                              q.incorrectExplanations?.[
+                                firstMistakeAnswers[q.id]
+                              ] || q.explanation
+                            )
+                          }
+                          className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
+                        >
+                          🔊 聞く
+                        </button>
+                      )}
                     </p>
                   </div>
                 ))}
