@@ -107,6 +107,7 @@ export default function EnglishTrapQuestions() {
     setShowFeedback(false);
     setSelectedChoice(null);
     setIsCorrect(false);
+    setMistakes({});
   };
 
   const correctAnswers = filteredQuestions.filter(
