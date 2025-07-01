@@ -139,6 +139,9 @@ export default function EnglishTrapQuestions() {
   const incorrectAnswers = filteredQuestions.filter(
     (q) => answers[q.id] !== q.correct
   );
+  const incorrectQuestionsList = filteredQuestions.filter(
+    (q) => mistakes[q.id]
+  );
 
   const totalQuestions = filteredQuestions.length;
   const incorrectCount = Object.keys(mistakes).length;
@@ -279,17 +282,27 @@ export default function EnglishTrapQuestions() {
             正解数: {correctCount} / {totalQuestions}（正答率: {correctRate}%）
           </p>
           <div className="mb-4">
-            {incorrectAnswers.map((q) => (
-              <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
-                <p className="font-semibold">問題: {q.question}</p>
-                <p className="text-red-600">あなたの答え: {answers[q.id]}</p>
-                <p className="text-green-600">正解: {q.correct}</p>
-                <p className="mt-1 text-gray-700">
-                  解説:{" "}
-                  {q.incorrectExplanations?.[answers[q.id]] || q.explanation}
-                </p>
+            {incorrectQuestionsList.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-xl font-bold mb-2">
+                  不正解だった問題と解説
+                </h3>
+                {incorrectQuestionsList.map((q) => (
+                  <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
+                    <p className="font-semibold">問題: {q.question}</p>
+                    <p className="text-red-600">
+                      あなたの答え: {answers[q.id]}
+                    </p>
+                    <p className="text-green-600">正解: {q.correct}</p>
+                    <p className="mt-1 text-gray-700">
+                      解説:{" "}
+                      {q.incorrectExplanations?.[answers[q.id]] ||
+                        q.explanation}
+                    </p>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
           <div className="flex gap-4">
             <button
