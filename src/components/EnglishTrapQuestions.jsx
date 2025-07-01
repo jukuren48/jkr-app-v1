@@ -68,6 +68,7 @@ export default function EnglishTrapQuestions() {
     setShowResult(false);
     setShowFeedback(false);
     setSelectedChoice(null);
+    setMistakes({});
   };
 
   const handleAnswer = (choice) => {
@@ -98,7 +99,19 @@ export default function EnglishTrapQuestions() {
     setShowFeedback(false);
   };
 
-  const handleRetry = () => {
+  const handleRetrySame = () => {
+    setFilteredQuestions(initialQuestions);
+    setCurrentIndex(0);
+    setAnswers({});
+    setShowQuestions(true);
+    setShowResult(false);
+    setShowFeedback(false);
+    setSelectedChoice(null);
+    setIsCorrect(false);
+    setMistakes({});
+  };
+
+  const handleRetryNew = () => {
     setShowQuestions(false);
     setShowResult(false);
     setSelectedUnits([]);
@@ -108,6 +121,8 @@ export default function EnglishTrapQuestions() {
     setSelectedChoice(null);
     setIsCorrect(false);
     setMistakes({});
+    setFilteredQuestions([]);
+    setInitialQuestions([]);
   };
 
   const correctAnswers = filteredQuestions.filter(
@@ -255,7 +270,6 @@ export default function EnglishTrapQuestions() {
           <p className="text-lg mb-2">
             正解数: {correctCount} / {totalQuestions}（正答率: {correctRate}%）
           </p>
-
           <div className="mb-4">
             {incorrectAnswers.map((q) => (
               <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
@@ -269,12 +283,20 @@ export default function EnglishTrapQuestions() {
               </div>
             ))}
           </div>
-          <button
-            onClick={handleRetry}
-            className="bg-blue-500 text-white px-6 py-2 rounded"
-          >
-            もう一度やる
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={handleRetrySame}
+              className="bg-blue-500 text-white px-6 py-2 rounded"
+            >
+              同じ問題でもう一度
+            </button>
+            <button
+              onClick={handleRetryNew}
+              className="bg-green-500 text-white px-6 py-2 rounded"
+            >
+              別の問題にチャレンジ
+            </button>
+          </div>
         </div>
       )}
     </div>
