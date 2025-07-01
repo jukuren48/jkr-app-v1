@@ -226,19 +226,28 @@ export default function EnglishTrapQuestions() {
                   : "bg-red-100 border-red-300"
               }`}
             >
-              <h2 className="text-xl font-bold mb-4">解答結果</h2>
+              <motion.h2
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="text-xl font-bold mb-4"
+              >
+                解答結果
+              </motion.h2>
               <p className="mb-2">
                 {isCorrect ? (
                   <>
-                    <p className="mb-2 text-green-700 font-bold">正解です！</p>
+                    <p className="text-green-700 font-bold text-lg">
+                      ✅ 正解です！
+                    </p>
                     <p className="mb-2">
                       解説: {filteredQuestions[currentIndex].explanation}
                     </p>
                   </>
                 ) : (
                   <>
-                    <p className="mb-2 text-red-700 font-bold">
-                      不正解です。もう一度挑戦しましょう。
+                    <p className="text-red-700 font-bold text-lg">
+                      ❌ 不正解です。もう一度挑戦しよう！
                     </p>
                     <p className="mb-2">あなたの答え: {selectedChoice}</p>
                     <p className="mb-2">
