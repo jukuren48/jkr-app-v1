@@ -1,5 +1,6 @@
 // EnglishTrapQuestions.jsx - 完全修正版（読み込み表示・解説表示・「次へ」ボタン対応）
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 function shuffleArray(array) {
   const copy = [...array];
@@ -234,37 +235,38 @@ export default function EnglishTrapQuestions() {
               >
                 解答結果
               </motion.h2>
-              <p className="mb-2">
-                {isCorrect ? (
-                  <>
-                    <p className="text-green-700 font-bold text-lg">
-                      ✅ 正解です！
-                    </p>
-                    <p className="mb-2">
-                      解説: {filteredQuestions[currentIndex].explanation}
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <p className="text-red-700 font-bold text-lg">
-                      ❌ 不正解です。もう一度挑戦しよう！
-                    </p>
-                    <p className="mb-2">あなたの答え: {selectedChoice}</p>
-                    <p className="mb-2">
-                      理由:{" "}
-                      {
-                        filteredQuestions[currentIndex].incorrectExplanations[
-                          selectedChoice
-                        ]
-                      }
-                    </p>
-                  </>
-                )}
-              </p>
+
+              {isCorrect ? (
+                <>
+                  <p className="text-green-700 font-bold text-lg">
+                    ✅ 正解です！
+                  </p>
+                  <p className="mb-2">
+                    解説: {filteredQuestions[currentIndex].explanation}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-red-700 font-bold text-lg">
+                    ❌ 不正解です。もう一度挑戦しよう！
+                  </p>
+                  {selectedChoice && (
+                    <>
+                      <p className="mb-2">あなたの答え: {selectedChoice}</p>
+                      <p className="mb-2">
+                        理由:{" "}
+                        {filteredQuestions[currentIndex]
+                          ?.incorrectExplanations?.[selectedChoice] ||
+                          filteredQuestions[currentIndex]?.explanation}
+                      </p>
+                    </>
+                  )}
+                </>
+              )}
 
               <button
                 onClick={handleNext}
-                className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
+                className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
               >
                 次へ
               </button>
