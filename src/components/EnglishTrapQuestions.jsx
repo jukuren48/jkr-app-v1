@@ -24,6 +24,7 @@ export default function EnglishTrapQuestions() {
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
   const [mistakes, setMistakes] = useState({});
+  const [initialQuestions, setInitialQuestions] = useState([]);
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -62,6 +63,7 @@ export default function EnglishTrapQuestions() {
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
     setFilteredQuestions(limited);
+    setInitialQuestions(limited);
     setCurrentIndex(0);
     setAnswers({});
     setShowQuestions(true);
