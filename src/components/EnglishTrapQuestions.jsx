@@ -100,15 +100,21 @@ export default function EnglishTrapQuestions() {
   };
 
   const handleRetrySame = () => {
-    setFilteredQuestions(initialQuestions);
+    if (initialQuestions.length === 0) {
+      // safety guard: fallback to full reset if no previous questions
+      handleRetryNew();
+      return;
+    }
+
+    setFilteredQuestions([...initialQuestions]); // make a fresh copy
     setCurrentIndex(0);
     setAnswers({});
+    setMistakes({});
     setShowQuestions(true);
     setShowResult(false);
     setShowFeedback(false);
     setSelectedChoice(null);
     setIsCorrect(false);
-    setMistakes({});
   };
 
   const handleRetryNew = () => {
