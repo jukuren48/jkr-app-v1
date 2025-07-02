@@ -115,7 +115,7 @@ export default function EnglishTrapQuestions() {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "ja-JP";
       utterance.pitch = 1;
-      utterance.rate = 0.9;
+      utterance.rate = 1;
       utterance.volume = 1;
 
       // できるだけ良い日本語音声を選ぶ
