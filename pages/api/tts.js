@@ -1,3 +1,8 @@
+console.log(
+  "Vercel ENV VAR CHECK:",
+  process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 ? "SET" : "UNDEFINED"
+);
+
 import textToSpeech from "@google-cloud/text-to-speech";
 
 export default async function handler(req, res) {
