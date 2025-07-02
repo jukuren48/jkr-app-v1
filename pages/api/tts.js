@@ -1,7 +1,4 @@
-// pages/api/tts.js
-
 import textToSpeech from "@google-cloud/text-to-speech";
-import path from "path";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -9,24 +6,27 @@ export default async function handler(req, res) {
   }
 
   const { text } = req.body;
-
   if (!text) {
     return res.status(400).json({ error: "Missing text" });
   }
 
   try {
-    // Google認証ファイルのパスを指定
-    const keyFile = path.join(
-      process.cwd(),
-      "texttospeechapp-464703-9ac89bfa4b57.json"
+    // ✅ ここで環境変数からサービスアカウントJSONを復元
+    const serviceAccountJSON = JSON.parse(
+      Buffer.from(
+        process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64,
+        "base64"
+      ).toString("utf8")
     );
 
-    // クライアントを初期化
+    // ✅ 認証情報を直接渡す
     const client = new textToSpeech.TextToSpeechClient({
-      keyFilename: keyFile,
+      credentials: {
+        client_email: serviceAccountJSON.client_email,
+        private_key: serviceAccountJSON.private_key,
+      },
     });
 
-    // 音声合成リクエスト
     const request = {
       input: { text },
       voice: {
