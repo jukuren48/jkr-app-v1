@@ -257,8 +257,8 @@ export default function EnglishTrapQuestions() {
                   <p className="text-green-700 font-bold text-lg">
                     ✅ 正解です！
                   </p>
-                  <p className="mb-2">
-                    解説:{" "}
+                  <p className="mb-2 flex items-center">
+                    解説: {currentQuestion?.explanation}
                     {currentQuestion?.explanation && (
                       <button
                         onClick={() => speakText(currentQuestion.explanation)}
@@ -277,25 +277,28 @@ export default function EnglishTrapQuestions() {
                   {selectedChoice && (
                     <>
                       <p className="mb-2">あなたの答え: {selectedChoice}</p>
-                      <p className="mb-2">
+                      <p className="mb-2 flex items-center">
                         理由:{" "}
-                        {selectedChoice &&
-                          currentQuestion?.incorrectExplanations?.[
-                            selectedChoice
-                          ] && (
-                            <button
-                              onClick={() =>
-                                speakText(
-                                  currentQuestion.incorrectExplanations[
-                                    selectedChoice
-                                  ]
-                                )
-                              }
-                              className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
-                            >
-                              🔊 聞く
-                            </button>
-                          )}
+                        {currentQuestion?.incorrectExplanations?.[
+                          selectedChoice
+                        ] || currentQuestion?.explanation}
+                        {(currentQuestion?.incorrectExplanations?.[
+                          selectedChoice
+                        ] ||
+                          currentQuestion?.explanation) && (
+                          <button
+                            onClick={() =>
+                              speakText(
+                                currentQuestion.incorrectExplanations?.[
+                                  selectedChoice
+                                ] || currentQuestion.explanation
+                              )
+                            }
+                            className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
+                          >
+                            🔊 聞く
+                          </button>
+                        )}
                       </p>
                     </>
                   )}
@@ -374,8 +377,10 @@ export default function EnglishTrapQuestions() {
                       あなたの答え: {firstMistakeAnswers[q.id]}
                     </p>
                     <p className="text-green-600">正解: {q.correct}</p>
-                    <p className="mt-1 text-gray-700">
+                    <p className="mt-1 text-gray-700 flex items-center">
                       解説:{" "}
+                      {q.incorrectExplanations?.[firstMistakeAnswers[q.id]] ||
+                        q.explanation}
                       {(q.incorrectExplanations?.[firstMistakeAnswers[q.id]] ||
                         q.explanation) && (
                         <button
