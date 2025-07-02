@@ -114,6 +114,17 @@ export default function EnglishTrapQuestions() {
     if ("speechSynthesis" in window) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "ja-JP";
+      utterance.pitch = 1;
+      utterance.rate = 0.9;
+      utterance.volume = 1;
+
+      // できるだけ良い日本語音声を選ぶ
+      const voices = window.speechSynthesis.getVoices();
+      const jpVoice = voices.find((v) => v.lang === "ja-JP");
+      if (jpVoice) {
+        utterance.voice = jpVoice;
+      }
+
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(utterance);
     } else {
