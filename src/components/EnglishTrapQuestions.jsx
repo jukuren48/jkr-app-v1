@@ -1,4 +1,4 @@
-// EnglishTrapQuestions.jsx - 完全修正版（読み込み表示・解説表示・「次へ」ボタン対応）
+// EnglishTrapQuestions.jsx - Google TTS対応版
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -9,6 +9,50 @@ function shuffleArray(array) {
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy;
+}
+
+// TTS用ボタンコンポーネント
+function TTSButton({ text }) {
+  const [loading, setLoading] = useState(false);
+
+  const speakText = async () => {
+    if (!text) {
+      alert("読み上げるテキストがありません。");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!res.ok) {
+        throw new Error("TTS APIエラー");
+      }
+
+      const data = await res.json();
+      const audioSrc = `data:audio/mp3;base64,${data.audioContent}`;
+      const audio = new Audio(audioSrc);
+      await audio.play();
+    } catch (err) {
+      console.error("音声再生エラー:", err);
+      alert("音声の取得または再生に失敗しました。");
+    }
+    setLoading(false);
+  };
+
+  return (
+    <button
+      onClick={speakText}
+      disabled={loading}
+      className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
+    >
+      {loading ? "🔄 読み上げ中..." : "🔊 聞く"}
+    </button>
+  );
 }
 
 export default function EnglishTrapQuestions() {
@@ -101,45 +145,17 @@ export default function EnglishTrapQuestions() {
         setShowResult(true);
       }
     }
-    // 正解じゃない場合は同じ問題を再出す
     setSelectedChoice(null);
     setShowFeedback(false);
   };
 
-  const speakText = (text) => {
-    if (!text) {
-      alert("読み上げるテキストがありません。");
-      return;
-    }
-    if ("speechSynthesis" in window) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "ja-JP";
-      utterance.pitch = 1;
-      utterance.rate = 1;
-      utterance.volume = 1;
-
-      // できるだけ良い日本語音声を選ぶ
-      const voices = window.speechSynthesis.getVoices();
-      const jpVoice = voices.find((v) => v.lang === "ja-JP");
-      if (jpVoice) {
-        utterance.voice = jpVoice;
-      }
-
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert("このブラウザは音声読み上げに対応していません。");
-    }
-  };
-
   const handleRetrySame = () => {
     if (initialQuestions.length === 0) {
-      // safety guard: fallback to full reset if no previous questions
       handleRetryNew();
       return;
     }
 
-    setFilteredQuestions([...initialQuestions]); // make a fresh copy
+    setFilteredQuestions([...initialQuestions]);
     setCurrentIndex(0);
     setAnswers({});
     setMistakes({});
@@ -271,12 +287,7 @@ export default function EnglishTrapQuestions() {
                   <p className="mb-2 flex items-center">
                     解説: {currentQuestion?.explanation}
                     {currentQuestion?.explanation && (
-                      <button
-                        onClick={() => speakText(currentQuestion.explanation)}
-                        className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
-                      >
-                        🔊 聞く
-                      </button>
+                      <TTSButton text={currentQuestion.explanation} />
                     )}
                   </p>
                 </>
@@ -297,18 +308,13 @@ export default function EnglishTrapQuestions() {
                           selectedChoice
                         ] ||
                           currentQuestion?.explanation) && (
-                          <button
-                            onClick={() =>
-                              speakText(
-                                currentQuestion.incorrectExplanations?.[
-                                  selectedChoice
-                                ] || currentQuestion.explanation
-                              )
+                          <TTSButton
+                            text={
+                              currentQuestion.incorrectExplanations?.[
+                                selectedChoice
+                              ] || currentQuestion.explanation
                             }
-                            className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
-                          >
-                            🔊 聞く
-                          </button>
+                          />
                         )}
                       </p>
                     </>
@@ -394,18 +400,13 @@ export default function EnglishTrapQuestions() {
                         q.explanation}
                       {(q.incorrectExplanations?.[firstMistakeAnswers[q.id]] ||
                         q.explanation) && (
-                        <button
-                          onClick={() =>
-                            speakText(
-                              q.incorrectExplanations?.[
-                                firstMistakeAnswers[q.id]
-                              ] || q.explanation
-                            )
+                        <TTSButton
+                          text={
+                            q.incorrectExplanations?.[
+                              firstMistakeAnswers[q.id]
+                            ] || q.explanation
                           }
-                          className="ml-2 px-2 py-1 bg-blue-300 rounded hover:bg-blue-400 transition"
-                        >
-                          🔊 聞く
-                        </button>
+                        />
                       )}
                     </p>
                   </div>
