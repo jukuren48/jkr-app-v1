@@ -46,6 +46,13 @@ export default async function handler(req, res) {
 
     const [response] = await client.synthesizeSpeech(request);
 
+    console.log("==== Google TTS Response ====");
+    console.log("AudioContent exists?", !!response.audioContent);
+    console.log(
+      "AudioContent length:",
+      response.audioContent ? response.audioContent.length : "NULL"
+    );
+
     res.status(200).json({
       audioContent: response.audioContent,
     });
