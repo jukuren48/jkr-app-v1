@@ -53,10 +53,27 @@ export default async function handler(req, res) {
       response.audioContent ? response.audioContent.length : "NULL"
     );
 
+    let audioContentString = "";
+
+    if (Buffer.isBuffer(response.audioContent)) {
+      audioContentString = response.audioContent.toString("base64");
+    } else if (typeof response.audioContent === "string") {
+      audioContentString = response.audioContent;
+    } else {
+      console.error(
+        "Google TTS returned unknown audioContent format",
+        typeof response.audioContent
+      );
+      return res.status(500).json({ error: "Invalid audio content format" });
+    }
+
+    // ここで空白・改行を除去
+    audioContentString = audioContentString.replace(/\s+/g, "");
+
+    console.log("AudioContent length:", audioContentString.length);
+
     res.status(200).json({
-      audioContent: response.audioContent
-        ? response.audioContent.replace(/\s+/g, "")
-        : "",
+      audioContent: audioContentString,
     });
   } catch (error) {
     console.error(error);
