@@ -34,6 +34,7 @@ function TTSButton({ text }) {
       }
 
       const data = await res.json();
+      console.log("TTS API response:", data);
       const audioSrc = `data:audio/mp3;base64,${data.audioContent}`;
       const audio = new Audio(audioSrc);
       await audio.play();
