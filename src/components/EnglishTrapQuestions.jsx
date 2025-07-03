@@ -403,9 +403,17 @@ export default function EnglishTrapQuestions() {
               ? "👍 もう少し！🥉"
               : "💪 何度も挑戦しよう！"}
           </p>
-          <p className="text-lg mb-2">
-            正解数: {correctCount} / {totalQuestions}（正答率: {correctRate}%）
-          </p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="bg-green-50 border-4 border-green-400 shadow-xl rounded-2xl p-8 mb-6 text-center"
+          >
+            <p className="text-7xl font-extrabold text-green-600 mb-2">
+              🎯 {correctRate}%
+            </p>
+            <p className="text-2xl text-green-800 font-bold">あなたの正答率</p>
+          </motion.div>
           <div className="mb-4">
             {incorrectQuestionsList.length > 0 && (
               <div className="mt-6">
