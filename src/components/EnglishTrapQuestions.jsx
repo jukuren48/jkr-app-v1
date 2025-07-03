@@ -214,6 +214,9 @@ export default function EnglishTrapQuestions() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-yellow-100 max-w-4xl mx-auto p-4">
       {/* クイズ開始前の設定画面 */}
+      <h1 className="text-2xl font-bold mb-4">
+        英語ひっかけ問題 ～塾長からの挑戦状～
+      </h1>
       {!showQuestions && !showResult && units.length > 0 && (
         <div>
           <h2 className="text-xl font-bold mb-2">単元を選んでください</h2>
