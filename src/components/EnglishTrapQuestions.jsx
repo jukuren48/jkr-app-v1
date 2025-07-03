@@ -179,7 +179,7 @@ export default function EnglishTrapQuestions() {
   const handleRetryNew = () => {
     setShowQuestions(false);
     setShowResult(false);
-    setSelectedUnits([]);
+    //setSelectedUnits([]);
     setQuestionCount(null);
     setAnswers({});
     setShowFeedback(false);
