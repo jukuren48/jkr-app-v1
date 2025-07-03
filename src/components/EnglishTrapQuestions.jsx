@@ -34,8 +34,16 @@ function TTSButton({ text }) {
       }
 
       const data = await res.json();
-      console.log("TTS API response:", data);
-      const audioSrc = `data:audio/mp3;base64,${data.audioContent}`;
+
+      // 空白・改行を除去
+      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
+        /\s+/g,
+        ""
+      )}`;
+
+      // デバッグログを追加
+      console.log("audioSrc", audioSrc);
+
       const audio = new Audio(audioSrc);
       await audio.play();
     } catch (err) {

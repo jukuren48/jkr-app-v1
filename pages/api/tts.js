@@ -54,7 +54,9 @@ export default async function handler(req, res) {
     );
 
     res.status(200).json({
-      audioContent: response.audioContent,
+      audioContent: response.audioContent
+        ? response.audioContent.replace(/\s+/g, "")
+        : "",
     });
   } catch (error) {
     console.error(error);
