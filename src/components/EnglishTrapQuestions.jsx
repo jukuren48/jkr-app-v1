@@ -293,12 +293,20 @@ export default function EnglishTrapQuestions() {
                   <p className="text-green-700 font-bold text-lg">
                     ✅ 正解です！
                   </p>
-                  <p className="mb-2 flex items-center">
-                    解説: {currentQuestion?.explanation}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-green-50 border-l-4 border-green-400 shadow-md rounded-lg p-4 mb-2 flex items-start gap-2"
+                  >
+                    <span className="text-2xl">💡</span>
+                    <p className="text-xl font-bold text-green-800">
+                      解説: {currentQuestion?.explanation}
+                    </p>
                     {currentQuestion?.explanation && (
                       <TTSButton text={currentQuestion.explanation} />
                     )}
-                  </p>
+                  </motion.div>
                 </>
               ) : (
                 <>
@@ -308,11 +316,19 @@ export default function EnglishTrapQuestions() {
                   {selectedChoice && (
                     <>
                       <p className="mb-2">あなたの答え: {selectedChoice}</p>
-                      <p className="mb-2 flex items-center">
-                        理由:{" "}
-                        {currentQuestion?.incorrectExplanations?.[
-                          selectedChoice
-                        ] || currentQuestion?.explanation}
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-red-50 border-l-4 border-red-400 shadow-md rounded-lg p-4 mb-2 flex items-start gap-2"
+                      >
+                        <span className="text-2xl">📌</span>
+                        <p className="text-xl font-bold text-red-800">
+                          理由:{" "}
+                          {currentQuestion?.incorrectExplanations?.[
+                            selectedChoice
+                          ] || currentQuestion?.explanation}
+                        </p>
                         {(currentQuestion?.incorrectExplanations?.[
                           selectedChoice
                         ] ||
@@ -325,7 +341,7 @@ export default function EnglishTrapQuestions() {
                             }
                           />
                         )}
-                      </p>
+                      </motion.div>
                     </>
                   )}
                 </>
