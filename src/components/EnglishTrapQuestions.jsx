@@ -80,6 +80,7 @@ export default function EnglishTrapQuestions() {
   const [mistakes, setMistakes] = useState({});
   const [initialQuestions, setInitialQuestions] = useState([]);
   const [firstMistakeAnswers, setFirstMistakeAnswers] = useState({});
+  const [characterMood, setCharacterMood] = useState("neutral");
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -117,6 +118,7 @@ export default function EnglishTrapQuestions() {
     const shuffled = shuffleArray(filtered);
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
+    setCharacterMood("neutral");
     setFilteredQuestions(limited);
     setInitialQuestions(limited);
     setCurrentIndex(0);
@@ -131,6 +133,12 @@ export default function EnglishTrapQuestions() {
   const handleAnswer = (choice) => {
     const currentQuestion = filteredQuestions[currentIndex];
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: choice }));
+
+    if (choice === currentQuestion.correct) {
+      setCharacterMood("happy");
+    } else {
+      setCharacterMood("sad");
+    }
 
     if (!mistakes[currentQuestion.id] && choice !== currentQuestion.correct) {
       setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
