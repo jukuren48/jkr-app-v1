@@ -40,7 +40,7 @@ export default async function handler(req, res) {
       },
       audioConfig: {
         audioEncoding: "MP3",
-        speakingRate: 0.95,
+        speakingRate: 1.3,
       },
     };
 
