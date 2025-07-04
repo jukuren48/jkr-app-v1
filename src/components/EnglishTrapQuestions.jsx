@@ -191,28 +191,6 @@ export default function EnglishTrapQuestions() {
     setFirstMistakeAnswers({});
   };
 
-  const playExplanation = async (text) => {
-    if (!text) return;
-    try {
-      const res = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-      if (!res.ok) throw new Error("TTS APIエラー");
-
-      const data = await res.json();
-      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
-        /\s+/g,
-        ""
-      )}`;
-      const audio = new Audio(audioSrc);
-      await audio.play();
-    } catch (err) {
-      console.error("自動音声エラー:", err);
-    }
-  };
-
   const correctAnswers = filteredQuestions.filter(
     (q) => answers[q.id] === q.correct
   );
@@ -242,6 +220,28 @@ export default function EnglishTrapQuestions() {
       }
     }
   }, [showFeedback]);
+
+  const playExplanation = async (text) => {
+    if (!text) return;
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) throw new Error("TTS APIエラー");
+
+      const data = await res.json();
+      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
+        /\s+/g,
+        ""
+      )}`;
+      const audio = new Audio(audioSrc);
+      await audio.play();
+    } catch (err) {
+      console.error("自動音声エラー:", err);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-yellow-100 max-w-4xl mx-auto p-4">
