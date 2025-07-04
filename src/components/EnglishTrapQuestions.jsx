@@ -329,6 +329,7 @@ export default function EnglishTrapQuestions() {
       {/* クイズ進行中 */}
       {showQuestions && !showResult && (
         <div>
+          <Character mood={characterMood} />
           {showFeedback ? (
             <div
               className={`p-4 rounded-lg shadow-md mb-4 ${
