@@ -169,6 +169,7 @@ export default function EnglishTrapQuestions() {
   };
 
   const handleNext = () => {
+    setCharacterMood("neutral");
     if (isCorrect) {
       if (currentIndex + 1 < filteredQuestions.length) {
         setCurrentIndex(currentIndex + 1);
