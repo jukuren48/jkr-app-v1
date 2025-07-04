@@ -191,6 +191,28 @@ export default function EnglishTrapQuestions() {
     setFirstMistakeAnswers({});
   };
 
+  const playExplanation = async (text) => {
+    if (!text) return;
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) throw new Error("TTS APIエラー");
+
+      const data = await res.json();
+      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
+        /\s+/g,
+        ""
+      )}`;
+      const audio = new Audio(audioSrc);
+      await audio.play();
+    } catch (err) {
+      console.error("自動音声エラー:", err);
+    }
+  };
+
   const correctAnswers = filteredQuestions.filter(
     (q) => answers[q.id] === q.correct
   );
@@ -210,6 +232,16 @@ export default function EnglishTrapQuestions() {
   if (!showQuestions && !showResult && units.length === 0) {
     return <div className="p-8 text-lg">読み込み中です...</div>;
   }
+
+  useEffect(() => {
+    if (showFeedback && !isCorrect) {
+      if (currentQuestion?.incorrectExplanations?.[selectedChoice]) {
+        playExplanation(currentQuestion.incorrectExplanations[selectedChoice]);
+      } else if (currentQuestion?.explanation) {
+        playExplanation(currentQuestion.explanation);
+      }
+    }
+  }, [showFeedback]);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-yellow-100 max-w-4xl mx-auto p-4">
@@ -323,10 +355,10 @@ export default function EnglishTrapQuestions() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.3 }}
-                        className="bg-red-50 border-l-4 border-red-400 shadow-md rounded-lg p-4 mb-2 flex items-start gap-2"
+                        className="bg-red-100 border-4 border-red-500 shadow-2xl rounded-xl p-6 mb-4 flex items-start gap-4"
                       >
                         <span className="text-2xl">📌</span>
-                        <p className="text-xl font-bold text-red-800">
+                        <p className="text-2xl font-extrabold text-red-800">
                           理由:{" "}
                           {currentQuestion?.incorrectExplanations?.[
                             selectedChoice
