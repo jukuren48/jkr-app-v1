@@ -191,36 +191,6 @@ export default function EnglishTrapQuestions() {
     setFirstMistakeAnswers({});
   };
 
-  const correctAnswers = filteredQuestions.filter(
-    (q) => answers[q.id] === q.correct
-  );
-  const incorrectAnswers = filteredQuestions.filter(
-    (q) => answers[q.id] !== q.correct
-  );
-  const incorrectQuestionsList = filteredQuestions.filter(
-    (q) => mistakes[q.id]
-  );
-
-  const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
-  const totalQuestions = filteredQuestions.length;
-  const incorrectCount = Object.keys(mistakes).length;
-  const correctCount = totalQuestions - incorrectCount;
-  const correctRate = Math.round((correctCount / totalQuestions) * 100);
-
-  if (!showQuestions && !showResult && units.length === 0) {
-    return <div className="p-8 text-lg">読み込み中です...</div>;
-  }
-
-  useEffect(() => {
-    if (showFeedback && !isCorrect) {
-      if (currentQuestion?.incorrectExplanations?.[selectedChoice]) {
-        playExplanation(currentQuestion.incorrectExplanations[selectedChoice]);
-      } else if (currentQuestion?.explanation) {
-        playExplanation(currentQuestion.explanation);
-      }
-    }
-  }, [showFeedback]);
-
   const playExplanation = async (text) => {
     if (!text) return;
     try {
@@ -242,6 +212,36 @@ export default function EnglishTrapQuestions() {
       console.error("自動音声エラー:", err);
     }
   };
+
+  useEffect(() => {
+    if (showFeedback && !isCorrect) {
+      if (currentQuestion?.incorrectExplanations?.[selectedChoice]) {
+        playExplanation(currentQuestion.incorrectExplanations[selectedChoice]);
+      } else if (currentQuestion?.explanation) {
+        playExplanation(currentQuestion.explanation);
+      }
+    }
+  }, [showFeedback]);
+
+  const correctAnswers = filteredQuestions.filter(
+    (q) => answers[q.id] === q.correct
+  );
+  const incorrectAnswers = filteredQuestions.filter(
+    (q) => answers[q.id] !== q.correct
+  );
+  const incorrectQuestionsList = filteredQuestions.filter(
+    (q) => mistakes[q.id]
+  );
+
+  const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
+  const totalQuestions = filteredQuestions.length;
+  const incorrectCount = Object.keys(mistakes).length;
+  const correctCount = totalQuestions - incorrectCount;
+  const correctRate = Math.round((correctCount / totalQuestions) * 100);
+
+  if (!showQuestions && !showResult && units.length === 0) {
+    return <div className="p-8 text-lg">読み込み中です...</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-yellow-100 max-w-4xl mx-auto p-4">
