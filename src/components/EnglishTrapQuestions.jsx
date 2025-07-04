@@ -11,6 +11,21 @@ function shuffleArray(array) {
   return copy;
 }
 
+function Character({ mood }) {
+  const expressions = {
+    neutral: { emoji: "😊", message: "がんばれー！" },
+    happy: { emoji: "😃", message: "よくできたね！" },
+    sad: { emoji: "😢💦", message: "おしい！もう一度がんばろう" },
+  };
+
+  return (
+    <div className="flex items-center justify-center p-4 bg-yellow-50 rounded-lg shadow-md">
+      <span className="text-6xl">{expressions[mood].emoji}</span>
+      <p className="ml-4 text-xl font-bold">{expressions[mood].message}</p>
+    </div>
+  );
+}
+
 // TTS用ボタンコンポーネント
 function TTSButton({ text }) {
   const [loading, setLoading] = useState(false);
@@ -322,6 +337,8 @@ export default function EnglishTrapQuestions() {
                   : "bg-red-100 border-red-300"
               }`}
             >
+              <Character mood={characterMood} />
+
               <motion.h2
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
