@@ -338,8 +338,6 @@ export default function EnglishTrapQuestions() {
                   : "bg-red-100 border-red-300"
               }`}
             >
-              <Character mood={characterMood} />
-
               <motion.h2
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
