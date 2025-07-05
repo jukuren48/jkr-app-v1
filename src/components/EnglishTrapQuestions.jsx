@@ -96,6 +96,9 @@ export default function EnglishTrapQuestions() {
   const [initialQuestions, setInitialQuestions] = useState([]);
   const [firstMistakeAnswers, setFirstMistakeAnswers] = useState({});
   const [characterMood, setCharacterMood] = useState("neutral");
+  const [selectedWord, setSelectedWord] = useState(null);
+  const [wordMeaning, setWordMeaning] = useState("");
+  const [wordAudioSrc, setWordAudioSrc] = useState("");
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -109,6 +112,21 @@ export default function EnglishTrapQuestions() {
         console.error("Failed to fetch questions:", error);
       });
   }, []);
+
+  const miniDictionary = {
+    go: "行く",
+    goes: "行く（三単現）",
+    school: "学校",
+    bike: "自転車",
+    usually: "通常",
+    these: "これらの",
+    days: "日々",
+    // ここに先生が好きなだけ追加可
+  };
+
+  const getWordMeaning = async (word) => {
+    return miniDictionary[word.toLowerCase()] || "（辞書に意味がありません）";
+  };
 
   const selectAllUnits = () => {
     setSelectedUnits([...units]);
@@ -182,6 +200,24 @@ export default function EnglishTrapQuestions() {
     setShowFeedback(false);
   };
 
+  const handleWordTap = async (word) => {
+    setSelectedWord(word);
+    setWordMeaning("");
+    setWordAudioSrc("");
+
+    // 意味取得
+    const meaning = await getWordMeaning(word);
+    setWordMeaning(meaning);
+
+    // 音声取得
+    const audioSrc = await getWordAudio(word);
+    setWordAudioSrc(audioSrc);
+
+    // 自動再生
+    const audio = new Audio(audioSrc);
+    await audio.play();
+  };
+
   const handleRetrySame = () => {
     if (initialQuestions.length === 0) {
       handleRetryNew();
@@ -234,6 +270,21 @@ export default function EnglishTrapQuestions() {
       await audio.play();
     } catch (err) {
       console.error("自動音声エラー:", err);
+    }
+  };
+
+  const getWordAudio = async (word) => {
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: word }),
+      });
+      const data = await res.json();
+      return `data:audio/mp3;base64,${data.audioContent.replace(/\s+/g, "")}`;
+    } catch (err) {
+      console.error("音声取得エラー:", err);
+      return "";
     }
   };
 
@@ -429,9 +480,19 @@ export default function EnglishTrapQuestions() {
                   }}
                 />
               </div>
-              <div className="mb-4 text-lg font-semibold">
-                {filteredQuestions[currentIndex]?.question}
-              </div>
+              <p className="mb-4 text-lg font-semibold">
+                {filteredQuestions[currentIndex]?.question
+                  ?.split(" ")
+                  .map((word, idx) => (
+                    <span
+                      key={idx}
+                      onClick={() => handleWordTap(word)}
+                      className="inline-block mx-1 px-2 py-1 rounded hover:bg-yellow-200 cursor-pointer transition"
+                    >
+                      {word}
+                    </span>
+                  ))}
+              </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {shuffleArray(
                   filteredQuestions[currentIndex]?.choices || []
@@ -521,6 +582,26 @@ export default function EnglishTrapQuestions() {
               別の問題にチャレンジ
             </button>
           </div>
+        </div>
+      )}
+
+      {selectedWord && (
+        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-white border border-gray-300 rounded-lg shadow-xl p-4 z-50 w-80">
+          <h3 className="text-xl font-bold mb-2">{selectedWord}</h3>
+          <p className="text-gray-700 mb-2">{wordMeaning}</p>
+          <button
+            onClick={() => new Audio(wordAudioSrc).play()}
+            disabled={!wordAudioSrc}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+          >
+            🔊 もう一度聞く
+          </button>
+          <button
+            onClick={() => setSelectedWord(null)}
+            className="ml-4 px-3 py-2 text-red-500 hover:text-red-700"
+          >
+            閉じる
+          </button>
         </div>
       )}
     </div>
