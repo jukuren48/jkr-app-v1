@@ -121,11 +121,23 @@ export default function EnglishTrapQuestions() {
     usually: "通常",
     these: "これらの",
     days: "日々",
-    // ここに先生が好きなだけ追加可
+    // 他にも自由に追加
   };
 
   const getWordMeaning = async (word) => {
-    return miniDictionary[word.toLowerCase()] || "（辞書に意味がありません）";
+    // まず自前辞書を優先
+    const localMeaning = miniDictionary[word.toLowerCase()];
+    if (localMeaning) return localMeaning;
+
+    // それでも見つからなければAPIへ
+    try {
+      const res = await fetch(`/api/dictionary?word=${word}`);
+      const data = await res.json();
+      return data.meaning;
+    } catch (err) {
+      console.error("辞書APIエラー:", err);
+      return "（意味を取得できませんでした）";
+    }
   };
 
   const selectAllUnits = () => {
