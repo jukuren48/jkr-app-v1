@@ -499,14 +499,14 @@ export default function EnglishTrapQuestions() {
                   }}
                 />
               </div>
-              <p className="mb-4 text-lg font-semibold">
+              <p className="mb-4 text-lg font-semibold flex flex-wrap gap-1">
                 {filteredQuestions[currentIndex]?.question
                   ?.split(" ")
                   .map((word, idx) => (
                     <span
                       key={idx}
                       onClick={() => handleWordTap(word)}
-                      className="inline-block mx-1 px-2 py-1 rounded hover:bg-yellow-200 cursor-pointer transition"
+                      className="rounded hover:bg-yellow-200 cursor-pointer transition px-1"
                     >
                       {word}
                     </span>
