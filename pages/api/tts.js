@@ -16,20 +16,20 @@ export default async function handler(req, res) {
   }
 
   try {
-    // ✅ ここで環境変数からサービスアカウントJSONを復元
-    const serviceAccountJSON = JSON.parse(
-      Buffer.from(
-        process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64,
-        "base64"
-      ).toString("utf8")
+    // ✅ 環境変数からBase64をデコードしてフルのサービスアカウントJSONを復元
+    const credentialsBase64 =
+      process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64;
+    if (!credentialsBase64) {
+      throw new Error("GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 is not set");
+    }
+
+    const credentialsJson = JSON.parse(
+      Buffer.from(credentialsBase64, "base64").toString("utf8")
     );
 
-    // ✅ 認証情報を直接渡す
+    // ✅ フルJSONをそのまま渡す
     const client = new textToSpeech.TextToSpeechClient({
-      credentials: {
-        client_email: serviceAccountJSON.client_email,
-        private_key: serviceAccountJSON.private_key,
-      },
+      credentials: credentialsJson,
     });
 
     const request = {
@@ -46,37 +46,21 @@ export default async function handler(req, res) {
 
     const [response] = await client.synthesizeSpeech(request);
 
-    console.log("==== Google TTS Response ====");
-    console.log("AudioContent exists?", !!response.audioContent);
-    console.log(
-      "AudioContent length:",
-      response.audioContent ? response.audioContent.length : "NULL"
-    );
-
-    let audioContentString = "";
-
-    if (Buffer.isBuffer(response.audioContent)) {
-      audioContentString = response.audioContent.toString("base64");
-    } else if (typeof response.audioContent === "string") {
-      audioContentString = response.audioContent;
-    } else {
-      console.error(
-        "Google TTS returned unknown audioContent format",
-        typeof response.audioContent
-      );
-      return res.status(500).json({ error: "Invalid audio content format" });
+    if (!response.audioContent) {
+      console.error("No audio content in response");
+      return res.status(500).json({ error: "No audio content returned" });
     }
 
-    // ここで空白・改行を除去
-    audioContentString = audioContentString.replace(/\s+/g, "");
-
-    console.log("AudioContent length:", audioContentString.length);
+    // ✅ 音声をBase64文字列に変換
+    const audioContentString = Buffer.from(response.audioContent).toString(
+      "base64"
+    );
 
     res.status(200).json({
       audioContent: audioContentString,
     });
   } catch (error) {
-    console.error(error);
+    console.error("TTS API ERROR:", error);
     res.status(500).json({ error: "Failed to synthesize speech" });
   }
 }

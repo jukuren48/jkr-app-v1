@@ -125,18 +125,22 @@ export default function EnglishTrapQuestions() {
   };
 
   const getWordMeaning = async (word) => {
-    // まず自前辞書を優先
-    const localMeaning = miniDictionary[word.toLowerCase()];
-    if (localMeaning) return localMeaning;
-
-    // それでも見つからなければAPIへ
     try {
-      const res = await fetch(`/api/dictionary?word=${word}`);
+      const res = await fetch(
+        `/api/translate?word=${encodeURIComponent(word)}`
+      );
+      if (!res.ok) {
+        console.error(`API returned ${res.status}`);
+        return "（翻訳APIエラー）";
+      }
       const data = await res.json();
-      return data.meaning;
+      if (!data.translation) {
+        return "（翻訳結果がありません）";
+      }
+      return data.translation;
     } catch (err) {
-      console.error("辞書APIエラー:", err);
-      return "（意味を取得できませんでした）";
+      console.error("翻訳APIエラー:", err);
+      return "（翻訳できませんでした）";
     }
   };
 
@@ -213,16 +217,19 @@ export default function EnglishTrapQuestions() {
   };
 
   const handleWordTap = async (word) => {
-    setSelectedWord(word);
+    // 句読点を除去する
+    const cleanWord = word.replace(/[.,!?;:()]/g, "");
+
+    setSelectedWord(cleanWord);
     setWordMeaning("");
     setWordAudioSrc("");
 
-    // 意味取得
-    const meaning = await getWordMeaning(word);
+    // 意味を取得
+    const meaning = await getWordMeaning(cleanWord);
     setWordMeaning(meaning);
 
-    // 音声取得
-    const audioSrc = await getWordAudio(word);
+    // 音声を取得
+    const audioSrc = await getWordAudio(cleanWord);
     setWordAudioSrc(audioSrc);
 
     // 自動再生

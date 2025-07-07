@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.1.0",
+    "@google-cloud/translate": "^9.1.0",
     "framer-motion": "^12.18.1",
     "next": "^14.2.30",
     "react": "^18.2.0",
