@@ -276,7 +276,7 @@ export default function EnglishTrapQuestions() {
       const res = await fetch("/api/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: word, lang: "en-US" }),
+        body: JSON.stringify({ text, lang: "ja-JP" }),
       });
       if (!res.ok) throw new Error("TTS APIエラー");
 
@@ -297,7 +297,7 @@ export default function EnglishTrapQuestions() {
       const res = await fetch("/api/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: word }),
+        body: JSON.stringify({ text: word, lang: "en-US" }),
       });
       const data = await res.json();
       return `data:audio/mp3;base64,${data.audioContent.replace(/\s+/g, "")}`;
