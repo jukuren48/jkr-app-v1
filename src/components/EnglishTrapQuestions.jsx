@@ -185,6 +185,17 @@ export default function EnglishTrapQuestions() {
 
     if (choice === currentQuestion.correct) {
       setCharacterMood("happy");
+
+      setMistakes((prev) => {
+        const updated = { ...prev };
+        delete updated[currentQuestion.id];
+        return updated;
+      });
+      setFirstMistakeAnswers((prev) => {
+        const updated = { ...prev };
+        delete updated[currentQuestion.id];
+        return updated;
+      });
     } else {
       setCharacterMood("sad");
     }
