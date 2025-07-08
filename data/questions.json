@@ -16,7 +16,7 @@
     "unit": "現在形",
     "question": "He ( ) soccer every Sunday.",
     "choices": ["play", "plays", "playing", "played"],
-    "answer": "plays",
+    "correct": "plays",
     "explanation": "三人称単数現在形なのでsをつけてplays。",
     "incorrectExplanations": {
       "play": "主語がheなので三単現のsが必要。",
@@ -28,7 +28,7 @@
     "unit": "現在形",
     "question": "They always ( ) to school on foot.",
     "choices": ["walk", "walks", "walking", "walked"],
-    "answer": "walk",
+    "correct": "walk",
     "explanation": "主語が複数形theyなので動詞は原形walk。",
     "incorrectExplanations": {
       "walks": "三単現のsは必要ない。",
@@ -40,7 +40,7 @@
     "unit": "現在形",
     "question": "My father ( ) up early every day.",
     "choices": ["get", "gets", "getting", "got"],
-    "answer": "gets",
+    "correct": "gets",
     "explanation": "三人称単数現在形でsをつける。",
     "incorrectExplanations": {
       "get": "sを忘れている。",
@@ -52,7 +52,7 @@
     "unit": "現在形",
     "question": "I ( ) lunch at noon.",
     "choices": ["have", "has", "having", "had"],
-    "answer": "have",
+    "correct": "have",
     "explanation": "主語がIなのでhaveを使う。",
     "incorrectExplanations": {
       "has": "三単現ではないのでhasは不要。",
@@ -64,7 +64,7 @@
     "unit": "現在形",
     "question": "She ( ) TV after dinner.",
     "choices": ["watch", "watches", "watching", "watched"],
-    "answer": "watches",
+    "correct": "watches",
     "explanation": "三単現のsを忘れずにwatches。",
     "incorrectExplanations": {
       "watch": "三単現のsが抜けている。",
@@ -89,7 +89,7 @@
     "unit": "助動詞",
     "question": "You ( ) open the window.",
     "choices": ["can", "cans", "could", "will"],
-    "answer": "can",
+    "correct": "can",
     "explanation": "能力・可能を表すcanを使う。",
     "incorrectExplanations": {
       "cans": "三単現sは助動詞にはつけない。",
@@ -101,7 +101,7 @@
     "unit": "助動詞",
     "question": "( ) I go to the bathroom?",
     "choices": ["Can", "Do", "Did", "Am"],
-    "answer": "Can",
+    "correct": "Can",
     "explanation": "許可を求める表現ではCanを使う。",
     "incorrectExplanations": {
       "Do": "一般動詞の現在形疑問文。",
@@ -113,7 +113,7 @@
     "unit": "助動詞",
     "question": "He ( ) play the piano well.",
     "choices": ["can", "cans", "is", "was"],
-    "answer": "can",
+    "correct": "can",
     "explanation": "能力を表すのでcan。",
     "incorrectExplanations": {
       "cans": "助動詞にsはつけない。",
@@ -125,7 +125,7 @@
     "unit": "助動詞",
     "question": "You ( ) study harder.",
     "choices": ["should", "shall", "will", "can"],
-    "answer": "should",
+    "correct": "should",
     "explanation": "助言・義務を表すshould。",
     "incorrectExplanations": {
       "shall": "提案や意志表現。",
@@ -137,7 +137,7 @@
     "unit": "助動詞",
     "question": "We ( ) be late for school.",
     "choices": ["mustn't", "can't", "should", "will"],
-    "answer": "mustn't",
+    "correct": "mustn't",
     "explanation": "禁止を表すmustn't。",
     "incorrectExplanations": {
       "can't": "能力・不可能を表す。",
@@ -279,7 +279,7 @@
     "unit": "過去形",
     "question": "He ( ) to the park yesterday.",
     "choices": ["go", "goes", "went", "going"],
-    "answer": "went",
+    "correct": "went",
     "explanation": "過去のことを表すのでwent。",
     "incorrectExplanations": {
       "go": "現在形になってしまう。",
@@ -291,7 +291,7 @@
     "unit": "過去形",
     "question": "They ( ) a movie last night.",
     "choices": ["watch", "watched", "watching", "watches"],
-    "answer": "watched",
+    "correct": "watched",
     "explanation": "過去を表すlast nightなのでwatched。",
     "incorrectExplanations": {
       "watch": "現在形。",
@@ -303,7 +303,7 @@
     "unit": "過去形",
     "question": "Did you ( ) tennis yesterday?",
     "choices": ["play", "played", "playing", "plays"],
-    "answer": "play",
+    "correct": "play",
     "explanation": "Didを使うときは動詞の原形を使う。",
     "incorrectExplanations": {
       "played": "助動詞didがあるので原形が必要。",
@@ -315,7 +315,7 @@
     "unit": "過去形",
     "question": "She ( ) a letter last week.",
     "choices": ["write", "writes", "wrote", "writing"],
-    "answer": "wrote",
+    "correct": "wrote",
     "explanation": "過去のことなのでwrote。",
     "incorrectExplanations": {
       "write": "現在形。",
@@ -327,7 +327,7 @@
     "unit": "過去形",
     "question": "I ( ) at home all day.",
     "choices": ["stay", "stays", "stayed", "staying"],
-    "answer": "stayed",
+    "correct": "stayed",
     "explanation": "過去の出来事なのでstayed。",
     "incorrectExplanations": {
       "stay": "現在形。",
@@ -352,7 +352,7 @@
     "unit": "未来形",
     "question": "I ( ) visit my grandmother next week.",
     "choices": ["will", "am", "was", "were"],
-    "answer": "will",
+    "correct": "will",
     "explanation": "未来の予定を表すのでwill。",
     "incorrectExplanations": {
       "am": "現在進行形を作るbe動詞。",
@@ -364,7 +364,7 @@
     "unit": "未来形",
     "question": "They ( ) go camping tomorrow.",
     "choices": ["will", "is", "are", "was"],
-    "answer": "will",
+    "correct": "will",
     "explanation": "未来の予定を表すのでwill。",
     "incorrectExplanations": {
       "is": "現在形のbe動詞。",
@@ -376,7 +376,7 @@
     "unit": "未来形",
     "question": "She ( ) study English tonight.",
     "choices": ["will", "does", "did", "doing"],
-    "answer": "will",
+    "correct": "will",
     "explanation": "未来を表すのでwillを使う。",
     "incorrectExplanations": {
       "does": "現在形の三単現。",
@@ -388,7 +388,7 @@
     "unit": "未来形",
     "question": "We ( ) have a meeting next Monday.",
     "choices": ["will", "has", "had", "having"],
-    "answer": "will",
+    "correct": "will",
     "explanation": "未来を表すのでwillを使う。",
     "incorrectExplanations": {
       "has": "三単現現在形。",
@@ -400,7 +400,7 @@
     "unit": "未来形",
     "question": "You ( ) be busy tomorrow.",
     "choices": ["will", "am", "is", "was"],
-    "answer": "will",
+    "correct": "will",
     "explanation": "未来を表すのでwill。",
     "incorrectExplanations": {
       "am": "現在形のbe動詞。",
@@ -451,7 +451,7 @@
     "unit": "接続詞",
     "question": "I was watching TV ( ) my mother was cooking.",
     "choices": ["and", "but", "because", "while"],
-    "answer": "while",
+    "correct": "while",
     "explanation": "同時進行を表すときはwhileを使う。",
     "incorrectExplanations": {
       "and": "単純な並列を表す接続詞。",
@@ -463,7 +463,7 @@
     "unit": "接続詞",
     "question": "I went to bed ( ) I was very tired.",
     "choices": ["so", "because", "but", "and"],
-    "answer": "because",
+    "correct": "because",
     "explanation": "理由を表すのでbecauseを使う。",
     "incorrectExplanations": {
       "so": "結果を表す。",
@@ -475,7 +475,7 @@
     "unit": "接続詞",
     "question": "He was sick ( ) he went to the hospital.",
     "choices": ["so", "because", "but", "when"],
-    "answer": "so",
+    "correct": "so",
     "explanation": "結果を表すのでsoを使う。",
     "incorrectExplanations": {
       "because": "理由を表す接続詞。",
@@ -487,7 +487,7 @@
     "unit": "接続詞",
     "question": "I like dogs ( ) cats.",
     "choices": ["and", "but", "because", "while"],
-    "answer": "and",
+    "correct": "and",
     "explanation": "並列を表すときはandを使う。",
     "incorrectExplanations": {
       "but": "逆接を表す接続詞。",
@@ -499,7 +499,7 @@
     "unit": "接続詞",
     "question": "She is small ( ) she is strong.",
     "choices": ["but", "and", "because", "while"],
-    "answer": "but",
+    "correct": "but",
     "explanation": "逆接を表すのでbutを使う。",
     "incorrectExplanations": {
       "and": "並列を表す接続詞。",
@@ -529,7 +529,7 @@
     "unit": "比較",
     "question": "Tom is ( ) than Ken.",
     "choices": ["tall", "taller", "tallest", "most tall"],
-    "answer": "taller",
+    "correct": "taller",
     "explanation": "比較級はtaller。",
     "incorrectExplanations": {
       "tall": "比較を表していない。",
@@ -546,7 +546,7 @@
       "most interesting",
       "interest"
     ],
-    "answer": "more interesting",
+    "correct": "more interesting",
     "explanation": "長い形容詞はmore + 形容詞で比較級。",
     "incorrectExplanations": {
       "interesting": "比較級になっていない。",
@@ -558,7 +558,7 @@
     "unit": "比較",
     "question": "Ken is the ( ) in his class.",
     "choices": ["tall", "taller", "tallest", "most tall"],
-    "answer": "tallest",
+    "correct": "tallest",
     "explanation": "最上級を表すのでtallest。",
     "incorrectExplanations": {
       "tall": "原級。",
@@ -570,7 +570,7 @@
     "unit": "比較",
     "question": "This problem is ( ) than that one.",
     "choices": ["difficult", "more difficult", "most difficult", "difficulty"],
-    "answer": "more difficult",
+    "correct": "more difficult",
     "explanation": "difficultはmoreを使って比較級を作る。",
     "incorrectExplanations": {
       "difficult": "比較を表さない。",
@@ -582,7 +582,7 @@
     "unit": "比較",
     "question": "He runs ( ) than his brother.",
     "choices": ["fast", "faster", "fastest", "fastly"],
-    "answer": "faster",
+    "correct": "faster",
     "explanation": "比較級はfaster。",
     "incorrectExplanations": {
       "fast": "比較を表さない。",
@@ -607,7 +607,7 @@
     "unit": "不定詞",
     "question": "I want ( ) a new bike.",
     "choices": ["buy", "to buy", "buying", "bought"],
-    "answer": "to buy",
+    "correct": "to buy",
     "explanation": "want to + 動詞の原形。",
     "incorrectExplanations": {
       "buy": "toが抜けている。",
@@ -619,7 +619,7 @@
     "unit": "不定詞",
     "question": "He decided ( ) abroad.",
     "choices": ["go", "to go", "going", "went"],
-    "answer": "to go",
+    "correct": "to go",
     "explanation": "decide to + 動詞の原形。",
     "incorrectExplanations": {
       "go": "toが抜けている。",
@@ -631,7 +631,7 @@
     "unit": "不定詞",
     "question": "She hopes ( ) a doctor.",
     "choices": ["be", "to be", "being", "was"],
-    "answer": "to be",
+    "correct": "to be",
     "explanation": "hope to + 動詞の原形。",
     "incorrectExplanations": {
       "be": "toが抜けている。",
@@ -643,7 +643,7 @@
     "unit": "不定詞",
     "question": "They plan ( ) a party.",
     "choices": ["have", "to have", "having", "had"],
-    "answer": "to have",
+    "correct": "to have",
     "explanation": "plan to + 動詞の原形。",
     "incorrectExplanations": {
       "have": "toが抜けている。",
@@ -655,7 +655,7 @@
     "unit": "不定詞",
     "question": "He tried ( ) the door.",
     "choices": ["open", "to open", "opening", "opened"],
-    "answer": "to open",
+    "correct": "to open",
     "explanation": "try to + 動詞の原形。",
     "incorrectExplanations": {
       "open": "toが抜けている。",
@@ -680,7 +680,7 @@
     "unit": "動名詞",
     "question": "I enjoy ( ) soccer.",
     "choices": ["play", "to play", "playing", "played"],
-    "answer": "playing",
+    "correct": "playing",
     "explanation": "enjoyの後は動名詞ing形を使う。",
     "incorrectExplanations": {
       "play": "動詞の原形は使わない。",
@@ -692,7 +692,7 @@
     "unit": "動名詞",
     "question": "She finished ( ) the book.",
     "choices": ["read", "to read", "reading", "reads"],
-    "answer": "reading",
+    "correct": "reading",
     "explanation": "finishの後は動名詞ing形を使う。",
     "incorrectExplanations": {
       "read": "原形は使わない。",
@@ -704,7 +704,7 @@
     "unit": "動名詞",
     "question": "He is good at ( ) pictures.",
     "choices": ["draw", "drawing", "draws", "drew"],
-    "answer": "drawing",
+    "correct": "drawing",
     "explanation": "be good at の後は動名詞を使う。",
     "incorrectExplanations": {
       "draw": "原形は使わない。",
@@ -716,7 +716,7 @@
     "unit": "動名詞",
     "question": "They talked about ( ) to Okinawa.",
     "choices": ["go", "to go", "going", "went"],
-    "answer": "going",
+    "correct": "going",
     "explanation": "aboutの後は動名詞ing形。",
     "incorrectExplanations": {
       "go": "原形は使わない。",
@@ -728,7 +728,7 @@
     "unit": "動名詞",
     "question": "My hobby is ( ) pictures.",
     "choices": ["paint", "painting", "paints", "painted"],
-    "answer": "painting",
+    "correct": "painting",
     "explanation": "be動詞の後の補語として動名詞を使う。",
     "incorrectExplanations": {
       "paint": "原形は使わない。",
