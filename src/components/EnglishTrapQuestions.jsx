@@ -185,22 +185,10 @@ export default function EnglishTrapQuestions() {
 
     if (choice === currentQuestion.correct) {
       setCharacterMood("happy");
-
-      // 正解したらミスをクリア
-      setMistakes((prev) => {
-        const updated = { ...prev };
-        delete updated[currentQuestion.id];
-        return updated;
-      });
-      setFirstMistakeAnswers((prev) => {
-        const updated = { ...prev };
-        delete updated[currentQuestion.id];
-        return updated;
-      });
     } else {
       setCharacterMood("sad");
 
-      // ミスを登録するのはこの else の中だけ
+      // 初回の間違いだけ記録
       if (!mistakes[currentQuestion.id]) {
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
         setFirstMistakeAnswers((prev) => ({
