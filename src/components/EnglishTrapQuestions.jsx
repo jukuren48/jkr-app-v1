@@ -185,11 +185,8 @@ export default function EnglishTrapQuestions() {
 
     if (choice === currentQuestion.correct) {
       setCharacterMood("happy");
-    } else {
-      setCharacterMood("sad");
-    }
 
-    if (choice === currentQuestion.correct) {
+      // 正解したらミスをクリア
       setMistakes((prev) => {
         const updated = { ...prev };
         delete updated[currentQuestion.id];
@@ -200,14 +197,17 @@ export default function EnglishTrapQuestions() {
         delete updated[currentQuestion.id];
         return updated;
       });
-    }
+    } else {
+      setCharacterMood("sad");
 
-    if (!mistakes[currentQuestion.id] && choice !== currentQuestion.correct) {
-      setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
-      setFirstMistakeAnswers((prev) => ({
-        ...prev,
-        [currentQuestion.id]: choice,
-      }));
+      // ミスを登録するのはこの else の中だけ
+      if (!mistakes[currentQuestion.id]) {
+        setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
+        setFirstMistakeAnswers((prev) => ({
+          ...prev,
+          [currentQuestion.id]: choice,
+        }));
+      }
     }
 
     setSelectedChoice(choice);
