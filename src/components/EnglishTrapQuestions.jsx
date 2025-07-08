@@ -193,7 +193,7 @@ export default function EnglishTrapQuestions() {
       setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
       setFirstMistakeAnswers((prev) => ({
         ...prev,
-        [currentQuestion.id]: selectedChoice,
+        [currentQuestion.id]: choice,
       }));
     }
 
