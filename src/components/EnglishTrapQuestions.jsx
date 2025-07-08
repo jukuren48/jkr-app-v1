@@ -187,6 +187,9 @@ export default function EnglishTrapQuestions() {
       setCharacterMood("happy");
     } else {
       setCharacterMood("sad");
+    }
+
+    if (choice === currentQuestion.correct) {
       setMistakes((prev) => {
         const updated = { ...prev };
         delete updated[currentQuestion.id];
