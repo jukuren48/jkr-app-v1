@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { text } = req.body;
+  const { text, lang } = req.body;
   if (!text) {
     return res.status(400).json({ error: "Missing text" });
   }
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
     const request = {
       input: { text },
       voice: {
-        languageCode: "ja-JP",
+        languageCode: lang || "ja-JP", // ここでlangパラメータを使う
         ssmlGender: "FEMALE",
       },
       audioConfig: {
