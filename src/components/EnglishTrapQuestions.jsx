@@ -189,11 +189,7 @@ export default function EnglishTrapQuestions() {
       setCharacterMood("sad");
     }
 
-    if (
-      !mistakes[currentQuestion.id] &&
-      selectedChoice &&
-      selectedChoice !== currentQuestion.correct
-    ) {
+    if (!mistakes[currentQuestion.id] && choice !== currentQuestion.correct) {
       setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
       setFirstMistakeAnswers((prev) => ({
         ...prev,
