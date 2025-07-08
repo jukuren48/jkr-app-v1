@@ -189,20 +189,6 @@ export default function EnglishTrapQuestions() {
       setCharacterMood("sad");
     }
 
-    if (choice === currentQuestion.correct) {
-      // 正解したら、ミス扱いを解除し、firstMistakeAnswerも消す
-      setMistakes((prev) => {
-        const updated = { ...prev };
-        delete updated[currentQuestion.id];
-        return updated;
-      });
-      setFirstMistakeAnswers((prev) => {
-        const updated = { ...prev };
-        delete updated[currentQuestion.id];
-        return updated;
-      });
-    }
-
     if (!mistakes[currentQuestion.id] && choice !== currentQuestion.correct) {
       setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
       setFirstMistakeAnswers((prev) => ({
