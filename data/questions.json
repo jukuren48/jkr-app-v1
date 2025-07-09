@@ -853,5 +853,278 @@
       "are you": "これは否定文のあとに付ける形式です。",
       "isn't it": "'you' に対して 'it' は代名詞の一致が取れません。"
     }
+  },
+  {
+    "id": 66,
+    "unit": "前置詞",
+    "question": "She works (  ) a library.",
+    "choices": ["on", "in", "at", "to"],
+    "correct": "in",
+    "explanation": "「～の中に［で］」広い場所を表す。",
+    "incorrectExplanations": {
+      "at": "「～に［で］」狭い場所、地点を表す。",
+      "on": "「～の上に」接触を表す。",
+      "to": "「～へ、まで」方向を表す。"
+    }
+  },
+  {
+    "id": 67,
+    "unit": "前置詞",
+    "question": "He talked (  ) his trip to Japan.",
+    "choices": ["about", "from", "for", "with"],
+    "correct": "about",
+    "explanation": "「about」は話題・〜について。",
+    "incorrectExplanations": {
+      "from": "出発点、出身。",
+      "for": "目的、ために。",
+      "with": "一緒に。"
+    }
+  },
+  {
+    "id": 68,
+    "unit": "前置詞",
+    "question": "This gift is (  ) you.",
+    "choices": ["for", "from", "with", "by"],
+    "correct": "for",
+    "explanation": "「for」は〜のために。",
+    "incorrectExplanations": {
+      "from": "出身や起点。",
+      "with": "一緒に。",
+      "by": "手段や行為者。"
+    }
+  },
+  {
+    "id": 69,
+    "unit": "前置詞",
+    "question": "I got a letter (  ) my friend.",
+    "choices": ["from", "for", "by", "about"],
+    "correct": "from",
+    "explanation": "「from」は送信者・出所。",
+    "incorrectExplanations": {
+      "for": "目的。",
+      "by": "手段。",
+      "about": "話題。"
+    }
+  },
+  {
+    "id": 70,
+    "unit": "前置詞",
+    "question": "He went (  ) the room.",
+    "choices": ["into", "out of", "through", "by"],
+    "correct": "into",
+    "explanation": "「into」は中へ入る動作。",
+    "incorrectExplanations": {
+      "out of": "外へ出る。",
+      "through": "通り抜ける。",
+      "by": "手段や近くを。"
+    }
+  },
+  {
+    "id": 71,
+    "unit": "前置詞",
+    "question": "She came (  ) the house.",
+    "choices": ["out of", "into", "through", "by"],
+    "correct": "out of",
+    "explanation": "「out of」は外へ出る動作。",
+    "incorrectExplanations": {
+      "into": "中へ入る。",
+      "through": "通り抜ける。",
+      "by": "手段や近くを。"
+    }
+  },
+  {
+    "id": 72,
+    "unit": "前置詞",
+    "question": "They walked (  ) the street.",
+    "choices": ["along", "across", "through", "by"],
+    "correct": "along",
+    "explanation": "「along」は〜に沿って。",
+    "incorrectExplanations": {
+      "across": "横切って。",
+      "through": "通り抜けて。",
+      "by": "近くを。"
+    }
+  },
+  {
+    "id": 73,
+    "unit": "前置詞",
+    "question": "We ran (  ) the park.",
+    "choices": ["through", "along", "across", "by"],
+    "correct": "through",
+    "explanation": "「through」は中を通り抜ける。",
+    "incorrectExplanations": {
+      "along": "〜に沿って。",
+      "across": "横切って。",
+      "by": "近くを。"
+    }
+  },
+  {
+    "id": 74,
+    "unit": "前置詞",
+    "question": "The school is (  ) the river.",
+    "choices": ["across", "along", "through", "into"],
+    "correct": "across",
+    "explanation": "「across」は向こう側に。",
+    "incorrectExplanations": {
+      "along": "〜に沿って。",
+      "through": "通り抜けて。",
+      "into": "中へ入る。"
+    }
+  },
+  {
+    "id": 75,
+    "unit": "前置詞",
+    "question": "He stood (  ) the door.",
+    "choices": ["behind", "in front of", "between", "among"],
+    "correct": "in front of",
+    "explanation": "「in front of」は前に。",
+    "incorrectExplanations": {
+      "behind": "後ろに。",
+      "between": "2つの間。",
+      "among": "3つ以上の間。"
+    }
+  },
+  {
+    "id": 76,
+    "unit": "前置詞",
+    "question": "The dog is (  ) the box.",
+    "choices": ["under", "over", "between", "among"],
+    "correct": "under",
+    "explanation": "「under」は下に。",
+    "incorrectExplanations": {
+      "over": "上に覆うように。",
+      "between": "2つの間。",
+      "among": "3つ以上の間。"
+    }
+  },
+  {
+    "id": 77,
+    "unit": "前置詞",
+    "question": "The bridge is (  ) the river.",
+    "choices": ["over", "under", "between", "among"],
+    "correct": "over",
+    "explanation": "「over」は上にまたがって。",
+    "incorrectExplanations": {
+      "under": "下に。",
+      "between": "2つの間。",
+      "among": "3つ以上の間。"
+    }
+  },
+  {
+    "id": 78,
+    "unit": "前置詞",
+    "question": "She sat (  ) her friends.",
+    "choices": ["between", "among", "behind", "in front of"],
+    "correct": "among",
+    "explanation": "「among」は3つ以上の中で。",
+    "incorrectExplanations": {
+      "between": "2つの間。",
+      "behind": "後ろに。",
+      "in front of": "前に。"
+    }
+  },
+  {
+    "id": 79,
+    "unit": "前置詞",
+    "question": "He is standing (  ) the two trees.",
+    "choices": ["between", "among", "behind", "in front of"],
+    "correct": "between",
+    "explanation": "「between」は2つの間。",
+    "incorrectExplanations": {
+      "among": "3つ以上の中。",
+      "behind": "後ろ。",
+      "in front of": "前。"
+    }
+  },
+  {
+    "id": 80,
+    "unit": "前置詞",
+    "question": "He did it (  ) mistake.",
+    "choices": ["by", "with", "without", "for"],
+    "correct": "by",
+    "explanation": "「by mistake」は「間違えて」。",
+    "incorrectExplanations": {
+      "with": "道具や一緒に。",
+      "without": "〜なしで。",
+      "for": "目的。"
+    }
+  },
+  {
+    "id": 81,
+    "unit": "前置詞",
+    "question": "I can't do it (  ) your help.",
+    "choices": ["without", "with", "by", "for"],
+    "correct": "without",
+    "explanation": "「without」は〜なしで。",
+    "incorrectExplanations": {
+      "with": "一緒に。",
+      "by": "手段。",
+      "for": "目的。"
+    }
+  },
+  {
+    "id": 82,
+    "unit": "前置詞",
+    "question": "I went to the store (  ) my mother.",
+    "choices": ["with", "without", "by", "for"],
+    "correct": "with",
+    "explanation": "「with」は一緒に。",
+    "incorrectExplanations": {
+      "without": "なしで。",
+      "by": "手段。",
+      "for": "目的。"
+    }
+  },
+  {
+    "id": 83,
+    "unit": "前置詞",
+    "question": "He is absent (  ) school because of illness.",
+    "choices": ["from", "at", "in", "to"],
+    "correct": "from",
+    "explanation": "「absent from school」学校を欠席。",
+    "incorrectExplanations": {
+      "at": "地点。",
+      "in": "内部。",
+      "to": "方向。"
+    }
+  },
+  {
+    "id": 84,
+    "unit": "前置詞",
+    "question": "She stayed home (  ) the rain.",
+    "choices": ["because of", "for", "with", "by"],
+    "correct": "because of",
+    "explanation": "「because of」は原因。",
+    "incorrectExplanations": {
+      "for": "目的。",
+      "with": "一緒。",
+      "by": "手段。"
+    }
+  },
+  {
+    "id": 85,
+    "unit": "前置詞",
+    "question": "Please (  ) at this picture.",
+    "choices": ["look", "watch", "see", "wait"],
+    "correct": "look",
+    "explanation": "「look at」は注意して見る。",
+    "incorrectExplanations": {
+      "watch": "動きを見る。",
+      "see": "自然に目に入る。",
+      "wait": "待つ。"
+    }
+  },
+  {
+    "id": 86,
+    "unit": "前置詞",
+    "question": "Please (  ) for me here.",
+    "choices": ["wait", "look", "watch", "see"],
+    "correct": "wait",
+    "explanation": "「wait for」は待つ。",
+    "incorrectExplanations": {
+      "look": "見る。",
+      "watch": "動きを見る。",
+      "see": "自然に目に入る。"
+    }
   }
 ]
