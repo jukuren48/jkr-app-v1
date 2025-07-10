@@ -1486,5 +1486,465 @@
       "Anna is watching TV now.": "読書中。",
       "Anna is writing a letter.": "読書中。"
     }
+  },
+  {
+    "id": 107,
+    "unit": "連語",
+    "question": "【日本語】私はお茶を１ぱい飲みました。\n【英語】I had (  ) tea.",
+    "choices": ["a cup of", "a glass of", "a lot of", "much"],
+    "correct": "a cup of",
+    "explanation": "「a cup of」は『カップ1杯の』を意味し、紅茶やコーヒーなどを数える自然な単位表現です。",
+    "incorrectExplanations": {
+      "a glass of": "「a glass of」は『グラス1杯の』を表し、水やジュースなどに使います。お茶は通常カップで提供されるので不自然です。",
+      "a lot of": "「a lot of」は『たくさんの』を意味しますが、具体的な単位を示していないため『1杯』を伝えるのに適しません。",
+      "much": "「much」は不可算名詞の量を漠然と表すだけで、飲み物を具体的に数える単位表現にはなりません。"
+    }
+  },
+  {
+    "id": 108,
+    "unit": "連語",
+    "question": "【日本語】お皿が何枚か必要です。\n【英語】I need (  ) dishes.",
+    "choices": ["a few", "a little", "some", "many"],
+    "correct": "a few",
+    "explanation": "「a few」は『少しの（数の）』を意味し、可算名詞であるdishesに使う表現です。",
+    "incorrectExplanations": {
+      "a little": "「a little」は『少しの（量の）』を表し、不可算名詞に使います。dishesは数えられるので不適切です。",
+      "some": "「some」は数量を漠然と表すため、具体的に『少しの皿』を伝えるニュアンスが弱くなります。",
+      "many": "「many」は『たくさんの』を表し、『少しの』という問題の意図とは逆になります。"
+    }
+  },
+  {
+    "id": 109,
+    "unit": "連語",
+    "question": "【日本語】雪がたくさん降った。\n【英語】It snowed (  ).",
+    "choices": ["a lot", "a little", "much", "many"],
+    "correct": "a lot",
+    "explanation": "「a lot」は『たくさん』を意味し、動作や量を強調する自然な表現です。",
+    "incorrectExplanations": {
+      "a little": "「a little」は『少し』を意味し、『たくさん降った』という意図に合いません。",
+      "much": "「much」は量を表せますが、『It snowed much』は自然な表現ではなく、『a lot』を使うのが普通です。",
+      "many": "「many」は可算名詞を数える表現で、雪のような不可算名詞には使えません。"
+    }
+  },
+  {
+    "id": 110,
+    "unit": "連語",
+    "question": "【日本語】彼はCDをたくさん持っている。\n【英語】He has (  ) CDs.",
+    "choices": ["a lot of", "many", "plenty of", "much"],
+    "correct": "a lot of",
+    "explanation": "「a lot of」は『たくさんの』を意味し、可算名詞CDsにも不可算名詞にも使える便利な表現です。",
+    "incorrectExplanations": {
+      "many": "「many」は『たくさんの』を表しますが、会話では『a lot of』のほうが自然で広く使われます。",
+      "plenty of": "「plenty of」は『十分なたくさんの』を意味し、ニュアンス的に『余裕がある』イメージが強くなります。",
+      "much": "「much」は不可算名詞に使うため、数えられるCDsには不適切です。"
+    }
+  },
+  {
+    "id": 111,
+    "unit": "連語",
+    "question": "【日本語】私はきのう、くつを１足買いました。\n【英語】I bought (  ) shoes yesterday.",
+    "choices": ["a pair of", "a lot of", "many", "some"],
+    "correct": "a pair of",
+    "explanation": "「a pair of」は『1足の、1組の』を意味し、靴や手袋などセットで使うものを数えるときに使います。",
+    "incorrectExplanations": {
+      "a lot of": "「a lot of」は『たくさんの』を意味し、『1足』という具体的な数量を表すのには適しません。",
+      "many": "「many」は数えられる名詞を数えるときに使いますが、『1足』という単位を表す表現にはなりません。",
+      "some": "「some」は漠然とした数量を表し、具体的に『1足』を伝えたいときには不十分です。"
+    }
+  },
+  {
+    "id": 112,
+    "unit": "連語",
+    "question": "【日本語】紙を１枚くれませんか。\n【英語】Will you give me (  ) paper?",
+    "choices": ["a piece of", "a sheet of", "some", "much"],
+    "correct": "a piece of",
+    "explanation": "「a piece of」は『1つの、1枚の』を意味し、紙などの不可算名詞を数えるときに使います。",
+    "incorrectExplanations": {
+      "a sheet of": "「a sheet of」は『1枚の（平たいもの）』を特に紙の形状を強調する表現で、一般的に頼むときは「a piece of」の方が自然です。",
+      "some": "「some」は漠然とした量を表すため、『1枚』という具体的な数量を表すには不十分です。",
+      "much": "「much」は不可算名詞の量を漠然と表しますが、具体的な『1枚』という数え方には使えません。"
+    }
+  },
+  {
+    "id": 113,
+    "unit": "連語",
+    "question": "【日本語】放課後、野球をしましょう。\n【英語】Let's play baseball (  ).",
+    "choices": ["after school", "in school", "at school", "during school"],
+    "correct": "after school",
+    "explanation": "「after school」は『放課後に』を意味し、学校の授業が終わった後の時間を表します。",
+    "incorrectExplanations": {
+      "in school": "「in school」は『在学中』や『学校の中で』という意味で、時間を表す表現ではありません。",
+      "at school": "「at school」は『学校で』という場所を示す表現で、時間的な『放課後』は表せません。",
+      "during school": "「during school」は『授業中』という時間帯を指し、『放課後』とは反対の意味になります。"
+    }
+  },
+  {
+    "id": 114,
+    "unit": "連語",
+    "question": "【日本語】健は一日中家にいました。\n【英語】Ken stayed home (  ).",
+    "choices": ["all day", "every day", "the whole day", "all the time"],
+    "correct": "all day",
+    "explanation": "「all day」は『一日中』を意味し、その日の間ずっと続いた状態を表します。",
+    "incorrectExplanations": {
+      "every day": "「every day」は『毎日』を表し、特定の1日を通してという意味にはなりません。",
+      "the whole day": "「the whole day」もほぼ同義ですが、口語では「all day」の方が自然で頻出です。",
+      "all the time": "「all the time」は『いつも、常に』を意味し、特定の1日の範囲を示す『all day』とは違います。"
+    }
+  },
+  {
+    "id": 115,
+    "unit": "連語",
+    "question": "【日本語】彼は世界じゅうで有名になりました。\n【英語】He became famous (  ) the world.",
+    "choices": ["all over", "around", "throughout", "in"],
+    "correct": "all over",
+    "explanation": "「all over」は『〜じゅうで』を意味し、範囲全体を広くカバーすることを自然に表します。",
+    "incorrectExplanations": {
+      "around": "「around」は『〜の周りに』を表し、全体を均等にカバーするニュアンスは弱くなります。",
+      "throughout": "「throughout」は『〜の至る所に、〜の間ずっと』を表し、時間や場所の広がりを強調しますが、『世界じゅうで有名』には『all over』が最も自然です。",
+      "in": "「in」は単に場所を示すだけで、『全体に広がる』という意味を含みません。"
+    }
+  },
+  {
+    "id": 116,
+    "unit": "連語",
+    "question": "【日本語】彼女はいつもうれしそうだ。\n【英語】She looks happy (  ).",
+    "choices": ["all the time", "every time", "always", "usually"],
+    "correct": "all the time",
+    "explanation": "「all the time」は『いつも、常に』を意味し、状態がずっと続くことを自然に表します。",
+    "incorrectExplanations": {
+      "every time": "「every time」は『毎回』という特定のタイミングを指し、『常に』という継続的な意味とは違います。",
+      "always": "「always」は頻度副詞で動詞の前に置くため、『looks happy always』は不自然です。",
+      "usually": "「usually」は『たいてい、普通は』を意味し、『いつも』ほどの確実性や継続性は示しません。"
+    }
+  },
+  {
+    "id": 117,
+    "unit": "連語",
+    "question": "【日本語】あなたはジムと同じくらい早く走ります。\n【英語】You run (  ) fast Jim.",
+    "choices": ["as ~ as …", "so ~ as …", "not as ~ as …", "too ~ to …"],
+    "correct": "as ~ as …",
+    "explanation": "「as ~ as …」は『…と同じくらい〜』を意味し、比較の程度を示します。",
+    "incorrectExplanations": {
+      "so ~ as …": "「so ~ as …」は主に否定文で使われ、『〜ほど…ではない』を表します。肯定文には不自然です。",
+      "not as ~ as …": "「not as ~ as …」は否定的な比較を表すため、この肯定文には合いません。",
+      "too ~ to …": "「too ~ to …」は『〜すぎて…できない』という意味で、比較を表す構文とは異なります。"
+    }
+  },
+  {
+    "id": 118,
+    "unit": "連語",
+    "question": "【日本語】私は帰宅するとすぐに勉強を始めました。\n【英語】(  ) I came home, I began to study.",
+    "choices": ["as soon as", "while", "after", "when"],
+    "correct": "as soon as",
+    "explanation": "「as soon as」は『〜するとすぐに』を意味し、2つの動作の即時性を強調します。",
+    "incorrectExplanations": {
+      "while": "「while」は『〜している間に』を表し、同時進行のニュアンスで即時性はありません。",
+      "after": "「after」は『〜の後で』を意味し、即座の連続性は伝わりません。",
+      "when": "「when」は『〜するとき』を意味しますが、『すぐに』という即時性の強調は弱いです。"
+    }
+  },
+  {
+    "id": 119,
+    "unit": "連語",
+    "question": "【日本語】初めは彼女の言うことがわからなかった。\n【英語】(  ) I didn't understand her.",
+    "choices": ["at first", "first", "for the first time", "in the beginning"],
+    "correct": "at first",
+    "explanation": "「at first」は『初めは』を意味し、状況の変化を伴う説明に使います。",
+    "incorrectExplanations": {
+      "first": "「first」は順序を表す単語で、『初めに』という行動の列挙に使いますが、状態の変化は表しません。",
+      "for the first time": "「for the first time」は『初めて』という経験を表し、文脈の意味が異なります。",
+      "in the beginning": "「in the beginning」は物事の開始時点を客観的に説明するニュアンスが強く、個人の理解の変化には不自然です。"
+    }
+  },
+  {
+    "id": 120,
+    "unit": "連語",
+    "question": "【日本語】ついに私たちはその島へ着きました。\n【英語】(  ) we reached the island.",
+    "choices": ["at last", "finally", "eventually", "after all"],
+    "correct": "at last",
+    "explanation": "「at last」は『ついに、やっと』を意味し、待ち望んだゴールに達したニュアンスを表します。",
+    "incorrectExplanations": {
+      "finally": "「finally」も『ついに』ですが、順序を説明する際に使われ、感情的な『待ち望んでいた』ニュアンスは弱めです。",
+      "eventually": "「eventually」は『結局』という意味で、予期しない展開を含むことが多いです。",
+      "after all": "「after all」は『結局、やはり』を意味し、予想外や理由を説明する時に使います。"
+    }
+  },
+  {
+    "id": 121,
+    "unit": "連語",
+    "question": "【日本語】すぐ出発しましょう。\n【英語】Let's start (  ).",
+    "choices": ["at once", "right away", "immediately", "soon"],
+    "correct": "at once",
+    "explanation": "「at once」は『すぐに、直ちに』を意味し、命令形と組み合わせて強い指示を出すのに自然な表現です。",
+    "incorrectExplanations": {
+      "right away": "「right away」も『すぐに』ですが、ややカジュアルで口語的な響きが強いです。",
+      "immediately": "「immediately」はより硬い表現で、フォーマルや書き言葉で使われやすいです。",
+      "soon": "「soon」は『間もなく』を意味し、『今すぐ』ほどの即時性はありません。"
+    }
+  },
+  {
+    "id": 122,
+    "unit": "連語",
+    "question": "【日本語】私たちは京都へ行くつもりです。\n【英語】We are going (  ) Kyoto.",
+    "choices": ["to", "for", "toward", "into"],
+    "correct": "to",
+    "explanation": "「to」は『〜へ（目的地）』を表し、移動の到達点を示します。",
+    "incorrectExplanations": {
+      "for": "「for」は『〜のために』を意味し、目的や理由を表すことが多く、到達地点を示すには不自然です。",
+      "toward": "「toward」は『〜の方向へ』を意味し、目的地に着くことを強調しません。",
+      "into": "「into」は『〜の中へ』を意味し、外から中への動作を強調するため、都市名には通常使いません。"
+    }
+  },
+  {
+    "id": 123,
+    "unit": "連語",
+    "question": "【日本語】この道をまっすぐ行きなさい。\n【英語】Go (  ) this street.",
+    "choices": ["along", "across", "through", "around"],
+    "correct": "along",
+    "explanation": "「along」は『〜に沿って』を意味し、道に沿って進むイメージを自然に表します。",
+    "incorrectExplanations": {
+      "across": "「across」は『横切って』を意味し、道を渡る動作を表します。",
+      "through": "「through」は『〜を通り抜けて』を表し、建物やトンネルなどの中を進むニュアンスです。",
+      "around": "「around」は『〜の周りを』を意味し、円を描くように進むニュアンスになります。"
+    }
+  },
+  {
+    "id": 124,
+    "unit": "連語",
+    "question": "【日本語】私はこの犬が好きです。\n【英語】I am (  ) this dog.",
+    "choices": ["fond of", "proud of", "afraid of", "tired of"],
+    "correct": "fond of",
+    "explanation": "「fond of」は『〜が好き』を意味し、好意や愛着を表します。",
+    "incorrectExplanations": {
+      "proud of": "「proud of」は『〜を誇りに思う』を意味し、好意を示すが誇りや自慢が主です。",
+      "afraid of": "「afraid of」は『〜を恐れる』を意味し、感情の方向性が逆です。",
+      "tired of": "「tired of」は『〜に飽きる、うんざりする』を意味し、嫌悪や拒否感を表します。"
+    }
+  },
+  {
+    "id": 125,
+    "unit": "連語",
+    "question": "【日本語】彼女はその知らせを聞いて驚きました。\n【英語】She was (  ) the news.",
+    "choices": ["surprised at", "interested in", "pleased with", "angry at"],
+    "correct": "surprised at",
+    "explanation": "「surprised at」は『〜に驚く』を意味し、予想外の情報に対する感情を表します。",
+    "incorrectExplanations": {
+      "interested in": "「interested in」は『〜に興味がある』を表し、驚きという予想外の感情とは異なります。",
+      "pleased with": "「pleased with」は『〜に満足している』を意味し、ポジティブですが驚きのニュアンスはありません。",
+      "angry at": "「angry at」は『〜に怒っている』を意味し、感情の方向が異なります。"
+    }
+  },
+  {
+    "id": 126,
+    "unit": "連語",
+    "question": "【日本語】その川は私たちの町を流れています。\n【英語】The river runs (  ) our town.",
+    "choices": ["through", "across", "along", "around"],
+    "correct": "through",
+    "explanation": "「through」は『〜を通って』を意味し、町の内部を貫く流れを表します。",
+    "incorrectExplanations": {
+      "across": "「across」は『横切って』を表し、川を渡る動作に近いイメージです。",
+      "along": "「along」は『〜に沿って』を表し、川の脇を進むイメージになります。",
+      "around": "「around」は『〜の周りを』を表し、町を囲むイメージになります。"
+    }
+  },
+  {
+    "id": 127,
+    "unit": "連語",
+    "question": "【日本語】彼は病気で学校を休みました。\n【英語】He was (  ) from school because he was sick.",
+    "choices": ["absent", "away", "missing", "lost"],
+    "correct": "absent",
+    "explanation": "「absent」は『欠席している』を意味し、学校を休むことを正式に表します。",
+    "incorrectExplanations": {
+      "away": "「away」は『離れて』を表し、場所から物理的に離れる意味で欠席の正式な表現には不適切です。",
+      "missing": "「missing」は『行方不明の』という意味で、単に欠席を表すには使えません。",
+      "lost": "「lost」は『失った、迷った』を表し、欠席の意味では使いません。"
+    }
+  },
+  {
+    "id": 128,
+    "unit": "連語",
+    "question": "【日本語】母は私に早く寝るように言った。\n【英語】My mother (  ) me to go to bed early.",
+    "choices": ["told", "said", "spoke", "talked"],
+    "correct": "told",
+    "explanation": "「told」は『〜に言った』を意味し、相手に内容を伝えるときに使います。",
+    "incorrectExplanations": {
+      "said": "「said」は『〜と言った』を意味しますが、目的語に人を直接取る場合には不自然です（said to me などが必要）。",
+      "spoke": "「spoke」は『話した』を意味し、内容を伝えるより会話行為を強調します。",
+      "talked": "「talked」は『話した』を意味し、双方向の会話を示すニュアンスで内容を指示する表現には使えません。"
+    }
+  },
+  {
+    "id": 129,
+    "unit": "連語",
+    "question": "【日本語】あなたはこの部屋を使ってもよいです。\n【英語】You (  ) use this room.",
+    "choices": ["may", "can", "must", "have to"],
+    "correct": "may",
+    "explanation": "「may」は『〜してもよい』を意味し、許可を与えるときに使います。",
+    "incorrectExplanations": {
+      "can": "「can」も『〜してよい』と訳されますが、能力や可能性も含むため、許可を与えるニュアンスでは「may」がより正式です。",
+      "must": "「must」は『〜しなければならない』を意味し、義務を表します。",
+      "have to": "「have to」も『〜しなければならない』を意味し、強制的なニュアンスになります。"
+    }
+  },
+  {
+    "id": 130,
+    "unit": "連語",
+    "question": "【日本語】私は英語を上手に話したいです。\n【英語】I want to speak English (  ).",
+    "choices": ["well", "good", "better", "best"],
+    "correct": "well",
+    "explanation": "「well」は『上手に』を意味する副詞で、動詞のspeakを修飾します。",
+    "incorrectExplanations": {
+      "good": "「good」は形容詞で名詞を修飾するため、動詞を修飾する『上手に』には使えません。",
+      "better": "「better」は『より良く』を表し、比較対象が必要です。",
+      "best": "「best」は『最も良く』を意味し、最上級で比較文脈が必要です。"
+    }
+  },
+  {
+    "id": 131,
+    "unit": "連語",
+    "question": "【日本語】ケンは日本語を上手に書きます。\n【英語】Ken writes Japanese (  ).",
+    "choices": ["well", "good", "better", "best"],
+    "correct": "well",
+    "explanation": "「well」は『上手に』を意味する副詞で、動詞のwritesを修飾します。",
+    "incorrectExplanations": {
+      "good": "「good」は形容詞で名詞を修飾するため、動詞を修飾する『上手に』には使えません。",
+      "better": "「better」は『より良く』を意味し、比較対象が必要です。",
+      "best": "「best」は『最も良く』を意味し、比較文脈で使う表現です。"
+    }
+  },
+  {
+    "id": 132,
+    "unit": "連語",
+    "question": "【日本語】彼は速く走ることができます。\n【英語】He (  ) run fast.",
+    "choices": ["can", "may", "must", "should"],
+    "correct": "can",
+    "explanation": "「can」は『〜できる』を意味し、能力を表します。",
+    "incorrectExplanations": {
+      "may": "「may」は『〜してもよい』を意味し、許可を表しますが能力の表現には使えません。",
+      "must": "「must」は『〜しなければならない』を表し、義務を示します。",
+      "should": "「should」は『〜すべきだ』を表し、助言や推奨を意味します。"
+    }
+  },
+  {
+    "id": 133,
+    "unit": "連語",
+    "question": "【日本語】あなたはここで静かにしなければなりません。\n【英語】You (  ) be quiet here.",
+    "choices": ["must", "should", "can", "may"],
+    "correct": "must",
+    "explanation": "「must」は『〜しなければならない』を意味し、強い義務を表します。",
+    "incorrectExplanations": {
+      "should": "「should」は『〜すべきだ』を意味し、助言や推奨で義務の強さは「must」ほどではありません。",
+      "can": "「can」は『〜できる』を意味し、義務を示すことはできません。",
+      "may": "「may」は『〜してもよい』を表し、許可を示しますが義務は含みません。"
+    }
+  },
+  {
+    "id": 134,
+    "unit": "連語",
+    "question": "【日本語】私は明日それをするつもりです。\n【英語】I (  ) do it tomorrow.",
+    "choices": ["will", "can", "must", "should"],
+    "correct": "will",
+    "explanation": "「will」は『〜するつもりだ』を意味し、未来の意志や予定を表します。",
+    "incorrectExplanations": {
+      "can": "「can」は『〜できる』を表し、能力や可能性を示しますが予定を表しません。",
+      "must": "「must」は『〜しなければならない』を表し、強制や義務を示します。",
+      "should": "「should」は『〜すべきだ』を表し、推奨や助言のニュアンスになります。"
+    }
+  },
+  {
+    "id": 135,
+    "unit": "連語",
+    "question": "【日本語】彼は私より早く走ります。\n【英語】He runs (  ) than I.",
+    "choices": ["faster", "fast", "fastest", "most fast"],
+    "correct": "faster",
+    "explanation": "「faster」は『より速く』を意味する比較級で、thanと一緒に使います。",
+    "incorrectExplanations": {
+      "fast": "「fast」は原級で比較を表せません。",
+      "fastest": "「fastest」は最上級で『最も速い』を意味し、2人の比較には使えません。",
+      "most fast": "「most fast」は文法的に不自然で、比較級には『faster』を使います。"
+    }
+  },
+  {
+    "id": 136,
+    "unit": "連語",
+    "question": "【日本語】彼はクラスで一番速く走ります。\n【英語】He runs (  ) in his class.",
+    "choices": ["fastest", "faster", "fast", "most fast"],
+    "correct": "fastest",
+    "explanation": "「fastest」は『最も速く』を意味する最上級で、グループ内で一番を表すときに使います。",
+    "incorrectExplanations": {
+      "faster": "「faster」は比較級で2者間の比較に使います。",
+      "fast": "「fast」は原級で比較や最上級を表せません。",
+      "most fast": "「most fast」は文法的に正しくなく、最上級には『fastest』を使います。"
+    }
+  },
+  {
+    "id": 137,
+    "unit": "連語",
+    "question": "【日本語】私はあなたと同じくらい本を持っています。\n【英語】I have (  ) books (  ) you.",
+    "choices": ["as many as", "as much as", "so many as", "so much as"],
+    "correct": "as many as",
+    "explanation": "「as many as」は『同じくらい多くの（数の）』を意味し、可算名詞booksと一緒に使います。",
+    "incorrectExplanations": {
+      "as much as": "「as much as」は不可算名詞に使い、数を数えるbooksには使えません。",
+      "so many as": "「so many as」は肯定文では使わず、否定文や条件文で使われます。",
+      "so much as": "「so much as」も同様に否定文や強調表現で使われます。"
+    }
+  },
+  {
+    "id": 138,
+    "unit": "連語",
+    "question": "【日本語】私はできるだけ早くそれを終えます。\n【英語】I'll finish it (  ) I can.",
+    "choices": ["as soon as", "as early as", "as fast as", "as quickly as"],
+    "correct": "as quickly as",
+    "explanation": "「as quickly as」は『できるだけ早く』を意味し、動作の速さを強調します。",
+    "incorrectExplanations": {
+      "as soon as": "「as soon as」は接続詞句で『〜するとすぐに』を表し、即時性を強調しますが『できるだけ早く』には不適切です。",
+      "as early as": "「as early as」は時間を指定して『早く』を強調する表現で、動作の速さには使いにくいです。",
+      "as fast as": "「as fast as」は動作を速さで表しますが、口語的で『quickly』ほど汎用的で自然ではありません。"
+    }
+  },
+  {
+    "id": 139,
+    "unit": "連語",
+    "question": "【日本語】このカバンは私のより大きいです。\n【英語】This bag is (  ) than mine.",
+    "choices": ["bigger", "biggest", "as big", "so big"],
+    "correct": "bigger",
+    "explanation": "「bigger」は『より大きい』を意味する比較級で、thanと一緒に使います。",
+    "incorrectExplanations": {
+      "biggest": "「biggest」は最上級で、グループの中で一番を示すときに使います。",
+      "as big": "「as big as」で同等を表しますが、比較級としては使えません。",
+      "so big": "「so big」は程度を強調しますが、比較を表現する構文では使いません。"
+    }
+  },
+  {
+    "id": 140,
+    "unit": "連語",
+    "question": "【日本語】これは私が今まで見た中で一番大きな家です。\n【英語】This is (  ) house I have ever seen.",
+    "choices": ["the biggest", "bigger", "biggest", "the bigger"],
+    "correct": "the biggest",
+    "explanation": "「the biggest」は最上級で、『一番大きい』という意味を強調します。",
+    "incorrectExplanations": {
+      "bigger": "「bigger」は比較級で、2つのものを比べるときに使います。",
+      "biggest": "「biggest」単体では名詞を修飾できず、定冠詞theが必要です。",
+      "the bigger": "「the bigger」は比較級にtheをつけて特定する表現ですが、最上級の意味にはなりません。"
+    }
+  },
+  {
+    "id": 141,
+    "unit": "連語",
+    "question": "【日本語】この問題はあの問題より難しいです。\n【英語】This question is (  ) than that one.",
+    "choices": [
+      "more difficult",
+      "most difficult",
+      "as difficult",
+      "so difficult"
+    ],
+    "correct": "more difficult",
+    "explanation": "「more difficult」は比較級で、『より難しい』を表し、thanとセットで使います。",
+    "incorrectExplanations": {
+      "most difficult": "「most difficult」は最上級で、『最も難しい』を意味し、比較級としては使えません。",
+      "as difficult": "「as difficult as」で同等比較を表しますが、thanには使えません。",
+      "so difficult": "「so difficult」は程度を強調するだけで、比較を表しません。"
+    }
   }
 ]
