@@ -7,9 +7,9 @@
     "correct": "goes",
     "explanation": "現在の習慣を表し、主語が三人称単数なので 'goes'。",
     "incorrectExplanations": {
-      "go": "三人称単数（my sister）の場合、動詞に -s が必要です。",
-      "going": "動名詞 'going' は文の動詞として使えません。",
-      "went": "'went' は過去形。'These days' は現在の習慣を示しています。"
+      "go": "主語が『my sister』で三人称単数なので、『go』ではなく『goes』が必要です。",
+      "going": "『going』は動名詞や現在進行形に使う形で、ここでは現在形の動詞が必要です。",
+      "went": "『went』は過去形で、『These days』という現在の習慣を表す文には合いません。"
     }
   },
   {
@@ -20,9 +20,9 @@
     "correct": "plays",
     "explanation": "三人称単数現在形なのでsをつけてplays。",
     "incorrectExplanations": {
-      "play": "主語がheなので三単現のsが必要。",
-      "playing": "進行形ではない。",
-      "played": "過去形になってしまう。"
+      "play": "『he』は三人称単数なので、『plays』のようにsをつける必要があります。",
+      "playing": "進行形や動名詞の形で、現在の習慣を表す動詞の形としては使えません。",
+      "played": "過去形で、現在の習慣を表すには使えません。"
     }
   },
   {
@@ -33,9 +33,9 @@
     "correct": "walk",
     "explanation": "主語が複数形theyなので動詞は原形walk。",
     "incorrectExplanations": {
-      "walks": "三単現のsは必要ない。",
-      "walking": "現在分詞は使わない。",
-      "walked": "過去形になる。"
+      "walks": "『they』は複数主語なので三単現のsは不要です。",
+      "walking": "現在分詞や進行形の形で、習慣を表す現在形には使えません。",
+      "walked": "過去形で、現在の習慣を表す文には合いません。"
     }
   },
   {
@@ -46,9 +46,9 @@
     "correct": "gets",
     "explanation": "三人称単数現在形でsをつける。",
     "incorrectExplanations": {
-      "get": "sを忘れている。",
-      "getting": "現在分詞は不要。",
-      "got": "過去形になる。"
+      "get": "『my father』は三人称単数なので、『gets』の形が必要です。",
+      "getting": "現在分詞や進行形の形で、現在形の習慣を表す文には使えません。",
+      "got": "過去形で、現在の習慣を表すには使えません。"
     }
   },
   {
@@ -59,9 +59,9 @@
     "correct": "have",
     "explanation": "主語がIなのでhaveを使う。",
     "incorrectExplanations": {
-      "has": "三単現ではないのでhasは不要。",
-      "having": "進行形は不要。",
-      "had": "過去形になってしまう。"
+      "has": "『has』は三人称単数用です。『I』には『have』を使います。",
+      "having": "進行形や動名詞で、現在の習慣を表す動詞の形としては使えません。",
+      "had": "過去形で、現在の習慣を表すには使えません。"
     }
   },
   {
@@ -72,9 +72,9 @@
     "correct": "watches",
     "explanation": "三単現のsを忘れずにwatches。",
     "incorrectExplanations": {
-      "watch": "三単現のsが抜けている。",
-      "watching": "進行形ではない。",
-      "watched": "過去形になってしまう。"
+      "watch": "『she』は三人称単数なので、『watches』とsをつける必要があります。",
+      "watching": "進行形や動名詞の形で、現在の習慣を表す動詞の形には使えません。",
+      "watched": "過去形で、現在の習慣を表す文には使えません。"
     }
   },
   {
@@ -85,9 +85,9 @@
     "correct": "must",
     "explanation": "'must' は助動詞で、義務やルールを示すときに使います。",
     "incorrectExplanations": {
-      "must to": "'must' の後ろに 'to' は不要です。",
-      "have to": "文法的には正しいが、学校のルールでは 'must' の方が自然です。",
-      "has to": "'students' は複数形なので 'has' は使えません。"
+      "must to": "『must』の後に『to』はつけません。正しくは『must + 動詞の原形』です。",
+      "have to": "意味は近いですが、ルールや規則を表すときには『must』のほうが強くて自然です。",
+      "has to": "『has to』は三人称単数用ですが、『students』は複数なので使えません。"
     }
   },
   {
@@ -98,9 +98,9 @@
     "correct": "can",
     "explanation": "能力・可能を表すcanを使う。",
     "incorrectExplanations": {
-      "cans": "三単現sは助動詞にはつけない。",
-      "could": "過去形または丁寧な表現。",
-      "will": "未来を表す助動詞。"
+      "cans": "助動詞に三単現のsはつきません。常に原形の『can』を使います。",
+      "could": "『could』は『can』の過去形やより丁寧な表現ですが、ここではシンプルな現在の可能を表す『can』が自然です。",
+      "will": "『will』は未来を表す助動詞で、現在の可能や許可を表す『can』とは意味が異なります。"
     }
   },
   {
@@ -111,9 +111,9 @@
     "correct": "Can",
     "explanation": "許可を求める表現ではCanを使う。",
     "incorrectExplanations": {
-      "Do": "一般動詞の現在形疑問文。",
-      "Did": "過去形。",
-      "Am": "be動詞。"
+      "Do": "『Do I』は一般動詞の現在形疑問文で、許可を求める表現には使えません。",
+      "Did": "『Did』は過去形の疑問文で、現在の許可を聞く文には合いません。",
+      "Am": "『Am』はbe動詞で、『Can』のように能力や許可を表す助動詞ではありません。"
     }
   },
   {
@@ -124,9 +124,9 @@
     "correct": "can",
     "explanation": "能力を表すのでcan。",
     "incorrectExplanations": {
-      "cans": "助動詞にsはつけない。",
-      "is": "be動詞。",
-      "was": "過去形のbe動詞。"
+      "cans": "助動詞には三単現のsはつきません。常に『can』を使います。",
+      "is": "『is』はbe動詞で、能力を表す意味を持ちません。",
+      "was": "『was』は過去形のbe動詞で、現在の能力を表すときには使えません。"
     }
   },
   {
@@ -137,9 +137,9 @@
     "correct": "should",
     "explanation": "助言・義務を表すshould。",
     "incorrectExplanations": {
-      "shall": "提案や意志表現。",
-      "will": "未来の意志。",
-      "can": "可能を表す。"
+      "shall": "『shall』は提案や意志を表す場合が多く、『study harder』という助言には不自然です。",
+      "will": "『will』は未来の意志を表すため、勧めや助言をする『should』とは使い方が異なります。",
+      "can": "『can』は能力や可能を表すので、『〜すべき』という助言には使えません。"
     }
   },
   {
@@ -150,9 +150,9 @@
     "correct": "mustn't",
     "explanation": "禁止を表すmustn't。",
     "incorrectExplanations": {
-      "can't": "能力・不可能を表す。",
-      "should": "助言を表す。",
-      "will": "未来を表す。"
+      "can't": "『can't』は『できない』『不可能』を表し、禁止の意味にはなりません。",
+      "should": "『should』は助言や推奨を表し、強い禁止を伝える『mustn't』とは意味が異なります。",
+      "will": "『will』は未来を表す助動詞で、禁止の意味はありません。"
     }
   },
   {
@@ -163,9 +163,9 @@
     "correct": "seen",
     "explanation": "現在完了（have + 過去分詞）なので 'seen' を使います。",
     "incorrectExplanations": {
-      "see": "'have' の後は過去分詞が必要です。",
-      "saw": "'saw' は過去形で、現在完了には使えません。",
-      "seeing": "進行形ではなく、完了形を求めています。"
+      "see": "『have』の後には過去分詞形が必要で、原形『see』は使えません。",
+      "saw": "『saw』は過去形で、現在完了の『have』と一緒には使えません。",
+      "seeing": "進行形や動名詞の形で、『have』と使う完了形には不適切です。"
     }
   },
   {
@@ -176,9 +176,9 @@
     "correct": "playing",
     "explanation": "'enjoy' の後ろは動名詞を使います。",
     "incorrectExplanations": {
-      "play": "'enjoy' の後には動名詞が必要です。",
-      "to play": "'to不定詞' ではなく、'動名詞' を使います。",
-      "played": "'played' は過去形で、文法的に不自然です。"
+      "play": "動詞の原形は『enjoy』の後には使えません。『enjoy playing』の形が必要です。",
+      "to play": "『to play』は不定詞で、『enjoy』の後は動名詞を使うルールです。",
+      "played": "過去形は『〜すること』という意味を表せず、動名詞が必要です。"
     }
   },
   {
@@ -189,9 +189,9 @@
     "correct": "when",
     "explanation": "'get home' は確実に起こる未来の出来事なので 'when' が自然です。",
     "incorrectExplanations": {
-      "if": "不確実な条件に使いますが、この文では帰宅は確定しているので不自然です。",
-      "because": "理由ではないため使えません。",
-      "so": "'so' は結果を表す接続詞で、この文には合いません。"
+      "if": "『if』は『もし〜なら』という不確実な条件を表します。ここは帰宅が確実なので『when』が自然です。",
+      "because": "『because』は理由を表しますが、この文はタイミングを伝えるので合いません。",
+      "so": "『so』は結果を表す接続詞で、『〜するとき』を表す文には使えません。"
     }
   },
   {
@@ -202,9 +202,9 @@
     "correct": "is",
     "explanation": "'brother' は三人称単数なので、be動詞は 'is' を使います。",
     "incorrectExplanations": {
-      "are": "'are' は複数主語に使います。",
-      "am": "'am' は 'I' にしか使えません。",
-      "be": "'be' は原形でこの文には使えません。"
+      "are": "『are』は複数主語に使いますが、『brother』は単数なので不適切です。",
+      "am": "『am』は『I』専用のbe動詞で、『My brother』には使えません。",
+      "be": "『be』は原形で、文の中でそのまま使う形ではありません。"
     }
   },
   {
@@ -215,9 +215,9 @@
     "correct": "play",
     "explanation": "'I' は主語なので三単現のsは不要。現在の習慣には現在形の 'play' を使います。",
     "incorrectExplanations": {
-      "plays": "三単現の 's' は三人称単数にしか使いません。",
-      "playing": "進行形ではないので 'playing' は不適切です。",
-      "played": "過去の話ではないので不適切です。"
+      "plays": "『plays』は三単現で三人称単数主語用です。『I』には『play』を使います。",
+      "playing": "『playing』は進行形や動名詞で、現在の習慣を表すには不適切です。",
+      "played": "『played』は過去形で、現在の習慣を表すときには使えません。"
     }
   },
   {
@@ -228,9 +228,9 @@
     "correct": "an",
     "explanation": "母音で始まる 'orange' の前には 'an' を使います。",
     "incorrectExplanations": {
-      "a": "'a' は子音で始まる単語の前に使います。",
-      "the": "特定されていない 'orange' なので 'the' は不自然です。",
-      "no": "意味が変わってしまいます。"
+      "a": "『a』は子音で始まる単語に使います。『orange』は母音で始まるので『an』が必要です。",
+      "the": "『the』は特定のものを指すときに使いますが、ここでは特定されていないので不自然です。",
+      "no": "『no』を使うと意味が変わり、『持っていない』という否定になります。"
     }
   },
   {
@@ -241,9 +241,9 @@
     "correct": "children",
     "explanation": "'children' は 'child' の正しい複数形です。",
     "incorrectExplanations": {
-      "child": "単数形なので 'are many' と合いません。",
-      "childs": "間違った複数形です。",
-      "childrens": "'children' 自体が複数形なので 's' は不要です。"
+      "child": "単数形で、『many』や『are』と一緒に使う複数形には合いません。",
+      "childs": "『child』の複数形は不規則で、『childs』は誤りです。正しくは『children』です。",
+      "childrens": "『children』自体が複数形なので、さらに『s』をつけることはできません。"
     }
   },
   {
@@ -254,9 +254,9 @@
     "correct": "interesting",
     "explanation": "'story' は人ではないので、性質を表す 'interesting' を使います。",
     "incorrectExplanations": {
-      "interest": "名詞で文法的に使えません。",
-      "interested": "人の感情に使います。物には使いません。",
-      "interests": "三単現の動詞、または名詞の複数形で文脈に合いません。"
+      "interest": "『interest』は名詞で、形容詞として使うには『interesting』が必要です。",
+      "interested": "『interested』は人の感情を表します。物や話の性質を説明するときは『interesting』を使います。",
+      "interests": "これは名詞の複数形や動詞の三単現形で、形容詞としては使えません。"
     }
   },
   {
@@ -267,9 +267,9 @@
     "correct": "is sleeping",
     "explanation": "現在進行形は be動詞＋動詞のing形で表現します。この場合は 'is sleeping'。",
     "incorrectExplanations": {
-      "sleep": "原形の 'sleep' は進行形では使えません。",
-      "sleeps": "現在形で、進行中の動作を表すには不適切です。",
-      "sleeping": "be動詞がないので文として不完全です。"
+      "sleep": "『sleep』は動詞の原形で、進行中を表す現在進行形にはなりません。『is sleeping』が必要です。",
+      "sleeps": "三単現の現在形で習慣的な動作を表しますが、『今まさにしているところ』は表せません。",
+      "sleeping": "『sleeping』だけでは動詞の形が不完全で、『be動詞』が必要です。"
     }
   },
   {
@@ -280,9 +280,9 @@
     "correct": "went",
     "explanation": "'last weekend' があるため、過去形の 'went' を使います。",
     "incorrectExplanations": {
-      "go": "現在形なので過去の出来事には合いません。",
-      "going": "進行形や名詞的用法で、時制に合いません。",
-      "gone": "'have gone' のように完了形で使う形なので不適切です。"
+      "go": "現在形で、過去を表す『last weekend』には合いません。",
+      "going": "進行形や名詞的な使い方で、過去の動作をそのまま表せません。",
+      "gone": "『have gone』など完了形で使いますが、ここは単純な過去形が必要です。"
     }
   },
   {
@@ -293,9 +293,9 @@
     "correct": "went",
     "explanation": "過去のことを表すのでwent。",
     "incorrectExplanations": {
-      "go": "現在形になってしまう。",
-      "goes": "現在形の三単現。",
-      "going": "進行形ではない。"
+      "go": "現在形で、昨日のことを表す『yesterday』には合いません。",
+      "goes": "三単現現在形で、過去の動作は表せません。",
+      "going": "進行形や動名詞の形で、過去の動作を表す形ではありません。"
     }
   },
   {
@@ -306,9 +306,9 @@
     "correct": "watched",
     "explanation": "過去を表すlast nightなのでwatched。",
     "incorrectExplanations": {
-      "watch": "現在形。",
-      "watching": "進行形ではない。",
-      "watches": "三単現現在形。"
+      "watch": "現在形で、過去を表す『last night』には合いません。",
+      "watching": "進行形や名詞的な使い方で、過去形としては使えません。",
+      "watches": "三単現の現在形で、過去の出来事を表すことはできません。"
     }
   },
   {
@@ -319,9 +319,9 @@
     "correct": "play",
     "explanation": "Didを使うときは動詞の原形を使う。",
     "incorrectExplanations": {
-      "played": "助動詞didがあるので原形が必要。",
-      "playing": "動名詞ではない。",
-      "plays": "三単現現在形になる。"
+      "played": "助動詞『did』を使った疑問文では動詞は原形にします。",
+      "playing": "進行形や動名詞で、疑問文の動詞の形としては不適切です。",
+      "plays": "三単現の現在形で、過去の出来事を尋ねる文には使えません。"
     }
   },
   {
@@ -332,9 +332,9 @@
     "correct": "wrote",
     "explanation": "過去のことなのでwrote。",
     "incorrectExplanations": {
-      "write": "現在形。",
-      "writes": "三単現現在形。",
-      "writing": "進行形や動名詞ではない。"
+      "write": "現在形で、過去を表す『last week』には合いません。",
+      "writes": "三単現現在形で、過去の動作は表せません。",
+      "writing": "進行形や動名詞の形で、単純過去を表せません。"
     }
   },
   {
@@ -345,9 +345,9 @@
     "correct": "stayed",
     "explanation": "過去の出来事なのでstayed。",
     "incorrectExplanations": {
-      "stay": "現在形。",
-      "stays": "三単現現在形。",
-      "staying": "進行形ではない。"
+      "stay": "現在形で、過去の出来事を表す『all day』には合いません。",
+      "stays": "三単現現在形で、過去を表す文では使えません。",
+      "staying": "進行形や動名詞で、単純な過去を表す形ではありません。"
     }
   },
   {
@@ -358,9 +358,9 @@
     "correct": "will",
     "explanation": "未来の予定には 'will＋動詞の原形' を使います。",
     "incorrectExplanations": {
-      "is": "'is' だけでは未来形になりません。",
-      "was": "過去形で、未来には合いません。",
-      "are": "主語 'she' に対して文法的に不適切です。"
+      "is": "現在形のbe動詞だけでは未来を表すことはできません。『will』が必要です。",
+      "was": "過去形で、未来の予定を表す文には使えません。",
+      "are": "主語が『she』なので『are』は文法的に合いません。"
     }
   },
   {
@@ -371,9 +371,9 @@
     "correct": "will",
     "explanation": "未来の予定を表すのでwill。",
     "incorrectExplanations": {
-      "am": "現在進行形を作るbe動詞。",
-      "was": "過去形のbe動詞。",
-      "were": "過去形のbe動詞。"
+      "am": "現在形のbe動詞で、未来の予定を表すには『will』が必要です。",
+      "was": "過去形で、未来を表す予定には使えません。",
+      "were": "過去形のbe動詞で、『I』の未来の予定には合いません。"
     }
   },
   {
@@ -384,9 +384,9 @@
     "correct": "will",
     "explanation": "未来の予定を表すのでwill。",
     "incorrectExplanations": {
-      "is": "現在形のbe動詞。",
-      "are": "現在形のbe動詞。",
-      "was": "過去形のbe動詞。"
+      "is": "現在形のbe動詞で、『they』の未来を表すには『will』が必要です。",
+      "are": "現在形で、未来の予定を表すには使えません。『will』を使います。",
+      "was": "過去形で、未来を表す文には使えません。"
     }
   },
   {
@@ -397,9 +397,9 @@
     "correct": "will",
     "explanation": "未来を表すのでwillを使う。",
     "incorrectExplanations": {
-      "does": "現在形の三単現。",
-      "did": "過去形。",
-      "doing": "進行形や動名詞の形。"
+      "does": "『does』は現在形の三人称単数で、未来の予定を表すことはできません。",
+      "did": "『did』は過去形で、未来のことを話すときには使えません。",
+      "doing": "『doing』は進行形や動名詞で、未来の助動詞『will』とは形が合いません。"
     }
   },
   {
@@ -410,9 +410,9 @@
     "correct": "will",
     "explanation": "未来を表すのでwillを使う。",
     "incorrectExplanations": {
-      "has": "三単現現在形。",
-      "had": "過去形。",
-      "having": "動名詞の形。"
+      "has": "『has』は三単現の現在形で、未来を表すことはできません。",
+      "had": "『had』は過去形で、未来の予定を表すときには使えません。",
+      "having": "『having』は動名詞で、『will』のように未来を表す助動詞が必要です。"
     }
   },
   {
@@ -423,9 +423,9 @@
     "correct": "will",
     "explanation": "未来を表すのでwill。",
     "incorrectExplanations": {
-      "am": "現在形のbe動詞。",
-      "is": "現在形のbe動詞。",
-      "was": "過去形のbe動詞。"
+      "am": "『am』は現在形のbe動詞で、未来を表すには『will』が必要です。",
+      "is": "『is』も現在形で、未来を言いたいときには使えません。",
+      "was": "『was』は過去形で、未来を表すことはできません。"
     }
   },
   {
@@ -436,9 +436,9 @@
     "correct": "should",
     "explanation": "'should' は助言や提案を表す助動詞で、文脈に最も合っています。",
     "incorrectExplanations": {
-      "must to": "'must' の後ろに 'to' は不要です。",
-      "can to": "'can' にも 'to' は不要で、使い方が間違っています。",
-      "has to": "'has to' は三人称単数にしか使えません。主語が 'you' なので不適切です。"
+      "must to": "『must』の後に『to』は不要です。正しくは『must + 動詞の原形』です。",
+      "can to": "『can』にも『to』はつけず、『can + 動詞の原形』が正しい形です。",
+      "has to": "『has to』は三人称単数用なので、『you』には使えません。『you have to』が正しい形です。"
     }
   },
   {
@@ -449,9 +449,9 @@
     "correct": "How",
     "explanation": "'By bike'（自転車で）という答え方に合う疑問詞は 'How'（どうやって）です。",
     "incorrectExplanations": {
-      "When": "'When' は「いつ」に対する質問です。",
-      "What": "'What' は「何」に対する質問なので不自然です。",
-      "Where": "'Where' は「どこに」で、移動手段には使いません。"
+      "When": "『When』は『いつ』を尋ねるときに使い、移動手段には合いません。",
+      "What": "『What』は『何』を尋ねる疑問詞で、方法を聞くには不自然です。",
+      "Where": "『Where』は『どこ』を尋ねる疑問詞で、移動手段を聞くときには使えません。"
     }
   },
   {
@@ -462,9 +462,9 @@
     "correct": "because",
     "explanation": "理由を表す接続詞は 'because'。雨が降っていたから家にいた、という因果関係を表す。",
     "incorrectExplanations": {
-      "and": "'and' は並列の意味で、理由には使えません。",
-      "but": "'but' は逆接なので、文意と合いません。",
-      "or": "'or' は選択肢を示すときに使います。"
+      "and": "『and』は内容を単純に並べる接続詞で、理由を表すことはできません。",
+      "but": "『but』は逆接を表す接続詞で、原因と結果をつなぐときには使いません。",
+      "or": "『or』は選択肢を示す接続詞で、理由を表す文には不適切です。"
     }
   },
   {
@@ -475,9 +475,9 @@
     "correct": "while",
     "explanation": "同時進行を表すときはwhileを使う。",
     "incorrectExplanations": {
-      "and": "単純な並列を表す接続詞。",
-      "but": "逆接を表す接続詞。",
-      "because": "理由を表す接続詞。"
+      "and": "『and』はただ出来事を並べるだけで、同時進行を強調することはできません。",
+      "but": "『but』は逆接を表す接続詞で、同時に起こることを表せません。",
+      "because": "『because』は理由を表す接続詞で、同時進行の意味にはなりません。"
     }
   },
   {
@@ -488,9 +488,9 @@
     "correct": "because",
     "explanation": "理由を表すのでbecauseを使う。",
     "incorrectExplanations": {
-      "so": "結果を表す。",
-      "but": "逆接を表す。",
-      "and": "並列を表す。"
+      "so": "『so』は『だから』という結果を表し、理由を説明する『because』とは逆の関係です。",
+      "but": "『but』は逆接を表し、理由を表す文には使えません。",
+      "and": "『and』は単に情報を並べる接続詞で、理由を説明することはできません。"
     }
   },
   {
@@ -501,9 +501,9 @@
     "correct": "so",
     "explanation": "結果を表すのでsoを使う。",
     "incorrectExplanations": {
-      "because": "理由を表す接続詞。",
-      "but": "逆接を表す接続詞。",
-      "when": "時を表す接続詞。"
+      "because": "『because』は理由を表しますが、この文では『病気だったので病院へ行った』という結果を言いたいので合いません。",
+      "but": "『but』は逆接を表す接続詞で、結果を示すときには使えません。",
+      "when": "『when』は時間を表す接続詞で、『だから』という結果を示す『so』とは意味が違います。"
     }
   },
   {
@@ -514,9 +514,9 @@
     "correct": "and",
     "explanation": "並列を表すときはandを使う。",
     "incorrectExplanations": {
-      "but": "逆接を表す接続詞。",
-      "because": "理由を表す接続詞。",
-      "while": "同時進行や対比を表す接続詞。"
+      "but": "『but』は逆の意味をつなげる接続詞で、『犬も猫も好き』という並列には使えません。",
+      "because": "『because』は理由を説明する接続詞で、『犬と猫』を並べる意味にはなりません。",
+      "while": "『while』は『〜する間』や対比を表す接続詞で、単純に好きなものを並べるときには使えません。"
     }
   },
   {
@@ -527,9 +527,9 @@
     "correct": "but",
     "explanation": "逆接を表すのでbutを使う。",
     "incorrectExplanations": {
-      "and": "並列を表す接続詞。",
-      "because": "理由を表す接続詞。",
-      "while": "同時進行や対比を表す接続詞。"
+      "and": "「and」は同じ性質のものを並べて追加する接続詞です。この文は『小さいけれど強い』と逆の内容をつなぐので使えません。",
+      "because": "「because」は理由を表す接続詞で、『なぜ強いのか』を説明する形になります。逆接には使えません。",
+      "while": "「while」は『〜する間に』や対比を表しますが、この文のように正反対の性質をはっきり対立させるときは『but』を使います。"
     }
   },
   {
@@ -545,9 +545,9 @@
     "correct": "more interesting",
     "explanation": "2つの物を比べる場合は比較級 'more 〜 than' を使います。",
     "incorrectExplanations": {
-      "interesting": "比較の表現ではないため不適切。",
-      "most interesting": "'most' は最上級で、3つ以上の中で使います。",
-      "very interesting": "'very' は程度を強調するだけで比較には使えません。"
+      "interesting": "そのままの形では比較を表しません。『more interesting』のように比較級が必要です。",
+      "most interesting": "『most』は最上級で、3つ以上のものを比べるときに使います。",
+      "very interesting": "『very』は程度を強調するだけで、他と比べる表現には使えません。"
     }
   },
   {
@@ -558,9 +558,9 @@
     "correct": "taller",
     "explanation": "比較級はtaller。",
     "incorrectExplanations": {
-      "tall": "比較を表していない。",
-      "tallest": "最上級。",
-      "most tall": "比較級の正しい形ではない。"
+      "tall": "原級『tall』では比べる表現になりません。『taller』が必要です。",
+      "tallest": "『tallest』は最上級で、3人以上の中で一番を表しますが、ここは2人の比較です。",
+      "most tall": "『tall』は短い形容詞なので『more/most』は使わず『taller/tallest』にします。"
     }
   },
   {
@@ -576,9 +576,9 @@
     "correct": "more interesting",
     "explanation": "長い形容詞はmore + 形容詞で比較級。",
     "incorrectExplanations": {
-      "interesting": "比較級になっていない。",
-      "most interesting": "最上級。",
-      "interest": "名詞の形。"
+      "interesting": "原級では比較を表せません。『more interesting』が必要です。",
+      "most interesting": "最上級で、3つ以上の中で一番を表します。2つを比べる場合は使いません。",
+      "interest": "『interest』は名詞で、形容詞の比較には使えません。"
     }
   },
   {
@@ -589,9 +589,9 @@
     "correct": "tallest",
     "explanation": "最上級を表すのでtallest。",
     "incorrectExplanations": {
-      "tall": "原級。",
-      "taller": "比較級。",
-      "most tall": "正しい最上級の形ではない。"
+      "tall": "原級で比較や最上級を表すことはできません。",
+      "taller": "比較級で、2つを比べるときに使います。ここはクラスの中で一番を表す最上級が必要です。",
+      "most tall": "『tall』は短い形容詞なので『most』は使えず、『tallest』が正しい最上級の形です。"
     }
   },
   {
@@ -602,9 +602,9 @@
     "correct": "more difficult",
     "explanation": "difficultはmoreを使って比較級を作る。",
     "incorrectExplanations": {
-      "difficult": "比較を表さない。",
-      "most difficult": "最上級。",
-      "difficulty": "名詞の形。"
+      "difficult": "そのままの形では比較を表せません。『more difficult』が必要です。",
+      "most difficult": "最上級で、3つ以上の中で一番を表します。ここは2つを比べています。",
+      "difficulty": "名詞なので形容詞の比較表現には使えません。"
     }
   },
   {
@@ -615,9 +615,9 @@
     "correct": "faster",
     "explanation": "比較級はfaster。",
     "incorrectExplanations": {
-      "fast": "比較を表さない。",
-      "fastest": "最上級。",
-      "fastly": "正しい副詞の形ではない。"
+      "fast": "原級では比べる表現になりません。『faster』が必要です。",
+      "fastest": "最上級で、3人以上の中で一番を表します。ここは2人の比較です。",
+      "fastly": "『fast』は形容詞も副詞も同じ形で、『fastly』という単語は英語にありません。"
     }
   },
   {
@@ -628,9 +628,9 @@
     "correct": "to buy",
     "explanation": "'want' の後ろには不定詞（to + 動詞の原形）が続きます。",
     "incorrectExplanations": {
-      "buy": "'to' がないため文法的に不完全です。",
-      "buying": "動名詞は 'enjoy' などに使いますが 'want' には不適切です。",
-      "bought": "過去形で使い方が誤っています。"
+      "buy": "『to』がないと不定詞にならず、『want to buy』の形が必要です。",
+      "buying": "動名詞で、『enjoy』などには使えますが『want』では目的を表す『to不定詞』が必要です。",
+      "bought": "過去形で、『〜したい』という未来志向の意味を表せません。"
     }
   },
   {
@@ -641,9 +641,9 @@
     "correct": "to buy",
     "explanation": "want to + 動詞の原形。",
     "incorrectExplanations": {
-      "buy": "toが抜けている。",
-      "buying": "動名詞の形。",
-      "bought": "過去形。"
+      "buy": "『to』が抜けていて不定詞になりません。『want to buy』が正しい形です。",
+      "buying": "動名詞は『enjoy』などに使いますが、『want』には『to不定詞』が必要です。",
+      "bought": "過去形で、欲しいという未来的な意志を表せません。"
     }
   },
   {
@@ -654,9 +654,9 @@
     "correct": "to go",
     "explanation": "decide to + 動詞の原形。",
     "incorrectExplanations": {
-      "go": "toが抜けている。",
-      "going": "動名詞の形。",
-      "went": "過去形。"
+      "go": "『to』が抜けていて不定詞にならず、『decide to go』が正しい形です。",
+      "going": "動名詞で、決心する動作の目的を表すときは『to不定詞』を使います。",
+      "went": "過去形で、決心した先の行動を未来的に表せません。"
     }
   },
   {
@@ -667,9 +667,9 @@
     "correct": "to be",
     "explanation": "hope to + 動詞の原形。",
     "incorrectExplanations": {
-      "be": "toが抜けている。",
-      "being": "動名詞の形。",
-      "was": "過去形のbe動詞。"
+      "be": "『be』だけだと不定詞の『to』が抜けていて不自然です。『hope to be』の形で未来の願望を表します。",
+      "being": "『being』は動名詞で、名詞的な働きをします。『hope』の後は『to不定詞』で動作を表すのが正しい形です。",
+      "was": "『was』は過去形で、ここでは未来の希望を表すので使えません。"
     }
   },
   {
@@ -680,9 +680,9 @@
     "correct": "to have",
     "explanation": "plan to + 動詞の原形。",
     "incorrectExplanations": {
-      "have": "toが抜けている。",
-      "having": "動名詞の形。",
-      "had": "過去形。"
+      "have": "『have』だけでは不定詞の『to』が抜けています。『plan to have』が正しい形です。",
+      "having": "『having』は動名詞で、『plan』の後は『to不定詞』を使って未来の意図を表します。",
+      "had": "『had』は過去形で、『plan』が表す未来の予定とは合いません。"
     }
   },
   {
@@ -693,9 +693,9 @@
     "correct": "to open",
     "explanation": "try to + 動詞の原形。",
     "incorrectExplanations": {
-      "open": "toが抜けている。",
-      "opening": "動名詞の形。",
-      "opened": "過去形。"
+      "open": "『open』だけでは不定詞にならず、『try』の後に続けるには『to open』が必要です。",
+      "opening": "『opening』は動名詞で、『try to open』のように目的を表す形とは異なります。",
+      "opened": "『opened』は過去形で、意図や試みを表す動作の目的には使えません。"
     }
   },
   {
@@ -706,9 +706,9 @@
     "correct": "playing",
     "explanation": "'enjoy' の後ろは動名詞（動詞 + ing）を使うのがルールです。",
     "incorrectExplanations": {
-      "play": "原形は 'enjoy' の後には使えません。",
-      "to play": "'to不定詞' は 'want' や 'hope' などに使います。",
-      "played": "過去形で、名詞的役割を果たしません。"
+      "play": "『play』は動詞の原形で、『enjoy』の後には動名詞を使うのがルールです。",
+      "to play": "『to不定詞』は『want』や『hope』など意志や目的を表す動詞の後に使いますが、『enjoy』は動名詞をとります。",
+      "played": "『played』は過去形で、名詞的に『〜すること』を表す役割は果たせません。"
     }
   },
   {
@@ -719,9 +719,9 @@
     "correct": "playing",
     "explanation": "enjoyの後は動名詞ing形を使う。",
     "incorrectExplanations": {
-      "play": "動詞の原形は使わない。",
-      "to play": "不定詞ではない。",
-      "played": "過去形は不要。"
+      "play": "動詞の原形『play』は『enjoy』の後には使えません。『enjoy playing』の形で『〜することを楽しむ』を表します。",
+      "to play": "『to play』は不定詞で、『enjoy』ではなく『want』などに使う形です。",
+      "played": "『played』は過去形で、名詞のように動作を表す『〜すること』にはなりません。"
     }
   },
   {
@@ -732,9 +732,9 @@
     "correct": "reading",
     "explanation": "finishの後は動名詞ing形を使う。",
     "incorrectExplanations": {
-      "read": "原形は使わない。",
-      "to read": "不定詞ではない。",
-      "reads": "三単現現在形。"
+      "read": "動詞の原形『read』では『finish』の後に名詞的に動作を表せません。『reading』が必要です。",
+      "to read": "『to read』は不定詞で、『finish』の後は動名詞を使うルールがあります。",
+      "reads": "『reads』は三単現の現在形で、『finish』の後に続けて名詞的な動作を表すには適しません。"
     }
   },
   {
@@ -745,9 +745,9 @@
     "correct": "drawing",
     "explanation": "be good at の後は動名詞を使う。",
     "incorrectExplanations": {
-      "draw": "原形は使わない。",
-      "draws": "三単現現在形。",
-      "drew": "過去形。"
+      "draw": "『draw』は動詞の原形で、『be good at』の後には動名詞『drawing』を使って『〜することが得意』を表します。",
+      "draws": "『draws』は三単現現在形で、『〜すること』を表す名詞的な形ではありません。",
+      "drew": "『drew』は過去形で、名詞的に『〜すること』を表す動名詞の代わりには使えません。"
     }
   },
   {
@@ -758,9 +758,9 @@
     "correct": "going",
     "explanation": "aboutの後は動名詞ing形。",
     "incorrectExplanations": {
-      "go": "原形は使わない。",
-      "to go": "不定詞は使わない。",
-      "went": "過去形は使わない。"
+      "go": "「go」は動詞の原形で、前置詞『about』の後には使えません。話題にする動作を名詞化するには『going』が必要です。",
+      "to go": "『to go』は不定詞で目的や意志を表すニュアンスが強く、『about』の後に動作を名詞として言うときは動名詞『going』を使います。",
+      "went": "『went』は過去形で、『about』の後に話題にする動作を表す形には使えません。"
     }
   },
   {
@@ -771,9 +771,9 @@
     "correct": "painting",
     "explanation": "be動詞の後の補語として動名詞を使う。",
     "incorrectExplanations": {
-      "paint": "原形は使わない。",
-      "paints": "三単現現在形。",
-      "painted": "過去形。"
+      "paint": "「paint」は動詞の原形で、動名詞が必要なところでは使えません。",
+      "paints": "『paints』は三単現の現在形で、『My hobby is』の補語にするには動名詞が必要です。",
+      "painted": "『painted』は過去形・過去分詞で、『〜すること』を表すには動名詞『painting』が必要です。"
     }
   },
   {
@@ -784,9 +784,9 @@
     "correct": "is spoken",
     "explanation": "現在形の受動態は 'is + 過去分詞'。多くの国で英語が話されている、という意味です。",
     "incorrectExplanations": {
-      "speaks": "能動態であり、主語が人でないため不適切です。",
-      "is speaking": "進行形で、受動態の形ではありません。",
-      "was spoken": "過去形なので '現在形' の文と時制が合いません。"
+      "speaks": "『speaks』は能動態で主語が人の場合に使います。ここでは『English（英語）』が話される対象なので受動態が必要です。",
+      "is speaking": "『is speaking』は進行形の能動態で『話しているところ』を表します。受動態では『is spoken』を使います。",
+      "was spoken": "『was spoken』は過去形の受動態で『話された』という過去を表しますが、文は現在形なので時制が合いません。"
     }
   },
   {
@@ -797,9 +797,9 @@
     "correct": "whether",
     "explanation": "間接疑問文では 'if' や 'whether' を使って「〜かどうか」を表します。この文では 'whether' が適切です。",
     "incorrectExplanations": {
-      "when": "'when' は「いつ」を聞くときで、'かどうか' の意味にはなりません。",
-      "is": "文の構造が崩れるため不適切です。",
-      "does": "助動詞 'does' はここでは不要です。"
+      "when": "『when』は『いつ』を表す疑問詞で、『〜かどうか』を尋ねる意味には使えません。",
+      "is": "『is she coming』のような疑問文の語順をそのまま入れるのは間接疑問文では間違いです。正しくは『whether she is coming』のように平叙文の語順になります。",
+      "does": "『does』は現在形の一般動詞の疑問文で使いますが、『she is coming』のような進行形には不要で不適切です。"
     }
   },
   {
@@ -810,9 +810,9 @@
     "correct": "a book",
     "explanation": "SVOO（第4文型）の例で、'me'（人）と 'a book'（物）の順で与える行為を表します。",
     "incorrectExplanations": {
-      "book": "冠詞がないため文法的に不自然です。",
-      "books": "複数形にする理由が文中にありません。",
-      "the books": "特定の本ではない場合は不自然です。"
+      "book": "冠詞がないため『book』だけだと不自然です。英語では可算名詞の単数形には『a』が必要です。",
+      "books": "『books』は複数形ですが、ここでは特に複数の本を示す必要がなく、『a book』のように単数が自然です。",
+      "the books": "『the books』は特定の本を指す表現です。ここでは新しく情報を与える形なので不定冠詞『a』を使います。"
     }
   },
   {
@@ -823,9 +823,9 @@
     "correct": "who",
     "explanation": "'who' は人を先行詞に取る関係代名詞。'The girl' を修飾しているので 'who' が正解です。",
     "incorrectExplanations": {
-      "which": "'which' は物を修飾する関係代名詞です。",
-      "where": "'where' は場所を表す関係副詞です。",
-      "what": "'what' は先行詞を含む形なので使えません。"
+      "which": "「which」は物や動物を先行詞に取る関係代名詞です。『The girl』は人なので『which』は使えません。",
+      "where": "「where」は場所を説明する関係副詞です。人を説明することはできません。",
+      "what": "「what」は先行詞を含む形で、『the thing which』のような意味になります。すでに『The girl』が先行詞としてあるので『what』は使えません。"
     }
   },
   {
@@ -836,9 +836,9 @@
     "correct": "would",
     "explanation": "仮定法過去の表現では 'If I were 〜, I would 〜' の形を取ります。現実と異なる仮の状況を表します。",
     "incorrectExplanations": {
-      "will": "仮定法では 'would' を使います。",
-      "can": "'can' は現実的な可能性を表し、仮定法には合いません。",
-      "am": "'I were' が正しい仮定法の形です。"
+      "will": "「will」は未来の意志や予定を表す助動詞で、仮定法の非現実的な条件には使いません。『If I were you』のような仮定法では『would』を使います。",
+      "can": "「can」は現実的な能力や可能性を表しますが、ここでは現実とは違う想像の話なので使えません。",
+      "am": "『If I were』が仮定法過去の正しい形です。『If I am』だと現実的な条件を表してしまい、仮定法になりません。"
     }
   },
   {
@@ -849,9 +849,9 @@
     "correct": "aren’t you",
     "explanation": "肯定文のあとには否定の疑問タグをつけます。'You are' に対して 'aren’t you?' が適切です。",
     "incorrectExplanations": {
-      "don’t you": "'are' に対して 'don’t' を使うのは誤りです。",
-      "are you": "これは否定文のあとに付ける形式です。",
-      "isn't it": "'you' に対して 'it' は代名詞の一致が取れません。"
+      "don’t you": "文が『You are』なので、動詞はbe動詞です。『don’t』は一般動詞に使う形なので間違いです。",
+      "are you": "肯定文には否定のタグをつけるのがルールです。『You’re』が肯定なので『aren’t you』にする必要があります。",
+      "isn't it": "主語が『you』なのに『it』を使うのは不一致です。代名詞は主語に合わせて『you』を使います。"
     }
   },
   {
@@ -862,9 +862,9 @@
     "correct": "in",
     "explanation": "「～の中に［で］」広い場所を表す。",
     "incorrectExplanations": {
-      "at": "「～に［で］」狭い場所、地点を表す。",
-      "on": "「～の上に」接触を表す。",
-      "to": "「～へ、まで」方向を表す。"
+      "at": "「at」は狭い場所や特定の地点を表します。『in』は建物や部屋など広めの空間の中を表すので、『a library』には『in』が自然です。",
+      "on": "「on」は『上に接触している』を表します。建物の中で働くイメージには合いません。",
+      "to": "「to」は『〜へ』という方向を表します。どこで働くかを表すときには使えません。"
     }
   },
   {
@@ -875,9 +875,9 @@
     "correct": "about",
     "explanation": "「about」は話題・〜について。",
     "incorrectExplanations": {
-      "from": "出発点、出身。",
-      "for": "目的、ために。",
-      "with": "一緒に。"
+      "from": "「from」は『〜から』という出発点や出身地を表します。話題を表す『〜について』には使えません。",
+      "for": "「for」は『〜のために』を表します。『〜について話す』には使えません。",
+      "with": "「with」は『〜と一緒に』を表します。『talk with』は『誰と話すか』を表し、話題を表す『about』とは意味が異なります。"
     }
   },
   {
@@ -888,9 +888,9 @@
     "correct": "for",
     "explanation": "「for」は〜のために。",
     "incorrectExplanations": {
-      "from": "出身や起点。",
-      "with": "一緒に。",
-      "by": "手段や行為者。"
+      "from": "「from」は『〜から』を表します。『a gift from you』だと『あなたからの贈り物』という意味になり、『あなたのための贈り物』を表したいこの文には合いません。",
+      "with": "「with」は『〜と一緒に』を表します。『a gift with you』だと『あなたと一緒の贈り物』のような意味になり、『あなたのための』という気持ちは伝わりません。",
+      "by": "「by」は『〜によって』を表します。『a gift by you』だと『あなたによって作られた贈り物』という意味になり、『あなたのための』という意図とは異なります。"
     }
   },
   {
@@ -901,9 +901,9 @@
     "correct": "from",
     "explanation": "「from」は送信者・出所。",
     "incorrectExplanations": {
-      "for": "目的。",
-      "by": "手段。",
-      "about": "話題。"
+      "for": "「for」は『〜のために』を表します。『a letter for my friend』だと『友達宛ての手紙』『友達のための手紙』という意味になり、友達からもらったことは表せません。",
+      "by": "「by」は『〜によって』や手段を表します。『a letter by my friend』だと『友達によって書かれた手紙』という意味になることもありますが、普通は『from』で送信者を表します。",
+      "about": "「about」は『〜について』を表します。『a letter about my friend』だと『友達についての手紙』という意味になり、友達からもらったことを表せません。"
     }
   },
   {
@@ -914,9 +914,9 @@
     "correct": "into",
     "explanation": "「into」は中へ入る動作。",
     "incorrectExplanations": {
-      "out of": "外へ出る。",
-      "through": "通り抜ける。",
-      "by": "手段や近くを。"
+      "out of": "「out of」は『〜の外へ出る』を表します。『out of the room』だと『部屋の外へ出た』意味になり、部屋に入る動作を表す『into』とは逆の意味になります。",
+      "through": "「through」は『〜を通り抜ける』を表します。『through the room』だと『部屋を突っ切って進む』イメージになり、部屋に入るという動作だけを表すことはできません。",
+      "by": "「by」は『〜のそばを』や『〜によって』などの意味があります。『by the room』だと『部屋の近くを』という意味になり、部屋の中に入る動作を表すことはできません。"
     }
   },
   {
@@ -927,9 +927,9 @@
     "correct": "out of",
     "explanation": "「out of」は外へ出る動作。",
     "incorrectExplanations": {
-      "into": "中へ入る。",
-      "through": "通り抜ける。",
-      "by": "手段や近くを。"
+      "across": "「across」は『横切って』を表します。『across the street』だと『道を渡って横切る』という意味になり、道に沿って歩くイメージとは異なります。",
+      "through": "「through」は『〜を通り抜けて』を表します。『through the street』だと『道の中を突っ切る』ような不自然なイメージになり、道沿いを歩くことを正しく伝えられません。",
+      "by": "「by」は『〜の近くを』を表します。『by the street』だと『道のそばを歩く』という意味になり、道に沿って歩くという問題の意図とは違ってしまいます。"
     }
   },
   {
@@ -940,9 +940,9 @@
     "correct": "along",
     "explanation": "「along」は〜に沿って。",
     "incorrectExplanations": {
-      "across": "横切って。",
-      "through": "通り抜けて。",
-      "by": "近くを。"
+      "across": "「across」は『横切って』を表します。『across the street』だと『道を渡って横切る』という意味になり、道に沿って歩くイメージとは異なります。",
+      "through": "「through」は『〜を通り抜けて』を表します。『through the street』だと『道の中を突っ切る』ような不自然なイメージになり、道沿いを歩くことを正しく伝えられません。",
+      "by": "「by」は『〜の近くを』を表します。『by the street』だと『道のそばを歩く』という意味になり、道に沿って歩くという問題の意図とは違ってしまいます。"
     }
   },
   {
@@ -953,9 +953,9 @@
     "correct": "through",
     "explanation": "「through」は中を通り抜ける。",
     "incorrectExplanations": {
-      "along": "〜に沿って。",
-      "across": "横切って。",
-      "by": "近くを。"
+      "along": "「along」は『〜に沿って』を表します。『along the park』だと『公園の外側や端に沿って走った』という意味になり、公園の中を通り抜けたイメージではありません。",
+      "across": "「across」は『横切って』を表します。『across the park』だと『公園を一方向に横切る』イメージになりますが、『through』は公園の中を通り抜ける全体的な経路を表します。",
+      "by": "「by」は『〜の近くを』を表します。『by the park』だと『公園のそばを走った』という意味になり、公園の中を通ったという意味にはなりません。"
     }
   },
   {
@@ -966,9 +966,9 @@
     "correct": "across",
     "explanation": "「across」は向こう側に。",
     "incorrectExplanations": {
-      "along": "〜に沿って。",
-      "through": "通り抜けて。",
-      "into": "中へ入る。"
+      "along": "「along」は『〜に沿って』を表します。『along the river』だと『川に沿って学校が建っている』という意味になり、川の向こう側にあるという問題の意図とは違ってしまいます。",
+      "through": "「through」は『〜を通り抜けて』を表します。『through the river』だと『川を通り抜けて』の意味になり、学校が川の向こう側にあるという位置関係を正しく伝えられません。",
+      "into": "「into」は『〜の中へ入る』を表します。『into the river』だと『川の中へ入る』という意味になり、川をはさんで向こう側に学校があるという意味にはなりません。"
     }
   },
   {
@@ -979,9 +979,9 @@
     "correct": "in front of",
     "explanation": "「in front of」は前に。",
     "incorrectExplanations": {
-      "behind": "後ろに。",
-      "between": "2つの間。",
-      "among": "3つ以上の間。"
+      "behind": "「behind」は『後ろに』を表します。『behind the door』だと『ドアの後ろに立った』意味になり、前に立つという問題の意図と逆になってしまいます。",
+      "between": "「between」は2つの物の間にいることを表します。『the door』は1つの物なので、『between the door』は文法的に不自然です。",
+      "among": "「among」は3つ以上のものに囲まれている状態を表します。『the door』が単数なので『among the door』は意味が通りません。"
     }
   },
   {
@@ -992,9 +992,9 @@
     "correct": "under",
     "explanation": "「under」は下に。",
     "incorrectExplanations": {
-      "over": "上に覆うように。",
-      "between": "2つの間。",
-      "among": "3つ以上の間。"
+      "over": "「over」は上に覆うように、またがっていることを表します。『over the box』だと『箱の上に』や『箱を覆っている』イメージになり、『箱の下にいる』という意味は伝えられません。",
+      "between": "「between」は2つの物の間にいることを表します。『the box』は単数なので、『between the box』は文法的に不自然です。",
+      "among": "「among」は3つ以上のものに囲まれている状態を表します。『the box』が1つなので、『among the box』は意味が通りません。"
     }
   },
   {
@@ -1005,9 +1005,9 @@
     "correct": "over",
     "explanation": "「over」は上にまたがって。",
     "incorrectExplanations": {
-      "under": "下に。",
-      "between": "2つの間。",
-      "among": "3つ以上の間。"
+      "under": "「under」は『下に』を表します。『under the river』だと『川の下に橋がある』という意味になり、川を渡す橋のイメージとは逆になります。",
+      "between": "「between」は2つの物の間にあることを表します。『the river』は1つの川なので『between』を使うと不自然です。",
+      "among": "「among」は3つ以上のものに囲まれている状態を表します。川は1つなので、『among the river』というのは意味が通りません。"
     }
   },
   {
@@ -1018,9 +1018,9 @@
     "correct": "among",
     "explanation": "「among」は3つ以上の中で。",
     "incorrectExplanations": {
-      "between": "2つの間。",
-      "behind": "後ろに。",
-      "in front of": "前に。"
+      "between": "「between」は2つのものの間にいることを表します。『her friends』は友達が3人以上いるイメージなので、『between』だと人数に合わず不自然です。",
+      "behind": "「behind」は『後ろに』を表します。『behind her friends』だと『友達の後ろに座った』という意味になり、友達の中に混じって座る感じは伝わりません。",
+      "in front of": "「in front of」は『前に』を表します。『in front of her friends』だと『友達の前に座った』という意味になり、友達に囲まれて座っているイメージではありません。"
     }
   },
   {
@@ -1031,9 +1031,9 @@
     "correct": "between",
     "explanation": "「between」は2つの間。",
     "incorrectExplanations": {
-      "among": "3つ以上の中。",
-      "behind": "後ろ。",
-      "in front of": "前。"
+      "among": "「among」は3つ以上のものに囲まれているときに使います。ここは『the two trees』と2つだけなので、『among』では不自然です。",
+      "behind": "「behind」は『後ろに』を表します。『behind the two trees』だと『2本の木の後ろに立っている』意味になり、『2本の間に』という問題の意味を正しく表せません。",
+      "in front of": "「in front of」は『前に』を表します。『in front of the two trees』だと『2本の木の前に』という意味になり、『間に』という指定された位置を正しく表せません。"
     }
   },
   {
@@ -1044,9 +1044,9 @@
     "correct": "by",
     "explanation": "「by mistake」は「間違えて」。",
     "incorrectExplanations": {
-      "with": "道具や一緒に。",
-      "without": "〜なしで。",
-      "for": "目的。"
+      "with": "「with」は道具や一緒に使う相手を表します。『with mistake』だと『間違いを持って』という不自然な表現になり、『間違えて』という意味にはなりません。",
+      "without": "「without」は『〜なしで』を表します。『without mistake』なら『間違いなしで』という意味になり、間違えてやったことを表現できません。",
+      "for": "「for」は目的や利益を表します。『for mistake』だと『間違いのために』という意味になり、『間違えて』という偶発的なニュアンスを正しく伝えられません。"
     }
   },
   {
@@ -1057,9 +1057,9 @@
     "correct": "without",
     "explanation": "「without」は〜なしで。",
     "incorrectExplanations": {
-      "with": "一緒に。",
-      "by": "手段。",
-      "for": "目的。"
+      "with": "「with」は『〜と一緒に』を表します。『with your help』だと『あなたの助けと一緒にできる』という意味になり、『できない』という否定文には合いません。ここは『〜なしで』を表す『without』が必要です。",
+      "by": "「by」は手段や方法を表します。例えば『by car（車で）』など。『by your help』は不自然で、助けを手段として使う表現にはしません。",
+      "for": "「for」は目的や利益を表します。『for your help』だと『あなたの助けのために』という意味になり、『〜なしで』という意味を伝えることはできません。"
     }
   },
   {
@@ -1070,9 +1070,9 @@
     "correct": "with",
     "explanation": "「with」は一緒に。",
     "incorrectExplanations": {
-      "without": "なしで。",
-      "by": "手段。",
-      "for": "目的。"
+      "without": "「without」は『〜なしで』を表します。『without my mother』だと『母なしで』になり、一緒に行ったという意味になりません。問題は一緒に行ったことを言いたいので正しくありません。",
+      "by": "「by」は手段や方法を表します。例えば『by car（車で）』など。『by my mother』だと『母によって』という意味になり、人と一緒に行くことを伝えられません。",
+      "for": "「for」は目的や利益を表します。『for my mother』だと『母のために』という意味になり、『一緒に行った』という意味にはなりません。"
     }
   },
   {
@@ -1083,9 +1083,9 @@
     "correct": "from",
     "explanation": "「absent from school」学校を欠席。",
     "incorrectExplanations": {
-      "at": "地点。",
-      "in": "内部。",
-      "to": "方向。"
+      "at": "「at」はある地点を指します。『at school』は『学校にいる』を表しますが、『absent at school』は文法的におかしく、『学校で欠席』という意味にはなりません。",
+      "in": "「in」は『内部にいる』ことを表します。『in school』は『学校の中にいる』という意味になり、『欠席』とは真逆の意味になるので使えません。",
+      "to": "「to」は方向や到着点を表します。『to school』は『学校へ』という意味になり、『absent』と一緒に使うと『学校へ欠席』という不自然な表現になってしまいます。"
     }
   },
   {
@@ -1096,9 +1096,9 @@
     "correct": "because of",
     "explanation": "「because of」は原因。",
     "incorrectExplanations": {
-      "for": "目的。",
-      "with": "一緒。",
-      "by": "手段。"
+      "for": "「for」は目的や対象を表します。『for the rain』だと『雨のために（雨を目的として）』になってしまい、雨が原因で家にいたという意味を正しく伝えられません。",
+      "with": "「with」は『〜と一緒に』の意味です。『with the rain』だと『雨と一緒に』というおかしな意味になってしまい、原因を表すことはできません。",
+      "by": "「by」は手段や方法を表します。例えば『by car（車で）』のように使いますが、雨が手段になるわけではないので、『by the rain』は不自然で原因を表せません。"
     }
   },
   {
@@ -1109,9 +1109,9 @@
     "correct": "look",
     "explanation": "「look at」は注意して見る。",
     "incorrectExplanations": {
-      "watch": "動きを見る。",
-      "see": "自然に目に入る。",
-      "wait": "待つ。"
+      "watch": "「watch」は動きや変化があるものをじっと見るときに使います。例えば『watch TV』はテレビの動きを見ることです。『picture』は静止画なので『watch』は不自然です。",
+      "see": "「see」は自然に目に入ることを表します。『I see the picture』なら『その絵が見える』ですが、『Please see at』という形は文法的に間違いで、『at』は使いません。",
+      "wait": "「wait」は『待つ』という意味で、見ることとは関係ありません。『Please wait at this picture』だと『この絵で待って』になり、見てほしいという意味になりません。"
     }
   },
   {
@@ -1122,9 +1122,9 @@
     "correct": "wait",
     "explanation": "「wait for」は待つ。",
     "incorrectExplanations": {
-      "look": "見る。",
-      "watch": "動きを見る。",
-      "see": "自然に目に入る。"
+      "look": "「look」は意識して視線を向けることを表します。『look at』のように前置詞を伴って『～を見る』と言いますが、『wait for』のように人を待つ意味はありません。『Please look at me』なら『私を見てください』になります。",
+      "watch": "「watch」は動きや変化を注意して見ることを表します。テレビや試合など、動きがあるものをじっと見るときに使います。『Please watch for me』だと不自然で、『watch』は『待つ』の意味では使えません。",
+      "see": "「see」は意識せずに目に入る、自然に見えることを表します。『see』には『待つ』という意味は全くありません。『Please see for me』という言い方は意味が通じません。"
     }
   }
 ]
