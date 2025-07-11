@@ -510,30 +510,29 @@ export default function EnglishTrapQuestions() {
                   }}
                 />
               </div>
-              <p className="mb-4 text-lg font-semibold flex flex-wrap gap-1">
-                {filteredQuestions[currentIndex]?.question
-                  ?.split(" ")
-                  .map((word, idx) => (
-                    <span
-                      key={idx}
-                      onClick={() => handleWordTap(word)}
-                      className="rounded hover:bg-yellow-200 cursor-pointer transition px-1"
-                    >
-                      {word}
-                    </span>
-                  ))}
-              </p>
+              {/* ★問題文をまず表示する */}
+              <div className="bg-white rounded-lg shadow p-4 mb-4">
+                <h2 className="text-xl font-bold mb-2">
+                  {currentQuestion.type === "multiple-choice" &&
+                    currentQuestion.question}
+                  {currentQuestion.type === "input" && currentQuestion.prompt}
+                </h2>
+              </div>
+
+              {/* ★回答UIをtypeで分ける */}
               {currentQuestion.type === "multiple-choice" && (
-                <div className="flex flex-col gap-2 mt-4">
-                  {currentQuestion.choices.map((choice) => (
-                    <button
-                      key={choice}
-                      onClick={() => handleAnswer(choice)}
-                      className="bg-white border px-4 py-2 rounded shadow hover:bg-blue-100"
-                    >
-                      {choice}
-                    </button>
-                  ))}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                  {shuffleArray(currentQuestion.choices || []).map(
+                    (choice, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleAnswer(choice)}
+                        className="bg-white border rounded px-4 py-2 hover:bg-gray-100"
+                      >
+                        {choice}
+                      </button>
+                    )
+                  )}
                 </div>
               )}
 
@@ -548,7 +547,7 @@ export default function EnglishTrapQuestions() {
                   />
                   <button
                     onClick={() => handleAnswer(inputAnswer)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
                   >
                     答える
                   </button>
@@ -591,7 +590,9 @@ export default function EnglishTrapQuestions() {
                 </h3>
                 {incorrectQuestionsList.map((q) => (
                   <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
-                    <p className="font-semibold">問題: {q.question}</p>
+                    <p className="font-semibold">
+                      問題: {q.question || q.prompt}
+                    </p>
                     <p className="text-red-600">
                       あなたの答え: {firstMistakeAnswers[q.id]}
                     </p>
