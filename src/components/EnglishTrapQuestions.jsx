@@ -99,6 +99,7 @@ export default function EnglishTrapQuestions() {
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
   const [wordAudioSrc, setWordAudioSrc] = useState("");
+  const [inputAnswer, setInputAnswer] = useState("");
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -179,28 +180,37 @@ export default function EnglishTrapQuestions() {
     setMistakes({});
   };
 
-  const handleAnswer = (choice) => {
+  const handleAnswer = (answer) => {
     const currentQuestion = filteredQuestions[currentIndex];
-    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: choice }));
+    let isCorrectAnswer = false;
 
-    if (choice === currentQuestion.correct) {
+    if (currentQuestion.type === "multiple-choice") {
+      isCorrectAnswer = answer === currentQuestion.correct;
+    } else if (currentQuestion.type === "input") {
+      isCorrectAnswer =
+        answer.trim().toLowerCase() ===
+        currentQuestion.correctAnswer.trim().toLowerCase();
+    }
+
+    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
+
+    if (isCorrectAnswer) {
       setCharacterMood("happy");
     } else {
       setCharacterMood("sad");
-
-      // 初回の間違いだけ記録
       if (!mistakes[currentQuestion.id]) {
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
         setFirstMistakeAnswers((prev) => ({
           ...prev,
-          [currentQuestion.id]: choice,
+          [currentQuestion.id]: answer,
         }));
       }
     }
 
-    setSelectedChoice(choice);
-    setIsCorrect(choice === currentQuestion.correct);
+    setSelectedChoice(answer);
+    setIsCorrect(isCorrectAnswer);
     setShowFeedback(true);
+    setInputAnswer("");
   };
 
   const handleNext = () => {
@@ -513,19 +523,37 @@ export default function EnglishTrapQuestions() {
                     </span>
                   ))}
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {shuffleArray(
-                  filteredQuestions[currentIndex]?.choices || []
-                ).map((choice, index) => (
+              {currentQuestion.type === "multiple-choice" && (
+                <div className="flex flex-col gap-2 mt-4">
+                  {currentQuestion.choices.map((choice) => (
+                    <button
+                      key={choice}
+                      onClick={() => handleAnswer(choice)}
+                      className="bg-white border px-4 py-2 rounded shadow hover:bg-blue-100"
+                    >
+                      {choice}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {currentQuestion.type === "input" && (
+                <div className="flex flex-col gap-4 mt-4">
+                  <input
+                    type="text"
+                    value={inputAnswer}
+                    onChange={(e) => setInputAnswer(e.target.value)}
+                    placeholder="ここに英語で入力"
+                    className="border border-gray-300 rounded px-3 py-2"
+                  />
                   <button
-                    key={index}
-                    onClick={() => handleAnswer(choice)}
-                    className="bg-white border rounded px-4 py-2 hover:bg-gray-100"
+                    onClick={() => handleAnswer(inputAnswer)}
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
                   >
-                    {choice}
+                    答える
                   </button>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           )}
         </div>

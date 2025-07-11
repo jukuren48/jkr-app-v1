@@ -1946,5 +1946,45 @@
       "as difficult": "「as difficult as」で同等比較を表しますが、thanには使えません。",
       "so difficult": "「so difficult」は程度を強調するだけで、比較を表しません。"
     }
+  },
+  {
+    "id": 1001,
+    "type": "input",
+    "unit": "単語テスト",
+    "prompt": "「来る」を英語で書きなさい。",
+    "correctAnswer": "come",
+    "explanation": "『来る』は英語で come です。"
+  },
+  {
+    "id": 1002,
+    "type": "input",
+    "unit": "単語テスト",
+    "prompt": "「見る」を英語で書きなさい。",
+    "correctAnswer": "see",
+    "explanation": "『見る』の基本形は see です。"
+  },
+  {
+    "id": 1003,
+    "type": "input",
+    "unit": "単語テスト",
+    "prompt": "「読む」を英語で書きなさい。",
+    "correctAnswer": "read",
+    "explanation": "『読む』は英語で read（リード）です。"
+  },
+  {
+    "id": 1004,
+    "type": "input",
+    "unit": "日本語英訳",
+    "prompt": "「私は毎日学校へ行きます。」を英語に訳しなさい。",
+    "correctAnswer": "I go to school every day.",
+    "explanation": "主語Iに現在形のgoを使って、I go to school every day. と表現します。"
+  },
+  {
+    "id": 1005,
+    "type": "input",
+    "unit": "日本語英訳",
+    "prompt": "「彼はサッカーが好きです。」を英語に訳しなさい。",
+    "correctAnswer": "He likes soccer.",
+    "explanation": "主語がHeなので三単現のsをつけて、He likes soccer. と書きます。"
   }
 ]
