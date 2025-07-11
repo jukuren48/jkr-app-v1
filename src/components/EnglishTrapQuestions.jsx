@@ -44,21 +44,13 @@ function TTSButton({ text }) {
         body: JSON.stringify({ text }),
       });
 
-      if (!res.ok) {
-        throw new Error("TTS APIエラー");
-      }
+      if (!res.ok) throw new Error("TTS APIエラー");
 
       const data = await res.json();
-
-      // 空白・改行を除去
       const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
         /\s+/g,
         ""
       )}`;
-
-      // デバッグログを追加
-      console.log("audioSrc", audioSrc);
-
       const audio = new Audio(audioSrc);
       await audio.play();
     } catch (err) {
@@ -96,10 +88,10 @@ export default function EnglishTrapQuestions() {
   const [initialQuestions, setInitialQuestions] = useState([]);
   const [firstMistakeAnswers, setFirstMistakeAnswers] = useState({});
   const [characterMood, setCharacterMood] = useState("neutral");
+  const [inputAnswer, setInputAnswer] = useState("");
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
   const [wordAudioSrc, setWordAudioSrc] = useState("");
-  const [inputAnswer, setInputAnswer] = useState("");
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -114,50 +106,12 @@ export default function EnglishTrapQuestions() {
       });
   }, []);
 
-  const miniDictionary = {
-    go: "行く",
-    goes: "行く（三単現）",
-    school: "学校",
-    bike: "自転車",
-    usually: "通常",
-    these: "これらの",
-    days: "日々",
-    // 他にも自由に追加
-  };
-
-  const getWordMeaning = async (word) => {
-    try {
-      const res = await fetch(
-        `/api/translate?word=${encodeURIComponent(word)}`
-      );
-      if (!res.ok) {
-        console.error(`API returned ${res.status}`);
-        return "（翻訳APIエラー）";
-      }
-      const data = await res.json();
-      if (!data.translation) {
-        return "（翻訳結果がありません）";
-      }
-      return data.translation;
-    } catch (err) {
-      console.error("翻訳APIエラー:", err);
-      return "（翻訳できませんでした）";
-    }
-  };
-
-  const selectAllUnits = () => {
-    setSelectedUnits([...units]);
-  };
-
-  const clearAllUnits = () => {
-    setSelectedUnits([]);
-  };
-
-  const toggleUnit = (unit) => {
+  const selectAllUnits = () => setSelectedUnits([...units]);
+  const clearAllUnits = () => setSelectedUnits([]);
+  const toggleUnit = (unit) =>
     setSelectedUnits((prev) =>
       prev.includes(unit) ? prev.filter((u) => u !== unit) : [...prev, unit]
     );
-  };
 
   const startQuiz = () => {
     const filtered = questions.filter((q) => selectedUnits.includes(q.unit));
@@ -227,122 +181,15 @@ export default function EnglishTrapQuestions() {
     setShowFeedback(false);
   };
 
-  const handleWordTap = async (word) => {
-    // 句読点を除去する
-    const cleanWord = word.replace(/[.,!?;:()]/g, "");
-
-    setSelectedWord(cleanWord);
-    setWordMeaning("");
-    setWordAudioSrc("");
-
-    // 意味を取得
-    const meaning = await getWordMeaning(cleanWord);
-    setWordMeaning(meaning);
-
-    // 音声を取得
-    const audioSrc = await getWordAudio(cleanWord);
-    setWordAudioSrc(audioSrc);
-
-    // 自動再生
-    const audio = new Audio(audioSrc);
-    await audio.play();
-  };
-
-  const handleRetrySame = () => {
-    if (initialQuestions.length === 0) {
-      handleRetryNew();
-      return;
-    }
-
-    setFilteredQuestions([...initialQuestions]);
-    setCurrentIndex(0);
-    setAnswers({});
-    setMistakes({});
-    setShowQuestions(true);
-    setShowResult(false);
-    setShowFeedback(false);
-    setSelectedChoice(null);
-    setIsCorrect(false);
-    setFirstMistakeAnswers({});
-  };
-
-  const handleRetryNew = () => {
-    setShowQuestions(false);
-    setShowResult(false);
-    //setSelectedUnits([]);
-    setQuestionCount(null);
-    setAnswers({});
-    setShowFeedback(false);
-    setSelectedChoice(null);
-    setIsCorrect(false);
-    setMistakes({});
-    setFilteredQuestions([]);
-    setInitialQuestions([]);
-    setFirstMistakeAnswers({});
-  };
-
-  const playExplanation = async (text) => {
-    if (!text) return;
-    try {
-      const res = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, lang: "ja-JP" }),
-      });
-      if (!res.ok) throw new Error("TTS APIエラー");
-
-      const data = await res.json();
-      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
-        /\s+/g,
-        ""
-      )}`;
-      const audio = new Audio(audioSrc);
-      await audio.play();
-    } catch (err) {
-      console.error("自動音声エラー:", err);
-    }
-  };
-
-  const getWordAudio = async (word) => {
-    try {
-      const res = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: word, lang: "en-US" }),
-      });
-      const data = await res.json();
-      return `data:audio/mp3;base64,${data.audioContent.replace(/\s+/g, "")}`;
-    } catch (err) {
-      console.error("音声取得エラー:", err);
-      return "";
-    }
-  };
-
-  useEffect(() => {
-    if (showFeedback && !isCorrect) {
-      if (currentQuestion?.incorrectExplanations?.[selectedChoice]) {
-        playExplanation(currentQuestion.incorrectExplanations[selectedChoice]);
-      } else if (currentQuestion?.explanation) {
-        playExplanation(currentQuestion.explanation);
-      }
-    }
-  }, [showFeedback]);
-
-  const correctAnswers = filteredQuestions.filter(
-    (q) => answers[q.id] === q.correct
-  );
-  const incorrectAnswers = filteredQuestions.filter(
-    (q) => answers[q.id] !== q.correct
-  );
-  const incorrectQuestionsList = filteredQuestions.filter(
-    (q) => mistakes[q.id]
-  );
-
+  // ========== UI ==========
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
   const totalQuestions = filteredQuestions.length;
   const incorrectCount = Object.keys(mistakes).length;
   const correctCount = totalQuestions - incorrectCount;
   const correctRate = Math.round((correctCount / totalQuestions) * 100);
+  const incorrectQuestionsList = filteredQuestions.filter(
+    (q) => mistakes[q.id]
+  );
 
   if (!showQuestions && !showResult && units.length === 0) {
     return <div className="p-8 text-lg">読み込み中です...</div>;
@@ -350,10 +197,11 @@ export default function EnglishTrapQuestions() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-yellow-100 max-w-4xl mx-auto p-4">
-      {/* クイズ開始前の設定画面 */}
       <h1 className="text-2xl font-bold mb-4">
         英語ひっかけ問題 ～塾長からの挑戦状～
       </h1>
+
+      {/* 設定画面 */}
       {!showQuestions && !showResult && units.length > 0 && (
         <div>
           <h2 className="text-xl font-bold mb-2">単元を選んでください</h2>
@@ -409,9 +257,10 @@ export default function EnglishTrapQuestions() {
       )}
 
       {/* クイズ進行中 */}
-      {showQuestions && !showResult && (
+      {showQuestions && !showResult && currentQuestion && (
         <div>
           <Character mood={characterMood} />
+
           {showFeedback ? (
             <div
               className={`p-4 rounded-lg shadow-md mb-4 ${
@@ -430,63 +279,29 @@ export default function EnglishTrapQuestions() {
               </motion.h2>
 
               {isCorrect ? (
-                <>
-                  <p className="text-green-700 font-bold text-lg">
-                    ✅ 正解です！
-                  </p>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="bg-green-50 border-l-4 border-green-400 shadow-md rounded-lg p-4 mb-2 flex items-start gap-2"
-                  >
-                    <span className="text-2xl">💡</span>
-                    <p className="text-xl font-bold text-green-800">
-                      解説: {currentQuestion?.explanation}
-                    </p>
-                    {currentQuestion?.explanation && (
-                      <TTSButton text={currentQuestion.explanation} />
-                    )}
-                  </motion.div>
-                </>
+                <p className="text-green-700 font-bold text-lg">
+                  ✅ 正解です！
+                </p>
               ) : (
-                <>
-                  <p className="text-red-700 font-bold text-lg">
-                    ❌ 不正解です。もう一度挑戦しよう！
-                  </p>
-                  {selectedChoice && (
-                    <>
-                      <p className="mb-2">あなたの答え: {selectedChoice}</p>
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.3 }}
-                        className="bg-red-100 border-4 border-red-500 shadow-2xl rounded-xl p-6 mb-4 flex items-start gap-4"
-                      >
-                        <span className="text-2xl">📌</span>
-                        <p className="text-2xl font-extrabold text-red-800">
-                          理由:{" "}
-                          {currentQuestion?.incorrectExplanations?.[
-                            selectedChoice
-                          ] || currentQuestion?.explanation}
-                        </p>
-                        {(currentQuestion?.incorrectExplanations?.[
-                          selectedChoice
-                        ] ||
-                          currentQuestion?.explanation) && (
-                          <TTSButton
-                            text={
-                              currentQuestion.incorrectExplanations?.[
-                                selectedChoice
-                              ] || currentQuestion.explanation
-                            }
-                          />
-                        )}
-                      </motion.div>
-                    </>
-                  )}
-                </>
+                <p className="text-red-700 font-bold text-lg">
+                  ❌ 不正解です。もう一度挑戦しよう！
+                </p>
               )}
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white border rounded-lg p-4 mt-4"
+              >
+                <h3 className="font-bold mb-2">解説</h3>
+                <p>
+                  {currentQuestion.explanation}
+                  {currentQuestion.explanation && (
+                    <TTSButton text={currentQuestion.explanation} />
+                  )}
+                </p>
+              </motion.div>
 
               <button
                 onClick={handleNext}
@@ -500,26 +315,26 @@ export default function EnglishTrapQuestions() {
               <h2 className="text-xl font-bold mb-4">
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
-              <div className="w-full bg-gray-300 rounded-full h-3 mb-4">
-                <div
-                  className="bg-green-400 h-3 rounded-full"
-                  style={{
-                    width: `${
-                      ((currentIndex + 1) / filteredQuestions.length) * 100
-                    }%`,
-                  }}
-                />
-              </div>
-              {/* ★問題文をまず表示する */}
+
               <div className="bg-white rounded-lg shadow p-4 mb-4">
                 <h2 className="text-xl font-bold mb-2">
-                  {currentQuestion.type === "multiple-choice" &&
-                    currentQuestion.question}
+                  {currentQuestion.type === "multiple-choice" && (
+                    <span>
+                      {currentQuestion.question.split(" ").map((word, idx) => (
+                        <span
+                          key={idx}
+                          onClick={() => setSelectedWord(word)}
+                          className="hover:bg-yellow-200 cursor-pointer px-1 rounded transition"
+                        >
+                          {word}
+                        </span>
+                      ))}
+                    </span>
+                  )}
                   {currentQuestion.type === "input" && currentQuestion.prompt}
                 </h2>
               </div>
 
-              {/* ★回答UIをtypeで分ける */}
               {currentQuestion.type === "multiple-choice" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                   {shuffleArray(currentQuestion.choices || []).map(
@@ -582,75 +397,44 @@ export default function EnglishTrapQuestions() {
             </p>
             <p className="text-2xl text-green-800 font-bold">あなたの正答率</p>
           </motion.div>
-          <div className="mb-4">
-            {incorrectQuestionsList.length > 0 && (
-              <div className="mt-6">
-                <h3 className="text-xl font-bold mb-2">
-                  不正解だった問題と解説
-                </h3>
-                {incorrectQuestionsList.map((q) => (
-                  <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
-                    <p className="font-semibold">
-                      問題: {q.question || q.prompt}
-                    </p>
-                    <p className="text-red-600">
-                      あなたの答え: {firstMistakeAnswers[q.id]}
-                    </p>
-                    <p className="text-green-600">正解: {q.correct}</p>
-                    <p className="mt-1 text-gray-700 flex items-center">
-                      解説:{" "}
-                      {q.incorrectExplanations?.[firstMistakeAnswers[q.id]] ||
-                        q.explanation}
-                      {(q.incorrectExplanations?.[firstMistakeAnswers[q.id]] ||
-                        q.explanation) && (
-                        <TTSButton
-                          text={
-                            q.incorrectExplanations?.[
-                              firstMistakeAnswers[q.id]
-                            ] || q.explanation
-                          }
-                        />
-                      )}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+
+          {incorrectQuestionsList.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-xl font-bold mb-2">不正解だった問題と解説</h3>
+              {incorrectQuestionsList.map((q) => (
+                <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
+                  <p className="font-semibold">
+                    問題: {q.question || q.prompt}
+                  </p>
+                  <p className="text-red-600">
+                    あなたの答え: {firstMistakeAnswers[q.id]}
+                  </p>
+                  <p className="text-green-600">
+                    正解: {q.correct || q.correctAnswer}
+                  </p>
+                  <p className="mt-1 text-gray-700 flex items-center">
+                    解説: {q.explanation}
+                    {q.explanation && <TTSButton text={q.explanation} />}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="flex gap-4">
             <button
-              onClick={handleRetrySame}
+              onClick={() => setShowQuestions(true)}
               className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
             >
               同じ問題でもう一度
             </button>
             <button
-              onClick={handleRetryNew}
+              onClick={() => window.location.reload()}
               className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
             >
               別の問題にチャレンジ
             </button>
           </div>
-        </div>
-      )}
-
-      {selectedWord && (
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-white border border-gray-300 rounded-lg shadow-xl p-4 z-50 w-80">
-          <h3 className="text-xl font-bold mb-2">{selectedWord}</h3>
-          <p className="text-gray-700 mb-2">{wordMeaning}</p>
-          <button
-            onClick={() => new Audio(wordAudioSrc).play()}
-            disabled={!wordAudioSrc}
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-          >
-            🔊 もう一度聞く
-          </button>
-          <button
-            onClick={() => setSelectedWord(null)}
-            className="ml-4 px-3 py-2 text-red-500 hover:text-red-700"
-          >
-            閉じる
-          </button>
         </div>
       )}
     </div>
