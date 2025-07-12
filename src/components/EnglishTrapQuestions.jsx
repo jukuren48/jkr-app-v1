@@ -107,13 +107,19 @@ export default function EnglishTrapQuestions() {
   }, []);
 
   useEffect(() => {
-    if (showFeedback && !isCorrect && currentQuestion?.explanation) {
+    if (
+      showFeedback &&
+      !isCorrect &&
+      currentQuestion &&
+      typeof currentQuestion.explanation === "string" &&
+      currentQuestion.explanation.trim() !== ""
+    ) {
       speakExplanation(currentQuestion.explanation);
     }
   }, [showFeedback, isCorrect, currentQuestion]);
 
   const speakExplanation = async (text) => {
-    if (!text) return;
+    if (!text || text.trim() === "") return;
     try {
       const res = await fetch("/api/tts", {
         method: "POST",
