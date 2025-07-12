@@ -308,7 +308,7 @@ export default function EnglishTrapQuestions() {
                   selectedUnits.includes(unit)
                     ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
                     : "bg-white text-[#4A6572]"
-                }`}
+                } }
               >
                 {unit}
               </button>
