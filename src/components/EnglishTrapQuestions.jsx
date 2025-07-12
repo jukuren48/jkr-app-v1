@@ -92,6 +92,8 @@ export default function EnglishTrapQuestions() {
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
   const [wordAudioSrc, setWordAudioSrc] = useState("");
+  const [hintLevel, setHintLevel] = useState(0);
+  const [hintText, setHintText] = useState("");
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -200,6 +202,8 @@ export default function EnglishTrapQuestions() {
     setIsCorrect(isCorrectAnswer);
     setShowFeedback(true);
     setInputAnswer("");
+    setHintLevel(0);
+    setHintText("");
   };
 
   const handleNext = () => {
@@ -216,6 +220,26 @@ export default function EnglishTrapQuestions() {
     setShowFeedback(false);
   };
 
+  const hintPenalties = [2, 5, 10];
+
+  const generateHint = () => {
+    if (!currentQuestion?.correctAnswer) return "";
+
+    const words = currentQuestion.correctAnswer.trim().split(/\s+/);
+    const hintPercents = [20, 50, 100];
+    const percent = hintPercents[Math.min(hintLevel, 2)];
+    const numWords = Math.ceil((percent / 100) * words.length);
+    return words.slice(0, numWords).join(" ");
+  };
+
+  const handleShowHint = () => {
+    if (hintLevel < 3) {
+      const nextLevel = hintLevel + 1;
+      setHintLevel(nextLevel);
+      setHintText(generateHint());
+    }
+  };
+
   // ========== UI ==========
   const totalQuestions = filteredQuestions.length;
   const incorrectCount = Object.keys(mistakes).length;
@@ -224,6 +248,12 @@ export default function EnglishTrapQuestions() {
   const incorrectQuestionsList = filteredQuestions.filter(
     (q) => mistakes[q.id]
   );
+  const totalHintPenalty =
+    hintLevel === 0
+      ? 0
+      : hintPenalties.slice(0, hintLevel).reduce((a, b) => a + b, 0);
+
+  const adjustedCorrectRate = Math.max(0, correctRate - totalHintPenalty);
 
   if (!showQuestions && !showResult && units.length === 0) {
     return <div className="p-8 text-lg">読み込み中です...</div>;
@@ -414,6 +444,23 @@ export default function EnglishTrapQuestions() {
                   >
                     答える
                   </button>
+
+                  {hintText && (
+                    <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg p-4 mt-2 shadow">
+                      <h3 className="text-[#4A6572] font-bold mb-2">ヒント</h3>
+                      <p className="text-gray-800">{hintText}</p>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={handleShowHint}
+                    disabled={hintLevel >= 3}
+                    className="bg-[#A7D5C0] text-[#4A6572] rounded-full px-4 py-2 shadow hover:bg-[#92C8B2] transition"
+                  >
+                    {hintLevel < 3
+                      ? "ヒントを見る"
+                      : "これ以上ヒントはありません"}
+                  </button>
                 </div>
               )}
             </div>
@@ -444,8 +491,11 @@ export default function EnglishTrapQuestions() {
             <p className="text-6xl font-extrabold text-[#6DBD98] mb-2">
               {correctRate}%
             </p>
-            <p className="text-xl text-[#4A6572] font-semibold">
-              あなたの正答率
+            <p className="text-[#4A6572]">
+              ヒント利用による減点: -{totalHintPenalty}%
+            </p>
+            <p className="text-xl font-bold text-[#4A6572]">
+              最終正答率: {adjustedCorrectRate}%
             </p>
           </motion.div>
 
