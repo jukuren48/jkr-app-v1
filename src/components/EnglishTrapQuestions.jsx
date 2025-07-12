@@ -239,7 +239,7 @@ export default function EnglishTrapQuestions() {
       {!showQuestions && !showResult && units.length > 0 && (
         <div className="max-w-2xl mx-auto bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow">
           <h2 className="text-2xl font-bold text-[#4A6572] mb-4 text-center">
-            単元を選んでください
+            単元を選んでください（★は記述問題です）
           </h2>
           <div className="flex justify-center gap-4 mb-4">
             <button
