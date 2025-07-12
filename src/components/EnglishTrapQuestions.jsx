@@ -107,15 +107,13 @@ export default function EnglishTrapQuestions() {
   }, []);
 
   useEffect(() => {
-    if (
-      showFeedback &&
-      !isCorrect &&
-      currentQuestion &&
-      typeof currentQuestion.explanation === "string" &&
-      currentQuestion.explanation.trim() !== ""
-    ) {
-      speakExplanation(currentQuestion.explanation);
-    }
+    if (!showFeedback) return;
+    if (isCorrect) return;
+    if (!currentQuestion) return;
+    if (typeof currentQuestion.explanation !== "string") return;
+    if (currentQuestion.explanation.trim() === "") return;
+
+    speakExplanation(currentQuestion.explanation);
   }, [showFeedback, isCorrect, currentQuestion]);
 
   const speakExplanation = async (text) => {
