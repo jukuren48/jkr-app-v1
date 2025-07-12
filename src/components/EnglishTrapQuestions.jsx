@@ -248,10 +248,11 @@ export default function EnglishTrapQuestions() {
   const incorrectQuestionsList = filteredQuestions.filter(
     (q) => mistakes[q.id]
   );
-  const totalHintPenalty =
-    hintLevel === 0
-      ? 0
-      : hintPenalties.slice(0, hintLevel).reduce((a, b) => a + b, 0);
+  const totalHintPenalty = Object.values(hintLevels)
+    .map((level) =>
+      level === 0 ? 0 : hintPenalties.slice(0, level).reduce((a, b) => a + b, 0)
+    )
+    .reduce((a, b) => a + b, 0);
 
   const adjustedCorrectRate = Math.max(0, correctRate - totalHintPenalty);
 
