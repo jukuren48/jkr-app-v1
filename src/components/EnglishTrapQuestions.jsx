@@ -106,6 +106,8 @@ export default function EnglishTrapQuestions() {
       });
   }, []);
 
+  const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
+
   useEffect(() => {
     if (!showFeedback) return;
     if (isCorrect) return;
@@ -215,7 +217,6 @@ export default function EnglishTrapQuestions() {
   };
 
   // ========== UI ==========
-  const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
   const totalQuestions = filteredQuestions.length;
   const incorrectCount = Object.keys(mistakes).length;
   const correctCount = totalQuestions - incorrectCount;
