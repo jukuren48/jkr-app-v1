@@ -435,9 +435,7 @@ export default function EnglishTrapQuestions() {
                         key={index}
                         onClick={() => handleAnswer(choice)}
                         disabled={inputDisabled}
-                        className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm"
-                      >
-                        inputDisabled ? "opacity-50 cursor-not-allowed" : ""
+                        className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm ${inputDisabled ? "opacity-50 cursor-not-allowed" : ""
                         }'}
                         {choice}
                       </button>
