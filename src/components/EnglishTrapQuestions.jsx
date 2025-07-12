@@ -235,45 +235,53 @@ export default function EnglishTrapQuestions() {
         英語ひっかけ問題 ～塾長からの挑戦状～
       </h1>
 
-      {/* 設定画面 */}
+      {/* スタート画面 */}
       {!showQuestions && !showResult && units.length > 0 && (
-        <div>
-          <h2 className="text-xl font-bold mb-2">単元を選んでください</h2>
-          <div className="flex gap-4 mb-2">
+        <div className="max-w-2xl mx-auto bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow">
+          <h2 className="text-2xl font-bold text-[#4A6572] mb-4 text-center">
+            単元を選んでください
+          </h2>
+          <div className="flex justify-center gap-4 mb-4">
             <button
               onClick={selectAllUnits}
-              className="bg-green-200 px-3 py-1 rounded"
+              className="bg-[#A7D5C0] text-[#4A6572] px-4 py-2 rounded-full shadow-sm hover:bg-[#92C8B2] transition"
             >
               全選択
             </button>
             <button
               onClick={clearAllUnits}
-              className="bg-red-200 px-3 py-1 rounded"
+              className="bg-[#F8B195] text-white px-4 py-2 rounded-full shadow-sm hover:bg-[#F49A87] transition"
             >
               全解除
             </button>
           </div>
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex gap-3 flex-wrap justify-center mb-4">
             {units.map((unit) => (
               <button
                 key={unit}
                 onClick={() => toggleUnit(unit)}
-                className={`px-4 py-2 rounded border ${
-                  selectedUnits.includes(unit) ? "bg-blue-300" : "bg-white"
+                className={`px-4 py-2 rounded-full border shadow-sm transition ${
+                  selectedUnits.includes(unit)
+                    ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
+                    : "bg-white text-[#4A6572]"
                 }`}
               >
                 {unit}
               </button>
             ))}
           </div>
-          <h2 className="text-xl font-bold mb-2">出題数を選んでください</h2>
-          <div className="flex gap-4 mb-4">
+          <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-center">
+            出題数を選んでください
+          </h2>
+          <div className="flex gap-3 flex-wrap justify-center mb-4">
             {[5, 10, 15, "all"].map((count) => (
               <button
                 key={count}
                 onClick={() => setQuestionCount(count)}
-                className={`px-4 py-2 rounded border ${
-                  questionCount === count ? "bg-green-300" : "bg-white"
+                className={`px-4 py-2 rounded-full border shadow-sm transition ${
+                  questionCount === count
+                    ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
+                    : "bg-white text-[#4A6572]"
                 }`}
               >
                 {count === "all" ? "すべて" : `${count}問`}
@@ -283,7 +291,7 @@ export default function EnglishTrapQuestions() {
           <button
             onClick={startQuiz}
             disabled={selectedUnits.length === 0 || !questionCount}
-            className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
+            className="bg-[#4A6572] text-white rounded-full px-6 py-3 shadow hover:bg-[#3F555F] transition mx-auto block"
           >
             開始
           </button>
@@ -313,28 +321,28 @@ export default function EnglishTrapQuestions() {
               </motion.h2>
 
               {isCorrect ? (
-                <p className="text-green-700 font-bold text-lg">
-                  ✅ 正解です！
-                </p>
+                <div className="bg-[#6DBD98] text-white p-4 rounded-lg shadow text-center">
+                  ✅ 正解です！ よくできました！
+                </div>
               ) : (
-                <p className="text-red-700 font-bold text-lg">
+                <div className="bg-[#F8B195] text-white p-4 rounded-lg shadow text-center">
                   ❌ 不正解です。もう一度挑戦しよう！
-                </p>
+                </div>
               )}
 
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
-                className="bg-yellow-100 border-l-8 border-yellow-500 rounded-lg p-6 mt-4 shadow-lg"
+                className="bg-[#F9F9F9] border-l-8 border-[#A7D5C0] rounded-xl p-6 mt-4 shadow"
               >
                 <div className="flex items-center mb-2">
                   <span className="text-2xl mr-2">📘</span>
-                  <h3 className="font-bold text-yellow-900 text-lg">
+                  <h3 className="text-[#4A6572] font-bold text-lg">
                     解説をしっかり読もう！
                   </h3>
                 </div>
-                <p className="text-gray-900 leading-relaxed text-base font-medium">
+                <p className="text-gray-800 leading-relaxed">
                   {currentQuestion.explanation}
                 </p>
               </motion.div>
@@ -352,15 +360,15 @@ export default function EnglishTrapQuestions() {
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
 
-              <div className="bg-white rounded-lg shadow p-4 mb-4">
-                <h2 className="text-xl font-bold mb-2">
+              <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 text-center">
+                <h2 className="text-xl font-bold text-[#4A6572] mb-2">
                   {currentQuestion.type === "multiple-choice" && (
                     <span>
                       {currentQuestion.question.split(" ").map((word, idx) => (
                         <span
                           key={idx}
                           onClick={() => setSelectedWord(word)}
-                          className="hover:bg-yellow-200 cursor-pointer px-1 rounded transition"
+                          className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
                         >
                           {word}
                         </span>
@@ -378,7 +386,7 @@ export default function EnglishTrapQuestions() {
                       <button
                         key={index}
                         onClick={() => handleAnswer(choice)}
-                        className="bg-white border rounded px-4 py-2 hover:bg-gray-100"
+                        className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm"
                       >
                         {choice}
                       </button>
@@ -394,11 +402,11 @@ export default function EnglishTrapQuestions() {
                     value={inputAnswer}
                     onChange={(e) => setInputAnswer(e.target.value)}
                     placeholder="ここに英語で入力"
-                    className="border border-gray-300 rounded px-3 py-2"
+                    className="border border-[#E0E0E0] rounded-lg px-4 py-3 shadow focus:outline-none focus:ring-2 focus:ring-[#A7D5C0] transition"
                   />
                   <button
                     onClick={() => handleAnswer(inputAnswer)}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                    className="bg-[#4A6572] text-white rounded-full px-6 py-3 hover:bg-[#3F555F] transition shadow"
                   >
                     答える
                   </button>
@@ -426,12 +434,15 @@ export default function EnglishTrapQuestions() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="bg-green-50 border-4 border-green-400 shadow-xl rounded-2xl p-8 mb-6 text-center"
+            className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-2xl p-8 mb-6 text-center shadow-lg"
           >
-            <p className="text-7xl font-extrabold text-green-600 mb-2">
-              🎯 {correctRate}%
+            <h2 className="text-3xl font-bold text-[#4A6572] mb-4">結果発表</h2>
+            <p className="text-6xl font-extrabold text-[#6DBD98] mb-2">
+              {correctRate}%
             </p>
-            <p className="text-2xl text-green-800 font-bold">あなたの正答率</p>
+            <p className="text-xl text-[#4A6572] font-semibold">
+              あなたの正答率
+            </p>
           </motion.div>
 
           {incorrectQuestionsList.length > 0 && (
