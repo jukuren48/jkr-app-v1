@@ -330,6 +330,10 @@ export default function EnglishTrapQuestions() {
                 </div>
               )}
 
+              <p className="text-gray-800 mt-2">
+                あなたの答え: {selectedChoice}
+              </p>
+
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -361,7 +365,7 @@ export default function EnglishTrapQuestions() {
               </h2>
 
               <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 text-center">
-                <h2 className="text-xl font-bold text-[#4A6572] mb-2">
+                <h2 className="text-xl font-bold text-[#4A6572] mb-2 break-words whitespace-pre-wrap">
                   {currentQuestion.type === "multiple-choice" && (
                     <span>
                       {currentQuestion.question.split(" ").map((word, idx) => (
