@@ -3,12 +3,7 @@
     "id": 1,
     "unit": "現在形と三単現",
     "question": "These days, my sister usually (  ) to school by bike.",
-    "choices": [
-      "go",
-      "goes",
-      "going",
-      "went"
-    ],
+    "choices": ["go", "goes", "going", "went"],
     "correct": "goes",
     "explanation": "現在の習慣を表し、主語が三人称単数なので 'goes'。",
     "incorrectExplanations": {
@@ -22,12 +17,7 @@
     "id": 2,
     "unit": "現在形",
     "question": "He ( ) soccer every Sunday.",
-    "choices": [
-      "play",
-      "plays",
-      "playing",
-      "played"
-    ],
+    "choices": ["play", "plays", "playing", "played"],
     "correct": "plays",
     "explanation": "三人称単数現在形なのでsをつけてplays。",
     "incorrectExplanations": {
@@ -41,12 +31,7 @@
     "id": 3,
     "unit": "現在形",
     "question": "They always ( ) to school on foot.",
-    "choices": [
-      "walk",
-      "walks",
-      "walking",
-      "walked"
-    ],
+    "choices": ["walk", "walks", "walking", "walked"],
     "correct": "walk",
     "explanation": "主語が複数形theyなので動詞は原形walk。",
     "incorrectExplanations": {
@@ -60,12 +45,7 @@
     "id": 4,
     "unit": "現在形",
     "question": "My father ( ) up early every day.",
-    "choices": [
-      "get",
-      "gets",
-      "getting",
-      "got"
-    ],
+    "choices": ["get", "gets", "getting", "got"],
     "correct": "gets",
     "explanation": "三人称単数現在形でsをつける。",
     "incorrectExplanations": {
@@ -79,12 +59,7 @@
     "id": 5,
     "unit": "現在形",
     "question": "I ( ) lunch at noon.",
-    "choices": [
-      "have",
-      "has",
-      "having",
-      "had"
-    ],
+    "choices": ["have", "has", "having", "had"],
     "correct": "have",
     "explanation": "主語がIなのでhaveを使う。",
     "incorrectExplanations": {
@@ -98,12 +73,7 @@
     "id": 6,
     "unit": "現在形",
     "question": "She ( ) TV after dinner.",
-    "choices": [
-      "watch",
-      "watches",
-      "watching",
-      "watched"
-    ],
+    "choices": ["watch", "watches", "watching", "watched"],
     "correct": "watches",
     "explanation": "三単現のsを忘れずにwatches。",
     "incorrectExplanations": {
@@ -117,12 +87,7 @@
     "id": 7,
     "unit": "助動詞",
     "question": "In our school rules, students (  ) bring their ID cards every day.",
-    "choices": [
-      "must",
-      "must to",
-      "have to",
-      "has to"
-    ],
+    "choices": ["must", "must to", "have to", "has to"],
     "correct": "must",
     "explanation": "'must' は助動詞で、義務やルールを示すときに使います。",
     "incorrectExplanations": {
@@ -136,12 +101,7 @@
     "id": 8,
     "unit": "助動詞",
     "question": "You ( ) open the window.",
-    "choices": [
-      "can",
-      "cans",
-      "could",
-      "will"
-    ],
+    "choices": ["can", "cans", "could", "will"],
     "correct": "can",
     "explanation": "能力・可能を表すcanを使う。",
     "incorrectExplanations": {
@@ -155,12 +115,7 @@
     "id": 9,
     "unit": "助動詞",
     "question": "( ) I go to the bathroom?",
-    "choices": [
-      "Can",
-      "Do",
-      "Did",
-      "Am"
-    ],
+    "choices": ["Can", "Do", "Did", "Am"],
     "correct": "Can",
     "explanation": "許可を求める表現ではCanを使う。",
     "incorrectExplanations": {
@@ -174,12 +129,7 @@
     "id": 10,
     "unit": "助動詞",
     "question": "He ( ) play the piano well.",
-    "choices": [
-      "can",
-      "cans",
-      "is",
-      "was"
-    ],
+    "choices": ["can", "cans", "is", "was"],
     "correct": "can",
     "explanation": "能力を表すのでcan。",
     "incorrectExplanations": {
@@ -193,12 +143,7 @@
     "id": 11,
     "unit": "助動詞",
     "question": "You ( ) study harder.",
-    "choices": [
-      "should",
-      "shall",
-      "will",
-      "can"
-    ],
+    "choices": ["should", "shall", "will", "can"],
     "correct": "should",
     "explanation": "助言・義務を表すshould。",
     "incorrectExplanations": {
@@ -212,12 +157,7 @@
     "id": 12,
     "unit": "助動詞",
     "question": "We ( ) be late for school.",
-    "choices": [
-      "mustn't",
-      "can't",
-      "should",
-      "will"
-    ],
+    "choices": ["mustn't", "can't", "should", "will"],
     "correct": "mustn't",
     "explanation": "禁止を表すmustn't。",
     "incorrectExplanations": {
@@ -231,12 +171,7 @@
     "id": 13,
     "unit": "現在完了形",
     "question": "I have never (  ) a whale before.",
-    "choices": [
-      "see",
-      "saw",
-      "seen",
-      "seeing"
-    ],
+    "choices": ["see", "saw", "seen", "seeing"],
     "correct": "seen",
     "explanation": "現在完了（have + 過去分詞）なので 'seen' を使います。",
     "incorrectExplanations": {
@@ -250,12 +185,7 @@
     "id": 14,
     "unit": "動名詞と不定詞",
     "question": "I enjoy (  ) tennis with my friends.",
-    "choices": [
-      "play",
-      "to play",
-      "playing",
-      "played"
-    ],
+    "choices": ["play", "to play", "playing", "played"],
     "correct": "playing",
     "explanation": "'enjoy' の後ろは動名詞を使います。",
     "incorrectExplanations": {
@@ -269,12 +199,7 @@
     "id": 15,
     "unit": "接続詞（if / when）",
     "question": "I will call you (  ) I get home.",
-    "choices": [
-      "if",
-      "when",
-      "because",
-      "so"
-    ],
+    "choices": ["if", "when", "because", "so"],
     "correct": "when",
     "explanation": "'get home' は確実に起こる未来の出来事なので 'when' が自然です。",
     "incorrectExplanations": {
@@ -288,12 +213,7 @@
     "id": 16,
     "unit": "be動詞",
     "question": "My brother (  ) a good soccer player.",
-    "choices": [
-      "is",
-      "are",
-      "am",
-      "be"
-    ],
+    "choices": ["is", "are", "am", "be"],
     "correct": "is",
     "explanation": "'brother' は三人称単数なので、be動詞は 'is' を使います。",
     "incorrectExplanations": {
@@ -307,12 +227,7 @@
     "id": 17,
     "unit": "一般動詞",
     "question": "I (  ) tennis every Sunday.",
-    "choices": [
-      "play",
-      "plays",
-      "playing",
-      "played"
-    ],
+    "choices": ["play", "plays", "playing", "played"],
     "correct": "play",
     "explanation": "'I' は主語なので三単現のsは不要。現在の習慣には現在形の 'play' を使います。",
     "incorrectExplanations": {
@@ -326,12 +241,7 @@
     "id": 18,
     "unit": "冠詞",
     "question": "He has (  ) orange in his bag.",
-    "choices": [
-      "a",
-      "an",
-      "the",
-      "no"
-    ],
+    "choices": ["a", "an", "the", "no"],
     "correct": "an",
     "explanation": "母音で始まる 'orange' の前には 'an' を使います。",
     "incorrectExplanations": {
@@ -345,12 +255,7 @@
     "id": 19,
     "unit": "名詞",
     "question": "There are many (  ) in the park.",
-    "choices": [
-      "child",
-      "childs",
-      "children",
-      "childrens"
-    ],
+    "choices": ["child", "childs", "children", "childrens"],
     "correct": "children",
     "explanation": "'children' は 'child' の正しい複数形です。",
     "incorrectExplanations": {
@@ -364,12 +269,7 @@
     "id": 20,
     "unit": "形容詞",
     "question": "This is a (  ) story.",
-    "choices": [
-      "interest",
-      "interested",
-      "interesting",
-      "interests"
-    ],
+    "choices": ["interest", "interested", "interesting", "interests"],
     "correct": "interesting",
     "explanation": "'story' は人ではないので、性質を表す 'interesting' を使います。",
     "incorrectExplanations": {
@@ -383,12 +283,7 @@
     "id": 21,
     "unit": "現在進行形",
     "question": "Look! The baby (  ) now.",
-    "choices": [
-      "sleep",
-      "sleeps",
-      "sleeping",
-      "is sleeping"
-    ],
+    "choices": ["sleep", "sleeps", "sleeping", "is sleeping"],
     "correct": "is sleeping",
     "explanation": "現在進行形は be動詞＋動詞のing形で表現します。この場合は 'is sleeping'。",
     "incorrectExplanations": {
@@ -402,12 +297,7 @@
     "id": 22,
     "unit": "過去形",
     "question": "I (  ) to Kyoto last weekend.",
-    "choices": [
-      "go",
-      "went",
-      "going",
-      "gone"
-    ],
+    "choices": ["go", "went", "going", "gone"],
     "correct": "went",
     "explanation": "'last weekend' があるため、過去形の 'went' を使います。",
     "incorrectExplanations": {
@@ -421,12 +311,7 @@
     "id": 23,
     "unit": "過去形",
     "question": "He ( ) to the park yesterday.",
-    "choices": [
-      "go",
-      "goes",
-      "went",
-      "going"
-    ],
+    "choices": ["go", "goes", "went", "going"],
     "correct": "went",
     "explanation": "過去のことを表すのでwent。",
     "incorrectExplanations": {
@@ -440,12 +325,7 @@
     "id": 24,
     "unit": "過去形",
     "question": "They ( ) a movie last night.",
-    "choices": [
-      "watch",
-      "watched",
-      "watching",
-      "watches"
-    ],
+    "choices": ["watch", "watched", "watching", "watches"],
     "correct": "watched",
     "explanation": "過去を表すlast nightなのでwatched。",
     "incorrectExplanations": {
@@ -459,12 +339,7 @@
     "id": 25,
     "unit": "過去形",
     "question": "Did you ( ) tennis yesterday?",
-    "choices": [
-      "play",
-      "played",
-      "playing",
-      "plays"
-    ],
+    "choices": ["play", "played", "playing", "plays"],
     "correct": "play",
     "explanation": "Didを使うときは動詞の原形を使う。",
     "incorrectExplanations": {
@@ -478,12 +353,7 @@
     "id": 26,
     "unit": "過去形",
     "question": "She ( ) a letter last week.",
-    "choices": [
-      "write",
-      "writes",
-      "wrote",
-      "writing"
-    ],
+    "choices": ["write", "writes", "wrote", "writing"],
     "correct": "wrote",
     "explanation": "過去のことなのでwrote。",
     "incorrectExplanations": {
@@ -497,12 +367,7 @@
     "id": 27,
     "unit": "過去形",
     "question": "I ( ) at home all day.",
-    "choices": [
-      "stay",
-      "stays",
-      "stayed",
-      "staying"
-    ],
+    "choices": ["stay", "stays", "stayed", "staying"],
     "correct": "stayed",
     "explanation": "過去の出来事なのでstayed。",
     "incorrectExplanations": {
@@ -516,12 +381,7 @@
     "id": 28,
     "unit": "未来形",
     "question": "She (  ) visit her grandma next week.",
-    "choices": [
-      "will",
-      "is",
-      "was",
-      "are"
-    ],
+    "choices": ["will", "is", "was", "are"],
     "correct": "will",
     "explanation": "未来の予定には 'will＋動詞の原形' を使います。",
     "incorrectExplanations": {
@@ -535,12 +395,7 @@
     "id": 29,
     "unit": "未来形",
     "question": "I ( ) visit my grandmother next week.",
-    "choices": [
-      "will",
-      "am",
-      "was",
-      "were"
-    ],
+    "choices": ["will", "am", "was", "were"],
     "correct": "will",
     "explanation": "未来の予定を表すのでwill。",
     "incorrectExplanations": {
@@ -554,12 +409,7 @@
     "id": 30,
     "unit": "未来形",
     "question": "They ( ) go camping tomorrow.",
-    "choices": [
-      "will",
-      "is",
-      "are",
-      "was"
-    ],
+    "choices": ["will", "is", "are", "was"],
     "correct": "will",
     "explanation": "未来の予定を表すのでwill。",
     "incorrectExplanations": {
@@ -573,12 +423,7 @@
     "id": 31,
     "unit": "未来形",
     "question": "She ( ) study English tonight.",
-    "choices": [
-      "will",
-      "does",
-      "did",
-      "doing"
-    ],
+    "choices": ["will", "does", "did", "doing"],
     "correct": "will",
     "explanation": "未来を表すのでwillを使う。",
     "incorrectExplanations": {
@@ -592,12 +437,7 @@
     "id": 32,
     "unit": "未来形",
     "question": "We ( ) have a meeting next Monday.",
-    "choices": [
-      "will",
-      "has",
-      "had",
-      "having"
-    ],
+    "choices": ["will", "has", "had", "having"],
     "correct": "will",
     "explanation": "未来を表すのでwillを使う。",
     "incorrectExplanations": {
@@ -611,12 +451,7 @@
     "id": 33,
     "unit": "未来形",
     "question": "You ( ) be busy tomorrow.",
-    "choices": [
-      "will",
-      "am",
-      "is",
-      "was"
-    ],
+    "choices": ["will", "am", "is", "was"],
     "correct": "will",
     "explanation": "未来を表すのでwill。",
     "incorrectExplanations": {
@@ -630,12 +465,7 @@
     "id": 34,
     "unit": "助動詞",
     "question": "You (  ) take an umbrella. It looks like rain.",
-    "choices": [
-      "should",
-      "must to",
-      "can to",
-      "has to"
-    ],
+    "choices": ["should", "must to", "can to", "has to"],
     "correct": "should",
     "explanation": "'should' は助言や提案を表す助動詞で、文脈に最も合っています。",
     "incorrectExplanations": {
@@ -649,12 +479,7 @@
     "id": 35,
     "unit": "疑問詞",
     "question": "(  ) do you go to school? – By bike.",
-    "choices": [
-      "When",
-      "How",
-      "What",
-      "Where"
-    ],
+    "choices": ["When", "How", "What", "Where"],
     "correct": "How",
     "explanation": "'By bike'（自転車で）という答え方に合う疑問詞は 'How'（どうやって）です。",
     "incorrectExplanations": {
@@ -668,12 +493,7 @@
     "id": 36,
     "unit": "接続詞",
     "question": "I stayed home (  ) it was raining.",
-    "choices": [
-      "and",
-      "but",
-      "because",
-      "or"
-    ],
+    "choices": ["and", "but", "because", "or"],
     "correct": "because",
     "explanation": "理由を表す接続詞は 'because'。雨が降っていたから家にいた、という因果関係を表す。",
     "incorrectExplanations": {
@@ -687,12 +507,7 @@
     "id": 37,
     "unit": "接続詞",
     "question": "I was watching TV ( ) my mother was cooking.",
-    "choices": [
-      "and",
-      "but",
-      "because",
-      "while"
-    ],
+    "choices": ["and", "but", "because", "while"],
     "correct": "while",
     "explanation": "同時進行を表すときはwhileを使う。",
     "incorrectExplanations": {
@@ -706,12 +521,7 @@
     "id": 38,
     "unit": "接続詞",
     "question": "I went to bed ( ) I was very tired.",
-    "choices": [
-      "so",
-      "because",
-      "but",
-      "and"
-    ],
+    "choices": ["so", "because", "but", "and"],
     "correct": "because",
     "explanation": "理由を表すのでbecauseを使う。",
     "incorrectExplanations": {
@@ -725,12 +535,7 @@
     "id": 39,
     "unit": "接続詞",
     "question": "He was sick ( ) he went to the hospital.",
-    "choices": [
-      "so",
-      "because",
-      "but",
-      "when"
-    ],
+    "choices": ["so", "because", "but", "when"],
     "correct": "so",
     "explanation": "結果を表すのでsoを使う。",
     "incorrectExplanations": {
@@ -744,12 +549,7 @@
     "id": 40,
     "unit": "接続詞",
     "question": "I like dogs ( ) cats.",
-    "choices": [
-      "and",
-      "but",
-      "because",
-      "while"
-    ],
+    "choices": ["and", "but", "because", "while"],
     "correct": "and",
     "explanation": "並列を表すときはandを使う。",
     "incorrectExplanations": {
@@ -763,12 +563,7 @@
     "id": 41,
     "unit": "接続詞",
     "question": "She is small ( ) she is strong.",
-    "choices": [
-      "but",
-      "and",
-      "because",
-      "while"
-    ],
+    "choices": ["but", "and", "because", "while"],
     "correct": "but",
     "explanation": "逆接を表すのでbutを使う。",
     "incorrectExplanations": {
@@ -801,12 +596,7 @@
     "id": 43,
     "unit": "比較",
     "question": "Tom is ( ) than Ken.",
-    "choices": [
-      "tall",
-      "taller",
-      "tallest",
-      "most tall"
-    ],
+    "choices": ["tall", "taller", "tallest", "most tall"],
     "correct": "taller",
     "explanation": "比較級はtaller。",
     "incorrectExplanations": {
@@ -839,12 +629,7 @@
     "id": 45,
     "unit": "比較",
     "question": "Ken is the ( ) in his class.",
-    "choices": [
-      "tall",
-      "taller",
-      "tallest",
-      "most tall"
-    ],
+    "choices": ["tall", "taller", "tallest", "most tall"],
     "correct": "tallest",
     "explanation": "最上級を表すのでtallest。",
     "incorrectExplanations": {
@@ -858,12 +643,7 @@
     "id": 46,
     "unit": "比較",
     "question": "This problem is ( ) than that one.",
-    "choices": [
-      "difficult",
-      "more difficult",
-      "most difficult",
-      "difficulty"
-    ],
+    "choices": ["difficult", "more difficult", "most difficult", "difficulty"],
     "correct": "more difficult",
     "explanation": "difficultはmoreを使って比較級を作る。",
     "incorrectExplanations": {
@@ -877,12 +657,7 @@
     "id": 47,
     "unit": "比較",
     "question": "He runs ( ) than his brother.",
-    "choices": [
-      "fast",
-      "faster",
-      "fastest",
-      "fastly"
-    ],
+    "choices": ["fast", "faster", "fastest", "fastly"],
     "correct": "faster",
     "explanation": "比較級はfaster。",
     "incorrectExplanations": {
@@ -896,12 +671,7 @@
     "id": 48,
     "unit": "不定詞",
     "question": "I want (  ) a new bike.",
-    "choices": [
-      "buy",
-      "to buy",
-      "buying",
-      "bought"
-    ],
+    "choices": ["buy", "to buy", "buying", "bought"],
     "correct": "to buy",
     "explanation": "'want' の後ろには不定詞（to + 動詞の原形）が続きます。",
     "incorrectExplanations": {
@@ -915,12 +685,7 @@
     "id": 49,
     "unit": "不定詞",
     "question": "I want ( ) a new bike.",
-    "choices": [
-      "buy",
-      "to buy",
-      "buying",
-      "bought"
-    ],
+    "choices": ["buy", "to buy", "buying", "bought"],
     "correct": "to buy",
     "explanation": "want to + 動詞の原形。",
     "incorrectExplanations": {
@@ -934,12 +699,7 @@
     "id": 50,
     "unit": "不定詞",
     "question": "He decided ( ) abroad.",
-    "choices": [
-      "go",
-      "to go",
-      "going",
-      "went"
-    ],
+    "choices": ["go", "to go", "going", "went"],
     "correct": "to go",
     "explanation": "decide to + 動詞の原形。",
     "incorrectExplanations": {
@@ -953,12 +713,7 @@
     "id": 51,
     "unit": "不定詞",
     "question": "She hopes ( ) a doctor.",
-    "choices": [
-      "be",
-      "to be",
-      "being",
-      "was"
-    ],
+    "choices": ["be", "to be", "being", "was"],
     "correct": "to be",
     "explanation": "hope to + 動詞の原形。",
     "incorrectExplanations": {
@@ -972,12 +727,7 @@
     "id": 52,
     "unit": "不定詞",
     "question": "They plan ( ) a party.",
-    "choices": [
-      "have",
-      "to have",
-      "having",
-      "had"
-    ],
+    "choices": ["have", "to have", "having", "had"],
     "correct": "to have",
     "explanation": "plan to + 動詞の原形。",
     "incorrectExplanations": {
@@ -991,12 +741,7 @@
     "id": 53,
     "unit": "不定詞",
     "question": "He tried ( ) the door.",
-    "choices": [
-      "open",
-      "to open",
-      "opening",
-      "opened"
-    ],
+    "choices": ["open", "to open", "opening", "opened"],
     "correct": "to open",
     "explanation": "try to + 動詞の原形。",
     "incorrectExplanations": {
@@ -1010,12 +755,7 @@
     "id": 54,
     "unit": "動名詞",
     "question": "He enjoys (  ) tennis after school.",
-    "choices": [
-      "play",
-      "to play",
-      "playing",
-      "played"
-    ],
+    "choices": ["play", "to play", "playing", "played"],
     "correct": "playing",
     "explanation": "'enjoy' の後ろは動名詞（動詞 + ing）を使うのがルールです。",
     "incorrectExplanations": {
@@ -1029,12 +769,7 @@
     "id": 55,
     "unit": "動名詞",
     "question": "I enjoy ( ) soccer.",
-    "choices": [
-      "play",
-      "to play",
-      "playing",
-      "played"
-    ],
+    "choices": ["play", "to play", "playing", "played"],
     "correct": "playing",
     "explanation": "enjoyの後は動名詞ing形を使う。",
     "incorrectExplanations": {
@@ -1048,12 +783,7 @@
     "id": 56,
     "unit": "動名詞",
     "question": "She finished ( ) the book.",
-    "choices": [
-      "read",
-      "to read",
-      "reading",
-      "reads"
-    ],
+    "choices": ["read", "to read", "reading", "reads"],
     "correct": "reading",
     "explanation": "finishの後は動名詞ing形を使う。",
     "incorrectExplanations": {
@@ -1067,12 +797,7 @@
     "id": 57,
     "unit": "動名詞",
     "question": "He is good at ( ) pictures.",
-    "choices": [
-      "draw",
-      "drawing",
-      "draws",
-      "drew"
-    ],
+    "choices": ["draw", "drawing", "draws", "drew"],
     "correct": "drawing",
     "explanation": "be good at の後は動名詞を使う。",
     "incorrectExplanations": {
@@ -1086,12 +811,7 @@
     "id": 58,
     "unit": "動名詞",
     "question": "They talked about ( ) to Okinawa.",
-    "choices": [
-      "go",
-      "to go",
-      "going",
-      "went"
-    ],
+    "choices": ["go", "to go", "going", "went"],
     "correct": "going",
     "explanation": "aboutの後は動名詞ing形。",
     "incorrectExplanations": {
@@ -1105,12 +825,7 @@
     "id": 59,
     "unit": "動名詞",
     "question": "My hobby is ( ) pictures.",
-    "choices": [
-      "paint",
-      "painting",
-      "paints",
-      "painted"
-    ],
+    "choices": ["paint", "painting", "paints", "painted"],
     "correct": "painting",
     "explanation": "be動詞の後の補語として動名詞を使う。",
     "incorrectExplanations": {
@@ -1124,12 +839,7 @@
     "id": 60,
     "unit": "受動態",
     "question": "English (  ) in many countries.",
-    "choices": [
-      "speaks",
-      "is speaking",
-      "is spoken",
-      "was spoken"
-    ],
+    "choices": ["speaks", "is speaking", "is spoken", "was spoken"],
     "correct": "is spoken",
     "explanation": "現在形の受動態は 'is + 過去分詞'。多くの国で英語が話されている、という意味です。",
     "incorrectExplanations": {
@@ -1143,12 +853,7 @@
     "id": 61,
     "unit": "間接疑問文",
     "question": "I don’t know (  ) she is coming to the party.",
-    "choices": [
-      "when",
-      "is",
-      "does",
-      "whether"
-    ],
+    "choices": ["when", "is", "does", "whether"],
     "correct": "whether",
     "explanation": "間接疑問文では 'if' や 'whether' を使って「〜かどうか」を表します。この文では 'whether' が適切です。",
     "incorrectExplanations": {
@@ -1162,12 +867,7 @@
     "id": 62,
     "unit": "５文型",
     "question": "She gave me (  ).",
-    "choices": [
-      "book",
-      "a book",
-      "books",
-      "the books"
-    ],
+    "choices": ["book", "a book", "books", "the books"],
     "correct": "a book",
     "explanation": "SVOO（第4文型）の例で、'me'（人）と 'a book'（物）の順で与える行為を表します。",
     "incorrectExplanations": {
@@ -1181,12 +881,7 @@
     "id": 63,
     "unit": "関係代名詞",
     "question": "The girl (  ) is singing is my sister.",
-    "choices": [
-      "who",
-      "which",
-      "where",
-      "what"
-    ],
+    "choices": ["who", "which", "where", "what"],
     "correct": "who",
     "explanation": "'who' は人を先行詞に取る関係代名詞。'The girl' を修飾しているので 'who' が正解です。",
     "incorrectExplanations": {
@@ -1200,12 +895,7 @@
     "id": 64,
     "unit": "仮定法",
     "question": "If I were you, I (  ) take the job.",
-    "choices": [
-      "will",
-      "would",
-      "can",
-      "am"
-    ],
+    "choices": ["will", "would", "can", "am"],
     "correct": "would",
     "explanation": "仮定法過去の表現では 'If I were 〜, I would 〜' の形を取ります。現実と異なる仮の状況を表します。",
     "incorrectExplanations": {
@@ -1219,12 +909,7 @@
     "id": 65,
     "unit": "付加疑問文",
     "question": "You’re from Tokyo, (  )?",
-    "choices": [
-      "aren’t you",
-      "don’t you",
-      "are you",
-      "isn't it"
-    ],
+    "choices": ["aren’t you", "don’t you", "are you", "isn't it"],
     "correct": "aren’t you",
     "explanation": "肯定文のあとには否定の疑問タグをつけます。'You are' に対して 'aren’t you?' が適切です。",
     "incorrectExplanations": {
@@ -1238,12 +923,7 @@
     "id": 66,
     "unit": "前置詞",
     "question": "She works (  ) a library.",
-    "choices": [
-      "on",
-      "in",
-      "at",
-      "to"
-    ],
+    "choices": ["on", "in", "at", "to"],
     "correct": "in",
     "explanation": "「～の中に［で］」広い場所を表す。",
     "incorrectExplanations": {
@@ -1257,12 +937,7 @@
     "id": 67,
     "unit": "前置詞",
     "question": "He talked (  ) his trip to Japan.",
-    "choices": [
-      "about",
-      "from",
-      "for",
-      "with"
-    ],
+    "choices": ["about", "from", "for", "with"],
     "correct": "about",
     "explanation": "「about」は話題・〜について。",
     "incorrectExplanations": {
@@ -1276,12 +951,7 @@
     "id": 68,
     "unit": "前置詞",
     "question": "This gift is (  ) you.",
-    "choices": [
-      "for",
-      "from",
-      "with",
-      "by"
-    ],
+    "choices": ["for", "from", "with", "by"],
     "correct": "for",
     "explanation": "「for」は〜のために。",
     "incorrectExplanations": {
@@ -1295,12 +965,7 @@
     "id": 69,
     "unit": "前置詞",
     "question": "I got a letter (  ) my friend.",
-    "choices": [
-      "from",
-      "for",
-      "by",
-      "about"
-    ],
+    "choices": ["from", "for", "by", "about"],
     "correct": "from",
     "explanation": "「from」は送信者・出所。",
     "incorrectExplanations": {
@@ -1314,12 +979,7 @@
     "id": 70,
     "unit": "前置詞",
     "question": "He went (  ) the room.",
-    "choices": [
-      "into",
-      "out of",
-      "through",
-      "by"
-    ],
+    "choices": ["into", "out of", "through", "by"],
     "correct": "into",
     "explanation": "「into」は中へ入る動作。",
     "incorrectExplanations": {
@@ -1333,12 +993,7 @@
     "id": 71,
     "unit": "前置詞",
     "question": "She came (  ) the house.",
-    "choices": [
-      "out of",
-      "into",
-      "through",
-      "by"
-    ],
+    "choices": ["out of", "into", "through", "by"],
     "correct": "out of",
     "explanation": "「out of」は外へ出る動作。",
     "incorrectExplanations": {
@@ -1352,12 +1007,7 @@
     "id": 72,
     "unit": "前置詞",
     "question": "They walked (  ) the street.",
-    "choices": [
-      "along",
-      "across",
-      "through",
-      "by"
-    ],
+    "choices": ["along", "across", "through", "by"],
     "correct": "along",
     "explanation": "「along」は〜に沿って。",
     "incorrectExplanations": {
@@ -1371,12 +1021,7 @@
     "id": 73,
     "unit": "前置詞",
     "question": "We ran (  ) the park.",
-    "choices": [
-      "through",
-      "along",
-      "across",
-      "by"
-    ],
+    "choices": ["through", "along", "across", "by"],
     "correct": "through",
     "explanation": "「through」は中を通り抜ける。",
     "incorrectExplanations": {
@@ -1390,12 +1035,7 @@
     "id": 74,
     "unit": "前置詞",
     "question": "The school is (  ) the river.",
-    "choices": [
-      "across",
-      "along",
-      "through",
-      "into"
-    ],
+    "choices": ["across", "along", "through", "into"],
     "correct": "across",
     "explanation": "「across」は向こう側に。",
     "incorrectExplanations": {
@@ -1409,12 +1049,7 @@
     "id": 75,
     "unit": "前置詞",
     "question": "He stood (  ) the door.",
-    "choices": [
-      "behind",
-      "in front of",
-      "between",
-      "among"
-    ],
+    "choices": ["behind", "in front of", "between", "among"],
     "correct": "in front of",
     "explanation": "「in front of」は前に。",
     "incorrectExplanations": {
@@ -1428,12 +1063,7 @@
     "id": 76,
     "unit": "前置詞",
     "question": "The dog is (  ) the box.",
-    "choices": [
-      "under",
-      "over",
-      "between",
-      "among"
-    ],
+    "choices": ["under", "over", "between", "among"],
     "correct": "under",
     "explanation": "「under」は下に。",
     "incorrectExplanations": {
@@ -1447,12 +1077,7 @@
     "id": 77,
     "unit": "前置詞",
     "question": "The bridge is (  ) the river.",
-    "choices": [
-      "over",
-      "under",
-      "between",
-      "among"
-    ],
+    "choices": ["over", "under", "between", "among"],
     "correct": "over",
     "explanation": "「over」は上にまたがって。",
     "incorrectExplanations": {
@@ -1466,12 +1091,7 @@
     "id": 78,
     "unit": "前置詞",
     "question": "She sat (  ) her friends.",
-    "choices": [
-      "between",
-      "among",
-      "behind",
-      "in front of"
-    ],
+    "choices": ["between", "among", "behind", "in front of"],
     "correct": "among",
     "explanation": "「among」は3つ以上の中で。",
     "incorrectExplanations": {
@@ -1485,12 +1105,7 @@
     "id": 79,
     "unit": "前置詞",
     "question": "He is standing (  ) the two trees.",
-    "choices": [
-      "between",
-      "among",
-      "behind",
-      "in front of"
-    ],
+    "choices": ["between", "among", "behind", "in front of"],
     "correct": "between",
     "explanation": "「between」は2つの間。",
     "incorrectExplanations": {
@@ -1504,12 +1119,7 @@
     "id": 80,
     "unit": "前置詞",
     "question": "He did it (  ) mistake.",
-    "choices": [
-      "by",
-      "with",
-      "without",
-      "for"
-    ],
+    "choices": ["by", "with", "without", "for"],
     "correct": "by",
     "explanation": "「by mistake」は「間違えて」。",
     "incorrectExplanations": {
@@ -1523,12 +1133,7 @@
     "id": 81,
     "unit": "前置詞",
     "question": "I can't do it (  ) your help.",
-    "choices": [
-      "without",
-      "with",
-      "by",
-      "for"
-    ],
+    "choices": ["without", "with", "by", "for"],
     "correct": "without",
     "explanation": "「without」は〜なしで。",
     "incorrectExplanations": {
@@ -1542,12 +1147,7 @@
     "id": 82,
     "unit": "前置詞",
     "question": "I went to the store (  ) my mother.",
-    "choices": [
-      "with",
-      "without",
-      "by",
-      "for"
-    ],
+    "choices": ["with", "without", "by", "for"],
     "correct": "with",
     "explanation": "「with」は一緒に。",
     "incorrectExplanations": {
@@ -1561,12 +1161,7 @@
     "id": 83,
     "unit": "前置詞",
     "question": "He is absent (  ) school because of illness.",
-    "choices": [
-      "from",
-      "at",
-      "in",
-      "to"
-    ],
+    "choices": ["from", "at", "in", "to"],
     "correct": "from",
     "explanation": "「absent from school」学校を欠席。",
     "incorrectExplanations": {
@@ -1580,12 +1175,7 @@
     "id": 84,
     "unit": "前置詞",
     "question": "She stayed home (  ) the rain.",
-    "choices": [
-      "because of",
-      "for",
-      "with",
-      "by"
-    ],
+    "choices": ["because of", "for", "with", "by"],
     "correct": "because of",
     "explanation": "「because of」は原因。",
     "incorrectExplanations": {
@@ -1599,12 +1189,7 @@
     "id": 85,
     "unit": "前置詞",
     "question": "Please (  ) at this picture.",
-    "choices": [
-      "look",
-      "watch",
-      "see",
-      "wait"
-    ],
+    "choices": ["look", "watch", "see", "wait"],
     "correct": "look",
     "explanation": "「look at」は注意して見る。",
     "incorrectExplanations": {
@@ -1618,12 +1203,7 @@
     "id": 86,
     "unit": "前置詞",
     "question": "Please (  ) for me here.",
-    "choices": [
-      "wait",
-      "look",
-      "watch",
-      "see"
-    ],
+    "choices": ["wait", "look", "watch", "see"],
     "correct": "wait",
     "explanation": "「wait for」は待つ。",
     "incorrectExplanations": {
@@ -2017,12 +1597,7 @@
     "id": 107,
     "unit": "連語",
     "question": "【日本語】私はお茶を１ぱい飲みました。\n【英語】I had (  ) tea.",
-    "choices": [
-      "a cup of",
-      "a glass of",
-      "a lot of",
-      "much"
-    ],
+    "choices": ["a cup of", "a glass of", "a lot of", "much"],
     "correct": "a cup of",
     "explanation": "「a cup of」は『カップ1杯の』を意味し、紅茶やコーヒーなどを数える自然な単位表現です。",
     "incorrectExplanations": {
@@ -2036,12 +1611,7 @@
     "id": 108,
     "unit": "連語",
     "question": "【日本語】お皿が何枚か必要です。\n【英語】I need (  ) dishes.",
-    "choices": [
-      "a few",
-      "a little",
-      "some",
-      "many"
-    ],
+    "choices": ["a few", "a little", "some", "many"],
     "correct": "a few",
     "explanation": "「a few」は『少しの（数の）』を意味し、可算名詞であるdishesに使う表現です。",
     "incorrectExplanations": {
@@ -2055,12 +1625,7 @@
     "id": 109,
     "unit": "連語",
     "question": "【日本語】雪がたくさん降った。\n【英語】It snowed (  ).",
-    "choices": [
-      "a lot",
-      "a little",
-      "much",
-      "many"
-    ],
+    "choices": ["a lot", "a little", "much", "many"],
     "correct": "a lot",
     "explanation": "「a lot」は『たくさん』を意味し、動作や量を強調する自然な表現です。",
     "incorrectExplanations": {
@@ -2074,12 +1639,7 @@
     "id": 110,
     "unit": "連語",
     "question": "【日本語】彼はCDをたくさん持っている。\n【英語】He has (  ) CDs.",
-    "choices": [
-      "a lot of",
-      "many",
-      "plenty of",
-      "much"
-    ],
+    "choices": ["a lot of", "many", "plenty of", "much"],
     "correct": "a lot of",
     "explanation": "「a lot of」は『たくさんの』を意味し、可算名詞CDsにも不可算名詞にも使える便利な表現です。",
     "incorrectExplanations": {
@@ -2093,12 +1653,7 @@
     "id": 111,
     "unit": "連語",
     "question": "【日本語】私はきのう、くつを１足買いました。\n【英語】I bought (  ) shoes yesterday.",
-    "choices": [
-      "a pair of",
-      "a lot of",
-      "many",
-      "some"
-    ],
+    "choices": ["a pair of", "a lot of", "many", "some"],
     "correct": "a pair of",
     "explanation": "「a pair of」は『1足の、1組の』を意味し、靴や手袋などセットで使うものを数えるときに使います。",
     "incorrectExplanations": {
@@ -2112,12 +1667,7 @@
     "id": 112,
     "unit": "連語",
     "question": "【日本語】紙を１枚くれませんか。\n【英語】Will you give me (  ) paper?",
-    "choices": [
-      "a piece of",
-      "a sheet of",
-      "some",
-      "much"
-    ],
+    "choices": ["a piece of", "a sheet of", "some", "much"],
     "correct": "a piece of",
     "explanation": "「a piece of」は『1つの、1枚の』を意味し、紙などの不可算名詞を数えるときに使います。",
     "incorrectExplanations": {
@@ -2131,12 +1681,7 @@
     "id": 113,
     "unit": "連語",
     "question": "【日本語】放課後、野球をしましょう。\n【英語】Let's play baseball (  ).",
-    "choices": [
-      "after school",
-      "in school",
-      "at school",
-      "during school"
-    ],
+    "choices": ["after school", "in school", "at school", "during school"],
     "correct": "after school",
     "explanation": "「after school」は『放課後に』を意味し、学校の授業が終わった後の時間を表します。",
     "incorrectExplanations": {
@@ -2150,12 +1695,7 @@
     "id": 114,
     "unit": "連語",
     "question": "【日本語】健は一日中家にいました。\n【英語】Ken stayed home (  ).",
-    "choices": [
-      "all day",
-      "every day",
-      "the whole day",
-      "all the time"
-    ],
+    "choices": ["all day", "every day", "the whole day", "all the time"],
     "correct": "all day",
     "explanation": "「all day」は『一日中』を意味し、その日の間ずっと続いた状態を表します。",
     "incorrectExplanations": {
@@ -2169,12 +1709,7 @@
     "id": 115,
     "unit": "連語",
     "question": "【日本語】彼は世界じゅうで有名になりました。\n【英語】He became famous (  ) the world.",
-    "choices": [
-      "all over",
-      "around",
-      "throughout",
-      "in"
-    ],
+    "choices": ["all over", "around", "throughout", "in"],
     "correct": "all over",
     "explanation": "「all over」は『〜じゅうで』を意味し、範囲全体を広くカバーすることを自然に表します。",
     "incorrectExplanations": {
@@ -2188,12 +1723,7 @@
     "id": 116,
     "unit": "連語",
     "question": "【日本語】彼女はいつもうれしそうだ。\n【英語】She looks happy (  ).",
-    "choices": [
-      "all the time",
-      "every time",
-      "always",
-      "usually"
-    ],
+    "choices": ["all the time", "every time", "always", "usually"],
     "correct": "all the time",
     "explanation": "「all the time」は『いつも、常に』を意味し、状態がずっと続くことを自然に表します。",
     "incorrectExplanations": {
@@ -2207,12 +1737,7 @@
     "id": 117,
     "unit": "連語",
     "question": "【日本語】あなたはジムと同じくらい早く走ります。\n【英語】You run (  ) fast Jim.",
-    "choices": [
-      "as ~ as …",
-      "so ~ as …",
-      "not as ~ as …",
-      "too ~ to …"
-    ],
+    "choices": ["as ~ as …", "so ~ as …", "not as ~ as …", "too ~ to …"],
     "correct": "as ~ as …",
     "explanation": "「as ~ as …」は『…と同じくらい〜』を意味し、比較の程度を示します。",
     "incorrectExplanations": {
@@ -2226,12 +1751,7 @@
     "id": 118,
     "unit": "連語",
     "question": "【日本語】私は帰宅するとすぐに勉強を始めました。\n【英語】(  ) I came home, I began to study.",
-    "choices": [
-      "as soon as",
-      "while",
-      "after",
-      "when"
-    ],
+    "choices": ["as soon as", "while", "after", "when"],
     "correct": "as soon as",
     "explanation": "「as soon as」は『〜するとすぐに』を意味し、2つの動作の即時性を強調します。",
     "incorrectExplanations": {
@@ -2245,12 +1765,7 @@
     "id": 119,
     "unit": "連語",
     "question": "【日本語】初めは彼女の言うことがわからなかった。\n【英語】(  ) I didn't understand her.",
-    "choices": [
-      "at first",
-      "first",
-      "for the first time",
-      "in the beginning"
-    ],
+    "choices": ["at first", "first", "for the first time", "in the beginning"],
     "correct": "at first",
     "explanation": "「at first」は『初めは』を意味し、状況の変化を伴う説明に使います。",
     "incorrectExplanations": {
@@ -2264,12 +1779,7 @@
     "id": 120,
     "unit": "連語",
     "question": "【日本語】ついに私たちはその島へ着きました。\n【英語】(  ) we reached the island.",
-    "choices": [
-      "at last",
-      "finally",
-      "eventually",
-      "after all"
-    ],
+    "choices": ["at last", "finally", "eventually", "after all"],
     "correct": "at last",
     "explanation": "「at last」は『ついに、やっと』を意味し、待ち望んだゴールに達したニュアンスを表します。",
     "incorrectExplanations": {
@@ -2283,12 +1793,7 @@
     "id": 121,
     "unit": "連語",
     "question": "【日本語】すぐ出発しましょう。\n【英語】Let's start (  ).",
-    "choices": [
-      "at once",
-      "right away",
-      "immediately",
-      "soon"
-    ],
+    "choices": ["at once", "right away", "immediately", "soon"],
     "correct": "at once",
     "explanation": "「at once」は『すぐに、直ちに』を意味し、命令形と組み合わせて強い指示を出すのに自然な表現です。",
     "incorrectExplanations": {
@@ -2302,12 +1807,7 @@
     "id": 122,
     "unit": "連語",
     "question": "【日本語】私たちは京都へ行くつもりです。\n【英語】We are going (  ) Kyoto.",
-    "choices": [
-      "to",
-      "for",
-      "toward",
-      "into"
-    ],
+    "choices": ["to", "for", "toward", "into"],
     "correct": "to",
     "explanation": "「to」は『〜へ（目的地）』を表し、移動の到達点を示します。",
     "incorrectExplanations": {
@@ -2321,12 +1821,7 @@
     "id": 123,
     "unit": "連語",
     "question": "【日本語】この道をまっすぐ行きなさい。\n【英語】Go (  ) this street.",
-    "choices": [
-      "along",
-      "across",
-      "through",
-      "around"
-    ],
+    "choices": ["along", "across", "through", "around"],
     "correct": "along",
     "explanation": "「along」は『〜に沿って』を意味し、道に沿って進むイメージを自然に表します。",
     "incorrectExplanations": {
@@ -2340,12 +1835,7 @@
     "id": 124,
     "unit": "連語",
     "question": "【日本語】私はこの犬が好きです。\n【英語】I am (  ) this dog.",
-    "choices": [
-      "fond of",
-      "proud of",
-      "afraid of",
-      "tired of"
-    ],
+    "choices": ["fond of", "proud of", "afraid of", "tired of"],
     "correct": "fond of",
     "explanation": "「fond of」は『〜が好き』を意味し、好意や愛着を表します。",
     "incorrectExplanations": {
@@ -2359,12 +1849,7 @@
     "id": 125,
     "unit": "連語",
     "question": "【日本語】彼女はその知らせを聞いて驚きました。\n【英語】She was (  ) the news.",
-    "choices": [
-      "surprised at",
-      "interested in",
-      "pleased with",
-      "angry at"
-    ],
+    "choices": ["surprised at", "interested in", "pleased with", "angry at"],
     "correct": "surprised at",
     "explanation": "「surprised at」は『〜に驚く』を意味し、予想外の情報に対する感情を表します。",
     "incorrectExplanations": {
@@ -2378,12 +1863,7 @@
     "id": 126,
     "unit": "連語",
     "question": "【日本語】その川は私たちの町を流れています。\n【英語】The river runs (  ) our town.",
-    "choices": [
-      "through",
-      "across",
-      "along",
-      "around"
-    ],
+    "choices": ["through", "across", "along", "around"],
     "correct": "through",
     "explanation": "「through」は『〜を通って』を意味し、町の内部を貫く流れを表します。",
     "incorrectExplanations": {
@@ -2397,12 +1877,7 @@
     "id": 127,
     "unit": "連語",
     "question": "【日本語】彼は病気で学校を休みました。\n【英語】He was (  ) from school because he was sick.",
-    "choices": [
-      "absent",
-      "away",
-      "missing",
-      "lost"
-    ],
+    "choices": ["absent", "away", "missing", "lost"],
     "correct": "absent",
     "explanation": "「absent」は『欠席している』を意味し、学校を休むことを正式に表します。",
     "incorrectExplanations": {
@@ -2416,12 +1891,7 @@
     "id": 128,
     "unit": "連語",
     "question": "【日本語】母は私に早く寝るように言った。\n【英語】My mother (  ) me to go to bed early.",
-    "choices": [
-      "told",
-      "said",
-      "spoke",
-      "talked"
-    ],
+    "choices": ["told", "said", "spoke", "talked"],
     "correct": "told",
     "explanation": "「told」は『〜に言った』を意味し、相手に内容を伝えるときに使います。",
     "incorrectExplanations": {
@@ -2435,12 +1905,7 @@
     "id": 129,
     "unit": "連語",
     "question": "【日本語】あなたはこの部屋を使ってもよいです。\n【英語】You (  ) use this room.",
-    "choices": [
-      "may",
-      "can",
-      "must",
-      "have to"
-    ],
+    "choices": ["may", "can", "must", "have to"],
     "correct": "may",
     "explanation": "「may」は『〜してもよい』を意味し、許可を与えるときに使います。",
     "incorrectExplanations": {
@@ -2454,12 +1919,7 @@
     "id": 130,
     "unit": "連語",
     "question": "【日本語】私は英語を上手に話したいです。\n【英語】I want to speak English (  ).",
-    "choices": [
-      "well",
-      "good",
-      "better",
-      "best"
-    ],
+    "choices": ["well", "good", "better", "best"],
     "correct": "well",
     "explanation": "「well」は『上手に』を意味する副詞で、動詞のspeakを修飾します。",
     "incorrectExplanations": {
@@ -2473,12 +1933,7 @@
     "id": 131,
     "unit": "連語",
     "question": "【日本語】ケンは日本語を上手に書きます。\n【英語】Ken writes Japanese (  ).",
-    "choices": [
-      "well",
-      "good",
-      "better",
-      "best"
-    ],
+    "choices": ["well", "good", "better", "best"],
     "correct": "well",
     "explanation": "「well」は『上手に』を意味する副詞で、動詞のwritesを修飾します。",
     "incorrectExplanations": {
@@ -2492,12 +1947,7 @@
     "id": 132,
     "unit": "連語",
     "question": "【日本語】彼は速く走ることができます。\n【英語】He (  ) run fast.",
-    "choices": [
-      "can",
-      "may",
-      "must",
-      "should"
-    ],
+    "choices": ["can", "may", "must", "should"],
     "correct": "can",
     "explanation": "「can」は『〜できる』を意味し、能力を表します。",
     "incorrectExplanations": {
@@ -2511,12 +1961,7 @@
     "id": 133,
     "unit": "連語",
     "question": "【日本語】あなたはここで静かにしなければなりません。\n【英語】You (  ) be quiet here.",
-    "choices": [
-      "must",
-      "should",
-      "can",
-      "may"
-    ],
+    "choices": ["must", "should", "can", "may"],
     "correct": "must",
     "explanation": "「must」は『〜しなければならない』を意味し、強い義務を表します。",
     "incorrectExplanations": {
@@ -2530,12 +1975,7 @@
     "id": 134,
     "unit": "連語",
     "question": "【日本語】私は明日それをするつもりです。\n【英語】I (  ) do it tomorrow.",
-    "choices": [
-      "will",
-      "can",
-      "must",
-      "should"
-    ],
+    "choices": ["will", "can", "must", "should"],
     "correct": "will",
     "explanation": "「will」は『〜するつもりだ』を意味し、未来の意志や予定を表します。",
     "incorrectExplanations": {
@@ -2549,12 +1989,7 @@
     "id": 135,
     "unit": "連語",
     "question": "【日本語】彼は私より早く走ります。\n【英語】He runs (  ) than I.",
-    "choices": [
-      "faster",
-      "fast",
-      "fastest",
-      "most fast"
-    ],
+    "choices": ["faster", "fast", "fastest", "most fast"],
     "correct": "faster",
     "explanation": "「faster」は『より速く』を意味する比較級で、thanと一緒に使います。",
     "incorrectExplanations": {
@@ -2568,12 +2003,7 @@
     "id": 136,
     "unit": "連語",
     "question": "【日本語】彼はクラスで一番速く走ります。\n【英語】He runs (  ) in his class.",
-    "choices": [
-      "fastest",
-      "faster",
-      "fast",
-      "most fast"
-    ],
+    "choices": ["fastest", "faster", "fast", "most fast"],
     "correct": "fastest",
     "explanation": "「fastest」は『最も速く』を意味する最上級で、グループ内で一番を表すときに使います。",
     "incorrectExplanations": {
@@ -2587,12 +2017,7 @@
     "id": 137,
     "unit": "連語",
     "question": "【日本語】私はあなたと同じくらい本を持っています。\n【英語】I have (  ) books (  ) you.",
-    "choices": [
-      "as many as",
-      "as much as",
-      "so many as",
-      "so much as"
-    ],
+    "choices": ["as many as", "as much as", "so many as", "so much as"],
     "correct": "as many as",
     "explanation": "「as many as」は『同じくらい多くの（数の）』を意味し、可算名詞booksと一緒に使います。",
     "incorrectExplanations": {
@@ -2606,12 +2031,7 @@
     "id": 138,
     "unit": "連語",
     "question": "【日本語】私はできるだけ早くそれを終えます。\n【英語】I'll finish it (  ) I can.",
-    "choices": [
-      "as soon as",
-      "as early as",
-      "as fast as",
-      "as quickly as"
-    ],
+    "choices": ["as soon as", "as early as", "as fast as", "as quickly as"],
     "correct": "as quickly as",
     "explanation": "「as quickly as」は『できるだけ早く』を意味し、動作の速さを強調します。",
     "incorrectExplanations": {
@@ -2625,12 +2045,7 @@
     "id": 139,
     "unit": "連語",
     "question": "【日本語】このカバンは私のより大きいです。\n【英語】This bag is (  ) than mine.",
-    "choices": [
-      "bigger",
-      "biggest",
-      "as big",
-      "so big"
-    ],
+    "choices": ["bigger", "biggest", "as big", "so big"],
     "correct": "bigger",
     "explanation": "「bigger」は『より大きい』を意味する比較級で、thanと一緒に使います。",
     "incorrectExplanations": {
@@ -2644,12 +2059,7 @@
     "id": 140,
     "unit": "連語",
     "question": "【日本語】これは私が今まで見た中で一番大きな家です。\n【英語】This is (  ) house I have ever seen.",
-    "choices": [
-      "the biggest",
-      "bigger",
-      "biggest",
-      "the bigger"
-    ],
+    "choices": ["the biggest", "bigger", "biggest", "the bigger"],
     "correct": "the biggest",
     "explanation": "「the biggest」は最上級で、『一番大きい』という意味を強調します。",
     "incorrectExplanations": {
@@ -2705,7 +2115,7 @@
   {
     "id": 1004,
     "type": "input",
-    "unit": "日本語英訳",
+    "unit": "一般動詞★",
     "prompt": "「私は毎日学校へ行きます。」を英語に訳しなさい。",
     "correctAnswer": "I go to school every day.",
     "explanation": "主語Iに現在形のgoを使って、I go to school every day. と表現します。"
@@ -2713,9 +2123,449 @@
   {
     "id": 1005,
     "type": "input",
-    "unit": "日本語英訳",
+    "unit": "一般動詞★",
     "prompt": "「彼はサッカーが好きです。」を英語に訳しなさい。",
     "correctAnswer": "He likes soccer.",
     "explanation": "主語がHeなので三単現のsをつけて、He likes soccer. と書きます。"
+  },
+  {
+    "id": 1006,
+    "type": "input",
+    "unit": "現在形★",
+    "prompt": "「私はピアノを弾きます。」を英語に訳しなさい。",
+    "correctAnswer": "I play the piano.",
+    "explanation": "主語Iに現在形のplayを使います。楽器にはtheをつけてI play the piano. となります。"
+  },
+  {
+    "id": 1007,
+    "type": "input",
+    "unit": "現在進行形★",
+    "prompt": "「彼女は今勉強しています。」を英語に訳しなさい。",
+    "correctAnswer": "She is studying now.",
+    "explanation": "現在進行形はbe動詞＋動詞ing形で表し、She is studying now. となります。"
+  },
+  {
+    "id": 1008,
+    "type": "input",
+    "unit": "過去形★",
+    "prompt": "「私は昨日映画を見ました。」を英語に訳しなさい。",
+    "correctAnswer": "I watched a movie yesterday.",
+    "explanation": "過去を表す yesterday があるので動詞は過去形watchedを使います。"
+  },
+  {
+    "id": 1009,
+    "type": "input",
+    "unit": "不定詞★",
+    "prompt": "「私は本を読みたいです。」を英語に訳しなさい。",
+    "correctAnswer": "I want to read a book.",
+    "explanation": "want to + 動詞の原形 で『〜したい』を表します。"
+  },
+  {
+    "id": 1010,
+    "type": "input",
+    "unit": "接続詞★",
+    "prompt": "「私は雨が降っていたので家にいました。」を英語に訳しなさい。",
+    "correctAnswer": "I stayed home because it was raining.",
+    "explanation": "理由を表す接続詞 because を使い、『because it was raining』で『雨が降っていたので』を表現します。"
+  },
+  {
+    "id": 1011,
+    "type": "input",
+    "unit": "現在形★",
+    "prompt": "「彼は毎日走ります。」を英語に訳しなさい。",
+    "correctAnswer": "He runs every day.",
+    "explanation": "主語がHe（3単現）なので動詞にsをつけてrunsにします。"
+  },
+  {
+    "id": 1012,
+    "type": "input",
+    "unit": "過去形★",
+    "prompt": "「私は先週図書館へ行きました。」を英語に訳しなさい。",
+    "correctAnswer": "I went to the library last week.",
+    "explanation": "過去を表すlast weekがあるので動詞は過去形wentを使います。"
+  },
+  {
+    "id": 1013,
+    "type": "input",
+    "unit": "未来形★",
+    "prompt": "「私は明日友達に会うつもりです。」を英語に訳しなさい。",
+    "correctAnswer": "I will meet my friend tomorrow.",
+    "explanation": "未来を表すtomorrowがあるのでwillを使ってI will meet my friend tomorrow. となります。"
+  },
+  {
+    "id": 1014,
+    "type": "input",
+    "unit": "助動詞★",
+    "prompt": "「あなたはここで静かにしなければなりません。」を英語に訳しなさい。",
+    "correctAnswer": "You must be quiet here.",
+    "explanation": "義務を表す助動詞mustを使ってYou must be quiet here. になります。"
+  },
+  {
+    "id": 1015,
+    "type": "input",
+    "unit": "比較★",
+    "prompt": "「この箱はあの箱より大きいです。」を英語に訳しなさい.",
+    "correctAnswer": "This box is bigger than that one.",
+    "explanation": "比較級を使い、bigger than that one と表現します。"
+  },
+  {
+    "id": 1016,
+    "type": "input",
+    "unit": "be動詞★",
+    "prompt": "「私は学生です。」を英語に訳しなさい。",
+    "correctAnswer": "I am a student.",
+    "explanation": "be動詞amを使って、I am a student. になります。"
+  },
+  {
+    "id": 1017,
+    "type": "input",
+    "unit": "疑問詞★",
+    "prompt": "「あなたはどこに住んでいますか。」を英語に訳しなさい。",
+    "correctAnswer": "Where do you live?",
+    "explanation": "疑問詞Whereを使って、Where do you live? と尋ねます。"
+  },
+  {
+    "id": 1018,
+    "type": "input",
+    "unit": "命令文★",
+    "prompt": "「ドアを閉めなさい。」を英語に訳しなさい。",
+    "correctAnswer": "Close the door.",
+    "explanation": "命令文は動詞の原形で始めて、Close the door. となります。"
+  },
+  {
+    "id": 1019,
+    "type": "input",
+    "unit": "現在進行形★",
+    "prompt": "「彼らは今テレビを見ています。」を英語に訳しなさい。",
+    "correctAnswer": "They are watching TV now.",
+    "explanation": "現在進行形はbe動詞＋動詞ing形で表し、They are watching TV now. となります。"
+  },
+  {
+    "id": 1020,
+    "type": "input",
+    "unit": "受動態★",
+    "prompt": "「この歌は多くの国で歌われています。」を英語に訳しなさい。",
+    "correctAnswer": "This song is sung in many countries.",
+    "explanation": "受動態はbe動詞＋過去分詞を使い、This song is sung in many countries. となります。"
+  },
+  {
+    "id": 1021,
+    "type": "input",
+    "unit": "一般動詞★",
+    "prompt": "「彼らはサッカーをします。」を英語に訳しなさい。",
+    "correctAnswer": "They play soccer.",
+    "explanation": "主語がTheyなので三単現のsは不要です。They play soccer. になります。"
+  },
+  {
+    "id": 1022,
+    "type": "input",
+    "unit": "助動詞★",
+    "prompt": "「あなたはここで写真を撮ってもよいです。」を英語に訳しなさい。",
+    "correctAnswer": "You may take pictures here.",
+    "explanation": "許可を表す助動詞mayを使って、You may take pictures here. になります。"
+  },
+  {
+    "id": 1023,
+    "type": "input",
+    "unit": "現在進行形★",
+    "prompt": "「私は今昼ご飯を食べています。」を英語に訳しなさい。",
+    "correctAnswer": "I am eating lunch now.",
+    "explanation": "現在進行形はbe動詞＋動詞ing形で、I am eating lunch now. となります。"
+  },
+  {
+    "id": 1024,
+    "type": "input",
+    "unit": "過去形★",
+    "prompt": "「彼は昨夜宿題をしました。」を英語に訳しなさい。",
+    "correctAnswer": "He did his homework last night.",
+    "explanation": "過去を表すlast nightがあるので動詞はdidを使います。He did his homework last night. となります。"
+  },
+  {
+    "id": 1025,
+    "type": "input",
+    "unit": "不定詞★",
+    "prompt": "「彼女はピアノを弾くことが好きです。」を英語に訳しなさい。",
+    "correctAnswer": "She likes to play the piano.",
+    "explanation": "like to + 動詞の原形 で『〜することが好き』を表します。She likes to play the piano. となります。"
+  },
+  {
+    "id": 1026,
+    "type": "input",
+    "unit": "前置詞★",
+    "prompt": "「彼は川のそばに住んでいます。」を英語に訳しなさい。",
+    "correctAnswer": "He lives by the river.",
+    "explanation": "『〜のそばに』はbyを使って表現します。He lives by the river. となります。"
+  },
+  {
+    "id": 1027,
+    "type": "input",
+    "unit": "関係代名詞★",
+    "prompt": "「あそこで歌っている女の子は私の妹です。」を英語に訳しなさい。",
+    "correctAnswer": "The girl who is singing over there is my sister.",
+    "explanation": "関係代名詞whoを使って『歌っている女の子』を修飾します。who is singing over there となります。"
+  },
+  {
+    "id": 1028,
+    "type": "input",
+    "unit": "分詞★",
+    "prompt": "「あそこで走っている少年はケンです。」を英語に訳しなさい。",
+    "correctAnswer": "The boy running over there is Ken.",
+    "explanation": "現在分詞runningを使って『走っている少年』を表現します。"
+  },
+  {
+    "id": 1029,
+    "type": "input",
+    "unit": "間接疑問文★",
+    "prompt": "「彼がどこに住んでいるのか知っていますか。」を英語に訳しなさい。",
+    "correctAnswer": "Do you know where he lives?",
+    "explanation": "間接疑問文では疑問詞+平叙文の語順にして、Do you know where he lives? となります。"
+  },
+  {
+    "id": 1030,
+    "type": "input",
+    "unit": "現在完了★",
+    "prompt": "「私は3年間英語を勉強しています。」を英語に訳しなさい。",
+    "correctAnswer": "I have studied English for three years.",
+    "explanation": "現在完了の継続を表すときは have + 過去分詞を使い、I have studied English for three years. となります。"
+  },
+  {
+    "id": 1031,
+    "type": "input",
+    "unit": "疑問詞★",
+    "prompt": "「あなたはいつ学校へ行きますか。」を英語に訳しなさい。",
+    "correctAnswer": "When do you go to school?",
+    "explanation": "疑問詞Whenを文頭に使い、do you goの語順にします。"
+  },
+  {
+    "id": 1032,
+    "type": "input",
+    "unit": "命令文★",
+    "prompt": "「静かにしなさい。」を英語に訳しなさい。",
+    "correctAnswer": "Be quiet.",
+    "explanation": "命令文は動詞の原形で始め、Be quiet. と言います。"
+  },
+  {
+    "id": 1033,
+    "type": "input",
+    "unit": "接続詞★",
+    "prompt": "「私は空腹だったので昼ご飯を食べました。」を英語に訳しなさい。",
+    "correctAnswer": "I ate lunch because I was hungry.",
+    "explanation": "理由を表す接続詞becauseを使い、because I was hungryと続けます。"
+  },
+  {
+    "id": 1034,
+    "type": "input",
+    "unit": "現在完了★",
+    "prompt": "「私はちょうど宿題を終えたところです。」を英語に訳しなさい。",
+    "correctAnswer": "I have just finished my homework.",
+    "explanation": "現在完了の完了用法でhave + 過去分詞、justを適切に挿入します。"
+  },
+  {
+    "id": 1035,
+    "type": "input",
+    "unit": "仮定法★",
+    "prompt": "「もし私があなたなら、その本を読むでしょう。」を英語に訳しなさい。",
+    "correctAnswer": "If I were you, I would read the book.",
+    "explanation": "仮定法過去でIf I were you, I would + 動詞の原形を使います。"
+  },
+  {
+    "id": 1036,
+    "type": "input",
+    "unit": "前置詞★",
+    "prompt": "「机の上に本があります。」を英語に訳しなさい。",
+    "correctAnswer": "There is a book on the desk.",
+    "explanation": "『〜の上に』はonを使います。There is構文で存在を表します。"
+  },
+  {
+    "id": 1037,
+    "type": "input",
+    "unit": "比較★",
+    "prompt": "「トムはケンより背が高いです。」を英語に訳しなさい。",
+    "correctAnswer": "Tom is taller than Ken.",
+    "explanation": "比較級を使ってtaller than Kenと表現します。"
+  },
+  {
+    "id": 1038,
+    "type": "input",
+    "unit": "関係代名詞★",
+    "prompt": "「これは私が昨日買った本です。」を英語に訳しなさい。",
+    "correctAnswer": "This is the book which I bought yesterday.",
+    "explanation": "関係代名詞whichを使い、『which I bought yesterday』で修飾します。"
+  },
+  {
+    "id": 1039,
+    "type": "input",
+    "unit": "現在完了★",
+    "prompt": "「彼はロンドンに3回行ったことがあります。」を英語に訳しなさい。",
+    "correctAnswer": "He has been to London three times.",
+    "explanation": "現在完了の経験用法でhas been toを使い、three timesを付けます。"
+  },
+  {
+    "id": 1040,
+    "type": "input",
+    "unit": "仮定法★",
+    "prompt": "「もし雨が降ったら、私は家にいるでしょう。」を英語に訳しなさい。",
+    "correctAnswer": "If it rained, I would stay home.",
+    "explanation": "仮定法過去でIf + 過去形、結果はwould + 動詞の原形を使います。"
+  },
+  {
+    "id": 1041,
+    "type": "input",
+    "unit": "現在進行形★",
+    "prompt": "「彼は今テニスをします。」を英語に訳しなさい。",
+    "correctAnswer": "He is playing tennis now.",
+    "explanation": "『今〜している』は現在進行形。間違えて現在形He playsにならないよう注意します。"
+  },
+  {
+    "id": 1042,
+    "type": "input",
+    "unit": "現在形★",
+    "prompt": "「彼は毎朝6時に起きます。」を英語に訳しなさい。",
+    "correctAnswer": "He gets up at six every morning.",
+    "explanation": "主語がHeなのでgetsにsを忘れないようにします。"
+  },
+  {
+    "id": 1043,
+    "type": "input",
+    "unit": "過去形★",
+    "prompt": "「私は昨日手紙を書きました。」を英語に訳しなさい。",
+    "correctAnswer": "I wrote a letter yesterday.",
+    "explanation": "過去形はwrote。過去分詞writtenと混同しないように注意します。"
+  },
+  {
+    "id": 1044,
+    "type": "input",
+    "unit": "比較★",
+    "prompt": "「彼は私より背が高いです。」を英語に訳しなさい。",
+    "correctAnswer": "He is taller than me.",
+    "explanation": "比較級tallerとthanを使います。the tallestと間違えないようにします。"
+  },
+  {
+    "id": 1045,
+    "type": "input",
+    "unit": "不定詞★",
+    "prompt": "「私は図書館へ本を借りに行きます。」を英語に訳しなさい。",
+    "correctAnswer": "I go to the library to borrow books.",
+    "explanation": "目的を表す不定詞to + 動詞の原形を使います。to borrowingと間違えないようにします。"
+  },
+  {
+    "id": 1046,
+    "type": "input",
+    "unit": "現在形★",
+    "prompt": "「彼と彼の兄は毎日サッカーをします。」を英語に訳しなさい。",
+    "correctAnswer": "He and his brother play soccer every day.",
+    "explanation": "主語が複数なのでplayにsをつけないことに注意します。"
+  },
+  {
+    "id": 1047,
+    "type": "input",
+    "unit": "現在進行形★",
+    "prompt": "「私は今手紙を書いています。」を英語に訳しなさい。",
+    "correctAnswer": "I am writing a letter now.",
+    "explanation": "進行形はbe動詞＋ing形を忘れず、am writingとします。"
+  },
+  {
+    "id": 1048,
+    "type": "input",
+    "unit": "過去形★",
+    "prompt": "「彼は昨日家に帰りました。」を英語に訳しなさい。",
+    "correctAnswer": "He went home yesterday.",
+    "explanation": "goの過去形はwent。goedと間違えやすいので注意。"
+  },
+  {
+    "id": 1049,
+    "type": "input",
+    "unit": "比較★",
+    "prompt": "「この川はあの川と同じくらい長いです。」を英語に訳しなさい。",
+    "correctAnswer": "This river is as long as that river.",
+    "explanation": "同等比較はas 〜 asを使います。longer thanと間違えないように。"
+  },
+  {
+    "id": 1050,
+    "type": "input",
+    "unit": "不定詞★",
+    "prompt": "「私はあなたにその本を読んでほしいです。」を英語に訳しなさい。",
+    "correctAnswer": "I want you to read the book.",
+    "explanation": "want + 人 + to + 動詞の原形を使います。to readingとしないように注意。"
+  },
+  {
+    "id": 1051,
+    "type": "input",
+    "unit": "動名詞★",
+    "prompt": "「私は泳ぐことが好きです。」を英語に訳しなさい。",
+    "correctAnswer": "I like swimming.",
+    "explanation": "likeの後は動名詞を使ってI like swimming. となります。I like to swimもOKだが、ここでは動名詞を意識。"
+  },
+  {
+    "id": 1052,
+    "type": "input",
+    "unit": "疑問詞★",
+    "prompt": "「あなたはなぜここに来たのですか。」を英語に訳しなさい。",
+    "correctAnswer": "Why did you come here?",
+    "explanation": "疑問詞Whyで始め、did you comeの語順を忘れないようにします。"
+  },
+  {
+    "id": 1053,
+    "type": "input",
+    "unit": "感嘆文★",
+    "prompt": "「なんて美しい花なんでしょう！」を英語に訳しなさい。",
+    "correctAnswer": "What a beautiful flower!",
+    "explanation": "感嘆文はWhat + a + 形容詞 + 名詞の形を使います。How beautiful flower! ではなくWhatを使う。"
+  },
+  {
+    "id": 1054,
+    "type": "input",
+    "unit": "動名詞★",
+    "prompt": "「彼はタバコを吸うのをやめました。」を英語に訳しなさい。",
+    "correctAnswer": "He stopped smoking.",
+    "explanation": "stop + 動名詞は『〜するのをやめる』。stop to smokeは『吸うために立ち止まる』なので注意。"
+  },
+  {
+    "id": 1055,
+    "type": "input",
+    "unit": "感嘆文★",
+    "prompt": "「なんて大きい犬なんだ！」を英語に訳しなさい。",
+    "correctAnswer": "What a big dog!",
+    "explanation": "感嘆文ではWhat a + 形容詞 + 名詞を使います。How big dog! は誤り。"
+  },
+  {
+    "id": 1056,
+    "type": "input",
+    "unit": "関係代名詞★",
+    "prompt": "「あそこにいる少年は私の弟です。」を英語に訳しなさい。",
+    "correctAnswer": "The boy who is over there is my brother.",
+    "explanation": "関係代名詞whoを使って主格の説明をします。thatや省略ができない点を確認。"
+  },
+  {
+    "id": 1057,
+    "type": "input",
+    "unit": "関係代名詞★",
+    "prompt": "「これは私が昨日見た映画です。」を英語に訳しなさい。",
+    "correctAnswer": "This is the movie (which) I saw yesterday.",
+    "explanation": "目的格の関係代名詞は省略可能です。whichを入れてもOK。"
+  },
+  {
+    "id": 1058,
+    "type": "input",
+    "unit": "分詞★",
+    "prompt": "「あそこで泣いている赤ちゃんは私の妹です。」を英語に訳しなさい。",
+    "correctAnswer": "The baby crying over there is my sister.",
+    "explanation": "現在分詞cryingを名詞の前に使って『泣いている赤ちゃん』を表現します。"
+  },
+  {
+    "id": 1059,
+    "type": "input",
+    "unit": "分詞★",
+    "prompt": "「壁に描かれた絵は美しいです。」を英語に訳しなさい。",
+    "correctAnswer": "The picture painted on the wall is beautiful.",
+    "explanation": "過去分詞paintedを使い『描かれた』を表現します。描く人が主語ではない点に注意。"
+  },
+  {
+    "id": 1060,
+    "type": "input",
+    "unit": "関係代名詞★",
+    "prompt": "「これは父が名前を知っている男性です。」を英語に訳しなさい。",
+    "correctAnswer": "This is the man whose name my father knows.",
+    "explanation": "所有格の関係代名詞whoseを使い、名詞を修飾します。whoやwhichでは表現できません。"
   }
 ]
