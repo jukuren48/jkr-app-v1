@@ -94,6 +94,7 @@ export default function EnglishTrapQuestions() {
   const [wordAudioSrc, setWordAudioSrc] = useState("");
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
+  const [hintLevels, setHintLevels] = useState({});
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -237,6 +238,12 @@ export default function EnglishTrapQuestions() {
       const nextLevel = hintLevel + 1;
       setHintLevel(nextLevel);
       setHintText(generateHint());
+
+      // 現在の問題IDをキーにしてhintLevelを記録
+      setHintLevels((prev) => ({
+        ...prev,
+        [currentQuestion.id]: nextLevel,
+      }));
     }
   };
 
