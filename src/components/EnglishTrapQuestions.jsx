@@ -305,11 +305,11 @@ export default function EnglishTrapQuestions() {
                 key={unit}
                 onClick={() => toggleUnit(unit)}
                 className={`px-4 py-2 rounded-full border shadow-sm transition ${
-                  selectedUnits.includes(unit)
-                    ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
-                    : "bg-white text-[#4A6572]"
-                } }
-              >
+  selectedUnits.includes(unit)
+    ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
+    : "bg-white text-[#4A6572]"
+  }`}
+>
                 {unit}
               </button>
             ))}
