@@ -106,6 +106,35 @@ export default function EnglishTrapQuestions() {
       });
   }, []);
 
+  useEffect(() => {
+    if (showFeedback && !isCorrect && currentQuestion?.explanation) {
+      speakExplanation(currentQuestion.explanation);
+    }
+  }, [showFeedback, isCorrect, currentQuestion]);
+
+  const speakExplanation = async (text) => {
+    if (!text) return;
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!res.ok) throw new Error("TTS API error");
+
+      const data = await res.json();
+      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
+        /\s+/g,
+        ""
+      )}`;
+      const audio = new Audio(audioSrc);
+      await audio.play();
+    } catch (err) {
+      console.error("音声再生エラー:", err);
+    }
+  };
+
   const selectAllUnits = () => setSelectedUnits([...units]);
   const clearAllUnits = () => setSelectedUnits([]);
   const toggleUnit = (unit) =>
@@ -292,14 +321,16 @@ export default function EnglishTrapQuestions() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white border rounded-lg p-4 mt-4"
+                className="bg-yellow-100 border-l-8 border-yellow-500 rounded-lg p-6 mt-4 shadow-lg"
               >
-                <h3 className="font-bold mb-2">解説</h3>
-                <p>
+                <div className="flex items-center mb-2">
+                  <span className="text-2xl mr-2">📘</span>
+                  <h3 className="font-bold text-yellow-900 text-lg">
+                    解説をしっかり読もう！
+                  </h3>
+                </div>
+                <p className="text-gray-900 leading-relaxed text-base font-medium">
                   {currentQuestion.explanation}
-                  {currentQuestion.explanation && (
-                    <TTSButton text={currentQuestion.explanation} />
-                  )}
                 </p>
               </motion.div>
 
