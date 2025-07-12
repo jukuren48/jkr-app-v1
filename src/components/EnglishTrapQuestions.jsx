@@ -95,6 +95,7 @@ export default function EnglishTrapQuestions() {
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
+  const [inputDisabled, setInputDisabled] = useState(false);
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -210,6 +211,9 @@ export default function EnglishTrapQuestions() {
   const handleNext = () => {
     setCharacterMood("neutral");
     setSelectedChoice(null);
+    setShowFeedback(false);
+    setInputDisabled(true);
+    
     if (isCorrect) {
       if (currentIndex + 1 < filteredQuestions.length) {
         setCurrentIndex(currentIndex + 1);
@@ -220,6 +224,7 @@ export default function EnglishTrapQuestions() {
     }
     setSelectedChoice(null);
     setShowFeedback(false);
+    setTimeout(() => setInputDisabled(false), 300);
   };
 
   const hintPenalties = [2, 5, 10];
@@ -429,8 +434,11 @@ export default function EnglishTrapQuestions() {
                       <button
                         key={index}
                         onClick={() => handleAnswer(choice)}
+                        disabled={inputDisabled}
                         className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm"
                       >
+                        inputDisabled ? "opacity-50 cursor-not-allowed" : ""
+                        }'}
                         {choice}
                       </button>
                     )
