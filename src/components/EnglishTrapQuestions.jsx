@@ -519,7 +519,7 @@ export default function EnglishTrapQuestions() {
   <div className="mt-4 p-4 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
     <h3 className="text-lg font-bold text-[#4A6572] mb-2">選択した単語</h3>
     <p className="text-xl text-[#4A6572]">{selectedWord}</p>
-    <p className="text-gray-800">{dictionary[selectedWord] || "意味が登録されていません"}</p>
+    <p className="text-gray-800">{wordMeaning}</p>
   </div>
 )}
 
