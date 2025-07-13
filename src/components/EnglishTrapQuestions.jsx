@@ -96,6 +96,8 @@ export default function EnglishTrapQuestions() {
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
   const [inputDisabled, setInputDisabled] = useState(false);
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
+　const [questionMemo, setQuestionMemo] = useState("");
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -394,6 +396,8 @@ export default function EnglishTrapQuestions() {
                   {currentQuestion.explanation}
                 </p>
               </motion.div>
+
+              <button onClick={() => setShowQuestionModal(true)}>後で先生に質問する</button>
 
               <button
                 onClick={handleNext}
