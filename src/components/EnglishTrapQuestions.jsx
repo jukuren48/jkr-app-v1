@@ -412,24 +412,24 @@ export default function EnglishTrapQuestions() {
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
 
-              <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 text-center">
-                <h2 className="text-xl font-bold text-[#4A6572] mb-2 break-words whitespace-pre-wrap">
-                  {currentQuestion.type === "multiple-choice" && (
-                    <span>
-                      {currentQuestion.question.split(" ").map((word, idx) => (
-                        <span
-                          key={idx}
-                          onClick={() => setSelectedWord(word)}
-                          className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
-                        >
-                          {word}
-                        </span>
-                      ))}
-                    </span>
-                  )}
-                  {currentQuestion.type === "input" && currentQuestion.prompt}
-                </h2>
-              </div>
+              <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6">
+  <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-left whitespace-pre-wrap break-normal">
+    {currentQuestion.type === "multiple-choice" && (
+      <span>
+        {currentQuestion.question.split(" ").map((word, idx) => (
+          <span
+            key={idx}
+            onClick={() => setSelectedWord(word)}
+            className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
+          >
+            {word}
+          </span>
+        ))}
+      </span>
+    )}
+    {currentQuestion.type === "input" && currentQuestion.prompt}
+  </h2>
+</div>
 
               {currentQuestion.type === "multiple-choice" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
@@ -445,6 +445,8 @@ export default function EnglishTrapQuestions() {
     {choice}
   </span>
 </button>
+
+
                     )
                   )}
                 </div>
