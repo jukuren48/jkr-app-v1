@@ -413,7 +413,7 @@ export default function EnglishTrapQuestions() {
               </h2>
 
               <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6">
-  <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-left whitespace-pre-wrap break-normal">
+  <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-left whitespace-pre-wrap break-words">
     {currentQuestion.type === "multiple-choice" && (
       <span>
         {currentQuestion.question.split(" ").map((word, idx) => (
