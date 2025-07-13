@@ -91,6 +91,18 @@ export default function EnglishTrapQuestions() {
   const [inputAnswer, setInputAnswer] = useState("");
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
+  const dictionary = {
+  "writing": "書いている",
+  "letter": "手紙",
+  "friend": "友達",
+  "Canada": "カナダ",
+  "tell": "伝える",
+  "her": "彼女の",
+  "new": "新しい",
+  "school": "学校",
+  "classmates": "クラスメートたち",
+  // ...先生が使う単語をどんどん追加
+};
   const [wordAudioSrc, setWordAudioSrc] = useState("");
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
