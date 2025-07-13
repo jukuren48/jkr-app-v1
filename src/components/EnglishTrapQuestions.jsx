@@ -124,6 +124,12 @@ export default function EnglishTrapQuestions() {
     speakExplanation(currentQuestion.explanation);
   }, [showFeedback, isCorrect, currentQuestion]);
 
+  const handleWordClick = (word) => {
+  setSelectedWord(word);
+  setWordMeaning(dictionary[word] || "意味が登録されていません");
+  speakExplanation(word);
+};
+
   const speakExplanation = async (text) => {
     if (!text || text.trim() === "") return;
     try {
@@ -419,7 +425,7 @@ export default function EnglishTrapQuestions() {
         {currentQuestion.question.split(" ").map((word, idx) => (
           <span
   key={idx}
-  onClick={() => setSelectedWord(word)}
+  onClick={() => handleWordClick(word)}
   className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition whitespace-nowrap"
 >
   {word}
@@ -488,6 +494,14 @@ export default function EnglishTrapQuestions() {
               )}
             </div>
           )}
+          {selectedWord && (
+  <div className="mt-4 p-4 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
+    <h3 className="text-lg font-bold text-[#4A6572] mb-2">選択した単語</h3>
+    <p className="text-xl text-[#4A6572]">{selectedWord}</p>
+    <p className="text-gray-800">{wordMeaning}</p>
+  </div>
+)}
+
         </div>
       )}
 
