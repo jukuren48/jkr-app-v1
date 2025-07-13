@@ -136,9 +136,19 @@ export default function EnglishTrapQuestions() {
     speakExplanation(currentQuestion.explanation);
   }, [showFeedback, isCorrect, currentQuestion]);
 
-  const handleWordClick = (word) => {
+  const handleWordClick = async (word) => {
   setSelectedWord(word);
   speakExplanation(word);
+
+  try {
+    const res = await fetch(`/api/translate?word=${encodeURIComponent(word)}`);
+    if (!res.ok) throw new Error("Translation API error");
+    const data = await res.json();
+    setWordMeaning(data.translation);
+  } catch (err) {
+    console.error(err);
+    setWordMeaning("意味を取得できませんでした");
+  }
 };
 
   const speakExplanation = async (text) => {
