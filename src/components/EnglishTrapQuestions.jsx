@@ -436,15 +436,15 @@ export default function EnglishTrapQuestions() {
                   {shuffleArray(currentQuestion.choices || []).map(
                     (choice, index) => (
                       <button
-  　　　　　　　　　　　　key={index}
- 　　　　　　　　　　　　 onClick={() => handleAnswer(choice)}
-　　　　　　　　　　　　  disabled={inputDisabled}
-　　　　　　　　　　　　  <h2 className="text-xl font-bold text-[#4A6572] mb-2 whitespace-pre-wrap break-normal text-left">
- 　　　　　　　　　　　　　 {currentQuestion.question || currentQuestion.prompt}
-　　　　　　　　　　　　　</h2>
-　　　　　　　　　　　　>
- 　　　　　　　　　　　　 {choice}
-　　　　　　　　　　　　</button>
+  key={index}
+  onClick={() => handleAnswer(choice)}
+  disabled={inputDisabled}
+  className={`flex items-center justify-center bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm ${inputDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+>
+  <span className="text-left text-xl font-bold whitespace-pre-wrap break-normal">
+    {choice}
+  </span>
+</button>
                     )
                   )}
                 </div>
