@@ -420,7 +420,7 @@ export default function EnglishTrapQuestions() {
           <span
   key={idx}
   onClick={() => setSelectedWord(word)}
-  className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition break-keep"
+  className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition whitespace-nowrap"
 >
   {word}
 </span>
