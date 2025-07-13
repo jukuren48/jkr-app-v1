@@ -418,12 +418,12 @@ export default function EnglishTrapQuestions() {
       <span>
         {currentQuestion.question.split(" ").map((word, idx) => (
           <span
-            key={idx}
-            onClick={() => setSelectedWord(word)}
-            className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
-          >
-            {word}
-          </span>
+  key={idx}
+  onClick={() => setSelectedWord(word)}
+  className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition break-keep"
+>
+  {word}
+</span>
         ))}
       </span>
     )}
