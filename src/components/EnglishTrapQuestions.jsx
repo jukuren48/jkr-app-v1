@@ -73,6 +73,7 @@ function TTSButton({ text }) {
 
 export default function EnglishTrapQuestions() {
   const [questions, setQuestions] = useState([]);
+  const [questionList, setQuestionList] = useState([]);
   const [units, setUnits] = useState([]);
   const [selectedUnits, setSelectedUnits] = useState([]);
   const [questionCount, setQuestionCount] = useState(null);
@@ -268,6 +269,20 @@ export default function EnglishTrapQuestions() {
     }
   };
 
+  const handleAddToQuestionList = () => {
+    if (!currentQuestion) return;
+
+    const questionItem = {
+      id: currentQuestion.id,
+      question: currentQuestion.question || currentQuestion.prompt,
+      answer: selectedChoice || inputAnswer,
+      correct: currentQuestion.correct || currentQuestion.correctAnswer,
+      explanation: currentQuestion.explanation,
+    };
+
+    setQuestionList((prev) => [...prev, questionItem]);
+  };
+
   // ========== UI ==========
   const totalQuestions = filteredQuestions.length;
   const incorrectCount = Object.keys(mistakes).length;
@@ -411,6 +426,13 @@ export default function EnglishTrapQuestions() {
               </motion.div>
 
               <button
+                onClick={handleAddToQuestionList}
+                className="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
+              >
+                後で先生に質問する
+              </button>
+
+              <button
                 onClick={handleNext}
                 className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
               >
@@ -500,6 +522,19 @@ export default function EnglishTrapQuestions() {
                   </h3>
                   <p className="text-xl text-[#4A6572]">{selectedWord}</p>
                   <p className="text-gray-800">{wordMeaning}</p>
+                </div>
+              )}
+
+              {questionList.length > 0 && (
+                <div className="mt-6 p-4 bg-gray-100 rounded shadow">
+                  <h3 className="font-bold mb-2">質問ボックス（仮表示）</h3>
+                  <ul className="list-disc pl-5">
+                    {questionList.map((item, index) => (
+                      <li key={index}>
+                        {item.question}（あなたの答え: {item.answer}）
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>
