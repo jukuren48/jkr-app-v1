@@ -92,6 +92,7 @@ export default function EnglishTrapQuestions() {
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showQuestions, setShowQuestions] = useState(false);
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [answers, setAnswers] = useState({});
   const [showFeedback, setShowFeedback] = useState(false);
@@ -317,6 +318,12 @@ export default function EnglishTrapQuestions() {
     setTimeout(() => setAddMessage(""), 3000);
   };
 
+  const handleDeleteQuestion = (index) => {
+    const newList = [...questionList];
+    newList.splice(index, 1);
+    setQuestionList(newList);
+  };
+
   // ========== UI ==========
   const totalQuestions = filteredQuestions.length;
   const incorrectCount = Object.keys(mistakes).length;
@@ -342,6 +349,18 @@ export default function EnglishTrapQuestions() {
       <h1 className="text-2xl font-bold mb-4">
         英語ひっかけ問題 ～塾長からの挑戦状～
       </h1>
+
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">
+          英語ひっかけ問題 ～塾長からの挑戦状～
+        </h1>
+        <button
+          onClick={() => setShowQuestionModal(true)}
+          className="bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-4 py-2 rounded-full shadow transition"
+        >
+          📥 質問ボックス（{questionList.length}件）
+        </button>
+      </div>
 
       {/* スタート画面 */}
       {!showQuestions && !showResult && units.length > 0 && (
@@ -658,6 +677,64 @@ export default function EnglishTrapQuestions() {
               </button>
             </div>
           )}
+        </div>
+      )}
+
+      {showQuestionModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
+            <h2 className="text-xl font-bold mb-4 text-center">質問ボックス</h2>
+
+            {questionList.length === 0 ? (
+              <p className="text-gray-600 text-center">
+                質問はまだありません。
+              </p>
+            ) : (
+              <ul className="space-y-4 max-h-96 overflow-y-auto">
+                {questionList.map((item, index) => (
+                  <li key={index} className="p-3 border rounded bg-gray-50">
+                    <p className="font-semibold">{item.question}</p>
+                    <p className="text-sm text-gray-600">
+                      あなたの答え: {item.answer}
+                    </p>
+                    <p className="text-sm text-green-700">
+                      正解: {item.correct}
+                    </p>
+                    <p className="text-sm text-gray-800 mt-1">
+                      {item.explanation}
+                    </p>
+                    <button
+                      onClick={() => handleDeleteQuestion(index)}
+                      className="mt-2 bg-red-400 text-white px-3 py-1 rounded shadow hover:bg-red-500"
+                    >
+                      削除
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div className="mt-4 flex justify-between">
+              <button
+                onClick={() => setShowQuestionModal(false)}
+                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
+              >
+                閉じる
+              </button>
+              {questionList.length > 0 && (
+                <button
+                  onClick={() => {
+                    setQuestionList([]);
+                    localStorage.removeItem("questionList");
+                    setShowQuestionModal(false);
+                  }}
+                  className="bg-red-400 text-white px-4 py-2 rounded shadow hover:bg-red-500"
+                >
+                  全てクリア
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
