@@ -96,6 +96,7 @@ export default function EnglishTrapQuestions() {
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
+  const [addMessage, setAddMessage] = useState("");
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -272,6 +273,15 @@ export default function EnglishTrapQuestions() {
   const handleAddToQuestionList = () => {
     if (!currentQuestion) return;
 
+    // 重複チェック
+    const isAlreadySaved = questionList.some(
+      (item) => item.id === currentQuestion.id
+    );
+    if (isAlreadySaved) {
+      setAddMessage("この質問はすでに質問ボックスに入っています。");
+      return;
+    }
+
     const questionItem = {
       id: currentQuestion.id,
       question: currentQuestion.question || currentQuestion.prompt,
@@ -281,6 +291,10 @@ export default function EnglishTrapQuestions() {
     };
 
     setQuestionList((prev) => [...prev, questionItem]);
+    setAddMessage("質問ボックスに保存しました！");
+
+    // 数秒後にメッセージを消す
+    setTimeout(() => setAddMessage(""), 3000);
   };
 
   // ========== UI ==========
@@ -431,6 +445,12 @@ export default function EnglishTrapQuestions() {
               >
                 後で先生に質問する
               </button>
+
+              {addMessage && (
+                <p className="mt-2 text-green-700 font-semibold">
+                  {addMessage}
+                </p>
+              )}
 
               <button
                 onClick={handleNext}
