@@ -138,7 +138,6 @@ export default function EnglishTrapQuestions() {
 
   const handleWordClick = async (word) => {
     setSelectedWord(word);
-    speakExplanation(word);
 
     try {
       const res = await fetch(
@@ -151,6 +150,7 @@ export default function EnglishTrapQuestions() {
       console.error(err);
       setWordMeaning("意味を取得できませんでした");
     }
+
     // ここで英語モードを指定
     await speakExplanation(word, "en-US");
   };
