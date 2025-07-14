@@ -73,9 +73,21 @@ function TTSButton({ text }) {
 
 export default function EnglishTrapQuestions() {
   const [questions, setQuestions] = useState([]);
-  const [questionList, setQuestionList] = useState([]);
+  const [questionList, setQuestionList] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("questionList");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
   const [units, setUnits] = useState([]);
-  const [selectedUnits, setSelectedUnits] = useState([]);
+  const [selectedUnits, setSelectedUnits] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("selectedUnits");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -97,6 +109,14 @@ export default function EnglishTrapQuestions() {
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
   const [addMessage, setAddMessage] = useState("");
+
+  useEffect(() => {
+    localStorage.setItem("questionList", JSON.stringify(questionList));
+  }, [questionList]);
+
+  useEffect(() => {
+    localStorage.setItem("selectedUnits", JSON.stringify(selectedUnits));
+  }, [selectedUnits]);
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -627,6 +647,15 @@ export default function EnglishTrapQuestions() {
                   </li>
                 ))}
               </ul>
+              <button
+                onClick={() => {
+                  setQuestionList([]);
+                  localStorage.removeItem("questionList");
+                }}
+                className="bg-red-400 text-white px-4 py-2 rounded shadow hover:bg-red-500"
+              >
+                質問ボックスを全てクリア
+              </button>
             </div>
           )}
         </div>
