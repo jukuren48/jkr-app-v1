@@ -91,10 +91,25 @@ export default function EnglishTrapQuestions() {
   const [inputAnswer, setInputAnswer] = useState("");
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
+  const dictionary = {
+    writing: "書いている",
+    letter: "手紙",
+    friend: "友達",
+    Canada: "カナダ",
+    tell: "伝える",
+    her: "彼女の",
+    new: "新しい",
+    school: "学校",
+    classmates: "クラスメートたち",
+    // ...先生が使う単語をどんどん追加
+  };
   const [wordAudioSrc, setWordAudioSrc] = useState("");
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
+  const [inputDisabled, setInputDisabled] = useState(false);
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
+  const [questionMemo, setQuestionMemo] = useState("");
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -121,15 +136,31 @@ export default function EnglishTrapQuestions() {
     speakExplanation(currentQuestion.explanation);
   }, [showFeedback, isCorrect, currentQuestion]);
 
+  const handleWordClick = async (word) => {
+    setSelectedWord(word);
+    speakExplanation(word);
+
+    try {
+      const res = await fetch(
+        `/api/translate?word=${encodeURIComponent(word)}`
+      );
+      if (!res.ok) throw new Error("Translation API error");
+      const data = await res.json();
+      setWordMeaning(data.translation);
+    } catch (err) {
+      console.error(err);
+      setWordMeaning("意味を取得できませんでした");
+    }
+    // ここで英語モードを指定
+    await speakExplanation(word, "en-US");
+  };
+
   const speakExplanation = async (text) => {
     if (!text || text.trim() === "") return;
     try {
-      const res = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-
+      const res = await fetch(
+        `/api/tts?text=${encodeURIComponent(text)}&lang=${lang}`
+      );
       if (!res.ok) throw new Error("TTS API error");
 
       const data = await res.json();
@@ -142,6 +173,26 @@ export default function EnglishTrapQuestions() {
     } catch (err) {
       console.error("音声再生エラー:", err);
     }
+    //    if (!text || text.trim() === "") return;
+    //    try {
+    //        const res = await fetch("/api/tts", {
+    //        method: "POST",
+    //        headers: { "Content-Type": "application/json" },
+    //        body: JSON.stringify({ text }),
+    //      });
+    //
+    //      if (!res.ok) throw new Error("TTS API error");
+    //
+    //      const data = await res.json();
+    //      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
+    //        /\s+/g,
+    //        ""
+    //      )}`;
+    //      const audio = new Audio(audioSrc);
+    //      await audio.play();
+    //    } catch (err) {
+    //      console.error("音声再生エラー:", err);
+    //    }
   };
 
   const selectAllUnits = () => setSelectedUnits([...units]);
@@ -209,6 +260,10 @@ export default function EnglishTrapQuestions() {
 
   const handleNext = () => {
     setCharacterMood("neutral");
+    setSelectedChoice(null);
+    setShowFeedback(false);
+    setInputDisabled(true);
+
     if (isCorrect) {
       if (currentIndex + 1 < filteredQuestions.length) {
         setCurrentIndex(currentIndex + 1);
@@ -219,6 +274,7 @@ export default function EnglishTrapQuestions() {
     }
     setSelectedChoice(null);
     setShowFeedback(false);
+    setTimeout(() => setInputDisabled(false), 300);
   };
 
   const hintPenalties = [2, 5, 10];
@@ -389,6 +445,10 @@ export default function EnglishTrapQuestions() {
                 </p>
               </motion.div>
 
+              <button onClick={() => setShowQuestionModal(true)}>
+                後で先生に質問する
+              </button>
+
               <button
                 onClick={handleNext}
                 className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
@@ -402,15 +462,15 @@ export default function EnglishTrapQuestions() {
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
 
-              <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 text-center">
-                <h2 className="text-xl font-bold text-[#4A6572] mb-2 break-words whitespace-pre-wrap">
+              <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6">
+                <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-left whitespace-pre-wrap break-words">
                   {currentQuestion.type === "multiple-choice" && (
                     <span>
                       {currentQuestion.question.split(" ").map((word, idx) => (
                         <span
                           key={idx}
-                          onClick={() => setSelectedWord(word)}
-                          className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
+                          onClick={() => handleWordClick(word)}
+                          className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition whitespace-nowrap"
                         >
                           {word}
                         </span>
@@ -428,9 +488,14 @@ export default function EnglishTrapQuestions() {
                       <button
                         key={index}
                         onClick={() => handleAnswer(choice)}
-                        className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm"
+                        disabled={inputDisabled}
+                        className={`flex items-center justify-center bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm ${
+                          inputDisabled ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                       >
-                        {choice}
+                        <span className="text-left text-xl font-bold whitespace-pre-wrap break-normal">
+                          {choice}
+                        </span>
                       </button>
                     )
                   )}
@@ -471,6 +536,15 @@ export default function EnglishTrapQuestions() {
                   </button>
                 </div>
               )}
+            </div>
+          )}
+          {selectedWord && (
+            <div className="mt-4 p-4 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
+              <h3 className="text-lg font-bold text-[#4A6572] mb-2">
+                選択した単語
+              </h3>
+              <p className="text-xl text-[#4A6572]">{selectedWord}</p>
+              <p className="text-gray-800">{wordMeaning}</p>
             </div>
           )}
         </div>
