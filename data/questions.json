@@ -2401,13 +2401,13 @@
     "explanation": "現在完了の経験用法でhas been toを使い、three timesを付けます。"
   },
   {
-    "id": 1040,
-    "type": "input",
-    "unit": "仮定法★",
-    "prompt": "「もし雨が降ったら、私は家にいるでしょう。」を英語に訳しなさい。",
-    "correctAnswer": "If it rained, I would stay home.",
-    "explanation": "仮定法過去でIf + 過去形、結果はwould + 動詞の原形を使います。"
-  },
+  "id": 1040,
+  "type": "input",
+  "unit": "条件文★",
+  "prompt": "「もし雨が降ったら、私は家にいるでしょう。」を英語に訳しなさい。",
+  "correctAnswer": "If it rains, I will stay home.",
+  "explanation": "条件を表すif節では、未来のことでも現在形を使います。これは「まだ起こるか分からない条件」を表すためです。例えば 'If it rains, I will stay home.' が正しい形です。"
+},
   {
     "id": 1041,
     "type": "input",
