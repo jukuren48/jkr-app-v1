@@ -143,6 +143,27 @@ export default function EnglishTrapQuestions() {
     }
   };
 
+  const handleWordClick = async (word) => {
+    setSelectedWord(word);
+    setWordMeaning("翻訳中...");
+
+    // 1️⃣ 音声を英語モードで鳴らす
+    await speakExplanation(word, "en-US");
+
+    // 2️⃣ 翻訳APIを呼んで日本語訳を取得
+    try {
+      const res = await fetch(
+        `/api/translate?word=${encodeURIComponent(word)}`
+      );
+      if (!res.ok) throw new Error("Translation API error");
+      const data = await res.json();
+      setWordMeaning(data.translation);
+    } catch (err) {
+      console.error(err);
+      setWordMeaning("意味を取得できませんでした");
+    }
+  };
+
   const selectAllUnits = () => setSelectedUnits([...units]);
   const clearAllUnits = () => setSelectedUnits([]);
   const toggleUnit = (unit) =>
@@ -469,6 +490,16 @@ export default function EnglishTrapQuestions() {
                       ? "ヒントを見る"
                       : "これ以上ヒントはありません"}
                   </button>
+                </div>
+              )}
+
+              {selectedWord && (
+                <div className="mt-4 p-4 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
+                  <h3 className="text-lg font-bold text-[#4A6572] mb-2">
+                    選択した単語
+                  </h3>
+                  <p className="text-xl text-[#4A6572]">{selectedWord}</p>
+                  <p className="text-gray-800">{wordMeaning}</p>
                 </div>
               )}
             </div>
