@@ -544,19 +544,6 @@ export default function EnglishTrapQuestions() {
                   <p className="text-gray-800">{wordMeaning}</p>
                 </div>
               )}
-
-              {questionList.length > 0 && (
-                <div className="mt-6 p-4 bg-gray-100 rounded shadow">
-                  <h3 className="font-bold mb-2">質問ボックス（仮表示）</h3>
-                  <ul className="list-disc pl-5">
-                    {questionList.map((item, index) => (
-                      <li key={index}>
-                        {item.question}（あなたの答え: {item.answer}）
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -630,6 +617,18 @@ export default function EnglishTrapQuestions() {
               別の問題にチャレンジ
             </button>
           </div>
+          {questionList.length > 0 && (
+            <div className="mt-6 p-4 bg-gray-100 rounded shadow">
+              <h3 className="font-bold mb-2">質問ボックス（仮表示）</h3>
+              <ul className="list-disc pl-5">
+                {questionList.map((item, index) => (
+                  <li key={index}>
+                    {item.question}（あなたの答え: {item.answer}）
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>
