@@ -147,10 +147,10 @@ export default function EnglishTrapQuestions() {
     setSelectedWord(word);
     setWordMeaning("翻訳中...");
 
-    // 1️⃣ 音声を英語モードで鳴らす
+    // ① クリックした単語を英語音声で再生
     await speakExplanation(word, "en-US");
 
-    // 2️⃣ 翻訳APIを呼んで日本語訳を取得
+    // ② Google翻訳APIで日本語訳を取得
     try {
       const res = await fetch(
         `/api/translate?word=${encodeURIComponent(word)}`
@@ -430,7 +430,7 @@ export default function EnglishTrapQuestions() {
                       {currentQuestion.question.split(" ").map((word, idx) => (
                         <span
                           key={idx}
-                          onClick={() => setSelectedWord(word)}
+                          onClick={() => handleWordClick(word)}
                           className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
                         >
                           {word}
