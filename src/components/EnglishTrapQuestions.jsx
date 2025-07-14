@@ -121,12 +121,14 @@ export default function EnglishTrapQuestions() {
     speakExplanation(currentQuestion.explanation);
   }, [showFeedback, isCorrect, currentQuestion]);
 
-  const speakExplanation = async (text) => {
+  const speakExplanation = async (text, lang = "ja-JP") => {
     if (!text || text.trim() === "") return;
     try {
-      const res = await fetch(
-        `/api/tts?text=${encodeURIComponent(text)}&lang=${lang}`
-      );
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, lang }),
+      });
       if (!res.ok) throw new Error("TTS API error");
 
       const data = await res.json();
@@ -139,26 +141,6 @@ export default function EnglishTrapQuestions() {
     } catch (err) {
       console.error("音声再生エラー:", err);
     }
-    //    if (!text || text.trim() === "") return;
-    //    try {
-    //        const res = await fetch("/api/tts", {
-    //        method: "POST",
-    //        headers: { "Content-Type": "application/json" },
-    //        body: JSON.stringify({ text }),
-    //      });
-    //
-    //      if (!res.ok) throw new Error("TTS API error");
-    //
-    //      const data = await res.json();
-    //      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
-    //        /\s+/g,
-    //        ""
-    //      )}`;
-    //      const audio = new Audio(audioSrc);
-    //      await audio.play();
-    //    } catch (err) {
-    //      console.error("音声再生エラー:", err);
-    //    }
   };
 
   const selectAllUnits = () => setSelectedUnits([...units]);
