@@ -346,10 +346,6 @@ export default function EnglishTrapQuestions() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-yellow-100 max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">
-        英語ひっかけ問題 ～塾長からの挑戦状～
-      </h1>
-
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">
           英語ひっかけ問題 ～塾長からの挑戦状～
@@ -505,7 +501,7 @@ export default function EnglishTrapQuestions() {
               </h2>
 
               <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 text-center">
-                <h2 className="text-xl font-bold text-[#4A6572] mb-2 break-words whitespace-pre-wrap">
+                <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-left break-normal whitespace-pre-wrap">
                   {currentQuestion.type === "multiple-choice" && (
                     <span>
                       {currentQuestion.question.split(" ").map((word, idx) => (
