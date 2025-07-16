@@ -500,8 +500,8 @@ export default function EnglishTrapQuestions() {
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
 
-              <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 text-center">
-                <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-left word-break-keep-all whitespace-pre-wrap">
+              <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 max-w-xl mx-auto text-left">
+                <h2 className="text-xl font-bold text-[#4A6572] mb-2 break-words whitespace-pre-wrap">
                   {currentQuestion.type === "multiple-choice" && (
                     <span>
                       {currentQuestion.question.split(" ").map((word, idx) => (
