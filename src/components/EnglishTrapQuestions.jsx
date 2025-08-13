@@ -110,6 +110,7 @@ export default function EnglishTrapQuestions() {
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
   const [addMessage, setAddMessage] = useState("");
+  const [inputDisabled, setInputDisabled] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
