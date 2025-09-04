@@ -111,6 +111,7 @@ export default function EnglishTrapQuestions() {
   const [hintLevels, setHintLevels] = useState({});
   const [addMessage, setAddMessage] = useState("");
   const [inputDisabled, setInputDisabled] = useState(false);
+  const [showAnswer, setShowAnswer] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -223,9 +224,29 @@ export default function EnglishTrapQuestions() {
     if (currentQuestion.type === "multiple-choice") {
       isCorrectAnswer = answer === currentQuestion.correct;
     } else if (currentQuestion.type === "input") {
-      isCorrectAnswer =
-        answer.trim().toLowerCase() ===
-        currentQuestion.correctAnswer.trim().toLowerCase();
+      let corrects = [];
+
+      if (Array.isArray(currentQuestion.correct)) {
+        // correct が配列ならそのまま使う
+        corrects = currentQuestion.correct;
+      } else if (Array.isArray(currentQuestion.correctAnswers)) {
+        // correctAnswers が配列ならそれを使う
+        corrects = currentQuestion.correctAnswers;
+      } else {
+        // どれも配列でなければ単一の文字列として扱う
+        corrects = [
+          currentQuestion.correctAnswer || currentQuestion.correct || "",
+        ];
+      }
+
+      // nullや空文字を除去して安全に比較
+      corrects = corrects.filter(
+        (c) => typeof c === "string" && c.trim() !== ""
+      );
+
+      isCorrectAnswer = corrects.some(
+        (c) => c.trim().toLowerCase() === answer.trim().toLowerCase()
+      );
     }
 
     setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
@@ -450,7 +471,40 @@ export default function EnglishTrapQuestions() {
                 </div>
               ) : (
                 <div className="bg-[#F8B195] text-white p-4 rounded-lg shadow text-center">
-                  ❌ 不正解です。もう一度挑戦しよう！
+                  ❌ 不正解です。
+                  {!showAnswer ? (
+                    <div className="mt-4">
+                      <button
+                        onClick={() => setShowAnswer(true)}
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow"
+                      >
+                        答えを見てみる
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="mt-4">
+                      <p className="font-bold mb-2">✅ 正解は：</p>
+                      <p className="bg-green-100 text-gray-800 p-2 rounded">
+                        {Array.isArray(currentQuestion.correct)
+                          ? currentQuestion.correct.join(" / ")
+                          : currentQuestion.correct}
+                      </p>
+                      <button
+                        onClick={() => {
+                          setShowAnswer(false);
+                          // 回答リセットして同じ問題を再挑戦
+                          setAnswers((prev) => ({
+                            ...prev,
+                            [currentQuestion.id]: undefined,
+                          }));
+                          setShowFeedback(false); // 解答結果表示を閉じる
+                        }}
+                        className="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow"
+                      >
+                        もう一度解いてみる
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -516,7 +570,7 @@ export default function EnglishTrapQuestions() {
                       ))}
                     </span>
                   )}
-                  {currentQuestion.type === "input" && currentQuestion.prompt}
+                  {currentQuestion.type === "input" && currentQuestion.question}
                 </h2>
               </div>
 

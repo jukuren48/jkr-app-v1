@@ -637,8 +637,11 @@
     "unit": "分詞★",
     "question": "「あそこで走っている少年はケンです。」を英語に訳しなさい。",
     "choices": [],
-    "correct": "The boy running over there is Ken.",
-    "explanation": "現在分詞runningを使って『走っている少年』を表現します。",
+    "correct": [
+      "The boy running over there is Ken.",
+      "The boy who is running over there is Ken."
+    ],
+    "explanation": "現在分詞runningを使って『走っている少年』を表現します。関係代名詞whoを使ってもよい。",
     "incorrectExplanations": {},
     "type": "input"
   },
@@ -647,8 +650,11 @@
     "unit": "分詞★",
     "question": "「あそこで泣いている赤ちゃんは私の妹です。」を英語に訳しなさい。",
     "choices": [],
-    "correct": "The baby crying over there is my sister.",
-    "explanation": "現在分詞cryingを名詞の前に使って『泣いている赤ちゃん』を表現します。",
+    "correct": [
+      "The baby crying over there is my sister.",
+      "The baby who is crying over there is my sister."
+    ],
+    "explanation": "現在分詞cryingを名詞の前に使って『泣いている赤ちゃん』を表現します。関係代名詞whoを使ってもよい。",
     "incorrectExplanations": {},
     "type": "input"
   },
@@ -1644,7 +1650,7 @@
   },
   {
     "id": "15369649-ceca-4f47-8817-203f7e8f9390",
-    "unit": "接続詞（if / when）",
+    "unit": "接続詞",
     "question": "I will call you (  ) I get home.",
     "choices": ["if", "when", "because", "so"],
     "correct": "when",
@@ -1946,7 +1952,7 @@
   },
   {
     "id": "4cd17af1-1fd7-4242-b19c-dd9aa4b39c6e",
-    "unit": "現在完了形",
+    "unit": "現在完了",
     "question": "I have never (  ) a whale before.",
     "choices": ["see", "saw", "seen", "seeing"],
     "correct": "seen",
@@ -2070,7 +2076,7 @@
   },
   {
     "id": "97cca401-6f5d-436e-8673-67c94291e4d9",
-    "unit": "現在形と三単現",
+    "unit": "現在形",
     "question": "These days, my sister usually (  ) to school by bike.",
     "choices": ["go", "goes", "going", "went"],
     "correct": "goes",
@@ -3416,13 +3422,17 @@
     "type": "input"
   },
   {
-    "id": "1e2afd88-1189-4789-b546-b0634f124d27",
+    "id": "9b2c6b35-0c31-4c4a-9c1b-1c1a2a7f9e34",
     "unit": "関係代名詞★",
-    "question": "「これは私が昨日見た映画です。」を英語に訳しなさい。",
+    "question": "「これは昨日私が見た映画です。」を英語に訳しなさい。",
     "choices": [],
-    "correct": "This is the movie (which) I saw yesterday.",
-    "explanation": "目的格の関係代名詞は省略可能です。whichを入れてもOK。",
-    "incorrectExplanations": {},
+    "correct": "This is the movie I saw yesterday.",
+    "explanation": "『映画を見る』は英語で 'see a movie' が一般的です。'watch a movie' も使えますが、『じっと鑑賞する』というニュアンスが強く、自然な表現としては 'see' が推奨されます。関係代名詞 'which/that' は目的格なので省略可能です。",
+    "incorrectExplanations": {
+      "This is the movie I watched yesterday.": "『watch』は『じっと見る・鑑賞する』というニュアンスが強いですが、映画を見た経験を言うときは 'saw' が自然です。",
+      "This is the movie I see yesterday.": "『yesterday』があるので過去形 'saw' が必要です。現在形 'see' では時制が一致しません。",
+      "This is the movie I looked yesterday.": "『look』は『見る』ではなく『見ようとする／〜の方を見る』という意味なので不自然です。"
+    },
     "type": "input"
   },
   {
@@ -3454,5 +3464,145 @@
     "explanation": "関係代名詞whichを使い、『which I bought yesterday』で修飾します。",
     "incorrectExplanations": {},
     "type": "input"
+  },
+  {
+    "id": "a1f7c3d6-5b2e-4d3a-9c71-2b8f5e7d9a10",
+    "unit": "現在完了",
+    "question": "I (  ) in Tokyo since 2020.",
+    "choices": ["have lived", "lived", "am living", "have been lived"],
+    "correct": "have lived",
+    "explanation": "「since 2020」は過去のある時点からの継続 ⇒ 現在完了（have/has + 過去分詞）。",
+    "incorrectExplanations": {
+      "lived": "過去形。『2020年から今まで』の継続を表せません。",
+      "am living": "進行形は『今この瞬間』の動作のイメージ。継続期間を示すと不自然。",
+      "have been lived": "受動態＋現在完了は不可。主語が『住まされている』の意味になってしまいます。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "5c2e9d3b-6a41-4f8f-8b2d-7e4a3c5b9d21",
+    "unit": "現在完了",
+    "question": "Ken has (  ) to Canada. He isn't here now.",
+    "choices": ["gone", "been", "went", "go"],
+    "correct": "gone",
+    "explanation": "has gone to… は『行ってしまって今ここにいない』。文末の “isn't here now” と一致。",
+    "incorrectExplanations": {
+      "been": "has been to… は『行ったことがある（経験）』。今いないことは示しません。",
+      "went": "現在完了ではなく過去形。現在とのつながりが切れます。",
+      "go": "原形は不可。時制・文法が合いません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "2e7b3a10-9d5c-4f6a-8b2e-1c3d5e7f9a42",
+    "unit": "比較",
+    "question": "Mt. Fuji is (  ) mountain in Japan.",
+    "choices": ["the highest", "highest", "most high", "the most high"],
+    "correct": "the highest",
+    "explanation": "最上級は原則 the + 最上級。『日本で最も高い山』＝ the highest。",
+    "incorrectExplanations": {
+      "highest": "the が必要です（可算名詞の単数）。",
+      "most high": "形容詞 high は ‘the highest’ を使います。",
+      "the most high": "high の最上級は ‘the highest’。語形成が誤り。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "9bf13e27-4a6d-4b8c-9f21-3d5e7a9c1b53",
+    "unit": "前置詞",
+    "question": "She is good (  ) baseball.",
+    "choices": ["at", "in", "for", "of"],
+    "correct": "at",
+    "explanation": "『～が得意だ』は be good at ～。",
+    "incorrectExplanations": {
+      "in": "be interested in などと混同注意。good には at。",
+      "for": "目的・用途を表すことが多く、この文脈では不自然。",
+      "of": "性質評価（It is kind of you.）などで使う of とは別用法です。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "c4d7e2a9-1b5f-4c8d-9e2f-7a3b5d1e6f64",
+    "unit": "冠詞",
+    "question": "He plays (  ) piano very well.",
+    "choices": ["the", "a", "an", "—"],
+    "correct": "the",
+    "explanation": "楽器名は通例 the を用います（play the piano / the guitar など）。",
+    "incorrectExplanations": {
+      "a": "楽器では a は通常使いません。",
+      "an": "母音で始まる語に付ける不定冠詞ですが、ここでは the が必要。",
+      "—": "無冠詞は基本不可。定冠詞 the を用います。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "7e3a5c1b-9d2f-4a6d-8c7b-1f2e3d4c5b75",
+    "unit": "間接疑問文",
+    "question": "Do you know where (  )?",
+    "choices": ["she lives", "does she live", "she live", "does she lives"],
+    "correct": "she lives",
+    "explanation": "間接疑問は平叙文語順（主語＋動詞）。Do/Does を倒置しません。",
+    "incorrectExplanations": {
+      "does she live": "直接疑問の語順。間接疑問では×。",
+      "she live": "現在形の三単現。live → lives が必要。",
+      "does she lives": "助動詞 does の後は動詞原形。二重の誤り。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "f1a2b3c4-d5e6-4f7a-8b9c-0a1b2c3d4e86",
+    "unit": "条件表現",
+    "question": "Bring an umbrella in case it (  ).",
+    "choices": ["rains", "will rain", "rain", "rained"],
+    "correct": "rains",
+    "explanation": "in case の節はふつう現在形で未来の可能性を表します（日本語は未来でも）。",
+    "incorrectExplanations": {
+      "will rain": "従属節に will は通常置きません（If / When などと同様）。",
+      "rain": "三単現の s が必要です（主語 it）。",
+      "rained": "過去形ではありません。未来への備えを表す現在形。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "0c1d2e3f-4a5b-6c7d-8e9f-1a2b3c4d5e97",
+    "unit": "関係代名詞",
+    "question": "I met a boy (  ) father is a doctor.",
+    "choices": ["whose", "who", "which", "that"],
+    "correct": "whose",
+    "explanation": "所有格をつなぐのは whose（『その父』＝ the boy's father）。",
+    "incorrectExplanations": {
+      "who": "主格。後ろに名詞（father）が来るので不可。",
+      "which": "人には通常用いません（カンマ非制限用法など例外はあります）。",
+      "that": "所有の関係は作れません。whose を使います。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e7d6c5b4-a3f2-4e1d-9c8b-7a6f5e4d3c08",
+    "unit": "There構文",
+    "question": "There (  ) three books on the desk.",
+    "choices": ["are", "is", "has", "exists"],
+    "correct": "are",
+    "explanation": "There + be 構文は後ろの主語（three books）に一致。複数形 ⇒ are。",
+    "incorrectExplanations": {
+      "is": "単数主語の場合に用います。ここは three books（複数）。",
+      "has": "have/has ではなく be 動詞を使います。",
+      "exists": "口語の存在表現は There is/are を用いるのが自然。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "3b2a1c4d-5e6f-4789-8a7b-9c0d1e2f3a19",
+    "unit": "動名詞",
+    "question": "I enjoy (  ) to music after dinner.",
+    "choices": ["listening", "to listen", "listen", "listened"],
+    "correct": "listening",
+    "explanation": "enjoy の後ろは動名詞（～すること）。listen to ～ の形に注意。",
+    "incorrectExplanations": {
+      "to listen": "enjoy は to不定詞を取りません。",
+      "listen": "原形は不可。文法上の目的語が必要です。",
+      "listened": "過去分詞/過去形は不可。ここでは名詞的用法が必要。"
+    },
+    "type": "multiple-choice"
   }
 ]
