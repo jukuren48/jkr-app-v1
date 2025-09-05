@@ -3154,13 +3154,13 @@
     "id": "f37febf4-1d0c-4c8c-9a9e-668325046bbb",
     "unit": "連語",
     "question": "【日本語】彼はクラスで一番速く走ります。\n【英語】He runs (  ) in his class.",
-    "choices": ["fastest", "faster", "fast", "most fast"],
-    "correct": "fastest",
-    "explanation": "「fastest」は『最も速く』を意味する最上級で、グループ内で一番を表すときに使います。",
+    "choices": ["the fastest", "faster", "fast", "most fast"],
+    "correct": "the fastest",
+    "explanation": "「fastest」は『最も速く』を意味する最上級で、グループ内で一番を表すときに使います。「the」の付け忘れに注意！",
     "incorrectExplanations": {
       "fast": "「fast」は原級で比較や最上級を表せません。",
       "faster": "「faster」は比較級で2者間の比較に使います。",
-      "most fast": "「most fast」は文法的に正しくなく、最上級には『fastest』を使います。"
+      "most fast": "「most fast」は文法的に正しくなく、最上級には『the fastest』を使います。"
     },
     "type": "multiple-choice"
   },
