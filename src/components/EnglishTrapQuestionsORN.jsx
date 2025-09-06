@@ -1,4 +1,4 @@
-// EnglishTrapQuestions.jsx - Google TTS対応版 + 制限時間機能追加
+// EnglishTrapQuestions.jsx - Google TTS対応版
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -112,12 +112,6 @@ export default function EnglishTrapQuestions() {
   const [addMessage, setAddMessage] = useState("");
   const [inputDisabled, setInputDisabled] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
-  // 選択肢を一度だけシャッフルして保持
-  const [shuffledChoices, setShuffledChoices] = useState([]);
-
-  // 🔽 追加: タイマー state
-  const [timeLeft, setTimeLeft] = useState(0);
-  const [timerActive, setTimerActive] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -141,6 +135,7 @@ export default function EnglishTrapQuestions() {
   }, []);
 
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
+
   useEffect(() => {
     if (!showFeedback) return;
     if (isCorrect) return;
@@ -222,60 +217,6 @@ export default function EnglishTrapQuestions() {
     setMistakes({});
   };
 
-  // 🔽 追加: 問題切り替え時に制限時間を設定
-  useEffect(() => {
-    if (!currentQuestion || showFeedback) return;
-
-    let limit = 15; // デフォルト
-    if (currentQuestion.type === "input") {
-      limit = 30; // 記述問題
-    } else if (currentQuestion.type === "multiple-choice") {
-      if (currentQuestion.unit && currentQuestion.unit.includes("読解")) {
-        limit = 20; // 読解問題
-      } else {
-        limit = 10; // 通常の選択問題
-      }
-    }
-
-    setTimeLeft(limit);
-    setTimerActive(true);
-    setShowAnswer(false);
-  }, [currentQuestion, showFeedback]);
-
-  // 🔽 追加: カウントダウン処理
-  useEffect(() => {
-    if (!timerActive || timeLeft <= 0) return;
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [timerActive, timeLeft]);
-
-  // 🔽 追加: 時間切れ処理
-  useEffect(() => {
-    if (!timerActive || timeLeft > 0 || !currentQuestion || showResult) return;
-
-    setTimerActive(false);
-    setShowFeedback(true);
-    setIsCorrect(false);
-    setShowAnswer(true);
-    setSelectedChoice("（時間切れ）");
-
-    if (!mistakes[currentQuestion.id]) {
-      setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
-      setFirstMistakeAnswers((prev) => ({
-        ...prev,
-        [currentQuestion.id]: "（時間切れ）",
-      }));
-    }
-  }, [timeLeft, timerActive, currentQuestion, mistakes]);
-
-  useEffect(() => {
-    if (currentQuestion?.choices) {
-      setShuffledChoices(shuffleArray(currentQuestion.choices));
-    }
-  }, [currentQuestion]);
-
   const handleAnswer = (answer) => {
     const currentQuestion = filteredQuestions[currentIndex];
     let isCorrectAnswer = false;
@@ -286,15 +227,19 @@ export default function EnglishTrapQuestions() {
       let corrects = [];
 
       if (Array.isArray(currentQuestion.correct)) {
+        // correct が配列ならそのまま使う
         corrects = currentQuestion.correct;
       } else if (Array.isArray(currentQuestion.correctAnswers)) {
+        // correctAnswers が配列ならそれを使う
         corrects = currentQuestion.correctAnswers;
       } else {
+        // どれも配列でなければ単一の文字列として扱う
         corrects = [
           currentQuestion.correctAnswer || currentQuestion.correct || "",
         ];
       }
 
+      // nullや空文字を除去して安全に比較
       corrects = corrects.filter(
         (c) => typeof c === "string" && c.trim() !== ""
       );
@@ -322,11 +267,11 @@ export default function EnglishTrapQuestions() {
     setSelectedChoice(answer);
     setIsCorrect(isCorrectAnswer);
     setShowFeedback(true);
-    setTimerActive(false); // 🔽 回答時にタイマー停止
     setInputAnswer("");
     setHintLevel(0);
     setHintText("");
   };
+
   const handleNext = () => {
     setCharacterMood("neutral");
     if (isCorrect) {
@@ -335,34 +280,11 @@ export default function EnglishTrapQuestions() {
       } else {
         setShowQuestions(false);
         setShowResult(true);
-        setTimerActive(false); // 🔽 タイマー停止
-        setTimeLeft(0); // 🔽 残り時間リセット
-        setShowFeedback(false); // 🔽 フィードバック非表示に
       }
     }
     setSelectedChoice(null);
     setShowFeedback(false);
     setTimeout(() => setInputDisabled(false), 300);
-  };
-
-  const restartQuiz = () => {
-    setCharacterMood("neutral");
-    setCurrentIndex(0);
-    setAnswers({});
-    setMistakes({});
-    setFirstMistakeAnswers({});
-    setShowQuestions(true);
-    setShowResult(false);
-    setShowFeedback(false);
-    setSelectedChoice(null);
-    setInputAnswer("");
-    setHintLevel(0);
-    setHintText("");
-    setTimerActive(false);
-    setTimeLeft(0);
-
-    // 🔽 同じ問題を最初から出す
-    setFilteredQuestions([...initialQuestions]);
   };
 
   const hintPenalties = [2, 5, 10];
@@ -383,6 +305,7 @@ export default function EnglishTrapQuestions() {
       setHintLevel(nextLevel);
       setHintText(generateHint());
 
+      // 現在の問題IDをキーにしてhintLevelを記録
       setHintLevels((prev) => ({
         ...prev,
         [currentQuestion.id]: nextLevel,
@@ -393,6 +316,7 @@ export default function EnglishTrapQuestions() {
   const handleAddToQuestionList = () => {
     if (!currentQuestion) return;
 
+    // 重複チェック
     const isAlreadySaved = questionList.some(
       (item) => item.id === currentQuestion.id
     );
@@ -412,6 +336,7 @@ export default function EnglishTrapQuestions() {
     setQuestionList((prev) => [...prev, questionItem]);
     setAddMessage("質問ボックスに保存しました！");
 
+    // 数秒後にメッセージを消す
     setTimeout(() => setAddMessage(""), 3000);
   };
 
@@ -539,6 +464,7 @@ export default function EnglishTrapQuestions() {
               >
                 解答結果
               </motion.h2>
+
               {isCorrect ? (
                 <div className="bg-[#6DBD98] text-white p-4 rounded-lg shadow text-center">
                   ✅ 正解です！ よくできました！
@@ -566,11 +492,12 @@ export default function EnglishTrapQuestions() {
                       <button
                         onClick={() => {
                           setShowAnswer(false);
+                          // 回答リセットして同じ問題を再挑戦
                           setAnswers((prev) => ({
                             ...prev,
                             [currentQuestion.id]: undefined,
                           }));
-                          setShowFeedback(false);
+                          setShowFeedback(false); // 解答結果表示を閉じる
                         }}
                         className="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow"
                       >
@@ -628,11 +555,6 @@ export default function EnglishTrapQuestions() {
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
 
-              {/* 🔽 タイマー表示 */}
-              <div className="text-red-600 font-bold mb-4">
-                残り時間: {timeLeft} 秒
-              </div>
-
               <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 max-w-2xl mx-auto text-left">
                 <h2 className="text-xl font-bold mb-2 text-left word-break-clean whitespace-pre-wrap max-w-prose mx-auto">
                   {currentQuestion.type === "multiple-choice" && (
@@ -654,15 +576,17 @@ export default function EnglishTrapQuestions() {
 
               {currentQuestion.type === "multiple-choice" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                  {shuffledChoices.map((choice, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleAnswer(choice)}
-                      className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm"
-                    >
-                      {choice}
-                    </button>
-                  ))}
+                  {shuffleArray(currentQuestion.choices || []).map(
+                    (choice, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleAnswer(choice)}
+                        className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm"
+                      >
+                        {choice}
+                      </button>
+                    )
+                  )}
                 </div>
               )}
 
@@ -770,9 +694,8 @@ export default function EnglishTrapQuestions() {
           )}
 
           <div className="flex gap-4">
-            {" "}
             <button
-              onClick={restartQuiz}
+              onClick={() => setShowQuestions(true)}
               className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
             >
               同じ問題でもう一度
