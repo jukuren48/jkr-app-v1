@@ -228,12 +228,12 @@ export default function EnglishTrapQuestions() {
 
     let limit = 15; // デフォルト
     if (currentQuestion.type === "input") {
-      limit = 30; // 記述問題
+      limit = 45; // 記述問題
     } else if (currentQuestion.type === "multiple-choice") {
       if (currentQuestion.unit && currentQuestion.unit.includes("読解")) {
-        limit = 20; // 読解問題
+        limit = 30; // 読解問題
       } else {
-        limit = 10; // 通常の選択問題
+        limit = 15; // 通常の選択問題
       }
     }
 
