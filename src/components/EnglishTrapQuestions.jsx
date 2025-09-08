@@ -118,6 +118,7 @@ export default function EnglishTrapQuestions() {
   // 🔽 追加: タイマー state
   const [timeLeft, setTimeLeft] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
+  const [maxTime, setMaxTime] = useState(0);
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -238,6 +239,7 @@ export default function EnglishTrapQuestions() {
     }
 
     setTimeLeft(limit);
+    setMaxTime(limit);
     setTimerActive(true);
     setShowAnswer(false);
   }, [currentQuestion, showFeedback]);
@@ -629,8 +631,24 @@ export default function EnglishTrapQuestions() {
               </h2>
 
               {/* 🔽 タイマー表示 */}
-              <div className="text-red-600 font-bold mb-4">
+              <div
+                className={`text-xl font-bold mb-2 ${
+                  timeLeft <= 5 ? "text-red-600 animate-pulse" : "text-gray-800"
+                }`}
+              >
                 残り時間: {timeLeft} 秒
+              </div>
+
+              {/* 🔽 残り時間バー */}
+              <div className="w-full bg-gray-200 h-4 rounded mb-4">
+                <div
+                  className={`h-4 rounded transition-all duration-1000 ${
+                    timeLeft > 5 ? "bg-green-500" : "bg-red-500 animate-pulse"
+                  }`}
+                  style={{
+                    width: `${maxTime > 0 ? (timeLeft / maxTime) * 100 : 0}%`,
+                  }}
+                ></div>
               </div>
 
               <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 max-w-2xl mx-auto text-left">

@@ -49,8 +49,7 @@
       "for": "for her の場合、間接的にものが移動するというイメージなので違います。",
       "by": "by her では彼女があげるような表現になってしまうのであわない。"
     },
-    "type": "\"multiple-choice\" or \"input\"",
-    "primaryKey": "id"
+    "type": "multiple-choice"
   },
   {
     "id": "d646db5e-101a-4b21-a26e-15cce1a84ee7",
