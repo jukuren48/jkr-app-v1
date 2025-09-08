@@ -255,6 +255,13 @@ export default function EnglishTrapQuestions() {
     return () => clearInterval(timer);
   }, [timerActive, timeLeft]);
 
+  useEffect(() => {
+    if (timerActive && timeLeft > 0 && timeLeft <= 5) {
+      const beep = new Audio("/sounds/count.mp3");
+      beep.play();
+    }
+  }, [timeLeft, timerActive]);
+
   // 🔽 追加: 時間切れ処理
   useEffect(() => {
     if (!timerActive || timeLeft > 0 || !currentQuestion || showResult) return;
@@ -262,6 +269,9 @@ export default function EnglishTrapQuestions() {
     setTimerActive(false);
     setCharacterMood("panic");
     setTimeUp(true); // 🔽 時間切れ演出フラグON
+    // 🔽 時間切れブザー音
+    const buzzer = new Audio("/sounds/timesup.mp3");
+    buzzer.play();
 
     // 1.5秒後に解答結果画面に切り替える
     setTimeout(() => {
