@@ -268,8 +268,7 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     if (soundEnabled && timerActive && timeLeft > 0 && timeLeft <= 5) {
-      countSound.currentTime = 0;
-      countSound.play().catch((err) => console.error("カウント音エラー:", err));
+      playSound("/sounds/count.mp3");
     }
   }, [timeLeft, timerActive, soundEnabled]);
 
@@ -282,10 +281,7 @@ export default function EnglishTrapQuestions() {
     setTimeUp(true); // 🔽 時間切れ演出フラグON
     // 🔽 時間切れブザー音
     if (soundEnabled) {
-      timeupSound.currentTime = 0;
-      timeupSound
-        .play()
-        .catch((err) => console.error("時間切れ音エラー:", err));
+      playSound("/sounds/timesup.mp3");
     }
 
     // 1.5秒後に解答結果画面に切り替える
