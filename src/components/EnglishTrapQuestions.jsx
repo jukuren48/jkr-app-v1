@@ -128,6 +128,10 @@ export default function EnglishTrapQuestions() {
   const [maxTime, setMaxTime] = useState(0);
   const [timeUp, setTimeUp] = useState(false);
 
+  // 効果音
+  const [countSound] = useState(() => new Audio("/sounds/count.mp3"));
+  const [timeupSound] = useState(() => new Audio("/sounds/timesup.mp3"));
+
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
   }, [questionList]);
@@ -263,9 +267,12 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     if (timerActive && timeLeft > 0 && timeLeft <= 5) {
-      playSound("/sounds/count.mp3");
+      countSound.currentTime = 0; // 再生位置を先頭に戻す
+      countSound
+        .play()
+        .catch((err) => console.error("カウント音再生エラー:", err));
     }
-  }, [timeLeft, timerActive]);
+  }, [timeLeft, timerActive, countSound]);
 
   // 🔽 追加: 時間切れ処理
   useEffect(() => {
@@ -275,7 +282,10 @@ export default function EnglishTrapQuestions() {
     setCharacterMood("panic");
     setTimeUp(true); // 🔽 時間切れ演出フラグON
     // 🔽 時間切れブザー音
-    playSound("/sounds/timesup.mp3");
+    timeupSound.currentTime = 0;
+    timeupSound
+      .play()
+      .catch((err) => console.error("時間切れ音再生エラー:", err));
 
     // 1.5秒後に解答結果画面に切り替える
     setTimeout(() => {
