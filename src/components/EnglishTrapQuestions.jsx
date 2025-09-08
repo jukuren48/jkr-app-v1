@@ -120,6 +120,7 @@ export default function EnglishTrapQuestions() {
   const [timeLeft, setTimeLeft] = useState(0);
   const [timerActive, setTimerActive] = useState(false);
   const [maxTime, setMaxTime] = useState(0);
+  const [timeUp, setTimeUp] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -259,19 +260,24 @@ export default function EnglishTrapQuestions() {
     if (!timerActive || timeLeft > 0 || !currentQuestion || showResult) return;
 
     setTimerActive(false);
-    setShowFeedback(true);
-    setIsCorrect(false);
-    setShowAnswer(true);
-    setSelectedChoice("（時間切れ）");
     setCharacterMood("panic");
+    setTimeUp(true); // 🔽 時間切れ演出フラグON
 
-    if (!mistakes[currentQuestion.id]) {
-      setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
-      setFirstMistakeAnswers((prev) => ({
-        ...prev,
-        [currentQuestion.id]: "（時間切れ）",
-      }));
-    }
+    // 1.5秒後に解答結果画面に切り替える
+    setTimeout(() => {
+      setShowFeedback(true);
+      setIsCorrect(false);
+      setShowAnswer(true);
+      setSelectedChoice("（時間切れ）");
+      setTimeUp(false); // 🔽 演出を消す
+      if (!mistakes[currentQuestion.id]) {
+        setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
+        setFirstMistakeAnswers((prev) => ({
+          ...prev,
+          [currentQuestion.id]: "（時間切れ）",
+        }));
+      }
+    }, 1500);
   }, [timeLeft, timerActive, currentQuestion, mistakes]);
 
   useEffect(() => {
@@ -654,7 +660,7 @@ export default function EnglishTrapQuestions() {
               </div>
 
               {/* 🔽 時間切れ表示 */}
-              {timeLeft === 0 && !showResult && (
+              {timeUp && (
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1.2 }}
