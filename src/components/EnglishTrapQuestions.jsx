@@ -131,6 +131,7 @@ export default function EnglishTrapQuestions() {
   // 効果音
   const [countSound] = useState(() => new Audio("/sounds/count.mp3"));
   const [timeupSound] = useState(() => new Audio("/sounds/timesup.mp3"));
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -266,13 +267,11 @@ export default function EnglishTrapQuestions() {
   }, [timerActive, timeLeft]);
 
   useEffect(() => {
-    if (timerActive && timeLeft > 0 && timeLeft <= 5) {
-      countSound.currentTime = 0; // 再生位置を先頭に戻す
-      countSound
-        .play()
-        .catch((err) => console.error("カウント音再生エラー:", err));
+    if (soundEnabled && timerActive && timeLeft > 0 && timeLeft <= 5) {
+      countSound.currentTime = 0;
+      countSound.play().catch((err) => console.error("カウント音エラー:", err));
     }
-  }, [timeLeft, timerActive, countSound]);
+  }, [timeLeft, timerActive, soundEnabled]);
 
   // 🔽 追加: 時間切れ処理
   useEffect(() => {
@@ -282,10 +281,12 @@ export default function EnglishTrapQuestions() {
     setCharacterMood("panic");
     setTimeUp(true); // 🔽 時間切れ演出フラグON
     // 🔽 時間切れブザー音
-    timeupSound.currentTime = 0;
-    timeupSound
-      .play()
-      .catch((err) => console.error("時間切れ音再生エラー:", err));
+    if (soundEnabled) {
+      timeupSound.currentTime = 0;
+      timeupSound
+        .play()
+        .catch((err) => console.error("時間切れ音エラー:", err));
+    }
 
     // 1.5秒後に解答結果画面に切り替える
     setTimeout(() => {
@@ -542,6 +543,19 @@ export default function EnglishTrapQuestions() {
               </button>
             ))}
           </div>
+          {!soundEnabled && (
+            <button
+              onClick={() => {
+                // ユーザー操作で一度再生 → 自動再生が許可される
+                countSound.play().then(() => countSound.pause());
+                timeupSound.play().then(() => timeupSound.pause());
+                setSoundEnabled(true);
+              }}
+              className="bg-blue-500 text-white px-4 py-2 rounded shadow mb-4"
+            >
+              🔊 サウンドON
+            </button>
+          )}
           <button
             onClick={startQuiz}
             disabled={selectedUnits.length === 0 || !questionCount}
