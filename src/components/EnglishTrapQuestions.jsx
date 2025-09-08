@@ -16,6 +16,7 @@ function Character({ mood }) {
     neutral: { emoji: "😊", message: "がんばれー！" },
     happy: { emoji: "😃", message: "よくできたね！" },
     sad: { emoji: "😢💦", message: "おしい！もう一度がんばろう" },
+    panic: { emoji: "😱", message: "時間切れ〜！！" },
   };
 
   return (
@@ -262,6 +263,7 @@ export default function EnglishTrapQuestions() {
     setIsCorrect(false);
     setShowAnswer(true);
     setSelectedChoice("（時間切れ）");
+    setCharacterMood("panic");
 
     if (!mistakes[currentQuestion.id]) {
       setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
@@ -650,6 +652,18 @@ export default function EnglishTrapQuestions() {
                   }}
                 ></div>
               </div>
+
+              {/* 🔽 時間切れ表示 */}
+              {timeLeft === 0 && !showResult && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1.2 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="text-4xl font-extrabold text-red-600 text-center my-6"
+                >
+                  ⏰ 時間切れ！
+                </motion.div>
+              )}
 
               <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 max-w-2xl mx-auto text-left">
                 <h2 className="text-xl font-bold mb-2 text-left word-break-clean whitespace-pre-wrap max-w-prose mx-auto">
