@@ -2,6 +2,12 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+const playSound = (src) => {
+  const audio = new Audio(src);
+  audio.currentTime = 0; // 🔽 再生位置を頭に戻す
+  audio.play().catch((err) => console.error("音声再生エラー:", err));
+};
+
 function shuffleArray(array) {
   const copy = [...array];
   for (let i = copy.length - 1; i > 0; i--) {
@@ -257,8 +263,7 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     if (timerActive && timeLeft > 0 && timeLeft <= 5) {
-      const beep = new Audio("/sounds/count.mp3");
-      beep.play();
+      playSound("/sounds/count.mp3");
     }
   }, [timeLeft, timerActive]);
 
@@ -270,8 +275,7 @@ export default function EnglishTrapQuestions() {
     setCharacterMood("panic");
     setTimeUp(true); // 🔽 時間切れ演出フラグON
     // 🔽 時間切れブザー音
-    const buzzer = new Audio("/sounds/timesup.mp3");
-    buzzer.play();
+    playSound("/sounds/timesup.mp3");
 
     // 1.5秒後に解答結果画面に切り替える
     setTimeout(() => {
