@@ -129,8 +129,6 @@ export default function EnglishTrapQuestions() {
   const [timeUp, setTimeUp] = useState(false);
 
   // 効果音
-  const [countSound] = useState(() => new Audio("/sounds/count.mp3"));
-  const [timeupSound] = useState(() => new Audio("/sounds/timesup.mp3"));
   const [soundEnabled, setSoundEnabled] = useState(false);
 
   useEffect(() => {
@@ -543,8 +541,8 @@ export default function EnglishTrapQuestions() {
             <button
               onClick={() => {
                 // ユーザー操作で一度再生 → 自動再生が許可される
-                countSound.play().then(() => countSound.pause());
-                timeupSound.play().then(() => timeupSound.pause());
+                playSound("/sounds/count.mp3"); // ユーザー操作で一度鳴らして自動再生許可
+                playSound("/sounds/timesup.mp3"); // 同上
                 setSoundEnabled(true);
               }}
               className="bg-blue-500 text-white px-4 py-2 rounded shadow mb-4"
