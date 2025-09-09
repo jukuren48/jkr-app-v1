@@ -2,6 +2,24 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
+// === 追加: 音量まわりの参照 ===
+const soundsRef = useRef({}); // { count, timeup, correct, wrong, bgm } ← AudioBuffer
+const masterGainRef = useRef(null); // マスター音量
+const sfxGainRef = useRef(null); // 効果音（ビープ/ブザー/正解/不正解）
+const bgmGainRef = useRef(null); // BGM
+const bgmSourceRef = useRef(null); // 現在再生中のBGM BufferSource（停止用）
+
+// === 追加: 音量 state（0〜100％）ローカル保存 ===
+const [masterVol, setMasterVol] = useState(() =>
+  Number(localStorage.getItem("vol_master") ?? 100)
+);
+const [sfxVol, setSfxVol] = useState(() =>
+  Number(localStorage.getItem("vol_sfx") ?? 100)
+);
+const [bgmVol, setBgmVol] = useState(() =>
+  Number(localStorage.getItem("vol_bgm") ?? 50)
+);
+
 // === Web Audio API（安定再生用） ===
 let audioCtx; // 1アプリで1つ
 
@@ -11,6 +29,23 @@ const initAudioContext = () => {
   }
   if (audioCtx.state === "suspended") {
     audioCtx.resume();
+  }
+
+  // まだ作ってなければ Gain ノードを作成して配線
+  if (!masterGainRef.current) {
+    masterGainRef.current = audioCtx.createGain();
+    sfxGainRef.current = audioCtx.createGain();
+    bgmGainRef.current = audioCtx.createGain();
+
+    // sfx と bgm をマスターにまとめる
+    sfxGainRef.current.connect(masterGainRef.current);
+    bgmGainRef.current.connect(masterGainRef.current);
+    masterGainRef.current.connect(audioCtx.destination);
+
+    // 初期音量反映（0〜1に正規化）
+    masterGainRef.current.gain.value = masterVol / 100;
+    sfxGainRef.current.gain.value = sfxVol / 100;
+    bgmGainRef.current.gain.value = bgmVol / 100;
   }
 };
 
@@ -22,6 +57,50 @@ const loadSoundBuffer = async (url) => {
   return await new Promise((resolve, reject) => {
     audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
   });
+};
+
+// SFX再生（その都度 BufferSource 作成）
+const playSfx = (key) => {
+  if (!audioCtx || !soundsRef.current[key]) return;
+  const src = audioCtx.createBufferSource();
+  src.buffer = soundsRef.current[key];
+  src.connect(sfxGainRef.current);
+  src.start(0);
+};
+
+// BGM 再生（ループ、フェードイン）
+const startBGM = () => {
+  if (!audioCtx || !soundsRef.current.bgm) return;
+  // 既に鳴っていたら一旦止める
+  stopBGM();
+
+  const src = audioCtx.createBufferSource();
+  src.buffer = soundsRef.current.bgm;
+  src.loop = true;
+  src.connect(bgmGainRef.current);
+  bgmSourceRef.current = src;
+
+  // フェードイン
+  const g = bgmGainRef.current.gain;
+  g.cancelScheduledValues(audioCtx.currentTime);
+  const target = bgmVol / 100;
+  g.setValueAtTime(0, audioCtx.currentTime);
+  g.linearRampToValueAtTime(target, audioCtx.currentTime + 0.4);
+
+  src.start(0);
+};
+
+// BGM 停止（フェードアウトして停止）
+const stopBGM = () => {
+  if (!audioCtx || !bgmSourceRef.current) return;
+  const src = bgmSourceRef.current;
+  const g = bgmGainRef.current.gain;
+  g.cancelScheduledValues(audioCtx.currentTime);
+  g.setTargetAtTime(0, audioCtx.currentTime, 0.1); // ふわっと消す
+  try {
+    src.stop(audioCtx.currentTime + 0.15);
+  } catch {}
+  bgmSourceRef.current = null;
 };
 
 function shuffleArray(array) {
@@ -146,7 +225,7 @@ export default function EnglishTrapQuestions() {
 
   // 効果音
   const [soundEnabled, setSoundEnabled] = useState(false);
-  const soundsRef = useRef({});
+  //const soundsRef = useRef({});
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -241,6 +320,7 @@ export default function EnglishTrapQuestions() {
     );
 
   const startQuiz = () => {
+    if (soundEnabled) stopBGM();
     const filtered = questions.filter((q) => selectedUnits.includes(q.unit));
     if (filtered.length === 0) {
       alert("選択した単元に問題がありません。");
@@ -260,6 +340,44 @@ export default function EnglishTrapQuestions() {
     setSelectedChoice(null);
     setMistakes({});
   };
+
+  // 画面状態に合わせてBGMを制御
+  useEffect(() => {
+    if (!soundEnabled || !audioCtx) return;
+    const onStartScreen = !showQuestions && !showResult;
+    if (onStartScreen) startBGM();
+    else stopBGM();
+  }, [soundEnabled, showQuestions, showResult]);
+
+  useEffect(() => {
+    localStorage.setItem("vol_master", String(masterVol));
+    if (masterGainRef.current && audioCtx) {
+      masterGainRef.current.gain.setValueAtTime(
+        masterVol / 100,
+        audioCtx.currentTime
+      );
+    }
+  }, [masterVol]);
+
+  useEffect(() => {
+    localStorage.setItem("vol_sfx", String(sfxVol));
+    if (sfxGainRef.current && audioCtx) {
+      sfxGainRef.current.gain.setValueAtTime(
+        sfxVol / 100,
+        audioCtx.currentTime
+      );
+    }
+  }, [sfxVol]);
+
+  useEffect(() => {
+    localStorage.setItem("vol_bgm", String(bgmVol));
+    if (bgmGainRef.current && audioCtx) {
+      bgmGainRef.current.gain.setValueAtTime(
+        bgmVol / 100,
+        audioCtx.currentTime
+      );
+    }
+  }, [bgmVol]);
 
   // 🔽 追加: 問題切り替え時に制限時間を設定
   useEffect(() => {
@@ -299,7 +417,7 @@ export default function EnglishTrapQuestions() {
       timeLeft <= 5 &&
       soundEnabled
     ) {
-      playBuffer("count");
+      playSfx("count");
     }
   }, [timeLeft, timerActive, soundEnabled, showResult]);
 
@@ -312,7 +430,7 @@ export default function EnglishTrapQuestions() {
     setTimeUp(true); // 🔽 時間切れ演出フラグON
 
     // 新: Web Audio API でバッファ再生
-    playBuffer("timeup");
+    playSfx("timeup");
 
     // 1.5秒後に解答結果画面に切り替える
     setTimeout(() => {
@@ -377,8 +495,10 @@ export default function EnglishTrapQuestions() {
 
     if (isCorrectAnswer) {
       setCharacterMood("happy");
+      if (soundEnabled) playSfx("correct");
     } else {
       setCharacterMood("sad");
+      if (soundEnabled) playSfx("wrong");
       if (!mistakes[currentQuestion.id]) {
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
         setFirstMistakeAnswers((prev) => ({
@@ -583,19 +703,26 @@ export default function EnglishTrapQuestions() {
                 try {
                   initAudioContext();
                   // 効果音をプリロード
-                  const [countBuf, timeupBuf] = await Promise.all([
-                    loadSoundBuffer("/sounds/count.mp3"),
-                    loadSoundBuffer("/sounds/timesup.mp3"),
-                  ]);
+                  const [countBuf, timeupBuf, correctBuf, wrongBuf, bgmBuf] =
+                    await Promise.all([
+                      loadSoundBuffer("/sounds/count.mp3"),
+                      loadSoundBuffer("/sounds/timesup.mp3"),
+                      loadSoundBuffer("/sounds/correct.mp3"),
+                      loadSoundBuffer("/sounds/wrong.mp3"),
+                      loadSoundBuffer("/sounds/bgm.mp3"),
+                    ]);
                   soundsRef.current.count = countBuf;
                   soundsRef.current.timeup = timeupBuf;
+                  soundsRef.current.correct = correctBuf;
+                  soundsRef.current.wrong = wrongBuf;
+                  soundsRef.current.bgm = bgmBuf;
 
                   // 一度だけ無音に近い再生で端末の自動再生を許可（ユーザー操作内）
-                  const src = audioCtx.createBufferSource();
-                  src.buffer = countBuf;
-                  src.connect(audioCtx.destination);
-                  src.start(0);
-                  src.stop(audioCtx.currentTime + 0.01);
+                  //const src = audioCtx.createBufferSource();
+                  //src.buffer = countBuf;
+                  //src.connect(audioCtx.destination);
+                  //src.start(0);
+                  //src.stop(audioCtx.currentTime + 0.01);
 
                   setSoundEnabled(true);
                 } catch (e) {
@@ -609,6 +736,49 @@ export default function EnglishTrapQuestions() {
             >
               🔊 サウンドON
             </button>
+          )}
+          {soundEnabled && (
+            <div className="bg-white/70 rounded-lg p-4 mb-4 space-y-3">
+              <div>
+                <label className="block text-sm font-semibold">
+                  マスター音量: {masterVol}%
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={masterVol}
+                  onChange={(e) => setMasterVol(Number(e.target.value))}
+                  className="w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold">
+                  効果音（SE）音量: {sfxVol}%
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={sfxVol}
+                  onChange={(e) => setSfxVol(Number(e.target.value))}
+                  className="w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold">
+                  BGM 音量: {bgmVol}%
+                </label>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value={bgmVol}
+                  onChange={(e) => setBgmVol(Number(e.target.value))}
+                  className="w-full"
+                />
+              </div>
+            </div>
           )}
           <button
             onClick={startQuiz}
