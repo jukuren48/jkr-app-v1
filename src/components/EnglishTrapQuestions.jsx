@@ -2,106 +2,8 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
-// === 追加: 音量まわりの参照 ===
-const soundsRef = useRef({}); // { count, timeup, correct, wrong, bgm } ← AudioBuffer
-const masterGainRef = useRef(null); // マスター音量
-const sfxGainRef = useRef(null); // 効果音（ビープ/ブザー/正解/不正解）
-const bgmGainRef = useRef(null); // BGM
-const bgmSourceRef = useRef(null); // 現在再生中のBGM BufferSource（停止用）
-
-// === 追加: 音量 state（0〜100％）ローカル保存 ===
-const [masterVol, setMasterVol] = useState(() =>
-  Number(localStorage.getItem("vol_master") ?? 100)
-);
-const [sfxVol, setSfxVol] = useState(() =>
-  Number(localStorage.getItem("vol_sfx") ?? 100)
-);
-const [bgmVol, setBgmVol] = useState(() =>
-  Number(localStorage.getItem("vol_bgm") ?? 50)
-);
-
-// === Web Audio API（安定再生用） ===
-let audioCtx; // 1アプリで1つ
-
-const initAudioContext = () => {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  if (audioCtx.state === "suspended") {
-    audioCtx.resume();
-  }
-
-  // まだ作ってなければ Gain ノードを作成して配線
-  if (!masterGainRef.current) {
-    masterGainRef.current = audioCtx.createGain();
-    sfxGainRef.current = audioCtx.createGain();
-    bgmGainRef.current = audioCtx.createGain();
-
-    // sfx と bgm をマスターにまとめる
-    sfxGainRef.current.connect(masterGainRef.current);
-    bgmGainRef.current.connect(masterGainRef.current);
-    masterGainRef.current.connect(audioCtx.destination);
-
-    // 初期音量反映（0〜1に正規化）
-    masterGainRef.current.gain.value = masterVol / 100;
-    sfxGainRef.current.gain.value = sfxVol / 100;
-    bgmGainRef.current.gain.value = bgmVol / 100;
-  }
-};
-
-// 効果音バッファをメモリに読み込む
-const loadSoundBuffer = async (url) => {
-  const res = await fetch(url, { cache: "force-cache" });
-  const arrayBuffer = await res.arrayBuffer();
-  // decodeAudioDataはSafari対応のためPromise化
-  return await new Promise((resolve, reject) => {
-    audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
-  });
-};
-
-// SFX再生（その都度 BufferSource 作成）
-const playSfx = (key) => {
-  if (!audioCtx || !soundsRef.current[key]) return;
-  const src = audioCtx.createBufferSource();
-  src.buffer = soundsRef.current[key];
-  src.connect(sfxGainRef.current);
-  src.start(0);
-};
-
-// BGM 再生（ループ、フェードイン）
-const startBGM = () => {
-  if (!audioCtx || !soundsRef.current.bgm) return;
-  // 既に鳴っていたら一旦止める
-  stopBGM();
-
-  const src = audioCtx.createBufferSource();
-  src.buffer = soundsRef.current.bgm;
-  src.loop = true;
-  src.connect(bgmGainRef.current);
-  bgmSourceRef.current = src;
-
-  // フェードイン
-  const g = bgmGainRef.current.gain;
-  g.cancelScheduledValues(audioCtx.currentTime);
-  const target = bgmVol / 100;
-  g.setValueAtTime(0, audioCtx.currentTime);
-  g.linearRampToValueAtTime(target, audioCtx.currentTime + 0.4);
-
-  src.start(0);
-};
-
-// BGM 停止（フェードアウトして停止）
-const stopBGM = () => {
-  if (!audioCtx || !bgmSourceRef.current) return;
-  const src = bgmSourceRef.current;
-  const g = bgmGainRef.current.gain;
-  g.cancelScheduledValues(audioCtx.currentTime);
-  g.setTargetAtTime(0, audioCtx.currentTime, 0.1); // ふわっと消す
-  try {
-    src.stop(audioCtx.currentTime + 0.15);
-  } catch {}
-  bgmSourceRef.current = null;
-};
+// AudioContext はトップレベルで一意に保持
+let audioCtx = null;
 
 function shuffleArray(array) {
   const copy = [...array];
@@ -190,6 +92,8 @@ export default function EnglishTrapQuestions() {
     }
     return [];
   });
+  // 効果音 ON/OFF（← これを state 群の先頭付近に）
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -223,9 +127,109 @@ export default function EnglishTrapQuestions() {
   const [maxTime, setMaxTime] = useState(0);
   const [timeUp, setTimeUp] = useState(false);
 
-  // 効果音
-  const [soundEnabled, setSoundEnabled] = useState(false);
-  //const soundsRef = useRef({});
+  // 音量（0〜100）
+  const [masterVol, setMasterVol] = useState(() => {
+    if (typeof window === "undefined") return 100;
+    return Number(localStorage.getItem("vol_master") ?? 100);
+  });
+  const [sfxVol, setSfxVol] = useState(() => {
+    if (typeof window === "undefined") return 100;
+    return Number(localStorage.getItem("vol_sfx") ?? 100);
+  });
+  const [bgmVol, setBgmVol] = useState(() => {
+    if (typeof window === "undefined") return 50;
+    return Number(localStorage.getItem("vol_bgm") ?? 50);
+  });
+
+  // Buffer ロード
+  const loadSoundBuffer = async (url) => {
+    if (!audioCtx) initAudioContext();
+    const res = await fetch(url, { cache: "force-cache" });
+    const arrayBuffer = await res.arrayBuffer();
+    return await new Promise((resolve, reject) => {
+      // audioCtx はここまでに必ず用意されている想定だが、念のためガード
+      if (!audioCtx || !audioCtx.decodeAudioData) {
+        reject(new Error("AudioContext not ready"));
+        return;
+      }
+      audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
+    });
+  };
+
+  // 効果音再生（SEは sfxGain へ）
+  const playSfx = (key) => {
+    if (!audioCtx) return;
+    const buf = soundsRef.current[key];
+    if (!buf || !sfxGainRef.current) return;
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    src.connect(sfxGainRef.current);
+    src.start(0);
+  };
+
+  // BGM 再生/停止
+  const startBGM = () => {
+    if (!audioCtx || !soundsRef.current.bgm || !bgmGainRef.current) return;
+    stopBGM();
+    const src = audioCtx.createBufferSource();
+    src.buffer = soundsRef.current.bgm;
+    src.loop = true;
+    src.connect(bgmGainRef.current);
+    bgmSourceRef.current = src;
+
+    const g = bgmGainRef.current.gain;
+    g.cancelScheduledValues(audioCtx.currentTime);
+    const target = bgmVol / 100;
+    g.setValueAtTime(0, audioCtx.currentTime);
+    g.linearRampToValueAtTime(target, audioCtx.currentTime + 0.4);
+
+    src.start(0);
+  };
+
+  const stopBGM = () => {
+    if (!audioCtx || !bgmSourceRef.current || !bgmGainRef.current) return;
+    const src = bgmSourceRef.current;
+    const g = bgmGainRef.current.gain;
+    g.cancelScheduledValues(audioCtx.currentTime);
+    g.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+    try {
+      src.stop(audioCtx.currentTime + 0.15);
+    } catch {}
+    bgmSourceRef.current = null;
+  };
+
+  // 参照（GainやBuffer保持）
+  const soundsRef = useRef({}); // { count, timeup, correct, wrong, bgm } を保持
+  const masterGainRef = useRef(null);
+  const sfxGainRef = useRef(null);
+  const bgmGainRef = useRef(null);
+  const bgmSourceRef = useRef(null);
+
+  const initAudioContext = () => {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === "suspended") {
+      audioCtx.resume();
+    }
+
+    // まだ作ってなければ Gain ノードを作成して配線
+    if (!masterGainRef.current) {
+      masterGainRef.current = audioCtx.createGain();
+      sfxGainRef.current = audioCtx.createGain();
+      bgmGainRef.current = audioCtx.createGain();
+
+      // sfx と bgm をマスターにまとめる
+      sfxGainRef.current.connect(masterGainRef.current);
+      bgmGainRef.current.connect(masterGainRef.current);
+      masterGainRef.current.connect(audioCtx.destination);
+
+      // 初期音量反映（0〜1に正規化）
+      masterGainRef.current.gain.value = masterVol / 100;
+      sfxGainRef.current.gain.value = sfxVol / 100;
+      bgmGainRef.current.gain.value = bgmVol / 100;
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -279,16 +283,6 @@ export default function EnglishTrapQuestions() {
     } catch (err) {
       console.error("音声再生エラー:", err);
     }
-  };
-
-  const playBuffer = (key) => {
-    if (!soundEnabled || !audioCtx) return;
-    const buf = soundsRef.current[key];
-    if (!buf) return;
-    const src = audioCtx.createBufferSource();
-    src.buffer = buf;
-    src.connect(audioCtx.destination);
-    src.start(0);
   };
 
   const handleWordClick = async (word) => {
