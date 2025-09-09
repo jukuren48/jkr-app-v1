@@ -2,10 +2,26 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
-const playSound = (src) => {
-  const audio = new Audio(src);
-  audio.currentTime = 0; // 🔽 再生位置を頭に戻す
-  audio.play().catch((err) => console.error("音声再生エラー:", err));
+// === Web Audio API（安定再生用） ===
+let audioCtx; // 1アプリで1つ
+
+const initAudioContext = () => {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
+};
+
+// 効果音バッファをメモリに読み込む
+const loadSoundBuffer = async (url) => {
+  const res = await fetch(url, { cache: "force-cache" });
+  const arrayBuffer = await res.arrayBuffer();
+  // decodeAudioDataはSafari対応のためPromise化
+  return await new Promise((resolve, reject) => {
+    audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
+  });
 };
 
 function shuffleArray(array) {
@@ -130,6 +146,7 @@ export default function EnglishTrapQuestions() {
 
   // 効果音
   const [soundEnabled, setSoundEnabled] = useState(false);
+  const soundsRef = useRef({});
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -183,6 +200,16 @@ export default function EnglishTrapQuestions() {
     } catch (err) {
       console.error("音声再生エラー:", err);
     }
+  };
+
+  const playBuffer = (key) => {
+    if (!soundEnabled || !audioCtx) return;
+    const buf = soundsRef.current[key];
+    if (!buf) return;
+    const src = audioCtx.createBufferSource();
+    src.buffer = buf;
+    src.connect(audioCtx.destination);
+    src.start(0);
   };
 
   const handleWordClick = async (word) => {
@@ -265,8 +292,8 @@ export default function EnglishTrapQuestions() {
   }, [timerActive, timeLeft]);
 
   useEffect(() => {
-    if (soundEnabled && timerActive && timeLeft > 0 && timeLeft <= 5) {
-      playSound("/sounds/count.mp3");
+    if (timerActive && timeLeft > 0 && timeLeft <= 5 && soundEnabled) {
+      playBuffer("count");
     }
   }, [timeLeft, timerActive, soundEnabled]);
 
@@ -277,10 +304,9 @@ export default function EnglishTrapQuestions() {
     setTimerActive(false);
     setCharacterMood("panic");
     setTimeUp(true); // 🔽 時間切れ演出フラグON
-    // 🔽 時間切れブザー音
-    if (soundEnabled) {
-      playSound("/sounds/timesup.mp3");
-    }
+
+    // 新: Web Audio API でバッファ再生
+    playBuffer("timeup");
 
     // 1.5秒後に解答結果画面に切り替える
     setTimeout(() => {
@@ -539,11 +565,31 @@ export default function EnglishTrapQuestions() {
           </div>
           {!soundEnabled && (
             <button
-              onClick={() => {
-                // ユーザー操作で一度再生 → 自動再生が許可される
-                playSound("/sounds/count.mp3"); // ユーザー操作で一度鳴らして自動再生許可
-                playSound("/sounds/timesup.mp3"); // 同上
-                setSoundEnabled(true);
+              onClick={async () => {
+                try {
+                  initAudioContext();
+                  // 効果音をプリロード
+                  const [countBuf, timeupBuf] = await Promise.all([
+                    loadSoundBuffer("/sounds/count.mp3"),
+                    loadSoundBuffer("/sounds/timesup.mp3"),
+                  ]);
+                  soundsRef.current.count = countBuf;
+                  soundsRef.current.timeup = timeupBuf;
+
+                  // 一度だけ無音に近い再生で端末の自動再生を許可（ユーザー操作内）
+                  const src = audioCtx.createBufferSource();
+                  src.buffer = countBuf;
+                  src.connect(audioCtx.destination);
+                  src.start(0);
+                  src.stop(audioCtx.currentTime + 0.01);
+
+                  setSoundEnabled(true);
+                } catch (e) {
+                  console.error("サウンド初期化エラー:", e);
+                  alert(
+                    "サウンドの初期化に失敗しました。音量やブラウザ設定をご確認ください。"
+                  );
+                }
               }}
               className="bg-blue-500 text-white px-4 py-2 rounded shadow mb-4"
             >
