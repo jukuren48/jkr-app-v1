@@ -263,7 +263,7 @@ export default function EnglishTrapQuestions() {
 
   // 🔽 追加: 問題切り替え時に制限時間を設定
   useEffect(() => {
-    if (!currentQuestion || showFeedback) return;
+    if (!currentQuestion || showFeedback || showResult) return;
 
     let limit = 15; // デフォルト
     if (currentQuestion.type === "input") {
@@ -280,22 +280,28 @@ export default function EnglishTrapQuestions() {
     setMaxTime(limit);
     setTimerActive(true);
     setShowAnswer(false);
-  }, [currentQuestion, showFeedback]);
+  }, [currentQuestion, showFeedback, showResult]);
 
   // 🔽 追加: カウントダウン処理
   useEffect(() => {
-    if (!timerActive || timeLeft <= 0) return;
+    if (!timerActive || timeLeft <= 0 || showResult) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => prev - 1);
     }, 1000);
     return () => clearInterval(timer);
-  }, [timerActive, timeLeft]);
+  }, [timerActive, timeLeft, showResult]);
 
   useEffect(() => {
-    if (timerActive && timeLeft > 0 && timeLeft <= 5 && soundEnabled) {
+    if (
+      timerActive &&
+      !showResult &&
+      timeLeft > 0 &&
+      timeLeft <= 5 &&
+      soundEnabled
+    ) {
       playBuffer("count");
     }
-  }, [timeLeft, timerActive, soundEnabled]);
+  }, [timeLeft, timerActive, soundEnabled, showResult]);
 
   // 🔽 追加: 時間切れ処理
   useEffect(() => {
@@ -324,6 +330,14 @@ export default function EnglishTrapQuestions() {
       }
     }, 1500);
   }, [timeLeft, timerActive, currentQuestion, mistakes]);
+
+  useEffect(() => {
+    if (showResult) {
+      setTimerActive(false);
+      setTimeLeft(0);
+      setTimeUp(false);
+    }
+  }, [showResult]);
 
   useEffect(() => {
     if (currentQuestion?.choices) {
