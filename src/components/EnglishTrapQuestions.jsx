@@ -1,5 +1,5 @@
 // EnglishTrapQuestions.jsx - Google TTS対応版 + 制限時間機能追加
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 // === Web Audio API（安定再生用） ===
