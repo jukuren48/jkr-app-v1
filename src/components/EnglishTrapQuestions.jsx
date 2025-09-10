@@ -374,6 +374,27 @@ export default function EnglishTrapQuestions() {
     }
   }, [bgmVol]);
 
+  useEffect(() => {
+    if (showQuestions && currentQuestion) {
+      let soundFile = null;
+
+      if (currentIndex === 0) {
+        // ✅ 最初の問題
+        soundFile = "/sounds/deden.mp3"; // ← 1問目専用の音
+      } else {
+        // ✅ 2問目以降
+        soundFile = "/sounds/mondai.mp3"; // ← 通常の出題音
+      }
+
+      if (soundFile) {
+        const audio = new Audio(soundFile);
+        audio
+          .play()
+          .catch((err) => console.error("出題音の再生に失敗しました:", err));
+      }
+    }
+  }, [currentIndex, showQuestions]);
+
   // 🔽 追加: 問題切り替え時に制限時間を設定
   useEffect(() => {
     if (!currentQuestion || showFeedback || showResult) return;
