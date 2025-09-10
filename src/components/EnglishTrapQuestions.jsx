@@ -94,7 +94,12 @@ export default function EnglishTrapQuestions() {
   });
   // 効果音 ON/OFF（← これを state 群の先頭付近に）
 
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("soundEnabled") === "true";
+    }
+    return false; // 初期状態は OFF
+  });
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -375,6 +380,11 @@ export default function EnglishTrapQuestions() {
   }, [bgmVol]);
 
   useEffect(() => {
+    localStorage.setItem("soundEnabled", String(soundEnabled));
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
     // 単元選択画面が表示されたときに再生
     if (soundEnabled && !showQuestions && !showResult && units.length > 0) {
       const audio = new Audio("/sounds/sentaku.mp3");
@@ -387,6 +397,7 @@ export default function EnglishTrapQuestions() {
   }, [soundEnabled, showQuestions, showResult, units]);
 
   useEffect(() => {
+    if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
     if (showQuestions && currentQuestion) {
       let soundFile = null;
 
@@ -484,6 +495,8 @@ export default function EnglishTrapQuestions() {
     setTimerActive(false);
     setTimeLeft(0);
     setTimeUp(false);
+
+    if (!soundEnabled) return; // 🔇 サウンドOFFなら処理しない
 
     // 効果音を再生
     const playResultSound = () => {
@@ -750,89 +763,19 @@ export default function EnglishTrapQuestions() {
               </button>
             ))}
           </div>
-          {!soundEnabled && (
+          {/* サウンドON/OFFボタン */}
+          <div className="flex justify-center mb-4">
             <button
-              onClick={async () => {
-                try {
-                  initAudioContext();
-                  // 効果音をプリロード
-                  const [countBuf, timeupBuf, correctBuf, wrongBuf, bgmBuf] =
-                    await Promise.all([
-                      loadSoundBuffer("/sounds/count.mp3"),
-                      loadSoundBuffer("/sounds/timesup.mp3"),
-                      loadSoundBuffer("/sounds/correct.mp3"),
-                      loadSoundBuffer("/sounds/wrong.mp3"),
-                      loadSoundBuffer("/sounds/bgm.mp3"),
-                    ]);
-                  soundsRef.current.count = countBuf;
-                  soundsRef.current.timeup = timeupBuf;
-                  soundsRef.current.correct = correctBuf;
-                  soundsRef.current.wrong = wrongBuf;
-                  soundsRef.current.bgm = bgmBuf;
-
-                  // 一度だけ無音に近い再生で端末の自動再生を許可（ユーザー操作内）
-                  //const src = audioCtx.createBufferSource();
-                  //src.buffer = countBuf;
-                  //src.connect(audioCtx.destination);
-                  //src.start(0);
-                  //src.stop(audioCtx.currentTime + 0.01);
-
-                  setSoundEnabled(true);
-                } catch (e) {
-                  console.error("サウンド初期化エラー:", e);
-                  alert(
-                    "サウンドの初期化に失敗しました。音量やブラウザ設定をご確認ください。"
-                  );
-                }
-              }}
-              className="bg-blue-500 text-white px-4 py-2 rounded shadow mb-4"
+              onClick={() => setSoundEnabled((prev) => !prev)}
+              className={`px-4 py-2 rounded-full shadow transition ${
+                soundEnabled
+                  ? "bg-green-400 text-white"
+                  : "bg-gray-300 text-black"
+              }`}
             >
-              🔊 サウンドON
+              {soundEnabled ? "🔊 サウンドOFF" : "🔈 サウンドON"}
             </button>
-          )}
-          {soundEnabled && (
-            <div className="bg-white/70 rounded-lg p-4 mb-4 space-y-3">
-              <div>
-                <label className="block text-sm font-semibold">
-                  マスター音量: {masterVol}%
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={masterVol}
-                  onChange={(e) => setMasterVol(Number(e.target.value))}
-                  className="w-full"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold">
-                  効果音（SE）音量: {sfxVol}%
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={sfxVol}
-                  onChange={(e) => setSfxVol(Number(e.target.value))}
-                  className="w-full"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold">
-                  BGM 音量: {bgmVol}%
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={bgmVol}
-                  onChange={(e) => setBgmVol(Number(e.target.value))}
-                  className="w-full"
-                />
-              </div>
-            </div>
-          )}
+          </div>
           <button
             onClick={startQuiz}
             disabled={selectedUnits.length === 0 || !questionCount}
