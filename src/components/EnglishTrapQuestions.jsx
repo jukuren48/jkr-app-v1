@@ -93,6 +93,7 @@ export default function EnglishTrapQuestions() {
     return [];
   });
   // 効果音 ON/OFF（← これを state 群の先頭付近に）
+
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -445,11 +446,30 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     if (showResult) {
+      // ✅ タイマー停止処理
       setTimerActive(false);
       setTimeLeft(0);
       setTimeUp(false);
+
+      // ✅ 正答率に応じて効果音を再生
+      let soundFile = null;
+
+      if (adjustedCorrectRate === 100) {
+        soundFile = "/sounds/manten.mp3";
+      } else if (adjustedCorrectRate >= 80) {
+        soundFile = "/sounds/yokudekimasita.mp3";
+      } else {
+        soundFile = "/sounds/ganbarimasho.mp3";
+      }
+
+      if (soundFile) {
+        const audio = new Audio(soundFile);
+        audio
+          .play()
+          .catch((err) => console.error("効果音の再生に失敗しました:", err));
+      }
     }
-  }, [showResult]);
+  }, [showResult, adjustedCorrectRate]);
 
   useEffect(() => {
     if (currentQuestion?.choices) {
