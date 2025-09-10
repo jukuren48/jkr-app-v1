@@ -445,13 +445,15 @@ export default function EnglishTrapQuestions() {
   }, [timeLeft, timerActive, currentQuestion, mistakes]);
 
   useEffect(() => {
-    if (showResult) {
-      // ✅ タイマー停止処理
-      setTimerActive(false);
-      setTimeLeft(0);
-      setTimeUp(false);
+    if (!showResult) return; // 結果画面以外は処理しない
 
-      // ✅ 正答率に応じて効果音を再生
+    // タイマー停止処理
+    setTimerActive(false);
+    setTimeLeft(0);
+    setTimeUp(false);
+
+    // 効果音を再生
+    const playResultSound = () => {
       let soundFile = null;
 
       if (adjustedCorrectRate === 100) {
@@ -468,8 +470,10 @@ export default function EnglishTrapQuestions() {
           .play()
           .catch((err) => console.error("効果音の再生に失敗しました:", err));
       }
-    }
-  }, [showResult, adjustedCorrectRate]);
+    };
+
+    playResultSound();
+  }, [showResult]);
 
   useEffect(() => {
     if (currentQuestion?.choices) {
