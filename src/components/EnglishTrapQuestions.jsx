@@ -384,7 +384,7 @@ export default function EnglishTrapQuestions() {
           console.error("単元選択画面の音再生に失敗しました:", err)
         );
     }
-  }, [showQuestions, showResult, units]);
+  }, [soundEnabled, showQuestions, showResult, units]);
 
   useEffect(() => {
     if (showQuestions && currentQuestion) {
