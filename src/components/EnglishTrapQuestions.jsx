@@ -162,17 +162,6 @@ export default function EnglishTrapQuestions() {
     });
   };
 
-  // 効果音再生（SEは sfxGain へ）
-  const playSfx = (key) => {
-    if (!audioCtx) return;
-    const buf = soundsRef.current[key];
-    if (!buf || !sfxGainRef.current) return;
-    const src = audioCtx.createBufferSource();
-    src.buffer = buf;
-    src.connect(sfxGainRef.current);
-    src.start(0);
-  };
-
   // BGM 再生/停止
   const startBGM = () => {
     if (!audioCtx || !soundsRef.current.bgm || !bgmGainRef.current) return;
@@ -448,28 +437,37 @@ export default function EnglishTrapQuestions() {
     return () => clearInterval(timer);
   }, [timerActive, timeLeft, showResult]);
 
+  // カウントダウン音 (残り5秒以内)
   useEffect(() => {
     if (
       timerActive &&
       !showResult &&
       timeLeft > 0 &&
       timeLeft <= 5 &&
-      soundEnabled
+      soundEnabled // ← サウンドONのときだけ
     ) {
-      playSfx("count");
+      const audio = new Audio("/sounds/count.mp3");
+      audio
+        .play()
+        .catch((err) => console.error("カウント音の再生に失敗:", err));
     }
-  }, [timeLeft, timerActive, soundEnabled, showResult]);
+  }, [timeLeft, timerActive, showResult, soundEnabled]);
 
-  // 🔽 追加: 時間切れ処理
+  // 時間切れ処理
   useEffect(() => {
     if (!timerActive || timeLeft > 0 || !currentQuestion || showResult) return;
 
     setTimerActive(false);
     setCharacterMood("panic");
-    setTimeUp(true); // 🔽 時間切れ演出フラグON
+    setTimeUp(true); // 時間切れ演出フラグON
 
-    // 新: Web Audio API でバッファ再生
-    playSfx("timeup");
+    // 時間切れ音を再生
+    if (soundEnabled) {
+      const audio = new Audio("/sounds/timeup.mp3");
+      audio
+        .play()
+        .catch((err) => console.error("時間切れ音の再生に失敗:", err));
+    }
 
     // 1.5秒後に解答結果画面に切り替える
     setTimeout(() => {
@@ -477,7 +475,7 @@ export default function EnglishTrapQuestions() {
       setIsCorrect(false);
       setShowAnswer(true);
       setSelectedChoice("（時間切れ）");
-      setTimeUp(false); // 🔽 演出を消す
+      setTimeUp(false); // 演出を消す
       if (!mistakes[currentQuestion.id]) {
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
         setFirstMistakeAnswers((prev) => ({
@@ -486,7 +484,14 @@ export default function EnglishTrapQuestions() {
         }));
       }
     }, 1500);
-  }, [timeLeft, timerActive, currentQuestion, mistakes]);
+  }, [
+    timeLeft,
+    timerActive,
+    currentQuestion,
+    mistakes,
+    showResult,
+    soundEnabled,
+  ]);
 
   useEffect(() => {
     if (!showResult) return; // 結果画面以外は処理しない
@@ -561,10 +566,18 @@ export default function EnglishTrapQuestions() {
 
     if (isCorrectAnswer) {
       setCharacterMood("happy");
-      if (soundEnabled) playSfx("correct");
+      if (soundEnabled) {
+        const audio = new Audio("/sounds/correct.mp3");
+        audio.play().catch((err) => console.error("正解音の再生に失敗:", err));
+      }
     } else {
       setCharacterMood("sad");
-      if (soundEnabled) playSfx("wrong");
+      if (soundEnabled) {
+        const audio = new Audio("/sounds/wrong.mp3");
+        audio
+          .play()
+          .catch((err) => console.error("不正解音の再生に失敗:", err));
+      }
       if (!mistakes[currentQuestion.id]) {
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
         setFirstMistakeAnswers((prev) => ({
