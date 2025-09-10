@@ -94,7 +94,7 @@ export default function EnglishTrapQuestions() {
   });
   // 効果音 ON/OFF（← これを state 群の先頭付近に）
 
-  const [soundEnabled, setSoundEnabled] = useState([]);
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -376,7 +376,7 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     // 単元選択画面が表示されたときに再生
-    if (!showQuestions && !showResult && units.length > 0) {
+    if (soundEnabled && !showQuestions && !showResult && units.length > 0) {
       const audio = new Audio("/sounds/sentaku.mp3");
       audio
         .play()
