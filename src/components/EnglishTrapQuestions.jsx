@@ -481,8 +481,10 @@ export default function EnglishTrapQuestions() {
         soundFile = "/sounds/manten.mp3";
       } else if (adjustedCorrectRate >= 80) {
         soundFile = "/sounds/yokudekimasita.mp3";
-      } else {
+      } else if (adjustedCorrectRate > 0) {
         soundFile = "/sounds/ganbarimasho.mp3";
+      } else {
+        soundFile = "/sounds/zero.mp3";
       }
 
       if (soundFile) {
