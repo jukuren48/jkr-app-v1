@@ -668,7 +668,7 @@ export default function EnglishTrapQuestions() {
   const restartQuiz = () => {
     setCharacterMood("neutral");
     setCurrentIndex(0);
-    setAnswers({});
+    //setAnswers({});
     setMistakes({});
     setFirstMistakeAnswers({});
     setShowQuestions(true);
@@ -688,9 +688,10 @@ export default function EnglishTrapQuestions() {
   const hintPenalties = [2, 5, 10];
 
   const generateHint = () => {
-    if (!currentQuestion?.correctAnswer) return "";
+    const answer = currentQuestion?.correct; // ← correct に修正
+    if (!answer) return "";
 
-    const words = currentQuestion.correctAnswer.trim().split(/\s+/);
+    const words = answer.trim().split(/\s+/);
     const hintPercents = [20, 50, 100];
     const percent = hintPercents[Math.min(hintLevel, 2)];
     const numWords = Math.ceil((percent / 100) * words.length);
@@ -806,13 +807,13 @@ export default function EnglishTrapQuestions() {
           </h2>
           <div className="flex justify-center gap-4 mb-4">
             <button
-              onClick={() => playButtonSound(selectAllUnits)}
+              onClick={() => playButtonSound(() => selectAllUnits())}
               className="bg-[#A7D5C0] text-[#4A6572] px-4 py-2 rounded-full shadow-sm hover:bg-[#92C8B2] transition"
             >
               全選択
             </button>
             <button
-              onClick={() => playButtonSound(clearAllUnits)}
+              onClick={() => playButtonSound(() => clearAllUnits())}
               className="bg-[#F8B195] text-white px-4 py-2 rounded-full shadow-sm hover:bg-[#F49A87] transition"
             >
               全解除
@@ -822,7 +823,7 @@ export default function EnglishTrapQuestions() {
             {units.map((unit) => (
               <button
                 key={unit}
-                onClick={() => playButtonSound(toggleUnit(unit))}
+                onClick={() => playButtonSound(() => toggleUnit(unit))}
                 className={`px-4 py-2 rounded-full border shadow-sm transition ${
                   selectedUnits.includes(unit)
                     ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
@@ -840,7 +841,7 @@ export default function EnglishTrapQuestions() {
             {[5, 10, 15, "all"].map((count) => (
               <button
                 key={count}
-                onClick={() => playButtonSound(setQuestionCount(count))}
+                onClick={() => playButtonSound(() => setQuestionCount(count))}
                 className={`px-4 py-2 rounded-full border shadow-sm transition ${
                   questionCount === count
                     ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
@@ -854,7 +855,9 @@ export default function EnglishTrapQuestions() {
           {/* サウンドON/OFFボタン */}
           <div className="flex justify-center mb-4">
             <button
-              onClick={() => playButtonSound(setSoundEnabled((prev) => !prev))}
+              onClick={() =>
+                playButtonSound(() => setSoundEnabled((prev) => !prev))
+              }
               className={`px-4 py-2 rounded-full shadow transition ${
                 soundEnabled
                   ? "bg-green-400 text-white"
@@ -905,7 +908,9 @@ export default function EnglishTrapQuestions() {
                   {!showAnswer ? (
                     <div className="mt-4">
                       <button
-                        onClick={() => playButtonSound(setShowAnswer(true))}
+                        onClick={() =>
+                          playButtonSound(() => setShowAnswer(true))
+                        }
                         className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow"
                       >
                         答えを見てみる
@@ -957,7 +962,7 @@ export default function EnglishTrapQuestions() {
               </motion.div>
 
               <button
-                onClick={() => playButtonSound(handleAddToQuestionList)}
+                onClick={() => playButtonSound(() => handleAddToQuestionList())}
                 className="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
               >
                 後で先生に質問する
@@ -1072,7 +1077,7 @@ export default function EnglishTrapQuestions() {
                   )}
 
                   <button
-                    onClick={playButtonSound(handleShowHint)}
+                    onClick={() => playButtonSound(() => handleShowHint())}
                     disabled={hintLevel >= 3}
                     className="bg-[#A7D5C0] text-[#4A6572] rounded-full px-4 py-2 shadow hover:bg-[#92C8B2] transition"
                   >
@@ -1148,7 +1153,7 @@ export default function EnglishTrapQuestions() {
                     {/* ← ここに新しい質問ボタンを追加 */}
                     <button
                       onClick={() =>
-                        playButtonSound(
+                        playButtonSound(() =>
                           handleAddSpecificQuestionToList(
                             q,
                             firstMistakeAnswers[q.id]
@@ -1231,7 +1236,7 @@ export default function EnglishTrapQuestions() {
                     </p>
                     <button
                       onClick={() =>
-                        playButtonSound(handleDeleteQuestion(index))
+                        playButtonSound(() => handleDeleteQuestion(index))
                       }
                       className="mt-2 bg-red-400 text-white px-3 py-1 rounded shadow hover:bg-red-500"
                     >
@@ -1244,7 +1249,9 @@ export default function EnglishTrapQuestions() {
 
             <div className="mt-4 flex justify-between">
               <button
-                onClick={() => playButtonSound(setShowQuestionModal(false))}
+                onClick={() =>
+                  playButtonSound(() => setShowQuestionModal(false))
+                }
                 className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
               >
                 閉じる
