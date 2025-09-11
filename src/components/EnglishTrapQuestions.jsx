@@ -174,6 +174,7 @@ export default function EnglishTrapQuestions() {
 
   // BGM制御用のref
   const bgmRef = useRef(null);
+  const quizBgmRef = useRef(null);
 
   // BGM 再生/停止
   const startBGM = () => {
@@ -204,6 +205,24 @@ export default function EnglishTrapQuestions() {
       src.stop(audioCtx.currentTime + 0.15);
     } catch {}
     bgmSourceRef.current = null;
+  };
+
+  // 出題中BGMを開始
+  const startQuizBGM = () => {
+    if (quizBgmRef.current) return; // 二重再生防止
+    const audio = new Audio("/sounds/qbgm.mp3");
+    audio.loop = true;
+    audio.volume = 0.2; // 🔉 小さめの音量（0〜1で調整可能）
+    audio.play().catch((err) => console.error("クイズBGM再生失敗:", err));
+    quizBgmRef.current = audio;
+  };
+
+  // 出題中BGMを停止
+  const stopQuizBGM = () => {
+    if (quizBgmRef.current) {
+      quizBgmRef.current.pause();
+      quizBgmRef.current = null;
+    }
   };
 
   // 参照（GainやBuffer保持）
@@ -427,6 +446,16 @@ export default function EnglishTrapQuestions() {
         );
     }
   }, [soundEnabled, showQuestions, showResult, units]);
+
+  // 🔽 追加: 出題中だけBGMを流す
+  useEffect(() => {
+    if (soundEnabled && showQuestions && !showResult) {
+      startQuizBGM();
+    } else {
+      stopQuizBGM();
+    }
+    return () => stopQuizBGM(); // コンポーネントがアンマウントされたときも停止
+  }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
     if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
