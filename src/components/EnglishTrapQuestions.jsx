@@ -212,7 +212,7 @@ export default function EnglishTrapQuestions() {
     if (quizBgmRef.current) return; // 二重再生防止
     const audio = new Audio("/sounds/qbgm.mp3");
     audio.loop = true;
-    audio.volume = 0.2; // 🔉 小さめの音量（0〜1で調整可能）
+    audio.volume = 0.05; // 🔉 小さめの音量（0〜1で調整可能）
     audio.play().catch((err) => console.error("クイズBGM再生失敗:", err));
     quizBgmRef.current = audio;
   };
