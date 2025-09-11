@@ -106,7 +106,7 @@ export default function EnglishTrapQuestions() {
   const [showQuestions, setShowQuestions] = useState(false);
   const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  const [answers, setAnswers] = useState({});
+  //const [answers, setAnswers] = useState({});
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -117,7 +117,7 @@ export default function EnglishTrapQuestions() {
   const [inputAnswer, setInputAnswer] = useState("");
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
-  const [wordAudioSrc, setWordAudioSrc] = useState("");
+  //const [wordAudioSrc, setWordAudioSrc] = useState("");
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
@@ -132,6 +132,7 @@ export default function EnglishTrapQuestions() {
   const [timerActive, setTimerActive] = useState(false);
   const [maxTime, setMaxTime] = useState(0);
   const [timeUp, setTimeUp] = useState(false);
+  const [countPlayedForQuestion, setCountPlayedForQuestion] = useState({});
 
   // 音量（0〜100）
   const [masterVol, setMasterVol] = useState(() => {
@@ -148,19 +149,22 @@ export default function EnglishTrapQuestions() {
   });
 
   // Buffer ロード
-  const loadSoundBuffer = async (url) => {
-    if (!audioCtx) initAudioContext();
-    const res = await fetch(url, { cache: "force-cache" });
-    const arrayBuffer = await res.arrayBuffer();
-    return await new Promise((resolve, reject) => {
-      // audioCtx はここまでに必ず用意されている想定だが、念のためガード
-      if (!audioCtx || !audioCtx.decodeAudioData) {
-        reject(new Error("AudioContext not ready"));
-        return;
-      }
-      audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
-    });
-  };
+  //const loadSoundBuffer = async (url) => {
+  //  if (!audioCtx) initAudioContext();
+  //  const res = await fetch(url, { cache: "force-cache" });
+  //  const arrayBuffer = await res.arrayBuffer();
+  //  return await new Promise((resolve, reject) => {
+  // audioCtx はここまでに必ず用意されている想定だが、念のためガード
+  //    if (!audioCtx || !audioCtx.decodeAudioData) {
+  //      reject(new Error("AudioContext not ready"));
+  //      return;
+  //    }
+  //    audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
+  //  });
+  //};
+
+  // BGM制御用のref
+  const bgmRef = useRef(null);
 
   // BGM 再生/停止
   const startBGM = () => {
@@ -200,31 +204,31 @@ export default function EnglishTrapQuestions() {
   const bgmGainRef = useRef(null);
   const bgmSourceRef = useRef(null);
 
-  const initAudioContext = () => {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume();
-    }
+  //const initAudioContext = () => {
+  //  if (!audioCtx) {
+  //    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  //  }
+  //  if (audioCtx.state === "suspended") {
+  //    audioCtx.resume();
+  //  }
 
-    // まだ作ってなければ Gain ノードを作成して配線
-    if (!masterGainRef.current) {
-      masterGainRef.current = audioCtx.createGain();
-      sfxGainRef.current = audioCtx.createGain();
-      bgmGainRef.current = audioCtx.createGain();
+  // まだ作ってなければ Gain ノードを作成して配線
+  //  if (!masterGainRef.current) {
+  //    masterGainRef.current = audioCtx.createGain();
+  //    sfxGainRef.current = audioCtx.createGain();
+  //    bgmGainRef.current = audioCtx.createGain();
 
-      // sfx と bgm をマスターにまとめる
-      sfxGainRef.current.connect(masterGainRef.current);
-      bgmGainRef.current.connect(masterGainRef.current);
-      masterGainRef.current.connect(audioCtx.destination);
+  // sfx と bgm をマスターにまとめる
+  //    sfxGainRef.current.connect(masterGainRef.current);
+  //    bgmGainRef.current.connect(masterGainRef.current);
+  //    masterGainRef.current.connect(audioCtx.destination);
 
-      // 初期音量反映（0〜1に正規化）
-      masterGainRef.current.gain.value = masterVol / 100;
-      sfxGainRef.current.gain.value = sfxVol / 100;
-      bgmGainRef.current.gain.value = bgmVol / 100;
-    }
-  };
+  // 初期音量反映（0〜1に正規化）
+  //    masterGainRef.current.gain.value = masterVol / 100;
+  //    sfxGainRef.current.gain.value = sfxVol / 100;
+  //    bgmGainRef.current.gain.value = bgmVol / 100;
+  //  }
+  //};
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
@@ -322,13 +326,43 @@ export default function EnglishTrapQuestions() {
     setFilteredQuestions(limited);
     setInitialQuestions(limited);
     setCurrentIndex(0);
-    setAnswers({});
+    //setAnswers({});
     setShowQuestions(true);
     setShowResult(false);
     setShowFeedback(false);
     setSelectedChoice(null);
     setMistakes({});
   };
+
+  // 単元選択画面に入ったときにBGMを流し、抜けたら止める
+  useEffect(() => {
+    if (!soundEnabled) {
+      // サウンドOFFならBGMも止める
+      if (bgmRef.current) {
+        bgmRef.current.pause();
+        bgmRef.current = null;
+      }
+      return;
+    }
+
+    if (!showQuestions && !showResult) {
+      if (!bgmRef.current) {
+        const audio = new Audio("/sounds/bgm.mp3");
+        audio.loop = true; // 🔁ループ再生
+        audio.volume = 0.5; // 🔉音量（調整可）
+        audio
+          .play()
+          .catch((err) => console.error("BGMの再生に失敗しました:", err));
+        bgmRef.current = audio;
+      }
+    } else {
+      // 単元選択画面から抜けたらBGM停止
+      if (bgmRef.current) {
+        bgmRef.current.pause();
+        bgmRef.current = null;
+      }
+    }
+  }, [soundEnabled, showQuestions, showResult]);
 
   // 画面状態に合わせてBGMを制御
   useEffect(() => {
@@ -446,12 +480,21 @@ export default function EnglishTrapQuestions() {
       timeLeft <= 5 &&
       soundEnabled // ← サウンドONのときだけ
     ) {
-      const audio = new Audio("/sounds/count.mp3");
-      audio
-        .play()
-        .catch((err) => console.error("カウント音の再生に失敗:", err));
+      // まだこの問題ではカウント音を鳴らしていない秒なら再生
+      if (!countPlayedForQuestion[currentIndex + "-" + timeLeft]) {
+        const audio = new Audio("/sounds/count.mp3");
+        audio
+          .play()
+          .catch((err) => console.error("カウント音の再生に失敗:", err));
+
+        // この問題、この秒数ではもう鳴らしたことを記録
+        setCountPlayedForQuestion((prev) => ({
+          ...prev,
+          [currentIndex + "-" + timeLeft]: true,
+        }));
+      }
     }
-  }, [timeLeft, timerActive, showResult, soundEnabled]);
+  }, [timeLeft, timerActive, showResult, soundEnabled, currentIndex]);
 
   // 時間切れ処理
   useEffect(() => {
@@ -463,7 +506,7 @@ export default function EnglishTrapQuestions() {
 
     // 時間切れ音を再生
     if (soundEnabled) {
-      const audio = new Audio("/sounds/timeup.mp3");
+      const audio = new Audio("/sounds/timesup.mp3");
       audio
         .play()
         .catch((err) => console.error("時間切れ音の再生に失敗:", err));
@@ -562,7 +605,7 @@ export default function EnglishTrapQuestions() {
       );
     }
 
-    setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
+    //setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
 
     if (isCorrectAnswer) {
       setCharacterMood("happy");
@@ -675,6 +718,29 @@ export default function EnglishTrapQuestions() {
       answer: selectedChoice || inputAnswer,
       correct: currentQuestion.correct || currentQuestion.correctAnswer,
       explanation: currentQuestion.explanation,
+    };
+
+    setQuestionList((prev) => [...prev, questionItem]);
+    setAddMessage("質問ボックスに保存しました！");
+
+    setTimeout(() => setAddMessage(""), 3000);
+  };
+
+  const handleAddSpecificQuestionToList = (question, answer) => {
+    if (!question) return;
+
+    const isAlreadySaved = questionList.some((item) => item.id === question.id);
+    if (isAlreadySaved) {
+      setAddMessage("この質問はすでに質問ボックスに入っています。");
+      return;
+    }
+
+    const questionItem = {
+      id: question.id,
+      question: question.question || question.prompt,
+      answer: answer || "",
+      correct: question.correct || question.correctAnswer,
+      explanation: question.explanation,
     };
 
     setQuestionList((prev) => [...prev, questionItem]);
@@ -1072,6 +1138,18 @@ export default function EnglishTrapQuestions() {
                   <p className="mt-1 text-gray-700 flex items-center">
                     解説: {q.explanation}
                     {q.explanation && <TTSButton text={q.explanation} />}
+                    {/* ← ここに新しい質問ボタンを追加 */}
+                    <button
+                      onClick={() =>
+                        handleAddSpecificQuestionToList(
+                          q,
+                          firstMistakeAnswers[q.id]
+                        )
+                      }
+                      className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow-md transition"
+                    >
+                      ❓ 後で先生に質問する
+                    </button>
                   </p>
                 </div>
               ))}
