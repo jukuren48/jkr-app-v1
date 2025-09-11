@@ -207,17 +207,21 @@ export default function EnglishTrapQuestions() {
     bgmSourceRef.current = null;
   };
 
-  // 出題中BGMを開始
   const startQuizBGM = () => {
     if (quizBgmRef.current) return; // 二重再生防止
+
     const audio = new Audio("/sounds/qbgm.mp3");
     audio.loop = true;
-    audio.volume = 0.05; // 🔉 小さめの音量（0〜1で調整可能）
+
+    // 音声がロードされたら音量を設定（0〜1）
+    audio.addEventListener("canplaythrough", () => {
+      audio.volume = 0.05; // 🔉 5% の音量
+    });
+
     audio.play().catch((err) => console.error("クイズBGM再生失敗:", err));
     quizBgmRef.current = audio;
   };
 
-  // 出題中BGMを停止
   const stopQuizBGM = () => {
     if (quizBgmRef.current) {
       quizBgmRef.current.pause();
