@@ -865,7 +865,7 @@ export default function EnglishTrapQuestions() {
             </button>
           </div>
           <button
-            onClick={() => playButtonSound(startQuiz)}
+            onClick={startQuiz}
             disabled={selectedUnits.length === 0 || !questionCount}
             className="bg-[#4A6572] text-white rounded-full px-6 py-3 shadow hover:bg-[#3F555F] transition mx-auto block"
           >
@@ -970,7 +970,7 @@ export default function EnglishTrapQuestions() {
               )}
 
               <button
-                onClick={() => playButtonSound(handleNext)}
+                onClick={handleNext}
                 className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
               >
                 次へ
@@ -1039,7 +1039,7 @@ export default function EnglishTrapQuestions() {
                   {shuffledChoices.map((choice, index) => (
                     <button
                       key={index}
-                      onClick={() => playButtonSound(handleAnswer(choice))}
+                      onClick={() => handleAnswer(choice)}
                       className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm"
                     >
                       {choice}
@@ -1058,7 +1058,7 @@ export default function EnglishTrapQuestions() {
                     className="border border-[#E0E0E0] rounded-lg px-4 py-3 shadow focus:outline-none focus:ring-2 focus:ring-[#A7D5C0] transition"
                   />
                   <button
-                    onClick={() => playButtonSound(handleAnswer(inputAnswer))}
+                    onClick={() => handleAnswer(inputAnswer)}
                     className="bg-[#4A6572] text-white rounded-full px-6 py-3 hover:bg-[#3F555F] transition shadow"
                   >
                     答える
@@ -1168,13 +1168,13 @@ export default function EnglishTrapQuestions() {
           <div className="flex gap-4">
             {" "}
             <button
-              onClick={() => playButtonSound(restartQuiz)}
+              onClick={restartQuiz}
               className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
             >
               同じ問題でもう一度
             </button>
             <button
-              onClick={() => playButtonSound(window.location.reload())}
+              onClick={() => window.location.reload()}
               className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
             >
               別の問題にチャレンジ
