@@ -410,7 +410,7 @@ export default function EnglishTrapQuestions() {
       if (!bgmRef.current) {
         const audio = new Audio("/sounds/bgm.mp3");
         audio.loop = true; // 🔁ループ再生
-        audio.volume = 0.5; // 🔉音量（調整可）
+        audio.volume = 0.03; // 🔉音量（調整可）
         audio
           .play()
           .catch((err) => console.error("BGMの再生に失敗しました:", err));
