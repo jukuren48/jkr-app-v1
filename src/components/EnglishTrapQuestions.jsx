@@ -1,5 +1,5 @@
 // EnglishTrapQuestions.jsx - Google TTS対応版 + 制限時間機能追加
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 
 // AudioContext はトップレベルで一意に保持
@@ -85,13 +85,6 @@ export default function EnglishTrapQuestions() {
     return [];
   });
   const [units, setUnits] = useState([]);
-  const [selectedUnits, setSelectedUnits] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("selectedUnits");
-      return saved ? JSON.parse(saved) : [];
-    }
-    return [];
-  });
   // 0: 未選択, 1: 両方, 2: 選択のみ, 3: 記述のみ
   const [unitModes, setUnitModes] = useState(() => {
     if (typeof window !== "undefined") {
@@ -154,21 +147,6 @@ export default function EnglishTrapQuestions() {
     if (typeof window === "undefined") return 50;
     return Number(localStorage.getItem("vol_bgm") ?? 50);
   });
-
-  // Buffer ロード
-  //const loadSoundBuffer = async (url) => {
-  //  if (!audioCtx) initAudioContext();
-  //  const res = await fetch(url, { cache: "force-cache" });
-  //  const arrayBuffer = await res.arrayBuffer();
-  //  return await new Promise((resolve, reject) => {
-  // audioCtx はここまでに必ず用意されている想定だが、念のためガード
-  //    if (!audioCtx || !audioCtx.decodeAudioData) {
-  //      reject(new Error("AudioContext not ready"));
-  //      return;
-  //    }
-  //    audioCtx.decodeAudioData(arrayBuffer, resolve, reject);
-  //  });
-  //};
 
   // 効果音付きボタンハンドラ
   const playButtonSound = (callback) => {
@@ -288,10 +266,6 @@ export default function EnglishTrapQuestions() {
   }, [questionList]);
 
   useEffect(() => {
-    localStorage.setItem("selectedUnits", JSON.stringify(selectedUnits));
-  }, [selectedUnits]);
-
-  useEffect(() => {
     fetch("/api/questions2")
       .then((res) => res.json())
       .then((data) => {
@@ -368,14 +342,24 @@ export default function EnglishTrapQuestions() {
     units.forEach((u) => (newModes[u] = 0)); // 0 = 未選択
     setUnitModes(newModes);
   };
-  const toggleUnit = (unit) =>
-    setSelectedUnits((prev) =>
-      prev.includes(unit) ? prev.filter((u) => u !== unit) : [...prev, unit]
-    );
+  const filtered = useMemo(() => {
+    return questions.filter((q) => {
+      const mode = unitModes[q.unit] || 0;
+      if (mode === 0) return false; // 未選択
+      if (mode === 1) return true; // 両方
+      if (mode === 2) return q.type === "multiple-choice"; // 選択問題のみ
+      if (mode === 3) return q.type === "input"; // 記述問題のみ
+      return false;
+    });
+  }, [questions, unitModes]);
 
+  //if (filtered.length === 0) {
+  //  alert("選択した単元に問題がありません。");
+  //  return;
+  //}
+  // クイズ開始処理
   const startQuiz = () => {
     if (soundEnabled) stopBGM();
-    const filtered = questions.filter((q) => selectedUnits.includes(q.unit));
     if (filtered.length === 0) {
       alert("選択した単元に問題がありません。");
       return;
@@ -383,17 +367,33 @@ export default function EnglishTrapQuestions() {
     const shuffled = shuffleArray(filtered);
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
+
     setCharacterMood("neutral");
     setFilteredQuestions(limited);
     setInitialQuestions(limited);
     setCurrentIndex(0);
-    //setAnswers({});
     setShowQuestions(true);
     setShowResult(false);
     setShowFeedback(false);
     setSelectedChoice(null);
     setMistakes({});
   };
+
+  // 出題対象の問題を作る処理
+  useEffect(() => {
+    if (questions.length > 0 && Object.keys(unitModes).length > 0) {
+      const selected = questions.filter((q) => {
+        const mode = unitModes[q.unit] || 0;
+        if (mode === 0) return false; // 未選択 → 出さない
+        if (mode === 1) return true; // 両方 → 出す
+        if (mode === 2) return q.type === "multiple-choice"; // 選択問題のみ
+        if (mode === 3) return q.type === "input"; // 記述問題のみ
+        return false;
+      });
+
+      setFilteredQuestions(selected);
+    }
+  }, [questions, unitModes]);
 
   // 単元選択画面に入ったときにBGMを流し、抜けたら止める
   useEffect(() => {
@@ -464,10 +464,6 @@ export default function EnglishTrapQuestions() {
   }, [bgmVol]);
 
   useEffect(() => {
-    localStorage.setItem("soundEnabled", String(soundEnabled));
-  }, [soundEnabled]);
-
-  useEffect(() => {
     if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
     // 単元選択画面が表示されたときに再生
     if (soundEnabled && !showQuestions && !showResult && units.length > 0) {
@@ -533,39 +529,61 @@ export default function EnglishTrapQuestions() {
     setShowAnswer(false);
   }, [currentQuestion, showFeedback, showResult]);
 
-  // 🔽 追加: カウントダウン処理
-  useEffect(() => {
-    if (!timerActive || timeLeft <= 0 || showResult) return;
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [timerActive, timeLeft, showResult]);
-
   // カウントダウン音 (残り5秒以内)
   useEffect(() => {
     if (
-      timerActive &&
-      !showResult &&
-      timeLeft > 0 &&
-      timeLeft <= 5 &&
-      soundEnabled // ← サウンドONのときだけ
+      !showQuestions || // ← クイズ中でなければ絶対鳴らさない
+      showResult ||
+      !timerActive ||
+      timeLeft <= 0 ||
+      !soundEnabled
     ) {
-      // まだこの問題ではカウント音を鳴らしていない秒なら再生
-      if (!countPlayedForQuestion[currentIndex + "-" + timeLeft]) {
-        const audio = new Audio("/sounds/count.mp3");
-        audio
-          .play()
-          .catch((err) => console.error("カウント音の再生に失敗:", err));
+      return;
+    }
 
-        // この問題、この秒数ではもう鳴らしたことを記録
+    if (timeLeft <= 5) {
+      const key = `${currentIndex}-${timeLeft}`;
+      if (!countPlayedForQuestion[key]) {
+        const audio = new Audio("/sounds/count.mp3");
+        audio.play().catch((err) => console.error("カウント音エラー:", err));
+
         setCountPlayedForQuestion((prev) => ({
           ...prev,
-          [currentIndex + "-" + timeLeft]: true,
+          [key]: true,
         }));
       }
     }
-  }, [timeLeft, timerActive, showResult, soundEnabled, currentIndex]);
+  }, [
+    timeLeft,
+    timerActive,
+    showResult,
+    soundEnabled,
+    showQuestions,
+    currentIndex,
+  ]);
+
+  useEffect(() => {
+    if (!showQuestions) return; // ← 単元選択や結果画面では鳴らさない
+    if (!showFeedback || isCorrect || !currentQuestion) return;
+    if (
+      !currentQuestion.explanation ||
+      currentQuestion.explanation.trim() === ""
+    )
+      return;
+
+    speakExplanation(currentQuestion.explanation);
+  }, [showFeedback, isCorrect, currentQuestion, showQuestions]);
+
+  // クイズBGMや音声を止める
+  useEffect(() => {
+    return () => {
+      stopQuizBGM();
+      if (bgmRef.current) {
+        bgmRef.current.pause();
+        bgmRef.current = null;
+      }
+    };
+  }, []);
 
   // 時間切れ処理
   useEffect(() => {
@@ -865,7 +883,7 @@ export default function EnglishTrapQuestions() {
       {!showQuestions && !showResult && units.length > 0 && (
         <div className="max-w-2xl mx-auto bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow">
           <h2 className="text-2xl font-bold text-[#4A6572] mb-4 text-center">
-            単元を選んでください（★は記述問題です）
+            単元を選んでください（緑=両方、青=選択、橙=記述）
           </h2>
           <div className="flex justify-center gap-4 mb-4">
             <button
@@ -935,11 +953,22 @@ export default function EnglishTrapQuestions() {
             </button>
           </div>
           <button
-            onClick={startQuiz}
-            disabled={selectedUnits.length === 0 || !questionCount}
-            className="bg-[#4A6572] text-white rounded-full px-6 py-3 shadow hover:bg-[#3F555F] transition mx-auto block"
+            onClick={() => {
+              if (filtered.length === 0) {
+                alert("選択した単元に問題がありません。");
+                return;
+              }
+              startQuiz();
+            }}
+            disabled={units.length === 0 || !questionCount}
+            className={`rounded-full px-6 py-3 shadow transition mx-auto block font-bold
+    ${
+      units.length === 0 || !questionCount
+        ? "bg-gray-400 text-white cursor-not-allowed"
+        : "bg-red-500 hover:bg-red-600 text-white"
+    }`}
           >
-            開始
+            🚀 開始
           </button>
         </div>
       )}
