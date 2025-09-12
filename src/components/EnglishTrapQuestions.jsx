@@ -92,8 +92,15 @@ export default function EnglishTrapQuestions() {
     }
     return [];
   });
+  // 0: 未選択, 1: 両方, 2: 選択のみ, 3: 記述のみ
+  const [unitModes, setUnitModes] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("unitModes");
+      return saved ? JSON.parse(saved) : {};
+    }
+    return {};
+  });
   // 効果音 ON/OFF（← これを state 群の先頭付近に）
-
   const [soundEnabled, setSoundEnabled] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("soundEnabled") === "true";
@@ -262,6 +269,20 @@ export default function EnglishTrapQuestions() {
   //  }
   //};
 
+  const toggleUnitMode = (unit) => {
+    setUnitModes((prev) => {
+      const current = prev[unit] || 0;
+      const next = (current + 1) % 4; // 0→1→2→3→0…
+      return { ...prev, [unit]: next };
+    });
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("unitModes", JSON.stringify(unitModes));
+    }
+  }, [unitModes]);
+
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
   }, [questionList]);
@@ -337,8 +358,16 @@ export default function EnglishTrapQuestions() {
     }
   };
 
-  const selectAllUnits = () => setSelectedUnits([...units]);
-  const clearAllUnits = () => setSelectedUnits([]);
+  const selectAllUnits = () => {
+    const newModes = {};
+    units.forEach((u) => (newModes[u] = 1)); // 1 = 両方
+    setUnitModes(newModes);
+  };
+  const clearAllUnits = () => {
+    const newModes = {};
+    units.forEach((u) => (newModes[u] = 0)); // 0 = 未選択
+    setUnitModes(newModes);
+  };
   const toggleUnit = (unit) =>
     setSelectedUnits((prev) =>
       prev.includes(unit) ? prev.filter((u) => u !== unit) : [...prev, unit]
@@ -853,19 +882,24 @@ export default function EnglishTrapQuestions() {
             </button>
           </div>
           <div className="flex gap-3 flex-wrap justify-center mb-4">
-            {units.map((unit) => (
-              <button
-                key={unit}
-                onClick={() => playButtonSound(() => toggleUnit(unit))}
-                className={`px-4 py-2 rounded-full border shadow-sm transition ${
-                  selectedUnits.includes(unit)
-                    ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
-                    : "bg-white text-[#4A6572]"
-                }`}
-              >
-                {unit}
-              </button>
-            ))}
+            {units.map((unit) => {
+              const mode = unitModes[unit] || 0;
+              let color = "bg-white text-[#4A6572] border"; // 未選択
+
+              if (mode === 1) color = "bg-green-400 text-white"; // 両方
+              if (mode === 2) color = "bg-blue-400 text-white"; // 選択のみ
+              if (mode === 3) color = "bg-orange-400 text-white"; // 記述のみ
+
+              return (
+                <button
+                  key={unit}
+                  onClick={() => playButtonSound(() => toggleUnitMode(unit))}
+                  className={`px-4 py-2 rounded-full shadow-sm transition ${color}`}
+                >
+                  {unit}
+                </button>
+              );
+            })}
           </div>
           <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-center">
             出題数を選んでください

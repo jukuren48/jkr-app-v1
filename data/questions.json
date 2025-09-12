@@ -29,7 +29,7 @@
   },
   {
     "id": "16b9c0f4-d180-489c-9d69-7158d2485003",
-    "unit": "be動詞★",
+    "unit": "be動詞",
     "question": "「私は学生です。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I am a student.",
@@ -67,7 +67,7 @@
   },
   {
     "id": "7665564f-a9a1-49f2-a458-5743e531d4b1",
-    "unit": "一般動詞★",
+    "unit": "一般動詞",
     "question": "「私は毎日学校へ行きます。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I go to school every day.",
@@ -77,7 +77,7 @@
   },
   {
     "id": "2df2abc5-9c6a-45b3-8466-5b79989672cb",
-    "unit": "一般動詞★",
+    "unit": "一般動詞",
     "question": "「彼はサッカーが好きです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He likes soccer.",
@@ -87,7 +87,7 @@
   },
   {
     "id": "6a3ef551-abff-461a-9e6f-80a1f1eee2d5",
-    "unit": "一般動詞★",
+    "unit": "一般動詞",
     "question": "「彼らはサッカーをします。」を英語に訳しなさい。",
     "choices": [],
     "correct": "They play soccer.",
@@ -181,7 +181,7 @@
   },
   {
     "id": "ee073651-00d8-4e97-8b10-fbc1d2ff9e9c",
-    "unit": "不定詞★",
+    "unit": "不定詞",
     "question": "「私は図書館へ本を借りに行きます。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I go to the library to borrow books.",
@@ -191,7 +191,7 @@
   },
   {
     "id": "037f2236-45ff-4f5f-b608-e7d48d88d9d0",
-    "unit": "不定詞★",
+    "unit": "不定詞",
     "question": "「私は本を読みたいです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I want to read a book.",
@@ -201,7 +201,7 @@
   },
   {
     "id": "79bf410a-b8c3-495a-aa9d-cac5101f8c42",
-    "unit": "不定詞★",
+    "unit": "不定詞",
     "question": "「彼女はピアノを弾くことが好きです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "She likes to play the piano.",
@@ -211,7 +211,7 @@
   },
   {
     "id": "e685a9a0-790d-478a-a421-033ac81c26de",
-    "unit": "不定詞★",
+    "unit": "不定詞",
     "question": "「私はあなたにその本を読んでほしいです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I want you to read the book.",
@@ -469,7 +469,7 @@
   },
   {
     "id": "72d026d4-c0af-46bf-ad88-934cd865b180",
-    "unit": "仮定法★",
+    "unit": "仮定法",
     "question": "「もし私があなたなら、その本を読むでしょう。」を英語に訳しなさい。",
     "choices": [],
     "correct": "If I were you, I would read the book.",
@@ -633,7 +633,7 @@
   },
   {
     "id": "810c1be9-6308-4b01-be46-2d5861156c73",
-    "unit": "分詞★",
+    "unit": "分詞",
     "question": "「あそこで走っている少年はケンです。」を英語に訳しなさい。",
     "choices": [],
     "correct": [
@@ -646,7 +646,7 @@
   },
   {
     "id": "288b05ab-f250-4ecb-8a8c-963f5beae518",
-    "unit": "分詞★",
+    "unit": "分詞",
     "question": "「あそこで泣いている赤ちゃんは私の妹です。」を英語に訳しなさい。",
     "choices": [],
     "correct": [
@@ -659,7 +659,7 @@
   },
   {
     "id": "46443c52-1dfb-4e8f-9f86-14a66d171aa8",
-    "unit": "分詞★",
+    "unit": "分詞",
     "question": "「壁に描かれた絵は美しいです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "The picture painted on the wall is beautiful.",
@@ -963,7 +963,7 @@
   },
   {
     "id": "a0cfea4a-5a45-4cfd-8a7d-68ceb628b6b9",
-    "unit": "前置詞★",
+    "unit": "前置詞",
     "question": "「彼は川のそばに住んでいます。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He lives by the river.",
@@ -973,7 +973,7 @@
   },
   {
     "id": "56b0832a-2294-409f-b4db-d36832adb719",
-    "unit": "前置詞★",
+    "unit": "前置詞",
     "question": "「机の上に本があります。」を英語に訳しなさい。",
     "choices": [],
     "correct": "There is a book on the desk.",
@@ -1081,7 +1081,7 @@
   },
   {
     "id": "c7ddf008-6475-49c4-a46a-008665103715",
-    "unit": "助動詞★",
+    "unit": "助動詞",
     "question": "「あなたはここで写真を撮ってもよいです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "You may take pictures here.",
@@ -1091,7 +1091,7 @@
   },
   {
     "id": "c147cd4e-9660-437e-96b5-1b075c636ddf",
-    "unit": "助動詞★",
+    "unit": "助動詞",
     "question": "「あなたはここで静かにしなければなりません。」を英語に訳しなさい。",
     "choices": [],
     "correct": "You must be quiet here.",
@@ -1185,7 +1185,7 @@
   },
   {
     "id": "f02f8ca1-a2af-46ec-b4b9-97aff62846bf",
-    "unit": "動名詞★",
+    "unit": "動名詞",
     "question": "「私は泳ぐことが好きです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I like swimming.",
@@ -1195,7 +1195,7 @@
   },
   {
     "id": "44a944bf-25cc-4753-b111-701cc771d0d9",
-    "unit": "動名詞★",
+    "unit": "動名詞",
     "question": "「彼はタバコを吸うのをやめました。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He stopped smoking.",
@@ -1263,7 +1263,7 @@
   },
   {
     "id": "84b3e4f3-af6f-469d-a517-2738b43f1e61",
-    "unit": "受動態★",
+    "unit": "受動態",
     "question": "「この歌は多くの国で歌われています。」を英語に訳しなさい。",
     "choices": [],
     "correct": "This song is sung in many countries.",
@@ -1511,7 +1511,7 @@
   },
   {
     "id": "b17ed4c5-5e50-460b-a115-c1b2c51992e0",
-    "unit": "命令文★",
+    "unit": "命令文",
     "question": "「ドアを閉めなさい。」を英語に訳しなさい。",
     "choices": [],
     "correct": "Close the door.",
@@ -1521,7 +1521,7 @@
   },
   {
     "id": "06c507d1-5964-4700-afab-82bb433773d1",
-    "unit": "命令文★",
+    "unit": "命令文",
     "question": "「静かにしなさい。」を英語に訳しなさい。",
     "choices": [],
     "correct": "Be quiet.",
@@ -1545,7 +1545,7 @@
   },
   {
     "id": "38fcf014-5e08-4115-8b0c-ef009d1a0371",
-    "unit": "感嘆文★",
+    "unit": "感嘆文",
     "question": "「なんて美しい花なんでしょう！」を英語に訳しなさい。",
     "choices": [],
     "correct": "What a beautiful flower!",
@@ -1555,7 +1555,7 @@
   },
   {
     "id": "599d6ab8-a48d-408c-a95b-2b2d9d780b00",
-    "unit": "感嘆文★",
+    "unit": "感嘆文",
     "question": "「なんて大きい犬なんだ！」を英語に訳しなさい。",
     "choices": [],
     "correct": "What a big dog!",
@@ -1663,7 +1663,7 @@
   },
   {
     "id": "6af7f3cb-d503-4118-ab7a-b8cd79b2e4ed",
-    "unit": "接続詞★",
+    "unit": "接続詞",
     "question": "「私は雨が降っていたので家にいました。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I stayed home because it was raining.",
@@ -1673,7 +1673,7 @@
   },
   {
     "id": "8486949c-3b31-4bc4-af3c-bac18b5861b4",
-    "unit": "接続詞★",
+    "unit": "接続詞",
     "question": "「私は空腹だったので昼ご飯を食べました。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I ate lunch because I was hungry.",
@@ -1767,7 +1767,7 @@
   },
   {
     "id": "fed12573-ebd3-4f57-830f-b04d9366bf6c",
-    "unit": "未来形★",
+    "unit": "未来形",
     "question": "「私は明日友達に会うつもりです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I will meet my friend tomorrow.",
@@ -1777,7 +1777,7 @@
   },
   {
     "id": "be2795ad-7b9e-493e-9232-859aa07b782a",
-    "unit": "条件文★",
+    "unit": "条件文",
     "question": "「もし雨が降ったら、私は家にいるでしょう。」を英語に訳しなさい。",
     "choices": [],
     "correct": "If it rains, I will stay home.",
@@ -1881,7 +1881,7 @@
   },
   {
     "id": "1ac06a46-0b85-4723-b3f1-820266a51d0e",
-    "unit": "比較★",
+    "unit": "比較",
     "question": "「この箱はあの箱より大きいです。」を英語に訳しなさい.",
     "choices": [],
     "correct": "This box is bigger than that one.",
@@ -1891,7 +1891,7 @@
   },
   {
     "id": "a99a5544-e830-44b4-9967-d49968d956ef",
-    "unit": "比較★",
+    "unit": "比較",
     "question": "「トムはケンより背が高いです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "Tom is taller than Ken.",
@@ -1901,7 +1901,7 @@
   },
   {
     "id": "edbc8fb1-c92a-4742-b66a-b8c77d5ea8a0",
-    "unit": "比較★",
+    "unit": "比較",
     "question": "「彼は私より背が高いです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He is taller than me.",
@@ -1911,7 +1911,7 @@
   },
   {
     "id": "dc600441-4d87-4b74-ac6e-ebeb7ae1bc52",
-    "unit": "比較★",
+    "unit": "比較",
     "question": "「この川はあの川と同じくらい長いです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "This river is as long as that river.",
@@ -1921,7 +1921,7 @@
   },
   {
     "id": "6fa6caf1-2b22-41d2-a817-5e4171a1f5fb",
-    "unit": "現在完了★",
+    "unit": "現在完了",
     "question": "「彼はロンドンに3回行ったことがあります。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He has been to London three times.",
@@ -1931,7 +1931,7 @@
   },
   {
     "id": "947a5883-f886-45d6-b855-e33d40076975",
-    "unit": "現在完了★",
+    "unit": "現在完了",
     "question": "「私はちょうど宿題を終えたところです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I have just finished my homework.",
@@ -1941,7 +1941,7 @@
   },
   {
     "id": "39e2953b-21eb-4592-ade6-772604015c3f",
-    "unit": "現在完了★",
+    "unit": "現在完了",
     "question": "「私は3年間英語を勉強しています。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I have studied English for three years.",
@@ -2035,7 +2035,7 @@
   },
   {
     "id": "11ed9d6c-8e37-4e96-a30c-ea05545e069b",
-    "unit": "現在形★",
+    "unit": "現在形",
     "question": "「彼は毎日走ります。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He runs every day.",
@@ -2045,7 +2045,7 @@
   },
   {
     "id": "37304474-af69-4fff-b0af-d5d4c9601036",
-    "unit": "現在形★",
+    "unit": "現在形",
     "question": "「彼と彼の兄は毎日サッカーをします。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He and his brother play soccer every day.",
@@ -2055,7 +2055,7 @@
   },
   {
     "id": "672720fe-8208-488b-adf9-c381d85d9492",
-    "unit": "現在形★",
+    "unit": "現在形",
     "question": "「私はピアノを弾きます。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I play the piano.",
@@ -2065,7 +2065,7 @@
   },
   {
     "id": "cd2467f8-90c5-4a8a-8d53-b8e775441446",
-    "unit": "現在形★",
+    "unit": "現在形",
     "question": "「彼は毎朝6時に起きます。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He gets up at six every morning.",
@@ -2103,7 +2103,7 @@
   },
   {
     "id": "ac96ba28-921f-4f7d-bc60-570fa4b6e114",
-    "unit": "現在進行形★",
+    "unit": "現在進行形",
     "question": "「私は今手紙を書いています。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I am writing a letter now.",
@@ -2113,7 +2113,7 @@
   },
   {
     "id": "2fd429d9-60dc-4c54-87b8-ae6c14b9397d",
-    "unit": "現在進行形★",
+    "unit": "現在進行形",
     "question": "「彼らは今テレビを見ています。」を英語に訳しなさい。",
     "choices": [],
     "correct": "They are watching TV now.",
@@ -2123,7 +2123,7 @@
   },
   {
     "id": "0bee1a90-e855-49bd-b1d2-9a76724452ca",
-    "unit": "現在進行形★",
+    "unit": "現在進行形",
     "question": "「彼は今テニスをします。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He is playing tennis now.",
@@ -2133,7 +2133,7 @@
   },
   {
     "id": "ed6ff610-8f28-4cd2-bd59-e86b37b1798e",
-    "unit": "現在進行形★",
+    "unit": "現在進行形",
     "question": "「私は今昼ご飯を食べています。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I am eating lunch now.",
@@ -2143,7 +2143,7 @@
   },
   {
     "id": "d47c40bf-cd35-42e0-8f57-ba0956b20683",
-    "unit": "現在進行形★",
+    "unit": "現在進行形",
     "question": "「彼女は今勉強しています。」を英語に訳しなさい。",
     "choices": [],
     "correct": "She is studying now.",
@@ -2335,7 +2335,7 @@
   },
   {
     "id": "aff61670-8c84-41a2-910e-809c6ea4b71e",
-    "unit": "疑問詞★",
+    "unit": "疑問詞",
     "question": "「あなたはどこに住んでいますか。」を英語に訳しなさい。",
     "choices": [],
     "correct": "Where do you live?",
@@ -2345,7 +2345,7 @@
   },
   {
     "id": "913da0bc-1ba2-4efe-8e0f-3172deaf139c",
-    "unit": "疑問詞★",
+    "unit": "疑問詞",
     "question": "「あなたはなぜここに来たのですか。」を英語に訳しなさい。",
     "choices": [],
     "correct": "Why did you come here?",
@@ -2355,7 +2355,7 @@
   },
   {
     "id": "2dbf9bcd-f705-413a-bced-81aaf990eba5",
-    "unit": "疑問詞★",
+    "unit": "疑問詞",
     "question": "「あなたはいつ学校へ行きますか。」を英語に訳しなさい。",
     "choices": [],
     "correct": "When do you go to school?",
@@ -3324,7 +3324,7 @@
   },
   {
     "id": "34a9fc0d-b05c-43a1-a27d-768f56450c74",
-    "unit": "過去形★",
+    "unit": "過去形",
     "question": "「彼は昨日家に帰りました。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He went home yesterday.",
@@ -3334,7 +3334,7 @@
   },
   {
     "id": "57ec7df1-3c94-4ad5-9ebc-f274d1bea512",
-    "unit": "過去形★",
+    "unit": "過去形",
     "question": "「私は昨日手紙を書きました。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I wrote a letter yesterday.",
@@ -3344,7 +3344,7 @@
   },
   {
     "id": "0d0eed70-1a3d-485c-81f2-80addd36d6e2",
-    "unit": "過去形★",
+    "unit": "過去形",
     "question": "「彼は昨夜宿題をしました。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He did his homework last night.",
@@ -3354,7 +3354,7 @@
   },
   {
     "id": "235df498-7000-4b88-8771-33b92eb8d790",
-    "unit": "過去形★",
+    "unit": "過去形",
     "question": "「私は先週図書館へ行きました。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I went to the library last week.",
@@ -3364,7 +3364,7 @@
   },
   {
     "id": "5834bde1-7061-4282-adeb-e1531b7c62b3",
-    "unit": "過去形★",
+    "unit": "過去形",
     "question": "「私は昨日映画を見ました。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I watched a movie yesterday.",
@@ -3388,7 +3388,7 @@
   },
   {
     "id": "1e77864d-88b8-40c7-b568-25b09d5360b1",
-    "unit": "間接疑問文★",
+    "unit": "間接疑問文",
     "question": "「彼がどこに住んでいるのか知っていますか。」を英語に訳しなさい。",
     "choices": [],
     "correct": "Do you know where he lives?",
@@ -3412,7 +3412,7 @@
   },
   {
     "id": "1e93ca9c-cc0c-4bd1-b345-1dbdcbac62c2",
-    "unit": "関係代名詞★",
+    "unit": "関係代名詞",
     "question": "「あそこにいる少年は私の弟です。」を英語に訳しなさい。",
     "choices": [],
     "correct": "The boy who is over there is my brother.",
@@ -3422,7 +3422,7 @@
   },
   {
     "id": "9b2c6b35-0c31-4c4a-9c1b-1c1a2a7f9e34",
-    "unit": "関係代名詞★",
+    "unit": "関係代名詞",
     "question": "「これは昨日私が見た映画です。」を英語に訳しなさい。",
     "choices": [],
     "correct": "This is the movie I saw yesterday.",
@@ -3436,7 +3436,7 @@
   },
   {
     "id": "3a9ce553-f660-481c-964d-e195f9aeae06",
-    "unit": "関係代名詞★",
+    "unit": "関係代名詞",
     "question": "「これは父が名前を知っている男性です。」を英語に訳しなさい。",
     "choices": [],
     "correct": "This is the man whose name my father knows.",
@@ -3446,7 +3446,7 @@
   },
   {
     "id": "c2ed698a-844c-4403-9ec1-0e0d44081d8f",
-    "unit": "関係代名詞★",
+    "unit": "関係代名詞",
     "question": "「あそこで歌っている女の子は私の妹です。」を英語に訳しなさい。",
     "choices": [],
     "correct": "The girl who is singing over there is my sister.",
@@ -3456,7 +3456,7 @@
   },
   {
     "id": "5aff8cc8-3319-4539-a566-0be3be62ae39",
-    "unit": "関係代名詞★",
+    "unit": "関係代名詞",
     "question": "「これは私が昨日買った本です。」を英語に訳しなさい。",
     "choices": [],
     "correct": "This is the book which I bought yesterday.",
