@@ -529,28 +529,35 @@ export default function EnglishTrapQuestions() {
     setShowAnswer(false);
   }, [currentQuestion, showFeedback, showResult]);
 
-  // カウントダウン音 (残り5秒以内)
+  // 🔽 カウントダウン処理
+  useEffect(() => {
+    if (!showQuestions) return; // ← クイズ画面でなければタイマー止める
+    if (!timerActive || timeLeft <= 0 || showResult) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timerActive, timeLeft, showResult, showQuestions]);
+
+  // 🔽 カウントダウン音 (残り5秒以内)
   useEffect(() => {
     if (
-      !showQuestions || // ← クイズ中でなければ絶対鳴らさない
-      showResult ||
+      !showQuestions || // ← ここでしっかりガード
       !timerActive ||
+      showResult ||
       timeLeft <= 0 ||
       !soundEnabled
-    ) {
+    )
       return;
-    }
 
     if (timeLeft <= 5) {
       const key = `${currentIndex}-${timeLeft}`;
       if (!countPlayedForQuestion[key]) {
         const audio = new Audio("/sounds/count.mp3");
         audio.play().catch((err) => console.error("カウント音エラー:", err));
-
-        setCountPlayedForQuestion((prev) => ({
-          ...prev,
-          [key]: true,
-        }));
+        setCountPlayedForQuestion((prev) => ({ ...prev, [key]: true }));
       }
     }
   }, [
