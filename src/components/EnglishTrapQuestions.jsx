@@ -215,7 +215,7 @@ export default function EnglishTrapQuestions() {
 
     // 音声がロードされたら音量を設定（0〜1）
     audio.addEventListener("canplaythrough", () => {
-      audio.volume = 0.01; // 🔉 5% の音量
+      audio.volume = 0.03; // 🔉 5% の音量
     });
 
     audio.play().catch((err) => console.error("クイズBGM再生失敗:", err));
