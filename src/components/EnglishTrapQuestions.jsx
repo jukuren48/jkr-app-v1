@@ -752,19 +752,27 @@ export default function EnglishTrapQuestions() {
   };
   const handleNext = () => {
     setCharacterMood("neutral");
+
     if (isCorrect) {
+      // ✅ 正解なら次の問題へ
       if (currentIndex + 1 < filteredQuestions.length) {
         setCurrentIndex(currentIndex + 1);
       } else {
         setShowQuestions(false);
         setShowResult(true);
-        setTimerActive(false); // 🔽 タイマー停止
-        setTimeLeft(0); // 🔽 残り時間リセット
-        setShowFeedback(false); // 🔽 フィードバック非表示に
+        setTimerActive(false);
+        setTimeLeft(0);
       }
+      setShowFeedback(false); // ← 正解時もリセットが必要
+    } else {
+      // ❌ 不正解なら同じ問題をもう一度
+      if (soundEnabled) {
+        playSFX("/sounds/ganba.mp3");
+      }
+      setShowFeedback(false); // ← 不正解時も再挑戦のためリセット
     }
+
     setSelectedChoice(null);
-    setShowFeedback(false);
     setTimeout(() => setInputDisabled(false), 300);
   };
 
