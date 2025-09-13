@@ -7,6 +7,7 @@ let audioCtx;
 let bgmGain;
 let sfxGain;
 let bgmSource = null;
+let currentBgmSrc = null;
 
 function initAudio() {
   if (!audioCtx) {
@@ -23,9 +24,13 @@ function initAudio() {
 async function playBGM(src) {
   initAudio();
 
-  // iOS Safari 向け：強制的に resume する
   if (audioCtx.state === "suspended") {
     await audioCtx.resume();
+  }
+
+  // すでに同じ曲が流れているなら再生し直さない
+  if (currentBgmSrc === src && bgmSource) {
+    return;
   }
 
   stopBGM();
@@ -41,16 +46,22 @@ async function playBGM(src) {
   source.start(0);
 
   bgmSource = source;
+  currentBgmSrc = src; // ✅ 現在の曲を記録
 }
 
 function stopBGM() {
+  console.log("[stopBGM] called");
   if (bgmSource) {
     try {
-      bgmSource.stop();
-    } catch {}
+      bgmSource.stop(0);
+      console.log("[stopBGM] stopped");
+    } catch (e) {
+      console.warn("[stopBGM] error", e);
+    }
     bgmSource.disconnect();
     bgmSource = null;
   }
+  currentBgmSrc = null;
 }
 
 async function playSFX(src) {
@@ -155,12 +166,7 @@ export default function EnglishTrapQuestions() {
     return {};
   });
   // 効果音 ON/OFF（← これを state 群の先頭付近に）
-  const [soundEnabled, setSoundEnabled] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("soundEnabled") === "true";
-    }
-    return false; // 初期状態は OFF
-  });
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -288,6 +294,15 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("soundEnabled");
+      if (saved !== null) {
+        setSoundEnabled(saved === "true");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
       localStorage.setItem("unitModes", JSON.stringify(unitModes));
     }
   }, [unitModes]);
@@ -390,10 +405,10 @@ export default function EnglishTrapQuestions() {
   //}
   // クイズ開始処理
   const startQuiz = () => {
-    if (soundEnabled) {
-      stopBGM();
-      playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
-    }
+    //if (soundEnabled) {
+    //  stopBGM();
+    //  playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
+    //}
     if (filtered.length === 0) {
       alert("選択した単元に問題がありません。");
       return;
@@ -431,15 +446,26 @@ export default function EnglishTrapQuestions() {
 
   // 🔽 BGMの状態を一括管理
   useEffect(() => {
+    console.log(
+      "[useEffect] soundEnabled:",
+      soundEnabled,
+      "showQuestions:",
+      showQuestions,
+      "showResult:",
+      showResult
+    );
     if (!soundEnabled) {
+      console.log("→ stopBGM() 実行");
       stopBGM();
       return;
     }
 
     if (!showQuestions && !showResult) {
-      playBGM("/sounds/bgm.mp3"); // 単元選択画面だけ自動再生
+      console.log("→ playBGM(bgm.mp3)");
+      playBGM("/sounds/bgm.mp3");
     } else if (showResult) {
-      stopBGM(); // 結果画面で停止
+      console.log("→ stopBGM() 実行 (結果画面)");
+      stopBGM();
     }
   }, [soundEnabled, showQuestions, showResult]);
 
@@ -496,6 +522,12 @@ export default function EnglishTrapQuestions() {
         );
     }
   }, [soundEnabled, showQuestions, showResult, units]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("soundEnabled", String(soundEnabled));
+    }
+  }, [soundEnabled]);
 
   // 🔽 追加: 出題中だけBGMを流す
   //useEffect(() => {
@@ -971,9 +1003,7 @@ export default function EnglishTrapQuestions() {
           {/* サウンドON/OFFボタン */}
           <div className="flex justify-center mb-4">
             <button
-              onClick={() =>
-                playButtonSound(() => setSoundEnabled((prev) => !prev))
-              }
+              onClick={() => setSoundEnabled((prev) => !prev)}
               className={`px-4 py-2 rounded-full shadow transition ${
                 soundEnabled
                   ? "bg-green-400 text-white"
