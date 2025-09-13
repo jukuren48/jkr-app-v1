@@ -210,7 +210,7 @@ export default function EnglishTrapQuestions() {
 
       // GainNodeを作成
       const gainNode = audioCtx.createGain();
-      gainNode.gain.value = 0.03; // 🔉 音量（0〜1に正規化）
+      gainNode.gain.value = 0.1; // 🔉 音量（0〜1に正規化）
 
       // BufferSourceを作成して接続
       const source = audioCtx.createBufferSource();
@@ -278,6 +278,8 @@ export default function EnglishTrapQuestions() {
       return { ...prev, [unit]: next };
     });
   };
+
+  const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -421,6 +423,18 @@ export default function EnglishTrapQuestions() {
 
   // 単元選択画面に入ったときにBGMを流し、抜けたら止める
   useEffect(() => {
+    if (
+      showFeedback &&
+      !isCorrect &&
+      currentQuestion?.explanation &&
+      currentQuestion.explanation.trim() !== ""
+    ) {
+      // 🔊 不正解のときだけ1回だけ流す
+      speakExplanation(currentQuestion.explanation);
+    }
+  }, [showFeedback, isCorrect, currentQuestion]);
+
+  useEffect(() => {
     if (!soundEnabled) {
       // サウンドOFFならBGMも止める
       if (bgmRef.current) {
@@ -434,7 +448,7 @@ export default function EnglishTrapQuestions() {
       if (!bgmRef.current) {
         const audio = new Audio("/sounds/bgm.mp3");
         audio.loop = true; // 🔁ループ再生
-        audio.volume = 0.03; // 🔉音量（調整可）
+        audio.volume = 0.1; // 🔉音量（調整可）
         audio
           .play()
           .catch((err) => console.error("BGMの再生に失敗しました:", err));
@@ -1083,6 +1097,7 @@ export default function EnglishTrapQuestions() {
                     解説をしっかり読もう！
                   </h3>
                 </div>
+
                 <p className="text-gray-800 leading-relaxed">
                   {currentQuestion.explanation}
                 </p>
