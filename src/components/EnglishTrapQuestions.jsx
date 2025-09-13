@@ -302,16 +302,16 @@ export default function EnglishTrapQuestions() {
       });
   }, []);
 
-  const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
-  useEffect(() => {
-    if (!showFeedback) return;
-    if (isCorrect) return;
-    if (!currentQuestion) return;
-    if (typeof currentQuestion.explanation !== "string") return;
-    if (currentQuestion.explanation.trim() === "") return;
+  //const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
+  //useEffect(() => {
+  //  if (!showFeedback) return;
+  //  if (isCorrect) return;
+  //  if (!currentQuestion) return;
+  //  if (typeof currentQuestion.explanation !== "string") return;
+  //  if (currentQuestion.explanation.trim() === "") return;
 
-    speakExplanation(currentQuestion.explanation);
-  }, [showFeedback, isCorrect, currentQuestion]);
+  //  speakExplanation(currentQuestion.explanation);
+  //}, [showFeedback, isCorrect, currentQuestion]);
 
   const speakExplanation = async (text, lang = "ja-JP") => {
     if (!text || text.trim() === "") return;
@@ -1086,6 +1086,12 @@ export default function EnglishTrapQuestions() {
                 <p className="text-gray-800 leading-relaxed">
                   {currentQuestion.explanation}
                 </p>
+                <button
+                  onClick={() => speakExplanation(currentQuestion.explanation)}
+                  className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                >
+                  🔊 解説を聞く
+                </button>
               </motion.div>
 
               <button
