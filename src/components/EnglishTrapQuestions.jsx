@@ -192,24 +192,48 @@ export default function EnglishTrapQuestions() {
     bgmSourceRef.current = null;
   };
 
-  const startQuizBGM = () => {
-    if (quizBgmRef.current) return; // 二重再生防止
+  // Web Audio API でクイズBGMを再生
+  const startQuizBGM = async () => {
+    try {
+      if (quizBgmRef.current) return; // 二重再生防止
 
-    const audio = new Audio("/sounds/qbgm.mp3");
-    audio.loop = true;
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
 
-    // 音声がロードされたら音量を設定（0〜1）
-    audio.addEventListener("canplaythrough", () => {
-      audio.volume = 0.03; // 🔉 5% の音量
-    });
+      // BGMデータが未ロードならfetch
+      if (!soundsRef.current.qbgm) {
+        const res = await fetch("/sounds/qbgm.mp3");
+        const arrayBuffer = await res.arrayBuffer();
+        soundsRef.current.qbgm = await audioCtx.decodeAudioData(arrayBuffer);
+      }
 
-    audio.play().catch((err) => console.error("クイズBGM再生失敗:", err));
-    quizBgmRef.current = audio;
+      // GainNodeを作成
+      const gainNode = audioCtx.createGain();
+      gainNode.gain.value = 0.03; // 🔉 音量（0〜1に正規化）
+
+      // BufferSourceを作成して接続
+      const source = audioCtx.createBufferSource();
+      source.buffer = soundsRef.current.qbgm;
+      source.loop = true;
+      source.connect(gainNode).connect(audioCtx.destination);
+      source.start(0);
+
+      // 保存
+      quizBgmRef.current = { source, gainNode };
+    } catch (err) {
+      console.error("クイズBGM再生失敗:", err);
+    }
   };
 
+  // 停止処理
   const stopQuizBGM = () => {
     if (quizBgmRef.current) {
-      quizBgmRef.current.pause();
+      try {
+        quizBgmRef.current.source.stop();
+      } catch (e) {
+        console.error("停止時エラー:", e);
+      }
       quizBgmRef.current = null;
     }
   };
