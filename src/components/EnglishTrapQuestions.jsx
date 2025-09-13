@@ -2,8 +2,63 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 
-// AudioContext はトップレベルで一意に保持
-let audioCtx = null;
+// ===== Audio Utility (iPhone対応版) =====
+let audioCtx;
+let bgmGain;
+let sfxGain;
+let bgmSource = null;
+
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    bgmGain = audioCtx.createGain();
+    sfxGain = audioCtx.createGain();
+    bgmGain.connect(audioCtx.destination);
+    sfxGain.connect(audioCtx.destination);
+    bgmGain.gain.value = 0.3; // ✅ BGMの音量（小さめ）
+    sfxGain.gain.value = 1.0; // ✅ 効果音の音量（通常）
+  }
+}
+
+async function playBGM(src) {
+  initAudio();
+  stopBGM();
+
+  const res = await fetch(src);
+  const buf = await res.arrayBuffer();
+  const audioBuffer = await audioCtx.decodeAudioData(buf);
+
+  const source = audioCtx.createBufferSource();
+  source.buffer = audioBuffer;
+  source.loop = true;
+  source.connect(bgmGain);
+  source.start(0);
+
+  bgmSource = source;
+}
+
+function stopBGM() {
+  if (bgmSource) {
+    try {
+      bgmSource.stop();
+    } catch {}
+    bgmSource.disconnect();
+    bgmSource = null;
+  }
+}
+
+async function playSFX(src) {
+  initAudio();
+
+  const res = await fetch(src);
+  const buf = await res.arrayBuffer();
+  const audioBuffer = await audioCtx.decodeAudioData(buf);
+
+  const source = audioCtx.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(sfxGain);
+  source.start(0);
+}
 
 function shuffleArray(array) {
   const copy = [...array];
@@ -151,37 +206,36 @@ export default function EnglishTrapQuestions() {
   // 効果音付きボタンハンドラ
   const playButtonSound = (callback) => {
     if (soundEnabled) {
-      const audio = new Audio("/sounds/botan.mp3");
-      audio.play().catch((err) => console.error("ボタン音の再生に失敗:", err));
+      playSFX("/sounds/botan.mp3");
     }
     if (callback) callback();
   };
 
   // BGM制御用のref
-  const bgmRef = useRef(null);
-  const quizBgmRef = useRef(null);
+  //const bgmRef = useRef(null);
+  //const quizBgmRef = useRef(null);
 
   // BGM 再生用
-  const bgmAudioRef = useRef(null);
+  //const bgmAudioRef = useRef(null);
 
-  const playBGM = (src, volume = 0.1) => {
-    if (bgmAudioRef.current) {
-      bgmAudioRef.current.pause();
-      bgmAudioRef.current = null;
-    }
-    const audio = new Audio(src);
-    audio.loop = true;
-    audio.volume = volume; // 0〜1 の範囲
-    audio.play().catch((err) => console.error("BGM再生エラー:", err));
-    bgmAudioRef.current = audio;
-  };
+  //const playBGM = (src, volume = 0.1) => {
+  //  if (bgmAudioRef.current) {
+  //    bgmAudioRef.current.pause();
+  //    bgmAudioRef.current = null;
+  //  }
+  //  const audio = new Audio(src);
+  //  audio.loop = true;
+  //  audio.volume = volume; // 0〜1 の範囲
+  //  audio.play().catch((err) => console.error("BGM再生エラー:", err));
+  //  bgmAudioRef.current = audio;
+  //};
 
-  const stopBGM = () => {
-    if (bgmAudioRef.current) {
-      bgmAudioRef.current.pause();
-      bgmAudioRef.current = null;
-    }
-  };
+  //const stopBGM = () => {
+  //  if (bgmAudioRef.current) {
+  //    bgmAudioRef.current.pause();
+  //    bgmAudioRef.current = null;
+  //  }
+  //};
 
   // 参照（GainやBuffer保持）
   const soundsRef = useRef({}); // { count, timeup, correct, wrong, bgm } を保持
@@ -374,21 +428,24 @@ export default function EnglishTrapQuestions() {
     }
 
     if (!showQuestions && !showResult) {
-      playBGM("/sounds/bgm.mp3", 0.1); // 単元選択画面
+      playBGM("/sounds/bgm.mp3"); // 単元選択画面
     } else if (showQuestions && !showResult) {
-      playBGM("/sounds/qbgm.mp3", 0.05); // クイズ中
+      playBGM("/sounds/qbgm.mp3"); // クイズ中
     } else {
       stopBGM(); // 結果画面
     }
   }, [soundEnabled, showQuestions, showResult]);
 
   // 画面状態に合わせてBGMを制御
-  useEffect(() => {
-    if (!soundEnabled || !audioCtx) return;
-    const onStartScreen = !showQuestions && !showResult;
-    if (onStartScreen) startBGM();
-    else stopBGM();
-  }, [soundEnabled, showQuestions, showResult]);
+  //useEffect(() => {
+  //  if (!soundEnabled || !audioCtx) return;
+  //  const onStartScreen = !showQuestions && !showResult;
+  //  if (onStartScreen) {
+  //    playBGM("/sounds/bgm.mp3");
+  //  } else {
+  //    stopBGM();
+  //  }
+  //}, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
     localStorage.setItem("vol_master", String(masterVol));
@@ -662,16 +719,12 @@ export default function EnglishTrapQuestions() {
     if (isCorrectAnswer) {
       setCharacterMood("happy");
       if (soundEnabled) {
-        const audio = new Audio("/sounds/correct.mp3");
-        audio.play().catch((err) => console.error("正解音の再生に失敗:", err));
+        playSFX("/sounds/correct.mp3");
       }
     } else {
       setCharacterMood("sad");
       if (soundEnabled) {
-        const audio = new Audio("/sounds/wrong.mp3");
-        audio
-          .play()
-          .catch((err) => console.error("不正解音の再生に失敗:", err));
+        playSFX("/sounds/wrong.mp3");
       }
       if (!mistakes[currentQuestion.id]) {
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
