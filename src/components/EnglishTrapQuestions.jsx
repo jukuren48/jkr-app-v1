@@ -376,7 +376,7 @@ export default function EnglishTrapQuestions() {
     if (!showQuestions && !showResult) {
       playBGM("/sounds/bgm.mp3", 0.1); // 単元選択画面
     } else if (showQuestions && !showResult) {
-      playBGM("/sounds/qbgm.mp3", 0.1); // クイズ中
+      playBGM("/sounds/qbgm.mp3", 0.05); // クイズ中
     } else {
       stopBGM(); // 結果画面
     }
