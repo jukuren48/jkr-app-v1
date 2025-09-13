@@ -161,80 +161,25 @@ export default function EnglishTrapQuestions() {
   const bgmRef = useRef(null);
   const quizBgmRef = useRef(null);
 
-  // BGM 再生/停止
-  const startBGM = () => {
-    if (!audioCtx || !soundsRef.current.bgm || !bgmGainRef.current) return;
-    stopBGM();
-    const src = audioCtx.createBufferSource();
-    src.buffer = soundsRef.current.bgm;
-    src.loop = true;
-    src.connect(bgmGainRef.current);
-    bgmSourceRef.current = src;
+  // BGM 再生用
+  const bgmAudioRef = useRef(null);
 
-    const g = bgmGainRef.current.gain;
-    g.cancelScheduledValues(audioCtx.currentTime);
-    const target = bgmVol / 100;
-    g.setValueAtTime(0, audioCtx.currentTime);
-    g.linearRampToValueAtTime(target, audioCtx.currentTime + 0.4);
-
-    src.start(0);
+  const playBGM = (src, volume = 0.1) => {
+    if (bgmAudioRef.current) {
+      bgmAudioRef.current.pause();
+      bgmAudioRef.current = null;
+    }
+    const audio = new Audio(src);
+    audio.loop = true;
+    audio.volume = volume; // 0〜1 の範囲
+    audio.play().catch((err) => console.error("BGM再生エラー:", err));
+    bgmAudioRef.current = audio;
   };
 
   const stopBGM = () => {
-    if (!audioCtx || !bgmSourceRef.current || !bgmGainRef.current) return;
-    const src = bgmSourceRef.current;
-    const g = bgmGainRef.current.gain;
-    g.cancelScheduledValues(audioCtx.currentTime);
-    g.setTargetAtTime(0, audioCtx.currentTime, 0.1);
-    try {
-      src.stop(audioCtx.currentTime + 0.15);
-    } catch {}
-    bgmSourceRef.current = null;
-  };
-
-  // Web Audio API でクイズBGMを再生
-  const startQuizBGM = async () => {
-    try {
-      if (quizBgmRef.current) return; // 二重再生防止
-
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-
-      // BGMデータが未ロードならfetch
-      if (!soundsRef.current.qbgm) {
-        const res = await fetch("/sounds/qbgm.mp3");
-        const arrayBuffer = await res.arrayBuffer();
-        soundsRef.current.qbgm = await audioCtx.decodeAudioData(arrayBuffer);
-      }
-
-      // GainNodeを作成
-      const gainNode = audioCtx.createGain();
-      gainNode.gain.value = 0.1; // 🔉 音量（0〜1に正規化）
-
-      // BufferSourceを作成して接続
-      const source = audioCtx.createBufferSource();
-      source.buffer = soundsRef.current.qbgm;
-      source.loop = true;
-      source.connect(gainNode).connect(audioCtx.destination);
-      source.start(0);
-
-      // 保存
-      quizBgmRef.current = { source, gainNode };
-    } catch (err) {
-      console.error("クイズBGM再生失敗:", err);
-    }
-  };
-
-  // 停止処理
-  const stopQuizBGM = () => {
-    if (quizBgmRef.current) {
-      try {
-        quizBgmRef.current.source.stop();
-      } catch (e) {
-        console.error("停止時エラー:", e);
-      }
-      quizBgmRef.current = null;
+    if (bgmAudioRef.current) {
+      bgmAudioRef.current.pause();
+      bgmAudioRef.current = null;
     }
   };
 
@@ -421,32 +366,19 @@ export default function EnglishTrapQuestions() {
     }
   }, [questions, unitModes]);
 
+  // 🔽 BGMの状態を一括管理
   useEffect(() => {
     if (!soundEnabled) {
-      // サウンドOFFならBGMも止める
-      if (bgmRef.current) {
-        bgmRef.current.pause();
-        bgmRef.current = null;
-      }
+      stopBGM();
       return;
     }
 
     if (!showQuestions && !showResult) {
-      if (!bgmRef.current) {
-        const audio = new Audio("/sounds/bgm.mp3");
-        audio.loop = true; // 🔁ループ再生
-        audio.volume = 0.1; // 🔉音量（調整可）
-        audio
-          .play()
-          .catch((err) => console.error("BGMの再生に失敗しました:", err));
-        bgmRef.current = audio;
-      }
+      playBGM("/sounds/bgm.mp3", 0.1); // 単元選択画面
+    } else if (showQuestions && !showResult) {
+      playBGM("/sounds/qbgm.mp3", 0.1); // クイズ中
     } else {
-      // 単元選択画面から抜けたらBGM停止
-      if (bgmRef.current) {
-        bgmRef.current.pause();
-        bgmRef.current = null;
-      }
+      stopBGM(); // 結果画面
     }
   }, [soundEnabled, showQuestions, showResult]);
 
@@ -502,14 +434,14 @@ export default function EnglishTrapQuestions() {
   }, [soundEnabled, showQuestions, showResult, units]);
 
   // 🔽 追加: 出題中だけBGMを流す
-  useEffect(() => {
-    if (soundEnabled && showQuestions && !showResult) {
-      startQuizBGM();
-    } else {
-      stopQuizBGM();
-    }
-    return () => stopQuizBGM(); // コンポーネントがアンマウントされたときも停止
-  }, [soundEnabled, showQuestions, showResult]);
+  //useEffect(() => {
+  //  if (soundEnabled && showQuestions && !showResult) {
+  //    startQuizBGM();
+  //  } else {
+  //    stopQuizBGM();
+  //  }
+  //  return () => stopQuizBGM(); // コンポーネントがアンマウントされたときも停止
+  //}, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
     if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
@@ -606,15 +538,15 @@ export default function EnglishTrapQuestions() {
   }, [showFeedback, isCorrect, currentQuestion]);
 
   // クイズBGMや音声を止める
-  useEffect(() => {
-    return () => {
-      stopQuizBGM();
-      if (bgmRef.current) {
-        bgmRef.current.pause();
-        bgmRef.current = null;
-      }
-    };
-  }, []);
+  //useEffect(() => {
+  //  return () => {
+  //    stopQuizBGM();
+  //    if (bgmRef.current) {
+  //      bgmRef.current.pause();
+  //      bgmRef.current = null;
+  //    }
+  //  };
+  //}, []);
 
   // 時間切れ処理
   useEffect(() => {
