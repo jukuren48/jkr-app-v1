@@ -421,19 +421,6 @@ export default function EnglishTrapQuestions() {
     }
   }, [questions, unitModes]);
 
-  // 単元選択画面に入ったときにBGMを流し、抜けたら止める
-  useEffect(() => {
-    if (
-      showFeedback &&
-      !isCorrect &&
-      currentQuestion?.explanation &&
-      currentQuestion.explanation.trim() !== ""
-    ) {
-      // 🔊 不正解のときだけ1回だけ流す
-      speakExplanation(currentQuestion.explanation);
-    }
-  }, [showFeedback, isCorrect, currentQuestion]);
-
   useEffect(() => {
     if (!soundEnabled) {
       // サウンドOFFならBGMも止める
@@ -607,17 +594,16 @@ export default function EnglishTrapQuestions() {
     currentIndex,
   ]);
 
+  // 解説の自動読み上げ
   useEffect(() => {
-    if (!showQuestions) return; // ← 単元選択や結果画面では鳴らさない
-    if (!showFeedback || isCorrect || !currentQuestion) return;
-    if (
-      !currentQuestion.explanation ||
-      currentQuestion.explanation.trim() === ""
-    )
-      return;
+    if (!showFeedback) return; // 解答結果画面のみ
+    if (isCorrect) return; // 正解時は自動で流さない
+    if (!currentQuestion) return;
+    if (!currentQuestion.explanation) return;
 
+    // ❌ 二重再生防止のため、失敗した時だけ自動再生
     speakExplanation(currentQuestion.explanation);
-  }, [showFeedback, isCorrect, currentQuestion, showQuestions]);
+  }, [showFeedback, isCorrect, currentQuestion]);
 
   // クイズBGMや音声を止める
   useEffect(() => {
