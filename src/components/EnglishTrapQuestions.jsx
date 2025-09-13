@@ -22,6 +22,12 @@ function initAudio() {
 
 async function playBGM(src) {
   initAudio();
+
+  // iOS Safari 向け：強制的に resume する
+  if (audioCtx.state === "suspended") {
+    await audioCtx.resume();
+  }
+
   stopBGM();
 
   const res = await fetch(src);
@@ -384,7 +390,10 @@ export default function EnglishTrapQuestions() {
   //}
   // クイズ開始処理
   const startQuiz = () => {
-    if (soundEnabled) stopBGM();
+    if (soundEnabled) {
+      stopBGM();
+      playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
+    }
     if (filtered.length === 0) {
       alert("選択した単元に問題がありません。");
       return;
@@ -428,11 +437,9 @@ export default function EnglishTrapQuestions() {
     }
 
     if (!showQuestions && !showResult) {
-      playBGM("/sounds/bgm.mp3"); // 単元選択画面
-    } else if (showQuestions && !showResult) {
-      playBGM("/sounds/qbgm.mp3"); // クイズ中
-    } else {
-      stopBGM(); // 結果画面
+      playBGM("/sounds/bgm.mp3"); // 単元選択画面だけ自動再生
+    } else if (showResult) {
+      stopBGM(); // 結果画面で停止
     }
   }, [soundEnabled, showQuestions, showResult]);
 
