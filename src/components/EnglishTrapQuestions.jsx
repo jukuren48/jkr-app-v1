@@ -469,10 +469,10 @@ export default function EnglishTrapQuestions() {
     //  console.log("→ playBGM(bgm.mp3)");
       stopBGM();
       playBGM("/sounds/bgm.mp3");
-    } else {
+    //} else {
     //  console.log("→ stopBGM() 実行 (結果画面)");
-      stopBGM();
-      playBGM("/sounds/qbgm.mp3");
+      //stopBGM();
+      //playBGM("/sounds/qbgm.mp3");
     }
   }, [soundEnabled, showQuestions, showResult]);
 
