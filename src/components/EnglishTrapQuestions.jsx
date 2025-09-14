@@ -829,7 +829,7 @@ export default function EnglishTrapQuestions() {
     setHintLevel(0);
     setHintText("");
     setTimerActive(false);
-    setTimeLeft(0);
+    setTimeLeft(limit);
 
     // 🔽 同じ問題を最初から出す
     setFilteredQuestions([...initialQuestions]);
