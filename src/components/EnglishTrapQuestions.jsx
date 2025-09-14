@@ -660,10 +660,11 @@ export default function EnglishTrapQuestions() {
 
     // 時間切れ音を再生
     if (soundEnabled) {
-      const audio = new Audio("/sounds/timesup.mp3");
-      audio
-        .play()
-        .catch((err) => console.error("時間切れ音の再生に失敗:", err));
+      //const audio = new Audio("/sounds/timesup.mp3");
+      //audio
+      //  .play()
+      //  .catch((err) => console.error("時間切れ音の再生に失敗:", err));
+      playSFX("/sounds/timesup.mp3");
     }
 
     // 1.5秒後に解答結果画面に切り替える
