@@ -839,6 +839,10 @@ export default function EnglishTrapQuestions() {
 
     // 🔽 同じ問題を最初から出す
     setFilteredQuestions([...initialQuestions]);
+    if (soundEnabled) {
+      stopBGM();
+      playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
+    }
   };
 
   const hintPenalties = [2, 5, 10];
