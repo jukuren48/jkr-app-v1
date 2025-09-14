@@ -521,13 +521,13 @@ export default function EnglishTrapQuestions() {
     if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
     // 単元選択画面が表示されたときに再生
     if (soundEnabled && !showQuestions && !showResult && units.length > 0) {
-      const audio = new Audio("/sounds/sentaku.mp3");
-      audio
-        .play()
-        .catch((err) =>
-          console.error("単元選択画面の音再生に失敗しました:", err)
-        );
-      //playSFX("/sounds/sentaku.mp3");
+      //const audio = new Audio("/sounds/sentaku.mp3");
+      //audio
+        //.play()
+        //.catch((err) =>
+          //console.error("単元選択画面の音再生に失敗しました:", err)
+        //);
+      playSFX("/sounds/sentaku.mp3");
     }
   }, [soundEnabled, showQuestions, showResult, units]);
 
@@ -567,7 +567,7 @@ export default function EnglishTrapQuestions() {
           //.catch((err) => console.error("出題音の再生に失敗しました:", err));
           playSFX(soundFile);
       }
-    
+    }
   }, [currentIndex, showQuestions]);
 
   // 🔽 追加: 問題切り替え時に制限時間を設定
