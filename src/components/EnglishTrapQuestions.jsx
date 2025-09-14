@@ -467,8 +467,9 @@ export default function EnglishTrapQuestions() {
 
     if (!showQuestions && !showResult) {
     //  console.log("→ playBGM(bgm.mp3)");
+      stopBGM();
       playBGM("/sounds/bgm.mp3");
-    } else if (showResult) {
+    } else {
     //  console.log("→ stopBGM() 実行 (結果画面)");
       stopBGM();
       playBGM("/sounds/qbgm.mp3");
