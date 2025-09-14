@@ -459,18 +459,19 @@ export default function EnglishTrapQuestions() {
       "showResult:",
       showResult
     );
-    //if (!soundEnabled) {
+    if (!soundEnabled) {
       //console.log("→ stopBGM() 実行");
-      //stopBGM();
-      //return;
-    //}
+      stopBGM();
+      return;
+    }
 
     if (!showQuestions && !showResult) {
     //  console.log("→ playBGM(bgm.mp3)");
       playBGM("/sounds/bgm.mp3");
-    //} else if (showResult) {
+    } else if (showResult) {
     //  console.log("→ stopBGM() 実行 (結果画面)");
-    //  stopBGM();
+      stopBGM();
+      playBGM("/sounds/qbgm.mp3");
     }
   }, [soundEnabled, showQuestions, showResult]);
 
