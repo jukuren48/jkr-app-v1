@@ -472,7 +472,7 @@ export default function EnglishTrapQuestions() {
     //  console.log("→ stopBGM() 実行 (結果画面)");
     //  stopBGM();
     //}
-  //}, [soundEnabled, showQuestions, showResult]);
+  }, [soundEnabled, showQuestions, showResult]);
 
   // 画面状態に合わせてBGMを制御
   //useEffect(() => {
