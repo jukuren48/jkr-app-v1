@@ -613,8 +613,9 @@ export default function EnglishTrapQuestions() {
     if (timeLeft <= 5) {
       const key = `${currentIndex}-${timeLeft}`;
       if (!countPlayedForQuestion[key]) {
-        const audio = new Audio("/sounds/count.mp3");
-        audio.play().catch((err) => console.error("カウント音エラー:", err));
+        //const audio = new Audio("/sounds/count.mp3");
+        //audio.play().catch((err) => console.error("カウント音エラー:", err));
+        playSFX("/sounds/count.mp3");
         setCountPlayedForQuestion((prev) => ({ ...prev, [key]: true }));
       }
     }
