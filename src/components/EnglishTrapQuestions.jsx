@@ -465,13 +465,13 @@ export default function EnglishTrapQuestions() {
       //return;
     //}
 
-    //if (!showQuestions && !showResult) {
+    if (!showQuestions && !showResult) {
     //  console.log("→ playBGM(bgm.mp3)");
-    //  playBGM("/sounds/bgm.mp3");
+      playBGM("/sounds/bgm.mp3");
     //} else if (showResult) {
     //  console.log("→ stopBGM() 実行 (結果画面)");
     //  stopBGM();
-    //}
+    }
   }, [soundEnabled, showQuestions, showResult]);
 
   // 画面状態に合わせてBGMを制御
