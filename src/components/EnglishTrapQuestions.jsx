@@ -166,7 +166,12 @@ export default function EnglishTrapQuestions() {
     return {};
   });
   // 効果音 ON/OFF（← これを state 群の先頭付近に）
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+   if (typeof window !== "undefined") {
+     return localStorage.getItem("soundEnabled") === "true";
+   }
+   return false; // 初期状態は OFF
+ });
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -292,18 +297,18 @@ export default function EnglishTrapQuestions() {
 
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("soundEnabled");
-      if (saved !== null) {
-        setSoundEnabled(saved === "true");
-      }
-    }
-  }, []);
+  //useEffect(() => {
+  //  if (typeof window !== "undefined") {
+  //    const saved = localStorage.getItem("soundEnabled");
+  //    if (saved !== null) {
+  //      setSoundEnabled(saved === "true");
+  //    }
+  //  }
+  //}, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem("unitModes", JSON.stringify(unitModes));
+      localStorage.setItem("soundEnabled", String(soundEnabled));
     }
   }, [unitModes]);
 
