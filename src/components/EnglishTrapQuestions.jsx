@@ -622,7 +622,7 @@ export default function EnglishTrapQuestions() {
   }, [
     timeLeft,
     timerActive,
-    showResult,
+    //showResult,
     soundEnabled,
     showQuestions,
     currentIndex,
