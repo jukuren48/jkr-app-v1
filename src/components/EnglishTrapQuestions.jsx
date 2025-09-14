@@ -410,10 +410,10 @@ export default function EnglishTrapQuestions() {
   //}
   // クイズ開始処理
   const startQuiz = () => {
-    //if (soundEnabled) {
-    //  stopBGM();
-    //  playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
-    //}
+    if (soundEnabled) {
+      stopBGM();
+      playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
+    }
     if (filtered.length === 0) {
       alert("選択した単元に問題がありません。");
       return;
@@ -459,20 +459,20 @@ export default function EnglishTrapQuestions() {
       "showResult:",
       showResult
     );
-    if (!soundEnabled) {
-      console.log("→ stopBGM() 実行");
-      stopBGM();
-      return;
-    }
+    //if (!soundEnabled) {
+      //console.log("→ stopBGM() 実行");
+      //stopBGM();
+      //return;
+    //}
 
-    if (!showQuestions && !showResult) {
-      console.log("→ playBGM(bgm.mp3)");
-      playBGM("/sounds/bgm.mp3");
-    } else if (showResult) {
-      console.log("→ stopBGM() 実行 (結果画面)");
-      stopBGM();
-    }
-  }, [soundEnabled, showQuestions, showResult]);
+    //if (!showQuestions && !showResult) {
+    //  console.log("→ playBGM(bgm.mp3)");
+    //  playBGM("/sounds/bgm.mp3");
+    //} else if (showResult) {
+    //  console.log("→ stopBGM() 実行 (結果画面)");
+    //  stopBGM();
+    //}
+  //}, [soundEnabled, showQuestions, showResult]);
 
   // 画面状態に合わせてBGMを制御
   //useEffect(() => {
