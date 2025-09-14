@@ -527,7 +527,7 @@ export default function EnglishTrapQuestions() {
         //.catch((err) =>
           //console.error("単元選択画面の音再生に失敗しました:", err)
         //);
-      playSFX("/sounds/sentaku.mp3")
+      playSFX("/sounds/sentaku.mp3");
     }
   }, [soundEnabled, showQuestions, showResult, units]);
 
