@@ -718,10 +718,12 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        const audio = new Audio(soundFile);
-        audio
-          .play()
-          .catch((err) => console.error("効果音の再生に失敗しました:", err));
+        //const audio = new Audio(soundFile);
+        //audio
+          //.play()
+          //.catch((err) => console.error("効果音の再生に失敗しました:", err));
+          stopBGM();
+          playSFX(soundFile);
       }
     };
 
