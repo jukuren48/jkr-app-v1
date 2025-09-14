@@ -310,7 +310,7 @@ export default function EnglishTrapQuestions() {
     if (typeof window !== "undefined") {
       localStorage.setItem("soundEnabled", String(soundEnabled));
     }
-  }, [unitModes]);
+  }, [soundEnabled]);
 
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
