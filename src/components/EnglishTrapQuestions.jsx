@@ -297,14 +297,14 @@ export default function EnglishTrapQuestions() {
 
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
 
-  //useEffect(() => {
-  //  if (typeof window !== "undefined") {
-  //    const saved = localStorage.getItem("soundEnabled");
-  //    if (saved !== null) {
-  //      setSoundEnabled(saved === "true");
-  //    }
-  //  }
-  //}, []);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("soundEnabled");
+      if (saved !== null) {
+        setSoundEnabled(saved === "true");
+      }
+    }
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
