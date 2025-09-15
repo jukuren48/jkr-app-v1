@@ -167,11 +167,12 @@ export default function EnglishTrapQuestions() {
   });
   // 効果音 ON/OFF（← これを state 群の先頭付近に）
   const [soundEnabled, setSoundEnabled] = useState(() => {
-   if (typeof window !== "undefined") {
-     return localStorage.getItem("soundEnabled") === "true";
-   }
-   return false; // 初期状態は OFF
- });
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("soundEnabled") === "true";
+    }
+    return false; // 初期状態は OFF
+  });
+
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -466,26 +467,10 @@ export default function EnglishTrapQuestions() {
     }
 
     if (!showQuestions && !showResult) {
-    //  console.log("→ playBGM(bgm.mp3)");
       stopBGM();
       playBGM("/sounds/bgm.mp3");
-    //} else {
-    //  console.log("→ stopBGM() 実行 (結果画面)");
-      //stopBGM();
-      //playBGM("/sounds/qbgm.mp3");
     }
   }, [soundEnabled, showQuestions, showResult]);
-
-  // 画面状態に合わせてBGMを制御
-  //useEffect(() => {
-  //  if (!soundEnabled || !audioCtx) return;
-  //  const onStartScreen = !showQuestions && !showResult;
-  //  if (onStartScreen) {
-  //    playBGM("/sounds/bgm.mp3");
-  //  } else {
-  //    stopBGM();
-  //  }
-  //}, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
     localStorage.setItem("vol_master", String(masterVol));
@@ -521,12 +506,6 @@ export default function EnglishTrapQuestions() {
     if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
     // 単元選択画面が表示されたときに再生
     if (soundEnabled && !showQuestions && !showResult && units.length > 0) {
-      //const audio = new Audio("/sounds/sentaku.mp3");
-      //audio
-        //.play()
-        //.catch((err) =>
-          //console.error("単元選択画面の音再生に失敗しました:", err)
-        //);
       playSFX("/sounds/sentaku.mp3");
     }
   }, [soundEnabled, showQuestions, showResult, units]);
@@ -561,11 +540,7 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        //const audio = new Audio(soundFile);
-        //audio
-          //.play()
-          //.catch((err) => console.error("出題音の再生に失敗しました:", err));
-          playSFX(soundFile);
+        playSFX(soundFile);
       }
     }
   }, [currentIndex, showQuestions]);
@@ -720,12 +695,8 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        //const audio = new Audio(soundFile);
-        //audio
-          //.play()
-          //.catch((err) => console.error("効果音の再生に失敗しました:", err));
-          stopBGM();
-          playSFX(soundFile);
+        stopBGM();
+        playSFX(soundFile);
       }
     };
 
@@ -822,6 +793,10 @@ export default function EnglishTrapQuestions() {
   };
 
   const restartQuiz = () => {
+    if (soundEnabled) {
+      //stopBGM();
+      playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
+    }
     setCharacterMood("neutral");
     setCurrentIndex(0);
     //setAnswers({});
