@@ -435,7 +435,7 @@ export default function EnglishTrapQuestions() {
   // クイズ開始処理
   const startQuiz = () => {
     if (soundEnabled) {
-      stopBGM();
+      //stopBGM();
       playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
     }
     if (filtered.length === 0) {
@@ -484,13 +484,12 @@ export default function EnglishTrapQuestions() {
       showResult
     );
     if (!soundEnabled) {
-      //console.log("→ stopBGM() 実行");
       stopBGM();
       return;
     }
 
     if (!showQuestions && !showResult) {
-      stopBGM();
+      //stopBGM();
       playBGM("/sounds/bgm.mp3");
     }
   }, [soundEnabled, showQuestions, showResult]);
@@ -833,7 +832,7 @@ export default function EnglishTrapQuestions() {
     setHintLevel(0);
     setHintText("");
     setTimerActive(false);
-    setTimeLeft(limit);
+    setTimeLeft(0);
 
     // 🔽 同じ問題を最初から出す
     setFilteredQuestions([...initialQuestions]);
