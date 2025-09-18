@@ -21,49 +21,6 @@ function initAudio() {
   }
 }
 
-async function playBGM(src) {
-  initAudio();
-
-  if (audioCtx.state === "suspended") {
-    await audioCtx.resume();
-  }
-
-  // すでに同じ曲が流れているなら再生し直さない
-  if (currentBgmSrc === src && bgmSource) {
-    return;
-  }
-
-  stopBGM();
-
-  const res = await fetch(src);
-  const buf = await res.arrayBuffer();
-  const audioBuffer = await audioCtx.decodeAudioData(buf);
-
-  const source = audioCtx.createBufferSource();
-  source.buffer = audioBuffer;
-  source.loop = true;
-  source.connect(bgmGain);
-  source.start(0);
-
-  bgmSource = source;
-  currentBgmSrc = src; // ✅ 現在の曲を記録
-}
-
-function stopBGM() {
-  console.log("[stopBGM] called");
-  if (bgmSource) {
-    try {
-      bgmSource.stop(0);
-      console.log("[stopBGM] stopped");
-    } catch (e) {
-      console.warn("[stopBGM] error", e);
-    }
-    bgmSource.disconnect();
-    bgmSource = null;
-  }
-  currentBgmSrc = null;
-}
-
 async function playSFX(src) {
   initAudio();
 
@@ -172,6 +129,65 @@ export default function EnglishTrapQuestions() {
     }
     return false; // 初期状態は OFF
   });
+
+  async function playBGM(src) {
+    if (!soundEnabled) {
+      console.log("[playBGM] skip because soundEnabled=false");
+      return;
+    }
+
+    initAudio();
+
+    if (audioCtx.state === "suspended") {
+      await audioCtx.resume();
+    }
+
+    if (currentBgmSrc === src && bgmSource) {
+      console.log("[playBGM] already playing same src → skip");
+      return;
+    }
+
+    stopBGM();
+
+    const res = await fetch(src);
+    const buf = await res.arrayBuffer();
+    const audioBuffer = await audioCtx.decodeAudioData(buf);
+
+    const source = audioCtx.createBufferSource();
+    source.buffer = audioBuffer;
+    source.loop = true;
+    source.connect(bgmGain);
+    source.start(0);
+
+    // 🔑 音量を復元
+    if (bgmGain) {
+      bgmGain.gain.value = bgmVol / 100;
+    }
+
+    bgmSource = source;
+    currentBgmSrc = src;
+
+    console.log("[playBGM] started", src);
+  }
+
+  function stopBGM() {
+    console.log("[stopBGM] called");
+    if (bgmSource) {
+      try {
+        bgmSource.stop(0);
+        console.log("[stopBGM] stopped");
+      } catch (e) {
+        console.warn("[stopBGM] error", e);
+      }
+      bgmSource.disconnect();
+      bgmSource = null;
+    }
+    currentBgmSrc = null;
+    // 🔑 追加: 音量をゼロにする（保険）
+    if (bgmGain) {
+      bgmGain.gain.value = 0;
+    }
+  }
 
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -297,6 +313,13 @@ export default function EnglishTrapQuestions() {
   };
 
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
+
+  // unitModes が更新されたら localStorage に保存
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("unitModes", JSON.stringify(unitModes));
+    }
+  }, [unitModes]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
