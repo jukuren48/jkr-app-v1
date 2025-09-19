@@ -477,8 +477,11 @@ export default function EnglishTrapQuestions() {
   useEffect(() => {
     if (!soundEnabled) {
       stopBGM();
-      return;
     }
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    if (!soundEnabled) return;
 
     if (showQuestions) {
       playBGM("/sounds/qbgm.mp3");
