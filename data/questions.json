@@ -3603,5 +3603,205 @@
       "listened": "過去分詞/過去形は不可。ここでは名詞的用法が必要。"
     },
     "type": "multiple-choice"
+  },
+  {
+    "id": "ab2bc818-dfe0-4ee1-9469-dfa29a6d9931",
+    "unit": "単語テスト１L5",
+    "question": "「みなさん」を英語で書きなさい。",
+    "choices": [],
+    "correct": "everybody",
+    "explanation": "「みなさん」は英語で everybody です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "eaf3437a-5121-4811-8a3e-f6e985d36b18",
+    "unit": "単語テスト１L5",
+    "question": "「休憩」を英語で書きなさい。",
+    "choices": [],
+    "correct": "recess",
+    "explanation": "「休憩」は英語で recess です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "66b74461-4bc7-4f48-b529-2213aa0b650a",
+    "unit": "単語テスト１L5",
+    "question": "「（時間の）分」を英語で書きなさい。",
+    "choices": [],
+    "correct": "minute",
+    "explanation": "「（時間の）分」は英語で minute です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a339b2c5-124a-48dd-9d60-92513f80c29a",
+    "unit": "単語テスト１L5",
+    "question": "「時限」を英語で書きなさい。",
+    "choices": [],
+    "correct": "period",
+    "explanation": "「時限」は英語で period です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "7b3b2813-6a8c-425c-a47e-f9980a89b178",
+    "unit": "単語テスト１L5",
+    "question": "「あれらの」を英語で書きなさい。",
+    "choices": [],
+    "correct": "those",
+    "explanation": "「あれらの」は英語で those です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "257d9924-ae6f-40c8-98d7-2583f342831b",
+    "unit": "単語テスト１L5",
+    "question": "「おしゃべりをする」を英語で書きなさい。",
+    "choices": [],
+    "correct": "chat",
+    "explanation": "「おしゃべりをする」は英語で chat です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "64a3b4bf-a718-4956-a584-ac26120c4ff3",
+    "unit": "単語テスト１L5",
+    "question": "「ベンチ」を英語で書きなさい。",
+    "choices": [],
+    "correct": "bench",
+    "explanation": "「ベンチ」は英語で bench です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "124bc679-a95d-434f-81af-32d69b2f0e32",
+    "unit": "単語テスト１L5",
+    "question": "「持ってくる」を英語で書きなさい。",
+    "choices": [],
+    "correct": "bring",
+    "explanation": "「持ってくる」は英語で bring です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "4fa2cc10-6660-4b7c-bb3f-c1659b6c23c3",
+    "unit": "単語テスト１L5",
+    "question": "「お茶」を英語で書きなさい。",
+    "choices": [],
+    "correct": "tea",
+    "explanation": "「お茶」は英語で tea です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "4b87ed74-bbbc-474f-9494-d8344bde2396",
+    "unit": "単語テスト１L5",
+    "question": "「軽食」を英語で書きなさい。",
+    "choices": [],
+    "correct": "snack",
+    "explanation": "「軽食」は英語で snack です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "abcc8c7f-c068-4529-a245-b23547f1eef0",
+    "unit": "単語テスト１L5",
+    "question": "「芝生」を英語で書きなさい。",
+    "choices": [],
+    "correct": "lawn",
+    "explanation": "「芝生」は英語で lawn です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "416f6206-e284-4181-8991-1336189ee160",
+    "unit": "単語テスト１L5",
+    "question": "「短い休み」を英語で書きなさい。",
+    "choices": [],
+    "correct": "break",
+    "explanation": "「短い休み」は英語で break です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b2f658fd-6d8e-499d-89b2-05d198cd0f47",
+    "unit": "単語テスト１L5",
+    "question": "「同級生」を英語で書きなさい。",
+    "choices": [],
+    "correct": "classmate",
+    "explanation": "「同級生」は英語で classmate です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "0a715cad-0827-4d02-8450-6ab9eafcc297",
+    "unit": "単語テスト１L5",
+    "question": "「異なった」を英語で書きなさい。",
+    "choices": [],
+    "correct": "different",
+    "explanation": "「異なった」は英語で different です。（difficult ではありません）",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "79dcf87a-d3d9-4d6b-bf41-72ebe8c1fddc",
+    "unit": "単語テスト１L5",
+    "question": "「誰か」を英語で書きなさい。",
+    "choices": [],
+    "correct": "someone",
+    "explanation": "「誰か」は英語で someone です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a3dc351c-4a19-4e63-b5e5-582e06bf2137",
+    "unit": "単語テスト１L5",
+    "question": "「合唱」を英語で書きなさい。",
+    "choices": [],
+    "correct": "chorus",
+    "explanation": "「合唱」は英語で chorus です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "22d475d5-e934-4829-bf54-d4aae6f5ce5c",
+    "unit": "単語テスト１L5",
+    "question": "「競争する」を英語で書きなさい。",
+    "choices": [],
+    "correct": "compete",
+    "explanation": "「競争する」は英語で compete です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "be8650b0-2da3-41fa-9337-02b28c49a969",
+    "unit": "単語テスト１L5",
+    "question": "「賞」を英語で書きなさい。",
+    "choices": [],
+    "correct": "prize",
+    "explanation": "「賞」は英語で prize です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b4a5c0c6-3a08-42aa-b285-5aee8772129b",
+    "unit": "単語テスト１L5",
+    "question": "「～の後ろに」を英語で書きなさい。",
+    "choices": [],
+    "correct": "behind",
+    "explanation": "「～の後ろに」は英語で behind です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "8d22531b-d672-41de-89f9-9ec9b0832594",
+    "unit": "単語テスト１L5",
+    "question": "「窓」を英語で書きなさい。",
+    "choices": [],
+    "correct": "window",
+    "explanation": "「窓」は英語で window です。",
+    "incorrectExplanations": {},
+    "type": "input"
   }
 ]
