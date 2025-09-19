@@ -245,64 +245,12 @@ export default function EnglishTrapQuestions() {
     if (callback) callback();
   };
 
-  // BGM制御用のref
-  //const bgmRef = useRef(null);
-  //const quizBgmRef = useRef(null);
-
-  // BGM 再生用
-  //const bgmAudioRef = useRef(null);
-
-  //const playBGM = (src, volume = 0.1) => {
-  //  if (bgmAudioRef.current) {
-  //    bgmAudioRef.current.pause();
-  //    bgmAudioRef.current = null;
-  //  }
-  //  const audio = new Audio(src);
-  //  audio.loop = true;
-  //  audio.volume = volume; // 0〜1 の範囲
-  //  audio.play().catch((err) => console.error("BGM再生エラー:", err));
-  //  bgmAudioRef.current = audio;
-  //};
-
-  //const stopBGM = () => {
-  //  if (bgmAudioRef.current) {
-  //    bgmAudioRef.current.pause();
-  //    bgmAudioRef.current = null;
-  //  }
-  //};
-
   // 参照（GainやBuffer保持）
   const soundsRef = useRef({}); // { count, timeup, correct, wrong, bgm } を保持
   const masterGainRef = useRef(null);
   const sfxGainRef = useRef(null);
   const bgmGainRef = useRef(null);
   const bgmSourceRef = useRef(null);
-
-  //const initAudioContext = () => {
-  //  if (!audioCtx) {
-  //    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  //  }
-  //  if (audioCtx.state === "suspended") {
-  //    audioCtx.resume();
-  //  }
-
-  // まだ作ってなければ Gain ノードを作成して配線
-  //  if (!masterGainRef.current) {
-  //    masterGainRef.current = audioCtx.createGain();
-  //    sfxGainRef.current = audioCtx.createGain();
-  //    bgmGainRef.current = audioCtx.createGain();
-
-  // sfx と bgm をマスターにまとめる
-  //    sfxGainRef.current.connect(masterGainRef.current);
-  //    bgmGainRef.current.connect(masterGainRef.current);
-  //    masterGainRef.current.connect(audioCtx.destination);
-
-  // 初期音量反映（0〜1に正規化）
-  //    masterGainRef.current.gain.value = masterVol / 100;
-  //    sfxGainRef.current.gain.value = sfxVol / 100;
-  //    bgmGainRef.current.gain.value = bgmVol / 100;
-  //  }
-  //};
 
   const toggleUnitMode = (unit) => {
     setUnitModes((prev) => {
@@ -352,17 +300,6 @@ export default function EnglishTrapQuestions() {
         console.error("Failed to fetch questions:", error);
       });
   }, []);
-
-  //const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
-  //useEffect(() => {
-  //  if (!showFeedback) return;
-  //  if (isCorrect) return;
-  //  if (!currentQuestion) return;
-  //  if (typeof currentQuestion.explanation !== "string") return;
-  //  if (currentQuestion.explanation.trim() === "") return;
-
-  //  speakExplanation(currentQuestion.explanation);
-  //}, [showFeedback, isCorrect, currentQuestion]);
 
   const speakExplanation = async (text, lang = "ja-JP") => {
     if (!text || text.trim() === "") return;
@@ -428,10 +365,6 @@ export default function EnglishTrapQuestions() {
     });
   }, [questions, unitModes]);
 
-  //if (filtered.length === 0) {
-  //  alert("選択した単元に問題がありません。");
-  //  return;
-  //}
   // クイズ開始処理
   const startQuiz = () => {
     //if (soundEnabled) {
@@ -483,9 +416,9 @@ export default function EnglishTrapQuestions() {
   useEffect(() => {
     if (!soundEnabled) return;
 
-    if (showQuestions) {
+    if (soundEnabled && showQuestions) {
       playBGM("/sounds/qbgm.mp3");
-    } else if (!showQuestions && !showResult) {
+    } else if (soundEnabled && !showQuestions && !showResult) {
       playBGM("/sounds/bgm.mp3");
     } else if (showResult) {
       stopBGM();
