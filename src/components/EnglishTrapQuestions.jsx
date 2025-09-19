@@ -419,12 +419,18 @@ export default function EnglishTrapQuestions() {
   }, [soundEnabled]);
 
   useEffect(() => {
-    if (!soundEnabled) return;
+    //if (!soundEnabled) return;
+    if (!soundEnabled) {
+      // サウンドOFFなら音量を0に
+      if (bgmGain) bgmGain.gain.value = 0;
+      return;
+    }
 
     if (showQuestions) {
       playBGM("/sounds/qbgm.mp3");
     } else if (!showQuestions && !showResult) {
       playBGM("/sounds/bgm.mp3");
+      if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
       stopBGM();
     }
