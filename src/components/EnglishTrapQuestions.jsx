@@ -142,12 +142,17 @@ export default function EnglishTrapQuestions() {
       await audioCtx.resume();
     }
 
+    // すでに同じ曲なら再生し直さない
     if (currentBgmSrc === src && bgmSource) {
       console.log("[playBGM] already playing same src → skip");
       return;
     }
 
+    // まず必ず止める
     stopBGM();
+
+    // 🔑 stopBGM が完全に処理されるまで少し待つ（iOS対策）
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
     const res = await fetch(src);
     const buf = await res.arrayBuffer();
@@ -416,9 +421,9 @@ export default function EnglishTrapQuestions() {
   useEffect(() => {
     if (!soundEnabled) return;
 
-    if (soundEnabled && showQuestions) {
+    if (showQuestions) {
       playBGM("/sounds/qbgm.mp3");
-    } else if (soundEnabled && !showQuestions && !showResult) {
+    } else if (!showQuestions && !showResult) {
       playBGM("/sounds/bgm.mp3");
     } else if (showResult) {
       stopBGM();
@@ -468,16 +473,6 @@ export default function EnglishTrapQuestions() {
       localStorage.setItem("soundEnabled", String(soundEnabled));
     }
   }, [soundEnabled]);
-
-  // 🔽 追加: 出題中だけBGMを流す
-  //useEffect(() => {
-  //  if (soundEnabled && showQuestions && !showResult) {
-  //    startQuizBGM();
-  //  } else {
-  //    stopQuizBGM();
-  //  }
-  //  return () => stopQuizBGM(); // コンポーネントがアンマウントされたときも停止
-  //}, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
     if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
@@ -944,7 +939,13 @@ export default function EnglishTrapQuestions() {
           {/* サウンドON/OFFボタン */}
           <div className="flex justify-center mb-4">
             <button
-              onClick={() => setSoundEnabled((prev) => !prev)}
+              //onClick={() => setSoundEnabled((prev) => !prev)}
+              onClick={() => {
+                if (!soundEnabled && audioCtx?.state === "suspended") {
+                  audioCtx.resume();
+                }
+                setSoundEnabled((prev) => !prev);
+              }}
               className={`px-4 py-2 rounded-full shadow transition ${
                 soundEnabled
                   ? "bg-green-400 text-white"
