@@ -434,10 +434,10 @@ export default function EnglishTrapQuestions() {
   //}
   // クイズ開始処理
   const startQuiz = () => {
-    if (soundEnabled) {
-      //stopBGM();
-      playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
-    }
+    //if (soundEnabled) {
+    //  //stopBGM();
+    //  playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
+    //}
     if (filtered.length === 0) {
       alert("選択した単元に問題がありません。");
       return;
@@ -475,22 +475,17 @@ export default function EnglishTrapQuestions() {
 
   // 🔽 BGMの状態を一括管理
   useEffect(() => {
-    console.log(
-      "[useEffect] soundEnabled:",
-      soundEnabled,
-      "showQuestions:",
-      showQuestions,
-      "showResult:",
-      showResult
-    );
     if (!soundEnabled) {
       stopBGM();
       return;
     }
 
-    if (!showQuestions && !showResult) {
-      //stopBGM();
+    if (showQuestions) {
+      playBGM("/sounds/qbgm.mp3");
+    } else if (!showQuestions && !showResult) {
       playBGM("/sounds/bgm.mp3");
+    } else if (showResult) {
+      stopBGM();
     }
   }, [soundEnabled, showQuestions, showResult]);
 
@@ -815,10 +810,10 @@ export default function EnglishTrapQuestions() {
   };
 
   const restartQuiz = () => {
-    if (soundEnabled) {
-      //stopBGM();
-      playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
-    }
+    //if (soundEnabled) {
+    //stopBGM();
+    //  playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
+    //}
     setCharacterMood("neutral");
     setCurrentIndex(0);
     //setAnswers({});
