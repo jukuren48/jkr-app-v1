@@ -16,7 +16,7 @@ function initAudio() {
     sfxGain = audioCtx.createGain();
     bgmGain.connect(audioCtx.destination);
     sfxGain.connect(audioCtx.destination);
-    bgmGain.gain.value = 0.3; // ✅ BGMの音量（小さめ）
+    bgmGain.gain.value = 0.25; // ✅ BGMの音量（小さめ）
     sfxGain.gain.value = 1.0; // ✅ 効果音の音量（通常）
   }
 }
@@ -189,9 +189,9 @@ export default function EnglishTrapQuestions() {
     }
     currentBgmSrc = null;
     // 🔑 追加: 音量をゼロにする（保険）
-    if (bgmGain) {
-      bgmGain.gain.value = 0;
-    }
+    //if (bgmGain) {
+    //  bgmGain.gain.value = 0;
+    //}
   }
 
   const [questionCount, setQuestionCount] = useState(null);
