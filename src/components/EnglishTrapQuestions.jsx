@@ -425,12 +425,12 @@ export default function EnglishTrapQuestions() {
       if (bgmGain) bgmGain.gain.value = 0;
       return;
     }
-
+    if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     if (showQuestions) {
       playBGM("/sounds/qbgm.mp3");
     } else if (!showQuestions && !showResult) {
       playBGM("/sounds/bgm.mp3");
-      if (bgmGain) bgmGain.gain.value = bgmVol / 100;
+      //if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
       stopBGM();
     }
