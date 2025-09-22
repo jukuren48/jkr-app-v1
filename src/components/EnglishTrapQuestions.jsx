@@ -149,7 +149,7 @@ export default function EnglishTrapQuestions() {
     }
 
     // まず必ず止める
-    //stopBGM();
+    stopBGM();
 
     // 🔑 stopBGM が完全に処理されるまで少し待つ（iOS対策）
     await new Promise((resolve) => setTimeout(resolve, 50));
