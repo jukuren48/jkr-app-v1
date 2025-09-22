@@ -433,7 +433,7 @@ export default function EnglishTrapQuestions() {
       playBGM("/sounds/bgm.mp3");
       if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
-      stopBGM();
+      //stopBGM();
       if (bgmGain) bgmGain.gain.value = 0;
       return;
     }
