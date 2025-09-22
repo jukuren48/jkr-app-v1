@@ -431,7 +431,7 @@ export default function EnglishTrapQuestions() {
     } else if (!showQuestions && !showResult) {
       //stopBGM();
       playBGM("/sounds/bgm.mp3");
-      //if (bgmGain) bgmGain.gain.value = bgmVol / 100;
+      if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
       //stopBGM();
       if (bgmGain) bgmGain.gain.value = 0;
