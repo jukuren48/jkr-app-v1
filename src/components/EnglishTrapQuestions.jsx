@@ -412,11 +412,11 @@ export default function EnglishTrapQuestions() {
   }, [questions, unitModes]);
 
   // 🔽 BGMの状態を一括管理
-  useEffect(() => {
-    if (!soundEnabled) {
-      stopBGM();
-    }
-  }, [soundEnabled]);
+  //useEffect(() => {
+  //  if (!soundEnabled) {
+  //    stopBGM();
+  //  }
+  //}, [soundEnabled]);
 
   useEffect(() => {
     //if (!soundEnabled) return;
@@ -433,7 +433,7 @@ export default function EnglishTrapQuestions() {
       playBGM("/sounds/bgm.mp3");
       if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
-      //stopBGM();
+      stopBGM();
       if (bgmGain) bgmGain.gain.value = 0;
       return;
     }
