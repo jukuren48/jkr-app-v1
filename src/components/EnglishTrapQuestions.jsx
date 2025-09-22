@@ -420,11 +420,11 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     //if (!soundEnabled) return;
-    //if (!soundEnabled) {
-    // サウンドOFFなら音量を0に
-    //  if (bgmGain) bgmGain.gain.value = 0;
-    //  return;
-    //}
+    if (!soundEnabled) {
+      // サウンドOFFなら音量を0に
+      if (bgmGain) bgmGain.gain.value = 0;
+      return;
+    }
     //if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     if (showQuestions) {
       playBGM("/sounds/qbgm.mp3");
@@ -433,7 +433,7 @@ export default function EnglishTrapQuestions() {
       playBGM("/sounds/bgm.mp3");
       if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
-      stopBGM();
+      //stopBGM();
       if (bgmGain) bgmGain.gain.value = 0;
       return;
     }
