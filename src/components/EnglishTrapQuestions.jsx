@@ -8,6 +8,7 @@ let bgmGain;
 let sfxGain;
 let bgmSource = null;
 let currentBgmSrc = null;
+let isPlayingBGM = false;
 
 function initAudio() {
   if (!audioCtx) {
@@ -131,28 +132,28 @@ export default function EnglishTrapQuestions() {
   });
 
   async function playBGM(src) {
-    if (!soundEnabled) {
-      console.log("[playBGM] skip because soundEnabled=false");
+    if (!soundEnabled) return;
+
+    // ✅ AudioContext を必ず初期化
+    initAudio();
+
+    if (!audioCtx) {
+      console.error("[playBGM] audioCtx が初期化されていません");
       return;
     }
 
-    initAudio();
-
+    // ✅ iOS / Safari 対策: サスペンド状態なら resume
     if (audioCtx.state === "suspended") {
       await audioCtx.resume();
     }
 
-    // すでに同じ曲なら再生し直さない
-    if (currentBgmSrc === src && bgmSource) {
-      console.log("[playBGM] already playing same src → skip");
+    if (isPlayingBGM) {
+      console.log("[playBGM] skip because already playing");
       return;
     }
+    isPlayingBGM = true;
 
-    // まず必ず止める
-    //stopBGM();
-
-    // 🔑 stopBGM が完全に処理されるまで少し待つ（iOS対策）
-    await new Promise((resolve) => setTimeout(resolve, 50));
+    stopBGM();
 
     const res = await fetch(src);
     const buf = await res.arrayBuffer();
@@ -164,7 +165,6 @@ export default function EnglishTrapQuestions() {
     source.connect(bgmGain);
     source.start(0);
 
-    // 🔑 音量を復元
     if (bgmGain) {
       bgmGain.gain.value = bgmVol / 100;
     }
@@ -173,25 +173,27 @@ export default function EnglishTrapQuestions() {
     currentBgmSrc = src;
 
     console.log("[playBGM] started", src);
+    isPlayingBGM = false;
   }
 
   function stopBGM() {
-    console.log("[stopBGM] called");
-    if (bgmSource) {
-      try {
-        bgmSource.stop(0);
-        console.log("[stopBGM] stopped");
-      } catch (e) {
-        console.warn("[stopBGM] error", e);
+    return new Promise((resolve) => {
+      console.log("[stopBGM] called");
+      if (bgmSource) {
+        try {
+          bgmSource.stop(0);
+          console.log("[stopBGM] stopped");
+        } catch (e) {
+          console.warn("[stopBGM] error", e);
+        }
+        bgmSource.disconnect();
+        bgmSource = null;
       }
-      bgmSource.disconnect();
-      bgmSource = null;
-    }
-    currentBgmSrc = null;
-    // 🔑 追加: 音量をゼロにする（保険）
-    if (bgmGain) {
-      bgmGain.gain.value = 0;
-    }
+      currentBgmSrc = null;
+      if (bgmGain) bgmGain.gain.value = 0;
+      isPlayingBGM = false;
+      setTimeout(resolve, 100); // ✅ 少し待ってから完了
+    });
   }
 
   const [questionCount, setQuestionCount] = useState(null);
@@ -411,32 +413,29 @@ export default function EnglishTrapQuestions() {
     }
   }, [questions, unitModes]);
 
-  // 🔽 BGMの状態を一括管理
-  //useEffect(() => {
-  //  if (!soundEnabled) {
-  //    stopBGM();
-  //  }
-  //}, [soundEnabled]);
-
   useEffect(() => {
-    //if (!soundEnabled) return;
     if (!soundEnabled) {
-      // サウンドOFFなら音量を0に
-      if (bgmGain) bgmGain.gain.value = 0;
+      stopBGM();
       return;
     }
-    //if (bgmGain) bgmGain.gain.value = bgmVol / 100;
-    if (showQuestions) {
-      playBGM("/sounds/qbgm.mp3");
-    } else if (!showQuestions && !showResult) {
-      //stopBGM();
-      playBGM("/sounds/bgm.mp3");
-      if (bgmGain) bgmGain.gain.value = bgmVol / 100;
-    } else if (showResult) {
-      //stopBGM();
-      if (bgmGain) bgmGain.gain.value = 0;
-      return;
-    }
+
+    const handleBGM = async () => {
+      if (showQuestions) {
+        if (currentBgmSrc !== "/sounds/qbgm.mp3") {
+          await stopBGM();
+          await playBGM("/sounds/qbgm.mp3");
+        }
+      } else if (!showQuestions && !showResult) {
+        if (currentBgmSrc !== "/sounds/bgm.mp3") {
+          await stopBGM();
+          await playBGM("/sounds/bgm.mp3");
+        }
+      } else if (showResult) {
+        await stopBGM();
+      }
+    };
+
+    handleBGM();
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
@@ -652,7 +651,7 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        //stopBGM();
+        stopBGM();
         playSFX(soundFile);
       }
     };
@@ -970,6 +969,7 @@ export default function EnglishTrapQuestions() {
                 alert("選択した単元に問題がありません。");
                 return;
               }
+              initAudio();
               startQuiz();
             }}
             disabled={units.length === 0 || !questionCount}

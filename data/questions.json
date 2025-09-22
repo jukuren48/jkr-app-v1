@@ -3803,5 +3803,105 @@
     "explanation": "「窓」は英語で window です。",
     "incorrectExplanations": {},
     "type": "input"
+  },
+  {
+    "id": "fd85a2be-cc85-4f5e-961d-81ed145df7c8",
+    "unit": "単語テスト２L4-3",
+    "question": "「商品倉庫」を英語で書きなさい。",
+    "choices": [],
+    "correct": "stockroom",
+    "explanation": "「商品倉庫」は英語で stockroom です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "f27d8382-b787-4b13-9577-9211d7af1777",
+    "unit": "単語テスト２L4-3",
+    "question": "「shelf の複数形」を英語で書きなさい。",
+    "choices": [],
+    "correct": "shelves",
+    "explanation": "「shelf」の複数形は shelves です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "e73c7116-082a-4e2f-9942-34131e1ac479",
+    "unit": "単語テスト２L4-3",
+    "question": "「棚」を英語で書きなさい。",
+    "choices": [],
+    "correct": "shelf",
+    "explanation": "「棚」は英語で shelf です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "5c341dfd-5c9a-4d02-be80-82c87f3f8101",
+    "unit": "単語テスト２L4-3",
+    "question": "「つらい、きつい」を英語で書きなさい。",
+    "choices": [],
+    "correct": "tough",
+    "explanation": "「つらい、きつい」は英語で tough です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "7a9e615b-57f4-4d8c-92dd-2c33aa2245ee",
+    "unit": "単語テスト２L4-3",
+    "question": "「ローストした、焼いた」を英語で書きなさい。",
+    "choices": [],
+    "correct": "roast",
+    "explanation": "「ローストした、焼いた」は英語で roast です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9b675fd3-1ca0-413d-aa86-3225fa0e30f9",
+    "unit": "単語テスト２L4-3",
+    "question": "「〔used to ～で〕かつて～だった、よく～したものだ」を英語で書きなさい。",
+    "choices": [],
+    "correct": "used",
+    "explanation": "「かつて〜だった、よく〜したものだ」は英語で used（used to ～ の形で使います）。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "12d5dd86-d5a8-4f36-adc5-d35e81f99ab2",
+    "unit": "単語テスト２L4-3",
+    "question": "「数、数字」を英語で書きなさい。",
+    "choices": [],
+    "correct": "number",
+    "explanation": "「数、数字」は英語で number です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "6024c50a-b6ef-4cb7-bcf9-bc6abdefc256",
+    "unit": "単語テスト２L4-3",
+    "question": "「まだ、依然として」を英語で書きなさい。",
+    "choices": [],
+    "correct": "still",
+    "explanation": "「まだ、依然として」は英語で still です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "176e06e0-4d56-4448-8f4c-25ee20ca7624",
+    "unit": "単語テスト２L4-3",
+    "question": "「危険な」を英語で書きなさい。",
+    "choices": [],
+    "correct": "dangerous",
+    "explanation": "「危険な」は英語で dangerous です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "62284f63-2be2-4910-9fed-892e6bb4ddb8",
+    "unit": "単語テスト２L4-3",
+    "question": "「チームワーク」を英語で書きなさい。",
+    "choices": [],
+    "correct": "teamwork",
+    "explanation": "「チームワーク」は英語で teamwork です。",
+    "incorrectExplanations": {},
+    "type": "input"
   }
 ]
