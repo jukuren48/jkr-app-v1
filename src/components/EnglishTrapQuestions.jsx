@@ -127,7 +127,7 @@ export default function EnglishTrapQuestions() {
     if (typeof window !== "undefined") {
       return localStorage.getItem("soundEnabled") === "true";
     }
-    return false; // 初期状態は OFF
+    return; // 初期状態は OFF false
   });
 
   async function playBGM(src) {
@@ -189,9 +189,9 @@ export default function EnglishTrapQuestions() {
     }
     currentBgmSrc = null;
     // 🔑 追加: 音量をゼロにする（保険）
-    //if (bgmGain) {
-    //  bgmGain.gain.value = 0;
-    //}
+    if (bgmGain) {
+      bgmGain.gain.value = 0;
+    }
   }
 
   const [questionCount, setQuestionCount] = useState(null);
@@ -425,10 +425,11 @@ export default function EnglishTrapQuestions() {
       if (bgmGain) bgmGain.gain.value = 0;
       return;
     }
-    if (bgmGain) bgmGain.gain.value = bgmVol / 100;
+    //if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     if (showQuestions) {
       playBGM("/sounds/qbgm.mp3");
     } else if (!showQuestions && !showResult) {
+      //stopBGM();
       playBGM("/sounds/bgm.mp3");
       //if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
