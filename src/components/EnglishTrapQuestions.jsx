@@ -149,7 +149,7 @@ export default function EnglishTrapQuestions() {
     }
 
     // まず必ず止める
-    stopBGM();
+    //stopBGM();
 
     // 🔑 stopBGM が完全に処理されるまで少し待つ（iOS対策）
     await new Promise((resolve) => setTimeout(resolve, 50));
@@ -433,7 +433,7 @@ export default function EnglishTrapQuestions() {
       playBGM("/sounds/bgm.mp3");
       if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
-      //stopBGM();
+      stopBGM();
       if (bgmGain) bgmGain.gain.value = 0;
       return;
     }
@@ -652,7 +652,7 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        stopBGM();
+        //stopBGM();
         playSFX(soundFile);
       }
     };
