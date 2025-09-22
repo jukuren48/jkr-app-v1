@@ -127,7 +127,7 @@ export default function EnglishTrapQuestions() {
     if (typeof window !== "undefined") {
       return localStorage.getItem("soundEnabled") === "true";
     }
-    return; // 初期状態は OFF false
+    return false; // 初期状態は OFF
   });
 
   async function playBGM(src) {
@@ -433,7 +433,9 @@ export default function EnglishTrapQuestions() {
       playBGM("/sounds/bgm.mp3");
       //if (bgmGain) bgmGain.gain.value = bgmVol / 100;
     } else if (showResult) {
-      stopBGM();
+      //stopBGM();
+      if (bgmGain) bgmGain.gain.value = 0;
+      return;
     }
   }, [soundEnabled, showQuestions, showResult]);
 
