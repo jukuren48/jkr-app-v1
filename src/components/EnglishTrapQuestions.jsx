@@ -244,6 +244,8 @@ export default function EnglishTrapQuestions() {
     return Number(localStorage.getItem("vol_bgm") ?? 50);
   });
 
+  const firstRunRef = useRef(true);
+
   // 効果音付きボタンハンドラ
   const playButtonSound = (callback) => {
     if (soundEnabled) {
@@ -414,28 +416,30 @@ export default function EnglishTrapQuestions() {
   }, [questions, unitModes]);
 
   useEffect(() => {
+    // ✅ StrictMode対策: 開発モードの初回“1回目”の実行を無視して、2回目で実行させる
+    if (process.env.NODE_ENV === "development" && firstRunRef.current) {
+      firstRunRef.current = false;
+      return;
+    }
+
     if (!soundEnabled) {
       stopBGM();
       return;
     }
 
-    const handleBGM = async () => {
-      if (showQuestions) {
-        if (currentBgmSrc !== "/sounds/qbgm.mp3") {
-          await stopBGM();
-          await playBGM("/sounds/qbgm.mp3");
-        }
-      } else if (!showQuestions && !showResult) {
-        if (currentBgmSrc !== "/sounds/bgm.mp3") {
-          await stopBGM();
-          await playBGM("/sounds/bgm.mp3");
-        }
-      } else if (showResult) {
-        await stopBGM();
+    if (showQuestions) {
+      if (currentBgmSrc !== "/sounds/qbgm.mp3") {
+        stopBGM();
+        playBGM("/sounds/qbgm.mp3");
       }
-    };
-
-    handleBGM();
+    } else if (!showQuestions && !showResult) {
+      if (currentBgmSrc !== "/sounds/bgm.mp3") {
+        stopBGM();
+        playBGM("/sounds/bgm.mp3");
+      }
+    } else if (showResult) {
+      stopBGM();
+    }
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
