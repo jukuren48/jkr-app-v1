@@ -10,6 +10,18 @@ let bgmSource = null;
 let currentBgmSrc = null;
 let isPlayingBGM = false;
 
+function unlockAudio() {
+  if (audioCtx && audioCtx.state === "suspended") {
+    audioCtx.resume().then(() => {
+      console.log("[Audio] resumed on user gesture");
+    });
+  }
+}
+
+// 最初のクリック/タップで必ず呼ぶ
+document.addEventListener("touchstart", unlockAudio, { once: true });
+document.addEventListener("click", unlockAudio, { once: true });
+
 function initAudio() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -176,24 +188,22 @@ export default function EnglishTrapQuestions() {
     isPlayingBGM = false;
   }
 
-  function stopBGM() {
-    return new Promise((resolve) => {
-      console.log("[stopBGM] called");
-      if (bgmSource) {
-        try {
-          bgmSource.stop(0);
-          console.log("[stopBGM] stopped");
-        } catch (e) {
-          console.warn("[stopBGM] error", e);
-        }
+  async function stopBGM() {
+    console.log("[stopBGM] called");
+    if (bgmSource) {
+      try {
+        bgmSource.stop();
         bgmSource.disconnect();
-        bgmSource = null;
+      } catch (e) {
+        console.warn("[stopBGM] error", e);
       }
-      currentBgmSrc = null;
-      if (bgmGain) bgmGain.gain.value = 0;
-      isPlayingBGM = false;
-      setTimeout(resolve, 100); // ✅ 少し待ってから完了
-    });
+      bgmSource = null;
+    }
+    currentBgmSrc = null;
+    if (bgmGain) bgmGain.gain.value = 0;
+
+    // ✅ Safari対策: 100ms待機してから次を流す
+    await new Promise((r) => setTimeout(r, 100));
   }
 
   const [questionCount, setQuestionCount] = useState(null);
@@ -416,30 +426,28 @@ export default function EnglishTrapQuestions() {
   }, [questions, unitModes]);
 
   useEffect(() => {
-    // ✅ StrictMode対策: 開発モードの初回“1回目”の実行を無視して、2回目で実行させる
-    if (process.env.NODE_ENV === "development" && firstRunRef.current) {
-      firstRunRef.current = false;
-      return;
-    }
-
     if (!soundEnabled) {
       stopBGM();
       return;
     }
 
-    if (showQuestions) {
-      if (currentBgmSrc !== "/sounds/qbgm.mp3") {
-        stopBGM();
-        playBGM("/sounds/qbgm.mp3");
+    const handleBGM = async () => {
+      if (showQuestions) {
+        if (currentBgmSrc !== "/sounds/qbgm.mp3") {
+          await stopBGM();
+          await playBGM("/sounds/qbgm.mp3");
+        }
+      } else if (!showQuestions && !showResult) {
+        if (currentBgmSrc !== "/sounds/bgm.mp3") {
+          await stopBGM();
+          await playBGM("/sounds/bgm.mp3");
+        }
+      } else if (showResult) {
+        await stopBGM();
       }
-    } else if (!showQuestions && !showResult) {
-      if (currentBgmSrc !== "/sounds/bgm.mp3") {
-        stopBGM();
-        playBGM("/sounds/bgm.mp3");
-      }
-    } else if (showResult) {
-      stopBGM();
-    }
+    };
+
+    handleBGM();
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
