@@ -457,7 +457,7 @@ export default function EnglishTrapQuestions() {
     }
 
     const handleBGM = async () => {
-      await ensureAudioResume(); // ✅ 追加
+      await ensureAudioResume(); // ✅ resume保証
 
       if (showQuestions) {
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
@@ -465,7 +465,11 @@ export default function EnglishTrapQuestions() {
           await playBGM("/sounds/qbgm.mp3");
         }
       } else if (!showQuestions && !showResult) {
-        if (currentBgmSrc !== "/sounds/bgm.mp3") {
+        if (
+          currentBgmSrc !== "/sounds/bgm.mp3" ||
+          audioCtx?.state !== "running"
+        ) {
+          // ✅ state !== "running" の場合は「無音状態」なので強制再生
           await stopBGM();
           await playBGM("/sounds/bgm.mp3");
         }
@@ -478,11 +482,16 @@ export default function EnglishTrapQuestions() {
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
-    const unlockAudio = () => {
+    const unlockAudio = async () => {
       if (audioCtx && audioCtx.state === "suspended") {
-        audioCtx.resume().then(() => {
-          console.log("[Audio] resumed by first user gesture");
-        });
+        await audioCtx.resume();
+        console.log("[Audio] resumed by first tap");
+
+        // ✅ iOS対策: resume直後に単元選択画面ならBGMを流す
+        if (soundEnabled && !showQuestions && !showResult) {
+          await stopBGM();
+          await playBGM("/sounds/bgm.mp3");
+        }
       }
     };
 
@@ -493,7 +502,7 @@ export default function EnglishTrapQuestions() {
       document.removeEventListener("touchstart", unlockAudio);
       document.removeEventListener("click", unlockAudio);
     };
-  }, []);
+  }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
     localStorage.setItem("vol_master", String(masterVol));
