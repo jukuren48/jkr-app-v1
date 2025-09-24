@@ -18,6 +18,13 @@ function unlockAudio() {
   }
 }
 
+async function ensureAudioResume() {
+  if (audioCtx && audioCtx.state === "suspended") {
+    await audioCtx.resume();
+    console.log("[Audio] resumed before BGM play");
+  }
+}
+
 // 最初のクリック/タップで必ず呼ぶ
 document.addEventListener("touchstart", unlockAudio, { once: true });
 document.addEventListener("click", unlockAudio, { once: true });
@@ -432,6 +439,8 @@ export default function EnglishTrapQuestions() {
     }
 
     const handleBGM = async () => {
+      await ensureAudioResume(); // ✅ 追加
+
       if (showQuestions) {
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
           await stopBGM();
