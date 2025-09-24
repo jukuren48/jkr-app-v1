@@ -151,6 +151,7 @@ export default function EnglishTrapQuestions() {
   });
 
   async function playBGM(src) {
+    await ensureAudioResume();
     if (!soundEnabled) return;
 
     // ✅ AudioContext を必ず初期化
@@ -462,15 +463,17 @@ export default function EnglishTrapQuestions() {
   useEffect(() => {
     const unlockAudio = () => {
       if (audioCtx && audioCtx.state === "suspended") {
-        audioCtx.resume();
+        audioCtx.resume().then(() => {
+          console.log("[Audio] resumed by first user gesture");
+        });
       }
     };
 
-    document.addEventListener("touchend", unlockAudio, { passive: true });
-    document.addEventListener("click", unlockAudio, { passive: true });
+    document.addEventListener("touchstart", unlockAudio, { once: true });
+    document.addEventListener("click", unlockAudio, { once: true });
 
     return () => {
-      document.removeEventListener("touchend", unlockAudio);
+      document.removeEventListener("touchstart", unlockAudio);
       document.removeEventListener("click", unlockAudio);
     };
   }, []);
@@ -984,11 +987,18 @@ export default function EnglishTrapQuestions() {
           {/* サウンドON/OFFボタン */}
           <div className="flex justify-center mb-4">
             <button
-              //onClick={() => setSoundEnabled((prev) => !prev)}
-              onClick={() => {
-                if (!soundEnabled && audioCtx?.state === "suspended") {
-                  audioCtx.resume();
+              onClick={async () => {
+                // ✅ ON/OFF に関わらず、ボタンクリック時に必ず resume() を試みる
+                if (audioCtx && audioCtx.state === "suspended") {
+                  try {
+                    await audioCtx.resume();
+                    console.log("[Audio] resumed by sound button");
+                  } catch (e) {
+                    console.warn("[Audio] resume failed", e);
+                  }
                 }
+
+                // ✅ soundEnabled の切り替え
                 setSoundEnabled((prev) => !prev);
               }}
               className={`px-4 py-2 rounded-full shadow transition ${
