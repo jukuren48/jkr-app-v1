@@ -169,6 +169,11 @@ export default function EnglishTrapQuestions() {
       }
     }
 
+    //if (currentBgmSrc === src && bgmSource && audioCtx.state === "running") {
+    //  console.log("[playBGM] already playing same src → skip");
+    //  return;
+    //}
+
     if (!soundEnabled) {
       console.log("[playBGM] skip because soundEnabled=false");
       return;
@@ -215,7 +220,6 @@ export default function EnglishTrapQuestions() {
       try {
         bgmSource.stop();
         bgmSource.disconnect();
-        console.log("[stopBGM] stopped");
       } catch (e) {
         console.warn("[stopBGM] error", e);
       }
@@ -224,11 +228,8 @@ export default function EnglishTrapQuestions() {
     currentBgmSrc = null;
     if (bgmGain) bgmGain.gain.value = 0;
 
-    // ✅ Safari対策: 少し待ってから新しい再生に移る
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    // ✅ フラグリセットを忘れずに
-    isPlayingBGM = false;
+    // ✅ Safari対策: 100ms待機してから次を流す
+    await new Promise((r) => setTimeout(r, 100));
   }
 
   const [questionCount, setQuestionCount] = useState(null);
@@ -457,19 +458,13 @@ export default function EnglishTrapQuestions() {
     }
 
     const handleBGM = async () => {
-      await ensureAudioResume(); // ✅ resume保証
-
       if (showQuestions) {
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
           await stopBGM();
           await playBGM("/sounds/qbgm.mp3");
         }
       } else if (!showQuestions && !showResult) {
-        if (
-          currentBgmSrc !== "/sounds/bgm.mp3" ||
-          audioCtx?.state !== "running"
-        ) {
-          // ✅ state !== "running" の場合は「無音状態」なので強制再生
+        if (currentBgmSrc !== "/sounds/bgm.mp3") {
           await stopBGM();
           await playBGM("/sounds/bgm.mp3");
         }
@@ -482,19 +477,15 @@ export default function EnglishTrapQuestions() {
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
-    const unlockAudio = async () => {
+    const unlockAudio = () => {
       if (audioCtx && audioCtx.state === "suspended") {
-        await audioCtx.resume();
-        console.log("[Audio] resumed by first tap");
-
-        // ✅ iOS対策: resume直後に単元選択画面ならBGMを流す
-        if (soundEnabled && !showQuestions && !showResult) {
-          await stopBGM();
-          await playBGM("/sounds/bgm.mp3");
-        }
+        audioCtx.resume().then(() => {
+          console.log("[Audio] resumed on first gesture");
+        });
       }
     };
 
+    // ✅ iOSは touchstart の方が確実
     document.addEventListener("touchstart", unlockAudio, { once: true });
     document.addEventListener("click", unlockAudio, { once: true });
 
@@ -502,7 +493,7 @@ export default function EnglishTrapQuestions() {
       document.removeEventListener("touchstart", unlockAudio);
       document.removeEventListener("click", unlockAudio);
     };
-  }, [soundEnabled, showQuestions, showResult]);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("vol_master", String(masterVol));
