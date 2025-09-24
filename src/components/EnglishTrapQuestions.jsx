@@ -460,6 +460,22 @@ export default function EnglishTrapQuestions() {
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
+    const unlockAudio = () => {
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    };
+
+    document.addEventListener("touchend", unlockAudio, { passive: true });
+    document.addEventListener("click", unlockAudio, { passive: true });
+
+    return () => {
+      document.removeEventListener("touchend", unlockAudio);
+      document.removeEventListener("click", unlockAudio);
+    };
+  }, []);
+
+  useEffect(() => {
     localStorage.setItem("vol_master", String(masterVol));
     if (masterGainRef.current && audioCtx) {
       masterGainRef.current.gain.setValueAtTime(
