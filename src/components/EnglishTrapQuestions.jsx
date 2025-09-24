@@ -151,10 +151,7 @@ export default function EnglishTrapQuestions() {
   });
 
   async function playBGM(src) {
-    await ensureAudioResume();
-    if (!soundEnabled) return;
-
-    // ✅ AudioContext を必ず初期化
+    // ✅ 必ず AudioContext を初期化
     initAudio();
 
     if (!audioCtx) {
@@ -162,9 +159,19 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // ✅ iOS / Safari 対策: サスペンド状態なら resume
+    // ✅ iOS Safari 対策: suspend 状態なら必ず resume()
     if (audioCtx.state === "suspended") {
-      await audioCtx.resume();
+      try {
+        await audioCtx.resume();
+        console.log("[Audio] resumed in playBGM");
+      } catch (e) {
+        console.warn("[Audio] resume failed", e);
+      }
+    }
+
+    if (!soundEnabled) {
+      console.log("[playBGM] skip because soundEnabled=false");
+      return;
     }
 
     if (isPlayingBGM) {
@@ -173,26 +180,32 @@ export default function EnglishTrapQuestions() {
     }
     isPlayingBGM = true;
 
-    stopBGM();
+    // ✅ 古いBGMを確実に止めてから再生（待機あり）
+    await stopBGM();
 
-    const res = await fetch(src);
-    const buf = await res.arrayBuffer();
-    const audioBuffer = await audioCtx.decodeAudioData(buf);
+    try {
+      const res = await fetch(src);
+      const buf = await res.arrayBuffer();
+      const audioBuffer = await audioCtx.decodeAudioData(buf);
 
-    const source = audioCtx.createBufferSource();
-    source.buffer = audioBuffer;
-    source.loop = true;
-    source.connect(bgmGain);
-    source.start(0);
+      const source = audioCtx.createBufferSource();
+      source.buffer = audioBuffer;
+      source.loop = true;
+      source.connect(bgmGain);
+      source.start(0);
 
-    if (bgmGain) {
-      bgmGain.gain.value = bgmVol / 100;
+      if (bgmGain) {
+        bgmGain.gain.value = bgmVol / 100;
+      }
+
+      bgmSource = source;
+      currentBgmSrc = src;
+
+      console.log("[playBGM] started", src);
+    } catch (err) {
+      console.error("[playBGM] error", err);
     }
 
-    bgmSource = source;
-    currentBgmSrc = src;
-
-    console.log("[playBGM] started", src);
     isPlayingBGM = false;
   }
 
@@ -202,6 +215,7 @@ export default function EnglishTrapQuestions() {
       try {
         bgmSource.stop();
         bgmSource.disconnect();
+        console.log("[stopBGM] stopped");
       } catch (e) {
         console.warn("[stopBGM] error", e);
       }
@@ -210,8 +224,11 @@ export default function EnglishTrapQuestions() {
     currentBgmSrc = null;
     if (bgmGain) bgmGain.gain.value = 0;
 
-    // ✅ Safari対策: 100ms待機してから次を流す
-    await new Promise((r) => setTimeout(r, 100));
+    // ✅ Safari対策: 少し待ってから新しい再生に移る
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    // ✅ フラグリセットを忘れずに
+    isPlayingBGM = false;
   }
 
   const [questionCount, setQuestionCount] = useState(null);
