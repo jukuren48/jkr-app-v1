@@ -495,7 +495,12 @@ export default function EnglishTrapQuestions() {
     }
 
     const handleBGM = async () => {
+      log(
+        `[useEffect] sound=${soundEnabled}, showQuestions=${showQuestions}, showResult=${showResult}`
+      );
+
       if (showQuestions) {
+        log("[useEffect] → 問題画面: unmuteBGM()");
         unmuteBGM();
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
           await stopBGM();
@@ -503,6 +508,7 @@ export default function EnglishTrapQuestions() {
           await playBGM("/sounds/qbgm.mp3");
         }
       } else if (!showQuestions && !showResult) {
+        log("[useEffect] → 単元選択画面: unmuteBGM()");
         unmuteBGM();
         if (currentBgmSrc !== "/sounds/bgm.mp3") {
           //await stopBGM();
@@ -510,6 +516,7 @@ export default function EnglishTrapQuestions() {
           await playBGM("/sounds/bgm.mp3");
         }
       } else if (showResult) {
+        log("[useEffect] → 結果画面: muteBGM()");
         //await stopBGM();
         muteBGM();
       }
