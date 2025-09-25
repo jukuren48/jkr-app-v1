@@ -343,6 +343,11 @@ export default function EnglishTrapQuestions() {
 
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
 
+  useEffect(() => {
+    console.log("EnglishTrapQuestions mounted");
+    return () => console.log("EnglishTrapQuestions unmounted");
+  }, []);
+
   // unitModes が更新されたら localStorage に保存
   useEffect(() => {
     if (typeof window !== "undefined") {
