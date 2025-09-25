@@ -240,7 +240,7 @@ export default function EnglishTrapQuestions() {
       bgmSource = null;
     }
     currentBgmSrc = null;
-    if (bgmGain) bgmGain.gain.value = 0;
+    //if (bgmGain) bgmGain.gain.value = 0;
 
     // ✅ Safari対策: 100ms待機してから次を流す
     await new Promise((r) => setTimeout(r, 100));
