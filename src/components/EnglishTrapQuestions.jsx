@@ -214,7 +214,7 @@ export default function EnglishTrapQuestions() {
       source.start(0);
 
       if (bgmGain) {
-        bgmGain.gain.value = bgmVol / 100;
+        bgmGain.gain.value = 1.0;
       }
 
       bgmSource = source;
@@ -474,16 +474,18 @@ export default function EnglishTrapQuestions() {
 
     const handleBGM = async () => {
       if (showQuestions) {
+        unmuteBGM();
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
           //await stopBGM();
+          //unmuteBGM();
           await playBGM("/sounds/qbgm.mp3");
-          unmuteBGM();
         }
       } else if (!showQuestions && !showResult) {
+        unmuteBGM();
         if (currentBgmSrc !== "/sounds/bgm.mp3") {
           //await stopBGM();
+          //unmuteBGM();
           await playBGM("/sounds/bgm.mp3");
-          unmuteBGM();
         }
       } else if (showResult) {
         //await stopBGM();
@@ -727,6 +729,7 @@ export default function EnglishTrapQuestions() {
 
       if (soundFile) {
         stopBGM();
+        //muteBGM();
         playSFX(soundFile);
       }
     };
