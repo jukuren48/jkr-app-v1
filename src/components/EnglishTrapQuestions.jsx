@@ -10,24 +10,6 @@ let bgmSource = null;
 let currentBgmSrc = null;
 let isPlayingBGM = false;
 
-function muteBGM() {
-  if (bgmGain) {
-    bgmGain.gain.value = 0;
-    log("[BGM] muted " + audioCtx?.state);
-  } else {
-    log("[BGM] mute skipped - no bgmGain");
-  }
-}
-
-function unmuteBGM() {
-  if (bgmGain) {
-    bgmGain.gain.value = 1.0;
-    log("[BGM] unmuted " + audioCtx?.state);
-  } else {
-    log("[BGM] unmute skipped - no bgmGain");
-  }
-}
-
 function unlockAudio() {
   if (audioCtx && audioCtx.state === "suspended") {
     audioCtx.resume().then(() => {
@@ -290,6 +272,24 @@ export default function EnglishTrapQuestions() {
     console.log(message); // PC用にも出す
     setDebugLogs((prev) => [...prev.slice(-20), message]);
     // ← 最大20件だけ保持して古いのは削除
+  }
+
+  function muteBGM() {
+    if (bgmGain) {
+      bgmGain.gain.value = 0;
+      log("[BGM] muted " + audioCtx?.state);
+    } else {
+      log("[BGM] mute skipped - no bgmGain");
+    }
+  }
+
+  function unmuteBGM() {
+    if (bgmGain) {
+      bgmGain.gain.value = 1.0;
+      log("[BGM] unmuted " + audioCtx?.state);
+    } else {
+      log("[BGM] unmute skipped - no bgmGain");
+    }
   }
 
   // 音量（0〜100）
