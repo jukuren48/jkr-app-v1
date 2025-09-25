@@ -200,7 +200,7 @@ export default function EnglishTrapQuestions() {
     isPlayingBGM = true;
 
     // ✅ 古いBGMを確実に止めてから再生（待機あり）
-    await stopBGM();
+    //await stopBGM();
 
     try {
       const res = await fetch(src);
@@ -476,14 +476,14 @@ export default function EnglishTrapQuestions() {
       if (showQuestions) {
         unmuteBGM();
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
-          //await stopBGM();
+          await stopBGM();
           //unmuteBGM();
           await playBGM("/sounds/qbgm.mp3");
         }
       } else if (!showQuestions && !showResult) {
         unmuteBGM();
         if (currentBgmSrc !== "/sounds/bgm.mp3") {
-          //await stopBGM();
+          await stopBGM();
           //unmuteBGM();
           await playBGM("/sounds/bgm.mp3");
         }
@@ -728,8 +728,8 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        stopBGM();
-        //muteBGM();
+        //stopBGM();
+        muteBGM();
         playSFX(soundFile);
       }
     };
