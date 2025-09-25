@@ -505,7 +505,7 @@ export default function EnglishTrapQuestions() {
         log("[useEffect] → 問題画面: unmuteBGM()");
         unmuteBGM();
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
-          await stopBGM();
+          //await stopBGM();
           //unmuteBGM();
           await playBGM("/sounds/qbgm.mp3");
         }
@@ -759,7 +759,7 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        //stopBGM();
+        stopBGM();
         muteBGM();
         playSFX(soundFile);
       }
