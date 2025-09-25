@@ -284,8 +284,16 @@ export default function EnglishTrapQuestions() {
     }
   }
 
-  function unmuteBGM() {
-    initAudio(); // ← これを必ず呼んで bgmGain を確実に作る
+  async function unmuteBGM() {
+    initAudio();
+    if (audioCtx && audioCtx.state === "suspended") {
+      try {
+        await audioCtx.resume();
+        log("[BGM] resumed in unmuteBGM → state=" + audioCtx.state);
+      } catch (e) {
+        log("[BGM] resume failed in unmuteBGM");
+      }
+    }
     if (bgmGain) {
       bgmGain.gain.value = 1.0;
       log("[BGM] unmuted " + audioCtx?.state);
