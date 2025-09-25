@@ -10,17 +10,27 @@ let bgmSource = null;
 let currentBgmSrc = null;
 let isPlayingBGM = false;
 
+function log(message) {
+  console.log(message); // PC用にも出す
+  setDebugLogs((prev) => [...prev.slice(-20), message]);
+  // ← 最大20件だけ保持して古いのは削除
+}
+
 function muteBGM() {
   if (bgmGain) {
     bgmGain.gain.value = 0;
-    console.log("[BGM] muted");
+    log("[BGM] muted " + audioCtx?.state);
+  } else {
+    log("[BGM] mute skipped - no bgmGain");
   }
 }
 
 function unmuteBGM() {
   if (bgmGain) {
-    bgmGain.gain.value = 1.0; // 以前の音量に戻す
-    console.log("[BGM] unmuted");
+    bgmGain.gain.value = 1.0;
+    log("[BGM] unmuted " + audioCtx?.state);
+  } else {
+    log("[BGM] unmute skipped - no bgmGain");
   }
 }
 
@@ -279,6 +289,8 @@ export default function EnglishTrapQuestions() {
   const [maxTime, setMaxTime] = useState(0);
   const [timeUp, setTimeUp] = useState(false);
   const [countPlayedForQuestion, setCountPlayedForQuestion] = useState({});
+
+  const [debugLogs, setDebugLogs] = useState([]); //ログを画面でチェックする用（のち削除）
 
   // 音量（0〜100）
   const [masterVol, setMasterVol] = useState(() => {
@@ -1474,6 +1486,23 @@ export default function EnglishTrapQuestions() {
           </div>
         </div>
       )}
+
+      {/* 👇 デバッグログを一番下に追加 */}
+      <div
+        style={{
+          fontSize: "10px",
+          background: "#111",
+          color: "#0f0",
+          padding: "4px",
+          maxHeight: "100px",
+          overflow: "auto",
+          marginTop: "12px",
+        }}
+      >
+        {debugLogs.map((l, i) => (
+          <div key={i}>{l}</div>
+        ))}
+      </div>
     </div>
   );
 }
