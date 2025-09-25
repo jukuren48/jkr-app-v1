@@ -275,6 +275,7 @@ export default function EnglishTrapQuestions() {
   }
 
   function muteBGM() {
+    initAudio();
     if (bgmGain) {
       bgmGain.gain.value = 0;
       log("[BGM] muted " + audioCtx?.state);
@@ -284,6 +285,7 @@ export default function EnglishTrapQuestions() {
   }
 
   function unmuteBGM() {
+    initAudio(); // ← これを必ず呼んで bgmGain を確実に作る
     if (bgmGain) {
       bgmGain.gain.value = 1.0;
       log("[BGM] unmuted " + audioCtx?.state);
