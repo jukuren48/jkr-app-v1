@@ -487,19 +487,21 @@ export default function EnglishTrapQuestions() {
     }
   }, [questions, unitModes]);
 
+  // 起動時に一度だけBGM再生
   useEffect(() => {
-    if (!soundEnabled) {
-      //stopBGM();
-      muteBGM();
-      return;
-    }
+    playBGM("/sounds/bgm.mp3");
+  }, []);
 
+  // 切り替えは音量制御のみ
+  useEffect(() => {
     const handleBGM = async () => {
       log(
         `[useEffect] sound=${soundEnabled}, showQuestions=${showQuestions}, showResult=${showResult}`
       );
 
-      if (showQuestions) {
+      if (!soundEnabled) {
+        muteBGM();
+      } else if (showQuestions) {
         log("[useEffect] → 問題画面: unmuteBGM()");
         unmuteBGM();
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
