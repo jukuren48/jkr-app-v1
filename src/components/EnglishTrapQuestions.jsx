@@ -10,12 +10,6 @@ let bgmSource = null;
 let currentBgmSrc = null;
 let isPlayingBGM = false;
 
-function log(message) {
-  console.log(message); // PC用にも出す
-  setDebugLogs((prev) => [...prev.slice(-20), message]);
-  // ← 最大20件だけ保持して古いのは削除
-}
-
 function muteBGM() {
   if (bgmGain) {
     bgmGain.gain.value = 0;
@@ -291,6 +285,12 @@ export default function EnglishTrapQuestions() {
   const [countPlayedForQuestion, setCountPlayedForQuestion] = useState({});
 
   const [debugLogs, setDebugLogs] = useState([]); //ログを画面でチェックする用（のち削除）
+
+  function log(message) {
+    console.log(message); // PC用にも出す
+    setDebugLogs((prev) => [...prev.slice(-20), message]);
+    // ← 最大20件だけ保持して古いのは削除
+  }
 
   // 音量（0〜100）
   const [masterVol, setMasterVol] = useState(() => {
