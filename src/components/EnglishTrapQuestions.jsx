@@ -483,7 +483,7 @@ export default function EnglishTrapQuestions() {
       } else if (!showQuestions && !showResult) {
         unmuteBGM();
         if (currentBgmSrc !== "/sounds/bgm.mp3") {
-          await stopBGM();
+          //await stopBGM();
           //unmuteBGM();
           await playBGM("/sounds/bgm.mp3");
         }
