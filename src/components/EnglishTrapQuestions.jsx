@@ -759,7 +759,7 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        stopBGM();
+        //stopBGM();
         unmuteBGM();
         playSFX(soundFile);
       }
