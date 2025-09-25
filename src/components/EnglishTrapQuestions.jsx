@@ -728,8 +728,8 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        //stopBGM();
-        muteBGM();
+        stopBGM();
+        unmuteBGM();
         playSFX(soundFile);
       }
     };
