@@ -10,6 +10,20 @@ let bgmSource = null;
 let currentBgmSrc = null;
 let isPlayingBGM = false;
 
+function muteBGM() {
+  if (bgmGain) {
+    bgmGain.gain.value = 0;
+    console.log("[BGM] muted");
+  }
+}
+
+function unmuteBGM() {
+  if (bgmGain) {
+    bgmGain.gain.value = 1.0; // 以前の音量に戻す
+    console.log("[BGM] unmuted");
+  }
+}
+
 function unlockAudio() {
   if (audioCtx && audioCtx.state === "suspended") {
     audioCtx.resume().then(() => {
@@ -453,23 +467,27 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     if (!soundEnabled) {
-      stopBGM();
+      //stopBGM();
+      muteBGM();
       return;
     }
 
     const handleBGM = async () => {
       if (showQuestions) {
         if (currentBgmSrc !== "/sounds/qbgm.mp3") {
-          await stopBGM();
+          //await stopBGM();
           await playBGM("/sounds/qbgm.mp3");
+          unmuteBGM();
         }
       } else if (!showQuestions && !showResult) {
         if (currentBgmSrc !== "/sounds/bgm.mp3") {
-          await stopBGM();
+          //await stopBGM();
           await playBGM("/sounds/bgm.mp3");
+          unmuteBGM();
         }
       } else if (showResult) {
-        await stopBGM();
+        //await stopBGM();
+        muteBGM();
       }
     };
 
