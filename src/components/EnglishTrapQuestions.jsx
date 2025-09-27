@@ -4,11 +4,9 @@ import { motion } from "framer-motion";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
-let bgmGain;
-let sfxGain;
-let bgmSource = null;
-let currentBgmSrc = null;
-let isPlayingBGM = false;
+let bgmGain, qbgmGain, sfxGain;
+let bgmSource = null,
+  qbgmSource = null;
 
 function unlockAudio() {
   if (audioCtx && audioCtx.state === "suspended") {
@@ -33,12 +31,50 @@ function initAudio() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     bgmGain = audioCtx.createGain();
+    qbgmGain = audioCtx.createGain();
     sfxGain = audioCtx.createGain();
+
     bgmGain.connect(audioCtx.destination);
+    qbgmGain.connect(audioCtx.destination);
     sfxGain.connect(audioCtx.destination);
-    bgmGain.gain.value = 0.25; // ✅ BGMの音量（小さめ）
-    sfxGain.gain.value = 1.0; // ✅ 効果音の音量（通常）
+
+    bgmGain.gain.value = 0.0; // 最初は無音
+    qbgmGain.gain.value = 0.0; // 最初は無音
+    sfxGain.gain.value = 1.0; // 効果音は常時オン
   }
+}
+
+async function ensureLoop(src, gainNode, storeRefName) {
+  initAudio();
+
+  if (storeRefName === "bgm" && bgmSource) {
+    console.log("[ensureLoop] bgm already playing → skip");
+    return;
+  }
+  if (storeRefName === "qbgm" && qbgmSource) {
+    console.log("[ensureLoop] qbgm already playing → skip");
+    return;
+  }
+
+  const res = await fetch(src);
+  const buf = await res.arrayBuffer();
+  const audioBuffer = await audioCtx.decodeAudioData(buf);
+
+  const source = audioCtx.createBufferSource();
+  source.buffer = audioBuffer;
+  source.loop = true;
+  source.connect(gainNode);
+  source.start(0);
+
+  if (storeRefName === "bgm") bgmSource = source;
+  if (storeRefName === "qbgm") qbgmSource = source;
+}
+
+// アプリ起動後、最初のユーザー操作で呼ぶ
+async function startAllBGMs() {
+  initAudio(); // ✅ 先に必ず呼ぶ
+  await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm");
+  await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm");
 }
 
 async function playSFX(src) {
@@ -150,87 +186,23 @@ export default function EnglishTrapQuestions() {
     return false; // 初期状態は OFF
   });
 
-  async function playBGM(src) {
-    // ✅ 必ず AudioContext を初期化
-    initAudio();
+  //async function stopBGM() {
+  //  console.log("[stopBGM] called");
+  //  if (bgmSource) {
+  //    try {
+  //      bgmSource.stop();
+  //      bgmSource.disconnect();
+  //    } catch (e) {
+  //      console.warn("[stopBGM] error", e);
+  //    }
+  //    bgmSource = null;
+  //  }
+  //  currentBgmSrc = null;
+  //if (bgmGain) bgmGain.gain.value = 0;
 
-    if (!audioCtx) {
-      console.error("[playBGM] audioCtx が初期化されていません");
-      return;
-    }
-
-    // ✅ iOS Safari 対策: suspend 状態なら必ず resume()
-    if (audioCtx.state === "suspended") {
-      try {
-        await audioCtx.resume();
-        console.log("[Audio] resumed in playBGM");
-      } catch (e) {
-        console.warn("[Audio] resume failed", e);
-      }
-    }
-
-    //if (currentBgmSrc === src && bgmSource && audioCtx.state === "running") {
-    //  console.log("[playBGM] already playing same src → skip");
-    //  return;
-    //}
-
-    if (!soundEnabled) {
-      console.log("[playBGM] skip because soundEnabled=false");
-      return;
-    }
-
-    if (isPlayingBGM) {
-      console.log("[playBGM] skip because already playing");
-      return;
-    }
-    isPlayingBGM = true;
-
-    // ✅ 古いBGMを確実に止めてから再生（待機あり）
-    //await stopBGM();
-
-    try {
-      const res = await fetch(src);
-      const buf = await res.arrayBuffer();
-      const audioBuffer = await audioCtx.decodeAudioData(buf);
-
-      const source = audioCtx.createBufferSource();
-      source.buffer = audioBuffer;
-      source.loop = true;
-      source.connect(bgmGain);
-      source.start(0);
-
-      if (bgmGain) {
-        bgmGain.gain.value = 1.0;
-      }
-
-      bgmSource = source;
-      currentBgmSrc = src;
-
-      console.log("[playBGM] started", src);
-    } catch (err) {
-      console.error("[playBGM] error", err);
-    }
-
-    isPlayingBGM = false;
-  }
-
-  async function stopBGM() {
-    console.log("[stopBGM] called");
-    if (bgmSource) {
-      try {
-        bgmSource.stop();
-        bgmSource.disconnect();
-      } catch (e) {
-        console.warn("[stopBGM] error", e);
-      }
-      bgmSource = null;
-    }
-    currentBgmSrc = null;
-    //if (bgmGain) bgmGain.gain.value = 0;
-
-    // ✅ Safari対策: 100ms待機してから次を流す
-    await new Promise((r) => setTimeout(r, 100));
-  }
+  // ✅ Safari対策: 100ms待機してから次を流す
+  //  await new Promise((r) => setTimeout(r, 100));
+  //}
 
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -343,10 +315,20 @@ export default function EnglishTrapQuestions() {
 
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
 
+  const startedRef = useRef(false);
+
   useEffect(() => {
-    console.log("EnglishTrapQuestions mounted");
-    return () => console.log("EnglishTrapQuestions unmounted");
-  }, []);
+    if (soundEnabled && !startedRef.current) {
+      startAllBGMs();
+      startedRef.current = true;
+    }
+  }, [soundEnabled]);
+
+  //useEffect(() => {
+  //  if (soundEnabled) {
+  //    startAllBGMs(); // ✅ ここで裏で両方流しておく
+  //  }
+  //}, [soundEnabled]);
 
   // unitModes が更新されたら localStorage に保存
   useEffect(() => {
@@ -493,43 +475,29 @@ export default function EnglishTrapQuestions() {
   }, [questions, unitModes]);
 
   // 起動時に一度だけBGM再生
-  useEffect(() => {
-    playBGM("/sounds/bgm.mp3");
-  }, []);
+  //useEffect(() => {
+  //  playBGM("/sounds/bgm.mp3");
+  //}, []);
 
   // 切り替えは音量制御のみ
   useEffect(() => {
-    const handleBGM = async () => {
-      log(
-        `[useEffect] sound=${soundEnabled}, showQuestions=${showQuestions}, showResult=${showResult}`
-      );
+    initAudio();
+    if (!soundEnabled) {
+      bgmGain.gain.value = 0;
+      qbgmGain.gain.value = 0;
+      return;
+    }
 
-      if (!soundEnabled) {
-        muteBGM();
-      } else if (showQuestions) {
-        log("[useEffect] → 問題画面: unmuteBGM()");
-        unmuteBGM();
-        if (currentBgmSrc !== "/sounds/qbgm.mp3") {
-          //await stopBGM();
-          //unmuteBGM();
-          await playBGM("/sounds/qbgm.mp3");
-        }
-      } else if (!showQuestions && !showResult) {
-        log("[useEffect] → 単元選択画面: unmuteBGM()");
-        unmuteBGM();
-        if (currentBgmSrc !== "/sounds/bgm.mp3") {
-          //await stopBGM();
-          //unmuteBGM();
-          await playBGM("/sounds/bgm.mp3");
-        }
-      } else if (showResult) {
-        log("[useEffect] → 結果画面: muteBGM()");
-        //await stopBGM();
-        muteBGM();
-      }
-    };
-
-    handleBGM();
+    if (showQuestions) {
+      bgmGain.gain.value = 0;
+      qbgmGain.gain.value = 1.0;
+    } else if (!showQuestions && !showResult) {
+      bgmGain.gain.value = 1.0;
+      qbgmGain.gain.value = 0;
+    } else if (showResult) {
+      bgmGain.gain.value = 0;
+      qbgmGain.gain.value = 0;
+    }
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
@@ -764,7 +732,7 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        stopBGM();
+        //stopBGM();
         muteBGM();
         playSFX(soundFile);
       }
