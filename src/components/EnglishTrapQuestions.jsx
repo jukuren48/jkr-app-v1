@@ -481,23 +481,31 @@ export default function EnglishTrapQuestions() {
 
   // 切り替えは音量制御のみ
   useEffect(() => {
-    initAudio();
-    if (!soundEnabled) {
-      bgmGain.gain.value = 0;
-      qbgmGain.gain.value = 0;
-      return;
-    }
+    const applyBGM = async () => {
+      initAudio();
 
-    if (showQuestions) {
-      bgmGain.gain.value = 0;
-      qbgmGain.gain.value = 1.0;
-    } else if (!showQuestions && !showResult) {
-      bgmGain.gain.value = 1.0;
-      qbgmGain.gain.value = 0;
-    } else if (showResult) {
-      bgmGain.gain.value = 0;
-      qbgmGain.gain.value = 0;
-    }
+      if (!soundEnabled) {
+        bgmGain.gain.value = 0;
+        qbgmGain.gain.value = 0;
+        return;
+      }
+
+      // 🔑 iPhone用: ここで必ず resume() を試みる
+      await ensureAudioResume();
+
+      if (showQuestions) {
+        bgmGain.gain.value = 0;
+        qbgmGain.gain.value = 1.0;
+      } else if (!showQuestions && !showResult) {
+        bgmGain.gain.value = 1.0;
+        qbgmGain.gain.value = 0;
+      } else if (showResult) {
+        bgmGain.gain.value = 0;
+        qbgmGain.gain.value = 0;
+      }
+    };
+
+    applyBGM();
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
