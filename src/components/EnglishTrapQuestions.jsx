@@ -480,6 +480,25 @@ export default function EnglishTrapQuestions() {
   //}, []);
 
   // 切り替えは音量制御のみ
+
+  useEffect(() => {
+    if (!showQuestions && !showResult) {
+      // 単元選択画面に戻ったとき
+      if (soundEnabled && audioCtx) {
+        (async () => {
+          try {
+            await audioCtx.resume();
+            console.log("[Audio] resumed on unit select");
+            bgmGain.gain.value = 1.0;
+            qbgmGain.gain.value = 0;
+          } catch (e) {
+            console.warn("[Audio] resume failed", e);
+          }
+        })();
+      }
+    }
+  }, [showQuestions, showResult, soundEnabled]);
+
   useEffect(() => {
     const applyBGM = async () => {
       initAudio();
