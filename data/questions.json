@@ -3920,5 +3920,145 @@
     "explanation": "「チームワーク」は英語で teamwork です。",
     "incorrectExplanations": {},
     "type": "input"
+  },
+  {
+    "id": "7307e6a5-b239-4db7-b848-57dbd69bfaa8",
+    "unit": "単語テスト２L5-1",
+    "question": "「～を祝う」を英語で書きなさい。",
+    "choices": [],
+    "correct": "celebrate",
+    "explanation": "「～を祝う」は英語で celebrate です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b72599b7-2730-4f64-bc57-d45bc494449e",
+    "unit": "単語テスト２L5-1",
+    "question": "「ハロウィーン」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Halloween",
+    "explanation": "「ハロウィーン」は英語で Halloween です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "0d246aa5-ccf8-4aad-9142-20a64e8c276a",
+    "unit": "単語テスト２L5-1",
+    "question": "「カボチャ」を英語で書きなさい。",
+    "choices": [],
+    "correct": "pumpkin",
+    "explanation": "「カボチャ」は英語で pumpkin です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9c069ff6-de2b-47d6-a191-0863b97d47db",
+    "unit": "単語テスト２L5-1",
+    "question": "「～を切る、切られた、切り取った」を英語で書きなさい。",
+    "choices": [],
+    "correct": "cut",
+    "explanation": "「～を切る、切られた、切り取った」は英語で cut です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "22623b02-97d0-4d15-86b8-11950676ea63",
+    "unit": "単語テスト２L5-1",
+    "question": "「穴」を英語で書きなさい。",
+    "choices": [],
+    "correct": "hole",
+    "explanation": "「穴」は英語で hole です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "75c96445-09ad-484c-9b04-c764c4f8a7a6",
+    "unit": "単語テスト２L5-1",
+    "question": "「てっぺん、上（の部分）」を英語で書きなさい。",
+    "choices": [],
+    "correct": "top",
+    "explanation": "「てっぺん、上（の部分）」は英語で top です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9c86062a-ae69-40b8-a7d1-485abe93070e",
+    "unit": "単語テスト２L5-1",
+    "question": "「～を取り出す」を英語で書きなさい。",
+    "choices": [],
+    "correct": "take out",
+    "explanation": "「～を取り出す」は英語で take out ~ です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "e4ab6030-8e3c-464a-a803-e33b2843dd46",
+    "unit": "単語テスト２L5-1",
+    "question": "「種」を英語で書きなさい。",
+    "choices": [],
+    "correct": "seed",
+    "explanation": "「種」は英語で seed（複数形は seeds）です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "314a5685-6594-4636-b1a1-d968734d658b",
+    "unit": "単語テスト２L5-1",
+    "question": "「～を刻む」を英語で書きなさい。",
+    "choices": [],
+    "correct": "carve",
+    "explanation": "「～を刻む」は英語で carve です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a1dfbb13-c39d-43d9-9f5d-006ab15694b1",
+    "unit": "単語テスト２L5-1",
+    "question": "「～を切り取る」を英語で書きなさい。",
+    "choices": [],
+    "correct": "cut out",
+    "explanation": "「～を切り取る」は英語で cut out ~ です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "0551f827-82af-487e-910f-1743f12f84ba",
+    "unit": "単語テスト２L5-1",
+    "question": "「部分」を英語で書きなさい。",
+    "choices": [],
+    "correct": "part",
+    "explanation": "「部分」は英語で part です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "f87f34bf-7ea7-4216-957a-3d21ccb5727f",
+    "unit": "単語テスト２L5-1",
+    "question": "「ろうそく」を英語で書きなさい。",
+    "choices": [],
+    "correct": "candle",
+    "explanation": "「ろうそく」は英語で candle です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "35092620-9851-494d-a78a-31fd28754052",
+    "unit": "単語テスト２L5-1",
+    "question": "「顔」を英語で書きなさい。",
+    "choices": [],
+    "correct": "face",
+    "explanation": "「顔」は英語で face です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a4020201-9999-4444-aaaa-eeeeffff1111",
+    "unit": "単語テスト２L5-1",
+    "question": "「最後に」を英語で書きなさい。",
+    "choices": [],
+    "correct": "lastly",
+    "explanation": "「最後に」は英語で lastly です。",
+    "incorrectExplanations": {},
+    "type": "input"
   }
 ]
