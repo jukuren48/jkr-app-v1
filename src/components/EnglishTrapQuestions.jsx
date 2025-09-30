@@ -247,7 +247,18 @@ export default function EnglishTrapQuestions() {
   const [timeUp, setTimeUp] = useState(false);
   const [countPlayedForQuestion, setCountPlayedForQuestion] = useState({});
 
-  const [debugLogs, setDebugLogs] = useState([]); //ログを画面でチェックする用（のち削除）
+  // 単語帳（英単語と意味を保存）
+  const [wordList, setWordList] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("wordList");
+      return saved ? JSON.parse(saved) : [];
+    }
+    return [];
+  });
+  const [showWordBook, setShowWordBook] = useState(false);
+
+  // デバッグログ用（不要になったら削除してOK）
+  const [debugLogs, setDebugLogs] = useState([]);
 
   function log(message) {
     console.log(message); // PC用にも出す
@@ -415,6 +426,16 @@ export default function EnglishTrapQuestions() {
       if (!res.ok) throw new Error("Translation API error");
       const data = await res.json();
       setWordMeaning(data.translation);
+
+      // ✅ 単語帳に自動保存
+      setWordList((prev) => {
+        const exists = prev.some((item) => item.word === word);
+        if (exists) return prev; // すでに登録済みなら追加しない
+
+        const updated = [...prev, { word, meaning: data.translation }];
+        localStorage.setItem("wordList", JSON.stringify(updated));
+        return updated;
+      });
     } catch (err) {
       console.error(err);
       setWordMeaning("意味を取得できませんでした");
@@ -1068,6 +1089,13 @@ export default function EnglishTrapQuestions() {
           {/* サウンドON/OFFボタン */}
           <div className="flex justify-center mb-4">
             <button
+              onClick={() => setShowWordBook(true)}
+              className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow transition"
+            >
+              📖 単語帳（{wordList.length}件）
+            </button>
+
+            <button
               onClick={async () => {
                 // ✅ ON/OFF に関わらず、ボタンクリック時に必ず resume() を試みる
                 if (audioCtx && audioCtx.state === "suspended") {
@@ -1091,6 +1119,7 @@ export default function EnglishTrapQuestions() {
               {soundEnabled ? "🔊 サウンドOFF" : "🔈 サウンドON"}
             </button>
           </div>
+
           <button
             onClick={() => {
               if (filtered.length === 0) {
@@ -1454,6 +1483,55 @@ export default function EnglishTrapQuestions() {
         </div>
       )}
 
+      {showWordBook && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
+            <h2 className="text-xl font-bold mb-4 text-center">📖 単語帳</h2>
+
+            {wordList.length === 0 ? (
+              <p className="text-gray-600 text-center">
+                まだ単語は保存されていません。
+              </p>
+            ) : (
+              <ul className="space-y-3 max-h-96 overflow-y-auto">
+                {wordList.map((item, index) => (
+                  <li
+                    key={index}
+                    className="flex justify-between items-center p-2 border rounded bg-gray-50"
+                  >
+                    <span>
+                      {item.word} - {item.meaning}
+                    </span>
+                    <button
+                      onClick={() => {
+                        const updated = wordList.filter((_, i) => i !== index);
+                        setWordList(updated);
+                        localStorage.setItem(
+                          "wordList",
+                          JSON.stringify(updated)
+                        );
+                      }}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      ❌
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <div className="mt-4 flex justify-center">
+              <button
+                onClick={() => setShowWordBook(false)}
+                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
+              >
+                閉じる
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showQuestionModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
@@ -1517,23 +1595,6 @@ export default function EnglishTrapQuestions() {
           </div>
         </div>
       )}
-
-      {/* 👇 デバッグログを一番下に追加 */}
-      <div
-        style={{
-          fontSize: "10px",
-          background: "#111",
-          color: "#0f0",
-          padding: "4px",
-          maxHeight: "100px",
-          overflow: "auto",
-          marginTop: "12px",
-        }}
-      >
-        {debugLogs.map((l, i) => (
-          <div key={i}>{l}</div>
-        ))}
-      </div>
     </div>
   );
 }
