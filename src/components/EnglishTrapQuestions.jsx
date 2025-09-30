@@ -70,6 +70,15 @@ async function ensureLoop(src, gainNode, storeRefName) {
   if (storeRefName === "qbgm") qbgmSource = source;
 }
 
+function fadeInBGM(gainNode, targetVolume = 1.0, duration = 2.0) {
+  if (!audioCtx || !gainNode) return;
+
+  const now = audioCtx.currentTime;
+  gainNode.gain.cancelScheduledValues(now);
+  gainNode.gain.setValueAtTime(0, now); // いったん0から
+  gainNode.gain.linearRampToValueAtTime(targetVolume, now + duration);
+}
+
 // アプリ起動後、最初のユーザー操作で呼ぶ
 async function startAllBGMs() {
   initAudio(); // ✅ 先に必ず呼ぶ
@@ -516,10 +525,10 @@ export default function EnglishTrapQuestions() {
       await ensureAudioResume();
 
       if (showQuestions) {
-        bgmGain.gain.value = 0;
-        qbgmGain.gain.value = 1.0;
+        fadeInBGM(qbgmGain, 0.5, 2.0); // 2秒かけてフェードイン
+        bgmGain.gain.value = 0; // 他のBGMは消す
       } else if (!showQuestions && !showResult) {
-        bgmGain.gain.value = 1.0;
+        bgmGain.gain.value = 0.5;
         qbgmGain.gain.value = 0;
       } else if (showResult) {
         bgmGain.gain.value = 0.001;
