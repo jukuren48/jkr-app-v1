@@ -519,7 +519,7 @@ export default function EnglishTrapQuestions() {
         bgmGain.gain.value = 1.0;
         qbgmGain.gain.value = 0;
       } else if (showResult) {
-        bgmGain.gain.value = 0;
+        bgmGain.gain.value = 0.001;
         qbgmGain.gain.value = 0;
       }
     };
