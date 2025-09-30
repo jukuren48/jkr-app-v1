@@ -483,16 +483,19 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     if (!showQuestions && !showResult) {
-      // 単元選択画面に戻ったとき
-      if (soundEnabled && audioCtx) {
+      // 単元選択画面
+      if (soundEnabled) {
         (async () => {
           try {
-            await audioCtx.resume();
-            console.log("[Audio] resumed on unit select");
-            bgmGain.gain.value = 1.0;
-            qbgmGain.gain.value = 0;
+            if (audioCtx?.state === "suspended") {
+              await audioCtx.resume();
+              console.log("[Audio] resumed in unit select");
+            }
+            if (bgmGain) {
+              bgmGain.gain.value = 1.0;
+            }
           } catch (e) {
-            console.warn("[Audio] resume failed", e);
+            console.warn("[Audio] resume failed in unit select", e);
           }
         })();
       }
