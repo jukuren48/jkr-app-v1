@@ -256,6 +256,13 @@ export default function EnglishTrapQuestions() {
     return [];
   });
   const [showWordBook, setShowWordBook] = useState(false);
+  const [showWordList, setShowWordList] = useState(false);
+  const [showWordTest, setShowWordTest] = useState(false);
+  const [testIndex, setTestIndex] = useState(0);
+  const [testWord, setTestWord] = useState(null);
+  const [answer, setAnswer] = useState("");
+  const [wrongWords, setWrongWords] = useState([]);
+  const [round, setRound] = useState(1); // 1 = 英→日, 2 = 日→英
 
   // デバッグログ用（不要になったら削除してOK）
   const [debugLogs, setDebugLogs] = useState([]);
@@ -412,29 +419,37 @@ export default function EnglishTrapQuestions() {
   };
 
   const handleWordClick = async (word) => {
-    setSelectedWord(word);
+    // ✅ 英単語の末尾のピリオドを除去
+    let cleanWord = word.trim();
+    if (cleanWord.endsWith(".")) {
+      cleanWord = cleanWord.slice(0, -1);
+    }
+
+    setSelectedWord(cleanWord);
     setWordMeaning("翻訳中...");
 
-    // ① クリックした単語を英語音声で再生
-    await speakExplanation(word, "en-US");
+    // 🔹 英単語を音声で再生
+    await speakExplanation(cleanWord, "en-US");
 
-    // ② Google翻訳APIで日本語訳を取得
     try {
       const res = await fetch(
-        `/api/translate?word=${encodeURIComponent(word)}`
+        `/api/translate?word=${encodeURIComponent(cleanWord)}`
       );
       if (!res.ok) throw new Error("Translation API error");
       const data = await res.json();
-      setWordMeaning(data.translation);
 
-      // ✅ 単語帳に自動保存
+      // ✅ 日本語訳の末尾の「。」を除去
+      let meaning = data.translation.trim();
+      if (meaning.endsWith("。")) {
+        meaning = meaning.slice(0, -1);
+      }
+
+      setWordMeaning(meaning);
+
+      // ✅ 単語帳に保存（重複チェックあり）
       setWordList((prev) => {
-        const exists = prev.some((item) => item.word === word);
-        if (exists) return prev; // すでに登録済みなら追加しない
-
-        const updated = [...prev, { word, meaning: data.translation }];
-        localStorage.setItem("wordList", JSON.stringify(updated));
-        return updated;
+        if (prev.some((item) => item.word === cleanWord)) return prev;
+        return [...prev, { word: cleanWord, meaning }];
       });
     } catch (err) {
       console.error(err);
@@ -622,6 +637,12 @@ export default function EnglishTrapQuestions() {
       localStorage.setItem("soundEnabled", String(soundEnabled));
     }
   }, [soundEnabled]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("wordList", JSON.stringify(wordList));
+    }
+  }, [wordList]);
 
   useEffect(() => {
     if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
@@ -890,6 +911,19 @@ export default function EnglishTrapQuestions() {
     setTimeout(() => setInputDisabled(false), 300);
   };
 
+  const startWordTest = () => {
+    if (wordList.length === 0) {
+      alert("単語帳が空です");
+      return;
+    }
+    setRound(1);
+    setTestIndex(0);
+    setTestWord(wordList[0]);
+    setWrongWords([]);
+    setAnswer("");
+    setShowWordTest(true);
+  };
+
   const restartQuiz = () => {
     //if (soundEnabled) {
     //stopBGM();
@@ -1089,7 +1123,7 @@ export default function EnglishTrapQuestions() {
           {/* サウンドON/OFFボタン */}
           <div className="flex justify-center mb-4">
             <button
-              onClick={() => setShowWordBook(true)}
+              onClick={() => setShowWordList(true)}
               className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow transition"
             >
               📖 単語帳（{wordList.length}件）
@@ -1333,6 +1367,9 @@ export default function EnglishTrapQuestions() {
                     onChange={(e) => setInputAnswer(e.target.value)}
                     placeholder="ここに英語で入力"
                     className="border border-[#E0E0E0] rounded-lg px-4 py-3 shadow focus:outline-none focus:ring-2 focus:ring-[#A7D5C0] transition"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
                   />
                   <button
                     onClick={() => handleAnswer(inputAnswer)}
@@ -1483,51 +1520,127 @@ export default function EnglishTrapQuestions() {
         </div>
       )}
 
-      {showWordBook && (
+      {showWordList && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
-            <h2 className="text-xl font-bold mb-4 text-center">📖 単語帳</h2>
+            {/* タイトル */}
+            <h2 className="text-xl font-bold mb-4">📖 単語帳</h2>
 
-            {wordList.length === 0 ? (
-              <p className="text-gray-600 text-center">
-                まだ単語は保存されていません。
-              </p>
+            {/* ===== テスト画面 or 単語一覧 ===== */}
+            {showWordTest ? (
+              // ===== テスト画面 =====
+              <div>
+                <h2 className="text-xl font-bold mb-4">
+                  {round === 1 ? "英→日テスト" : "日→英テスト"} ({testIndex + 1}
+                  /{wordList.length})
+                </h2>
+
+                {/* 出題 */}
+                {round === 1 ? (
+                  <p className="text-2xl mb-4">👉 {testWord.word}</p>
+                ) : (
+                  <p className="text-2xl mb-4">👉 {testWord.meaning}</p>
+                )}
+
+                <input
+                  type="text"
+                  value={answer}
+                  onChange={(e) => setAnswer(e.target.value)}
+                  placeholder={
+                    round === 1 ? "日本語で答えを入力" : "英語で答えを入力"
+                  }
+                  className="border px-3 py-2 rounded w-full mb-4"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  spellCheck={false}
+                />
+
+                <button
+                  onClick={() => {
+                    const correctAnswer =
+                      round === 1 ? testWord.meaning : testWord.word;
+
+                    if (
+                      answer.trim().toLowerCase() ===
+                      correctAnswer.toLowerCase()
+                    ) {
+                      alert("⭕ 正解！");
+                    } else {
+                      alert(`❌ 不正解。正解は「${correctAnswer}」`);
+                      setWrongWords((prev) => [...prev, testWord]);
+                    }
+
+                    const nextIndex = testIndex + 1;
+                    if (nextIndex < wordList.length) {
+                      setTestIndex(nextIndex);
+                      setTestWord(wordList[nextIndex]);
+                    } else {
+                      if (round === 1) {
+                        // 英→日が終わったら日→英へ
+                        setRound(2);
+                        setTestIndex(0);
+                        setTestWord(wordList[0]);
+                      } else {
+                        // 全部終了
+                        alert("✅ テスト終了！");
+                        setShowWordTest(false);
+                      }
+                    }
+                    setAnswer("");
+                  }}
+                  className="bg-purple-400 hover:bg-purple-500 text-white px-4 py-2 rounded-full shadow"
+                >
+                  答える
+                </button>
+              </div>
             ) : (
-              <ul className="space-y-3 max-h-96 overflow-y-auto">
-                {wordList.map((item, index) => (
-                  <li
-                    key={index}
-                    className="flex justify-between items-center p-2 border rounded bg-gray-50"
-                  >
-                    <span>
-                      {item.word} - {item.meaning}
-                    </span>
-                    <button
-                      onClick={() => {
-                        const updated = wordList.filter((_, i) => i !== index);
-                        setWordList(updated);
-                        localStorage.setItem(
-                          "wordList",
-                          JSON.stringify(updated)
-                        );
-                      }}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      ❌
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              // ===== 単語一覧 =====
+              <div>
+                {wordList.length === 0 ? (
+                  <p className="text-gray-600">
+                    まだ単語が登録されていません。
+                  </p>
+                ) : (
+                  <ul className="list-disc pl-6 mb-4">
+                    {wordList.map((w, i) => (
+                      <li
+                        key={i}
+                        className="flex justify-between items-center mb-2"
+                      >
+                        <span>
+                          {w.word} ― {w.meaning}
+                        </span>
+                        <button
+                          onClick={() =>
+                            setWordList((prev) =>
+                              prev.filter((_, idx) => idx !== i)
+                            )
+                          }
+                          className="ml-4 bg-red-400 hover:bg-red-500 text-white px-2 py-1 rounded"
+                        >
+                          削除
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                <button
+                  onClick={startWordTest}
+                  className="bg-green-400 hover:bg-green-500 text-white px-4 py-2 rounded-full shadow transition"
+                >
+                  📝 単語テスト開始（英→日 → 日→英）
+                </button>
+              </div>
             )}
 
-            <div className="mt-4 flex justify-center">
-              <button
-                onClick={() => setShowWordBook(false)}
-                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
-              >
-                閉じる
-              </button>
-            </div>
+            {/* 閉じるボタン */}
+            <button
+              onClick={() => setShowWordList(false)}
+              className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded mt-4"
+            >
+              閉じる
+            </button>
           </div>
         </div>
       )}
