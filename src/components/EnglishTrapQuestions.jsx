@@ -169,6 +169,45 @@ function TTSButton({ text }) {
   );
 }
 
+// 入力文字列の正規化（大文字小文字・全角半角・末尾句読点を吸収）
+const normText = (s = "") =>
+  s
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (ch) =>
+      String.fromCharCode(ch.charCodeAt(0) - 0xfee0)
+    )
+    .replace(/[’‘]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/[。．，、・！？；：]+$/u, "")
+    .replace(/[.,!?;:]+$/u, "")
+    .replace(/\s+/g, " ");
+
+// 正答が「in front of / in the front of」のように複数書かれている場合に分割
+const expandCorrects = (raw) => {
+  if (Array.isArray(raw)) return raw;
+  if (raw == null) return [];
+  return String(raw)
+    .split(/\s*(\/|｜|\||,|，)\s*/)
+    .filter(Boolean);
+};
+
+const normEn = (s = "") =>
+  s
+    .trim()
+    .toLowerCase()
+    .replace(/[’‘]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/[.,!?;:]+$/g, "") // 末尾の句読点を削除
+    .replace(/\s+/g, " ");
+
+const normJa = (s = "") =>
+  s
+    .trim()
+    .replace(/[。！？、・（）()\[\]「」『』【】]+$/g, "") // 末尾の記号を削除
+    .replace(/\s+/g, "");
+
 export default function EnglishTrapQuestions() {
   const [questions, setQuestions] = useState([]);
   const [questionList, setQuestionList] = useState(() => {
@@ -228,6 +267,10 @@ export default function EnglishTrapQuestions() {
   const [firstMistakeAnswers, setFirstMistakeAnswers] = useState({});
   const [characterMood, setCharacterMood] = useState("neutral");
   const [inputAnswer, setInputAnswer] = useState("");
+  const [lastLength, setLastLength] = useState(0);
+  const [lastTime, setLastTime] = useState(Date.now());
+  const [showWarning, setShowWarning] = useState(false);
+  const [inputHistory, setInputHistory] = useState([]);
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
   //const [wordAudioSrc, setWordAudioSrc] = useState("");
@@ -255,7 +298,7 @@ export default function EnglishTrapQuestions() {
     }
     return [];
   });
-  const [showWordBook, setShowWordBook] = useState(false);
+  //const [showWordBook, setShowWordBook] = useState(false);
   const [showWordList, setShowWordList] = useState(false);
   const [showWordTest, setShowWordTest] = useState(false);
   const [testIndex, setTestIndex] = useState(0);
@@ -263,6 +306,8 @@ export default function EnglishTrapQuestions() {
   const [answer, setAnswer] = useState("");
   const [wrongWords, setWrongWords] = useState([]);
   const [round, setRound] = useState(1); // 1 = 英→日, 2 = 日→英
+  const [lastLengthTest, setLastLengthTest] = useState(0);
+  const [showWarningTest, setShowWarningTest] = useState(false);
 
   // デバッグログ用（不要になったら削除してOK）
   const [debugLogs, setDebugLogs] = useState([]);
@@ -419,11 +464,8 @@ export default function EnglishTrapQuestions() {
   };
 
   const handleWordClick = async (word) => {
-    // ✅ 英単語の末尾のピリオドを除去
-    let cleanWord = word.trim();
-    if (cleanWord.endsWith(".")) {
-      cleanWord = cleanWord.slice(0, -1);
-    }
+    // ✅ 単語を正規化（末尾ピリオド等を除去）
+    const cleanWord = normEn(word);
 
     setSelectedWord(cleanWord);
     setWordMeaning("翻訳中...");
@@ -438,11 +480,8 @@ export default function EnglishTrapQuestions() {
       if (!res.ok) throw new Error("Translation API error");
       const data = await res.json();
 
-      // ✅ 日本語訳の末尾の「。」を除去
-      let meaning = data.translation.trim();
-      if (meaning.endsWith("。")) {
-        meaning = meaning.slice(0, -1);
-      }
+      // ✅ 日本語訳を正規化（末尾「。」などを除去）
+      const meaning = normJa(data.translation);
 
       setWordMeaning(meaning);
 
@@ -828,6 +867,35 @@ export default function EnglishTrapQuestions() {
     }
   }, [currentQuestion]);
 
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+
+    // 直前から2文字以上まとめて増えた場合は候補入力の可能性あり
+    if (value.length - lastLength > 1) {
+      setShowWarning(true);
+      setInputAnswer(""); // 入力リセット
+    } else {
+      setShowWarning(false);
+      setInputAnswer(value);
+    }
+
+    setLastLength(value.length);
+  };
+
+  const handleTestInputChange = (e) => {
+    const value = e.target.value;
+    const diff = value.length - lastLengthTest;
+
+    if (diff > 1) {
+      setShowWarningTest(true);
+      setAnswer(""); // リセット
+    } else {
+      setShowWarningTest(false);
+      setAnswer(value); // 正常入力
+    }
+    setLastLengthTest(value.length);
+  };
+
   const handleAnswer = (answer) => {
     const currentQuestion = filteredQuestions[currentIndex];
     let isCorrectAnswer = false;
@@ -835,25 +903,23 @@ export default function EnglishTrapQuestions() {
     if (currentQuestion.type === "multiple-choice") {
       isCorrectAnswer = answer === currentQuestion.correct;
     } else if (currentQuestion.type === "input") {
-      let corrects = [];
+      // 正答候補を展開
+      const raw = Array.isArray(currentQuestion.correct)
+        ? currentQuestion.correct
+        : Array.isArray(currentQuestion.correctAnswers)
+        ? currentQuestion.correctAnswers
+        : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
 
-      if (Array.isArray(currentQuestion.correct)) {
-        corrects = currentQuestion.correct;
-      } else if (Array.isArray(currentQuestion.correctAnswers)) {
-        corrects = currentQuestion.correctAnswers;
-      } else {
-        corrects = [
-          currentQuestion.correctAnswer || currentQuestion.correct || "",
-        ];
-      }
+      const corrects = expandCorrects(raw)
+        .map((c) => normText(c))
+        .filter((c) => c.length > 0);
 
-      corrects = corrects.filter(
-        (c) => typeof c === "string" && c.trim() !== ""
-      );
+      const user = normText(inputAnswer); // ← ここで inputAnswer を比較対象にする
 
-      isCorrectAnswer = corrects.some(
-        (c) => c.trim().toLowerCase() === answer.trim().toLowerCase()
-      );
+      isCorrectAnswer = corrects.some((c) => c === user);
+
+      // デバッグ用
+      console.log({ user, corrects });
     }
 
     //setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
@@ -1364,11 +1430,12 @@ export default function EnglishTrapQuestions() {
                   <input
                     type="text"
                     value={inputAnswer}
-                    onChange={(e) => setInputAnswer(e.target.value)}
+                    onChange={(e) => setInputAnswer(e.target.value)} // ← 直接 setInputAnswer
                     placeholder="ここに英語で入力"
-                    className="border border-[#E0E0E0] rounded-lg px-4 py-3 shadow focus:outline-none focus:ring-2 focus:ring-[#A7D5C0] transition"
+                    className="border px-3 py-2 rounded w-full mb-4"
                     autoComplete="off"
                     autoCorrect="off"
+                    autoCapitalize="none" // ← iPhoneの自動大文字化も無効化
                     spellCheck={false}
                   />
                   <button
@@ -1377,6 +1444,12 @@ export default function EnglishTrapQuestions() {
                   >
                     答える
                   </button>
+
+                  {showWarning && (
+                    <div className="text-red-600 font-bold mt-2">
+                      ⚠ 候補入力は禁止です。1文字ずつ入力してください。
+                    </div>
+                  )}
 
                   {hintText && (
                     <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg p-4 mt-2 shadow">
@@ -1545,7 +1618,7 @@ export default function EnglishTrapQuestions() {
                 <input
                   type="text"
                   value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
+                  onChange={handleTestInputChange}
                   placeholder={
                     round === 1 ? "日本語で答えを入力" : "英語で答えを入力"
                   }
@@ -1554,6 +1627,12 @@ export default function EnglishTrapQuestions() {
                   autoCorrect="off"
                   spellCheck={false}
                 />
+
+                {showWarning && (
+                  <div className="text-red-600 font-bold mt-2">
+                    ⚠ 候補入力は禁止です。1文字ずつ入力してください。
+                  </div>
+                )}
 
                 <button
                   onClick={() => {
