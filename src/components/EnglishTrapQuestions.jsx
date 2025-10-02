@@ -911,15 +911,15 @@ export default function EnglishTrapQuestions() {
         : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
 
       const corrects = expandCorrects(raw)
-        .map((c) => normText(c))
+        .map((c) => normEn(c)) // ✅ 英語用に正規化
         .filter((c) => c.length > 0);
 
-      const user = normText(inputAnswer); // ← ここで inputAnswer を比較対象にする
+      const user = normEn(inputAnswer); // ✅ ユーザー入力も英語用正規化
 
       isCorrectAnswer = corrects.some((c) => c === user);
 
       // デバッグ用
-      console.log({ user, corrects });
+      console.log("判定チェック", { user, corrects });
     }
 
     //setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
@@ -1604,23 +1604,30 @@ export default function EnglishTrapQuestions() {
               // ===== テスト画面 =====
               <div>
                 <h2 className="text-xl font-bold mb-4">
-                  {round === 1 ? "英→日テスト" : "日→英テスト"} ({testIndex + 1}
-                  /{wordList.length})
+                  {round === 1
+                    ? "英→日テスト"
+                    : round === 2
+                    ? "日→英テスト"
+                    : "復習テスト (英→日)"}{" "}
+                  ({testIndex + 1}/
+                  {round === 3 ? wrongWords.length : wordList.length})
                 </h2>
 
-                {/* 出題 */}
-                {round === 1 ? (
-                  <p className="text-2xl mb-4">👉 {testWord.word}</p>
-                ) : (
-                  <p className="text-2xl mb-4">👉 {testWord.meaning}</p>
-                )}
+                <p className="text-2xl mb-4">
+                  👉{" "}
+                  {round === 3
+                    ? wrongWords[testIndex].word
+                    : round === 1
+                    ? testWord.word
+                    : testWord.meaning}
+                </p>
 
                 <input
                   type="text"
                   value={answer}
                   onChange={handleTestInputChange}
                   placeholder={
-                    round === 1 ? "日本語で答えを入力" : "英語で答えを入力"
+                    round === 2 ? "英語で答えを入力" : "日本語で答えを入力"
                   }
                   className="border px-3 py-2 rounded w-full mb-4"
                   autoComplete="off"
@@ -1636,32 +1643,67 @@ export default function EnglishTrapQuestions() {
 
                 <button
                   onClick={() => {
+                    // ✅ 正答と入力値を正規化して比較
                     const correctAnswer =
-                      round === 1 ? testWord.meaning : testWord.word;
+                      round === 1
+                        ? testWord.meaning // 英→日
+                        : round === 2
+                        ? testWord.word // 日→英
+                        : wrongWords[testIndex].meaning; // ✅ 復習は英→日固定
 
-                    if (
-                      answer.trim().toLowerCase() ===
-                      correctAnswer.toLowerCase()
-                    ) {
+                    const userAnswer =
+                      round === 1
+                        ? normJa(answer)
+                        : round === 2
+                        ? normEn(answer)
+                        : normJa(answer); // ✅ 復習は日本語で答える
+
+                    const corr =
+                      round === 1
+                        ? normJa(correctAnswer)
+                        : round === 2
+                        ? normEn(correctAnswer)
+                        : normJa(correctAnswer);
+
+                    if (userAnswer === corr) {
                       alert("⭕ 正解！");
                     } else {
                       alert(`❌ 不正解。正解は「${correctAnswer}」`);
                       setWrongWords((prev) => [...prev, testWord]);
                     }
 
+                    // === 次の問題に進む処理 ===
                     const nextIndex = testIndex + 1;
-                    if (nextIndex < wordList.length) {
+
+                    if (
+                      nextIndex <
+                      (round === 3 ? wrongWords.length : wordList.length)
+                    ) {
                       setTestIndex(nextIndex);
-                      setTestWord(wordList[nextIndex]);
+                      if (round === 3) {
+                        setTestWord(wrongWords[nextIndex]); // ← 復習モード用の更新
+                      } else {
+                        setTestWord(wordList[nextIndex]); // ← 英→日 or 日→英用
+                      }
                     } else {
                       if (round === 1) {
                         // 英→日が終わったら日→英へ
                         setRound(2);
                         setTestIndex(0);
                         setTestWord(wordList[0]);
+                      } else if (round === 2) {
+                        // 日→英が終わったら復習へ
+                        if (wrongWords.length > 0) {
+                          setRound(3);
+                          setTestIndex(0);
+                          setTestWord(wrongWords[0]); // ← 復習モード最初の単語
+                        } else {
+                          alert("✅ テスト終了！");
+                          setShowWordTest(false);
+                        }
                       } else {
-                        // 全部終了
-                        alert("✅ テスト終了！");
+                        // 復習モードも終了
+                        alert("✅ 復習テスト終了！");
                         setShowWordTest(false);
                       }
                     }
