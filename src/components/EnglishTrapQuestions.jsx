@@ -234,31 +234,12 @@ export default function EnglishTrapQuestions() {
     return false; // 初期状態は OFF
   });
 
-  //async function stopBGM() {
-  //  console.log("[stopBGM] called");
-  //  if (bgmSource) {
-  //    try {
-  //      bgmSource.stop();
-  //      bgmSource.disconnect();
-  //    } catch (e) {
-  //      console.warn("[stopBGM] error", e);
-  //    }
-  //    bgmSource = null;
-  //  }
-  //  currentBgmSrc = null;
-  //if (bgmGain) bgmGain.gain.value = 0;
-
-  // ✅ Safari対策: 100ms待機してから次を流す
-  //  await new Promise((r) => setTimeout(r, 100));
-  //}
-
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showQuestions, setShowQuestions] = useState(false);
   const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  //const [answers, setAnswers] = useState({});
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState(null);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -273,7 +254,6 @@ export default function EnglishTrapQuestions() {
   const [inputHistory, setInputHistory] = useState([]);
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
-  //const [wordAudioSrc, setWordAudioSrc] = useState("");
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
@@ -298,7 +278,7 @@ export default function EnglishTrapQuestions() {
     }
     return [];
   });
-  //const [showWordBook, setShowWordBook] = useState(false);
+
   const [showWordList, setShowWordList] = useState(false);
   const [showWordTest, setShowWordTest] = useState(false);
   const [testIndex, setTestIndex] = useState(0);
@@ -395,12 +375,6 @@ export default function EnglishTrapQuestions() {
       startedRef.current = true;
     }
   }, [soundEnabled]);
-
-  //useEffect(() => {
-  //  if (soundEnabled) {
-  //    startAllBGMs(); // ✅ ここで裏で両方流しておく
-  //  }
-  //}, [soundEnabled]);
 
   // unitModes が更新されたら localStorage に保存
   useEffect(() => {
@@ -519,10 +493,6 @@ export default function EnglishTrapQuestions() {
 
   // クイズ開始処理
   const startQuiz = () => {
-    //if (soundEnabled) {
-    //  //stopBGM();
-    //  playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
-    //}
     if (filtered.length === 0) {
       alert("選択した単元に問題がありません。");
       return;
@@ -557,11 +527,6 @@ export default function EnglishTrapQuestions() {
       setFilteredQuestions(selected);
     }
   }, [questions, unitModes]);
-
-  // 起動時に一度だけBGM再生
-  //useEffect(() => {
-  //  playBGM("/sounds/bgm.mp3");
-  //}, []);
 
   // 切り替えは音量制御のみ
 
@@ -749,20 +714,11 @@ export default function EnglishTrapQuestions() {
     if (timeLeft <= 5) {
       const key = `${currentIndex}-${timeLeft}`;
       if (!countPlayedForQuestion[key]) {
-        //const audio = new Audio("/sounds/count.mp3");
-        //audio.play().catch((err) => console.error("カウント音エラー:", err));
         playSFX("/sounds/count.mp3");
         setCountPlayedForQuestion((prev) => ({ ...prev, [key]: true }));
       }
     }
-  }, [
-    timeLeft,
-    timerActive,
-    //showResult,
-    soundEnabled,
-    showQuestions,
-    currentIndex,
-  ]);
+  }, [timeLeft, timerActive, soundEnabled, showQuestions, currentIndex]);
 
   // 解説の自動読み上げ
   useEffect(() => {
@@ -774,17 +730,6 @@ export default function EnglishTrapQuestions() {
     // ❌ 二重再生防止のため、失敗した時だけ自動再生
     speakExplanation(currentQuestion.explanation);
   }, [showFeedback, isCorrect, currentQuestion]);
-
-  // クイズBGMや音声を止める
-  //useEffect(() => {
-  //  return () => {
-  //    stopQuizBGM();
-  //    if (bgmRef.current) {
-  //      bgmRef.current.pause();
-  //      bgmRef.current = null;
-  //    }
-  //  };
-  //}, []);
 
   // 時間切れ処理
   useEffect(() => {
@@ -922,8 +867,6 @@ export default function EnglishTrapQuestions() {
       console.log("判定チェック", { user, corrects });
     }
 
-    //setAnswers((prev) => ({ ...prev, [currentQuestion.id]: answer }));
-
     if (isCorrectAnswer) {
       setCharacterMood("happy");
       if (soundEnabled) {
@@ -991,13 +934,8 @@ export default function EnglishTrapQuestions() {
   };
 
   const restartQuiz = () => {
-    //if (soundEnabled) {
-    //stopBGM();
-    //  playBGM("/sounds/qbgm.mp3"); // ← クイズ開始BGMをここで確実に流す
-    //}
     setCharacterMood("neutral");
     setCurrentIndex(0);
-    //setAnswers({});
     setMistakes({});
     setFirstMistakeAnswers({});
     setShowQuestions(true);

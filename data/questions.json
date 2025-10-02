@@ -653,7 +653,7 @@
       "The baby crying over there is my sister.",
       "The baby who is crying over there is my sister."
     ],
-    "explanation": "現在分詞cryingを名詞の前に使って『泣いている赤ちゃん』を表現します。関係代名詞whoを使ってもよい。",
+    "explanation": "『泣いている赤ちゃん』は分詞１語で修飾する場合は「the crying baby」となりますが、『あそこで泣いている赤ちゃん』と２語以上の場合は「the baby crying over there」と後置修飾となる。関係代名詞whoを使ってもよい。",
     "incorrectExplanations": {},
     "type": "input"
   },
