@@ -319,7 +319,7 @@ export default function EnglishTrapQuestions() {
       }
     }
     if (bgmGain) {
-      bgmGain.gain.value = 1.0;
+      bgmGain.gain.value = 0.5;
       log("[BGM] unmuted " + audioCtx?.state);
     } else {
       log("[BGM] unmute skipped - no bgmGain");
@@ -541,7 +541,7 @@ export default function EnglishTrapQuestions() {
               console.log("[Audio] resumed in unit select");
             }
             if (bgmGain) {
-              bgmGain.gain.value = 1.0;
+              bgmGain.gain.value = 0.5;
             }
           } catch (e) {
             console.warn("[Audio] resume failed in unit select", e);
@@ -565,7 +565,7 @@ export default function EnglishTrapQuestions() {
       await ensureAudioResume();
 
       if (showQuestions) {
-        fadeInBGM(qbgmGain, 0.5, 2.0); // 2秒かけてフェードイン
+        fadeInBGM(qbgmGain, 0.5, 3.0); // 2秒かけてフェードイン
         bgmGain.gain.value = 0; // 他のBGMは消す
       } else if (!showQuestions && !showResult) {
         bgmGain.gain.value = 0.5;
