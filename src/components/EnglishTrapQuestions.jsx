@@ -741,10 +741,6 @@ export default function EnglishTrapQuestions() {
 
     // 時間切れ音を再生
     if (soundEnabled) {
-      //const audio = new Audio("/sounds/timesup.mp3");
-      //audio
-      //  .play()
-      //  .catch((err) => console.error("時間切れ音の再生に失敗:", err));
       playSFX("/sounds/timesup.mp3");
     }
 
@@ -797,7 +793,6 @@ export default function EnglishTrapQuestions() {
       }
 
       if (soundFile) {
-        //stopBGM();
         muteBGM();
         playSFX(soundFile);
       }
@@ -1573,7 +1568,7 @@ export default function EnglishTrapQuestions() {
                   spellCheck={false}
                 />
 
-                {showWarning && (
+                {showWarningTest && (
                   <div className="text-red-600 font-bold mt-2">
                     ⚠ 候補入力は禁止です。1文字ずつ入力してください。
                   </div>
