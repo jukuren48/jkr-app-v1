@@ -108,7 +108,23 @@ function shuffleArray(array) {
   return copy;
 }
 
-function Character({ mood }) {
+//function Character({ mood }) {
+//  const expressions = {
+//    neutral: { emoji: "😊", message: "がんばれー！" },
+//    happy: { emoji: "😃", message: "よくできたね！" },
+//    sad: { emoji: "😢💦", message: "おしい！もう一度がんばろう" },
+//    panic: { emoji: "😱", message: "時間切れ〜！！" },
+//  };
+
+//  return (
+//    <div className="flex items-center justify-center p-4 bg-yellow-50 rounded-lg shadow-md">
+//      <span className="text-6xl">{expressions[mood].emoji}</span>
+//      <p className="ml-4 text-xl font-bold">{expressions[mood].message}</p>
+//    </div>
+//  );
+//}
+
+function Character({ mood, userName }) {
   const expressions = {
     neutral: { emoji: "😊", message: "がんばれー！" },
     happy: { emoji: "😃", message: "よくできたね！" },
@@ -116,10 +132,15 @@ function Character({ mood }) {
     panic: { emoji: "😱", message: "時間切れ〜！！" },
   };
 
+  // 名前を前につける
+  const displayMessage = userName
+    ? `${userName}さん、${expressions[mood].message}`
+    : expressions[mood].message;
+
   return (
     <div className="flex items-center justify-center p-4 bg-yellow-50 rounded-lg shadow-md">
       <span className="text-6xl">{expressions[mood].emoji}</span>
-      <p className="ml-4 text-xl font-bold">{expressions[mood].message}</p>
+      <p className="ml-4 text-xl font-bold">{displayMessage}</p>
     </div>
   );
 }
@@ -232,6 +253,14 @@ export default function EnglishTrapQuestions() {
       return localStorage.getItem("soundEnabled") === "true";
     }
     return false; // 初期状態は OFF
+  });
+
+  // 🧑 生徒ごとのデータ切り替え用
+  const [userName, setUserName] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("userName") || "";
+    }
+    return "";
   });
 
   const [questionCount, setQuestionCount] = useState(null);
@@ -675,6 +704,36 @@ export default function EnglishTrapQuestions() {
       }
     }
   }, [currentIndex, showQuestions]);
+
+  useEffect(() => {
+    if (!userName) {
+      const name = prompt(
+        "あなたの名前（またはニックネーム）を入力してください"
+      );
+      if (name && name.trim() !== "") {
+        setUserName(name.trim());
+        localStorage.setItem("userName", name.trim());
+      }
+    }
+  }, []);
+
+  // ✅ unitStats の保存（ユーザーごとに別管理）
+  useEffect(() => {
+    if (userName) {
+      localStorage.setItem(`unitStats_${userName}`, JSON.stringify(unitStats));
+    }
+  }, [unitStats, userName]);
+
+  // ✅ unitStats の復元（ユーザー切り替え時）
+  useEffect(() => {
+    if (userName) {
+      const saved = localStorage.getItem(`unitStats_${userName}`);
+      if (saved) {
+        setUnitStats(JSON.parse(saved));
+        console.log(`[LOAD] ${userName} の unitStats を復元しました`);
+      }
+    }
+  }, [userName]);
 
   // 🔽 追加: 問題切り替え時に制限時間を設定
   useEffect(() => {
@@ -1128,6 +1187,13 @@ export default function EnglishTrapQuestions() {
               全解除
             </button>
           </div>
+
+          {userName && (
+            <div className="text-center text-lg font-bold text-[#4A6572] mb-2">
+              👋 ようこそ、{userName} さん！
+            </div>
+          )}
+
           <div className="flex gap-3 flex-wrap justify-center mb-4">
             {units.map((unit) => {
               const mode = unitModes[unit] || 0;
@@ -1239,7 +1305,7 @@ export default function EnglishTrapQuestions() {
       {/* クイズ進行中 */}
       {showQuestions && !showResult && currentQuestion && (
         <div>
-          <Character mood={characterMood} />
+          <Character mood={characterMood} userName={userName} />
 
           {showFeedback ? (
             <div
