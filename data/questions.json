@@ -221,7 +221,7 @@
   },
   {
     "id": "inf001",
-    "unit": "不定詞・動名詞",
+    "unit": "不定詞",
     "question": "To learn a new language is not easy.",
     "choices": ["名詞的用法", "副詞的用法", "形容詞的用法", "動名詞"],
     "correct": "名詞的用法",
@@ -235,7 +235,7 @@
   },
   {
     "id": "inf002",
-    "unit": "不定詞・動名詞",
+    "unit": "不定詞",
     "question": "She went to the park to play tennis.",
     "choices": ["名詞的用法", "副詞的用法", "形容詞的用法", "動名詞"],
     "correct": "副詞的用法",
@@ -249,7 +249,7 @@
   },
   {
     "id": "inf003",
-    "unit": "不定詞・動名詞",
+    "unit": "不定詞",
     "question": "I have a lot of homework to do.",
     "choices": ["名詞的用法", "副詞的用法", "形容詞的用法", "動名詞"],
     "correct": "形容詞的用法",
@@ -263,7 +263,7 @@
   },
   {
     "id": "inf004",
-    "unit": "不定詞・動名詞",
+    "unit": "動名詞",
     "question": "Reading books is my hobby.",
     "choices": [
       "動名詞（主語）",
@@ -282,7 +282,7 @@
   },
   {
     "id": "inf005",
-    "unit": "不定詞・動名詞",
+    "unit": "動名詞",
     "question": "He enjoys playing the guitar.",
     "choices": [
       "動名詞（目的語）",
@@ -301,7 +301,7 @@
   },
   {
     "id": "inf006",
-    "unit": "不定詞・動名詞",
+    "unit": "不定詞",
     "question": "I want (  ) a doctor in the future.",
     "choices": ["be", "to be", "being", "been"],
     "correct": "to be",
@@ -315,7 +315,7 @@
   },
   {
     "id": "inf007",
-    "unit": "不定詞・動名詞",
+    "unit": "動名詞",
     "question": "(  ) early in the morning is good for your health.",
     "choices": ["Get up", "Getting up", "To getting up", "Gets up"],
     "correct": "Getting up",
@@ -329,7 +329,7 @@
   },
   {
     "id": "inf008",
-    "unit": "不定詞・動名詞",
+    "unit": "動名詞",
     "question": "She is afraid of (  ) alone at night.",
     "choices": ["to be", "being", "be", "been"],
     "correct": "being",
@@ -343,7 +343,7 @@
   },
   {
     "id": "inf009",
-    "unit": "不定詞・動名詞",
+    "unit": "動名詞",
     "question": "Tom stopped (  ) and looked at me.",
     "choices": ["to walk", "walking", "walk", "walked"],
     "correct": "walking",
@@ -357,7 +357,7 @@
   },
   {
     "id": "inf010",
-    "unit": "不定詞・動名詞",
+    "unit": "不定詞",
     "question": "It is important (  ) English every day.",
     "choices": ["studying", "to study", "study", "studied"],
     "correct": "to study",
@@ -1205,7 +1205,7 @@
   },
   {
     "id": "97426af6-fc9d-4dca-ada1-7a62b85c5ecd",
-    "unit": "不定詞・動名詞",
+    "unit": "動名詞",
     "question": "I enjoy (  ) tennis with my friends.",
     "choices": ["play", "to play", "playing", "played"],
     "correct": "playing",

@@ -289,6 +289,15 @@ export default function EnglishTrapQuestions() {
   const [lastLengthTest, setLastLengthTest] = useState(0);
   const [showWarningTest, setShowWarningTest] = useState(false);
 
+  // 単元ごとの間違い回数を記録
+  const [unitStats, setUnitStats] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("unitStats");
+      return saved ? JSON.parse(saved) : {};
+    }
+    return {};
+  });
+
   // デバッグログ用（不要になったら削除してOK）
   const [debugLogs, setDebugLogs] = useState([]);
 
@@ -807,6 +816,23 @@ export default function EnglishTrapQuestions() {
     }
   }, [currentQuestion]);
 
+  useEffect(() => {
+    console.log("unitStats 更新:", unitStats);
+  }, [unitStats]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("unitStats", JSON.stringify(unitStats));
+    }
+  }, [unitStats]);
+
+  useEffect(() => {
+    console.log("=== 単元ごとのwrongカウント ===", unitStats);
+    units.forEach((u) => {
+      console.log("ボタン描画対象:", u, "→", unitStats[u]?.wrong);
+    });
+  }, [unitStats, units]);
+
   const handleInputChange = (e) => {
     const value = e.target.value;
 
@@ -843,7 +869,6 @@ export default function EnglishTrapQuestions() {
     if (currentQuestion.type === "multiple-choice") {
       isCorrectAnswer = answer === currentQuestion.correct;
     } else if (currentQuestion.type === "input") {
-      // 正答候補を展開
       const raw = Array.isArray(currentQuestion.correct)
         ? currentQuestion.correct
         : Array.isArray(currentQuestion.correctAnswers)
@@ -851,44 +876,66 @@ export default function EnglishTrapQuestions() {
         : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
 
       const corrects = expandCorrects(raw)
-        .map((c) => normEn(c)) // ✅ 英語用に正規化
+        .map((c) => normText(c))
         .filter((c) => c.length > 0);
 
-      const user = normEn(inputAnswer); // ✅ ユーザー入力も英語用正規化
+      const user = normText(inputAnswer);
 
       isCorrectAnswer = corrects.some((c) => c === user);
-
-      // デバッグ用
-      console.log("判定チェック", { user, corrects });
     }
+
+    const unit = currentQuestion.unit;
+
+    // ✅ 正答・誤答どちらでも「出題数 total」を加算
+    setUnitStats((prev) => {
+      const prevStat = prev[unit] || { wrong: 0, total: 0 };
+      return {
+        ...prev,
+        [unit]: {
+          ...prevStat,
+          total: prevStat.total + 1, // ← 出題回数を加算
+        },
+      };
+    });
 
     if (isCorrectAnswer) {
       setCharacterMood("happy");
-      if (soundEnabled) {
-        playSFX("/sounds/correct.mp3");
-      }
+      if (soundEnabled) playSFX("/sounds/correct.mp3");
     } else {
       setCharacterMood("sad");
-      if (soundEnabled) {
-        playSFX("/sounds/wrong.mp3");
-      }
+      if (soundEnabled) playSFX("/sounds/wrong.mp3");
+
+      // ✅ 初回ミスのみ wrong カウント
       if (!mistakes[currentQuestion.id]) {
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
         setFirstMistakeAnswers((prev) => ({
           ...prev,
           [currentQuestion.id]: answer,
         }));
+
+        setUnitStats((prev) => {
+          const prevStat = prev[unit] || { wrong: 0, total: 0 };
+          return {
+            ...prev,
+            [unit]: {
+              ...prevStat,
+              wrong: prevStat.wrong + 1,
+              total: prevStat.total + 1, // ✅ 忘れずに total も更新
+            },
+          };
+        });
       }
     }
 
     setSelectedChoice(answer);
     setIsCorrect(isCorrectAnswer);
     setShowFeedback(true);
-    setTimerActive(false); // 🔽 回答時にタイマー停止
+    setTimerActive(false);
     setInputAnswer("");
     setHintLevel(0);
     setHintText("");
   };
+
   const handleNext = () => {
     setCharacterMood("neutral");
 
@@ -1084,19 +1131,33 @@ export default function EnglishTrapQuestions() {
           <div className="flex gap-3 flex-wrap justify-center mb-4">
             {units.map((unit) => {
               const mode = unitModes[unit] || 0;
-              let color = "bg-white text-[#4A6572] border"; // 未選択
+              let color = "bg-white border"; // 未選択
 
-              if (mode === 1) color = "bg-green-400 text-white"; // 両方
-              if (mode === 2) color = "bg-blue-400 text-white"; // 選択のみ
-              if (mode === 3) color = "bg-orange-400 text-white"; // 記述のみ
+              if (mode === 1) color = "bg-green-400"; // 両方
+              if (mode === 2) color = "bg-blue-400"; // 選択のみ
+              if (mode === 3) color = "bg-orange-400"; // 記述のみ
 
+              // 🎨 色分けロジック（割合によって文字色を決定）
+              const stat = unitStats[unit];
+              let textColor = "text-gray-800"; // デフォルト
+
+              if (stat && stat.total > 0) {
+                const rate = stat.wrong / stat.total;
+                if (rate === 0) textColor = "text-white";
+                else if (rate <= 0.1) textColor = "text-green-300 font-bold";
+                else if (rate <= 0.2) textColor = "text-yellow-300 font-bold";
+                else if (rate <= 0.3) textColor = "text-orange-400 font-bold";
+                else textColor = "text-red-500 font-bold";
+              }
+
+              // 🎯 ボタン本体の return はここ！
               return (
                 <button
                   key={unit}
                   onClick={() => playButtonSound(() => toggleUnitMode(unit))}
                   className={`px-4 py-2 rounded-full shadow-sm transition ${color}`}
                 >
-                  {unit}
+                  <span className={textColor}>{unit}</span>
                 </button>
               );
             })}
