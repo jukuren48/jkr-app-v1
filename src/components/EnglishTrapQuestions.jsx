@@ -1143,7 +1143,7 @@ export default function EnglishTrapQuestions() {
 
               if (stat && stat.total > 0) {
                 const rate = stat.wrong / stat.total;
-                if (rate === 0) textColor = "text-white";
+                if (rate === 0) textColor = "text-gray-800";
                 else if (rate <= 0.1) textColor = "text-green-300 font-bold";
                 else if (rate <= 0.2) textColor = "text-yellow-300 font-bold";
                 else if (rate <= 0.3) textColor = "text-orange-400 font-bold";
