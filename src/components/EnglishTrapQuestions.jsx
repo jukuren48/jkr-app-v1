@@ -108,22 +108,6 @@ function shuffleArray(array) {
   return copy;
 }
 
-//function Character({ mood }) {
-//  const expressions = {
-//    neutral: { emoji: "😊", message: "がんばれー！" },
-//    happy: { emoji: "😃", message: "よくできたね！" },
-//    sad: { emoji: "😢💦", message: "おしい！もう一度がんばろう" },
-//    panic: { emoji: "😱", message: "時間切れ〜！！" },
-//  };
-
-//  return (
-//    <div className="flex items-center justify-center p-4 bg-yellow-50 rounded-lg shadow-md">
-//      <span className="text-6xl">{expressions[mood].emoji}</span>
-//      <p className="ml-4 text-xl font-bold">{expressions[mood].message}</p>
-//    </div>
-//  );
-//}
-
 function Character({ mood, userName }) {
   const expressions = {
     neutral: { emoji: "😊", message: "がんばれー！" },
@@ -325,6 +309,14 @@ export default function EnglishTrapQuestions() {
       return saved ? JSON.parse(saved) : {};
     }
     return {};
+  });
+
+  // 連続正解カウンター
+  const [streak, setStreak] = useState(() => {
+    if (typeof window !== "undefined") {
+      return Number(localStorage.getItem("streak") || 0);
+    }
+    return 0;
   });
 
   // デバッグログ用（不要になったら削除してOK）
@@ -717,6 +709,12 @@ export default function EnglishTrapQuestions() {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("streak", String(streak));
+    }
+  }, [streak]);
+
   // ✅ unitStats の保存（ユーザーごとに別管理）
   useEffect(() => {
     if (userName) {
@@ -960,9 +958,29 @@ export default function EnglishTrapQuestions() {
     if (isCorrectAnswer) {
       setCharacterMood("happy");
       if (soundEnabled) playSFX("/sounds/correct.mp3");
+
+      // ✅ 連続正解カウント
+      setStreak((prev) => prev + 1);
+
+      // ✅ メッセージをテンションで変化
+      if (streak + 1 >= 20) {
+        setAddMessage("🎉 20連続正解達成！すごすぎる！！");
+      } else if (streak + 1 >= 15) {
+        setAddMessage("🔥 15連続正解！神ってる！！");
+      } else if (streak + 1 >= 10) {
+        setAddMessage("✨ 10連続正解！その調子！");
+      } else if (streak + 1 >= 5) {
+        setAddMessage("👍 5連続正解！いいぞ！");
+      } else {
+        setAddMessage("");
+      }
     } else {
       setCharacterMood("sad");
       if (soundEnabled) playSFX("/sounds/wrong.mp3");
+
+      // ❌ 間違えたら連続正解リセット
+      setStreak(0);
+      setAddMessage("😅 もう一度がんばろう！");
 
       // ✅ 初回ミスのみ wrong カウント
       if (!mistakes[currentQuestion.id]) {
@@ -1048,6 +1066,9 @@ export default function EnglishTrapQuestions() {
     setHintText("");
     setTimerActive(false);
     setTimeLeft(0);
+
+    setStreak(0);
+    localStorage.setItem("streak", "0");
 
     // 🔽 同じ問題を最初から出す
     setFilteredQuestions([...initialQuestions]);
@@ -1306,6 +1327,20 @@ export default function EnglishTrapQuestions() {
       {showQuestions && !showResult && currentQuestion && (
         <div>
           <Character mood={characterMood} userName={userName} />
+
+          {/* 🌟 連続正解カウンター表示 */}
+          {streak > 0 && (
+            <div className="text-center text-lg font-bold text-[#4A6572] mt-2">
+              🌟 連続正解：{streak}問！
+            </div>
+          )}
+
+          {/* 🔥 応援メッセージ */}
+          {addMessage && (
+            <div className="text-center text-xl font-bold text-[#E57373] mt-1">
+              {addMessage}
+            </div>
+          )}
 
           {showFeedback ? (
             <div
