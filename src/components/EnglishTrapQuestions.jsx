@@ -215,9 +215,9 @@ function HandwritingPad({ onRecognize }) {
         penColor="black"
         backgroundColor="white"
         canvasProps={{
-          width: 300,
-          height: 150,
-          className: "border rounded w-full",
+          width: 320,
+          height: 200,
+          className: "border rounded w-full touch-none",
         }}
       />
       <div className="flex gap-2 mt-2 justify-center">
