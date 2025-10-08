@@ -182,6 +182,19 @@ function HandwritingPad({ onRecognize }) {
   const [recognizing, setRecognizing] = useState(false);
   const [ocrText, setOcrText] = useState("");
 
+  useEffect(() => {
+    if (!sigCanvas.current) return;
+    const canvas = sigCanvas.current.getCanvas();
+    const ratio = window.devicePixelRatio || 1;
+    const ctx = canvas.getContext("2d");
+    const width = canvas.offsetWidth;
+    const height = canvas.offsetHeight;
+
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    ctx.scale(ratio, ratio);
+  }, []);
+
   const clearCanvas = () => {
     sigCanvas.current.clear();
     setOcrText("");
@@ -215,15 +228,15 @@ function HandwritingPad({ onRecognize }) {
         penColor="black"
         backgroundColor="white"
         canvasProps={{
-          width: 320,
+          width: 320, // 固定値を指定（100%にしない）
           height: 200,
-          className: "border rounded w-full touch-none",
+          className: "border rounded touch-none mx-auto block",
         }}
         onBegin={() => {
-          document.body.style.overflow = "hidden"; // 描画中はスクロール無効
+          document.body.style.overflow = "hidden";
         }}
         onEnd={() => {
-          document.body.style.overflow = "auto"; // 終了時に戻す
+          document.body.style.overflow = "auto";
         }}
       />
       <div className="flex gap-2 mt-2 justify-center">
