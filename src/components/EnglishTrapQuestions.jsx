@@ -219,6 +219,12 @@ function HandwritingPad({ onRecognize }) {
           height: 200,
           className: "border rounded w-full touch-none",
         }}
+        onBegin={() => {
+          document.body.style.overflow = "hidden"; // 描画中はスクロール無効
+        }}
+        onEnd={() => {
+          document.body.style.overflow = "auto"; // 終了時に戻す
+        }}
       />
       <div className="flex gap-2 mt-2 justify-center">
         <button
