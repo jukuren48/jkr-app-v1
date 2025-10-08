@@ -1,6 +1,8 @@
-// EnglishTrapQuestions.jsx - Google TTS対応版 + 制限時間機能追加
+// EnglishTrapQuestions.jsx - 手書き入力＋OCR採点＋記憶機能統合版
 import { useEffect, useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
+import SignatureCanvas from "react-signature-canvas";
+import Tesseract from "tesseract.js";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
@@ -174,6 +176,74 @@ function TTSButton({ text }) {
   );
 }
 
+// ======== 手書き入力パッドコンポーネント ========
+function HandwritingPad({ onRecognize }) {
+  const sigCanvas = useRef(null);
+  const [recognizing, setRecognizing] = useState(false);
+  const [ocrText, setOcrText] = useState("");
+
+  const clearCanvas = () => {
+    sigCanvas.current.clear();
+    setOcrText("");
+  };
+
+  const recognizeText = async () => {
+    setRecognizing(true);
+    const dataURL = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
+
+    try {
+      const {
+        data: { text },
+      } = await Tesseract.recognize(dataURL, "eng");
+      const cleaned = text.trim().toLowerCase();
+      setOcrText(cleaned);
+      if (cleaned) onRecognize(cleaned);
+    } catch (err) {
+      console.error("OCRエラー:", err);
+      alert("文字認識に失敗しました。もう一度書いてください。");
+    }
+    setRecognizing(false);
+  };
+
+  return (
+    <div className="mt-2 bg-white border rounded-lg shadow-md p-2">
+      <p className="text-sm text-gray-600 mb-1">
+        ✍️ 手書きで答えを書いてください
+      </p>
+      <SignatureCanvas
+        ref={sigCanvas}
+        penColor="black"
+        backgroundColor="white"
+        canvasProps={{
+          width: 300,
+          height: 150,
+          className: "border rounded w-full",
+        }}
+      />
+      <div className="flex gap-2 mt-2 justify-center">
+        <button
+          onClick={clearCanvas}
+          className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+        >
+          クリア
+        </button>
+        <button
+          onClick={recognizeText}
+          disabled={recognizing}
+          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          {recognizing ? "認識中..." : "採点する"}
+        </button>
+      </div>
+      {ocrText && (
+        <p className="text-sm text-gray-700 mt-1 text-center">
+          🧾 認識結果: <span className="font-semibold">{ocrText}</span>
+        </p>
+      )}
+    </div>
+  );
+}
+
 // 入力文字列の正規化（大文字小文字・全角半角・末尾句読点を吸収）
 const normText = (s = "") =>
   s
@@ -246,6 +316,15 @@ export default function EnglishTrapQuestions() {
       return localStorage.getItem("userName") || "";
     }
     return "";
+  });
+
+  // ✍️ 手書き入力モード（記憶機能付き）
+  const [useHandwriting, setUseHandwriting] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("useHandwriting");
+      return saved ? JSON.parse(saved) : true; // 初期値は手書きON
+    }
+    return true;
   });
 
   const [questionCount, setQuestionCount] = useState(null);
@@ -411,6 +490,10 @@ export default function EnglishTrapQuestions() {
   const startedRef = useRef(false);
 
   useEffect(() => {
+    localStorage.setItem("useHandwriting", JSON.stringify(useHandwriting));
+  }, [useHandwriting]);
+
+  useEffect(() => {
     if (soundEnabled && !startedRef.current) {
       startAllBGMs();
       startedRef.current = true;
@@ -455,6 +538,70 @@ export default function EnglishTrapQuestions() {
         console.error("Failed to fetch questions:", error);
       });
   }, []);
+
+  const renderInputSection = () => (
+    <div className="flex flex-col gap-4 mt-4">
+      {useHandwriting ? (
+        <HandwritingPad
+          onRecognize={(recognizedText) => handleAnswer(recognizedText)}
+        />
+      ) : (
+        <>
+          <input
+            type="text"
+            value={inputAnswer}
+            onChange={(e) => setInputAnswer(e.target.value)}
+            placeholder="ここに英語で入力"
+            className="border px-3 py-2 rounded w-full mb-4"
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="none"
+            spellCheck={false}
+          />
+          <button
+            onClick={() => handleAnswer(inputAnswer)}
+            className="bg-[#4A6572] text-white rounded-full px-6 py-3 hover:bg-[#3F555F] transition shadow"
+          >
+            答える
+          </button>
+        </>
+      )}
+
+      {/* モード切り替え */}
+      <div className="mt-2 flex justify-end">
+        <label className="text-sm text-gray-600 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={useHandwriting}
+            onChange={() => setUseHandwriting(!useHandwriting)}
+            className="mr-1"
+          />
+          手書き入力を使う（記録されます）
+        </label>
+      </div>
+
+      {showWarning && (
+        <div className="text-red-600 font-bold mt-2">
+          ⚠ 候補入力は禁止です。1文字ずつ入力してください。
+        </div>
+      )}
+
+      {hintText && (
+        <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg p-4 mt-2 shadow">
+          <h3 className="text-[#4A6572] font-bold mb-2">ヒント</h3>
+          <p className="text-gray-800">{hintText}</p>
+        </div>
+      )}
+
+      <button
+        onClick={() => playButtonSound(() => handleShowHint())}
+        disabled={hintLevel >= 3}
+        className="bg-[#A7D5C0] text-[#4A6572] rounded-full px-4 py-2 shadow hover:bg-[#92C8B2] transition"
+      >
+        {hintLevel < 3 ? "ヒントを見る" : "これ以上ヒントはありません"}
+      </button>
+    </div>
+  );
 
   const speakExplanation = async (text, lang = "ja-JP") => {
     if (!text || text.trim() === "") return;
@@ -1480,7 +1627,6 @@ export default function EnglishTrapQuestions() {
               <h2 className="text-xl font-bold mb-4">
                 第{currentIndex + 1}問 / 全{filteredQuestions.length}問
               </h2>
-
               {/* 🔽 タイマー表示 */}
               <div
                 className={`text-xl font-bold mb-2 ${
@@ -1489,7 +1635,6 @@ export default function EnglishTrapQuestions() {
               >
                 残り時間: {timeLeft} 秒
               </div>
-
               {/* 🔽 残り時間バー */}
               <div className="w-full bg-gray-200 h-4 rounded mb-4">
                 <div
@@ -1501,7 +1646,6 @@ export default function EnglishTrapQuestions() {
                   }}
                 ></div>
               </div>
-
               {/* 🔽 時間切れ表示 */}
               {timeUp && (
                 <motion.div
@@ -1513,7 +1657,6 @@ export default function EnglishTrapQuestions() {
                   ⏰ 時間切れ！
                 </motion.div>
               )}
-
               <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 max-w-2xl mx-auto text-left">
                 <h2 className="text-xl font-bold mb-2 text-left word-break-clean whitespace-pre-wrap max-w-prose mx-auto">
                   {currentQuestion.type === "multiple-choice" && (
@@ -1532,7 +1675,6 @@ export default function EnglishTrapQuestions() {
                   {currentQuestion.type === "input" && currentQuestion.question}
                 </h2>
               </div>
-
               {currentQuestion.type === "multiple-choice" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                   {shuffledChoices.map((choice, index) => (
@@ -1547,50 +1689,7 @@ export default function EnglishTrapQuestions() {
                 </div>
               )}
 
-              {currentQuestion.type === "input" && (
-                <div className="flex flex-col gap-4 mt-4">
-                  <input
-                    type="text"
-                    value={inputAnswer}
-                    onChange={(e) => setInputAnswer(e.target.value)} // ← 直接 setInputAnswer
-                    placeholder="ここに英語で入力"
-                    className="border px-3 py-2 rounded w-full mb-4"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="none" // ← iPhoneの自動大文字化も無効化
-                    spellCheck={false}
-                  />
-                  <button
-                    onClick={() => handleAnswer(inputAnswer)}
-                    className="bg-[#4A6572] text-white rounded-full px-6 py-3 hover:bg-[#3F555F] transition shadow"
-                  >
-                    答える
-                  </button>
-
-                  {showWarning && (
-                    <div className="text-red-600 font-bold mt-2">
-                      ⚠ 候補入力は禁止です。1文字ずつ入力してください。
-                    </div>
-                  )}
-
-                  {hintText && (
-                    <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg p-4 mt-2 shadow">
-                      <h3 className="text-[#4A6572] font-bold mb-2">ヒント</h3>
-                      <p className="text-gray-800">{hintText}</p>
-                    </div>
-                  )}
-
-                  <button
-                    onClick={() => playButtonSound(() => handleShowHint())}
-                    disabled={hintLevel >= 3}
-                    className="bg-[#A7D5C0] text-[#4A6572] rounded-full px-4 py-2 shadow hover:bg-[#92C8B2] transition"
-                  >
-                    {hintLevel < 3
-                      ? "ヒントを見る"
-                      : "これ以上ヒントはありません"}
-                  </button>
-                </div>
-              )}
+              {currentQuestion.type === "input" && renderInputSection()}
 
               {selectedWord && (
                 <div className="mt-4 p-4 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
