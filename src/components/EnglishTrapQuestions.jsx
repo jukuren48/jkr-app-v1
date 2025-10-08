@@ -182,17 +182,27 @@ function HandwritingPad({ onRecognize }) {
   const [recognizing, setRecognizing] = useState(false);
   const [ocrText, setOcrText] = useState("");
 
+  // 🎯 ←ここが重要：キャンバスのスケール補正
   useEffect(() => {
-    if (!sigCanvas.current) return;
-    const canvas = sigCanvas.current.getCanvas();
-    const ratio = window.devicePixelRatio || 1;
-    const ctx = canvas.getContext("2d");
-    const width = canvas.offsetWidth;
-    const height = canvas.offsetHeight;
+    const resizeCanvas = () => {
+      const canvas = sigCanvas.current.getCanvas();
+      const ratio = window.devicePixelRatio || 1;
+      const width = 320;
+      const height = 200;
 
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
-    ctx.scale(ratio, ratio);
+      // 内部ピクセルとCSSサイズを一致させる
+      canvas.width = width * ratio;
+      canvas.height = height * ratio;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    };
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    return () => window.removeEventListener("resize", resizeCanvas);
   }, []);
 
   const clearCanvas = () => {
@@ -220,25 +230,30 @@ function HandwritingPad({ onRecognize }) {
 
   return (
     <div className="mt-2 bg-white border rounded-lg shadow-md p-2">
-      <p className="text-sm text-gray-600 mb-1">
-        ✍️ 手書きで答えを書いてください
+      <p className="text-sm text-gray-600 mb-1 text-center">
+        ✍️ 手書きで答えを書いてください（iPhone/iPad対応）
       </p>
-      <SignatureCanvas
-        ref={sigCanvas}
-        penColor="black"
-        backgroundColor="white"
-        canvasProps={{
-          width: 320, // 固定値を指定（100%にしない）
-          height: 200,
-          className: "border rounded touch-none mx-auto block",
-        }}
-        onBegin={() => {
-          document.body.style.overflow = "hidden";
-        }}
-        onEnd={() => {
-          document.body.style.overflow = "auto";
-        }}
-      />
+
+      <div className="flex justify-center">
+        <SignatureCanvas
+          ref={sigCanvas}
+          penColor="black"
+          backgroundColor="white"
+          canvasProps={{
+            width: 320,
+            height: 200,
+            className:
+              "border rounded touch-none block select-none bg-white shadow-inner",
+          }}
+          onBegin={() => {
+            document.body.style.overflow = "hidden";
+          }}
+          onEnd={() => {
+            document.body.style.overflow = "auto";
+          }}
+        />
+      </div>
+
       <div className="flex gap-2 mt-2 justify-center">
         <button
           onClick={clearCanvas}
@@ -254,6 +269,7 @@ function HandwritingPad({ onRecognize }) {
           {recognizing ? "認識中..." : "採点する"}
         </button>
       </div>
+
       {ocrText && (
         <p className="text-sm text-gray-700 mt-1 text-center">
           🧾 認識結果: <span className="font-semibold">{ocrText}</span>
