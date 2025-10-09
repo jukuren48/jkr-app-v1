@@ -187,13 +187,10 @@ function HandwritingPad({ onRecognize }) {
   // 🧠 手書き描画の初期化とスケール補正
   useEffect(() => {
     const canvas = sigCanvas.current.getCanvas();
-    const ratio = window.devicePixelRatio || 1;
-    const ctx = canvas.getContext("2d");
     const width = canvas.offsetWidth;
     const height = canvas.offsetHeight;
-    canvas.width = width * ratio;
-    canvas.height = height * ratio;
-    ctx.scale(ratio, ratio);
+    canvas.width = width;
+    canvas.height = height;
   }, []);
 
   // ✨ ライブOCR: 約1秒ごとに結果を更新
