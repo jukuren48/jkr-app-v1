@@ -181,110 +181,101 @@ function HandwritingPad({ onRecognize }) {
   const sigCanvas = useRef(null);
   const [recognizing, setRecognizing] = useState(false);
   const [ocrText, setOcrText] = useState("");
+  const [recognizedLive, setRecognizedLive] = useState("");
+  const [charArray, setCharArray] = useState([]);
 
-  // 🎯 ←ここが重要：キャンバスのスケール補正
+  // 🧠 手書き描画の初期化とスケール補正
   useEffect(() => {
-    const resizeCanvas = () => {
-      const canvas = sigCanvas.current.getCanvas();
-      const ratio = window.devicePixelRatio || 1;
-      const width = 320;
-      const height = 200;
-
-      // 内部ピクセルとCSSサイズを一致させる
-      canvas.width = width * ratio;
-      canvas.height = height * ratio;
-      canvas.style.width = width + "px";
-      canvas.style.height = height + "px";
-
-      const ctx = canvas.getContext("2d");
-      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    };
-
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
-    return () => window.removeEventListener("resize", resizeCanvas);
+    const canvas = sigCanvas.current.getCanvas();
+    const ratio = window.devicePixelRatio || 1;
+    const ctx = canvas.getContext("2d");
+    const width = canvas.offsetWidth;
+    const height = canvas.offsetHeight;
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
+    ctx.scale(ratio, ratio);
   }, []);
 
+  // ✨ ライブOCR: 約1秒ごとに結果を更新
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      if (!sigCanvas.current) return;
+      const dataURL = sigCanvas.current.getCanvas().toDataURL("image/png");
+      try {
+        const {
+          data: { text },
+        } = await Tesseract.recognize(dataURL, "eng", {
+          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_WORD,
+        });
+        const cleaned = text.trim().toLowerCase();
+        setRecognizedLive(cleaned);
+      } catch {
+        // 無視
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // 🔧 Canvasクリア
   const clearCanvas = () => {
     sigCanvas.current.clear();
     setOcrText("");
+    setRecognizedLive("");
+    setCharArray([]);
   };
 
+  // 🧠 本認識（採点前）
   const recognizeText = async () => {
     setRecognizing(true);
-
-    // ✅ TrimmedCanvas の代わりに getCanvas() を使用
     const canvas = sigCanvas.current.getCanvas();
-    const ctx = canvas.getContext("2d");
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const data = imageData.data;
-
-    // 白黒二値化処理
-    for (let i = 0; i < data.length; i += 4) {
-      const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
-      const val = avg > 200 ? 255 : 0; // 200以上は白、それ以外は黒
-      data[i] = data[i + 1] = data[i + 2] = val;
-    }
-    ctx.putImageData(imageData, 0, 0);
-
     const dataURL = canvas.toDataURL("image/png");
     try {
-      console.log("OCR開始");
       const {
         data: { text },
       } = await Tesseract.recognize(dataURL, "eng", {
-        tessedit_pageseg_mode: Tesseract.PSM.SINGLE_WORD, // ← 単語モードに限定
-        logger: (m) => console.log(m),
+        tessedit_pageseg_mode: Tesseract.PSM.SINGLE_WORD,
       });
-      console.log("OCR結果:", text);
-
       const cleaned = text.trim().toLowerCase();
-
-      if (!cleaned) {
-        alert("文字を認識できませんでした。もう一度書いてください。");
-        setRecognizing(false);
-        return;
-      }
-
       setOcrText(cleaned);
-
-      // 🎯 採点関数を確実に呼び出す
-      if (typeof onRecognize === "function") {
-        onRecognize(cleaned);
-      }
+      setCharArray(cleaned.split(""));
+      if (cleaned) onRecognize(cleaned);
     } catch (err) {
       console.error("OCRエラー:", err);
       alert("文字認識に失敗しました。もう一度書いてください。");
     }
-
     setRecognizing(false);
   };
 
+  // 🧩 1文字クリック修正
+  const handleCharEdit = (index, currentChar) => {
+    const newChar = prompt(`「${currentChar}」を修正:`, currentChar);
+    if (newChar && newChar.length === 1) {
+      const updated = [...charArray];
+      updated[index] = newChar.toLowerCase();
+      setCharArray(updated);
+      setOcrText(updated.join(""));
+    }
+  };
+
   return (
-    <div className="mt-2 bg-white border rounded-lg shadow-md p-2">
-      <p className="text-sm text-gray-600 mb-1 text-center">
-        ✍️ 手書きで答えを書いてください（iPhone/iPad対応）
+    <div className="mt-2 bg-white border rounded-lg shadow-md p-3">
+      <p className="text-sm text-gray-600 mb-1">
+        ✍️ 手書きで答えを書いてください（英語のみ）
       </p>
 
-      <div className="flex justify-center">
-        <SignatureCanvas
-          ref={sigCanvas}
-          penColor="black"
-          backgroundColor="white"
-          canvasProps={{
-            width: 320,
-            height: 200,
-            className:
-              "border rounded touch-none block select-none bg-white shadow-inner",
-          }}
-          onBegin={() => {
-            document.body.style.overflow = "hidden";
-          }}
-          onEnd={() => {
-            document.body.style.overflow = "auto";
-          }}
-        />
-      </div>
+      <SignatureCanvas
+        ref={sigCanvas}
+        penColor="black"
+        backgroundColor="white"
+        canvasProps={{
+          width: 320,
+          height: 200,
+          className:
+            "border rounded touch-none mx-auto block bg-white shadow-sm",
+        }}
+        onBegin={() => (document.body.style.overflow = "hidden")}
+        onEnd={() => (document.body.style.overflow = "auto")}
+      />
 
       <div className="flex gap-2 mt-2 justify-center">
         <button
@@ -302,10 +293,39 @@ function HandwritingPad({ onRecognize }) {
         </button>
       </div>
 
+      {/* 🟡 ライブ認識結果 */}
+      <p className="text-lg font-mono text-center mt-3">
+        🧾 現在の認識結果:{" "}
+        <span className="font-bold">
+          {recognizedLive || "(まだ書き込み中…)"}
+        </span>
+      </p>
+
+      {/* 🟢 認識確定後：1文字修正UI */}
       {ocrText && (
-        <p className="text-sm text-gray-700 mt-1 text-center">
-          🧾 認識結果: <span className="font-semibold">{ocrText}</span>
-        </p>
+        <div className="mt-4 text-center">
+          <p className="text-sm text-gray-700 mb-1">🔤 修正可能な認識結果:</p>
+          <div className="flex justify-center gap-2 flex-wrap">
+            {charArray.map((ch, i) => (
+              <span
+                key={i}
+                onClick={() => handleCharEdit(i, ch)}
+                className="border px-2 py-1 rounded bg-gray-100 hover:bg-yellow-200 cursor-pointer font-mono text-lg"
+              >
+                {ch}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-3">
+            <button
+              onClick={() => onRecognize(charArray.join(""))}
+              className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+            >
+              ✅ 修正版で採点
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
