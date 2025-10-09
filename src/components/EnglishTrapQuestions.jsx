@@ -212,19 +212,40 @@ function HandwritingPad({ onRecognize }) {
 
   const recognizeText = async () => {
     setRecognizing(true);
-    const dataURL = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
+
+    // ✅ TrimmedCanvas の代わりに getCanvas() を使用
+    const canvas = sigCanvas.current.getCanvas();
+    const dataURL = canvas.toDataURL("image/png");
 
     try {
+      console.log("OCR開始");
       const {
         data: { text },
-      } = await Tesseract.recognize(dataURL, "eng");
+      } = await Tesseract.recognize(dataURL, "eng", {
+        tessedit_char_whitelist:
+          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+      });
+      console.log("OCR結果:", text);
+
       const cleaned = text.trim().toLowerCase();
+
+      if (!cleaned) {
+        alert("文字を認識できませんでした。もう一度書いてください。");
+        setRecognizing(false);
+        return;
+      }
+
       setOcrText(cleaned);
-      if (cleaned) onRecognize(cleaned);
+
+      // 🎯 採点関数を確実に呼び出す
+      if (typeof onRecognize === "function") {
+        onRecognize(cleaned);
+      }
     } catch (err) {
       console.error("OCRエラー:", err);
       alert("文字認識に失敗しました。もう一度書いてください。");
     }
+
     setRecognizing(false);
   };
 
@@ -1128,10 +1149,16 @@ export default function EnglishTrapQuestions() {
         : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
 
       const corrects = expandCorrects(raw)
-        .map((c) => normText(c))
+        .map((c) => normText(c).replace(/[^a-z]/g, "")) // ← 英字のみ
         .filter((c) => c.length > 0);
 
-      const user = normText(inputAnswer);
+      // 🧩 OCR or 手入力どちらでも対応
+      const userInput =
+        typeof answer === "string" && answer.trim() !== ""
+          ? answer // OCR結果（onRecognize）
+          : inputAnswer; // 手入力（input欄）
+
+      const user = normText(userInput).replace(/[^a-z]/g, "");
 
       isCorrectAnswer = corrects.some((c) => c === user);
     }
