@@ -184,7 +184,6 @@ function HandwritingPad({ onRecognize }) {
   const [recognizedLive, setRecognizedLive] = useState("");
   const [charArray, setCharArray] = useState([]);
 
-  // 🧠 手書き描画の初期化とスケール補正
   useEffect(() => {
     const canvas = sigCanvas.current.getCanvas();
     const width = canvas.offsetWidth;
@@ -193,7 +192,6 @@ function HandwritingPad({ onRecognize }) {
     canvas.height = height;
   }, []);
 
-  // ✨ ライブOCR: 約1秒ごとに結果を更新
   useEffect(() => {
     const interval = setInterval(async () => {
       if (!sigCanvas.current) return;
@@ -206,14 +204,11 @@ function HandwritingPad({ onRecognize }) {
         });
         const cleaned = text.trim().toLowerCase();
         setRecognizedLive(cleaned);
-      } catch {
-        // 無視
-      }
+      } catch {}
     }, 1000);
     return () => clearInterval(interval);
   }, []);
 
-  // 🔧 Canvasクリア
   const clearCanvas = () => {
     sigCanvas.current.clear();
     setOcrText("");
@@ -221,7 +216,6 @@ function HandwritingPad({ onRecognize }) {
     setCharArray([]);
   };
 
-  // 🧠 本認識（採点前）
   const recognizeText = async () => {
     setRecognizing(true);
     const canvas = sigCanvas.current.getCanvas();
@@ -235,7 +229,10 @@ function HandwritingPad({ onRecognize }) {
       const cleaned = text.trim().toLowerCase();
       setOcrText(cleaned);
       setCharArray(cleaned.split(""));
-      if (cleaned) onRecognize(cleaned);
+      setTimeout(() => setCharArray([...cleaned.split("")]), 0);
+      console.log("OCR結果:", cleaned);
+      console.log("文字配列:", cleaned.split(""));
+      // 🚫 採点はまだしない！
     } catch (err) {
       console.error("OCRエラー:", err);
       alert("文字認識に失敗しました。もう一度書いてください。");
@@ -243,7 +240,6 @@ function HandwritingPad({ onRecognize }) {
     setRecognizing(false);
   };
 
-  // 🧩 1文字クリック修正
   const handleCharEdit = (index, currentChar) => {
     const newChar = prompt(`「${currentChar}」を修正:`, currentChar);
     if (newChar && newChar.length === 1) {
@@ -286,11 +282,10 @@ function HandwritingPad({ onRecognize }) {
           disabled={recognizing}
           className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          {recognizing ? "認識中..." : "採点する"}
+          {recognizing ? "認識中..." : "文字を認識"}
         </button>
       </div>
 
-      {/* 🟡 ライブ認識結果 */}
       <p className="text-lg font-mono text-center mt-3">
         🧾 現在の認識結果:{" "}
         <span className="font-bold">
@@ -299,7 +294,7 @@ function HandwritingPad({ onRecognize }) {
       </p>
 
       {/* 🟢 認識確定後：1文字修正UI */}
-      {ocrText && (
+      {ocrText && charArray.length > 0 && (
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-700 mb-1">🔤 修正可能な認識結果:</p>
           <div className="flex justify-center gap-2 flex-wrap">
@@ -316,10 +311,17 @@ function HandwritingPad({ onRecognize }) {
 
           <div className="mt-3">
             <button
-              onClick={() => onRecognize(charArray.join(""))}
+              onClick={() => {
+                const finalText = charArray.join("").trim();
+                if (!finalText) {
+                  alert("文字がありません。");
+                  return;
+                }
+                onRecognize(finalText); // 👈 確認ダイアログを削除
+              }}
               className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
             >
-              ✅ 修正版で採点
+              🟢 採点する
             </button>
           </div>
         </div>
@@ -627,7 +629,10 @@ export default function EnglishTrapQuestions() {
     <div className="flex flex-col gap-4 mt-4">
       {useHandwriting ? (
         <HandwritingPad
-          onRecognize={(recognizedText) => handleAnswer(recognizedText)}
+          onRecognize={(finalText) => {
+            // 手書きが完全に確定したタイミングでのみ採点
+            handleAnswer(finalText);
+          }}
         />
       ) : (
         <>
