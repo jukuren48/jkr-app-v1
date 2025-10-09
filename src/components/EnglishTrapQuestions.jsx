@@ -215,15 +215,26 @@ function HandwritingPad({ onRecognize }) {
 
     // ✅ TrimmedCanvas の代わりに getCanvas() を使用
     const canvas = sigCanvas.current.getCanvas();
-    const dataURL = canvas.toDataURL("image/png");
+    const ctx = canvas.getContext("2d");
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
 
+    // 白黒二値化処理
+    for (let i = 0; i < data.length; i += 4) {
+      const avg = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      const val = avg > 200 ? 255 : 0; // 200以上は白、それ以外は黒
+      data[i] = data[i + 1] = data[i + 2] = val;
+    }
+    ctx.putImageData(imageData, 0, 0);
+
+    const dataURL = canvas.toDataURL("image/png");
     try {
       console.log("OCR開始");
       const {
         data: { text },
       } = await Tesseract.recognize(dataURL, "eng", {
-        tessedit_char_whitelist:
-          "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        tessedit_pageseg_mode: Tesseract.PSM.SINGLE_WORD, // ← 単語モードに限定
+        logger: (m) => console.log(m),
       });
       console.log("OCR結果:", text);
 
