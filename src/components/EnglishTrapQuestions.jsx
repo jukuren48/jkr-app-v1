@@ -177,12 +177,13 @@ function TTSButton({ text }) {
 }
 
 // ======== 手書き入力パッドコンポーネント ========
-function HandwritingPad({ onCharRecognized, onSpace, onClearAll }) {
+function HandwritingPad({ ocrEngine, onCharRecognized, onSpace, onClearAll }) {
   const sigCanvas = useRef(null);
   const [recognizing, setRecognizing] = useState(false);
   const [recognizedChar, setRecognizedChar] = useState("");
+  //const [ocrEngine, setOcrEngine] = useState("tesseract");
 
-  // 初期化（描画位置ズレ防止）
+  // 🧭 初期化（ズレ防止）
   useEffect(() => {
     const canvas = sigCanvas.current.getCanvas();
     const width = canvas.offsetWidth;
@@ -191,45 +192,60 @@ function HandwritingPad({ onCharRecognized, onSpace, onClearAll }) {
     canvas.height = height;
   }, []);
 
-  // ✍️ 文字を認識する処理（1文字限定）
+  // 🧽 手書きパッドをクリア
+  const clearCanvas = () => {
+    if (sigCanvas.current) {
+      sigCanvas.current.clear();
+      setRecognizedChar("");
+    }
+  };
+
+  // ✍️ 文字認識（1文字）
   const recognizeChar = async () => {
     if (!sigCanvas.current) return;
     setRecognizing(true);
+
     const dataURL = sigCanvas.current.getCanvas().toDataURL("image/png");
 
     try {
-      const {
-        data: { text },
-      } = await Tesseract.recognize(dataURL, "eng", {
-        tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
-      });
-      const cleaned = text
+      let text = "";
+
+      if (ocrEngine === "vision") {
+        const res = await fetch("/api/vision-ocr", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageBase64: dataURL }),
+        });
+        const json = await res.json();
+        text = json?.text || "";
+      } else {
+        const {
+          data: { text: localText },
+        } = await Tesseract.recognize(dataURL, "eng", {
+          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
+        });
+        text = localText;
+      }
+
+      const cleaned = (text || "")
         .trim()
         .toLowerCase()
         .replace(/[^a-z ]/g, "");
       setRecognizedChar(cleaned);
+      //if (cleaned && onCharRecognized) onCharRecognized(cleaned);
     } catch (err) {
-      console.error("OCRエラー:", err);
-      alert("認識に失敗しました。もう一度書いてください。");
+      console.error("OCR error:", err);
+      alert("文字認識に失敗しました。もう一度書いてください。");
     }
 
     setRecognizing(false);
   };
 
-  // 🧹 キャンバスをクリア（次の文字準備）
-  const clearCanvas = () => {
-    sigCanvas.current.clear();
-    setRecognizedChar("");
-  };
-
-  // 🚀 認識結果を親に送る
   const uploadChar = () => {
-    if (!recognizedChar) {
-      alert("認識された文字がありません。");
-      return;
+    if (recognizedChar && onCharRecognized) {
+      onCharRecognized(recognizedChar);
+      clearCanvas(); // 次の文字を書く準備
     }
-    onCharRecognized(recognizedChar);
-    clearCanvas(); // 次の文字の準備
   };
 
   return (
@@ -241,10 +257,10 @@ function HandwritingPad({ onCharRecognized, onSpace, onClearAll }) {
       <SignatureCanvas
         ref={sigCanvas}
         penColor="black"
-        backgroundColor="white"
+        backgroundColor="#ffffff"
         canvasProps={{
-          width: 320,
-          height: 200,
+          width: 480,
+          height: 300,
           className: "border rounded mx-auto block bg-white shadow-sm",
         }}
         onBegin={() => (document.body.style.overflow = "hidden")}
@@ -256,7 +272,7 @@ function HandwritingPad({ onCharRecognized, onSpace, onClearAll }) {
           onClick={clearCanvas}
           className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
         >
-          クリア
+          🧽 クリア
         </button>
         <button
           onClick={recognizeChar}
@@ -377,6 +393,19 @@ export default function EnglishTrapQuestions() {
     }
     return true;
   });
+
+  const [ocrEngine, setOcrEngine] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("ocrEngine") || "tesseract";
+    }
+    return "tesseract";
+  });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("ocrEngine", ocrEngine);
+    }
+  }, [ocrEngine]);
 
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -595,10 +624,24 @@ export default function EnglishTrapQuestions() {
       {useHandwriting ? (
         <div className="flex flex-col gap-2 items-center">
           <HandwritingPad
+            ocrEngine={ocrEngine} // ✅ Vision/Tesseract 切り替え反映
             onCharRecognized={(char) => setInputAnswer((prev) => prev + char)}
             onSpace={() => setInputAnswer((prev) => prev + " ")}
             onClearAll={() => setInputAnswer("")}
           />
+
+          <label className="text-sm text-gray-700 cursor-pointer mt-2">
+            <input
+              type="checkbox"
+              checked={ocrEngine === "vision"}
+              onChange={() =>
+                setOcrEngine(ocrEngine === "vision" ? "tesseract" : "vision")
+              }
+              className="mr-1"
+            />
+            高精度OCR（Google Vision）を使う
+          </label>
+
           <div className="mt-2 text-center">
             <p className="text-gray-700 text-lg font-mono">
               🧩 現在の解答欄:{" "}
@@ -1547,6 +1590,18 @@ export default function EnglishTrapQuestions() {
               {soundEnabled ? "🔊 サウンドOFF" : "🔈 サウンドON"}
             </button>
           </div>
+
+          <label className="text-sm text-gray-700 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={ocrEngine === "vision"}
+              onChange={() =>
+                setOcrEngine(ocrEngine === "vision" ? "tesseract" : "vision")
+              }
+              className="mr-1"
+            />
+            高精度OCR（Google Vision）を使う
+          </label>
 
           <button
             onClick={() => {
