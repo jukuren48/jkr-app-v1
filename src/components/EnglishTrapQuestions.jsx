@@ -1458,34 +1458,36 @@ export default function EnglishTrapQuestions() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-pink-100 to-yellow-100 max-w-4xl mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
-        <div className="fixed bottom-3 right-4 flex items-center gap-2 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full shadow-md">
-          <span className="text-gray-700 font-bold">
-            {userName ? `${userName} さん` : "ゲスト"}
-          </span>
+      {!(useHandwriting && currentQuestion?.type === "input") && (
+        <div className="flex justify-between items-center mb-4">
+          <div className="fixed bottom-3 right-4 flex items-center gap-2 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full shadow-md">
+            <span className="text-gray-700 font-bold">
+              {userName ? `${userName} さん` : "ゲスト"}
+            </span>
+            <button
+              onClick={() => {
+                const name = prompt("新しい名前を入力してください");
+                if (name && name.trim() !== "") {
+                  handleSetUserName(name.trim());
+                  localStorage.setItem("userName", name.trim());
+                }
+              }}
+              className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
+            >
+              ユーザー変更
+            </button>
+          </div>
+          <h1 className="text-2xl font-bold">
+            英語ひっかけ問題 ～塾長からの挑戦状～
+          </h1>
           <button
-            onClick={() => {
-              const name = prompt("新しい名前を入力してください");
-              if (name && name.trim() !== "") {
-                handleSetUserName(name.trim());
-                localStorage.setItem("userName", name.trim());
-              }
-            }}
-            className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
+            onClick={() => playButtonSound(() => setShowQuestionModal(true))}
+            className="bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-4 py-2 rounded-full shadow transition"
           >
-            ユーザー変更
+            📥 質問ボックス（{questionList.length}件）
           </button>
         </div>
-        <h1 className="text-2xl font-bold">
-          英語ひっかけ問題 ～塾長からの挑戦状～
-        </h1>
-        <button
-          onClick={() => playButtonSound(() => setShowQuestionModal(true))}
-          className="bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-4 py-2 rounded-full shadow transition"
-        >
-          📥 質問ボックス（{questionList.length}件）
-        </button>
-      </div>
+      )}
 
       {/* スタート画面 */}
       {!showQuestions && !showResult && units.length > 0 && (
