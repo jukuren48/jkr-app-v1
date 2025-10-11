@@ -45,8 +45,13 @@ export default async function handler(req, res) {
           requests: [
             {
               image: { content },
-              features: [{ type: "TEXT_DETECTION", model: "builtin/latest" }],
-              imageContext: { languageHints: ["en"] },
+              features: [{ type: "DOCUMENT_TEXT_DETECTION" }],
+              imageContext: {
+                languageHints: ["en"],
+                textDetectionParams: {
+                  enableTextDetectionConfidenceScore: true,
+                },
+              },
             },
           ],
         }),
