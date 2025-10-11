@@ -74,7 +74,7 @@ export default async function handler(req, res) {
     const cleaned = raw
       .trim()
       .toLowerCase()
-      .replace(/[^a-z ]/g, "");
+      .replace(/[^a-z'’\-\s]/g, "");
 
     console.log("[Vision OCR] recognized:", cleaned);
     return res.status(200).json({ text: cleaned });

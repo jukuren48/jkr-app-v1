@@ -229,7 +229,7 @@ function HandwritingPad({ ocrEngine, onCharRecognized, onSpace, onClearAll }) {
         const {
           data: { text: localText },
         } = await Tesseract.recognize(dataURL, "eng", {
-          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
+          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_WORD,
         });
         text = localText;
       }
@@ -1646,13 +1646,6 @@ export default function EnglishTrapQuestions() {
             </div>
           )}
 
-          {/* 🔥 応援メッセージ */}
-          {addMessage && (
-            <div className="text-center text-xl font-bold text-[#E57373] mt-1">
-              {addMessage}
-            </div>
-          )}
-
           {showFeedback ? (
             <div
               className={`p-4 rounded-lg shadow-md mb-4 ${
@@ -1746,12 +1739,6 @@ export default function EnglishTrapQuestions() {
                 後で先生に質問する
               </button>
 
-              {addMessage && (
-                <p className="mt-2 text-green-700 font-semibold">
-                  {addMessage}
-                </p>
-              )}
-
               <button
                 onClick={handleNext}
                 className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
@@ -1760,83 +1747,110 @@ export default function EnglishTrapQuestions() {
               </button>
             </div>
           ) : (
-            <div>
-              <h2 className="text-xl font-bold mb-4">
-                第{currentIndex + 1}問 / 全{filteredQuestions.length}問
-              </h2>
-              {/* 🔽 タイマー表示 */}
-              <div
-                className={`text-xl font-bold mb-2 ${
-                  timeLeft <= 5 ? "text-red-600 animate-pulse" : "text-gray-800"
-                }`}
-              >
-                残り時間: {timeLeft} 秒
-              </div>
-              {/* 🔽 残り時間バー */}
-              <div className="w-full bg-gray-200 h-4 rounded mb-4">
-                <div
-                  className={`h-4 rounded transition-all duration-1000 ${
-                    timeLeft > 5 ? "bg-green-500" : "bg-red-500 animate-pulse"
-                  }`}
-                  style={{
-                    width: `${maxTime > 0 ? (timeLeft / maxTime) * 100 : 0}%`,
-                  }}
-                ></div>
-              </div>
-              {/* 🔽 時間切れ表示 */}
-              {timeUp && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1.2 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="text-4xl font-extrabold text-red-600 text-center my-6"
-                >
-                  ⏰ 時間切れ！
-                </motion.div>
-              )}
-              <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow mb-6 max-w-2xl mx-auto text-left">
-                <h2 className="text-xl font-bold mb-2 text-left word-break-clean whitespace-pre-wrap max-w-prose mx-auto">
-                  {currentQuestion.type === "multiple-choice" && (
-                    <span>
-                      {currentQuestion.question.split(" ").map((word, idx) => (
-                        <span
-                          key={idx}
-                          onClick={() => handleWordClick(word)}
-                          className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
-                        >
-                          {word}
-                        </span>
-                      ))}
-                    </span>
-                  )}
-                  {currentQuestion.type === "input" && currentQuestion.question}
+            <div className="flex flex-col h-[calc(100vh-80px)] bg-gradient-to-r from-pink-100 to-yellow-100">
+              {/* === 上部：問題表示エリア（スクロール可） === */}
+              <div className="flex-1 overflow-y-auto p-4">
+                {/* 🔥 応援メッセージ */}
+                {addMessage && (
+                  <div className="text-center text-xl font-bold text-[#E57373] mt-1">
+                    {addMessage}
+                  </div>
+                )}
+
+                {/* 🔹 問題番号 */}
+                <h2 className="text-lg sm:text-xl font-bold mb-4">
+                  第{currentIndex + 1}問 / 全{filteredQuestions.length}問
                 </h2>
+
+                {/* 🔹 タイマー */}
+                <div
+                  className={`text-base sm:text-lg font-bold mb-2 ${
+                    timeLeft <= 5
+                      ? "text-red-600 animate-pulse"
+                      : "text-gray-800"
+                  }`}
+                >
+                  残り時間: {timeLeft} 秒
+                </div>
+
+                {/* 🔹 時間バー */}
+                <div className="w-full bg-gray-200 h-3 rounded mb-4">
+                  <div
+                    className={`h-3 rounded transition-all duration-1000 ${
+                      timeLeft > 5 ? "bg-green-500" : "bg-red-500 animate-pulse"
+                    }`}
+                    style={{
+                      width: `${maxTime > 0 ? (timeLeft / maxTime) * 100 : 0}%`,
+                    }}
+                  ></div>
+                </div>
+
+                {/* 🔹 時間切れ表示 */}
+                {timeUp && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1.2 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="text-3xl sm:text-4xl font-extrabold text-red-600 text-center my-4"
+                  >
+                    ⏰ 時間切れ！
+                  </motion.div>
+                )}
+
+                {/* 🔹 問題文 */}
+                <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-4 shadow mb-6 text-left max-w-2xl mx-auto">
+                  <h2 className="text-base sm:text-lg font-bold mb-2 word-break-clean whitespace-pre-wrap max-w-prose mx-auto">
+                    {currentQuestion.type === "multiple-choice" && (
+                      <span>
+                        {currentQuestion.question
+                          .split(" ")
+                          .map((word, idx) => (
+                            <span
+                              key={idx}
+                              onClick={() => handleWordClick(word)}
+                              className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
+                            >
+                              {word}
+                            </span>
+                          ))}
+                      </span>
+                    )}
+                    {currentQuestion.type === "input" &&
+                      currentQuestion.question}
+                  </h2>
+                </div>
+
+                {/* 🔹 選択肢ボタン */}
+                {currentQuestion.type === "multiple-choice" && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                    {shuffledChoices.map((choice, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleAnswer(choice)}
+                        className="bg-white border border-[#E0E0E0] rounded-lg px-3 py-2 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm text-sm sm:text-base"
+                      >
+                        {choice}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* 🔹 単語タップ翻訳結果 */}
+                {selectedWord && (
+                  <div className="mt-4 p-3 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
+                    <h3 className="text-base font-bold text-[#4A6572] mb-1">
+                      選択した単語
+                    </h3>
+                    <p className="text-lg text-[#4A6572]">{selectedWord}</p>
+                    <p className="text-gray-800">{wordMeaning}</p>
+                  </div>
+                )}
               </div>
-              {currentQuestion.type === "multiple-choice" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                  {shuffledChoices.map((choice, index) => (
-                    <button
-                      key={index}
-                      onClick={() => handleAnswer(choice)}
-                      className="bg-white border border-[#E0E0E0] rounded-lg px-4 py-3 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm"
-                    >
-                      {choice}
-                    </button>
-                  ))}
-                </div>
-              )}
 
-              {currentQuestion.type === "input" && renderInputSection()}
-
-              {selectedWord && (
-                <div className="mt-4 p-4 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
-                  <h3 className="text-lg font-bold text-[#4A6572] mb-2">
-                    選択した単語
-                  </h3>
-                  <p className="text-xl text-[#4A6572]">{selectedWord}</p>
-                  <p className="text-gray-800">{wordMeaning}</p>
-                </div>
-              )}
+              {/* === 下部：回答欄（固定表示） === */}
+              <div className="sticky bottom-0 bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-50">
+                {currentQuestion.type === "input" && renderInputSection()}
+              </div>
             </div>
           )}
         </div>
