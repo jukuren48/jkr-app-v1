@@ -218,6 +218,13 @@ function HandwritingPad({ ocrEngine, onCharRecognized, onSpace, onClearAll }) {
         });
         const json = await res.json();
         text = json?.text || "";
+        if (!text) {
+          console.log("Vision空 → fallback to Tesseract");
+          const {
+            data: { text: localText },
+          } = await Tesseract.recognize(dataURL, "eng");
+          text = localText;
+        }
       } else {
         const {
           data: { text: localText },
@@ -257,6 +264,8 @@ function HandwritingPad({ ocrEngine, onCharRecognized, onSpace, onClearAll }) {
       <SignatureCanvas
         ref={sigCanvas}
         penColor="black"
+        minWidth={2}
+        maxWidth={3}
         backgroundColor="#ffffff"
         canvasProps={{
           width: 480,

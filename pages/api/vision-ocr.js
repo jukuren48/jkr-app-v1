@@ -1,7 +1,14 @@
+import sharp from "sharp";
+
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
+  // 🧩 CORS対策（iPhone / iPad Safari 用）
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method !== "POST")
     return res.status(405).json({ error: "Method not allowed" });
-  }
 
   try {
     const { imageBase64 } = req.body;
@@ -11,14 +18,25 @@ export default async function handler(req, res) {
 
     const apiKey = process.env.GOOGLE_VISION_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: "Missing GOOGLE_VISION_API_KEY" });
+      console.error("[Vision OCR] Missing GOOGLE_VISION_API_KEY");
+      return res.status(500).json({ error: "API key missing" });
     }
 
-    // 🧹 Base64 ヘッダー除去
-    const content = imageBase64.replace(/^data:image\/(png|jpeg);base64,/, "");
+    // 🧠 base64 → Buffer
+    const base64Data = imageBase64.replace(/^data:image\/\w+;base64,/, "");
+    const imgBuffer = Buffer.from(base64Data, "base64");
 
-    // 🧠 Vision API 呼び出し
-    const response = await fetch(
+    // 🎨 Sharp で画像を強調処理（白黒化＋線を太く）
+    const processed = await sharp(imgBuffer)
+      .grayscale()
+      .threshold(150) // ← コントラスト強調
+      .normalise() // ← コントラスト全体補正
+      .toBuffer();
+
+    const content = processed.toString("base64");
+
+    // 🚀 Vision API 呼び出し
+    const gRes = await fetch(
       `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
       {
         method: "POST",
@@ -27,41 +45,36 @@ export default async function handler(req, res) {
           requests: [
             {
               image: { content },
-              features: [
-                { type: "DOCUMENT_TEXT_DETECTION", model: "builtin/latest" },
-              ],
-              imageContext: {
-                languageHints: ["en"],
-                textDetectionParams: {
-                  enableTextDetectionConfidenceScore: true,
-                },
-              },
+              features: [{ type: "TEXT_DETECTION", model: "builtin/latest" }],
+              imageContext: { languageHints: ["en"] },
             },
           ],
         }),
       }
     );
 
-    const data = await response.json();
+    const data = await gRes.json();
 
-    // 🧩 responses が無いときの保険
-    if (!data.responses || !data.responses[0]) {
-      console.error("[Vision OCR] empty response:", data);
-      return res.status(200).json({ text: "" });
+    // 🧾 結果解析
+    const raw =
+      data?.responses?.[0]?.fullTextAnnotation?.text ||
+      data?.responses?.[0]?.textAnnotations?.[0]?.description ||
+      "";
+
+    if (!raw) {
+      console.warn("[Vision OCR] empty response:", data);
+      return res.status(200).json({ text: "" }); // Vision が空 → fallback先で処理
     }
 
-    // 🧠 テキスト抽出（どちらかあれば拾う）
-    const raw =
-      data.responses[0].fullTextAnnotation?.text ||
-      data.responses[0].textAnnotations?.[0]?.description ||
-      "";
-    const cleaned = raw.trim().toLowerCase();
+    const cleaned = raw
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z ]/g, "");
 
-    console.log("[Vision OCR recognized]", cleaned || "(none)");
-
+    console.log("[Vision OCR] recognized:", cleaned);
     return res.status(200).json({ text: cleaned });
-  } catch (error) {
-    console.error("[vision-ocr] error:", error);
+  } catch (e) {
+    console.error("[Vision OCR] error:", e);
     return res.status(500).json({ error: "Vision OCR failed" });
   }
 }
