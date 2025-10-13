@@ -236,6 +236,14 @@ function HandwritingPad({
 
   return (
     <div className="fixed bottom-0 left-0 w-full h-[35vh] bg-white border-t shadow-lg flex flex-col justify-between z-50">
+      {/* === 🧩 現在の解答表示（最上部に移動） === */}
+      <div className="text-center py-1 border-b bg-white font-mono text-base">
+        🧩 現在の解答：{" "}
+        <span className="font-bold text-[#4A6572]">
+          {currentAnswer || "(まだ入力なし)"}
+        </span>
+      </div>
+
       {/* === 認識結果表示 === */}
       <div className="text-center mt-1 text-base font-mono">
         {recognizing ? (
@@ -315,14 +323,6 @@ function HandwritingPad({
         >
           ✅ 採点
         </button>
-      </div>
-
-      {/* === 現在の解答表示 === */}
-      <div className="text-center py-2 border-t bg-white font-mono text-base">
-        🧩 現在の解答：{" "}
-        <span className="font-bold text-[#4A6572]">
-          {currentAnswer || "(まだ入力なし)"}
-        </span>
       </div>
     </div>
   );
