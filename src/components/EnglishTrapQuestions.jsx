@@ -190,7 +190,9 @@ function HandwritingPad({
   const [recognizedChar, setRecognizedChar] = useState("");
 
   const clearCanvas = () => {
-    sigCanvas.current.clear();
+    if (sigCanvas.current && sigCanvas.current.clear) {
+      sigCanvas.current.clear();
+    }
     setRecognizedChar("");
   };
 
@@ -223,7 +225,7 @@ function HandwritingPad({
         .trim()
         .toLowerCase()
         .replace(/[^a-z ]/g, "");
-      setRecognizedChar(cleaned); // ✅ 表示には出すが、まだアップしない
+      setRecognizedChar(cleaned);
       console.log("[OCR認識結果]", cleaned);
     } catch (err) {
       console.error("OCR error:", err);
@@ -233,8 +235,8 @@ function HandwritingPad({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 w-full h-[33vh] bg-white border-t shadow-lg flex flex-col justify-between z-50">
-      {/* === 🧾 認識結果表示エリア === */}
+    <div className="fixed bottom-0 left-0 w-full h-[35vh] bg-white border-t shadow-lg flex flex-col justify-between z-50">
+      {/* === 認識結果表示 === */}
       <div className="text-center mt-1 text-base font-mono">
         {recognizing ? (
           <span className="text-gray-500 animate-pulse">🔍 認識中...</span>
@@ -247,7 +249,7 @@ function HandwritingPad({
         )}
       </div>
 
-      {/* === ✍️ 手書きパッド === */}
+      {/* === 手書きキャンバス === */}
       <div className="flex-1 flex justify-center items-center">
         <SignatureCanvas
           ref={sigCanvas}
@@ -260,12 +262,10 @@ function HandwritingPad({
             height: 150,
             className: "border rounded bg-white shadow-sm",
           }}
-          onBegin={() => (document.body.style.overflow = "hidden")}
-          onEnd={() => (document.body.style.overflow = "auto")}
         />
       </div>
 
-      {/* === 🔘 操作ボタン群 === */}
+      {/* === 操作ボタン群 === */}
       <div className="flex justify-around items-center py-1 border-t bg-gray-50 text-sm">
         <button
           onClick={clearCanvas}
@@ -286,7 +286,6 @@ function HandwritingPad({
             if (recognizedChar && onCharRecognized) {
               onCharRecognized(recognizedChar);
               clearCanvas();
-              setRecognizedChar("");
             } else {
               alert("まず認識してからアップしてください。");
             }
@@ -302,18 +301,28 @@ function HandwritingPad({
         >
           ␣ スペース
         </button>
+
         <button
           onClick={onClearAll}
           className="px-2 py-1 bg-red-400 text-white rounded hover:bg-red-500"
         >
           🧹 全消去
         </button>
+
         <button
           onClick={onSubmitAnswer}
           className="px-3 py-1 bg-[#4A6572] text-white rounded hover:bg-[#3F555F]"
         >
           ✅ 採点
         </button>
+      </div>
+
+      {/* === 現在の解答表示 === */}
+      <div className="text-center py-2 border-t bg-white font-mono text-base">
+        🧩 現在の解答：{" "}
+        <span className="font-bold text-[#4A6572]">
+          {currentAnswer || "(まだ入力なし)"}
+        </span>
       </div>
     </div>
   );
