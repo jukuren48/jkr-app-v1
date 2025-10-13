@@ -205,6 +205,7 @@ function HandwritingPad({
     if (!sigCanvas.current) return;
     setRecognizing(true);
     const dataURL = sigCanvas.current.getCanvas().toDataURL("image/png");
+
     try {
       let text = "";
       if (ocrEngine === "vision") {
@@ -229,7 +230,9 @@ function HandwritingPad({
         .toLowerCase()
         .replace(/[^a-z ]/g, "");
       setRecognizedChar(cleaned);
-      if (cleaned && onCharRecognized) onCharRecognized(cleaned);
+
+      // ❌ 自動アップはしない
+      // if (cleaned && onCharRecognized) onCharRecognized(cleaned);
     } catch (err) {
       console.error("OCR error:", err);
     }
@@ -278,6 +281,18 @@ function HandwritingPad({
           className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           {recognizing ? "認識中…" : "認識"}
+        </button>
+        <button
+          onClick={() => {
+            if (recognizedChar && onCharRecognized) {
+              onCharRecognized(recognizedChar);
+              clearCanvas(); // ✅ 次の文字を書く準備
+              setRecognizedChar(""); // ✅ 表示リセット
+            }
+          }}
+          className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+        >
+          ⬆ アップ
         </button>
         <button
           onClick={onSpace}
@@ -1794,7 +1809,7 @@ export default function EnglishTrapQuestions() {
 
                 {/* 🔹 選択肢ボタン */}
                 {currentQuestion.type === "multiple-choice" && (
-                  <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-40 grid grid-cols-2 gap-2">
+                  <div className="fixed bottom-20 left-0 w-full bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-40 grid grid-cols-2 gap-2">
                     {shuffledChoices.map((choice, index) => (
                       <button
                         key={index}
