@@ -177,39 +177,36 @@ function TTSButton({ text }) {
 }
 
 // ======== 手書き入力パッドコンポーネント ========
-function HandwritingPad({ ocrEngine, onCharRecognized, onSpace, onClearAll }) {
+function HandwritingPad({
+  ocrEngine,
+  onCharRecognized,
+  onSpace,
+  onClearAll,
+  onSubmitAnswer, // ✅ 採点ボタンの動作を受け取る
+  currentAnswer, // ✅ 現在の解答表示用
+}) {
   const sigCanvas = useRef(null);
   const [recognizing, setRecognizing] = useState(false);
   const [recognizedChar, setRecognizedChar] = useState("");
-  //const [ocrEngine, setOcrEngine] = useState("tesseract");
 
-  // 🧭 初期化（ズレ防止）
+  // === キャンバス初期化 ===
   useEffect(() => {
     const canvas = sigCanvas.current.getCanvas();
-    const width = canvas.offsetWidth;
-    const height = canvas.offsetHeight;
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
   }, []);
 
-  // 🧽 手書きパッドをクリア
   const clearCanvas = () => {
-    if (sigCanvas.current) {
-      sigCanvas.current.clear();
-      setRecognizedChar("");
-    }
+    sigCanvas.current.clear();
+    setRecognizedChar("");
   };
 
-  // ✍️ 文字認識（1文字）
   const recognizeChar = async () => {
     if (!sigCanvas.current) return;
     setRecognizing(true);
-
     const dataURL = sigCanvas.current.getCanvas().toDataURL("image/png");
-
     try {
       let text = "";
-
       if (ocrEngine === "vision") {
         const res = await fetch("/api/vision-ocr", {
           method: "POST",
@@ -218,18 +215,11 @@ function HandwritingPad({ ocrEngine, onCharRecognized, onSpace, onClearAll }) {
         });
         const json = await res.json();
         text = json?.text || "";
-        if (!text) {
-          console.log("Vision空 → fallback to Tesseract");
-          const {
-            data: { text: localText },
-          } = await Tesseract.recognize(dataURL, "eng");
-          text = localText;
-        }
       } else {
         const {
           data: { text: localText },
         } = await Tesseract.recognize(dataURL, "eng", {
-          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_WORD,
+          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
         });
         text = localText;
       }
@@ -239,83 +229,75 @@ function HandwritingPad({ ocrEngine, onCharRecognized, onSpace, onClearAll }) {
         .toLowerCase()
         .replace(/[^a-z ]/g, "");
       setRecognizedChar(cleaned);
-      //if (cleaned && onCharRecognized) onCharRecognized(cleaned);
+      if (cleaned && onCharRecognized) onCharRecognized(cleaned);
     } catch (err) {
       console.error("OCR error:", err);
-      alert("文字認識に失敗しました。もう一度書いてください。");
     }
-
     setRecognizing(false);
   };
 
-  const uploadChar = () => {
-    if (recognizedChar && onCharRecognized) {
-      onCharRecognized(recognizedChar);
-      clearCanvas(); // 次の文字を書く準備
-    }
-  };
-
   return (
-    <div className="mt-2 bg-white border rounded-lg shadow-md p-3 text-center">
-      <p className="text-sm text-gray-600 mb-1">
-        ✍️ 1文字ずつ書いて「アップ」してください
-      </p>
+    <div className="fixed bottom-0 left-0 w-full h-[33vh] bg-white border-t shadow-lg flex flex-col justify-between z-50">
+      {/* 🧾 上部：解答確認 */}
+      <div className="text-center text-base sm:text-lg font-mono mt-1">
+        🧾 現在の解答：
+        <span className="font-bold text-blue-600">
+          {currentAnswer || "(まだ書き込み中…)"}
+        </span>
+      </div>
 
-      <SignatureCanvas
-        ref={sigCanvas}
-        penColor="black"
-        minWidth={2}
-        maxWidth={3}
-        backgroundColor="#ffffff"
-        canvasProps={{
-          width: 480,
-          height: 300,
-          className: "border rounded mx-auto block bg-white shadow-sm",
-        }}
-        onBegin={() => (document.body.style.overflow = "hidden")}
-        onEnd={() => (document.body.style.overflow = "auto")}
-      />
+      {/* ✍️ 中央：手書きパッド */}
+      <div className="flex-1 flex justify-center items-center">
+        <SignatureCanvas
+          ref={sigCanvas}
+          penColor="black"
+          minWidth={2}
+          maxWidth={3}
+          backgroundColor="#ffffff"
+          canvasProps={{
+            width: 320,
+            height: 160,
+            className: "border rounded bg-white shadow-sm",
+          }}
+          onBegin={() => (document.body.style.overflow = "hidden")}
+          onEnd={() => (document.body.style.overflow = "auto")}
+        />
+      </div>
 
-      <div className="flex gap-2 mt-2 justify-center flex-wrap">
+      {/* 🔘 下部：操作ボタン群＋採点 */}
+      <div className="flex justify-around items-center py-1 border-t bg-gray-50 text-sm sm:text-base">
         <button
           onClick={clearCanvas}
-          className="px-3 py-1 bg-gray-300 rounded hover:bg-gray-400"
+          className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
         >
           🧽 クリア
         </button>
         <button
           onClick={recognizeChar}
           disabled={recognizing}
-          className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
-          {recognizing ? "認識中..." : "文字を認識"}
-        </button>
-        <button
-          onClick={uploadChar}
-          className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
-        >
-          ⬆ アップ
+          {recognizing ? "認識中…" : "認識"}
         </button>
         <button
           onClick={onSpace}
-          className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
+          className="px-2 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
         >
           ␣ スペース
         </button>
         <button
           onClick={onClearAll}
-          className="px-3 py-1 bg-red-400 text-white rounded hover:bg-red-500"
+          className="px-2 py-1 bg-red-400 text-white rounded hover:bg-red-500"
         >
           🧹 全消去
         </button>
+        <button
+          onClick={onSubmitAnswer}
+          className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 font-bold"
+        >
+          ✅ 採点
+        </button>
       </div>
-
-      <p className="text-lg font-mono text-center mt-3">
-        🧾 現在の認識結果:{" "}
-        <span className="font-bold text-blue-600">
-          {recognizedChar || "(まだ書き込み中…)"}
-        </span>
-      </p>
     </div>
   );
 }
@@ -629,41 +611,23 @@ export default function EnglishTrapQuestions() {
   }, []);
 
   const renderInputSection = () => (
-    <div className="flex flex-col gap-4 mt-4">
+    <div className="flex flex-col gap-2 mt-2 items-center">
+      {/* 🧩 解答欄（パッドで認識された文字が入る） */}
+      <p className="text-gray-700 text-lg font-mono mb-2">
+        🧾 現在の解答欄：
+        <span className="font-bold text-[#4A6572]">{inputAnswer}</span>
+      </p>
+
+      {/* ✍️ 手書き入力 or テキスト入力 */}
       {useHandwriting ? (
-        <div className="flex flex-col gap-2 items-center">
-          <HandwritingPad
-            ocrEngine={ocrEngine} // ✅ Vision/Tesseract 切り替え反映
-            onCharRecognized={(char) => setInputAnswer((prev) => prev + char)}
-            onSpace={() => setInputAnswer((prev) => prev + " ")}
-            onClearAll={() => setInputAnswer("")}
-          />
-
-          <label className="text-sm text-gray-700 cursor-pointer mt-2">
-            <input
-              type="checkbox"
-              checked={ocrEngine === "vision"}
-              onChange={() =>
-                setOcrEngine(ocrEngine === "vision" ? "tesseract" : "vision")
-              }
-              className="mr-1"
-            />
-            高精度OCR（Google Vision）を使う
-          </label>
-
-          <div className="mt-2 text-center">
-            <p className="text-gray-700 text-lg font-mono">
-              🧩 現在の解答欄:{" "}
-              <span className="font-bold text-[#4A6572]">{inputAnswer}</span>
-            </p>
-          </div>
-          <button
-            onClick={() => handleAnswer(inputAnswer)}
-            className="bg-[#4A6572] text-white rounded-full px-6 py-3 hover:bg-[#3F555F] transition shadow mt-2"
-          >
-            採点する
-          </button>
-        </div>
+        <HandwritingPad
+          ocrEngine={ocrEngine}
+          onCharRecognized={(char) => setInputAnswer((prev) => prev + char)}
+          onSpace={() => setInputAnswer((prev) => prev + " ")}
+          onClearAll={() => setInputAnswer("")}
+          onSubmitAnswer={() => handleAnswer(inputAnswer)} // ✅ 採点ボタンが機能する
+          currentAnswer={inputAnswer}
+        />
       ) : (
         <>
           <input
@@ -671,7 +635,7 @@ export default function EnglishTrapQuestions() {
             value={inputAnswer}
             onChange={(e) => setInputAnswer(e.target.value)}
             placeholder="ここに英語で入力"
-            className="border px-3 py-2 rounded w-full mb-4"
+            className="border px-3 py-2 rounded w-full mb-2"
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="none"
@@ -679,15 +643,38 @@ export default function EnglishTrapQuestions() {
           />
           <button
             onClick={() => handleAnswer(inputAnswer)}
-            className="bg-[#4A6572] text-white rounded-full px-6 py-3 hover:bg-[#3F555F] transition shadow"
+            className="bg-[#4A6572] text-white rounded-full px-6 py-2 hover:bg-[#3F555F] transition shadow mt-2"
           >
             採点する
           </button>
         </>
       )}
 
-      {/* モード切り替え */}
-      <div className="mt-2 flex justify-end">
+      {/* 🎯 採点ボタン（常に上側に表示） */}
+      <button
+        onClick={() => handleAnswer(inputAnswer)}
+        className="bg-[#4A6572] text-white rounded-full px-6 py-2 hover:bg-[#3F555F] transition shadow mt-2"
+      >
+        採点する
+      </button>
+
+      {/* 🧠 OCRモード切り替え */}
+      {useHandwriting && (
+        <label className="text-sm text-gray-700 cursor-pointer mt-1">
+          <input
+            type="checkbox"
+            checked={ocrEngine === "vision"}
+            onChange={() =>
+              setOcrEngine(ocrEngine === "vision" ? "tesseract" : "vision")
+            }
+            className="mr-1"
+          />
+          高精度OCR（Google Vision）を使う
+        </label>
+      )}
+
+      {/* 💡 入力方法切り替え */}
+      <div className="mt-2 flex justify-end w-full">
         <label className="text-sm text-gray-600 cursor-pointer">
           <input
             type="checkbox"
@@ -698,27 +685,6 @@ export default function EnglishTrapQuestions() {
           手書き入力を使う（記録されます）
         </label>
       </div>
-
-      {showWarning && (
-        <div className="text-red-600 font-bold mt-2">
-          ⚠ 候補入力は禁止です。1文字ずつ入力してください。
-        </div>
-      )}
-
-      {hintText && (
-        <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg p-4 mt-2 shadow">
-          <h3 className="text-[#4A6572] font-bold mb-2">ヒント</h3>
-          <p className="text-gray-800">{hintText}</p>
-        </div>
-      )}
-
-      <button
-        onClick={() => playButtonSound(() => handleShowHint())}
-        disabled={hintLevel >= 3}
-        className="bg-[#A7D5C0] text-[#4A6572] rounded-full px-4 py-2 shadow hover:bg-[#92C8B2] transition"
-      >
-        {hintLevel < 3 ? "ヒントを見る" : "これ以上ヒントはありません"}
-      </button>
     </div>
   );
 
@@ -1464,22 +1430,26 @@ export default function EnglishTrapQuestions() {
             <span className="text-gray-700 font-bold">
               {userName ? `${userName} さん` : "ゲスト"}
             </span>
-            <button
-              onClick={() => {
-                const name = prompt("新しい名前を入力してください");
-                if (name && name.trim() !== "") {
-                  handleSetUserName(name.trim());
-                  localStorage.setItem("userName", name.trim());
-                }
-              }}
-              className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
-            >
-              ユーザー変更
-            </button>
+            {!showQuestions && !showResult && (
+              <button
+                onClick={() => {
+                  const name = prompt("新しい名前を入力してください");
+                  if (name && name.trim() !== "") {
+                    handleSetUserName(name.trim());
+                    localStorage.setItem("userName", name.trim());
+                  }
+                }}
+                className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
+              >
+                ユーザー変更
+              </button>
+            )}
           </div>
-          <h1 className="text-2xl font-bold">
-            英語ひっかけ問題 ～塾長からの挑戦状～
-          </h1>
+          {!showQuestions && !showResult && (
+            <h1 className="text-2xl font-bold">
+              英語ひっかけ問題 ～塾長からの挑戦状～
+            </h1>
+          )}
           <button
             onClick={() => playButtonSound(() => setShowQuestionModal(true))}
             className="bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-4 py-2 rounded-full shadow transition"
@@ -1824,12 +1794,12 @@ export default function EnglishTrapQuestions() {
 
                 {/* 🔹 選択肢ボタン */}
                 {currentQuestion.type === "multiple-choice" && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                  <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-40 grid grid-cols-2 gap-2">
                     {shuffledChoices.map((choice, index) => (
                       <button
                         key={index}
                         onClick={() => handleAnswer(choice)}
-                        className="bg-white border border-[#E0E0E0] rounded-lg px-3 py-2 hover:bg-[#A7D5C0] text-[#4A6572] transition shadow-sm text-sm sm:text-base"
+                        className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
                       >
                         {choice}
                       </button>
