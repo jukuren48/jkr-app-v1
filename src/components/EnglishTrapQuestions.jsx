@@ -208,6 +208,7 @@ function HandwritingPad({
 
     try {
       let text = "";
+
       if (ocrEngine === "vision") {
         const res = await fetch("/api/vision-ocr", {
           method: "POST",
@@ -225,16 +226,20 @@ function HandwritingPad({
         text = localText;
       }
 
+      // 🟢 正しく結果をセット（表示のため）
       const cleaned = (text || "")
         .trim()
         .toLowerCase()
         .replace(/[^a-z ]/g, "");
       setRecognizedChar(cleaned);
 
-      // ❌ 自動アップはしない
+      // ❌ 自動アップはここではしない
       // if (cleaned && onCharRecognized) onCharRecognized(cleaned);
+
+      console.log("[OCR認識結果]", cleaned);
     } catch (err) {
       console.error("OCR error:", err);
+      alert("文字認識に失敗しました。もう一度書いてください。");
     }
     setRecognizing(false);
   };
@@ -286,8 +291,10 @@ function HandwritingPad({
           onClick={() => {
             if (recognizedChar && onCharRecognized) {
               onCharRecognized(recognizedChar);
-              clearCanvas(); // ✅ 次の文字を書く準備
-              setRecognizedChar(""); // ✅ 表示リセット
+              clearCanvas();
+              setRecognizedChar(""); // ← 表示リセット
+            } else {
+              alert("文字を認識してからアップしてください。");
             }
           }}
           className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
