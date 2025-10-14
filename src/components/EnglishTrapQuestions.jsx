@@ -188,6 +188,24 @@ function HandwritingPad({
   const sigCanvas = useRef(null);
   const [recognizing, setRecognizing] = useState(false);
   const [recognizedChar, setRecognizedChar] = useState("");
+  // 🪶 手書き履歴（各線の配列）
+  const [strokes, setStrokes] = useState([]);
+
+  // 🧭 書くたびに履歴を更新
+  const handleEndStroke = () => {
+    if (sigCanvas.current) {
+      const data = sigCanvas.current.toData();
+      setStrokes(data);
+    }
+  };
+
+  // ⌫ バックスペース（最後の線を削除）
+  const handleUndoLastStroke = () => {
+    if (!sigCanvas.current || strokes.length === 0) return;
+    const newData = strokes.slice(0, -1); // 最後の線を削除
+    sigCanvas.current.fromData(newData);
+    setStrokes(newData);
+  };
 
   const clearCanvas = () => {
     if (sigCanvas.current && sigCanvas.current.clear) {
@@ -270,6 +288,7 @@ function HandwritingPad({
             height: 150,
             className: "border rounded bg-white shadow-sm",
           }}
+          onEnd={handleEndStroke}
         />
       </div>
 
@@ -280,6 +299,12 @@ function HandwritingPad({
           className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
         >
           🧽 クリア
+        </button>
+        <button
+          onClick={handleUndoLastStroke}
+          className="px-2 py-1 bg-orange-400 text-white rounded hover:bg-orange-500"
+        >
+          ⌫ 一つ戻す
         </button>
         <button
           onClick={recognizeChar}
