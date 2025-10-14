@@ -276,7 +276,7 @@ function HandwritingPad({
       </div>
 
       {/* === 手書きキャンバス === */}
-      <div className="flex-1 flex justify-center items-center">
+      <div className="flex-1 flex justify-center items-center pb-16 sm:pb-4">
         <SignatureCanvas
           ref={sigCanvas}
           penColor="black"
@@ -285,27 +285,33 @@ function HandwritingPad({
           backgroundColor="#ffffff"
           canvasProps={{
             width: 320,
-            height: 150,
-            className: "border rounded bg-white shadow-sm",
+            height: 130, // スマホで見切れないように高さ控えめ
+            className: "border rounded mx-auto block bg-white shadow-sm",
           }}
           onEnd={handleEndStroke}
         />
       </div>
 
-      {/* === 操作ボタン群 === */}
-      <div className="flex justify-around items-center py-1 border-t bg-gray-50 text-sm">
+      {/* === 操作ボタン群（下部固定＋安全余白付き） === */}
+      <div
+        className="fixed bottom-0 left-0 right-0 flex justify-around items-center 
+             py-2 bg-gray-50 border-t shadow-lg text-sm 
+             pb-[env(safe-area-inset-bottom,24px)] z-50"
+      >
         <button
           onClick={clearCanvas}
           className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
         >
           🧽 クリア
         </button>
+
         <button
           onClick={handleUndoLastStroke}
           className="px-2 py-1 bg-orange-400 text-white rounded hover:bg-orange-500"
         >
           ⌫ 一つ戻す
         </button>
+
         <button
           onClick={recognizeChar}
           disabled={recognizing}
