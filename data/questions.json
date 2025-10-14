@@ -4060,5 +4060,155 @@
     "explanation": "「最後に」は英語で lastly です。",
     "incorrectExplanations": {},
     "type": "input"
+  },
+  {
+    "id": "e07882a8-0115-475a-ac1d-f76746632df0",
+    "unit": "単語テスト２L5-2",
+    "question": "「行われる、起こる」を英語で書きなさい。",
+    "choices": [],
+    "correct": "take place",
+    "explanation": "「行われる、起こる」は英語で take place です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "c4b52848-a7a2-4d46-b84d-67c30c81b73c",
+    "unit": "単語テスト２L5-2",
+    "question": "「前日、前夜」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eve",
+    "explanation": "「前日、前夜」は英語で eve です。例：Christmas Eve（クリスマスイブ）。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "2b160b21-8854-4d76-87ee-fd3411232505",
+    "unit": "単語テスト２L5-2",
+    "question": "「アイルランド」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Ireland",
+    "explanation": "「アイルランド」は英語で Ireland です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9f637bfe-00a3-495e-b5b0-4ed595600c4d",
+    "unit": "単語テスト２L5-2",
+    "question": "「アイルランドの」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Irish",
+    "explanation": "「アイルランドの」は英語で Irish です。例：Irish music（アイルランドの音楽）。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "c816366e-0c04-48dd-90ce-0d1aef6353ea",
+    "unit": "単語テスト２L5-2",
+    "question": "「霊、精霊」を英語で書きなさい。",
+    "choices": [],
+    "correct": "spirit",
+    "explanation": "「霊、精霊」は英語で spirit です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "ab69b861-4908-4869-8596-3749576ad94c",
+    "unit": "単語テスト２L5-2",
+    "question": "「死んでいる」を英語で書きなさい。",
+    "choices": [],
+    "correct": "dead",
+    "explanation": "「死んでいる」は英語で dead です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "695670f4-e9f1-4cea-a5ca-011c521f874f",
+    "unit": "単語テスト２L5-2",
+    "question": "「邪悪な」を英語で書きなさい。",
+    "choices": [],
+    "correct": "evil",
+    "explanation": "「邪悪な」は英語で evil です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9c501dce-4af3-42b2-8653-2e4dc1a5a9c3",
+    "unit": "単語テスト２L5-2",
+    "question": "「それゆえに、その結果」を英語で書きなさい。",
+    "choices": [],
+    "correct": "therefore",
+    "explanation": "「それゆえに、その結果」は英語で therefore です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "5a00e8a6-7f66-411d-abc8-aaddd41a2e99",
+    "unit": "単語テスト２L5-2",
+    "question": "「怖い、恐ろしい」を英語で書きなさい。",
+    "choices": [],
+    "correct": "scary",
+    "explanation": "「怖い、恐ろしい」は英語で scary です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "8cdb98e0-d2fa-477a-868e-525e2e5dc4fd",
+    "unit": "単語テスト２L5-2",
+    "question": "「カブ」を英語で書きなさい。",
+    "choices": [],
+    "correct": "turnip",
+    "explanation": "「カブ」は英語で turnip です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "5da95fec-0811-4d68-af1b-818ca76fcbc3",
+    "unit": "単語テスト２L5-2",
+    "question": "「ちょうちん」を英語で書きなさい。",
+    "choices": [],
+    "correct": "lantern",
+    "explanation": "「ちょうちん」は英語で lantern です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "4fbaafa2-1f91-4cd6-bed1-de89f72229c6",
+    "unit": "単語テスト２L5-2",
+    "question": "「～を遠ざける」を英語で書きなさい。",
+    "choices": [],
+    "correct": "keep away",
+    "explanation": "「～を遠ざける」は英語で keep away です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "4352ccd3-def0-4af9-ab95-6c040e31f501",
+    "unit": "単語テスト２L5-2",
+    "question": "「歴史」を英語で書きなさい。",
+    "choices": [],
+    "correct": "history",
+    "explanation": "「歴史」は英語で history です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "3ca1097d-04a3-46ff-a8b3-9191b3e812b3",
+    "unit": "単語テスト２L5-2",
+    "question": "「パーティー」を英語で書きなさい。",
+    "choices": [],
+    "correct": "party",
+    "explanation": "「パーティー」は英語で party です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "f2f54b64-431b-493a-8daf-5c1aeda24481",
+    "unit": "単語テスト２L5-2",
+    "question": "「小説」を英語で書きなさい。",
+    "choices": [],
+    "correct": "novel",
+    "explanation": "「小説」は英語で novel です。",
+    "incorrectExplanations": {},
+    "type": "input"
   }
 ]
