@@ -586,6 +586,13 @@ export default function EnglishTrapQuestions() {
 
   const startedRef = useRef(false);
 
+  // 🧭 問題画面が表示された瞬間にトップへスクロール
+  useEffect(() => {
+    if (showQuestions && !showResult) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [showQuestions, showResult]);
+
   useEffect(() => {
     localStorage.setItem("useHandwriting", JSON.stringify(useHandwriting));
   }, [useHandwriting]);
@@ -1291,6 +1298,7 @@ export default function EnglishTrapQuestions() {
   };
 
   const handleNext = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setCharacterMood("neutral");
 
     if (isCorrect) {
