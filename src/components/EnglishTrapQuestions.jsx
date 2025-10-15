@@ -295,8 +295,10 @@ function HandwritingPad({
       {/* === 操作ボタン群（下部固定＋安全余白付き） === */}
       <div
         className="fixed bottom-0 left-0 right-0 flex justify-around items-center 
-             py-2 bg-gray-50 border-t shadow-lg text-sm 
-             pb-[env(safe-area-inset-bottom,24px)] z-50"
+             py-3 bg-gray-50 border-t shadow-lg text-sm 
+             pb-[calc(env(safe-area-inset-bottom,0px)+32px)] 
+             sm:pb-[calc(env(safe-area-inset-bottom,0px)+16px)] 
+             z-50"
       >
         <button
           onClick={clearCanvas}
