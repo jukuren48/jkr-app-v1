@@ -476,6 +476,8 @@ export default function EnglishTrapQuestions() {
   const [inputHistory, setInputHistory] = useState([]);
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
+  const [reviewList, setReviewList] = useState([]); // 「覚え直す」対象を保存
+  const [showAnswerTemporarily, setShowAnswerTemporarily] = useState(false);
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
@@ -1338,11 +1340,27 @@ export default function EnglishTrapQuestions() {
       if (currentIndex + 1 < filteredQuestions.length) {
         setCurrentIndex(currentIndex + 1);
       } else {
+        // ✅ 全問終了：復習リストがある場合は再出題へ
+        if (reviewList.length > 0) {
+          alert("📘 復習問題をもう一度出すよ！");
+          setQuestions(reviewList); // ← 出題リストを復習問題に差し替え
+          setCurrentIndex(0); // ← 最初の問題に戻る
+          setReviewList([]); // ← 復習リストをクリア
+          setShowFeedback(false);
+          setShowQuestions(true);
+          setShowResult(false);
+          setTimerActive(true);
+          setTimeLeft(10); // ← タイマーをリセット（必要に応じて）
+          return; // ✅ 結果画面に行かずここで止める
+        }
+
+        // ✅ 復習リストが無ければ通常通り終了
         setShowQuestions(false);
         setShowResult(true);
         setTimerActive(false);
         setTimeLeft(0);
       }
+
       setShowFeedback(false); // ← 正解時もリセットが必要
     } else {
       // ❌ 不正解なら同じ問題をもう一度
@@ -1771,6 +1789,19 @@ export default function EnglishTrapQuestions() {
               </motion.div>
 
               <button
+                onClick={() => {
+                  setReviewList((prev) => [
+                    ...prev,
+                    filteredQuestions[currentIndex],
+                  ]);
+                  alert("📘 この問題を覚え直しリストに追加しました！");
+                }}
+                className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow"
+              >
+                🔁 覚え直す
+              </button>
+
+              <button
                 onClick={() => playButtonSound(() => handleAddToQuestionList())}
                 className="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
               >
@@ -1857,6 +1888,25 @@ export default function EnglishTrapQuestions() {
                       currentQuestion.question}
                   </h2>
                 </div>
+
+                <button
+                  onClick={() => {
+                    // ✅ 答えを一時的に表示
+                    setShowAnswerTemporarily(true);
+
+                    // ✅ この問題を reviewList に追加
+                    setReviewList((prev) => [...prev, currentQuestion]);
+
+                    // ✅ 2秒後に答えを伏せて再出題
+                    setTimeout(() => {
+                      setShowAnswerTemporarily(false);
+                      setCurrentIndex(currentIndex); // 同じ問題を再出題
+                    }, 2000);
+                  }}
+                  className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
+                >
+                  🔁 覚え直す
+                </button>
 
                 {/* 💡 ヒントボタン（手書きパッドより上に重ねる） */}
                 {/* 問題文の下に配置する例 */}
