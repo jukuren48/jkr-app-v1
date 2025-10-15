@@ -1858,6 +1858,21 @@ export default function EnglishTrapQuestions() {
                   </h2>
                 </div>
 
+                {/* 💡 ヒントボタン（手書きパッドより上に重ねる） */}
+                <button
+                  onClick={handleShowHint}
+                  className="fixed bottom-28 right-4 bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-4 py-2 rounded-full shadow-lg z-[999]"
+                >
+                  💡 ヒント
+                </button>
+
+                {/* ヒントテキストの表示（もしすでに無ければ追加） */}
+                {hintText && (
+                  <div className="mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded-lg shadow text-gray-800 text-center">
+                    {hintText}
+                  </div>
+                )}
+
                 {/* 🔹 選択肢ボタン */}
                 {currentQuestion.type === "multiple-choice" && (
                   <div className="fixed bottom-20 left-0 w-full bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-40 grid grid-cols-2 gap-2">
