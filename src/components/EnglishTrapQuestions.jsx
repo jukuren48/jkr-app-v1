@@ -1859,12 +1859,15 @@ export default function EnglishTrapQuestions() {
                 </div>
 
                 {/* 💡 ヒントボタン（手書きパッドより上に重ねる） */}
-                <button
-                  onClick={handleShowHint}
-                  className="fixed bottom-28 right-4 bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-4 py-2 rounded-full shadow-lg z-[999]"
-                >
-                  💡 ヒント
-                </button>
+                {/* 問題文の下に配置する例 */}
+                <div className="text-center mt-2 mb-4">
+                  <button
+                    onClick={handleShowHint}
+                    className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-4 py-2 rounded-full shadow"
+                  >
+                    💡 ヒント
+                  </button>
+                </div>
 
                 {/* ヒントテキストの表示（もしすでに無ければ追加） */}
                 {hintText && (
