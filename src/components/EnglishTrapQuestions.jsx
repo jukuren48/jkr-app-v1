@@ -234,8 +234,8 @@ function HandwritingPad({
       } else {
         const {
           data: { text: localText },
-        } = await Tesseract.recognize(dataURL, "eng", {
-          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
+        } = await Tesseract.recognize(dataURL, "eng+jpn", {
+          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_LINE,
         });
         text = localText;
       }
