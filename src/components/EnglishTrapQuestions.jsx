@@ -284,9 +284,10 @@ function HandwritingPad({
           maxWidth={3}
           backgroundColor="#ffffff"
           canvasProps={{
-            width: 320,
-            height: 130, // スマホで見切れないように高さ控えめ
-            className: "border rounded mx-auto block bg-white shadow-sm",
+            width: 360, // ← 横幅＋40px（指の動きに余裕）
+            height: 160, // ← 縦も少し拡大
+            className:
+              "border rounded mx-auto block bg-white shadow-sm max-w-[90vw]",
           }}
           onEnd={handleEndStroke}
         />
