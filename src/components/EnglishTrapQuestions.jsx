@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import SignatureCanvas from "react-signature-canvas";
 import Tesseract from "tesseract.js";
+import HandwritingPad from "./HandwritingPad";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
@@ -2034,27 +2035,16 @@ export default function EnglishTrapQuestions() {
                     : testWord.meaning}
                 </p>
 
-                <input
-                  type="text"
-                  value={answer}
-                  onChange={handleTestInputChange}
-                  placeholder={
-                    round === 2 ? "英語で答えを入力" : "日本語で答えを入力"
+                {/* === 手書き入力欄 === */}
+                <HandwritingPad
+                  ocrEngine="vision" // もしくは "tesseract"
+                  currentAnswer={answer}
+                  onCharRecognized={(char) =>
+                    setAnswer((prev) => (prev + char).trim())
                   }
-                  className="border px-3 py-2 rounded w-full mb-4"
-                  autoComplete="off"
-                  autoCorrect="off"
-                  spellCheck={false}
-                />
-
-                {showWarningTest && (
-                  <div className="text-red-600 font-bold mt-2">
-                    ⚠ 候補入力は禁止です。1文字ずつ入力してください。
-                  </div>
-                )}
-
-                <button
-                  onClick={() => {
+                  onSpace={() => setAnswer((prev) => prev + " ")}
+                  onClearAll={() => setAnswer("")}
+                  onSubmitAnswer={() => {
                     // ✅ 正答と入力値を正規化して比較
                     const correctAnswer =
                       round === 1
@@ -2121,10 +2111,15 @@ export default function EnglishTrapQuestions() {
                     }
                     setAnswer("");
                   }}
-                  className="bg-purple-400 hover:bg-purple-500 text-white px-4 py-2 rounded-full shadow"
-                >
-                  答える
-                </button>
+                />
+
+                {/* === 現在の入力を上部に表示（視覚的フィードバック） === */}
+                <div className="text-center mt-4 text-lg">
+                  🧩 現在の解答：{" "}
+                  <span className="font-bold text-blue-700">
+                    {answer || "(まだ入力なし)"}
+                  </span>
+                </div>
               </div>
             ) : (
               // ===== 単語一覧 =====
