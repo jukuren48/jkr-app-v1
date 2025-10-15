@@ -287,7 +287,7 @@ function HandwritingPad({
             width: 360, // ← 横幅＋40px（指の動きに余裕）
             height: 160, // ← 縦も少し拡大
             className:
-              "border rounded mx-auto block bg-white shadow-sm max-w-[90vw]",
+              "border-2 border-gray-300 rounded-xl mx-auto block bg-gradient-to-b from-white to-gray-50 shadow-md max-w-[90vw]",
           }}
           onEnd={handleEndStroke}
         />
