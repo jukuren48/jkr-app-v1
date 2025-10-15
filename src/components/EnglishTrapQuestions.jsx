@@ -478,6 +478,7 @@ export default function EnglishTrapQuestions() {
   const [wordMeaning, setWordMeaning] = useState("");
   const [reviewList, setReviewList] = useState([]); // 「覚え直す」対象を保存
   const [showAnswerTemporarily, setShowAnswerTemporarily] = useState(false);
+  const [temporaryAnswer, setTemporaryAnswer] = useState("");
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
@@ -1788,15 +1789,32 @@ export default function EnglishTrapQuestions() {
                 </button>
               </motion.div>
 
+              {/* 🔁 覚え直すボタン */}
               <button
                 onClick={() => {
-                  setReviewList((prev) => [
-                    ...prev,
-                    filteredQuestions[currentIndex],
-                  ]);
-                  alert("📘 この問題を覚え直しリストに追加しました！");
+                  const current = filteredQuestions[currentIndex];
+
+                  // ✅ 正答を2秒間だけ表示
+                  setTemporaryAnswer(
+                    current.correct ?? current.correctAnswer ?? ""
+                  );
+                  setShowAnswerTemporarily(true);
+
+                  // ✅ この問題を覚え直しリストに追加
+                  setReviewList((prev) => {
+                    if (prev.find((q) => q.id === current.id)) return prev; // 重複防止
+                    return [...prev, current];
+                  });
+
+                  // ✅ 2秒後に答えを伏せて再出題
+                  setTimeout(() => {
+                    setShowAnswerTemporarily(false);
+                    setTemporaryAnswer("");
+                    setShowFeedback(false);
+                    setTimerActive(true);
+                  }, 2000);
                 }}
-                className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow"
+                className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
               >
                 🔁 覚え直す
               </button>
@@ -1888,6 +1906,13 @@ export default function EnglishTrapQuestions() {
                       currentQuestion.question}
                   </h2>
                 </div>
+
+                {/* ✅ 覚え直し時に一時的に答えを表示 */}
+                {showAnswerTemporarily && (
+                  <div className="text-center text-lg font-bold text-blue-600 my-4">
+                    ✅ 答え：{temporaryAnswer}
+                  </div>
+                )}
 
                 <button
                   onClick={() => {
