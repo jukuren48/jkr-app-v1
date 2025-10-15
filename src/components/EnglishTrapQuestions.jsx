@@ -235,15 +235,12 @@ function HandwritingPad({
         const {
           data: { text: localText },
         } = await Tesseract.recognize(dataURL, "eng+jpn", {
-          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_LINE,
+          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
         });
         text = localText;
       }
 
-      const cleaned = (text || "")
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z ]/g, "");
+      const cleaned = (text || "").trim().replace(/[\u0000-\u001F]/g, ""); // 制御文字だけ除去（日本語は残す）
       setRecognizedChar(cleaned);
       console.log("[OCR認識結果]", cleaned);
     } catch (err) {
