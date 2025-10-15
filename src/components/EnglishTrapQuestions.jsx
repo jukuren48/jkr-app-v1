@@ -477,6 +477,8 @@ export default function EnglishTrapQuestions() {
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
   const [reviewList, setReviewList] = useState([]); // 「覚え直す」対象を保存
+  // ✅ 覚え直し（復習）中フラグ
+  const [reviewing, setReviewing] = useState(false);
   const [showAnswerTemporarily, setShowAnswerTemporarily] = useState(false);
   const [temporaryAnswer, setTemporaryAnswer] = useState("");
   const [hintLevel, setHintLevel] = useState(0);
@@ -1262,64 +1264,68 @@ export default function EnglishTrapQuestions() {
 
     const unit = currentQuestion.unit;
 
-    // ✅ 正答・誤答どちらでも「出題数 total」を加算
-    setUnitStats((prev) => {
-      const prevStat = prev[unit] || { wrong: 0, total: 0 };
-      return {
-        ...prev,
-        [unit]: {
-          ...prevStat,
-          total: prevStat.total + 1, // ← 出題回数を加算
-        },
-      };
-    });
+    // ✅ 覚え直しモードではスコア集計をスキップ
+    if (!reviewing) {
+      // ✅ 正答・誤答どちらでも「出題数 total」を加算
+      setUnitStats((prev) => {
+        const prevStat = prev[unit] || { wrong: 0, total: 0 };
+        return {
+          ...prev,
+          [unit]: {
+            ...prevStat,
+            total: prevStat.total + 1,
+          },
+        };
+      });
+    }
 
     if (isCorrectAnswer) {
       setCharacterMood("happy");
       if (soundEnabled) playSFX("/sounds/correct.mp3");
 
-      // ✅ 連続正解カウント
-      setStreak((prev) => prev + 1);
+      if (!reviewing) {
+        // ✅ 覚え直し中は連続正解やスコア更新もしない
+        setStreak((prev) => prev + 1);
 
-      // ✅ メッセージをテンションで変化
-      if (streak + 1 >= 20) {
-        setAddMessage("🎉 20連続正解達成！すごすぎる！！");
-      } else if (streak + 1 >= 15) {
-        setAddMessage("🔥 15連続正解！神ってる！！");
-      } else if (streak + 1 >= 10) {
-        setAddMessage("✨ 10連続正解！その調子！");
-      } else if (streak + 1 >= 5) {
-        setAddMessage("👍 5連続正解！いいぞ！");
-      } else {
-        setAddMessage("");
+        if (streak + 1 >= 20) {
+          setAddMessage("🎉 20連続正解達成！すごすぎる！！");
+        } else if (streak + 1 >= 15) {
+          setAddMessage("🔥 15連続正解！神ってる！！");
+        } else if (streak + 1 >= 10) {
+          setAddMessage("✨ 10連続正解！その調子！");
+        } else if (streak + 1 >= 5) {
+          setAddMessage("👍 5連続正解！いいぞ！");
+        } else {
+          setAddMessage("");
+        }
       }
     } else {
       setCharacterMood("sad");
       if (soundEnabled) playSFX("/sounds/wrong.mp3");
 
-      // ❌ 間違えたら連続正解リセット
-      setStreak(0);
-      setAddMessage("😅 もう一度がんばろう！");
+      if (!reviewing) {
+        setStreak(0);
+        setAddMessage("😅 もう一度がんばろう！");
 
-      // ✅ 初回ミスのみ wrong カウント
-      if (!mistakes[currentQuestion.id]) {
-        setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
-        setFirstMistakeAnswers((prev) => ({
-          ...prev,
-          [currentQuestion.id]: answer,
-        }));
-
-        setUnitStats((prev) => {
-          const prevStat = prev[unit] || { wrong: 0, total: 0 };
-          return {
+        if (!mistakes[currentQuestion.id]) {
+          setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
+          setFirstMistakeAnswers((prev) => ({
             ...prev,
-            [unit]: {
-              ...prevStat,
-              wrong: prevStat.wrong + 1,
-              total: prevStat.total + 1, // ✅ 忘れずに total も更新
-            },
-          };
-        });
+            [currentQuestion.id]: answer,
+          }));
+
+          setUnitStats((prev) => {
+            const prevStat = prev[unit] || { wrong: 0, total: 0 };
+            return {
+              ...prev,
+              [unit]: {
+                ...prevStat,
+                wrong: prevStat.wrong + 1,
+                total: prevStat.total + 1,
+              },
+            };
+          });
+        }
       }
     }
 
@@ -1932,6 +1938,8 @@ export default function EnglishTrapQuestions() {
                       ? raw.join(" / ")
                       : raw;
 
+                    setReviewing(true); // ← 覚え直し中モードに切り替え
+
                     // ✅ 正答を2秒間だけ表示
                     setTemporaryAnswer(correctText);
                     setShowAnswerTemporarily(true);
@@ -1948,6 +1956,7 @@ export default function EnglishTrapQuestions() {
                       setTemporaryAnswer("");
                       setShowFeedback(false);
                       setTimerActive(true);
+                      setReviewing(false); // ← 再出題完了後に解除
                     }, 2000);
                   }}
                   className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
