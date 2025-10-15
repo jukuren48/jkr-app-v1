@@ -1796,7 +1796,9 @@ export default function EnglishTrapQuestions() {
 
                   // ✅ 正答を2秒間だけ表示
                   setTemporaryAnswer(
-                    current.correct ?? current.correctAnswer ?? ""
+                    Array.isArray(current.correct)
+                      ? current.correct.join(" / ")
+                      : current.correct ?? current.correctAnswer ?? ""
                   );
                   setShowAnswerTemporarily(true);
 
@@ -1916,16 +1918,36 @@ export default function EnglishTrapQuestions() {
 
                 <button
                   onClick={() => {
-                    // ✅ 答えを一時的に表示
+                    const current = filteredQuestions[currentIndex];
+
+                    // ✅ あらゆる形式の正答データを拾う
+                    const raw = Array.isArray(current.correct)
+                      ? current.correct
+                      : Array.isArray(current.correctAnswers)
+                      ? current.correctAnswers
+                      : current.correctAnswer ?? current.correct ?? "";
+
+                    // ✅ 配列なら / でつなぐ
+                    const correctText = Array.isArray(raw)
+                      ? raw.join(" / ")
+                      : raw;
+
+                    // ✅ 正答を2秒間だけ表示
+                    setTemporaryAnswer(correctText);
                     setShowAnswerTemporarily(true);
 
-                    // ✅ この問題を reviewList に追加
-                    setReviewList((prev) => [...prev, currentQuestion]);
+                    // ✅ この問題を復習リストに追加（重複防止）
+                    setReviewList((prev) => {
+                      if (prev.find((q) => q.id === current.id)) return prev;
+                      return [...prev, current];
+                    });
 
                     // ✅ 2秒後に答えを伏せて再出題
                     setTimeout(() => {
                       setShowAnswerTemporarily(false);
-                      setCurrentIndex(currentIndex); // 同じ問題を再出題
+                      setTemporaryAnswer("");
+                      setShowFeedback(false);
+                      setTimerActive(true);
                     }, 2000);
                   }}
                   className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
