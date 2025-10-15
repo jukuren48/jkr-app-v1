@@ -3,7 +3,7 @@ import { useEffect, useState, useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import SignatureCanvas from "react-signature-canvas";
 import Tesseract from "tesseract.js";
-import HandwritingPad from "./HandwritingPad";
+//import HandwritingPad from "./HandwritingPad";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
