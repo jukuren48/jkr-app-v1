@@ -1800,6 +1800,8 @@ export default function EnglishTrapQuestions() {
                 onClick={() => {
                   const current = filteredQuestions[currentIndex];
 
+                  setReviewing(true); // ← 覚え直し中モードに切り替え
+
                   // ✅ 正答を2秒間だけ表示
                   setTemporaryAnswer(
                     Array.isArray(current.correct)
@@ -1820,6 +1822,7 @@ export default function EnglishTrapQuestions() {
                     setTemporaryAnswer("");
                     setShowFeedback(false);
                     setTimerActive(true);
+                    setReviewing(false); // ← 再出題完了後に解除
                   }, 2000);
                 }}
                 className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
