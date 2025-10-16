@@ -479,6 +479,7 @@ export default function EnglishTrapQuestions() {
   const [reviewList, setReviewList] = useState([]); // 「覚え直す」対象を保存
   // ✅ 覚え直し（復習）中フラグ
   const [reviewing, setReviewing] = useState(false);
+  const [reviewMistakes, setReviewMistakes] = useState([]);
   const [showAnswerTemporarily, setShowAnswerTemporarily] = useState(false);
   const [temporaryAnswer, setTemporaryAnswer] = useState("");
   const [hintLevel, setHintLevel] = useState(0);
@@ -1920,8 +1921,10 @@ export default function EnglishTrapQuestions() {
 
                 {/* ✅ 覚え直し時に一時的に答えを表示 */}
                 {showAnswerTemporarily && (
-                  <div className="text-center text-lg font-bold text-blue-600 my-4">
-                    ✅ 答え：{temporaryAnswer}
+                  <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[2000]">
+                    <p className="text-white text-4xl sm:text-6xl font-extrabold text-center px-4 break-words leading-snug">
+                      ✅ {temporaryAnswer}
+                    </p>
                   </div>
                 )}
 
@@ -1941,14 +1944,28 @@ export default function EnglishTrapQuestions() {
                       ? raw.join(" / ")
                       : raw;
 
-                    setReviewing(true); // ← 覚え直し中モードに切り替え
+                    // ✅ 覚え直し中モードON
+                    setReviewing(true);
 
-                    // ✅ 正答を2秒間だけ表示
+                    // ✅ 答えを全画面表示
                     setTemporaryAnswer(correctText);
                     setShowAnswerTemporarily(true);
 
-                    // ✅ この問題を復習リストに追加（重複防止）
+                    // ✅ 不正解扱いとしてカウント＆記録
+                    if (!mistakes[current.id]) {
+                      setMistakes((prev) => ({ ...prev, [current.id]: true }));
+                      setFirstMistakeAnswers((prev) => ({
+                        ...prev,
+                        [current.id]: "(覚え直し選択)",
+                      }));
+                    }
+
+                    // ✅ 復習・覚え直しリスト両方に登録（重複防止）
                     setReviewList((prev) => {
+                      if (prev.find((q) => q.id === current.id)) return prev;
+                      return [...prev, current];
+                    });
+                    setReviewMistakes((prev) => {
                       if (prev.find((q) => q.id === current.id)) return prev;
                       return [...prev, current];
                     });
@@ -2086,6 +2103,30 @@ export default function EnglishTrapQuestions() {
                   </p>
                 </div>
               ))}
+            </div>
+          )}
+
+          {reviewMistakes.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-lg font-bold text-orange-600 mb-2">
+                🔁 覚え直しリスト
+              </h3>
+              <ul className="space-y-3">
+                {reviewMistakes.map((q) => (
+                  <li
+                    key={q.id}
+                    className="bg-orange-50 border border-orange-200 p-3 rounded-lg shadow-sm"
+                  >
+                    <p className="font-semibold">{q.question}</p>
+                    <p className="text-gray-700">
+                      ✅ 正答：
+                      {Array.isArray(q.correct)
+                        ? q.correct.join(" / ")
+                        : q.correct ?? q.correctAnswer ?? ""}
+                    </p>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
