@@ -1495,40 +1495,46 @@ export default function EnglishTrapQuestions() {
   };
 
   // ========== UI ==========
-  // ✅ 安全ガード付き覚え直しID取得
+  // ✅ reviewMistakes が存在しないケースでも安全
   const reviewIds = new Set(
     Array.isArray(reviewMistakes) ? reviewMistakes.map((q) => q.id) : []
   );
 
-  // ✅ 覚え直し以外の問題を抽出
-  const effectiveQuestions = Array.isArray(filteredQuestions)
-    ? filteredQuestions.filter((q) => !reviewIds.has(q.id))
+  // ✅ filteredQuestions が空なら全体を fallback
+  const allQuestions = Array.isArray(filteredQuestions)
+    ? filteredQuestions
     : [];
 
-  // ✅ 分母がゼロにならないよう防御
+  // ✅ 「覚え直し」以外の問題のみを集計対象に
+  const effectiveQuestions =
+    allQuestions.length > 0
+      ? allQuestions.filter((q) => !reviewIds.has(q.id))
+      : allQuestions;
+
+  // ✅ 出題総数（覚え直し問題を除外）
   const totalQuestions =
     effectiveQuestions.length > 0
       ? effectiveQuestions.length
-      : filteredQuestions.length;
+      : allQuestions.length;
 
-  // ✅ 不正解数（覚え直し除外）
-  const incorrectCount = Object.keys(mistakes).filter(
+  // ✅ 不正解数（覚え直し問題を除外）
+  const incorrectCount = Object.keys(mistakes || {}).filter(
     (id) => !reviewIds.has(id)
   ).length;
 
-  // ✅ 正答数（覚え直し除外）
-  const correctCount = totalQuestions - incorrectCount;
+  // ✅ 正答数
+  const correctCount = Math.max(0, totalQuestions - incorrectCount);
 
-  // ✅ 正答率（防御付き）
+  // ✅ 基本正答率（防御込み）
   const correctRate =
     totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
-  // ✅ 不正解リスト（覚え直し除外）
-  const incorrectQuestionsList = (
-    Array.isArray(filteredQuestions) ? filteredQuestions : []
-  ).filter((q) => mistakes[q.id] && !reviewIds.has(q.id));
+  // ✅ 不正解一覧（覚え直し問題を除外）
+  const incorrectQuestionsList = allQuestions.filter(
+    (q) => mistakes[q.id] && !reviewIds.has(q.id)
+  );
 
-  // ✅ ヒントペナルティ（覚え直し除外）
+  // ✅ ヒントペナルティ（覚え直し問題を除外）
   const totalHintPenalty = Object.entries(hintLevels || {})
     .filter(([id]) => !reviewIds.has(id))
     .map(([_, level]) =>
