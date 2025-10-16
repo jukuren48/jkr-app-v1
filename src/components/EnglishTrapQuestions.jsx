@@ -1495,39 +1495,48 @@ export default function EnglishTrapQuestions() {
   };
 
   // ========== UI ==========
-  // ✅ 覚え直し問題ID一覧を取得
-  const reviewIds = new Set(reviewMistakes.map((q) => q.id));
-
-  // ✅ 覚え直し問題を除いた有効な出題リスト
-  const effectiveQuestions = filteredQuestions.filter(
-    (q) => !reviewIds.has(q.id)
+  // ✅ 安全ガード付き覚え直しID取得
+  const reviewIds = new Set(
+    Array.isArray(reviewMistakes) ? reviewMistakes.map((q) => q.id) : []
   );
 
-  // ✅ 有効な問題のみでスコアを計算
-  const totalQuestions = effectiveQuestions.length;
+  // ✅ 覚え直し以外の問題を抽出
+  const effectiveQuestions = Array.isArray(filteredQuestions)
+    ? filteredQuestions.filter((q) => !reviewIds.has(q.id))
+    : [];
+
+  // ✅ 分母がゼロにならないよう防御
+  const totalQuestions =
+    effectiveQuestions.length > 0
+      ? effectiveQuestions.length
+      : filteredQuestions.length;
+
+  // ✅ 不正解数（覚え直し除外）
   const incorrectCount = Object.keys(mistakes).filter(
     (id) => !reviewIds.has(id)
   ).length;
+
+  // ✅ 正答数（覚え直し除外）
   const correctCount = totalQuestions - incorrectCount;
 
-  // ✅ 通常の正答率
+  // ✅ 正答率（防御付き）
   const correctRate =
     totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
-  // ✅ 間違えた問題リスト（覚え直し除外）
-  const incorrectQuestionsList = effectiveQuestions.filter(
-    (q) => mistakes[q.id]
-  );
+  // ✅ 不正解リスト（覚え直し除外）
+  const incorrectQuestionsList = (
+    Array.isArray(filteredQuestions) ? filteredQuestions : []
+  ).filter((q) => mistakes[q.id] && !reviewIds.has(q.id));
 
-  // ✅ ヒント使用ペナルティ計算（現行ロジック維持）
-  const totalHintPenalty = Object.entries(hintLevels)
-    .filter(([id]) => !reviewIds.has(id)) // 覚え直し問題は除外
+  // ✅ ヒントペナルティ（覚え直し除外）
+  const totalHintPenalty = Object.entries(hintLevels || {})
+    .filter(([id]) => !reviewIds.has(id))
     .map(([_, level]) =>
       level === 0 ? 0 : hintPenalties.slice(0, level).reduce((a, b) => a + b, 0)
     )
     .reduce((a, b) => a + b, 0);
 
-  // ✅ ペナルティを反映した最終正答率
+  // ✅ 最終スコア
   const adjustedCorrectRate = Math.max(0, correctRate - totalHintPenalty);
 
   if (!showQuestions && !showResult && units.length === 0) {
