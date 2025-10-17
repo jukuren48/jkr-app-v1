@@ -323,17 +323,39 @@ function HandwritingPad({
 
         <button
           onClick={() => {
-            if (recognizedChar && onCharRecognized) {
+            if (!recognizedChar || recognizing) return;
+
+            if (onCharRecognized) {
               onCharRecognized(recognizedChar);
               clearCanvas();
+
+              // ✅ 自動採点処理：答えと一致したら即正解
+              const normalizedUser = normText(recognizedChar);
+              const current = currentQuestion; // ← propsで受け取っていると仮定
+              const rawCorrect = Array.isArray(current.correct)
+                ? current.correct
+                : Array.isArray(current.correctAnswers)
+                ? current.correctAnswers
+                : current.correctAnswer ?? current.correct ?? "";
+
+              const normalizedAnswers = (
+                Array.isArray(rawCorrect) ? rawCorrect : [rawCorrect]
+              ).map((a) => normText(a));
+
+              if (normalizedAnswers.includes(normalizedUser)) {
+                // ✅ 正答：自動で採点
+                handleAnswer(recognizedChar);
+              } else {
+                console.log("❌ まだ一致していません。再入力できます。");
+              }
             }
           }}
-          disabled={!recognizedChar || recognizing} // ← 認識前 or 認識中は押せない
-          className={`px-2 py-1 rounded shadow transition-all duration-300 ${
+          disabled={!recognizedChar || recognizing}
+          className={`px-2 py-1 rounded shadow transition-all duration-200 ${
             recognizing
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : recognizedChar
-              ? "bg-green-500 hover:bg-green-600 text-white scale-105"
+              ? "bg-green-500 hover:bg-green-600 text-white"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
         >
@@ -700,11 +722,13 @@ export default function EnglishTrapQuestions() {
       {useHandwriting ? (
         <HandwritingPad
           ocrEngine={ocrEngine}
-          onCharRecognized={(char) => setInputAnswer((prev) => prev + char)}
-          onSpace={() => setInputAnswer((prev) => prev + " ")}
+          onCharRecognized={setInputAnswer} // ← 直接セットでOK（自動採点対応）
+          onSubmitAnswer={() => handleAnswer(inputAnswer)} // ← 従来通り保険として残す
           onClearAll={() => setInputAnswer("")}
-          onSubmitAnswer={() => handleAnswer(inputAnswer)} // ✅ 採点ボタンが機能する
+          onSpace={() => setInputAnswer((prev) => prev + " ")}
           currentAnswer={inputAnswer}
+          currentQuestion={filteredQuestions[currentIndex]} // ← ★追加
+          handleAnswer={handleAnswer} // ← ★追加
         />
       ) : (
         <>
@@ -1137,13 +1161,16 @@ export default function EnglishTrapQuestions() {
       playSFX("/sounds/timesup.mp3");
     }
 
-    // 1.5秒後に解答結果画面に切り替える
+    // ✅ 1.5秒後に自動不正解処理を実行
     setTimeout(() => {
+      console.log("⏰ 時間切れ → 自動で不正解扱い");
+      handleAnswer("(時間切れ)"); // ← ★追加（これだけでOK）
       setShowFeedback(true);
       setIsCorrect(false);
       setShowAnswer(true);
       setSelectedChoice("（時間切れ）");
       setTimeUp(false); // 演出を消す
+
       if (!mistakes[currentQuestion.id]) {
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
         setFirstMistakeAnswers((prev) => ({
