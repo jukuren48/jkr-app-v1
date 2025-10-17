@@ -735,7 +735,7 @@ export default function EnglishTrapQuestions() {
       {useHandwriting ? (
         <HandwritingPad
           ocrEngine={ocrEngine}
-          onCharRecognized={setInputAnswer} // ← 直接セットでOK（自動採点対応）
+          onCharRecognized={(char) => setInputAnswer((prev) => prev + char)} // ← 直接セットでOK（自動採点対応）
           onSubmitAnswer={() => handleAnswer(inputAnswer)} // ← 従来通り保険として残す
           onClearAll={() => setInputAnswer("")}
           onSpace={() => setInputAnswer((prev) => prev + " ")}
