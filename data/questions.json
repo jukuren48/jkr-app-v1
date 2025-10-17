@@ -4210,5 +4210,205 @@
     "explanation": "「小説」は英語で novel です。",
     "incorrectExplanations": {},
     "type": "input"
+  },
+  {
+    "id": "de8a66e1-f635-4e5e-a17d-409a39f7823a",
+    "unit": "単語テスト１L6",
+    "question": "「どちらの」を英語で書きなさい。",
+    "choices": [],
+    "correct": "which",
+    "explanation": "「どちらの」は英語で which です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "56d939a4-572b-48b1-bb09-c71b9a5e03b7",
+    "unit": "単語テスト１L6",
+    "question": "「～をすすめる」を英語で書きなさい。",
+    "choices": [],
+    "correct": "recommend",
+    "explanation": "「～をすすめる」は英語で recommend です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9cf7db1d-6fa8-4c60-a67e-64b83ec00ef4",
+    "unit": "単語テスト１L6",
+    "question": "「特別な」を英語で書きなさい。",
+    "choices": [],
+    "correct": "special",
+    "explanation": "「特別な」は英語で special です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "d47dc6ab-340f-46d3-bb22-cbde3ec020f0",
+    "unit": "単語テスト１L6",
+    "question": "「来る」を英語で書きなさい。",
+    "choices": [],
+    "correct": "come",
+    "explanation": "「来る」は英語で come です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "06fc3b90-936b-4bde-a050-6128ab5db47a",
+    "unit": "単語テスト１L6",
+    "question": "「早く」を英語で書きなさい。",
+    "choices": [],
+    "correct": "early",
+    "explanation": "「早く」は英語で early です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b8913f9d-fcb9-4e15-8b78-62b310a07a35",
+    "unit": "単語テスト１L6",
+    "question": "「優しい」を英語で書きなさい。",
+    "choices": [],
+    "correct": "kind",
+    "explanation": "「優しい」は英語で kind です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "4f76c22b-6b0a-4d73-8a7a-9a8e68b68d9e",
+    "unit": "単語テスト１L6",
+    "question": "「満腹で」を英語で書きなさい。",
+    "choices": [],
+    "correct": "full",
+    "explanation": "「満腹で」は英語で full です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9b064b5c-f2cf-4631-a39c-4c3c1b7fd0ab",
+    "unit": "単語テスト１L6",
+    "question": "「誰の」を英語で書きなさい。",
+    "choices": [],
+    "correct": "whose",
+    "explanation": "「誰の」は英語で whose です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "d079498a-3aef-4e54-bc20-1a8c8a80a523",
+    "unit": "単語テスト１L6",
+    "question": "「私のもの」を英語で書きなさい。",
+    "choices": [],
+    "correct": "mine",
+    "explanation": "「私のもの」は英語で mine です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "1875e912-7a7e-4ac0-bb9e-d41e0d450540",
+    "unit": "単語テスト１L6",
+    "question": "「あなたのもの」を英語で書きなさい。",
+    "choices": [],
+    "correct": "yours",
+    "explanation": "「あなたのもの」は英語で yours です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "5d523a3e-cb62-4a8b-9e97-3a3ec04a160b",
+    "unit": "単語テスト１L6",
+    "question": "「サンドイッチ」を英語で書きなさい。",
+    "choices": [],
+    "correct": "sandwich",
+    "explanation": "「サンドイッチ」は英語で sandwich です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "2b0a107f-c3f8-4c91-8973-8e32a027a2d4",
+    "unit": "単語テスト１L6",
+    "question": "「これらの」を英語で書きなさい。",
+    "choices": [],
+    "correct": "these",
+    "explanation": "「これらの」は英語で these です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "48b1b7df-40b5-404f-9447-5f55c7fa29f9",
+    "unit": "単語テスト１L6",
+    "question": "「全ての」を英語で書きなさい。",
+    "choices": [],
+    "correct": "all",
+    "explanation": "「全ての」は英語で all です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "bf3f2322-96a9-4877-8c10-f9197c9b21a3",
+    "unit": "単語テスト１L6",
+    "question": "「店」を英語で書きなさい。",
+    "choices": [],
+    "correct": "store",
+    "explanation": "「店」は英語で store です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "902cfd5a-7e9a-41b0-8087-cc82e0a417f1",
+    "unit": "単語テスト１L6",
+    "question": "「必要な」を英語で書きなさい。",
+    "choices": [],
+    "correct": "necessary",
+    "explanation": "「必要な」は英語で necessary です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "73bb1e3c-4575-49e2-83b3-2d1f1e266ef3",
+    "unit": "単語テスト１L6",
+    "question": "「事実」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fact",
+    "explanation": "「事実」は英語で fact です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "58c47a44-51d1-4204-bb36-36d8e7b4f67d",
+    "unit": "単語テスト１L6",
+    "question": "「ココナッツ」を英語で書きなさい。",
+    "choices": [],
+    "correct": "coconut",
+    "explanation": "「ココナッツ」は英語で coconut です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "4f5b9230-c539-40c2-a10b-c0e0d9d0d8a1",
+    "unit": "単語テスト１L6",
+    "question": "「タルト」を英語で書きなさい。",
+    "choices": [],
+    "correct": "tart",
+    "explanation": "「タルト」は英語で tart です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "90f893f9-71c3-47b2-8187-0860199e11bb",
+    "unit": "単語テスト１L6",
+    "question": "「そば」を英語で書きなさい。",
+    "choices": [],
+    "correct": "noodle",
+    "explanation": "「そば」は英語で noodle です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "91dc1604-4e56-4fcf-8b80-8a8f601b8611",
+    "unit": "単語テスト１L6",
+    "question": "「夕食」を英語で書きなさい。",
+    "choices": [],
+    "correct": "dinner",
+    "explanation": "「夕食」は英語で dinner です。",
+    "incorrectExplanations": {},
+    "type": "input"
   }
 ]
