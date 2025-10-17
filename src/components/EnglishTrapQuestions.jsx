@@ -185,6 +185,8 @@ function HandwritingPad({
   onClearAll,
   onSubmitAnswer,
   currentAnswer,
+  currentQuestion,
+  handleAnswer,
 }) {
   const sigCanvas = useRef(null);
   const [recognizing, setRecognizing] = useState(false);
@@ -329,24 +331,35 @@ function HandwritingPad({
               onCharRecognized(recognizedChar);
               clearCanvas();
 
-              // ✅ 自動採点処理：答えと一致したら即正解
-              const normalizedUser = normText(recognizedChar);
-              const current = currentQuestion; // ← propsで受け取っていると仮定
-              const rawCorrect = Array.isArray(current.correct)
-                ? current.correct
-                : Array.isArray(current.correctAnswers)
-                ? current.correctAnswers
-                : current.correctAnswer ?? current.correct ?? "";
+              // ✅ 正答データの取得と比較処理
+              if (currentQuestion && handleAnswer) {
+                const normalizedUser = normText(recognizedChar);
 
-              const normalizedAnswers = (
-                Array.isArray(rawCorrect) ? rawCorrect : [rawCorrect]
-              ).map((a) => normText(a));
+                const rawCorrect = Array.isArray(currentQuestion.correct)
+                  ? currentQuestion.correct
+                  : Array.isArray(currentQuestion.correctAnswers)
+                  ? currentQuestion.correctAnswers
+                  : currentQuestion.correctAnswer ??
+                    currentQuestion.correct ??
+                    "";
 
-              if (normalizedAnswers.includes(normalizedUser)) {
-                // ✅ 正答：自動で採点
-                handleAnswer(recognizedChar);
-              } else {
-                console.log("❌ まだ一致していません。再入力できます。");
+                // ✅ 「/」「｜」「,」などで区切られた複数正答にも対応
+                const correctArray = Array.isArray(rawCorrect)
+                  ? rawCorrect
+                  : String(rawCorrect)
+                      .split(/\s*(\/|｜|\||,|，)\s*/)
+                      .filter(Boolean);
+
+                const isCorrect = correctArray.some(
+                  (ans) => normText(ans) === normalizedUser
+                );
+
+                if (isCorrect) {
+                  console.log("✅ 自動正解判定成功:", recognizedChar);
+                  handleAnswer(recognizedChar); // ← 採点実行
+                } else {
+                  console.log("❌ 不一致：再入力可能:", recognizedChar);
+                }
               }
             }
           }}
