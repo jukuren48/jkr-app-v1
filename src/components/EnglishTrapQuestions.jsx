@@ -400,6 +400,8 @@ const normJa = (s = "") =>
     .replace(/\s+/g, "");
 
 export default function EnglishTrapQuestions() {
+  const [initialQuestionCount, setInitialQuestionCount] = useState(0);
+
   const [questions, setQuestions] = useState([]);
   const [questionList, setQuestionList] = useState(() => {
     if (typeof window !== "undefined") {
@@ -841,9 +843,13 @@ export default function EnglishTrapQuestions() {
       alert("選択した単元に問題がありません。");
       return;
     }
+
     const shuffled = shuffleArray(filtered);
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
+
+    // ✅ filteredQuestions の更新前に limited.length を使う
+    setInitialQuestionCount(limited.length); // ← これが重要！
 
     setCharacterMood("neutral");
     setFilteredQuestions(limited);
@@ -1351,8 +1357,7 @@ export default function EnglishTrapQuestions() {
         // ✅ 全問終了：復習リストがある場合は再出題へ
         if (reviewList.length > 0) {
           alert("📘 復習問題をもう一度出すよ！");
-          setQuestions(reviewList); // ← 出題リストを復習問題に差し替え
-          setCurrentIndex(0); // ← 最初の問題に戻る
+          setCurrentIndex(0);
           setReviewList([]); // ← 復習リストをクリア
           setShowFeedback(false);
           setShowQuestions(true);
@@ -1495,43 +1500,32 @@ export default function EnglishTrapQuestions() {
   };
 
   // ========== UI ==========
-  // ✅ 覚え直し問題ID一覧を取得（型をすべて文字列化して統一）
+  // ✅ 覚え直し問題ID一覧を取得（型統一）
   const reviewIds = new Set(
     Array.isArray(reviewMistakes) ? reviewMistakes.map((q) => String(q.id)) : []
   );
 
-  // ✅ 全問題を安全に取得
-  const allQuestions = Array.isArray(filteredQuestions)
-    ? filteredQuestions
-    : [];
+  // ✅ 全体の出題数（最初に保存した分を優先）
+  const totalQuestions = initialQuestionCount || filteredQuestions.length;
 
-  // ✅ 「覚え直し」以外の問題をスコア対象に
-  const effectiveQuestions = allQuestions.filter(
-    (q) => !reviewIds.has(String(q.id))
-  );
-
-  // ✅ スコア用データ算出
-  const totalQuestions =
-    effectiveQuestions.length > 0
-      ? effectiveQuestions.length
-      : allQuestions.length;
-
+  // ✅ 不正解数（覚え直し除外）
   const incorrectCount = Object.keys(mistakes || {}).filter(
     (id) => !reviewIds.has(String(id))
   ).length;
 
+  // ✅ 正答数
   const correctCount = Math.max(0, totalQuestions - incorrectCount);
 
   // ✅ 正答率（防御付き）
   const correctRate =
     totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
-  // ✅ 不正解リスト（覚え直し問題は除外）
-  const incorrectQuestionsList = allQuestions.filter(
+  // ✅ 不正解リスト（覚え直し除外）
+  const incorrectQuestionsList = filteredQuestions.filter(
     (q) => mistakes[q.id] && !reviewIds.has(String(q.id))
   );
 
-  // ✅ ヒントペナルティ（覚え直し問題は除外）
+  // ✅ ヒントペナルティ（覚え直し問題除外）
   const totalHintPenalty = Object.entries(hintLevels || {})
     .filter(([id]) => !reviewIds.has(String(id)))
     .map(([_, level]) =>
