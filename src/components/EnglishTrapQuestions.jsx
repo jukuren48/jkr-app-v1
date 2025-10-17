@@ -1357,14 +1357,19 @@ export default function EnglishTrapQuestions() {
         // ✅ 全問終了：復習リストがある場合は再出題へ
         if (reviewList.length > 0) {
           alert("📘 復習問題をもう一度出すよ！");
-          setCurrentIndex(0);
-          setReviewList([]); // ← 復習リストをクリア
-          setShowFeedback(false);
-          setShowQuestions(true);
-          setShowResult(false);
-          setTimerActive(true);
-          setTimeLeft(10); // ← タイマーをリセット（必要に応じて）
-          return; // ✅ 結果画面に行かずここで止める
+
+          // ✅ reviewList の内容を固定コピーしてから使う
+          const reviewCopy = [...reviewList];
+
+          setTimeout(() => {
+            setFilteredQuestions(reviewCopy); // ← 安定したコピーをセット
+            setCurrentIndex(0);
+            setShowFeedback(false);
+            setTimerActive(false);
+            setShowResult(false);
+            setReviewList([]); // ← リセット
+          }, 100); // ← わずか100msの遅延でstate同期完了
+          return;
         }
 
         // ✅ 復習リストが無ければ通常通り終了
