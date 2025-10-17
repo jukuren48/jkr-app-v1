@@ -326,13 +326,18 @@ function HandwritingPad({
             if (recognizedChar && onCharRecognized) {
               onCharRecognized(recognizedChar);
               clearCanvas();
-            } else {
-              alert("まず認識してからアップしてください。");
             }
           }}
-          className="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+          disabled={!recognizedChar || recognizing} // ← 認識前 or 認識中は押せない
+          className={`px-2 py-1 rounded shadow transition-all duration-300 ${
+            recognizing
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : recognizedChar
+              ? "bg-green-500 hover:bg-green-600 text-white scale-105"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
         >
-          ⬆ アップ
+          {recognizedChar ? "⬆ アップ" : "⏳ 認識待ち"}
         </button>
 
         <button
