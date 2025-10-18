@@ -2004,16 +2004,8 @@ export default function EnglishTrapQuestions() {
                   </div>
                 )}
 
-                {/* === 💡ヒント＆🔁覚え直すボタン群（スマホ＆タブレット対応） === */}
-                <div
-                  className="
-    fixed left-0 w-full flex justify-center gap-4 z-[60]
-    bottom-[calc(18vh+env(safe-area-inset-bottom,0px))]   /* 📱スマホ時：手書きパッド分だけ上に */
-    sm:bottom-[calc(10vh+env(safe-area-inset-bottom,0px))] /* 💻タブレット時：少し下げる */
-    md:bottom-[calc(8vh+env(safe-area-inset-bottom,0px))]  /* 🖥️PC時 */
-    transition-all
-  "
-                >
+                {/* === 💡ヒント＆🔁覚え直すボタン群（問題文の下） === */}
+                <div className="w-full flex justify-center gap-4 mt-3 mb-4">
                   {/* 💡ヒントボタン */}
                   <button
                     onClick={handleShowHint}
