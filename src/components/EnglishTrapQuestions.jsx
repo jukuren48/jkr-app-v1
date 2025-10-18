@@ -2004,12 +2004,12 @@ export default function EnglishTrapQuestions() {
                   </div>
                 )}
 
-                {/* === 💡ヒント＆🔁覚え直すボタン群（問題文の下） === */}
-                <div className="w-full flex justify-center gap-4 mt-3 mb-4">
+                {/* === 💡ヒント＆🔁覚え直すボタン群（問題文に近接配置） === */}
+                <div className="w-full flex justify-center gap-3 mt-1 mb-2">
                   {/* 💡ヒントボタン */}
                   <button
                     onClick={handleShowHint}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-4 py-2 rounded-full shadow text-sm sm:text-base"
+                    className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-3 py-1.5 rounded-full shadow text-sm sm:text-base"
                   >
                     💡 ヒント
                   </button>
@@ -2018,27 +2018,20 @@ export default function EnglishTrapQuestions() {
                   <button
                     onClick={() => {
                       const current = filteredQuestions[currentIndex];
-
-                      // ✅ あらゆる形式の正答データを拾う
                       const raw = Array.isArray(current.correct)
                         ? current.correct
                         : Array.isArray(current.correctAnswers)
                         ? current.correctAnswers
                         : current.correctAnswer ?? current.correct ?? "";
 
-                      // ✅ 配列なら / でつなぐ
                       const correctText = Array.isArray(raw)
                         ? raw.join(" / ")
                         : raw;
 
-                      // ✅ 覚え直し中モードON
                       setReviewing(true);
-
-                      // ✅ 答えを全画面表示
                       setTemporaryAnswer(correctText);
                       setShowAnswerTemporarily(true);
 
-                      // ✅ 不正解扱いとしてカウント＆記録
                       if (!mistakes[current.id]) {
                         setMistakes((prev) => ({
                           ...prev,
@@ -2050,26 +2043,25 @@ export default function EnglishTrapQuestions() {
                         }));
                       }
 
-                      // ✅ 復習・覚え直しリスト両方に登録（重複防止）
                       setReviewList((prev) => {
                         if (prev.find((q) => q.id === current.id)) return prev;
                         return [...prev, current];
                       });
+
                       setReviewMistakes((prev) => {
                         if (prev.find((q) => q.id === current.id)) return prev;
                         return [...prev, current];
                       });
 
-                      // ✅ 2秒後に答えを伏せて再出題
                       setTimeout(() => {
                         setShowAnswerTemporarily(false);
                         setTemporaryAnswer("");
                         setShowFeedback(false);
                         setTimerActive(true);
-                        setReviewing(false); // ← 再出題完了後に解除
+                        setReviewing(false);
                       }, 2000);
                     }}
-                    className="bg-orange-400 hover:bg-orange-500 text-white font-bold px-4 py-2 rounded-full shadow text-sm sm:text-base"
+                    className="bg-orange-400 hover:bg-orange-500 text-white font-bold px-3 py-1.5 rounded-full shadow text-sm sm:text-base"
                   >
                     🔁 覚え直す
                   </button>
