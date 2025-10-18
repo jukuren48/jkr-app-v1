@@ -2004,70 +2004,82 @@ export default function EnglishTrapQuestions() {
                   </div>
                 )}
 
-                <button
-                  onClick={() => {
-                    const current = filteredQuestions[currentIndex];
-
-                    // ✅ あらゆる形式の正答データを拾う
-                    const raw = Array.isArray(current.correct)
-                      ? current.correct
-                      : Array.isArray(current.correctAnswers)
-                      ? current.correctAnswers
-                      : current.correctAnswer ?? current.correct ?? "";
-
-                    // ✅ 配列なら / でつなぐ
-                    const correctText = Array.isArray(raw)
-                      ? raw.join(" / ")
-                      : raw;
-
-                    // ✅ 覚え直し中モードON
-                    setReviewing(true);
-
-                    // ✅ 答えを全画面表示
-                    setTemporaryAnswer(correctText);
-                    setShowAnswerTemporarily(true);
-
-                    // ✅ 不正解扱いとしてカウント＆記録
-                    if (!mistakes[current.id]) {
-                      setMistakes((prev) => ({ ...prev, [current.id]: true }));
-                      setFirstMistakeAnswers((prev) => ({
-                        ...prev,
-                        [current.id]: "(覚え直し選択)",
-                      }));
-                    }
-
-                    // ✅ 復習・覚え直しリスト両方に登録（重複防止）
-                    setReviewList((prev) => {
-                      if (prev.find((q) => q.id === current.id)) return prev;
-                      return [...prev, current];
-                    });
-                    setReviewMistakes((prev) => {
-                      if (prev.find((q) => q.id === current.id)) return prev;
-                      return [...prev, current];
-                    });
-
-                    // ✅ 2秒後に答えを伏せて再出題
-                    setTimeout(() => {
-                      setShowAnswerTemporarily(false);
-                      setTemporaryAnswer("");
-                      setShowFeedback(false);
-                      setTimerActive(true);
-                      setReviewing(false); // ← 再出題完了後に解除
-                    }, 2000);
-                  }}
-                  className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
+                {/* === 💡ヒント＆🔁覚え直すボタン群（スマホ＆タブレット対応） === */}
+                <div
+                  className="
+    fixed left-0 w-full flex justify-center gap-4 z-[60]
+    bottom-[calc(18vh+env(safe-area-inset-bottom,0px))]   /* 📱スマホ時：手書きパッド分だけ上に */
+    sm:bottom-[calc(10vh+env(safe-area-inset-bottom,0px))] /* 💻タブレット時：少し下げる */
+    md:bottom-[calc(8vh+env(safe-area-inset-bottom,0px))]  /* 🖥️PC時 */
+    transition-all
+  "
                 >
-                  🔁 覚え直す
-                </button>
-
-                {/* 💡 ヒントボタン（手書きパッドより上に重ねる） */}
-                {/* 問題文の下に配置する例 */}
-                <div className="text-center mt-2 mb-4">
+                  {/* 💡ヒントボタン */}
                   <button
                     onClick={handleShowHint}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-4 py-2 rounded-full shadow"
+                    className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-4 py-2 rounded-full shadow text-sm sm:text-base"
                   >
                     💡 ヒント
+                  </button>
+
+                  {/* 🔁覚え直すボタン */}
+                  <button
+                    onClick={() => {
+                      const current = filteredQuestions[currentIndex];
+
+                      // ✅ あらゆる形式の正答データを拾う
+                      const raw = Array.isArray(current.correct)
+                        ? current.correct
+                        : Array.isArray(current.correctAnswers)
+                        ? current.correctAnswers
+                        : current.correctAnswer ?? current.correct ?? "";
+
+                      // ✅ 配列なら / でつなぐ
+                      const correctText = Array.isArray(raw)
+                        ? raw.join(" / ")
+                        : raw;
+
+                      // ✅ 覚え直し中モードON
+                      setReviewing(true);
+
+                      // ✅ 答えを全画面表示
+                      setTemporaryAnswer(correctText);
+                      setShowAnswerTemporarily(true);
+
+                      // ✅ 不正解扱いとしてカウント＆記録
+                      if (!mistakes[current.id]) {
+                        setMistakes((prev) => ({
+                          ...prev,
+                          [current.id]: true,
+                        }));
+                        setFirstMistakeAnswers((prev) => ({
+                          ...prev,
+                          [current.id]: "(覚え直し選択)",
+                        }));
+                      }
+
+                      // ✅ 復習・覚え直しリスト両方に登録（重複防止）
+                      setReviewList((prev) => {
+                        if (prev.find((q) => q.id === current.id)) return prev;
+                        return [...prev, current];
+                      });
+                      setReviewMistakes((prev) => {
+                        if (prev.find((q) => q.id === current.id)) return prev;
+                        return [...prev, current];
+                      });
+
+                      // ✅ 2秒後に答えを伏せて再出題
+                      setTimeout(() => {
+                        setShowAnswerTemporarily(false);
+                        setTemporaryAnswer("");
+                        setShowFeedback(false);
+                        setTimerActive(true);
+                        setReviewing(false); // ← 再出題完了後に解除
+                      }, 2000);
+                    }}
+                    className="bg-orange-400 hover:bg-orange-500 text-white font-bold px-4 py-2 rounded-full shadow text-sm sm:text-base"
+                  >
+                    🔁 覚え直す
                   </button>
                 </div>
 
