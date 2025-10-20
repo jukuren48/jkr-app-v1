@@ -191,29 +191,15 @@ function HandwritingPad({
   const sigCanvas = useRef(null);
   const [recognizing, setRecognizing] = useState(false);
   const [recognizedChar, setRecognizedChar] = useState("");
-  // 🪶 手書き履歴（各線の配列）
   const [strokes, setStrokes] = useState([]);
 
   // 🧭 書くたびに履歴を更新
   const handleEndStroke = () => {
-    if (sigCanvas.current) {
-      const data = sigCanvas.current.toData();
-      setStrokes(data);
-    }
-  };
-
-  // ⌫ バックスペース（最後の線を削除）
-  const handleUndoLastStroke = () => {
-    if (!sigCanvas.current || strokes.length === 0) return;
-    const newData = strokes.slice(0, -1); // 最後の線を削除
-    sigCanvas.current.fromData(newData);
-    setStrokes(newData);
+    if (sigCanvas.current) setStrokes(sigCanvas.current.toData());
   };
 
   const clearCanvas = () => {
-    if (sigCanvas.current && sigCanvas.current.clear) {
-      sigCanvas.current.clear();
-    }
+    if (sigCanvas.current?.clear) sigCanvas.current.clear();
     setRecognizedChar("");
   };
 
@@ -221,48 +207,67 @@ function HandwritingPad({
     if (!sigCanvas.current) return;
     setRecognizing(true);
     const dataURL = sigCanvas.current.getCanvas().toDataURL("image/png");
-
     try {
       let text = "";
-
-      if (ocrEngine === "vision") {
-        const res = await fetch("/api/vision-ocr", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ imageBase64: dataURL }),
-        });
-        const json = await res.json();
-        text = json?.text || "";
-      } else {
-        const {
-          data: { text: localText },
-        } = await Tesseract.recognize(dataURL, "eng+jpn", {
-          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
-        });
-        text = localText;
-      }
-
-      const cleaned = (text || "").trim().replace(/[\u0000-\u001F]/g, ""); // 制御文字だけ除去（日本語は残す）
+      const {
+        data: { text: localText },
+      } = await Tesseract.recognize(dataURL, "eng+jpn", {
+        tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
+      });
+      text = localText || "";
+      const cleaned = text.trim().replace(/[\u0000-\u001F]/g, "");
       setRecognizedChar(cleaned);
-      console.log("[OCR認識結果]", cleaned);
     } catch (err) {
-      console.error("OCR error:", err);
-      alert("文字認識に失敗しました。もう一度書いてください。");
+      alert("文字認識に失敗しました。");
     }
     setRecognizing(false);
   };
 
+  // ✅ 🔹アップボタン：正答チェックはしない（入力のみ追加）
+  const handleUpload = () => {
+    if (!recognizedChar || recognizing) return;
+    if (onCharRecognized) onCharRecognized(recognizedChar);
+    clearCanvas();
+  };
+
+  // ✅ 🔹アップ後に currentAnswer が更新されたタイミングで正答をチェック
+  useEffect(() => {
+    if (!currentQuestion || !currentAnswer || !handleAnswer) return;
+
+    const rawCorrect = Array.isArray(currentQuestion.correct)
+      ? currentQuestion.correct
+      : Array.isArray(currentQuestion.correctAnswers)
+      ? currentQuestion.correctAnswers
+      : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
+
+    const correctArray = Array.isArray(rawCorrect)
+      ? rawCorrect
+      : String(rawCorrect)
+          .split(/\s*(\/|｜|\||,|，)\s*/)
+          .filter(Boolean);
+
+    const normalizedUser = normText(currentAnswer).replace(/\s+/g, " ").trim();
+
+    const isPerfectMatch = correctArray.some((ans) => {
+      const normalizedAns = normText(ans).replace(/\s+/g, " ").trim();
+      return normalizedAns === normalizedUser; // ← 完全一致のみ
+    });
+
+    if (isPerfectMatch) {
+      console.log("✅ 自動正解判定:", currentAnswer);
+      handleAnswer(currentAnswer);
+    }
+  }, [currentAnswer]); // ← 🔥 currentAnswer が変わるたびに自動判定
+
   return (
     <div className="fixed bottom-0 left-0 w-full h-[35vh] bg-white border-t shadow-lg flex flex-col justify-between z-50">
-      {/* === 🧩 現在の解答表示（最上部に移動） === */}
       <div className="text-center py-1 border-b bg-white font-mono text-base">
-        🧩 現在の解答：{" "}
+        🧩 現在の解答：
         <span className="font-bold text-[#4A6572]">
           {currentAnswer || "(まだ入力なし)"}
         </span>
       </div>
 
-      {/* === 認識結果表示 === */}
       <div className="text-center mt-1 text-base font-mono">
         {recognizing ? (
           <span className="text-gray-500 animate-pulse">🔍 認識中...</span>
@@ -275,7 +280,6 @@ function HandwritingPad({
         )}
       </div>
 
-      {/* === 手書きキャンバス === */}
       <div className="flex-1 flex justify-center items-center pb-16 sm:pb-4">
         <SignatureCanvas
           ref={sigCanvas}
@@ -284,8 +288,8 @@ function HandwritingPad({
           maxWidth={3}
           backgroundColor="#ffffff"
           canvasProps={{
-            width: 360, // ← 横幅＋40px（指の動きに余裕）
-            height: 160, // ← 縦も少し拡大
+            width: 360,
+            height: 160,
             className:
               "border-2 border-gray-300 rounded-xl mx-auto block bg-gradient-to-b from-white to-gray-50 shadow-md max-w-[90vw]",
           }}
@@ -293,7 +297,6 @@ function HandwritingPad({
         />
       </div>
 
-      {/* === 操作ボタン群（下部固定＋安全余白付き） === */}
       <div
         className="fixed bottom-0 left-0 right-0 flex justify-around items-center 
              py-3 bg-gray-50 border-t shadow-lg text-sm 
@@ -309,13 +312,6 @@ function HandwritingPad({
         </button>
 
         <button
-          onClick={handleUndoLastStroke}
-          className="px-2 py-1 bg-orange-400 text-white rounded hover:bg-orange-500"
-        >
-          ⌫ 一つ戻す
-        </button>
-
-        <button
           onClick={recognizeChar}
           disabled={recognizing}
           className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -323,51 +319,9 @@ function HandwritingPad({
           {recognizing ? "認識中…" : "認識"}
         </button>
 
+        {/* ✅ アップ：入力追加のみ、判定は useEffect に任せる */}
         <button
-          onClick={() => {
-            if (!recognizedChar || recognizing) return;
-
-            // 🧩 まず仮想的に全文を構築（最新状態をシミュレート）
-            const newFullAnswer = normText(`${currentAnswer}${recognizedChar}`)
-              .replace(/\s+/g, " ")
-              .trim();
-
-            // 文字をステートに反映
-            if (onCharRecognized) {
-              onCharRecognized(recognizedChar);
-              clearCanvas();
-            }
-
-            // ✅ 判定処理（認識後すぐに評価）
-            if (currentQuestion && handleAnswer) {
-              const rawCorrect = Array.isArray(currentQuestion.correct)
-                ? currentQuestion.correct
-                : Array.isArray(currentQuestion.correctAnswers)
-                ? currentQuestion.correctAnswers
-                : currentQuestion.correctAnswer ??
-                  currentQuestion.correct ??
-                  "";
-
-              const correctArray = Array.isArray(rawCorrect)
-                ? rawCorrect
-                : String(rawCorrect)
-                    .split(/\s*(\/|｜|\||,|，)\s*/)
-                    .filter(Boolean);
-
-              // ✅ 完全一致のみ（部分一致禁止）
-              const isPerfectMatch = correctArray.some((ans) => {
-                const normalizedAns = normText(ans).replace(/\s+/g, " ").trim();
-                return normalizedAns === newFullAnswer;
-              });
-
-              if (isPerfectMatch) {
-                console.log("✅ 自動正解判定成功:", newFullAnswer);
-                handleAnswer(newFullAnswer); // ← 採点実行
-              } else {
-                console.log("❌ 不一致または途中入力:", newFullAnswer);
-              }
-            }
-          }}
+          onClick={handleUpload}
           disabled={!recognizedChar || recognizing}
           className={`px-2 py-1 rounded shadow transition-all duration-200 ${
             recognizing
