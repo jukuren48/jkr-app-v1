@@ -327,17 +327,16 @@ function HandwritingPad({
           onClick={() => {
             if (!recognizedChar || recognizing) return;
 
+            // 🔹 現在までの全文（前回アップ分も含む）
+            const fullUserInput = normText(`${currentAnswer}${recognizedChar}`)
+              .replace(/\s+/g, " ")
+              .trim();
+
             if (onCharRecognized) {
               onCharRecognized(recognizedChar);
               clearCanvas();
 
-              // ✅ 正答データの取得と比較処理
               if (currentQuestion && handleAnswer) {
-                // 英文・日本文を正規化（大小文字・全角半角・余分な空白を除去）
-                const normalizedUser = normText(recognizedChar)
-                  .replace(/\s+/g, " ") // 連続スペースを1つに
-                  .trim();
-
                 const rawCorrect = Array.isArray(currentQuestion.correct)
                   ? currentQuestion.correct
                   : Array.isArray(currentQuestion.correctAnswers)
@@ -352,21 +351,19 @@ function HandwritingPad({
                       .split(/\s*(\/|｜|\||,|，)\s*/)
                       .filter(Boolean);
 
-                // ✅ 完全一致（句読点・空白・大文字小文字のみ無視）
+                // ✅ 完全一致のみ（部分一致なし）
                 const isPerfectMatch = correctArray.some((ans) => {
                   const normalizedAns = normText(ans)
-                    .replace(/\s+/g, " ") // 連続空白統一
+                    .replace(/\s+/g, " ")
                     .trim();
-
-                  // 👇 完全一致のみ。部分一致は絶対NG。
-                  return normalizedAns === normalizedUser;
+                  return normalizedAns === fullUserInput;
                 });
 
                 if (isPerfectMatch) {
-                  console.log("✅ 自動正解判定成功:", recognizedChar);
-                  handleAnswer(recognizedChar); // ← 採点実行
+                  console.log("✅ 自動正解判定成功:", fullUserInput);
+                  handleAnswer(fullUserInput); // ← 採点実行
                 } else {
-                  console.log("❌ 不一致または途中入力:", recognizedChar);
+                  console.log("❌ 不一致または途中入力:", fullUserInput);
                 }
               }
             }
