@@ -350,15 +350,21 @@ function HandwritingPad({
                       .split(/\s*(\/|｜|\||,|，)\s*/)
                       .filter(Boolean);
 
-                const isCorrect = correctArray.some(
-                  (ans) => normText(ans) === normalizedUser
-                );
+                // ✅ 完全一致（空白や全角半角は無視）でのみ正解にする
+                const isCorrect = correctArray.some((ans) => {
+                  const normAns = normText(ans);
+                  return (
+                    normAns === normalizedUser || // 完全一致
+                    normAns.replace(/\s+/g, "") ===
+                      normalizedUser.replace(/\s+/g, "") // 空白無視一致
+                  );
+                });
 
                 if (isCorrect) {
                   console.log("✅ 自動正解判定成功:", recognizedChar);
                   handleAnswer(recognizedChar); // ← 採点実行
                 } else {
-                  console.log("❌ 不一致：再入力可能:", recognizedChar);
+                  console.log("❌ 不一致または途中入力:", recognizedChar);
                 }
               }
             }
@@ -2005,7 +2011,10 @@ export default function EnglishTrapQuestions() {
                 )}
 
                 {/* === 💡ヒント＆🔁覚え直すボタン群（問題文に近接配置） === */}
-                <div className="w-full flex justify-center gap-3 mt-1 mb-1">
+                <div
+                  className="w-full flex justify-center gap-3 
+                -1 mb-1"
+                >
                   {/* 💡ヒントボタン */}
                   <button
                     onClick={handleShowHint}
