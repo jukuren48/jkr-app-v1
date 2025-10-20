@@ -258,22 +258,25 @@ function HandwritingPad({
           .split(/\s*(\/|｜|\||,|，)\s*/)
           .filter(Boolean);
 
-    // 🔹空白・句読点を正規化
     const normalize = (s) =>
       s
         .trim()
         .replace(/\s+/g, " ")
-        .replace(/[.,!?;:]+$/g, "") // 末尾句読点無視
+        .replace(/[’‘]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/[,.;!?]+$/g, "")
         .toLowerCase();
 
     const user = normalize(currentAnswer);
-    const isPerfect = correctArray.some((ans) => normalize(ans) === user);
 
-    if (isPerfect) {
-      console.log("✅ 完全一致 → 採点:", user);
+    // 🔹 完全一致のみ（部分一致禁止）
+    const isPerfectMatch = correctArray.some((ans) => normalize(ans) === user);
+
+    if (isPerfectMatch) {
+      console.log("✅ 完全一致 → 自動採点:", user);
       handleAnswer(currentAnswer);
     }
-  }, [currentAnswer]);
+  }, [currentAnswer, currentQuestion]);
 
   return (
     <div className="fixed bottom-0 left-0 w-full h-[35vh] bg-white border-t shadow-lg flex flex-col justify-between z-50">
@@ -337,7 +340,15 @@ function HandwritingPad({
 
         {/* ✅ アップ：入力追加のみ、判定は useEffect に任せる */}
         <button
-          onClick={handleUpload}
+          onClick={() => {
+            if (!recognizedChar || recognizing) return;
+
+            // 🧩 入力更新（アップで文字を追加するだけ）
+            if (onCharRecognized) {
+              onCharRecognized(recognizedChar);
+              clearCanvas();
+            }
+          }}
           disabled={!recognizedChar || recognizing}
           className={`px-2 py-1 rounded shadow transition-all duration-200 ${
             recognizing
@@ -1266,6 +1277,7 @@ export default function EnglishTrapQuestions() {
     let isCorrectAnswer = false;
 
     if (currentQuestion.type === "multiple-choice") {
+      // ✅ 選択問題は完全一致
       isCorrectAnswer = answer === currentQuestion.correct;
     } else if (currentQuestion.type === "input") {
       const raw = Array.isArray(currentQuestion.correct)
@@ -1275,17 +1287,18 @@ export default function EnglishTrapQuestions() {
         : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
 
       const corrects = expandCorrects(raw)
-        .map((c) => normText(c).replace(/[^a-z]/g, "")) // ← 英字のみ
+        .map((c) => normText(c).trim()) // ← 不要な英字削除をやめる
         .filter((c) => c.length > 0);
 
       // 🧩 OCR or 手入力どちらでも対応
       const userInput =
         typeof answer === "string" && answer.trim() !== ""
-          ? answer // OCR結果（onRecognize）
-          : inputAnswer; // 手入力（input欄）
+          ? answer
+          : inputAnswer;
 
-      const user = normText(userInput).replace(/[^a-z]/g, "");
+      const user = normText(userInput).trim();
 
+      // ✅ 完全一致のみ（部分一致・サブセット一致は禁止）
       isCorrectAnswer = corrects.some((c) => c === user);
     }
 
@@ -1293,7 +1306,6 @@ export default function EnglishTrapQuestions() {
 
     // ✅ 覚え直しモードではスコア集計をスキップ
     if (!reviewing) {
-      // ✅ 正答・誤答どちらでも「出題数 total」を加算
       setUnitStats((prev) => {
         const prevStat = prev[unit] || { wrong: 0, total: 0 };
         return {
@@ -1311,7 +1323,6 @@ export default function EnglishTrapQuestions() {
       if (soundEnabled) playSFX("/sounds/correct.mp3");
 
       if (!reviewing) {
-        // ✅ 覚え直し中は連続正解やスコア更新もしない
         setStreak((prev) => prev + 1);
 
         if (streak + 1 >= 20) {
