@@ -198,6 +198,14 @@ function HandwritingPad({
     if (sigCanvas.current) setStrokes(sigCanvas.current.toData());
   };
 
+  // 🔙 一つ戻す
+  const handleUndoLastStroke = () => {
+    if (!sigCanvas.current || strokes.length === 0) return;
+    const newData = strokes.slice(0, -1);
+    sigCanvas.current.fromData(newData);
+    setStrokes(newData);
+  };
+
   const clearCanvas = () => {
     if (sigCanvas.current?.clear) sigCanvas.current.clear();
     setRecognizedChar("");
@@ -210,7 +218,6 @@ function HandwritingPad({
     try {
       let text = "";
       if (ocrEngine === "vision") {
-        // ← Google Vision で実行
         const res = await fetch("/api/vision-ocr", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -219,7 +226,6 @@ function HandwritingPad({
         const json = await res.json();
         text = json?.text || "";
       } else {
-        // ← Tesseract
         const {
           data: { text: localText },
         } = await Tesseract.recognize(dataURL, "eng+jpn", {
@@ -235,14 +241,7 @@ function HandwritingPad({
     setRecognizing(false);
   };
 
-  // ✅ 🔹アップボタン：正答チェックはしない（入力のみ追加）
-  const handleUpload = () => {
-    if (!recognizedChar || recognizing) return;
-    if (onCharRecognized) onCharRecognized(recognizedChar);
-    clearCanvas();
-  };
-
-  // ✅ 🔹アップ後に currentAnswer が更新されたタイミングで正答をチェック
+  // ✅ アップ後の自動採点
   useEffect(() => {
     if (!currentQuestion || !currentAnswer || !handleAnswer) return;
 
@@ -264,22 +263,22 @@ function HandwritingPad({
         .replace(/\s+/g, " ")
         .replace(/[’‘]/g, "'")
         .replace(/[“”]/g, '"')
-        .replace(/[,.;!?]+$/g, "")
         .toLowerCase();
 
     const user = normalize(currentAnswer);
-
-    // 🔹 完全一致のみ（部分一致禁止）
     const isPerfectMatch = correctArray.some((ans) => normalize(ans) === user);
 
     if (isPerfectMatch) {
-      console.log("✅ 完全一致 → 自動採点:", user);
+      console.log("✅ 完全一致 → 採点実行:", user);
       handleAnswer(currentAnswer);
+    } else {
+      console.log("✏️ 途中入力:", user);
     }
   }, [currentAnswer, currentQuestion]);
 
   return (
     <div className="fixed bottom-0 left-0 w-full h-[35vh] bg-white border-t shadow-lg flex flex-col justify-between z-50">
+      {/* === 🧩 現在の解答 === */}
       <div className="text-center py-1 border-b bg-white font-mono text-base">
         🧩 現在の解答：
         <span className="font-bold text-[#4A6572]">
@@ -287,6 +286,7 @@ function HandwritingPad({
         </span>
       </div>
 
+      {/* === 認識結果 === */}
       <div className="text-center mt-1 text-base font-mono">
         {recognizing ? (
           <span className="text-gray-500 animate-pulse">🔍 認識中...</span>
@@ -299,6 +299,7 @@ function HandwritingPad({
         )}
       </div>
 
+      {/* === キャンバス === */}
       <div className="flex-1 flex justify-center items-center pb-16 sm:pb-4">
         <SignatureCanvas
           ref={sigCanvas}
@@ -316,6 +317,7 @@ function HandwritingPad({
         />
       </div>
 
+      {/* === ボタン群 === */}
       <div
         className="fixed bottom-0 left-0 right-0 flex justify-around items-center 
              py-3 bg-gray-50 border-t shadow-lg text-sm 
@@ -331,6 +333,13 @@ function HandwritingPad({
         </button>
 
         <button
+          onClick={handleUndoLastStroke}
+          className="px-2 py-1 bg-orange-400 text-white rounded hover:bg-orange-500"
+        >
+          ⌫ 一つ戻す
+        </button>
+
+        <button
           onClick={recognizeChar}
           disabled={recognizing}
           className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -338,12 +347,9 @@ function HandwritingPad({
           {recognizing ? "認識中…" : "認識"}
         </button>
 
-        {/* ✅ アップ：入力追加のみ、判定は useEffect に任せる */}
         <button
           onClick={() => {
             if (!recognizedChar || recognizing) return;
-
-            // 🧩 入力更新（アップで文字を追加するだけ）
             if (onCharRecognized) {
               onCharRecognized(recognizedChar);
               clearCanvas();
@@ -397,9 +403,10 @@ const normText = (s = "") =>
     )
     .replace(/[’‘]/g, "'")
     .replace(/[“”]/g, '"')
-    .replace(/[。．，、・！？；：]+$/u, "")
-    .replace(/[.,!?;:]+$/u, "")
-    .replace(/\s+/g, " ");
+    // 🚫 以下の2行を削除 → ピリオドやカンマを削らない
+    // .replace(/[。．，、・！？；：]+$/u, "")
+    // .replace(/[.,!?;:]+$/u, "")
+    .replace(/\s+/g, " "); // 連続空白のみ整える
 
 // 正答が「in front of / in the front of」のように複数書かれている場合に分割
 const expandCorrects = (raw) => {
@@ -711,23 +718,22 @@ export default function EnglishTrapQuestions() {
 
   const renderInputSection = () => (
     <div className="flex flex-col gap-2 mt-2 items-center">
-      {/* 🧩 解答欄（パッドで認識された文字が入る） */}
       <p className="text-gray-700 text-lg font-mono mb-2">
         🧾 現在の解答欄：
         <span className="font-bold text-[#4A6572]">{inputAnswer}</span>
       </p>
 
-      {/* ✍️ 手書き入力 or テキスト入力 */}
       {useHandwriting ? (
         <HandwritingPad
           ocrEngine={ocrEngine}
-          onCharRecognized={(char) => setInputAnswer((prev) => prev + char)} // ← 直接セットでOK（自動採点対応）
-          onSubmitAnswer={() => handleAnswer(inputAnswer)} // ← 従来通り保険として残す
+          // ✅ ここでは「文字追加だけ」行い、自動採点はしない！
+          onCharRecognized={(char) => setInputAnswer((prev) => prev + char)}
+          onSubmitAnswer={() => handleAnswer(inputAnswer)} // ← 保険で残す
           onClearAll={() => setInputAnswer("")}
           onSpace={() => setInputAnswer((prev) => prev + " ")}
           currentAnswer={inputAnswer}
-          currentQuestion={filteredQuestions[currentIndex]} // ← ★追加
-          handleAnswer={handleAnswer} // ← ★追加
+          currentQuestion={filteredQuestions[currentIndex]}
+          handleAnswer={handleAnswer}
         />
       ) : (
         <>
@@ -751,15 +757,17 @@ export default function EnglishTrapQuestions() {
         </>
       )}
 
-      {/* 🎯 採点ボタン（常に上側に表示） */}
-      <button
-        onClick={() => handleAnswer(inputAnswer)}
-        className="bg-[#4A6572] text-white rounded-full px-6 py-2 hover:bg-[#3F555F] transition shadow mt-2"
-      >
-        採点する
-      </button>
+      {/* 🎯 採点ボタン */}
+      {!useHandwriting && (
+        <button
+          onClick={() => handleAnswer(inputAnswer)}
+          className="bg-[#4A6572] text-white rounded-full px-6 py-2 hover:bg-[#3F555F] transition shadow mt-2"
+        >
+          採点する
+        </button>
+      )}
 
-      {/* 🧠 OCRモード切り替え */}
+      {/* OCRモード切替 */}
       {useHandwriting && (
         <label className="text-sm text-gray-700 cursor-pointer mt-1">
           <input
@@ -774,7 +782,6 @@ export default function EnglishTrapQuestions() {
         </label>
       )}
 
-      {/* 💡 入力方法切り替え */}
       <div className="mt-2 flex justify-end w-full">
         <label className="text-sm text-gray-600 cursor-pointer">
           <input
