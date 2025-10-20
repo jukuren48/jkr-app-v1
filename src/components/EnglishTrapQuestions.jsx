@@ -2005,7 +2005,7 @@ export default function EnglishTrapQuestions() {
                 )}
 
                 {/* === 💡ヒント＆🔁覚え直すボタン群（問題文に近接配置） === */}
-                <div className="w-full flex justify-center gap-3 mt-1 mb-2">
+                <div className="w-full flex justify-center gap-3 mt-1 mb-1">
                   {/* 💡ヒントボタン */}
                   <button
                     onClick={handleShowHint}
