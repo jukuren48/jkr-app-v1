@@ -333,7 +333,7 @@ function HandwritingPad({
 
               // ✅ 正答データの取得と比較処理
               if (currentQuestion && handleAnswer) {
-                const normalizedUser = normText(recognizedChar);
+                const normalizedUser = normText(recognizedChar).trim();
 
                 const rawCorrect = Array.isArray(currentQuestion.correct)
                   ? currentQuestion.correct
@@ -350,21 +350,43 @@ function HandwritingPad({
                       .split(/\s*(\/|｜|\||,|，)\s*/)
                       .filter(Boolean);
 
-                // ✅ 完全一致（空白や全角半角は無視）でのみ正解にする
-                const isCorrect = correctArray.some((ans) => {
-                  const normAns = normText(ans);
-                  return (
-                    normAns === normalizedUser || // 完全一致
-                    normAns.replace(/\s+/g, "") ===
-                      normalizedUser.replace(/\s+/g, "") // 空白無視一致
-                  );
+                // ✅ 完全一致＋語数・末尾まで一致している場合のみ正解
+                const isPerfectMatch = correctArray.some((ans) => {
+                  const normAns = normText(ans).trim();
+
+                  // 大文字・小文字・空白統一済みの完全一致
+                  if (normAns === normalizedUser) return true;
+
+                  // ❌ 入力が正答の「先頭部分」だけなら不正解
+                  if (
+                    normAns.startsWith(normalizedUser) &&
+                    normAns.length > normalizedUser.length
+                  )
+                    return false;
+
+                  // ❌ 入力が正答の一部を含むだけなら不正解
+                  if (
+                    normAns.includes(normalizedUser) &&
+                    normAns.length > normalizedUser.length
+                  )
+                    return false;
+
+                  // ✅ 空白・句読点除去後の完全一致（柔軟一致）
+                  const strippedAns = normAns
+                    .replace(/[.,!?;:、。]+$/g, "")
+                    .replace(/\s+/g, "");
+                  const strippedUser = normalizedUser
+                    .replace(/[.,!?;:、。]+$/g, "")
+                    .replace(/\s+/g, "");
+
+                  return strippedAns === strippedUser;
                 });
 
-                if (isCorrect) {
+                if (isPerfectMatch) {
                   console.log("✅ 自動正解判定成功:", recognizedChar);
                   handleAnswer(recognizedChar); // ← 採点実行
                 } else {
-                  console.log("❌ 不一致または途中入力:", recognizedChar);
+                  console.log("❌ まだ途中入力または不一致:", recognizedChar);
                 }
               }
             }
