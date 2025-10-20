@@ -209,12 +209,24 @@ function HandwritingPad({
     const dataURL = sigCanvas.current.getCanvas().toDataURL("image/png");
     try {
       let text = "";
-      const {
-        data: { text: localText },
-      } = await Tesseract.recognize(dataURL, "eng+jpn", {
-        tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
-      });
-      text = localText || "";
+      if (ocrEngine === "vision") {
+        // ← Google Vision で実行
+        const res = await fetch("/api/vision-ocr", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageBase64: dataURL }),
+        });
+        const json = await res.json();
+        text = json?.text || "";
+      } else {
+        // ← Tesseract
+        const {
+          data: { text: localText },
+        } = await Tesseract.recognize(dataURL, "eng+jpn", {
+          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
+        });
+        text = localText;
+      }
       const cleaned = text.trim().replace(/[\u0000-\u001F]/g, "");
       setRecognizedChar(cleaned);
     } catch (err) {
@@ -246,18 +258,22 @@ function HandwritingPad({
           .split(/\s*(\/|｜|\||,|，)\s*/)
           .filter(Boolean);
 
-    const normalizedUser = normText(currentAnswer).replace(/\s+/g, " ").trim();
+    // 🔹空白・句読点を正規化
+    const normalize = (s) =>
+      s
+        .trim()
+        .replace(/\s+/g, " ")
+        .replace(/[.,!?;:]+$/g, "") // 末尾句読点無視
+        .toLowerCase();
 
-    const isPerfectMatch = correctArray.some((ans) => {
-      const normalizedAns = normText(ans).replace(/\s+/g, " ").trim();
-      return normalizedAns === normalizedUser; // ← 完全一致のみ
-    });
+    const user = normalize(currentAnswer);
+    const isPerfect = correctArray.some((ans) => normalize(ans) === user);
 
-    if (isPerfectMatch) {
-      console.log("✅ 自動正解判定:", currentAnswer);
+    if (isPerfect) {
+      console.log("✅ 完全一致 → 採点:", user);
       handleAnswer(currentAnswer);
     }
-  }, [currentAnswer]); // ← 🔥 currentAnswer が変わるたびに自動判定
+  }, [currentAnswer]);
 
   return (
     <div className="fixed bottom-0 left-0 w-full h-[35vh] bg-white border-t shadow-lg flex flex-col justify-between z-50">
