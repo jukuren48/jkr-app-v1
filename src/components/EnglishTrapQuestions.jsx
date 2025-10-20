@@ -327,44 +327,44 @@ function HandwritingPad({
           onClick={() => {
             if (!recognizedChar || recognizing) return;
 
-            // 🔹 現在までの全文（前回アップ分も含む）
-            const fullUserInput = normText(`${currentAnswer}${recognizedChar}`)
+            // 🧩 まず仮想的に全文を構築（最新状態をシミュレート）
+            const newFullAnswer = normText(`${currentAnswer}${recognizedChar}`)
               .replace(/\s+/g, " ")
               .trim();
 
+            // 文字をステートに反映
             if (onCharRecognized) {
               onCharRecognized(recognizedChar);
               clearCanvas();
+            }
 
-              if (currentQuestion && handleAnswer) {
-                const rawCorrect = Array.isArray(currentQuestion.correct)
-                  ? currentQuestion.correct
-                  : Array.isArray(currentQuestion.correctAnswers)
-                  ? currentQuestion.correctAnswers
-                  : currentQuestion.correctAnswer ??
-                    currentQuestion.correct ??
-                    "";
+            // ✅ 判定処理（認識後すぐに評価）
+            if (currentQuestion && handleAnswer) {
+              const rawCorrect = Array.isArray(currentQuestion.correct)
+                ? currentQuestion.correct
+                : Array.isArray(currentQuestion.correctAnswers)
+                ? currentQuestion.correctAnswers
+                : currentQuestion.correctAnswer ??
+                  currentQuestion.correct ??
+                  "";
 
-                const correctArray = Array.isArray(rawCorrect)
-                  ? rawCorrect
-                  : String(rawCorrect)
-                      .split(/\s*(\/|｜|\||,|，)\s*/)
-                      .filter(Boolean);
+              const correctArray = Array.isArray(rawCorrect)
+                ? rawCorrect
+                : String(rawCorrect)
+                    .split(/\s*(\/|｜|\||,|，)\s*/)
+                    .filter(Boolean);
 
-                // ✅ 完全一致のみ（部分一致なし）
-                const isPerfectMatch = correctArray.some((ans) => {
-                  const normalizedAns = normText(ans)
-                    .replace(/\s+/g, " ")
-                    .trim();
-                  return normalizedAns === fullUserInput;
-                });
+              // ✅ 完全一致のみ（部分一致禁止）
+              const isPerfectMatch = correctArray.some((ans) => {
+                const normalizedAns = normText(ans).replace(/\s+/g, " ").trim();
+                return normalizedAns === newFullAnswer;
+              });
 
-                if (isPerfectMatch) {
-                  console.log("✅ 自動正解判定成功:", fullUserInput);
-                  handleAnswer(fullUserInput); // ← 採点実行
-                } else {
-                  console.log("❌ 不一致または途中入力:", fullUserInput);
-                }
+              if (isPerfectMatch) {
+                console.log("✅ 自動正解判定成功:", newFullAnswer);
+                handleAnswer(newFullAnswer); // ← 採点実行
+              } else {
+                console.log("❌ 不一致または途中入力:", newFullAnswer);
               }
             }
           }}
