@@ -241,10 +241,11 @@ function HandwritingPad({
     setRecognizing(false);
   };
 
-  // ✅ 自動採点（完全一致のみ・大文字小文字は無視）
+  // ✅ currentAnswer が変わるたびに自動で採点（完全一致のみ）
   useEffect(() => {
     if (!currentQuestion || !currentAnswer || !handleAnswer) return;
 
+    // 正答群を展開
     const rawCorrect = Array.isArray(currentQuestion.correct)
       ? currentQuestion.correct
       : Array.isArray(currentQuestion.correctAnswers)
@@ -257,7 +258,7 @@ function HandwritingPad({
           .split(/\s*(\/|｜|\||,|，)\s*/)
           .filter(Boolean);
 
-    // ✅ 大文字小文字・空白・句読点を統一して完全一致のみ判定
+    // ✅ 大文字小文字・句読点・空白を標準化
     const normalize = (s) =>
       s
         .trim()
@@ -272,12 +273,16 @@ function HandwritingPad({
 
     const user = normalize(currentAnswer);
 
-    // ✅ 完全一致のみ（部分一致NG）
+    // ✅ 完全一致だけを正解にする（途中文は無視）
     const isPerfectMatch = correctArray.some((ans) => normalize(ans) === user);
 
+    // ✅ 完全一致時のみ自動採点
     if (isPerfectMatch) {
-      console.log("✅ 完全一致 → 自動採点:", user);
+      console.log("✅ 完全一致 → 自動正解:", user);
       handleAnswer(currentAnswer);
+    } else {
+      // 途中文ではスルー（正解にも不正解にもならない）
+      console.log("⏳ 途中入力または不一致:", user);
     }
   }, [currentAnswer, currentQuestion]);
 
