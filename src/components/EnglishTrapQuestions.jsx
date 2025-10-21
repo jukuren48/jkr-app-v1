@@ -1305,12 +1305,15 @@ export default function EnglishTrapQuestions() {
       const normalizeLoose = (s) =>
         s
           .trim()
-          .replace(/\s+/g, " ")
+          .replace(/\s+/g, " ") // 余分な空白を1つに
           .replace(/[’‘]/g, "'")
           .replace(/[“”]/g, '"')
-          .replace(/[．。]/g, ".")
-          .replace(/[,，]/g, ",")
-          .replace(/\s*([.,!?])\s*/g, "$1")
+          .replace(/[．。]/g, ".") // 全角→半角
+          .replace(/[,，]/g, ",") // 全角カンマ→半角
+          // ❌ 句読点周囲の空白削除をやめる
+          // .replace(/\s*([.,!?])\s*/g, "$1")
+          .replace(/\s*,\s*/g, ", ") // ✅ カンマの後は常に1スペース入れる
+          .replace(/\s*\.\s*/g, ".") // ✅ ピリオド前の空白だけ削除
           .toLowerCase();
 
       const userInput =
