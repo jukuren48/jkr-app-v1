@@ -257,29 +257,27 @@ function HandwritingPad({
           .split(/\s*(\/|｜|\||,|，)\s*/)
           .filter(Boolean);
 
-    // ✅ 「大文字小文字・句読点・余分な空白」を無視して比較
-    const normalizeLoose = (s) =>
+    // ✅ 大文字小文字・空白・句読点を統一して完全一致のみ判定
+    const normalize = (s) =>
       s
         .trim()
-        .replace(/\s+/g, " ") // 余分な空白を1つに
+        .replace(/\s+/g, " ")
         .replace(/[’‘]/g, "'")
         .replace(/[“”]/g, '"')
-        .replace(/[．。]/g, ".") // 日本語句点も英語ドット扱い
-        .replace(/[,，]/g, ",") // カンマ統一
-        .replace(/\s*([.,!?])\s*/g, "$1") // 句読点前後の空白削除
+        .replace(/[．。]/g, ".")
+        .replace(/[,，]/g, ",")
+        .replace(/\s*,\s*/g, ", ")
+        .replace(/\s*\.\s*/g, ".")
         .toLowerCase();
 
-    const user = normalizeLoose(currentAnswer);
+    const user = normalize(currentAnswer);
 
-    const isPerfectMatch = correctArray.some(
-      (ans) => normalizeLoose(ans) === user
-    );
+    // ✅ 完全一致のみ（部分一致NG）
+    const isPerfectMatch = correctArray.some((ans) => normalize(ans) === user);
 
     if (isPerfectMatch) {
-      console.log("✅ 完全一致（句読点・大文字小文字無視）:", currentAnswer);
+      console.log("✅ 完全一致 → 自動採点:", user);
       handleAnswer(currentAnswer);
-    } else {
-      console.log("✏️ 不一致または途中入力:", currentAnswer);
     }
   }, [currentAnswer, currentQuestion]);
 
@@ -1301,19 +1299,16 @@ export default function EnglishTrapQuestions() {
 
       const corrects = expandCorrects(raw);
 
-      // ✅ ゆるめの正規化：大小文字・空白・句読点無視
-      const normalizeLoose = (s) =>
+      const normalize = (s) =>
         s
           .trim()
-          .replace(/\s+/g, " ") // 余分な空白を1つに
+          .replace(/\s+/g, " ")
           .replace(/[’‘]/g, "'")
           .replace(/[“”]/g, '"')
-          .replace(/[．。]/g, ".") // 全角→半角
-          .replace(/[,，]/g, ",") // 全角カンマ→半角
-          // ❌ 句読点周囲の空白削除をやめる
-          // .replace(/\s*([.,!?])\s*/g, "$1")
-          .replace(/\s*,\s*/g, ", ") // ✅ カンマの後は常に1スペース入れる
-          .replace(/\s*\.\s*/g, ".") // ✅ ピリオド前の空白だけ削除
+          .replace(/[．。]/g, ".")
+          .replace(/[,，]/g, ",")
+          .replace(/\s*,\s*/g, ", ")
+          .replace(/\s*\.\s*/g, ".")
           .toLowerCase();
 
       const userInput =
@@ -1321,9 +1316,10 @@ export default function EnglishTrapQuestions() {
           ? answer
           : inputAnswer;
 
-      const user = normalizeLoose(userInput);
+      const user = normalize(userInput);
 
-      isCorrectAnswer = corrects.some((c) => normalizeLoose(c) === user);
+      // ✅ 完全一致のみ（途中入力は正解にしない）
+      isCorrectAnswer = corrects.some((c) => normalize(c) === user);
     }
 
     const unit = currentQuestion.unit;
