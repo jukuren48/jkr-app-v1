@@ -252,11 +252,12 @@ function HandwritingPad({
       ? currentQuestion.correctAnswers
       : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
 
-    const correctArray = Array.isArray(rawCorrect)
-      ? rawCorrect
-      : String(rawCorrect)
-          .split(/\s*(\/|｜|\||,|，)\s*/)
-          .filter(Boolean);
+    //const correctArray = Array.isArray(rawCorrect)
+    //  ? rawCorrect
+    //  : String(rawCorrect)
+    //      .split(/\s*(\/|｜|\||,|，)\s*/)
+    //      .filter(Boolean);
+    const correctArray = expandCorrects(rawCorrect);
 
     // ✅ 大文字小文字・句読点・空白を標準化
     const normalize = (s) =>
@@ -423,7 +424,7 @@ const expandCorrects = (raw) => {
   if (Array.isArray(raw)) return raw;
   if (raw == null) return [];
   return String(raw)
-    .split(/\s*(\/|｜|\||,|，)\s*/)
+    .split(/\s*(\/|｜|\|)\s*/)
     .filter(Boolean);
 };
 
