@@ -1291,7 +1291,6 @@ export default function EnglishTrapQuestions() {
     let isCorrectAnswer = false;
 
     if (currentQuestion.type === "multiple-choice") {
-      // ✅ 選択問題は完全一致
       isCorrectAnswer = answer === currentQuestion.correct;
     } else if (currentQuestion.type === "input") {
       const raw = Array.isArray(currentQuestion.correct)
@@ -1300,20 +1299,28 @@ export default function EnglishTrapQuestions() {
         ? currentQuestion.correctAnswers
         : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
 
-      const corrects = expandCorrects(raw)
-        .map((c) => normText(c).trim()) // ← 不要な英字削除をやめる
-        .filter((c) => c.length > 0);
+      const corrects = expandCorrects(raw);
 
-      // 🧩 OCR or 手入力どちらでも対応
+      // ✅ ゆるめの正規化：大小文字・空白・句読点無視
+      const normalizeLoose = (s) =>
+        s
+          .trim()
+          .replace(/\s+/g, " ")
+          .replace(/[’‘]/g, "'")
+          .replace(/[“”]/g, '"')
+          .replace(/[．。]/g, ".")
+          .replace(/[,，]/g, ",")
+          .replace(/\s*([.,!?])\s*/g, "$1")
+          .toLowerCase();
+
       const userInput =
         typeof answer === "string" && answer.trim() !== ""
           ? answer
           : inputAnswer;
 
-      const user = normText(userInput).trim();
+      const user = normalizeLoose(userInput);
 
-      // ✅ 完全一致のみ（部分一致・サブセット一致は禁止）
-      isCorrectAnswer = corrects.some((c) => c === user);
+      isCorrectAnswer = corrects.some((c) => normalizeLoose(c) === user);
     }
 
     const unit = currentQuestion.unit;
@@ -1338,18 +1345,12 @@ export default function EnglishTrapQuestions() {
 
       if (!reviewing) {
         setStreak((prev) => prev + 1);
-
-        if (streak + 1 >= 20) {
+        if (streak + 1 >= 20)
           setAddMessage("🎉 20連続正解達成！すごすぎる！！");
-        } else if (streak + 1 >= 15) {
-          setAddMessage("🔥 15連続正解！神ってる！！");
-        } else if (streak + 1 >= 10) {
-          setAddMessage("✨ 10連続正解！その調子！");
-        } else if (streak + 1 >= 5) {
-          setAddMessage("👍 5連続正解！いいぞ！");
-        } else {
-          setAddMessage("");
-        }
+        else if (streak + 1 >= 15) setAddMessage("🔥 15連続正解！神ってる！！");
+        else if (streak + 1 >= 10) setAddMessage("✨ 10連続正解！その調子！");
+        else if (streak + 1 >= 5) setAddMessage("👍 5連続正解！いいぞ！");
+        else setAddMessage("");
       }
     } else {
       setCharacterMood("sad");
