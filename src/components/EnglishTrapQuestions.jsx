@@ -257,22 +257,29 @@ function HandwritingPad({
           .split(/\s*(\/|｜|\||,|，)\s*/)
           .filter(Boolean);
 
-    // ✅ 大文字小文字は無視、記号の削除もなし
-    const normalize = (s) =>
-      s.trim().replace(/\s+/g, " ").replace(/[’‘]/g, "'").replace(/[“”]/g, '"');
+    // ✅ 「大文字小文字・句読点・余分な空白」を無視して比較
+    const normalizeLoose = (s) =>
+      s
+        .trim()
+        .replace(/\s+/g, " ") // 余分な空白を1つに
+        .replace(/[’‘]/g, "'")
+        .replace(/[“”]/g, '"')
+        .replace(/[．。]/g, ".") // 日本語句点も英語ドット扱い
+        .replace(/[,，]/g, ",") // カンマ統一
+        .replace(/\s*([.,!?])\s*/g, "$1") // 句読点前後の空白削除
+        .toLowerCase();
 
-    const user = normalize(currentAnswer).toLowerCase();
+    const user = normalizeLoose(currentAnswer);
 
-    // ✅ 完全一致（大文字小文字無視）
     const isPerfectMatch = correctArray.some(
-      (ans) => normalize(ans).toLowerCase() === user
+      (ans) => normalizeLoose(ans) === user
     );
 
     if (isPerfectMatch) {
-      console.log("✅ 完全一致（大文字小文字無視） → 採点実行:", currentAnswer);
+      console.log("✅ 完全一致（句読点・大文字小文字無視）:", currentAnswer);
       handleAnswer(currentAnswer);
     } else {
-      console.log("✏️ 途中入力または不一致:", currentAnswer);
+      console.log("✏️ 不一致または途中入力:", currentAnswer);
     }
   }, [currentAnswer, currentQuestion]);
 
