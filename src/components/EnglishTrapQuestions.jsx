@@ -1304,6 +1304,7 @@ export default function EnglishTrapQuestions() {
 
       const corrects = expandCorrects(raw);
 
+      // ✅ 末尾のピリオド・カンマ・空白を統一して削りすぎない
       const normalize = (s) =>
         s
           .trim()
@@ -1314,6 +1315,7 @@ export default function EnglishTrapQuestions() {
           .replace(/[,，]/g, ",")
           .replace(/\s*,\s*/g, ", ")
           .replace(/\s*\.\s*/g, ".")
+          .replace(/[ ]+$/g, "") // 末尾空白だけ除去
           .toLowerCase();
 
       const userInput =
@@ -1323,8 +1325,11 @@ export default function EnglishTrapQuestions() {
 
       const user = normalize(userInput);
 
-      // ✅ 完全一致のみ（途中入力は正解にしない）
-      isCorrectAnswer = corrects.some((c) => normalize(c) === user);
+      // ✅ 完全一致のみ判定（末尾ピリオドの有無も許容）
+      isCorrectAnswer = corrects.some((c) => {
+        const normC = normalize(c);
+        return normC === user || normC + "." === user || normC === user + ".";
+      });
     }
 
     const unit = currentQuestion.unit;
