@@ -241,7 +241,7 @@ function HandwritingPad({
     setRecognizing(false);
   };
 
-  // ✅ アップ後の自動採点
+  // ✅ 自動採点（完全一致のみ・大文字小文字は無視）
   useEffect(() => {
     if (!currentQuestion || !currentAnswer || !handleAnswer) return;
 
@@ -257,22 +257,22 @@ function HandwritingPad({
           .split(/\s*(\/|｜|\||,|，)\s*/)
           .filter(Boolean);
 
+    // ✅ 大文字小文字は無視、記号の削除もなし
     const normalize = (s) =>
-      s
-        .trim()
-        .replace(/\s+/g, " ")
-        .replace(/[’‘]/g, "'")
-        .replace(/[“”]/g, '"')
-        .toLowerCase();
+      s.trim().replace(/\s+/g, " ").replace(/[’‘]/g, "'").replace(/[“”]/g, '"');
 
-    const user = normalize(currentAnswer);
-    const isPerfectMatch = correctArray.some((ans) => normalize(ans) === user);
+    const user = normalize(currentAnswer).toLowerCase();
+
+    // ✅ 完全一致（大文字小文字無視）
+    const isPerfectMatch = correctArray.some(
+      (ans) => normalize(ans).toLowerCase() === user
+    );
 
     if (isPerfectMatch) {
-      console.log("✅ 完全一致 → 採点実行:", user);
+      console.log("✅ 完全一致（大文字小文字無視） → 採点実行:", currentAnswer);
       handleAnswer(currentAnswer);
     } else {
-      console.log("✏️ 途中入力:", user);
+      console.log("✏️ 途中入力または不一致:", currentAnswer);
     }
   }, [currentAnswer, currentQuestion]);
 
