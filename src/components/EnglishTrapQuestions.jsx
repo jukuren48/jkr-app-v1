@@ -1353,18 +1353,35 @@ export default function EnglishTrapQuestions() {
       setCharacterMood("happy");
       if (soundEnabled) playSFX("/sounds/correct.mp3");
 
-      if (!reviewing) {
-        // ✅ 覚え直し中でなければ正解カウント・連続正解を更新
-        setStreak((prev) => prev + 1);
-
+      if (reviewing) {
+        // 🔁 覚え直し中は正解でも「不正解扱い」で集計する
+        console.log("📘 覚え直し中の正解 → 不正解としてカウント");
+        const unit = currentQuestion.unit;
+        setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
+        setFirstMistakeAnswers((prev) => ({
+          ...prev,
+          [currentQuestion.id]: "(覚え直し正解)",
+        }));
         setUnitStats((prev) => {
           const prevStat = prev[unit] || { wrong: 0, total: 0 };
           return {
             ...prev,
             [unit]: {
-              ...prevStat,
-              total: prevStat.total + 1, // 出題数
+              wrong: prevStat.wrong + 1, // ← 不正解扱いとして加算
+              total: prevStat.total + 1, // ← 出題数もカウント
             },
+          };
+        });
+        setStreak(0); // ← 連続正解リセット
+        setAddMessage("📘 覚え直し中はスコア対象外");
+      } else {
+        // ✅ 通常の正解処理
+        setStreak((prev) => prev + 1);
+        setUnitStats((prev) => {
+          const prevStat = prev[unit] || { wrong: 0, total: 0 };
+          return {
+            ...prev,
+            [unit]: { ...prevStat, total: prevStat.total + 1 },
           };
         });
 
@@ -1379,9 +1396,6 @@ export default function EnglishTrapQuestions() {
         } else {
           setAddMessage("");
         }
-      } else {
-        // ✅ 覚え直し中は正答率・連続正解を変化させない
-        console.log("📘 覚え直し中の正解 → スコア加算なし");
       }
     } else {
       setCharacterMood("sad");
