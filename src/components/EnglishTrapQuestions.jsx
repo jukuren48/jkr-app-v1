@@ -1601,30 +1601,30 @@ export default function EnglishTrapQuestions() {
   };
 
   // ========== UI ==========
-  // ✅ 覚え直し問題ID一覧（表示用途では使えるが、集計からは除外しない）
+  // ✅ 覚え直し問題ID一覧
   const reviewIds = new Set(
     Array.isArray(reviewMistakes) ? reviewMistakes.map((q) => String(q.id)) : []
   );
 
-  // ✅ 全体の出題数（開始時に固定しているならそれを使う）
+  // ✅ 全体の出題数
   const totalQuestions = initialQuestionCount || filteredQuestions.length;
 
-  // ✅ 不正解数（← 覚え直しも“不正解扱い”なので除外しない）
+  // ✅ 不正解数（スコア計算では覚え直しも“不正解扱い”）
   const incorrectCount = Object.keys(mistakes || {}).length;
 
   // ✅ 正答数
   const correctCount = Math.max(0, totalQuestions - incorrectCount);
 
-  // ✅ 正答率（防御付き）
+  // ✅ 正答率
   const correctRate =
     totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
-  // ✅ 不正解リスト（← 覚え直しも不正解扱いで表示）
+  // ✅ 不正解リスト（表示上は「覚え直し」と重複しないように除外）
   const incorrectQuestionsList = filteredQuestions.filter(
-    (q) => mistakes[q.id]
+    (q) => mistakes[q.id] && !reviewIds.has(String(q.id))
   );
 
-  // ✅ ヒントペナルティ（ここはお好みですが、通常通り全件に対して計上）
+  // ✅ ヒントペナルティ
   const totalHintPenalty = Object.values(hintLevels || {})
     .map((level) =>
       level === 0 ? 0 : hintPenalties.slice(0, level).reduce((a, b) => a + b, 0)
