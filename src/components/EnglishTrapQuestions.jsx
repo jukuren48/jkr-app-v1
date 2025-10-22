@@ -1354,13 +1354,34 @@ export default function EnglishTrapQuestions() {
       if (soundEnabled) playSFX("/sounds/correct.mp3");
 
       if (!reviewing) {
+        // ✅ 覚え直し中でなければ正解カウント・連続正解を更新
         setStreak((prev) => prev + 1);
-        if (streak + 1 >= 20)
+
+        setUnitStats((prev) => {
+          const prevStat = prev[unit] || { wrong: 0, total: 0 };
+          return {
+            ...prev,
+            [unit]: {
+              ...prevStat,
+              total: prevStat.total + 1, // 出題数
+            },
+          };
+        });
+
+        if (streak + 1 >= 20) {
           setAddMessage("🎉 20連続正解達成！すごすぎる！！");
-        else if (streak + 1 >= 15) setAddMessage("🔥 15連続正解！神ってる！！");
-        else if (streak + 1 >= 10) setAddMessage("✨ 10連続正解！その調子！");
-        else if (streak + 1 >= 5) setAddMessage("👍 5連続正解！いいぞ！");
-        else setAddMessage("");
+        } else if (streak + 1 >= 15) {
+          setAddMessage("🔥 15連続正解！神ってる！！");
+        } else if (streak + 1 >= 10) {
+          setAddMessage("✨ 10連続正解！その調子！");
+        } else if (streak + 1 >= 5) {
+          setAddMessage("👍 5連続正解！いいぞ！");
+        } else {
+          setAddMessage("");
+        }
+      } else {
+        // ✅ 覚え直し中は正答率・連続正解を変化させない
+        console.log("📘 覚え直し中の正解 → スコア加算なし");
       }
     } else {
       setCharacterMood("sad");
