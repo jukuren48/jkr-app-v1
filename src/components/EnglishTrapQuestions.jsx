@@ -523,6 +523,7 @@ export default function EnglishTrapQuestions() {
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
   const [reviewList, setReviewList] = useState([]); // 「覚え直す」対象を保存
+  const [isReviewMode, setIsReviewMode] = useState(false);
   // ✅ 覚え直し（復習）中フラグ
   const [reviewing, setReviewing] = useState(false);
   const [reviewMistakes, setReviewMistakes] = useState([]);
@@ -1353,9 +1354,9 @@ export default function EnglishTrapQuestions() {
       setCharacterMood("happy");
       if (soundEnabled) playSFX("/sounds/correct.mp3");
 
-      if (reviewing) {
-        // 🔁 覚え直し中は正解でも「不正解扱い」で集計する
-        console.log("📘 覚え直し中の正解 → 不正解としてカウント");
+      if (reviewing || isReviewMode) {
+        // 🔁 覚え直し中 or 復習モード中 → 不正解扱い
+        console.log("📘 復習または覚え直し中の正解 → 不正解としてカウント");
         const unit = currentQuestion.unit;
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
         setFirstMistakeAnswers((prev) => ({
@@ -1459,6 +1460,7 @@ export default function EnglishTrapQuestions() {
             setTimerActive(false);
             setShowResult(false);
             setReviewList([]); // ← リセット
+            setIsReviewMode(true);
           }, 100); // ← わずか100msの遅延でstate同期完了
           return;
         }
@@ -1468,6 +1470,7 @@ export default function EnglishTrapQuestions() {
         setShowResult(true);
         setTimerActive(false);
         setTimeLeft(0);
+        setIsReviewMode(false);
       }
 
       setShowFeedback(false); // ← 正解時もリセットが必要
