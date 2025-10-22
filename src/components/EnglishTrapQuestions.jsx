@@ -524,6 +524,7 @@ export default function EnglishTrapQuestions() {
   const [wordMeaning, setWordMeaning] = useState("");
   const [reviewList, setReviewList] = useState([]); // 「覚え直す」対象を保存
   const [isReviewMode, setIsReviewMode] = useState(false);
+  const [reviewAnsweredIds, setReviewAnsweredIds] = useState(new Set());
   // ✅ 覚え直し（復習）中フラグ
   const [reviewing, setReviewing] = useState(false);
   const [reviewMistakes, setReviewMistakes] = useState([]);
@@ -1355,7 +1356,7 @@ export default function EnglishTrapQuestions() {
       if (soundEnabled) playSFX("/sounds/correct.mp3");
 
       if (reviewing || isReviewMode) {
-        // 🔁 覚え直し中 or 復習モード中 → 不正解扱い
+        // 🔁 覚え直し中 or 復習モード中 → 不正解扱い＋スコア除外
         console.log("📘 復習または覚え直し中の正解 → 不正解としてカウント");
         const unit = currentQuestion.unit;
         setMistakes((prev) => ({ ...prev, [currentQuestion.id]: true }));
@@ -1363,6 +1364,7 @@ export default function EnglishTrapQuestions() {
           ...prev,
           [currentQuestion.id]: "(覚え直し正解)",
         }));
+        setReviewAnsweredIds((prev) => new Set([...prev, currentQuestion.id]));
         setUnitStats((prev) => {
           const prevStat = prev[unit] || { wrong: 0, total: 0 };
           return {
@@ -1599,18 +1601,16 @@ export default function EnglishTrapQuestions() {
   };
 
   // ========== UI ==========
-  // ✅ 覚え直し問題ID一覧を取得（型統一）
+  // ✅ 覚え直し問題ID一覧（表示用途では使えるが、集計からは除外しない）
   const reviewIds = new Set(
     Array.isArray(reviewMistakes) ? reviewMistakes.map((q) => String(q.id)) : []
   );
 
-  // ✅ 全体の出題数（最初に保存した分を優先）
+  // ✅ 全体の出題数（開始時に固定しているならそれを使う）
   const totalQuestions = initialQuestionCount || filteredQuestions.length;
 
-  // ✅ 不正解数（覚え直し除外）
-  const incorrectCount = Object.keys(mistakes || {}).filter(
-    (id) => !reviewIds.has(String(id))
-  ).length;
+  // ✅ 不正解数（← 覚え直しも“不正解扱い”なので除外しない）
+  const incorrectCount = Object.keys(mistakes || {}).length;
 
   // ✅ 正答数
   const correctCount = Math.max(0, totalQuestions - incorrectCount);
@@ -1619,15 +1619,14 @@ export default function EnglishTrapQuestions() {
   const correctRate =
     totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
-  // ✅ 不正解リスト（覚え直し除外）
+  // ✅ 不正解リスト（← 覚え直しも不正解扱いで表示）
   const incorrectQuestionsList = filteredQuestions.filter(
-    (q) => mistakes[q.id] && !reviewIds.has(String(q.id))
+    (q) => mistakes[q.id]
   );
 
-  // ✅ ヒントペナルティ（覚え直し問題除外）
-  const totalHintPenalty = Object.entries(hintLevels || {})
-    .filter(([id]) => !reviewIds.has(String(id)))
-    .map(([_, level]) =>
+  // ✅ ヒントペナルティ（ここはお好みですが、通常通り全件に対して計上）
+  const totalHintPenalty = Object.values(hintLevels || {})
+    .map((level) =>
       level === 0 ? 0 : hintPenalties.slice(0, level).reduce((a, b) => a + b, 0)
     )
     .reduce((a, b) => a + b, 0);
