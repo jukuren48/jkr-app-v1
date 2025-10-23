@@ -1000,12 +1000,23 @@ export default function EnglishTrapQuestions() {
       // ✅ 通常問題中 or 復習中のBGM制御
       if (showQuestions) {
         if (isReviewMode) {
-          // ✅ 通常BGMを止めてから復習BGMを再生
+          // ✅ まず resume を完全に待ってから実行（iOSで必須）
+          await ensureAudioResume();
+
+          // ✅ 一度通常BGMを止める
           stopQbgm();
+
+          // ✅ 復習モードBGMを再生
           await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm");
-          fadeInBGM(qbgmGain, 0.4, 3.0);
-          console.log("[Audio] review BGM started");
+
+          // ✅ iOSで再生が遅れることがあるため、0.3秒後にフェードイン
+          setTimeout(() => {
+            fadeInBGM(qbgmGain, 0.4, 3.0);
+          }, 300);
+
+          console.log("[Audio] review BGM started (iOS-safe)");
         } else {
+          await ensureAudioResume();
           await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm");
           fadeInBGM(qbgmGain, 0.4, 3.0);
         }
