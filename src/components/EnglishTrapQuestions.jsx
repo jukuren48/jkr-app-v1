@@ -1531,7 +1531,7 @@ export default function EnglishTrapQuestions() {
         // ✅ 全問終了：復習リストがある場合は再出題へ
         if (reviewList.length > 0) {
           alert("📘 復習問題をもう一度出すよ！");
-          setIsReviewMode(true);
+          //setIsReviewMode(true);
           console.log("[DEBUG] Entering Review Mode");
           // ✅ reviewList の内容を固定コピーしてから使う
           const reviewCopy = [...reviewList];
