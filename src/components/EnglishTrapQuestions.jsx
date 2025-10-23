@@ -73,6 +73,18 @@ async function ensureLoop(src, gainNode, storeRefName) {
   if (storeRefName === "qbgm") qbgmSource = source;
 }
 
+function stopQbgm() {
+  if (qbgmSource) {
+    try {
+      qbgmSource.stop(0);
+    } catch (e) {
+      console.warn("[stopQbgm] failed:", e);
+    }
+    qbgmSource = null;
+    console.log("[Audio] qbgm stopped");
+  }
+}
+
 function fadeInBGM(gainNode, targetVolume = 1.0, duration = 2.0) {
   if (!audioCtx || !gainNode) return;
 
@@ -646,7 +658,7 @@ export default function EnglishTrapQuestions() {
       }
     }
     if (bgmGain) {
-      bgmGain.gain.value = 0.5;
+      bgmGain.gain.value = 0.4;
       log("[BGM] unmuted " + audioCtx?.state);
     } else {
       log("[BGM] unmute skipped - no bgmGain");
@@ -983,23 +995,38 @@ export default function EnglishTrapQuestions() {
         return;
       }
 
-      // 🔑 iPhone用: ここで必ず resume() を試みる
       await ensureAudioResume();
 
+      // ✅ 通常問題中 or 復習中のBGM制御
       if (showQuestions) {
-        fadeInBGM(qbgmGain, 0.4, 3.0); // 2秒かけてフェードイン
-        bgmGain.gain.value = 0; // 他のBGMは消す
-      } else if (!showQuestions && !showResult) {
-        bgmGain.gain.value = 0.4;
-        qbgmGain.gain.value = 0;
-      } else if (showResult) {
-        bgmGain.gain.value = 0.001;
-        qbgmGain.gain.value = 0;
+        if (isReviewMode) {
+          // ✅ 通常BGMを止めてから復習BGMを再生
+          stopQbgm();
+          await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm");
+          fadeInBGM(qbgmGain, 0.4, 3.0);
+          console.log("[Audio] review BGM started");
+        } else {
+          await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm");
+          fadeInBGM(qbgmGain, 0.4, 3.0);
+        }
+        bgmGain.gain.value = 0;
+      }
+
+      // ✅ 結果画面（復習モードでなければ音を落とす）
+      else if (showResult) {
+        if (isReviewMode) {
+          // 復習中はBGMを維持（音量そのまま）
+          qbgmGain.gain.value = 0.4;
+        } else {
+          // 通常の結果画面
+          bgmGain.gain.value = 0.001;
+          qbgmGain.gain.value = 0;
+        }
       }
     };
 
     applyBGM();
-  }, [soundEnabled, showQuestions, showResult]);
+  }, [soundEnabled, showQuestions, showResult, isReviewMode]);
 
   useEffect(() => {
     const unlockAudio = () => {
@@ -1493,7 +1520,8 @@ export default function EnglishTrapQuestions() {
         // ✅ 全問終了：復習リストがある場合は再出題へ
         if (reviewList.length > 0) {
           alert("📘 復習問題をもう一度出すよ！");
-
+          setIsReviewMode(true);
+          console.log("[DEBUG] Entering Review Mode");
           // ✅ reviewList の内容を固定コピーしてから使う
           const reviewCopy = [...reviewList];
 
