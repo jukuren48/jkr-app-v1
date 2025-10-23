@@ -1181,19 +1181,31 @@ export default function EnglishTrapQuestions() {
 
   // ✅ 解説の自動読み上げ（不正解時は誤答解説を優先）
   useEffect(() => {
-    if (!showFeedback) return; // 解答結果画面のみ
-    if (!currentQuestion) return;
+    if (!showFeedback || !currentQuestion) return;
 
-    // 正解・不正解に応じて読み上げる内容を決定
     const textToRead = isCorrect
       ? currentQuestion.explanation
       : currentQuestion.incorrectExplanations?.[selectedChoice] ??
         `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`;
 
-    // 空でなければ読み上げ実行
-    if (textToRead && textToRead.trim() !== "") {
-      speakExplanation(textToRead);
-    }
+    if (!textToRead || textToRead.trim() === "") return;
+
+    // ✅ 再生開始時にボタンを無効化
+    setIsSpeaking(true);
+
+    // 音声再生
+    speakExplanation(textToRead);
+
+    // ✅ テキスト長から再生時間を概算して解除
+    const len = textToRead.length;
+    let delay = 3000; // 最短3秒
+    if (len > 50 && len <= 100) delay = 5000; // 中くらい
+    else if (len > 100) delay = 8000; // 長め
+
+    const timer = setTimeout(() => setIsSpeaking(false), delay);
+
+    // クリーンアップ（次の問題に行くときにタイマー解除）
+    return () => clearTimeout(timer);
   }, [showFeedback, isCorrect, currentQuestion, selectedChoice]);
 
   // 時間切れ処理
@@ -2011,9 +2023,14 @@ export default function EnglishTrapQuestions() {
 
               <button
                 onClick={handleNext}
-                className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
+                disabled={isSpeaking} // ✅ 再生中は押せない
+                className={`px-6 py-3 rounded-full shadow-md transition mt-4 text-white font-bold ${
+                  isSpeaking
+                    ? "bg-gray-400 cursor-not-allowed" // 🔒 再生中はグレーで無効
+                    : "bg-pink-400 hover:bg-pink-500" // 🔓 通常時はピンクで有効
+                }`}
               >
-                次へ
+                {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
               </button>
             </div>
           ) : (
