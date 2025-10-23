@@ -963,7 +963,7 @@ export default function EnglishTrapQuestions() {
               console.log("[Audio] resumed in unit select");
             }
             if (bgmGain) {
-              bgmGain.gain.value = 0.5;
+              bgmGain.gain.value = 0.4;
             }
           } catch (e) {
             console.warn("[Audio] resume failed in unit select", e);
@@ -987,10 +987,10 @@ export default function EnglishTrapQuestions() {
       await ensureAudioResume();
 
       if (showQuestions) {
-        fadeInBGM(qbgmGain, 0.5, 3.0); // 2秒かけてフェードイン
+        fadeInBGM(qbgmGain, 0.4, 3.0); // 2秒かけてフェードイン
         bgmGain.gain.value = 0; // 他のBGMは消す
       } else if (!showQuestions && !showResult) {
-        bgmGain.gain.value = 0.5;
+        bgmGain.gain.value = 0.4;
         qbgmGain.gain.value = 0;
       } else if (showResult) {
         bgmGain.gain.value = 0.001;
@@ -1133,7 +1133,7 @@ export default function EnglishTrapQuestions() {
 
     let limit = 15; // デフォルト
     if (currentQuestion.type === "input") {
-      limit = 45; // 記述問題
+      limit = 50; // 記述問題
     } else if (currentQuestion.type === "multiple-choice") {
       if (currentQuestion.unit && currentQuestion.unit.includes("読解")) {
         limit = 30; // 読解問題
@@ -1199,9 +1199,9 @@ export default function EnglishTrapQuestions() {
 
     // ✅ テキスト長から再生時間を概算して解除
     const len = textToRead.length;
-    let delay = 3000; // 最短3秒
-    if (len > 50 && len <= 100) delay = 5000; // 中くらい
-    else if (len > 100) delay = 8000; // 長め
+    let delay = 2500; // 最短3秒
+    if (len > 50 && len <= 100) delay = 4500; // 中くらい
+    else if (len > 100) delay = 7500; // 長め
 
     const timer = setTimeout(() => setIsSpeaking(false), delay);
 
