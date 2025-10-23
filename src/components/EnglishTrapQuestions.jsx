@@ -533,6 +533,7 @@ export default function EnglishTrapQuestions() {
   const [showResult, setShowResult] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [mistakes, setMistakes] = useState({});
   const [initialQuestions, setInitialQuestions] = useState([]);
