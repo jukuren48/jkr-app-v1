@@ -177,6 +177,29 @@ function TTSButton({ text }) {
   );
 }
 
+// ✅ 正解/不正解で出す解説テキストを統一的に取得
+function getFeedbackText({ currentQuestion, isCorrect, selectedChoice }) {
+  if (!currentQuestion) return "";
+
+  if (isCorrect) {
+    // 正解時：通常のexplanation
+    return currentQuestion.explanation || "";
+  }
+
+  // 不正解時：選んだ選択肢に対応する誤答解説を優先
+  const wrongMap = currentQuestion.incorrectExplanations || {};
+  const wrong =
+    wrongMap?.[selectedChoice] ?? wrongMap?.[String(selectedChoice)] ?? "";
+
+  if (wrong && String(wrong).trim() !== "") return wrong;
+
+  // フォールバック（誤答解説が用意されていない場合）
+  const correctText =
+    currentQuestion.correct ?? currentQuestion.correctAnswer ?? "";
+  const base = currentQuestion.explanation || "";
+  return `正解は「${correctText}」。${base}`.trim();
+}
+
 // ======== 手書き入力パッドコンポーネント ========
 function HandwritingPad({
   ocrEngine,
@@ -1156,16 +1179,22 @@ export default function EnglishTrapQuestions() {
     }
   }, [timeLeft, timerActive, soundEnabled, showQuestions, currentIndex]);
 
-  // 解説の自動読み上げ
+  // ✅ 解説の自動読み上げ（不正解時は誤答解説を優先）
   useEffect(() => {
     if (!showFeedback) return; // 解答結果画面のみ
-    if (isCorrect) return; // 正解時は自動で流さない
     if (!currentQuestion) return;
-    if (!currentQuestion.explanation) return;
 
-    // ❌ 二重再生防止のため、失敗した時だけ自動再生
-    speakExplanation(currentQuestion.explanation);
-  }, [showFeedback, isCorrect, currentQuestion]);
+    // 正解・不正解に応じて読み上げる内容を決定
+    const textToRead = isCorrect
+      ? currentQuestion.explanation
+      : currentQuestion.incorrectExplanations?.[selectedChoice] ??
+        `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`;
+
+    // 空でなければ読み上げ実行
+    if (textToRead && textToRead.trim() !== "") {
+      speakExplanation(textToRead);
+    }
+  }, [showFeedback, isCorrect, currentQuestion, selectedChoice]);
 
   // 時間切れ処理
   useEffect(() => {
@@ -1562,7 +1591,11 @@ export default function EnglishTrapQuestions() {
       question: currentQuestion.question || currentQuestion.prompt,
       answer: selectedChoice || inputAnswer,
       correct: currentQuestion.correct || currentQuestion.correctAnswer,
-      explanation: currentQuestion.explanation,
+      explanation: getFeedbackText({
+        currentQuestion,
+        isCorrect,
+        selectedChoice,
+      }), // ←ここ！
     };
 
     setQuestionList((prev) => [...prev, questionItem]);
@@ -1909,11 +1942,25 @@ export default function EnglishTrapQuestions() {
                   </h3>
                 </div>
 
+                {/* ✅ 正解/不正解で表示内容を切り替え */}
                 <p className="text-gray-800 leading-relaxed">
-                  {currentQuestion.explanation}
+                  {isCorrect
+                    ? currentQuestion.explanation
+                    : currentQuestion.incorrectExplanations?.[selectedChoice] ??
+                      `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`}
                 </p>
+
+                {/* ✅ 音声も同じ内容を読み上げるよう統一 */}
                 <button
-                  onClick={() => speakExplanation(currentQuestion.explanation)}
+                  onClick={() => {
+                    const textToRead = isCorrect
+                      ? currentQuestion.explanation
+                      : currentQuestion.incorrectExplanations?.[
+                          selectedChoice
+                        ] ??
+                        `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`;
+                    speakExplanation(textToRead);
+                  }}
                   className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
                 >
                   🔊 解説を聞く
