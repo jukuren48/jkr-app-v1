@@ -4410,5 +4410,815 @@
     "explanation": "「夕食」は英語で dinner です。",
     "incorrectExplanations": {},
     "type": "input"
+  },
+  {
+    "id": "ff1d9b63-2c28-4a0f-8d31-34e14f232a83",
+    "unit": "単語テスト月",
+    "question": "「1月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "January",
+    "explanation": "「1月」は英語で January です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a80fd5b7-67f1-4a54-8b7c-dcbeaf0b2f06",
+    "unit": "単語テスト月",
+    "question": "「2月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "February",
+    "explanation": "「2月」は英語で February です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b8d760f4-00a5-4f09-b5d7-16da25941e5e",
+    "unit": "単語テスト月",
+    "question": "「3月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "March",
+    "explanation": "「3月」は英語で March です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "fd61cb34-bdc1-45f0-9c22-35326b1937c8",
+    "unit": "単語テスト月",
+    "question": "「4月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "April",
+    "explanation": "「4月」は英語で April です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b4e0c7e0-b8cb-44db-a49c-1637b5d9364b",
+    "unit": "単語テスト月",
+    "question": "「5月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "May",
+    "explanation": "「5月」は英語で May です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "1b26a6c0-52d4-4ad5-9e0b-f750c68615e4",
+    "unit": "単語テスト月",
+    "question": "「6月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "June",
+    "explanation": "「6月」は英語で June です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "61e4a67d-6e4e-4850-8c15-0ff6e1089d0b",
+    "unit": "単語テスト月",
+    "question": "「7月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "July",
+    "explanation": "「7月」は英語で July です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "eab41e92-c98c-4742-8997-4d5b9980e55f",
+    "unit": "単語テスト月",
+    "question": "「8月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "August",
+    "explanation": "「8月」は英語で August です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "11b9dcf2-3e90-4d80-bb02-fcd8a6f4d46d",
+    "unit": "単語テスト月",
+    "question": "「9月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "September",
+    "explanation": "「9月」は英語で September です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "cb9e04a5-37b7-45dc-b236-357b4b061f19",
+    "unit": "単語テスト月",
+    "question": "「10月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "October",
+    "explanation": "「10月」は英語で October です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "66a77a9c-54b9-4e5e-93bb-17e7fd0f0c87",
+    "unit": "単語テスト月",
+    "question": "「11月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "November",
+    "explanation": "「11月」は英語で November です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "7773ef55-60bb-4bdf-bdc1-7bba4b8de310",
+    "unit": "単語テスト月",
+    "question": "「12月」を英語で書きなさい。",
+    "choices": [],
+    "correct": "December",
+    "explanation": "「12月」は英語で December です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b0bb451b-10b9-4e77-84ec-1f7f7dff735f",
+    "unit": "単語テスト曜日",
+    "question": "「日曜日」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Sunday",
+    "explanation": "「日曜日」は英語で Sunday です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9b4a3e4c-017b-44a4-9b26-1570eeb1a070",
+    "unit": "単語テスト曜日",
+    "question": "「月曜日」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Monday",
+    "explanation": "「月曜日」は英語で Monday です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "eb4ad49c-3027-44a8-bc7e-bb51d32c468b",
+    "unit": "単語テスト曜日",
+    "question": "「火曜日」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Tuesday",
+    "explanation": "「火曜日」は英語で Tuesday です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "1e4e676c-8d91-4d31-9d4d-45e15f13e1bb",
+    "unit": "単語テスト曜日",
+    "question": "「水曜日」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Wednesday",
+    "explanation": "「水曜日」は英語で Wednesday です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "d98b3a6c-712d-4a10-bf02-607cf53f9a59",
+    "unit": "単語テスト曜日",
+    "question": "「木曜日」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Thursday",
+    "explanation": "「木曜日」は英語で Thursday です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "97d4745f-4080-465d-8d5d-144f09fdf66f",
+    "unit": "単語テスト曜日",
+    "question": "「金曜日」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Friday",
+    "explanation": "「金曜日」は英語で Friday です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "49b3912c-03df-40d2-b0c8-f17f2d0c6f0f",
+    "unit": "単語テスト曜日",
+    "question": "「土曜日」を英語で書きなさい。",
+    "choices": [],
+    "correct": "Saturday",
+    "explanation": "「土曜日」は英語で Saturday です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a46efb6b-10cb-4e9c-8ee5-88a67a3c7c3f",
+    "unit": "単語テスト季節",
+    "question": "「春」を英語で書きなさい。",
+    "choices": [],
+    "correct": "spring",
+    "explanation": "「春」は英語で spring です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a02a08e2-c874-4b4c-9c1a-927efc4f63f2",
+    "unit": "単語テスト季節",
+    "question": "「夏」を英語で書きなさい。",
+    "choices": [],
+    "correct": "summer",
+    "explanation": "「夏」は英語で summer です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "17c0b3a2-4e3e-4e2b-a198-cce6e77b7157",
+    "unit": "単語テスト季節",
+    "question": "「秋」を英語で書きなさい。",
+    "choices": [],
+    "correct": "autumn",
+    "explanation": "「秋」は英語で autumn（または fall）です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "6b249c09-2a6b-4c76-8e18-3564cc12d530",
+    "unit": "単語テスト季節",
+    "question": "「冬」を英語で書きなさい。",
+    "choices": [],
+    "correct": "winter",
+    "explanation": "「冬」は英語で winter です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "f1a88d65-d227-4cf1-9b22-5e30f84e7d45",
+    "unit": "単語テスト数字",
+    "question": "「0」を英語で書きなさい。",
+    "choices": [],
+    "correct": "zero",
+    "explanation": "「0」は英語で zero です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "bd28b73a-8d5a-4c40-b0e5-6a8f40da6e9e",
+    "unit": "単語テスト数字",
+    "question": "「1」を英語で書きなさい。",
+    "choices": [],
+    "correct": "one",
+    "explanation": "「1」は英語で one です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "3a89d232-697b-4975-8f1c-98cb6c91da3e",
+    "unit": "単語テスト数字",
+    "question": "「2」を英語で書きなさい。",
+    "choices": [],
+    "correct": "two",
+    "explanation": "「2」は英語で two です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "abfb3a4c-f836-45e2-84a8-b9c2cf5639fd",
+    "unit": "単語テスト数字",
+    "question": "「3」を英語で書きなさい。",
+    "choices": [],
+    "correct": "three",
+    "explanation": "「3」は英語で three です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "2f13e84e-5c74-465b-8d10-7a4d1913e01b",
+    "unit": "単語テスト数字",
+    "question": "「4」を英語で書きなさい。",
+    "choices": [],
+    "correct": "four",
+    "explanation": "「4」は英語で four です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "7b9c69ad-3518-4720-9b2b-beb2c0f6cf78",
+    "unit": "単語テスト数字",
+    "question": "「5」を英語で書きなさい。",
+    "choices": [],
+    "correct": "five",
+    "explanation": "「5」は英語で five です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "ef31d527-bb55-496d-b9f4-9c29a52d5b87",
+    "unit": "単語テスト数字",
+    "question": "「6」を英語で書きなさい。",
+    "choices": [],
+    "correct": "six",
+    "explanation": "「6」は英語で six です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "7e5cb1a3-32d5-43e3-98a2-efc97bcb1ec8",
+    "unit": "単語テスト数字",
+    "question": "「7」を英語で書きなさい。",
+    "choices": [],
+    "correct": "seven",
+    "explanation": "「7」は英語で seven です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "21677f8e-3dc4-4f36-b5e0-77f61c4ff6b8",
+    "unit": "単語テスト数字",
+    "question": "「8」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eight",
+    "explanation": "「8」は英語で eight です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "ea558b27-5632-4374-86e0-4fa948a26a3a",
+    "unit": "単語テスト数字",
+    "question": "「9」を英語で書きなさい。",
+    "choices": [],
+    "correct": "nine",
+    "explanation": "「9」は英語で nine です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "36da2592-3397-4f4f-96b2-81ac5093875e",
+    "unit": "単語テスト数字",
+    "question": "「10」を英語で書きなさい。",
+    "choices": [],
+    "correct": "ten",
+    "explanation": "「10」は英語で ten です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "20c7dc09-9e77-46c7-b85d-7b9a5f4a1fa3",
+    "unit": "単語テスト数字",
+    "question": "「11」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eleven",
+    "explanation": "「11」は英語で eleven です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "0dfc962b-08a5-4bc4-bf6e-1a62db4a3733",
+    "unit": "単語テスト数字",
+    "question": "「12」を英語で書きなさい。",
+    "choices": [],
+    "correct": "twelve",
+    "explanation": "「12」は英語で twelve です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b4aee25c-5dc8-4eea-b2e2-2dd9f12c1a3f",
+    "unit": "単語テスト数字",
+    "question": "「13」を英語で書きなさい。",
+    "choices": [],
+    "correct": "thirteen",
+    "explanation": "「13」は英語で thirteen です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "8596fbd0-63b3-4eb1-ae1d-3fd05e0078ff",
+    "unit": "単語テスト数字",
+    "question": "「14」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fourteen",
+    "explanation": "「14」は英語で fourteen です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "fe801b68-4d85-4e43-94a7-73f9d8b04c76",
+    "unit": "単語テスト数字",
+    "question": "「15」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fifteen",
+    "explanation": "「15」は英語で fifteen です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "4cfcfe8e-dcf1-4b08-8b79-2a5b8029d55e",
+    "unit": "単語テスト数字",
+    "question": "「16」を英語で書きなさい。",
+    "choices": [],
+    "correct": "sixteen",
+    "explanation": "「16」は英語で sixteen です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "2a64b94d-f2ce-4edb-b3fc-b0e57d41259c",
+    "unit": "単語テスト数字",
+    "question": "「17」を英語で書きなさい。",
+    "choices": [],
+    "correct": "seventeen",
+    "explanation": "「17」は英語で seventeen です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "0f51e7b9-0fd1-4c1b-bf54-f6dc808c4247",
+    "unit": "単語テスト数字",
+    "question": "「18」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eighteen",
+    "explanation": "「18」は英語で eighteen です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "72628bb5-b7f2-4a13-9b49-002fe1c45a06",
+    "unit": "単語テスト数字",
+    "question": "「19」を英語で書きなさい。",
+    "choices": [],
+    "correct": "nineteen",
+    "explanation": "「19」は英語で nineteen です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "0a62c4df-8c02-4d0b-8f59-1c13c96cbe04",
+    "unit": "単語テスト数字",
+    "question": "「20」を英語で書きなさい。",
+    "choices": [],
+    "correct": "twenty",
+    "explanation": "「20」は英語で twenty です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "23df7e7d-95cc-4f61-9b83-43b75877a5c8",
+    "unit": "単語テスト数字",
+    "question": "「30」を英語で書きなさい。",
+    "choices": [],
+    "correct": "thirty",
+    "explanation": "「30」は英語で thirty です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "e22e13d6-b0f1-4a13-aeb7-68552d174fa1",
+    "unit": "単語テスト数字",
+    "question": "「40」を英語で書きなさい。",
+    "choices": [],
+    "correct": "forty",
+    "explanation": "「40」は英語で forty です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "4d676918-5e48-4926-8a45-84db9ee89f53",
+    "unit": "単語テスト数字",
+    "question": "「50」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fifty",
+    "explanation": "「50」は英語で fifty です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "ba5e8c64-5682-4b2b-bc79-0e6d631dfef8",
+    "unit": "単語テスト数字",
+    "question": "「60」を英語で書きなさい。",
+    "choices": [],
+    "correct": "sixty",
+    "explanation": "「60」は英語で sixty です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "8e58986b-3ff3-42c8-8455-dae8e0a8b90a",
+    "unit": "単語テスト数字",
+    "question": "「70」を英語で書きなさい。",
+    "choices": [],
+    "correct": "seventy",
+    "explanation": "「70」は英語で seventy です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "79c1f736-655b-4d7a-87a6-8e0049d4e993",
+    "unit": "単語テスト数字",
+    "question": "「80」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eighty",
+    "explanation": "「80」は英語で eighty です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "e7b4400a-61a3-4bdb-9c27-b844ca56d7ba",
+    "unit": "単語テスト数字",
+    "question": "「90」を英語で書きなさい。",
+    "choices": [],
+    "correct": "ninety",
+    "explanation": "「90」は英語で ninety です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "ad32cebb-b2c9-4b8b-8268-c0c51b1de490",
+    "unit": "単語テスト数字",
+    "question": "「100」を英語で書きなさい。",
+    "choices": [],
+    "correct": "hundred",
+    "explanation": "「100」は英語で hundred です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "38a8ed5b-8bb7-43c4-91e1-82a25591f856",
+    "unit": "単語テスト数字",
+    "question": "「1000」を英語で書きなさい。",
+    "choices": [],
+    "correct": "thousand",
+    "explanation": "「1000」は英語で thousand です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "f1a8b2cc-2a87-48df-b7d5-10b32d6c283a",
+    "unit": "単語テスト序数",
+    "question": "「1番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "first",
+    "explanation": "「1番目」は英語で first です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "bfe2eb74-d4f1-468b-83ce-82fbd72e0b47",
+    "unit": "単語テスト序数",
+    "question": "「2番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "second",
+    "explanation": "「2番目」は英語で second です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "95892d9c-f0df-4e8e-b8b9-d8f73223342e",
+    "unit": "単語テスト序数",
+    "question": "「3番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "third",
+    "explanation": "「3番目」は英語で third です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "905e8a2e-89a8-4c6c-8264-8789b4ef9958",
+    "unit": "単語テスト序数",
+    "question": "「4番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fourth",
+    "explanation": "「4番目」は英語で fourth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "cbf2c3b5-d257-46a7-8dc1-8ad28584346d",
+    "unit": "単語テスト序数",
+    "question": "「5番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fifth",
+    "explanation": "「5番目」は英語で fifth です（five → fifth へ変化）。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "f00cb785-02bb-44e2-94aa-2e2e595c8827",
+    "unit": "単語テスト序数",
+    "question": "「6番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "sixth",
+    "explanation": "「6番目」は英語で sixth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "e2b2b22d-732c-4e46-88b3-09a35cc41a0a",
+    "unit": "単語テスト序数",
+    "question": "「7番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "seventh",
+    "explanation": "「7番目」は英語で seventh です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "f61b6cd2-5b34-4e5f-a6cb-78b7a2b6a4f7",
+    "unit": "単語テスト序数",
+    "question": "「8番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eighth",
+    "explanation": "「8番目」は英語で eighth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "c6ebcb89-1f7a-41b2-8b84-616fe18e80a4",
+    "unit": "単語テスト序数",
+    "question": "「9番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "ninth",
+    "explanation": "「9番目」は英語で ninth です（nine → ninth へ変化）。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "2d78f65b-c43d-48a5-9e7e-cb66b1dfc8e9",
+    "unit": "単語テスト序数",
+    "question": "「10番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "tenth",
+    "explanation": "「10番目」は英語で tenth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "5e713e54-2c46-4722-b5bb-c93c7dc7a9c0",
+    "unit": "単語テスト序数",
+    "question": "「11番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eleventh",
+    "explanation": "「11番目」は英語で eleventh です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "3a9acbb9-04f1-41c3-9a1b-4dce1c8b99f9",
+    "unit": "単語テスト序数",
+    "question": "「12番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "twelfth",
+    "explanation": "「12番目」は英語で twelfth です（twelve → twelfth）。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a6e6d07b-b891-4924-955e-8a83d63cc32b",
+    "unit": "単語テスト序数",
+    "question": "「13番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "thirteenth",
+    "explanation": "「13番目」は英語で thirteenth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "48d6e7f9-2a08-48d5-8850-c0b57dc05b29",
+    "unit": "単語テスト序数",
+    "question": "「14番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fourteenth",
+    "explanation": "「14番目」は英語で fourteenth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9e873a9a-fba3-497e-bd07-fd8c8b4011f5",
+    "unit": "単語テスト序数",
+    "question": "「15番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fifteenth",
+    "explanation": "「15番目」は英語で fifteenth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a3dbd611-8462-4411-8f47-f9e4050a3d64",
+    "unit": "単語テスト序数",
+    "question": "「16番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "sixteenth",
+    "explanation": "「16番目」は英語で sixteenth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "27b442e9-0b9b-4f39-a5d7-bb1d9436bb4c",
+    "unit": "単語テスト序数",
+    "question": "「17番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "seventeenth",
+    "explanation": "「17番目」は英語で seventeenth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "0f39f890-8013-4951-a22a-01f9936b2535",
+    "unit": "単語テスト序数",
+    "question": "「18番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eighteenth",
+    "explanation": "「18番目」は英語で eighteenth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b4f4f84f-02fc-4a08-b61b-8f50b3b99db0",
+    "unit": "単語テスト序数",
+    "question": "「19番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "nineteenth",
+    "explanation": "「19番目」は英語で nineteenth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "bb01b529-dcbf-4b4e-b8f0-bc10d36d7c2d",
+    "unit": "単語テスト序数",
+    "question": "「20番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "twentieth",
+    "explanation": "「20番目」は英語で twentieth です（y → ie 変化）。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "1d8b2f2a-8d6f-41b4-93df-f0a519a79b8b",
+    "unit": "単語テスト序数",
+    "question": "「30番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "thirtieth",
+    "explanation": "「30番目」は英語で thirtieth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "9b346b6e-ec32-4f3b-aabf-445b19f324b9",
+    "unit": "単語テスト序数",
+    "question": "「40番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fortieth",
+    "explanation": "「40番目」は英語で fortieth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "c38d8b22-76db-41de-9c69-bf122676f80d",
+    "unit": "単語テスト序数",
+    "question": "「50番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "fiftieth",
+    "explanation": "「50番目」は英語で fiftieth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "a0a8b8a8-5bc9-40c5-bc03-508a2669d372",
+    "unit": "単語テスト序数",
+    "question": "「60番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "sixtieth",
+    "explanation": "「60番目」は英語で sixtieth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "f84d1a9c-4055-474c-8db4-dc50a749fbb0",
+    "unit": "単語テスト序数",
+    "question": "「70番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "seventieth",
+    "explanation": "「70番目」は英語で seventieth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "bb1cf038-bb53-49f0-9c9e-c3e6b709fa5a",
+    "unit": "単語テスト序数",
+    "question": "「80番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "eightieth",
+    "explanation": "「80番目」は英語で eightieth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "b89e9f13-813f-4b73-9436-3d1c95dcdb5f",
+    "unit": "単語テスト序数",
+    "question": "「90番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "ninetieth",
+    "explanation": "「90番目」は英語で ninetieth です。",
+    "incorrectExplanations": {},
+    "type": "input"
+  },
+  {
+    "id": "202d2c0f-c57f-460b-8ee2-1ef0c7bb24a3",
+    "unit": "単語テスト序数",
+    "question": "「100番目」を英語で書きなさい。",
+    "choices": [],
+    "correct": "hundredth",
+    "explanation": "「100番目」は英語で hundredth です。",
+    "incorrectExplanations": {},
+    "type": "input"
   }
 ]
