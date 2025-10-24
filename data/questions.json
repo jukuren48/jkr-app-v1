@@ -5220,5 +5220,195 @@
     "explanation": "「100番目」は英語で hundredth です。",
     "incorrectExplanations": {},
     "type": "input"
+  },
+  {
+    "id": "cf33e78a-4902-4e63-96ab-2f7a73e47a53",
+    "unit": "適文補充（会話）",
+    "question": "A: Can I use a pen?\nB: Yes. []\nA: Oh, thank you very much.",
+    "choices": [
+      "Whose pen is this?",
+      "You can use this one.",
+      "I don't like your pen.",
+      "Why do you like it?"
+    ],
+    "correct": "You can use this one.",
+    "explanation": "Aが『ペンを使ってもいい？』と聞いているので、自然な返答は『このペンを使っていいよ』です。",
+    "incorrectExplanations": {
+      "Whose pen is this?": "質問の答えになっていません。",
+      "I don't like your pen.": "感謝に対して失礼な内容になります。",
+      "Why do you like it?": "話の流れと合いません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "28b5c665-4f0e-4d83-8e5d-06a9617ff6c7",
+    "unit": "適文補充（会話）",
+    "question": "A: Excuse me, where is the nearest bus stop?\nB: [] It's next to the library.",
+    "choices": [
+      "Go straight and turn right.",
+      "I don’t take a bus.",
+      "You can buy a ticket there.",
+      "Please come again tomorrow."
+    ],
+    "correct": "Go straight and turn right.",
+    "explanation": "道案内の質問に対して『まっすぐ行って右に曲がってください』が自然です。",
+    "incorrectExplanations": {
+      "I don’t take a bus.": "質問に答えていません。",
+      "You can buy a ticket there.": "まだ目的地に着いていません。",
+      "Please come again tomorrow.": "意味が通じません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "b8c1b5a1-1f48-43b1-9a2c-45d3a7d26a71",
+    "unit": "適文補充（会話）",
+    "question": "A: Hello, this is Tom. May I speak to Lisa?\nB: [] She’s not here right now.",
+    "choices": [
+      "Just a moment, please.",
+      "Who are you?",
+      "Can you call back later?",
+      "I’m Lisa."
+    ],
+    "correct": "Can you call back later?",
+    "explanation": "Lisaが不在なので、『後でもう一度お電話いただけますか？』が自然な返答です。",
+    "incorrectExplanations": {
+      "Just a moment, please.": "不在のため不適切です。",
+      "Who are you?": "失礼な表現です。",
+      "I’m Lisa.": "不在の設定に反します。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "5cbb07d5-fd0e-4cf5-9ff2-20b92a88b3df",
+    "unit": "適文補充（会話）",
+    "question": "A: I’m going to Kyoto this weekend.\nB: Sounds nice! []\nA: By train.",
+    "choices": [
+      "How are you?",
+      "How will you go there?",
+      "When did you go there?",
+      "What will you eat there?"
+    ],
+    "correct": "How will you go there?",
+    "explanation": "次のAの返答が『電車で』なので、交通手段を聞く質問が自然です。",
+    "incorrectExplanations": {
+      "How are you?": "あいさつとしては不自然です。",
+      "When did you go there?": "まだ行っていません。",
+      "What will you eat there?": "返答の内容と合いません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "ba83e7b9-2e7a-4e14-b4e1-9b01bb9939f8",
+    "unit": "適文補充（会話）",
+    "question": "A: Can I help you?\nB: Yes, please. []\nA: Sure. This way, please.",
+    "choices": [
+      "I want to see some shoes.",
+      "Where are you from?",
+      "How much is that?",
+      "I’m fine, thank you."
+    ],
+    "correct": "I want to see some shoes.",
+    "explanation": "店員の『何かお手伝いしましょうか？』に対して、『靴を見たいです』が自然な返答です。",
+    "incorrectExplanations": {
+      "Where are you from?": "会話の目的が違います。",
+      "How much is that?": "まだ商品を選んでいません。",
+      "I’m fine, thank you.": "店内接客では不自然です。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "fba71b3e-7cc0-464b-92a9-7d05f3c77a5c",
+    "unit": "適文補充（会話）",
+    "question": "A: What did you do yesterday?\nB: []\nA: That sounds fun!",
+    "choices": [
+      "I stayed home and watched a movie.",
+      "I don’t know what to do.",
+      "It was very hot yesterday.",
+      "You should study harder."
+    ],
+    "correct": "I stayed home and watched a movie.",
+    "explanation": "『楽しそうだね！』と返す流れなので、趣味的な活動が自然です。",
+    "incorrectExplanations": {
+      "I don’t know what to do.": "時制が合いません。",
+      "It was very hot yesterday.": "話題がずれています。",
+      "You should study harder.": "攻撃的で不自然です。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "1d2a6e09-52a9-47a3-bb44-80f94327690d",
+    "unit": "適文補充（会話）",
+    "question": "A: What would you like to drink?\nB: []\nA: OK. One coffee.",
+    "choices": [
+      "Yes, I would.",
+      "Coffee, please.",
+      "I can drink water.",
+      "Do you like tea?"
+    ],
+    "correct": "Coffee, please.",
+    "explanation": "『何を飲みますか？』に対して『コーヒーをお願いします』が自然です。",
+    "incorrectExplanations": {
+      "Yes, I would.": "Yesで答える質問ではありません。",
+      "I can drink water.": "許可ではなく希望を聞かれています。",
+      "Do you like tea?": "質問を返してしまっています。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "9a6c2e32-fc1e-4e0b-b9d1-5da2b16de1f8",
+    "unit": "適文補充（会話）",
+    "question": "A: Excuse me, can you take a picture of us?\nB: []\nA: Thank you!",
+    "choices": [
+      "Sorry, I’m in a hurry.",
+      "Sure, say cheese!",
+      "No, you can’t.",
+      "I don’t have a camera."
+    ],
+    "correct": "Sure, say cheese!",
+    "explanation": "写真を頼まれたときの自然な返答は『もちろん！ハイチーズ！』です。",
+    "incorrectExplanations": {
+      "Sorry, I’m in a hurry.": "断る表現ですが、Aが感謝しているので不適切です。",
+      "No, you can’t.": "拒否しており不自然です。",
+      "I don’t have a camera.": "スマホでも撮影可能な時代なので不自然です。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "b7b1f9cf-1432-4a18-9c6b-c727777a1eb7",
+    "unit": "適文補充（会話）",
+    "question": "A: It’s raining hard. []\nB: Good idea!",
+    "choices": [
+      "Let’s play baseball.",
+      "Let’s stay inside.",
+      "Where is my umbrella?",
+      "I hate water."
+    ],
+    "correct": "Let’s stay inside.",
+    "explanation": "雨が強いという状況で『中にいよう』が自然な流れです。",
+    "incorrectExplanations": {
+      "Let’s play baseball.": "雨の中では不自然です。",
+      "Where is my umbrella?": "Bの返答が合いません。",
+      "I hate water.": "会話のつながりがありません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a3b7b55f-29e9-4b46-801b-5d77f457385c",
+    "unit": "適文補充（会話）",
+    "question": "A: I lost my wallet!\nB: Oh no! []\nA: Thank you, I’ll go now.",
+    "choices": [
+      "Let’s look for it together.",
+      "You should tell the police.",
+      "I’m not interested.",
+      "Don’t worry. I took it."
+    ],
+    "correct": "You should tell the police.",
+    "explanation": "『財布をなくした』という状況に対して『警察に届けた方がいい』が最も自然です。",
+    "incorrectExplanations": {
+      "Let’s look for it together.": "Aの返答『行ってくる』と合いません。",
+      "I’m not interested.": "冷たい返答です。",
+      "Don’t worry. I took it.": "意味が不適切です。"
+    },
+    "type": "multiple-choice"
   }
 ]
