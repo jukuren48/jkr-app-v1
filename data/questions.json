@@ -5410,5 +5410,195 @@
       "Don’t worry. I took it.": "意味が不適切です。"
     },
     "type": "multiple-choice"
+  },
+  {
+    "id": "c9e40db4-9e10-46bb-9d9a-8bb2dbe987a4",
+    "unit": "適文補充（会話）",
+    "question": "A: What’s the matter?\nB: I have a headache.\nA: Oh, that’s too bad. []",
+    "choices": [
+      "You should take some medicine.",
+      "Let’s go swimming.",
+      "I like your hat.",
+      "You have to study harder."
+    ],
+    "correct": "You should take some medicine.",
+    "explanation": "『頭が痛い』に対して『薬を飲んだ方がいいよ』が自然です。",
+    "incorrectExplanations": {
+      "Let’s go swimming.": "病人に泳ぎをすすめるのは不自然です。",
+      "I like your hat.": "話題が関係ありません。",
+      "You have to study harder.": "状況にそぐいません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "f7a72c91-58d8-4657-b87e-23a4dfac48df",
+    "unit": "適文補充（会話）",
+    "question": "A: Excuse me, where can I check in?\nB: []\nA: Thank you very much.",
+    "choices": [
+      "At the counter over there.",
+      "You can’t check in today.",
+      "I’m not working now.",
+      "This is your seat."
+    ],
+    "correct": "At the counter over there.",
+    "explanation": "空港のチェックインの場所を尋ねる会話。『あちらのカウンターです』が自然です。",
+    "incorrectExplanations": {
+      "You can’t check in today.": "拒否になってしまいます。",
+      "I’m not working now.": "接客として不自然です。",
+      "This is your seat.": "搭乗後の話になってしまいます。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "4c2e39d1-4984-4b79-a78b-2ff557c13283",
+    "unit": "適文補充（会話）",
+    "question": "A: I forgot my homework again.\nB: []\nA: I know... I’ll do better next time.",
+    "choices": [
+      "You should be more careful.",
+      "Good job!",
+      "Let’s go to the park.",
+      "I didn’t do it either."
+    ],
+    "correct": "You should be more careful.",
+    "explanation": "『また宿題を忘れた』に対して『もっと気をつけた方がいい』が自然です。",
+    "incorrectExplanations": {
+      "Good job!": "褒める文ではありません。",
+      "Let’s go to the park.": "文脈に合いません。",
+      "I didn’t do it either.": "反省の流れに合いません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "df7c1970-1f2c-4f08-bb36-46b15f2f8c9e",
+    "unit": "適文補充（会話）",
+    "question": "A: What time does the movie start?\nB: []\nA: OK, we have enough time.",
+    "choices": [
+      "At seven o’clock.",
+      "I don’t like movies.",
+      "Let’s go to school.",
+      "It’s my favorite actor."
+    ],
+    "correct": "At seven o’clock.",
+    "explanation": "『映画は何時に始まりますか？』には『7時です』が自然です。",
+    "incorrectExplanations": {
+      "I don’t like movies.": "質問に答えていません。",
+      "Let’s go to school.": "場面が違います。",
+      "It’s my favorite actor.": "質問の意図に合いません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "43a7d173-949f-4f79-9a74-85c0ee70621f",
+    "unit": "適文補充（会話）",
+    "question": "A: Waiter, can I have the menu, please?\nB: []\nA: Thank you.",
+    "choices": [
+      "Here you are.",
+      "It’s delicious.",
+      "No, you can’t.",
+      "I’m busy now."
+    ],
+    "correct": "Here you are.",
+    "explanation": "レストランでメニューを頼まれた時、『どうぞ』＝Here you are が自然です。",
+    "incorrectExplanations": {
+      "It’s delicious.": "料理の感想ではありません。",
+      "No, you can’t.": "接客として不自然です。",
+      "I’m busy now.": "無礼な返答になります。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "8a2b650f-d4d1-4c33-917b-d59cf8c31b9e",
+    "unit": "適文補充（会話）",
+    "question": "A: Did you finish your report?\nB: Not yet. []\nA: OK. Let’s do it together.",
+    "choices": [
+      "I’m still working on it.",
+      "It’s on the desk.",
+      "Yes, I did.",
+      "I don’t like English."
+    ],
+    "correct": "I’m still working on it.",
+    "explanation": "『まだ』と言っているので、『まだ取り組んでいるところ』が最も自然です。",
+    "incorrectExplanations": {
+      "It’s on the desk.": "意味が通じません。",
+      "Yes, I did.": "Not yet と矛盾します。",
+      "I don’t like English.": "会話の流れに合いません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e4d4dc9a-7b6b-441d-845f-73f6db58b451",
+    "unit": "適文補充（会話）",
+    "question": "A: Do you mind if I open the window?\nB: []\nA: Thanks. It’s hot in here.",
+    "choices": [
+      "Not at all.",
+      "Yes, I do.",
+      "Close it, please.",
+      "I hate windows."
+    ],
+    "correct": "Not at all.",
+    "explanation": "『窓を開けてもいい？』に対して『もちろんいいですよ』の丁寧な返答が Not at all です。",
+    "incorrectExplanations": {
+      "Yes, I do.": "許可を断る形になり不自然です。",
+      "Close it, please.": "逆の意味になります。",
+      "I hate windows.": "冗談でも意味が通りません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "bc4f9b46-7492-4a4c-a87e-81465a5f05f0",
+    "unit": "適文補充（会話）",
+    "question": "A: How long will you stay in Japan?\nB: []\nA: I hope you enjoy your trip.",
+    "choices": [
+      "For two weeks.",
+      "I’m from Japan.",
+      "Yes, I will.",
+      "It’s sunny today."
+    ],
+    "correct": "For two weeks.",
+    "explanation": "『どのくらい滞在しますか？』に対して期間を答える『2週間です』が自然です。",
+    "incorrectExplanations": {
+      "I’m from Japan.": "質問に対して答えていません。",
+      "Yes, I will.": "期間の答えではありません。",
+      "It’s sunny today.": "話題が関係ありません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "53b86d9e-bdf6-4af2-b5ff-8b82dd172bc0",
+    "unit": "適文補充（会話）",
+    "question": "A: I’m sorry I’m late.\nB: []\nA: Thanks, I’ll hurry next time.",
+    "choices": [
+      "That’s OK.",
+      "Where are you?",
+      "Let’s be late together.",
+      "I’m not sorry."
+    ],
+    "correct": "That’s OK.",
+    "explanation": "『遅れてごめんなさい』に対して『大丈夫だよ』が最も自然です。",
+    "incorrectExplanations": {
+      "Where are you?": "すでに到着しています。",
+      "Let’s be late together.": "不自然な提案です。",
+      "I’m not sorry.": "意味が通りません。"
+    },
+    "type": "multiple-choice"
+  },
+  {
+    "id": "3e4967a8-1c30-4a42-90e1-9988dc7bb1c8",
+    "unit": "適文補充（会話）",
+    "question": "A: What club do you belong to?\nB: []\nA: Oh, I like basketball too!",
+    "choices": [
+      "I’m in the basketball club.",
+      "I go to the library.",
+      "I like summer.",
+      "It’s cloudy today."
+    ],
+    "correct": "I’m in the basketball club.",
+    "explanation": "『どのクラブに入っているの？』に対して『バスケットボール部です』が正解です。",
+    "incorrectExplanations": {
+      "I go to the library.": "質問の意図に合いません。",
+      "I like summer.": "季節の話になっています。",
+      "It’s cloudy today.": "全く関係のない話題です。"
+    },
+    "type": "multiple-choice"
   }
 ]
