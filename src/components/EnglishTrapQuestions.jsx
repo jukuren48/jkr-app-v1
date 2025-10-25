@@ -78,7 +78,17 @@ async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
     }
   }
 
-  // ✅ AudioBufferを取得して再生開始
+  // ✅ iOS安全：resumeが完了していることを保証
+  if (audioCtx && audioCtx.state === "suspended") {
+    try {
+      await audioCtx.resume();
+      console.log("[ensureLoop] AudioContext resumed before start");
+    } catch (e) {
+      console.warn("[ensureLoop] resume failed:", e);
+    }
+  }
+
+  // ✅ AudioBufferを取得
   const res = await fetch(src);
   const buf = await res.arrayBuffer();
   const audioBuffer = await audioCtx.decodeAudioData(buf);
@@ -87,12 +97,18 @@ async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
   source.buffer = audioBuffer;
   source.loop = true;
   source.connect(gainNode);
-  source.start(0);
+
+  // ✅ iOSの再生遅延対策：resume後 200ms 待ってから start
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  try {
+    source.start(0);
+    console.log(`[ensureLoop] started ${src} (${storeRefName})`);
+  } catch (e) {
+    console.warn("[ensureLoop] start failed:", e);
+  }
 
   if (storeRefName === "bgm") bgmSource = source;
   if (storeRefName === "qbgm") qbgmSource = source;
-
-  console.log(`[ensureLoop] started ${src} (${storeRefName})`);
 }
 
 function stopQbgm(force = false) {
