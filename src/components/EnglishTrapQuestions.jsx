@@ -614,6 +614,8 @@ export default function EnglishTrapQuestions() {
   const [reviewList, setReviewList] = useState([]); // 「覚え直す」対象を保存
   const [isReviewMode, setIsReviewMode] = useState(false);
   const [reviewAnsweredIds, setReviewAnsweredIds] = useState(new Set());
+  const [showReviewPrompt, setShowReviewPrompt] = useState(false); // 復習開始モーダル表示フラグ
+  const reviewQueueRef = useRef([]); // 復習出題キューを保持（alert排除で安全に受け渡し）
   // ✅ 覚え直し（復習）中フラグ
   const [reviewing, setReviewing] = useState(false);
   const [reviewMistakes, setReviewMistakes] = useState([]);
@@ -1597,85 +1599,74 @@ export default function EnglishTrapQuestions() {
     setCharacterMood("neutral");
 
     if (isCorrect) {
-      // ✅ 正解なら次の問題へ
       if (currentIndex + 1 < filteredQuestions.length) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        // ✅ 全問終了：復習リストがある場合は再出題へ
+        // ここから ↓↓↓ 修正
         if (reviewList.length > 0) {
-          alert("📘 復習問題をもう一度出すよ！");
-          console.log("[DEBUG] Entering Review Mode");
-
-          // ✅ iOS安全対策：AudioContextを確実にresume
-          if (audioCtx && audioCtx.state === "suspended") {
-            try {
-              await audioCtx.resume();
-              console.log("[Audio] resumed inside review start (tap-safe)");
-            } catch (e) {
-              console.warn("[Audio] resume failed in review start", e);
-            }
-          }
-
-          // ✅ 復習突入前に通常BGMを停止しておく
-          try {
-            if (typeof stopQbgm === "function") {
-              stopQbgm(true);
-              console.log("[Audio] normal qbgm stopped before review");
-            }
-          } catch (e) {
-            console.warn("[Audio] failed to stop qbgm", e);
-          }
-
-          // ✅ さらに iOS Safari の「再生遅延」対策（resume後100ms待つ）
-          await new Promise((resolve) => setTimeout(resolve, 120));
-
-          // ✅ reviewList の内容を固定コピーしてから使う
-          const reviewCopy = [...reviewList];
-
-          // ✅ 次の描画タイミングで状態を更新
-          setTimeout(() => {
-            setFilteredQuestions(reviewCopy);
-            setCurrentIndex(0);
-            setShowFeedback(false);
-            setTimerActive(false);
-            setShowResult(false);
-            setReviewList([]);
-            setIsReviewMode(true); // ← BGM切替useEffectが走る
-          }, 100);
-
-          return;
+          // 復習出題キューを保存して、モーダルを出す
+          reviewQueueRef.current = [...reviewList];
+          setShowReviewPrompt(true);
+          return; // ← ここで一旦止める（開始はモーダルのボタンで）
         }
+        // ↑↑↑ 修正 おわり
 
-        // ✅ 復習リストが無ければ通常通り終了
+        // 復習なし通常終了
         setShowQuestions(false);
         setShowResult(true);
         setTimerActive(false);
         setTimeLeft(0);
         setIsReviewMode(false);
-
-        // ✅ 結果画面では復習BGMを止める
-        try {
-          if (typeof stopQbgm === "function") {
-            fadeInBGM(qbgmGain, 0, 1.0); // フェードアウト
-            setTimeout(() => stopQbgm(true), 1200);
-            console.log("[Audio] review BGM faded out on result");
-          }
-        } catch (e) {
-          console.warn("[Audio] failed to fade out review BGM", e);
-        }
       }
-
-      setShowFeedback(false); // ← 正解時もリセット
+      setShowFeedback(false);
     } else {
-      // ❌ 不正解なら同じ問題をもう一度
-      if (soundEnabled) {
-        playSFX("/sounds/ganba.mp3");
-      }
+      if (soundEnabled) playSFX("/sounds/ganba.mp3");
       setShowFeedback(false);
     }
 
     setSelectedChoice(null);
     setTimeout(() => setInputDisabled(false), 300);
+  };
+
+  const startReview = async () => {
+    // 1) iOS許可をユーザー操作中に取得
+    if (audioCtx && audioCtx.state === "suspended") {
+      try {
+        await audioCtx.resume();
+        console.log("[Audio] resumed in startReview (tap-safe)");
+      } catch (e) {
+        console.warn("[Audio] resume failed in startReview", e);
+      }
+    }
+
+    // 2) 既存の問題BGMを安全停止し、復習BGMへ強制切替
+    try {
+      if (typeof stopQbgm === "function") stopQbgm(true);
+    } catch (e) {
+      console.warn("[Audio] stopQbgm failed", e);
+    }
+    try {
+      await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true); // ← forceReload=true
+      fadeInBGM(qbgmGain, 0.4, 2.0);
+    } catch (e) {
+      console.warn("[Audio] review BGM start failed", e);
+    }
+
+    // 3) 復習の出題状態をセット
+    const reviewCopy = reviewQueueRef.current || [];
+    setFilteredQuestions(reviewCopy);
+    setCurrentIndex(0);
+    setShowFeedback(false);
+    setTimerActive(false);
+    setShowResult(false);
+    setReviewList([]);
+    setIsReviewMode(true);
+    setShowReviewPrompt(false);
+
+    // 4) 出題SFX（ユーザー操作中なのでiOSでも確実に鳴る）
+    if (soundEnabled) {
+      playSFX("/sounds/deden.mp3"); // 1問目SE
+    }
   };
 
   const startWordTest = () => {
@@ -2371,6 +2362,38 @@ export default function EnglishTrapQuestions() {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {showReviewPrompt && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
+          <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl text-center">
+            <h3 className="text-lg font-bold mb-3">
+              📘 復習問題をもう一度出すよ！
+            </h3>
+            <p className="text-sm text-gray-600 mb-6">
+              解説を踏まえて、もう一度チャレンジ！
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={startReview} // ← ここで resume + BGM 切替 + 復習開始
+                className="px-5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold"
+              >
+                復習を始める
+              </button>
+              <button
+                onClick={() => {
+                  setShowReviewPrompt(false);
+                  setIsReviewMode(false);
+                  setShowQuestions(false);
+                  setShowResult(true);
+                }}
+                className="px-5 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800"
+              >
+                やめる
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
