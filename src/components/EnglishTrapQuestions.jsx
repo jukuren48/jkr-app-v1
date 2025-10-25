@@ -1018,14 +1018,14 @@ export default function EnglishTrapQuestions() {
           // ✅ iOS安全モード：次のタップでresumeできるよう準備
           prepareNextAudioResume();
 
-          // 既存BGM停止
+          // 既存BGM停止（安全に再生成）
           stopQbgm(true);
           qbgmSource = null;
 
           // resume完了を念押し
           await ensureAudioResume();
 
-          // ✅ ほんの少し遅延させてstart（iOSで確実に出音）
+          // ✅ iOS Safariでは少し待ってから再生を開始
           setTimeout(async () => {
             try {
               await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm");
@@ -1041,6 +1041,33 @@ export default function EnglishTrapQuestions() {
           fadeInBGM(qbgmGain, 0.4, 3.0);
         }
         bgmGain.gain.value = 0;
+      }
+
+      // ✅ 結果画面での処理（通常＆復習共通）
+      else if (showResult) {
+        if (isReviewMode) {
+          // ✅ 復習BGMを1秒かけてフェードアウトして停止
+          try {
+            fadeInBGM(qbgmGain, 0, 1.0); // 音量0までフェードアウト
+            setTimeout(() => {
+              stopQbgm(true);
+              console.log("[Audio] review BGM stopped on result");
+            }, 1200);
+          } catch (e) {
+            console.warn("[Audio] failed to stop review BGM on result", e);
+          }
+        } else {
+          // ✅ 通常結果画面
+          bgmGain.gain.value = 0.001;
+          qbgmGain.gain.value = 0;
+        }
+      }
+
+      // ✅ 単元選択画面
+      else if (!showQuestions && !showResult) {
+        await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm");
+        bgmGain.gain.value = 0.4;
+        qbgmGain.gain.value = 0;
       }
     };
 
@@ -1541,7 +1568,7 @@ export default function EnglishTrapQuestions() {
           alert("📘 復習問題をもう一度出すよ！");
           console.log("[DEBUG] Entering Review Mode");
 
-          // ✅ iOS対応：ユーザー操作イベント中に AudioContext を resume
+          // ✅ iOS安全対策：AudioContextを確実にresume
           if (audioCtx && audioCtx.state === "suspended") {
             try {
               await audioCtx.resume();
@@ -1550,6 +1577,19 @@ export default function EnglishTrapQuestions() {
               console.warn("[Audio] resume failed in review start", e);
             }
           }
+
+          // ✅ 復習突入前に通常BGMを停止しておく
+          try {
+            if (typeof stopQbgm === "function") {
+              stopQbgm(true);
+              console.log("[Audio] normal qbgm stopped before review");
+            }
+          } catch (e) {
+            console.warn("[Audio] failed to stop qbgm", e);
+          }
+
+          // ✅ さらに iOS Safari の「再生遅延」対策（resume後100ms待つ）
+          await new Promise((resolve) => setTimeout(resolve, 120));
 
           // ✅ reviewList の内容を固定コピーしてから使う
           const reviewCopy = [...reviewList];
@@ -1562,7 +1602,7 @@ export default function EnglishTrapQuestions() {
             setTimerActive(false);
             setShowResult(false);
             setReviewList([]);
-            setIsReviewMode(true); // ← ここでBGM切替が走る
+            setIsReviewMode(true); // ← BGM切替useEffectが走る
           }, 100);
 
           return;
@@ -1574,15 +1614,26 @@ export default function EnglishTrapQuestions() {
         setTimerActive(false);
         setTimeLeft(0);
         setIsReviewMode(false);
+
+        // ✅ 結果画面では復習BGMを止める
+        try {
+          if (typeof stopQbgm === "function") {
+            fadeInBGM(qbgmGain, 0, 1.0); // フェードアウト
+            setTimeout(() => stopQbgm(true), 1200);
+            console.log("[Audio] review BGM faded out on result");
+          }
+        } catch (e) {
+          console.warn("[Audio] failed to fade out review BGM", e);
+        }
       }
 
-      setShowFeedback(false); // ← 正解時もリセットが必要
+      setShowFeedback(false); // ← 正解時もリセット
     } else {
       // ❌ 不正解なら同じ問題をもう一度
       if (soundEnabled) {
         playSFX("/sounds/ganba.mp3");
       }
-      setShowFeedback(false); // ← 不正解時も再挑戦のためリセット
+      setShowFeedback(false);
     }
 
     setSelectedChoice(null);
