@@ -47,18 +47,38 @@ function initAudio() {
   }
 }
 
-async function ensureLoop(src, gainNode, storeRefName) {
+async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
   initAudio();
 
-  if (storeRefName === "bgm" && bgmSource) {
-    console.log("[ensureLoop] bgm already playing → skip");
-    return;
-  }
-  if (storeRefName === "qbgm" && qbgmSource) {
-    console.log("[ensureLoop] qbgm already playing → skip");
-    return;
+  // ✅ すでに再生中ならスキップ（ただし forceReload 時は除外）
+  if (!forceReload) {
+    if (storeRefName === "bgm" && bgmSource) {
+      console.log("[ensureLoop] bgm already playing → skip");
+      return;
+    }
+    if (storeRefName === "qbgm" && qbgmSource) {
+      console.log("[ensureLoop] qbgm already playing → skip");
+      return;
+    }
+  } else {
+    // ✅ 強制リロード時は既存ソースを停止・破棄
+    try {
+      if (storeRefName === "bgm" && bgmSource) {
+        bgmSource.stop(0);
+        bgmSource = null;
+        console.log("[ensureLoop] force stop bgm");
+      }
+      if (storeRefName === "qbgm" && qbgmSource) {
+        qbgmSource.stop(0);
+        qbgmSource = null;
+        console.log("[ensureLoop] force stop qbgm");
+      }
+    } catch (e) {
+      console.warn("[ensureLoop] force stop error:", e);
+    }
   }
 
+  // ✅ AudioBufferを取得して再生開始
   const res = await fetch(src);
   const buf = await res.arrayBuffer();
   const audioBuffer = await audioCtx.decodeAudioData(buf);
@@ -71,6 +91,8 @@ async function ensureLoop(src, gainNode, storeRefName) {
 
   if (storeRefName === "bgm") bgmSource = source;
   if (storeRefName === "qbgm") qbgmSource = source;
+
+  console.log(`[ensureLoop] started ${src} (${storeRefName})`);
 }
 
 function stopQbgm(force = false) {
@@ -1028,7 +1050,7 @@ export default function EnglishTrapQuestions() {
           // ✅ iOS Safariでは少し待ってから再生を開始
           setTimeout(async () => {
             try {
-              await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm");
+              await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
               fadeInBGM(qbgmGain, 0.4, 3.0);
               console.log("[Audio] review BGM started (iOS tap-safe)");
             } catch (e) {
