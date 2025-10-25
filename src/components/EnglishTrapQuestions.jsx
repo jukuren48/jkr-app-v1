@@ -1527,7 +1527,7 @@ export default function EnglishTrapQuestions() {
     setHintText("");
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setCharacterMood("neutral");
 
@@ -1539,20 +1539,32 @@ export default function EnglishTrapQuestions() {
         // ✅ 全問終了：復習リストがある場合は再出題へ
         if (reviewList.length > 0) {
           alert("📘 復習問題をもう一度出すよ！");
-          //setIsReviewMode(true);
           console.log("[DEBUG] Entering Review Mode");
+
+          // ✅ iOS対応：ユーザー操作イベント中に AudioContext を resume
+          if (audioCtx && audioCtx.state === "suspended") {
+            try {
+              await audioCtx.resume();
+              console.log("[Audio] resumed inside review start (tap-safe)");
+            } catch (e) {
+              console.warn("[Audio] resume failed in review start", e);
+            }
+          }
+
           // ✅ reviewList の内容を固定コピーしてから使う
           const reviewCopy = [...reviewList];
 
+          // ✅ 次の描画タイミングで状態を更新
           setTimeout(() => {
-            setFilteredQuestions(reviewCopy); // ← 安定したコピーをセット
+            setFilteredQuestions(reviewCopy);
             setCurrentIndex(0);
             setShowFeedback(false);
             setTimerActive(false);
             setShowResult(false);
-            setReviewList([]); // ← リセット
-            setIsReviewMode(true);
-          }, 100); // ← わずか100msの遅延でstate同期完了
+            setReviewList([]);
+            setIsReviewMode(true); // ← ここでBGM切替が走る
+          }, 100);
+
           return;
         }
 
