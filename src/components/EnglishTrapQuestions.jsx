@@ -594,6 +594,7 @@ export default function EnglishTrapQuestions() {
     }
   }, [ocrEngine]);
 
+  const [unitBgmPlaying, setUnitBgmPlaying] = useState(false);
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -1059,17 +1060,11 @@ export default function EnglishTrapQuestions() {
       // ✅ 通常問題中 or 復習中のBGM制御
       if (showQuestions) {
         if (isReviewMode) {
-          // ✅ iOS安全モード：次のタップでresumeできるよう準備
           prepareNextAudioResume();
-
-          // 既存BGM停止（安全に再生成）
           stopQbgm(true);
           qbgmSource = null;
-
-          // resume完了を念押し
           await ensureAudioResume();
 
-          // ✅ iOS Safariでは少し待ってから再生を開始
           setTimeout(async () => {
             try {
               await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
@@ -1085,60 +1080,41 @@ export default function EnglishTrapQuestions() {
           fadeInBGM(qbgmGain, 0.4, 3.0);
         }
         bgmGain.gain.value = 0;
+        setUnitBgmPlaying(false); // ✅ 単元BGM再生中フラグを解除
       }
 
-      // ✅ 結果画面での処理（通常＆復習共通）
+      // ✅ 結果画面
       else if (showResult) {
         if (isReviewMode) {
-          // ✅ 復習BGMを1秒かけてフェードアウトして停止
-          try {
-            fadeInBGM(qbgmGain, 0, 1.0); // 音量0までフェードアウト
-            setTimeout(() => {
-              stopQbgm(true);
-              console.log("[Audio] review BGM stopped on result");
-            }, 1200);
-          } catch (e) {
-            console.warn("[Audio] failed to stop review BGM on result", e);
-          }
+          fadeInBGM(qbgmGain, 0, 1.0);
+          setTimeout(() => stopQbgm(true), 1200);
         } else {
-          // ✅ 通常結果画面
           bgmGain.gain.value = 0.001;
           qbgmGain.gain.value = 0;
         }
+        setUnitBgmPlaying(false); // ✅ 結果画面でも解除
       }
 
-      // ✅ 単元選択画面
+      // ✅ 単元選択画面（ここを重点修正）
       else if (!showQuestions && !showResult) {
-        // ✅ 多重防止：すでに単元BGMが流れていたら止める
-        if (bgmSource) {
+        if (!unitBgmPlaying) {
+          // まだ単元BGMが流れていない場合のみ再生
           try {
-            bgmSource.stop(0);
-            bgmSource = null;
-            isBgmPlaying = false;
-            console.log("[Audio] stopped old bgm before replay");
+            if (bgmSource) {
+              bgmSource.stop(0);
+              bgmSource = null;
+            }
+            await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true);
+            fadeInBGM(bgmGain, 0.4, 2.0);
+            qbgmGain.gain.value = 0;
+            setUnitBgmPlaying(true); // ✅ フラグON
+            console.log("[Audio] bgm started for unit select (first only)");
           } catch (e) {
-            console.warn("[Audio] stop bgm failed", e);
+            console.warn("[Audio] bgm start failed:", e);
           }
+        } else {
+          console.log("[Audio] bgm already playing, skip start");
         }
-
-        // ✅ すでにBGMが鳴っている場合は新規再生をスキップ
-        if (isBgmPlaying) {
-          console.log("[Audio] skip duplicate bgm start");
-          return;
-        }
-
-        // ✅ 新しく再生
-        try {
-          await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true); // ← 強制再ロード
-          fadeInBGM(bgmGain, 0.4, 2.0);
-          isBgmPlaying = true; // ← ロックON
-          console.log("[Audio] bgm started for unit select");
-        } catch (e) {
-          console.warn("[Audio] bgm start failed:", e);
-        }
-
-        // ✅ 他のBGMをミュート
-        qbgmGain.gain.value = 0;
       }
     };
 
