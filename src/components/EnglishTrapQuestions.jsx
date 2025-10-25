@@ -73,15 +73,18 @@ async function ensureLoop(src, gainNode, storeRefName) {
   if (storeRefName === "qbgm") qbgmSource = source;
 }
 
-function stopQbgm() {
+function stopQbgm(force = false) {
   if (qbgmSource) {
     try {
       qbgmSource.stop(0);
+      console.log("[Audio] qbgm stopped");
     } catch (e) {
       console.warn("[stopQbgm] failed:", e);
     }
     qbgmSource = null;
-    console.log("[Audio] qbgm stopped");
+  } else if (force) {
+    console.log("[Audio] qbgm already null, force reset");
+    qbgmSource = null;
   }
 }
 
@@ -1000,39 +1003,29 @@ export default function EnglishTrapQuestions() {
       // ✅ 通常問題中 or 復習中のBGM制御
       if (showQuestions) {
         if (isReviewMode) {
-          // ✅ まず resume を完全に待ってから実行（iOSで必須）
+          // ✅ 復習モード突入時：常に安全にリセット
           await ensureAudioResume();
 
-          // ✅ 一度通常BGMを止める
-          stopQbgm();
+          // ---- ここが重要 ----
+          stopQbgm(true); // ←強制リセット（nullを保証）
+          qbgmSource = null;
 
-          // ✅ 復習モードBGMを再生
-          await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm");
-
-          // ✅ iOSで再生が遅れることがあるため、0.3秒後にフェードイン
-          setTimeout(() => {
-            fadeInBGM(qbgmGain, 0.4, 3.0);
-          }, 300);
-
-          console.log("[Audio] review BGM started (iOS-safe)");
+          // ✅ 少し遅らせてロード（iPad対策＋フェードタイミング調整）
+          setTimeout(async () => {
+            try {
+              await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm");
+              fadeInBGM(qbgmGain, 0.4, 3.0);
+              console.log("[Audio] review BGM started (forced reload)");
+            } catch (e) {
+              console.warn("[Audio] review BGM load failed", e);
+            }
+          }, 150);
         } else {
           await ensureAudioResume();
           await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm");
           fadeInBGM(qbgmGain, 0.4, 3.0);
         }
         bgmGain.gain.value = 0;
-      }
-
-      // ✅ 結果画面（復習モードでなければ音を落とす）
-      else if (showResult) {
-        if (isReviewMode) {
-          // 復習中はBGMを維持（音量そのまま）
-          qbgmGain.gain.value = 0.4;
-        } else {
-          // 通常の結果画面
-          bgmGain.gain.value = 0.001;
-          qbgmGain.gain.value = 0;
-        }
       }
     };
 
