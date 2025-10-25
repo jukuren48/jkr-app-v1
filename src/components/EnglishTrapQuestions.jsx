@@ -88,6 +88,18 @@ function stopQbgm(force = false) {
   }
 }
 
+function prepareNextAudioResume() {
+  const resumeOnGesture = async () => {
+    if (audioCtx && audioCtx.state === "suspended") {
+      await audioCtx.resume();
+      console.log("[Audio] resumed on next gesture (iOS safe)");
+    }
+  };
+
+  document.addEventListener("touchstart", resumeOnGesture, { once: true });
+  document.addEventListener("click", resumeOnGesture, { once: true });
+}
+
 function fadeInBGM(gainNode, targetVolume = 1.0, duration = 2.0) {
   if (!audioCtx || !gainNode) return;
 
@@ -1003,23 +1015,26 @@ export default function EnglishTrapQuestions() {
       // ✅ 通常問題中 or 復習中のBGM制御
       if (showQuestions) {
         if (isReviewMode) {
-          // ✅ 復習モード突入時：常に安全にリセット
-          await ensureAudioResume();
+          // ✅ iOS安全モード：次のタップでresumeできるよう準備
+          prepareNextAudioResume();
 
-          // ---- ここが重要 ----
-          stopQbgm(true); // ←強制リセット（nullを保証）
+          // 既存BGM停止
+          stopQbgm(true);
           qbgmSource = null;
 
-          // ✅ 少し遅らせてロード（iPad対策＋フェードタイミング調整）
+          // resume完了を念押し
+          await ensureAudioResume();
+
+          // ✅ ほんの少し遅延させてstart（iOSで確実に出音）
           setTimeout(async () => {
             try {
               await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm");
               fadeInBGM(qbgmGain, 0.4, 3.0);
-              console.log("[Audio] review BGM started (forced reload)");
+              console.log("[Audio] review BGM started (iOS tap-safe)");
             } catch (e) {
-              console.warn("[Audio] review BGM load failed", e);
+              console.warn("[Audio] review BGM start failed:", e);
             }
-          }, 150);
+          }, 300);
         } else {
           await ensureAudioResume();
           await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm");
