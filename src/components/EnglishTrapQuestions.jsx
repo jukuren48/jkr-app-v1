@@ -12,6 +12,8 @@ let bgmSource = null,
   qbgmSource = null;
 // ===== Audio Utility 共通変数 =====
 let isBgmPlaying = false; // ✅ BGM多重再生防止フラグ
+// ===== BGM多重再生防止のグローバルフラグ =====
+let globalUnitBgmPlaying = false;
 
 function unlockAudio() {
   if (audioCtx && audioCtx.state === "suspended") {
@@ -1081,6 +1083,7 @@ export default function EnglishTrapQuestions() {
         }
         bgmGain.gain.value = 0;
         setUnitBgmPlaying(false); // ✅ 単元BGM再生中フラグを解除
+        globalUnitBgmPlaying = false;
       }
 
       // ✅ 結果画面
@@ -1093,11 +1096,12 @@ export default function EnglishTrapQuestions() {
           qbgmGain.gain.value = 0;
         }
         setUnitBgmPlaying(false); // ✅ 結果画面でも解除
+        globalUnitBgmPlaying = false;
       }
 
       // ✅ 単元選択画面（ここを重点修正）
       else if (!showQuestions && !showResult) {
-        if (!unitBgmPlaying) {
+        if (!globalUnitBgmPlaying) {
           // まだ単元BGMが流れていない場合のみ再生
           try {
             if (bgmSource) {
@@ -1107,7 +1111,7 @@ export default function EnglishTrapQuestions() {
             await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true);
             fadeInBGM(bgmGain, 0.4, 2.0);
             qbgmGain.gain.value = 0;
-            setUnitBgmPlaying(true); // ✅ フラグON
+            globalUnitBgmPlaying = true; // ✅ グローバル変数に記録
             console.log("[Audio] bgm started for unit select (first only)");
           } catch (e) {
             console.warn("[Audio] bgm start failed:", e);
