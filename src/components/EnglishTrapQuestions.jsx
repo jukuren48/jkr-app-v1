@@ -10,6 +10,8 @@ let audioCtx;
 let bgmGain, qbgmGain, sfxGain;
 let bgmSource = null,
   qbgmSource = null;
+// ===== Audio Utility 共通変数 =====
+let isBgmPlaying = false; // ✅ BGM多重再生防止フラグ
 
 function unlockAudio() {
   if (audioCtx && audioCtx.state === "suspended") {
@@ -50,18 +52,20 @@ function initAudio() {
 async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
   initAudio();
 
-  // ✅ すでに再生中ならスキップ（ただし forceReload 時は除外）
+  // ✅ BGM の多重再生防止
+  if (storeRefName === "bgm" && bgmSource && !forceReload) {
+    console.log("[ensureLoop] bgm already playing → skip");
+    return;
+  }
+
+  // ✅ すでに再生中ならスキップ（forceReload 以外）
   if (!forceReload) {
-    if (storeRefName === "bgm" && bgmSource) {
-      console.log("[ensureLoop] bgm already playing → skip");
-      return;
-    }
     if (storeRefName === "qbgm" && qbgmSource) {
       console.log("[ensureLoop] qbgm already playing → skip");
       return;
     }
   } else {
-    // ✅ 強制リロード時は既存ソースを停止・破棄
+    // 強制リロード時は stop して再生し直す
     try {
       if (storeRefName === "bgm" && bgmSource) {
         bgmSource.stop(0);
@@ -1105,8 +1109,35 @@ export default function EnglishTrapQuestions() {
 
       // ✅ 単元選択画面
       else if (!showQuestions && !showResult) {
-        await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm");
-        bgmGain.gain.value = 0.4;
+        // ✅ 多重防止：すでに単元BGMが流れていたら止める
+        if (bgmSource) {
+          try {
+            bgmSource.stop(0);
+            bgmSource = null;
+            isBgmPlaying = false;
+            console.log("[Audio] stopped old bgm before replay");
+          } catch (e) {
+            console.warn("[Audio] stop bgm failed", e);
+          }
+        }
+
+        // ✅ すでにBGMが鳴っている場合は新規再生をスキップ
+        if (isBgmPlaying) {
+          console.log("[Audio] skip duplicate bgm start");
+          return;
+        }
+
+        // ✅ 新しく再生
+        try {
+          await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true); // ← 強制再ロード
+          fadeInBGM(bgmGain, 0.4, 2.0);
+          isBgmPlaying = true; // ← ロックON
+          console.log("[Audio] bgm started for unit select");
+        } catch (e) {
+          console.warn("[Audio] bgm start failed:", e);
+        }
+
+        // ✅ 他のBGMをミュート
         qbgmGain.gain.value = 0;
       }
     };
