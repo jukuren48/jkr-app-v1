@@ -413,10 +413,11 @@ function HandwritingPad({
           maxWidth={3}
           backgroundColor="#ffffff"
           canvasProps={{
-            width: 360,
-            height: 160,
+            width: 800, // 🟢 横幅を大幅に拡大（元: 360）
+            height: 240, // 🔸 高さも少し拡大（元: 160）
             className:
-              "border-2 border-gray-300 rounded-xl mx-auto block bg-gradient-to-b from-white to-gray-50 shadow-md max-w-[90vw]",
+              // 🟢 横幅を広げつつレスポンシブ対応
+              "border-2 border-gray-300 rounded-2xl mx-auto block bg-gradient-to-b from-white to-gray-50 shadow-md w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-[900px]",
           }}
           onEnd={handleEndStroke}
         />
