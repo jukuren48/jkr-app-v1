@@ -11,6 +11,7 @@
       "books": "『books』は複数形ですが、ここでは特に複数の本を示す必要がなく、『a book』のように単数が自然です。",
       "the books": "『the books』は特定の本を指す表現です。ここでは新しく情報を与える形なので不定冠詞『a』を使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -25,6 +26,7 @@
       "be": "『be』は原形で、文の中でそのまま使う形ではありません。",
       "are": "『are』は複数主語に使いますが、『brother』は単数なので不適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -35,6 +37,7 @@
     "correct": "I am a student.",
     "explanation": "be動詞amを使って、I am a student. になります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -49,6 +52,7 @@
       "for": "for her の場合、間接的にものが移動するというイメージなので違います。",
       "by": "by her では彼女があげるような表現になってしまうのであわない。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -63,6 +67,7 @@
       "played": "『played』は過去形で、現在の習慣を表すときには使えません。",
       "playing": "『playing』は進行形や動名詞で、現在の習慣を表すには不適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -73,6 +78,7 @@
     "correct": "I go to school every day.",
     "explanation": "主語Iに現在形のgoを使って、I go to school every day. と表現します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -83,6 +89,7 @@
     "correct": "He likes soccer.",
     "explanation": "主語がHeなので三単現のsをつけて、He likes soccer. と書きます。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -93,6 +100,7 @@
     "correct": "They play soccer.",
     "explanation": "主語がTheyなので三単現のsは不要です。They play soccer. になります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -107,6 +115,7 @@
       "was": "『was』は過去形で、ここでは未来の希望を表すので使えません。",
       "being": "『being』は動名詞で、名詞的な働きをします。『hope』の後は『to不定詞』で動作を表すのが正しい形です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -121,6 +130,7 @@
       "opened": "『opened』は過去形で、意図や試みを表す動作の目的には使えません。",
       "opening": "『opening』は動名詞で、『try to open』のように目的を表す形とは異なります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -135,6 +145,7 @@
       "have": "『have』だけでは不定詞の『to』が抜けています。『plan to have』が正しい形です。",
       "having": "『having』は動名詞で、『plan』の後は『to不定詞』を使って未来の意図を表します。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -149,6 +160,7 @@
       "went": "過去形で、決心した先の行動を未来的に表せません。",
       "going": "動名詞で、決心する動作の目的を表すときは『to不定詞』を使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -163,6 +175,7 @@
       "bought": "過去形で、欲しいという未来的な意志を表せません。",
       "buying": "動名詞は『enjoy』などに使いますが、『want』には『to不定詞』が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -177,6 +190,7 @@
       "bought": "過去形で、『〜したい』という未来志向の意味を表せません。",
       "buying": "動名詞で、『enjoy』などには使えますが『want』では目的を表す『to不定詞』が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -187,6 +201,7 @@
     "correct": "I go to the library to borrow books.",
     "explanation": "目的を表す不定詞to + 動詞の原形を使います。to borrowingと間違えないようにします。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -197,6 +212,7 @@
     "correct": "I want to read a book.",
     "explanation": "want to + 動詞の原形 で『〜したい』を表します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -207,6 +223,7 @@
     "correct": "She likes to play the piano.",
     "explanation": "like to + 動詞の原形 で『〜することが好き』を表します。She likes to play the piano. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -217,6 +234,7 @@
     "correct": "I want you to read the book.",
     "explanation": "want + 人 + to + 動詞の原形を使います。to readingとしないように注意。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -231,6 +249,7 @@
       "形容詞的用法": "名詞を修飾するのが形容詞的用法です。",
       "動名詞": "動名詞ではなく、不定詞（to + 動詞の原形）が使われています。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -245,6 +264,7 @@
       "形容詞的用法": "形容詞的用法は名詞を修飾します。",
       "動名詞": "不定詞（to play）が使われており、動名詞ではありません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -259,6 +279,7 @@
       "副詞的用法": "副詞的用法は動詞などを修飾しますが、ここでは名詞を修飾しています。",
       "動名詞": "to do は不定詞であり、動名詞（～ing）ではありません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -278,6 +299,7 @@
       "動名詞（目的語）": "目的語ではなく主語として使われています。",
       "不定詞（形容詞的用法）": "形容詞的ではなく主語になっているので不適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -297,6 +319,7 @@
       "形容詞的用法": "playing は名詞として使われており、名詞を修飾していません。",
       "副詞的用法": "副詞的ではなく、enjoyの目的語になっています。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -311,6 +334,7 @@
       "being": "wantは動名詞を目的語に取りません。",
       "been": "beenは完了形で使う過去分詞形で、この文には合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -325,6 +349,7 @@
       "To getting up": "不定詞と動名詞が混ざっていて文法的に誤りです。",
       "Gets up": "三人称現在形であり、主語として使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -339,6 +364,7 @@
       "be": "be は使えません。文法的に形が整っていません。",
       "been": "完了形の一部として使うため、ここでは不適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -353,6 +379,7 @@
       "walk": "動詞の原形はここでは使えません。",
       "walked": "過去形は動詞としての位置で使われません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -367,6 +394,7 @@
       "study": "to がないため文法的に不完全です。",
       "studied": "過去形では意味が合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -381,6 +409,7 @@
       "cooking": "現在分詞では文意が通りません。",
       "cooked": "「調理された何か」になり意味が変わってしまいます。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -395,6 +424,7 @@
       "doing": "doing を続けると意味が通じません。",
       "did": "過去形はこの文には不適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -409,6 +439,7 @@
       "doing": "doing を使うと意味が通りません。",
       "did": "過去形はここで使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -423,6 +454,7 @@
       "is": "is も同様に文構造が合いません。",
       "being": "being も意味的に曖昧で、正しくつながりません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -437,6 +469,7 @@
       "helps": "三人称単数現在形ではこの構文には合いません。",
       "helping": "helping は名詞や進行形になるため不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -451,6 +484,7 @@
       "isn't it": "主語が『you』なのに『it』を使うのは不一致です。代名詞は主語に合わせて『you』を使います。",
       "don’t you": "文が『You are』なので、動詞はbe動詞です。『don’t』は一般動詞に使う形なので間違いです。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -465,6 +499,7 @@
       "can": "「can」は現実的な能力や可能性を表しますが、ここでは現実とは違う想像の話なので使えません。",
       "will": "「will」は未来の意志や予定を表す助動詞で、仮定法の非現実的な条件には使いません。『If I were you』のような仮定法では『would』を使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -475,6 +510,7 @@
     "correct": "If I were you, I would read the book.",
     "explanation": "仮定法過去でIf I were you, I would + 動詞の原形を使います。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -489,6 +525,7 @@
       "no": "『no』を使うと意味が変わり、『持っていない』という否定になります。",
       "the": "『the』は特定のものを指すときに使いますが、ここでは特定されていないので不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -503,6 +540,7 @@
       "the": "'the' は特定の物に使いますが、ここでは初出なので不適切です。",
       "×": "数えられる名詞の単数には必ず冠詞が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -517,6 +555,7 @@
       "the": "ここでは初めて言及する象なので不適切です。",
       "×": "名詞の前には冠詞が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -531,6 +570,7 @@
       "the": "ここでは新しく購入したいという初めての言及なので不適切です。",
       "×": "数えられる単数名詞には冠詞が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -545,6 +585,7 @@
       "the": "ここでは特定されていない先生について話しているので 'the' は使いません。",
       "×": "職業を表す単数名詞には冠詞が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -559,6 +600,7 @@
       "an": "'window' は母音で始まらないので 'an' ではありません。",
       "×": "名詞が特定されているので 'the' が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -573,6 +615,7 @@
       "an": "'piano' は母音ではないので 'an' ではありません。",
       "×": "楽器の前には冠詞 'the' をつけるのが正しい用法です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -587,6 +630,7 @@
       "the": "『the school』だと特定の学校になりますが、ここでは一般的な通学を表しています。",
       "an": "『an』は母音の前につけますが、ここでは無冠詞が適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -601,6 +645,7 @@
       "a": "『a prison』も不自然です。状態としての『in prison』では冠詞なしが正解です。",
       "an": "不定冠詞『an』は使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -615,6 +660,7 @@
       "the": "『the work』だと特定の作業にかかわる意味になり、不自然です。",
       "an": "work は不可算名詞なので『an』はつきません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -629,6 +675,7 @@
       "the": "『the home』だと特定の家を指すことになり文脈に合いません。",
       "an": "『an home』は文法的にも意味的にも不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -642,6 +689,7 @@
     ],
     "explanation": "現在分詞runningを使って『走っている少年』を表現します。関係代名詞whoを使ってもよい。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -655,6 +703,7 @@
     ],
     "explanation": "『泣いている赤ちゃん』は分詞１語で修飾する場合は「the crying baby」となりますが、『あそこで泣いている赤ちゃん』と２語以上の場合は「the baby crying over there」と後置修飾となる。関係代名詞whoを使ってもよい。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -665,6 +714,7 @@
     "correct": "The picture painted on the wall is beautiful.",
     "explanation": "過去分詞paintedを使い『描かれた』を表現します。描く人が主語ではない点に注意。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -679,6 +729,7 @@
       "from": "「from」は『〜から』を表します。『a gift from you』だと『あなたからの贈り物』という意味になり、『あなたのための贈り物』を表したいこの文には合いません。",
       "with": "「with」は『〜と一緒に』を表します。『a gift with you』だと『あなたと一緒の贈り物』のような意味になり、『あなたのための』という気持ちは伝わりません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -693,6 +744,7 @@
       "look": "「look」は意識して視線を向けることを表します。『look at』のように前置詞を伴って『～を見る』と言いますが、『wait for』のように人を待つ意味はありません。『Please look at me』なら『私を見てください』になります。",
       "watch": "「watch」は動きや変化を注意して見ることを表します。テレビや試合など、動きがあるものをじっと見るときに使います。『Please watch for me』だと不自然で、『watch』は『待つ』の意味では使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -707,6 +759,7 @@
       "wait": "「wait」は『待つ』という意味で、見ることとは関係ありません。『Please wait at this picture』だと『この絵で待って』になり、見てほしいという意味になりません。",
       "watch": "「watch」は動きや変化があるものをじっと見るときに使います。例えば『watch TV』はテレビの動きを見ることです。『picture』は静止画なので『watch』は不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -721,6 +774,7 @@
       "for": "「for」は目的や対象を表します。『for the rain』だと『雨のために（雨を目的として）』になってしまい、雨が原因で家にいたという意味を正しく伝えられません。",
       "with": "「with」は『〜と一緒に』の意味です。『with the rain』だと『雨と一緒に』というおかしな意味になってしまい、原因を表すことはできません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -735,6 +789,7 @@
       "in": "「in」は『内部にいる』ことを表します。『in school』は『学校の中にいる』という意味になり、『欠席』とは真逆の意味になるので使えません。",
       "to": "「to」は方向や到着点を表します。『to school』は『学校へ』という意味になり、『absent』と一緒に使うと『学校へ欠席』という不自然な表現になってしまいます。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -749,6 +804,7 @@
       "for": "「for」は目的や利益を表します。『for my mother』だと『母のために』という意味になり、『一緒に行った』という意味にはなりません。",
       "without": "「without」は『〜なしで』を表します。『without my mother』だと『母なしで』になり、一緒に行ったという意味になりません。問題は一緒に行ったことを言いたいので正しくありません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -763,6 +819,7 @@
       "for": "「for」は目的や利益を表します。『for your help』だと『あなたの助けのために』という意味になり、『〜なしで』という意味を伝えることはできません。",
       "with": "「with」は『〜と一緒に』を表します。『with your help』だと『あなたの助けと一緒にできる』という意味になり、『できない』という否定文には合いません。ここは『〜なしで』を表す『without』が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -777,6 +834,7 @@
       "with": "「with」は道具や一緒に使う相手を表します。『with mistake』だと『間違いを持って』という不自然な表現になり、『間違えて』という意味にはなりません。",
       "without": "「without」は『〜なしで』を表します。『without mistake』なら『間違いなしで』という意味になり、間違えてやったことを表現できません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -791,6 +849,7 @@
       "behind": "「behind」は『後ろに』を表します。『behind the two trees』だと『2本の木の後ろに立っている』意味になり、『2本の間に』という問題の意味を正しく表せません。",
       "in front of": "「in front of」は『前に』を表します。『in front of the two trees』だと『2本の木の前に』という意味になり、『間に』という指定された位置を正しく表せません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -805,6 +864,7 @@
       "between": "「between」は2つのものの間にいることを表します。『her friends』は友達が3人以上いるイメージなので、『between』だと人数に合わず不自然です。",
       "in front of": "「in front of」は『前に』を表します。『in front of her friends』だと『友達の前に座った』という意味になり、友達に囲まれて座っているイメージではありません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -819,6 +879,7 @@
       "under": "「under」は『下に』を表します。『under the river』だと『川の下に橋がある』という意味になり、川を渡す橋のイメージとは逆になります。",
       "between": "「between」は2つの物の間にあることを表します。『the river』は1つの川なので『between』を使うと不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -833,6 +894,7 @@
       "among": "「among」は3つ以上のものに囲まれている状態を表します。『the box』が1つなので、『among the box』は意味が通りません。",
       "between": "「between」は2つの物の間にいることを表します。『the box』は単数なので、『between the box』は文法的に不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -847,6 +909,7 @@
       "behind": "「behind」は『後ろに』を表します。『behind the door』だと『ドアの後ろに立った』意味になり、前に立つという問題の意図と逆になってしまいます。",
       "between": "「between」は2つの物の間にいることを表します。『the door』は1つの物なので、『between the door』は文法的に不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -861,6 +924,7 @@
       "along": "「along」は『〜に沿って』を表します。『along the river』だと『川に沿って学校が建っている』という意味になり、川の向こう側にあるという問題の意図とは違ってしまいます。",
       "through": "「through」は『〜を通り抜けて』を表します。『through the river』だと『川を通り抜けて』の意味になり、学校が川の向こう側にあるという位置関係を正しく伝えられません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -875,6 +939,7 @@
       "along": "「along」は『〜に沿って』を表します。『along the park』だと『公園の外側や端に沿って走った』という意味になり、公園の中を通り抜けたイメージではありません。",
       "across": "「across」は『横切って』を表します。『across the park』だと『公園を一方向に横切る』イメージになりますが、『through』は公園の中を通り抜ける全体的な経路を表します。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -889,6 +954,7 @@
       "across": "「across」は『横切って』を表します。『across the street』だと『道を渡って横切る』という意味になり、道に沿って歩くイメージとは異なります。",
       "through": "「through」は『〜を通り抜けて』を表します。『through the street』だと『道の中を突っ切る』ような不自然なイメージになり、道沿いを歩くことを正しく伝えられません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -903,6 +969,7 @@
       "into": "「into」は『中へ入る』を表します。『She came into the house』だと『家に入ってきた』になり、外へ出る動作を表したいこの文とは反対の意味になります。",
       "through": "「through」は『〜を通り抜けて』を表します。『through the house』だと『家の中を通り抜けて』という意味になり、単に外へ出る動作を表せません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -917,6 +984,7 @@
       "out of": "「out of」は『〜の外へ出る』を表します。『out of the room』だと『部屋の外へ出た』意味になり、部屋に入る動作を表す『into』とは逆の意味になります。",
       "through": "「through」は『〜を通り抜ける』を表します。『through the room』だと『部屋を突っ切って進む』イメージになり、部屋に入るという動作だけを表すことはできません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -931,6 +999,7 @@
       "on": "「on」は『上に接触している』を表します。建物の中で働くイメージには合いません。",
       "to": "「to」は『〜へ』という方向を表します。どこで働くかを表すときには使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -945,6 +1014,7 @@
       "from": "「from」は『〜から』という出発点や出身地を表します。話題を表す『〜について』には使えません。",
       "with": "「with」は『〜と一緒に』を表します。『talk with』は『誰と話すか』を表し、話題を表す『about』とは意味が異なります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -959,6 +1029,7 @@
       "for": "「for」は『〜のために』を表します。『a letter for my friend』だと『友達宛ての手紙』『友達のための手紙』という意味になり、友達からもらったことは表せません。",
       "about": "「about」は『〜について』を表します。『a letter about my friend』だと『友達についての手紙』という意味になり、友達からもらったことを表せません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -969,6 +1040,7 @@
     "correct": "He lives by the river.",
     "explanation": "『〜のそばに』はbyを使って表現します。He lives by the river. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -979,6 +1051,7 @@
     "correct": "There is a book on the desk.",
     "explanation": "『〜の上に』はonを使います。There is構文で存在を表します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -993,6 +1066,7 @@
       "was": "『was』は過去形のbe動詞で、現在の能力を表すときには使えません。",
       "cans": "助動詞には三単現のsはつきません。常に『can』を使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1007,6 +1081,7 @@
       "has to": "『has to』は三人称単数用なので、『you』には使えません。『you have to』が正しい形です。",
       "must to": "『must』の後に『to』は不要です。正しくは『must + 動詞の原形』です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1021,6 +1096,7 @@
       "can't": "『can't』は『できない』『不可能』を表し、禁止の意味にはなりません。",
       "should": "『should』は助言や推奨を表し、強い禁止を伝える『mustn't』とは意味が異なります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1035,6 +1111,7 @@
       "will": "『will』は未来を表す助動詞で、現在の可能や許可を表す『can』とは意味が異なります。",
       "could": "『could』は『can』の過去形やより丁寧な表現ですが、ここではシンプルな現在の可能を表す『can』が自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1049,6 +1126,7 @@
       "have to": "意味は近いですが、ルールや規則を表すときには『must』のほうが強くて自然です。",
       "must to": "『must』の後に『to』はつけません。正しくは『must + 動詞の原形』です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1063,6 +1141,7 @@
       "Do": "『Do I』は一般動詞の現在形疑問文で、許可を求める表現には使えません。",
       "Did": "『Did』は過去形の疑問文で、現在の許可を聞く文には合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1077,6 +1156,7 @@
       "will": "『will』は未来の意志を表すため、勧めや助言をする『should』とは使い方が異なります。",
       "shall": "『shall』は提案や意志を表す場合が多く、『study harder』という助言には不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1087,6 +1167,7 @@
     "correct": "You may take pictures here.",
     "explanation": "許可を表す助動詞mayを使って、You may take pictures here. になります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1097,6 +1178,7 @@
     "correct": "You must be quiet here.",
     "explanation": "義務を表す助動詞mustを使ってYou must be quiet here. になります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1111,6 +1193,7 @@
       "went": "『went』は過去形で、『about』の後に話題にする動作を表す形には使えません。",
       "to go": "『to go』は不定詞で目的や意志を表すニュアンスが強く、『about』の後に動作を名詞として言うときは動名詞『going』を使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1125,6 +1208,7 @@
       "played": "『played』は過去形で、名詞のように動作を表す『〜すること』にはなりません。",
       "to play": "『to play』は不定詞で、『enjoy』ではなく『want』などに使う形です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1139,6 +1223,7 @@
       "paints": "『paints』は三単現の現在形で、『My hobby is』の補語にするには動名詞が必要です。",
       "painted": "『painted』は過去形・過去分詞で、『〜すること』を表すには動名詞『painting』が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1153,6 +1238,7 @@
       "played": "『played』は過去形で、名詞的に『〜すること』を表す役割は果たせません。",
       "to play": "『to不定詞』は『want』や『hope』など意志や目的を表す動詞の後に使いますが、『enjoy』は動名詞をとります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1167,6 +1253,7 @@
       "drew": "『drew』は過去形で、名詞的に『〜すること』を表す動名詞の代わりには使えません。",
       "draws": "『draws』は三単現現在形で、『〜すること』を表す名詞的な形ではありません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1181,6 +1268,7 @@
       "reads": "『reads』は三単現の現在形で、『finish』の後に続けて名詞的な動作を表すには適しません。",
       "to read": "『to read』は不定詞で、『finish』の後は動名詞を使うルールがあります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1191,6 +1279,7 @@
     "correct": "I like swimming.",
     "explanation": "likeの後は動名詞を使ってI like swimming. となります。I like to swimもOKだが、ここでは動名詞を意識。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1201,6 +1290,7 @@
     "correct": "He stopped smoking.",
     "explanation": "stop + 動名詞は『〜するのをやめる』。stop to smokeは『吸うために立ち止まる』なので注意。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1215,6 +1305,7 @@
       "played": "過去形は『〜すること』という意味を表せず、動名詞が必要です。",
       "to play": "『to play』は不定詞で、『enjoy』の後は動名詞を使うルールです。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1225,6 +1316,7 @@
     "correct": "come",
     "explanation": "『来る』は英語で come です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -1235,6 +1327,7 @@
     "correct": "see",
     "explanation": "『見る』の基本形は see です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -1245,6 +1338,7 @@
     "correct": "read",
     "explanation": "『読む』は英語で read（リード）です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -1259,6 +1353,7 @@
       "was spoken": "『was spoken』は過去形の受動態で『話された』という過去を表しますが、文は現在形なので時制が合いません。",
       "is speaking": "『is speaking』は進行形の能動態で『話しているところ』を表します。受動態では『is spoken』を使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1283,6 +1378,7 @@
       "childs": "『child』の複数形は不規則で、『childs』は誤りです。正しくは『children』です。",
       "childrens": "『children』自体が複数形なので、さらに『s』をつけることはできません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1297,6 +1393,7 @@
       "This": "『This is raining』は文法的に不自然です。",
       "That": "『That is raining』では、特定の何かが雨を降らせているような意味になります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1311,6 +1408,7 @@
       "hers": "『hers』は所有代名詞で、単体で『彼女のもの』という意味になります。",
       "herself": "『herself』は強調や再帰を表す代名詞で、この文には合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1325,6 +1423,7 @@
       "Every": "『Every』も単数扱いで『Every student』の形を取ります。",
       "Another": "『Another』は『もう一つ（1人・1つ）』なので文の意味と合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1339,6 +1438,7 @@
       "his": "『his』は所有格でこの文には不適切です。",
       "he": "『he』は主格で目的語には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1353,6 +1453,7 @@
       "They": "『They』も複数を指します。",
       "Their": "『Their』は所有格で、『彼らの』という意味になります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1367,6 +1468,7 @@
       "him": "『him name』も文法的に不正です。目的格では所有を表せません。",
       "he's": "『he's』は『he is』または『he has』の短縮形で、ここでは意味が通じません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1381,6 +1483,7 @@
       "Nothing": "『nothing』は『何もない』という否定の意味なので文意に合いません。",
       "Everything": "『everything』は『すべて』という意味で、漠然とした何かを指す文とは異なります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1395,6 +1498,7 @@
       "everyone": "『everyone』は『みんな』で意味が逆になります。",
       "no one": "『didn't』と『no one』を一緒に使うと二重否定になってしまいます。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1409,6 +1513,7 @@
       "Anyone": "『anyone』は疑問文や否定文で使うのが自然です。",
       "No one": "『no one』は『誰も〜ない』という否定の意味で、文意に合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1423,6 +1528,7 @@
       "Anybody": "肯定文では『anybody』は不自然で、通常疑問文や否定文で使います。",
       "Nobody": "『nobody』だと『誰もいなかった』という否定の意味になります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1437,6 +1543,7 @@
       "nothing": "『nothing wrong』だと『問題は何もない』という意味になります。",
       "everything": "『everything wrong』は『すべて間違っている』という強すぎる意味になります。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1451,6 +1558,7 @@
       "another": "『another』は『もう1つ（他に）』の意味ですが、2つのうちの残りには使いません。",
       "others": "『others』は複数の残りを指すので、ここでは合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1465,6 +1573,7 @@
       "Another": "『another』は単数形なので複数の人を指す文に合いません。",
       "Other": "『other』は形容詞で名詞が必要です。単独では使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1479,6 +1588,7 @@
       "others": "『others』は複数形なので『one』には合いません。",
       "other": "『other』は単独では使えず、名詞が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1493,6 +1603,7 @@
       "the other": "『the other』は特定のもう1つを指すときに使いますが、ここでは不特定の別の色です。",
       "others": "『others』は複数形で、この文では単数が適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1507,6 +1618,7 @@
       "the other": "『the other temples』とすると特定の残りを指しますが、ここでは不特定の複数です。",
       "another": "『another』は単数の名詞にしか使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1517,6 +1629,7 @@
     "correct": "Close the door.",
     "explanation": "命令文は動詞の原形で始めて、Close the door. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1527,6 +1640,7 @@
     "correct": "Be quiet.",
     "explanation": "命令文は動詞の原形で始める。quietは形容詞なのでbe動詞をつかう。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1541,6 +1655,7 @@
       "interests": "これは名詞の複数形や動詞の三単現形で、形容詞としては使えません。",
       "interested": "『interested』は人の感情を表します。物や話の性質を説明するときは『interesting』を使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1551,6 +1666,7 @@
     "correct": "What a beautiful flower!",
     "explanation": "感嘆文はWhat + a + 形容詞 + 名詞の形を使います。How beautiful flower! ではなくWhatを使う。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1561,6 +1677,7 @@
     "correct": "What a big dog!",
     "explanation": "感嘆文ではWhat a + 形容詞 + 名詞を使います。How big dog! は誤り。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1575,6 +1692,7 @@
       "and": "『and』は内容を単純に並べる接続詞で、理由を表すことはできません。",
       "but": "『but』は逆接を表す接続詞で、原因と結果をつなぐときには使いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1589,6 +1707,7 @@
       "while": "「while」は『〜する間に』や対比を表しますが、この文のように正反対の性質をはっきり対立させるときは『but』を使います。",
       "because": "「because」は理由を表す接続詞で、『なぜ強いのか』を説明する形になります。逆接には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1603,6 +1722,7 @@
       "while": "『while』は『〜する間』や対比を表す接続詞で、単純に好きなものを並べるときには使えません。",
       "because": "『because』は理由を説明する接続詞で、『犬と猫』を並べる意味にはなりません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1617,6 +1737,7 @@
       "when": "『when』は時間を表す接続詞で、『だから』という結果を示す『so』とは意味が違います。",
       "because": "『because』は理由を表しますが、この文では『病気だったので病院へ行った』という結果を言いたいので合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1631,6 +1752,7 @@
       "and": "『and』は単に情報を並べる接続詞で、理由を説明することはできません。",
       "but": "『but』は逆接を表し、理由を表す文には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1645,6 +1767,7 @@
       "but": "『but』は逆接を表す接続詞で、同時に起こることを表せません。",
       "because": "『because』は理由を表す接続詞で、同時進行の意味にはなりません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1659,6 +1782,7 @@
       "so": "『so』は結果を表す接続詞で、『〜するとき』を表す文には使えません。",
       "because": "『because』は理由を表しますが、この文はタイミングを伝えるので合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1669,6 +1793,7 @@
     "correct": "I stayed home because it was raining.",
     "explanation": "理由を表す接続詞 because を使い、『because it was raining』で『雨が降っていたので』を表現します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1682,6 +1807,7 @@
     ],
     "explanation": "理由を表す接続詞becauseを使い、because I was hungryと続けます。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1696,6 +1822,7 @@
       "are": "現在形で、未来の予定を表すには使えません。『will』を使います。",
       "was": "過去形で、未来を表す文には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1710,6 +1837,7 @@
       "is": "『is』も現在形で、未来を言いたいときには使えません。",
       "was": "『was』は過去形で、未来を表すことはできません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1724,6 +1852,7 @@
       "has": "『has』は三単現の現在形で、未来を表すことはできません。",
       "having": "『having』は動名詞で、『will』のように未来を表す助動詞が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1738,6 +1867,7 @@
       "does": "『does』は現在形の三人称単数で、未来の予定を表すことはできません。",
       "doing": "『doing』は進行形や動名詞で、未来の助動詞『will』とは形が合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1752,6 +1882,7 @@
       "are": "主語が『she』なので『are』は文法的に合いません。",
       "was": "過去形で、未来の予定を表す文には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1766,6 +1897,7 @@
       "was": "過去形で、未来を表す予定には使えません。",
       "were": "過去形のbe動詞で、『I』の未来の予定には合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1779,6 +1911,7 @@
     ],
     "explanation": "未来を表すtomorrowがあるのでwillを使ってI will meet my friend tomorrow. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1789,6 +1922,7 @@
     "correct": "If it rains, I will stay home.",
     "explanation": "条件を表すif節では、未来のことでも現在形を使います。これは「まだ起こるか分からない条件」を表すためです。例えば 'If it rains, I will stay home.' が正しい形です。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1803,6 +1937,7 @@
       "difficulty": "名詞なので形容詞の比較表現には使えません。",
       "most difficult": "最上級で、3つ以上の中で一番を表します。ここは2つを比べています。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1817,6 +1952,7 @@
       "taller": "比較級で、2つを比べるときに使います。ここはクラスの中で一番を表す最上級が必要です。",
       "most tall": "『tall』は短い形容詞なので『most』は使えず、『tallest』が正しい最上級の形です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1836,6 +1972,7 @@
       "most interesting": "『most』は最上級で、3つ以上のものを比べるときに使います。",
       "very interesting": "『very』は程度を強調するだけで、他と比べる表現には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1855,6 +1992,7 @@
       "interesting": "原級では比較を表せません。『more interesting』が必要です。",
       "most interesting": "最上級で、3つ以上の中で一番を表します。2つを比べる場合は使いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1869,6 +2007,7 @@
       "tallest": "『tallest』は最上級で、3人以上の中で一番を表しますが、ここは2人の比較です。",
       "most tall": "『tall』は短い形容詞なので『more/most』は使わず『taller/tallest』にします。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1883,6 +2022,7 @@
       "fastly": "『fast』は形容詞も副詞も同じ形で、『fastly』という単語は英語にありません。",
       "fastest": "最上級で、3人以上の中で一番を表します。ここは2人の比較です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1893,6 +2033,7 @@
     "correct": "This box is bigger than that one.",
     "explanation": "比較級を使い、bigger than that one と表現します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1903,6 +2044,7 @@
     "correct": "Tom is taller than Ken.",
     "explanation": "比較級を使ってtaller than Kenと表現します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1913,6 +2055,7 @@
     "correct": "He is taller than me.",
     "explanation": "比較級tallerとthanを使います。the tallestと間違えないようにします。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1923,6 +2066,7 @@
     "correct": "This river is as long as that river.",
     "explanation": "同等比較はas 〜 asを使います。longer thanと間違えないように。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1933,6 +2077,7 @@
     "correct": "He has been to London three times.",
     "explanation": "現在完了の経験用法でhas been toを使い、three timesを付けます。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1943,6 +2088,7 @@
     "correct": "I have just finished my homework.",
     "explanation": "現在完了の完了用法でhave + 過去分詞、justを適切に挿入します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1953,6 +2099,7 @@
     "correct": "I have studied English for three years.",
     "explanation": "現在完了の継続を表すときは have + 過去分詞を使い、I have studied English for three years. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -1967,6 +2114,7 @@
       "see": "『have』の後には過去分詞形が必要で、原形『see』は使えません。",
       "seeing": "進行形や動名詞の形で、『have』と使う完了形には不適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1981,6 +2129,7 @@
       "watched": "過去形で、現在の習慣を表す文には使えません。",
       "watching": "進行形や動名詞の形で、現在の習慣を表す動詞の形には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -1995,6 +2144,7 @@
       "walked": "過去形で、現在の習慣を表す文には合いません。",
       "walking": "現在分詞や進行形の形で、習慣を表す現在形には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2009,6 +2159,7 @@
       "played": "過去形で、現在の習慣を表すには使えません。",
       "playing": "進行形や動名詞の形で、現在の習慣を表す動詞の形としては使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2023,6 +2174,7 @@
       "got": "過去形で、現在の習慣を表すには使えません。",
       "getting": "現在分詞や進行形の形で、現在形の習慣を表す文には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2037,6 +2189,7 @@
       "has": "『has』は三人称単数用です。『I』には『have』を使います。",
       "having": "進行形や動名詞で、現在の習慣を表す動詞の形としては使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2047,6 +2200,7 @@
     "correct": "He runs every day.",
     "explanation": "主語がHe（3単現）なので動詞にsをつけてrunsにします。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2057,6 +2211,7 @@
     "correct": "He and his brother play soccer every day.",
     "explanation": "主語が複数なのでplayにsをつけないことに注意します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2067,6 +2222,7 @@
     "correct": "I play the piano.",
     "explanation": "主語Iに現在形のplayを使います。楽器にはtheをつけてI play the piano. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2077,6 +2233,7 @@
     "correct": "He gets up at six every morning.",
     "explanation": "主語がHeなのでgetsにsを忘れないようにします。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2091,6 +2248,7 @@
       "went": "『went』は過去形で、『These days』という現在の習慣を表す文には合いません。",
       "going": "『going』は動名詞や現在進行形に使う形で、ここでは現在形の動詞が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2105,6 +2263,7 @@
       "sleeps": "三単現の現在形で習慣的な動作を表しますが、『今まさにしているところ』は表せません。",
       "sleeping": "『sleeping』だけでは動詞の形が不完全で、『be動詞』が必要です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2115,6 +2274,7 @@
     "correct": "I am writing a letter now.",
     "explanation": "進行形はbe動詞＋ing形を忘れず、am writingとします。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2125,16 +2285,18 @@
     "correct": "They are watching TV now.",
     "explanation": "現在進行形はbe動詞＋動詞ing形で表し、They are watching TV now. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
     "id": "0bee1a90-e855-49bd-b1d2-9a76724452ca",
     "unit": "現在進行形",
-    "question": "「彼は今テニスをします。」を英語に訳しなさい。",
+    "question": "「彼は今テニスをしています。」を英語に訳しなさい。",
     "choices": [],
     "correct": "He is playing tennis now.",
     "explanation": "『今〜している』は現在進行形。間違えて現在形He playsにならないよう注意します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2145,6 +2307,7 @@
     "correct": "I am eating lunch now.",
     "explanation": "現在進行形はbe動詞＋動詞ing形で、I am eating lunch now. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2155,6 +2318,7 @@
     "correct": "She is studying now.",
     "explanation": "現在進行形はbe動詞＋動詞ing形で表し、She is studying now. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2168,6 +2332,7 @@
       "Where": "『Where』は『どこ』を尋ねるときに使います。",
       "Why": "『Why』は『なぜ』を尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "54bdbdff-5701-4ad6-82cf-46de9a4e096d"
   },
@@ -2182,6 +2347,7 @@
       "Why": "『Why』は理由を尋ねるときに使います。",
       "When": "『When』は時間を尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "4100fbad-a87c-4d1f-90a2-765779d1e030"
   },
@@ -2196,6 +2362,7 @@
       "What": "『What』は『何』を尋ねるときに使います。",
       "Which": "『Which』は選択肢の中から選ぶときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "2eb348a2-6b42-41bb-a271-e799c9d0a35b"
   },
@@ -2210,6 +2377,7 @@
       "Who": "『Who』は人を尋ねるときに使います。",
       "Whose": "『Whose』は所有を尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "8a053618-fb16-4697-a0e6-75ab58802804"
   },
@@ -2224,6 +2392,7 @@
       "What": "『What』は『何』について尋ねるときに使います。",
       "Why": "『Why』は理由を尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "14b811eb-745e-4131-8ed8-a733cb0c9965"
   },
@@ -2239,6 +2408,7 @@
       "When": "『When』は『いつ』を尋ねるときに使い、移動手段には合いません。",
       "Where": "『Where』は『どこ』を尋ねる疑問詞で、移動手段を聞くときには使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2252,6 +2422,7 @@
       "How many": "可算名詞の数を尋ねるときに使います。",
       "How far": "距離を尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "b1fc0c32-5a3d-4f88-b493-19f5ad0c3004"
   },
@@ -2266,6 +2437,7 @@
       "How far": "距離を尋ねるときに使います。",
       "How old": "年齢を尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "6716d770-8de5-45cc-beb4-e4b67b78d560"
   },
@@ -2280,6 +2452,7 @@
       "How long": "時間の長さを尋ねるときに使います。",
       "How far": "距離を尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "1dbed8d8-45b4-4a3a-a99f-2a3187dc4901"
   },
@@ -2294,6 +2467,7 @@
       "How old": "年齢を尋ねるときに使います。",
       "How long": "時間の長さを尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "49025de5-3ae4-4c79-b8a4-10c89346d457"
   },
@@ -2308,6 +2482,7 @@
       "How many": "数を尋ねる表現ですが、ここでは使いません。",
       "How often": "頻度を尋ねる表現です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "4d2cfc3e-5ff6-403f-b158-8b1c49bc96b5"
   },
@@ -2322,6 +2497,7 @@
       "How old": "年齢を尋ねるときに使います。",
       "How much": "金額や量を尋ねるときに使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "8594e294-9a3e-4fa1-a99a-e95ad9eb3df4"
   },
@@ -2336,6 +2512,7 @@
       "How often": "頻度を尋ねる表現です。",
       "How far": "距離を尋ねる表現です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice",
     "id": "b7e65bc9-15f0-4d3b-a3c5-291d3c14448c"
   },
@@ -2347,6 +2524,7 @@
     "correct": "Where do you live?",
     "explanation": "疑問詞Whereを使って、Where do you live? と尋ねます。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2357,6 +2535,7 @@
     "correct": "Why did you come here?",
     "explanation": "疑問詞Whyで始め、did you comeの語順を忘れないようにします。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2367,6 +2546,7 @@
     "correct": "When do you go to school?",
     "explanation": "疑問詞Whenを文頭に使い、do you goの語順にします。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -2386,6 +2566,7 @@
       "Lisa doesn't have a garden.": "big gardenを持っている。",
       "Lisa buys all her vegetables.": "自分で育てている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2405,6 +2586,7 @@
       "Tom doesn't like books.": "loves reading books と書かれている。",
       "Tom only borrows one book.": "3〜4冊借りると書いてある。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2424,6 +2606,7 @@
       "Emma is not in the school concert.": "concert のために練習しているので出演します。",
       "Emma practices singing once a month.": "every day と書かれているので誤り。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2443,6 +2626,7 @@
       "Ken doesn't like farming.": "嫌いとは書かれていない。",
       "Ken works on the farm in the evening.": "morning とある。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2462,6 +2646,7 @@
       "Mina doesn't like animals.": "嫌いとは書かれていない。",
       "Mina stayed at home yesterday.": "zooへ行ったと書かれている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2481,6 +2666,7 @@
       "Jack doesn't play sports.": "soccer clubにいる。",
       "Jack only practices once a week.": "every afternoon と書かれている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2500,6 +2686,7 @@
       "My father works at home.": "出勤している。",
       "My father takes the train.": "車で行くと書かれている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2519,6 +2706,7 @@
       "Sara only likes Japanese.": "英語を勉強しているので違う。",
       "Sara doesn't want to talk to people.": "むしろ話したい。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2538,6 +2726,7 @@
       "David went to the park.": "supermarketへ行った。",
       "David didn't buy anything.": "買うために行ったと書かれている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2557,6 +2746,7 @@
       "Saki never cooks.": "often makes dinner とある。",
       "Her parents don't like her food.": "delicious だと言っている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2576,6 +2766,7 @@
       "Mike doesn't like traveling.": "travel abroadしたい。",
       "Mike has already been to Italy.": "来年行く予定。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2595,6 +2786,7 @@
       "Anna doesn't feed her cats.": "毎朝餌をやるとある。",
       "Anna only plays with her cats in the morning.": "evening に遊ぶと書かれている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2614,6 +2806,7 @@
       "John wakes up at midnight.": "寝る時間の話。",
       "John always goes to bed at ten.": "usuallyだが昨日は遅かった。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2633,6 +2826,7 @@
       "Kate wore a blue dress yesterday.": "昨日はred dress。",
       "Kate is wearing a red dress today.": "昨日はred dress。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2652,6 +2846,7 @@
       "It is cold and snowy.": "暖かいと書かれている。",
       "The children are studying.": "遊んでいる。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2671,6 +2866,7 @@
       "I am faster than my brother.": "brotherが速い。",
       "My brother is shorter than me.": "taller と書いている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2690,6 +2886,7 @@
       "Yuki doesn't like painting.": "likes painting と書いてある。",
       "Yuki started painting last week.": "10歳の時に始めた。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2709,6 +2906,7 @@
       "Ben is alone at home.": "友達と映画館にいる。",
       "Ben is playing soccer.": "映画を見ている。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2728,6 +2926,7 @@
       "Anna is writing a letter.": "読書中。",
       "Anna doesn't like reading.": "reading a book now とある。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2747,6 +2946,7 @@
       "Lucy is calling her friend.": "書いているのは手紙。",
       "Lucy doesn't like her classmates.": "嫌いとは書かれていない。"
     },
+    "format": "長文読解",
     "type": "multiple-choice"
   },
   {
@@ -2761,6 +2961,7 @@
       "some": "「some」は漠然とした量を表すため、『1枚』という具体的な数量を表すには不十分です。",
       "a sheet of": "「a sheet of」は『1枚の（平たいもの）』を特に紙の形状を強調する表現で、一般的に頼むときは「a piece of」の方が自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2775,6 +2976,7 @@
       "a lot of": "「a lot of」は『たくさんの』を意味しますが、具体的な単位を示していないため『1杯』を伝えるのに適しません。",
       "a glass of": "「a glass of」は『グラス1杯の』を表し、水やジュースなどに使います。お茶は通常カップで提供されるので不自然です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -2789,6 +2991,7 @@
       "some": "「some」は数量を漠然と表すため、具体的に『少しの皿』を伝えるニュアンスが弱くなります。",
       "a little": "「a little」は『少しの（量の）』を表し、不可算名詞に使います。dishesは数えられるので不適切です。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2803,6 +3006,7 @@
       "much": "「much」は量を表せますが、『It snowed much』は自然な表現ではなく、『a lot』を使うのが普通です。",
       "a little": "「a little」は『少し』を意味し、『たくさん降った』という意図に合いません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2817,6 +3021,7 @@
       "much": "「much」は不可算名詞に使うため、数えられるCDsには不適切です。",
       "plenty of": "「plenty of」は『十分なたくさんの』を意味し、ニュアンス的に『余裕がある』イメージが強くなります。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2831,6 +3036,7 @@
       "some": "「some」は漠然とした数量を表し、具体的に『1足』を伝えたいときには不十分です。",
       "a lot of": "「a lot of」は『たくさんの』を意味し、『1足』という具体的な数量を表すのには適しません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2845,6 +3051,7 @@
       "in school": "「in school」は『在学中』や『学校の中で』という意味で、時間を表す表現ではありません。",
       "during school": "「during school」は『授業中』という時間帯を指し、『放課後』とは反対の意味になります。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2859,6 +3066,7 @@
       "all the time": "「all the time」は『いつも、常に』を意味し、特定の1日の範囲を示す『all day』とは違います。",
       "the whole day": "「the whole day」もほぼ同義ですが、口語では「all day」の方が自然で頻出です。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2873,6 +3081,7 @@
       "around": "「around」は『〜の周りに』を表し、全体を均等にカバーするニュアンスは弱くなります。",
       "throughout": "「throughout」は『〜の至る所に、〜の間ずっと』を表し、時間や場所の広がりを強調しますが、『世界じゅうで有名』には『all over』が最も自然です。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2887,6 +3096,7 @@
       "usually": "「usually」は『たいてい、普通は』を意味し、『いつも』ほどの確実性や継続性は示しません。",
       "every time": "「every time」は『毎回』という特定のタイミングを指し、『常に』という継続的な意味とは違います。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2901,6 +3111,7 @@
       "too ~ to …": "「too ~ to …」は『〜すぎて…できない』という意味で、比較を表す構文とは異なります。",
       "not as ~ as …": "「not as ~ as …」は否定的な比較を表すため、この肯定文には合いません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2915,6 +3126,7 @@
       "after": "「after」は『〜の後で』を意味し、即座の連続性は伝わりません。",
       "while": "「while」は『〜している間に』を表し、同時進行のニュアンスで即時性はありません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2929,6 +3141,7 @@
       "in the beginning": "「in the beginning」は物事の開始時点を客観的に説明するニュアンスが強く、個人の理解の変化には不自然です。",
       "for the first time": "「for the first time」は『初めて』という経験を表し、文脈の意味が異なります。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2943,6 +3156,7 @@
       "after all": "「after all」は『結局、やはり』を意味し、予想外や理由を説明する時に使います。",
       "eventually": "「eventually」は『結局』という意味で、予期しない展開を含むことが多いです。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2957,6 +3171,7 @@
       "right away": "「right away」も『すぐに』ですが、ややカジュアルで口語的な響きが強いです。",
       "immediately": "「immediately」はより硬い表現で、フォーマルや書き言葉で使われやすいです。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2971,6 +3186,7 @@
       "into": "「into」は『〜の中へ』を意味し、外から中への動作を強調するため、都市名には通常使いません。",
       "toward": "「toward」は『〜の方向へ』を意味し、目的地に着くことを強調しません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2985,6 +3201,7 @@
       "around": "「around」は『〜の周りを』を意味し、円を描くように進むニュアンスになります。",
       "through": "「through」は『〜を通り抜けて』を表し、建物やトンネルなどの中を進むニュアンスです。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -2999,6 +3216,7 @@
       "tired of": "「tired of」は『〜に飽きる、うんざりする』を意味し、嫌悪や拒否感を表します。",
       "afraid of": "「afraid of」は『〜を恐れる』を意味し、感情の方向性が逆です。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3013,6 +3231,7 @@
       "pleased with": "「pleased with」は『〜に満足している』を意味し、ポジティブですが驚きのニュアンスはありません。",
       "interested in": "「interested in」は『〜に興味がある』を表し、驚きという予想外の感情とは異なります。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3027,6 +3246,7 @@
       "across": "「across」は『横切って』を表し、川を渡る動作に近いイメージです。",
       "around": "「around」は『〜の周りを』を表し、町を囲むイメージになります。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3041,6 +3261,7 @@
       "lost": "「lost」は『失った、迷った』を表し、欠席の意味では使いません。",
       "missing": "「missing」は『行方不明の』という意味で、単に欠席を表すには使えません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3055,6 +3276,7 @@
       "spoke": "「spoke」は『話した』を意味し、内容を伝えるより会話行為を強調します。",
       "talked": "「talked」は『話した』を意味し、双方向の会話を示すニュアンスで内容を指示する表現には使えません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3069,6 +3291,7 @@
       "must": "「must」は『〜しなければならない』を意味し、義務を表します。",
       "have to": "「have to」も『〜しなければならない』を意味し、強制的なニュアンスになります。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3083,6 +3306,7 @@
       "good": "「good」は形容詞で名詞を修飾するため、動詞を修飾する『上手に』には使えません。",
       "better": "「better」は『より良く』を表し、比較対象が必要です。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3097,6 +3321,7 @@
       "good": "「good」は形容詞で名詞を修飾するため、動詞を修飾する『上手に』には使えません。",
       "better": "「better」は『より良く』を意味し、比較対象が必要です。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3111,6 +3336,7 @@
       "must": "「must」は『〜しなければならない』を表し、義務を示します。",
       "should": "「should」は『〜すべきだ』を表し、助言や推奨を意味します。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3125,6 +3351,7 @@
       "may": "「may」は『〜してもよい』を表し、許可を示しますが義務は含みません。",
       "should": "「should」は『〜すべきだ』を意味し、助言や推奨で義務の強さは「must」ほどではありません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3139,6 +3366,7 @@
       "must": "「must」は『〜しなければならない』を表し、強制や義務を示します。",
       "should": "「should」は『〜すべきだ』を表し、推奨や助言のニュアンスになります。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3153,6 +3381,7 @@
       "fastest": "「fastest」は最上級で『最も速い』を意味し、2人の比較には使えません。",
       "most fast": "「most fast」は文法的に不自然で、比較級には『faster』を使います。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3167,6 +3396,7 @@
       "faster": "「faster」は比較級で2者間の比較に使います。",
       "most fast": "「most fast」は文法的に正しくなく、最上級には『the fastest』を使います。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3181,6 +3411,7 @@
       "so many as": "「so many as」は肯定文では使わず、否定文や条件文で使われます。",
       "so much as": "「so much as」も同様に否定文や強調表現で使われます。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3195,6 +3426,7 @@
       "as soon as": "「as soon as」は接続詞句で『〜するとすぐに』を表し、即時性を強調しますが『できるだけ早く』には不適切です。",
       "as early as": "「as early as」は時間を指定して『早く』を強調する表現で、動作の速さには使いにくいです。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3209,6 +3441,7 @@
       "so big": "「so big」は程度を強調しますが、比較を表現する構文では使いません。",
       "biggest": "「biggest」は最上級で、グループの中で一番を示すときに使います。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3223,6 +3456,7 @@
       "biggest": "「biggest」単体では名詞を修飾できず、定冠詞theが必要です。",
       "the bigger": "「the bigger」は比較級にtheをつけて特定する表現ですが、最上級の意味にはなりません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3242,6 +3476,7 @@
       "so difficult": "「so difficult」は程度を強調するだけで、比較を表しません。",
       "most difficult": "「most difficult」は最上級で、『最も難しい』を意味し、比較級としては使えません。"
     },
+    "format": "単語・熟語",
     "type": "multiple-choice"
   },
   {
@@ -3256,6 +3491,7 @@
       "watches": "三単現の現在形で、過去の出来事を表すことはできません。",
       "watching": "進行形や名詞的な使い方で、過去形としては使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3270,6 +3506,7 @@
       "writes": "三単現現在形で、過去の動作は表せません。",
       "writing": "進行形や動名詞の形で、単純過去を表せません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3284,6 +3521,7 @@
       "goes": "三単現現在形で、過去の動作は表せません。",
       "going": "進行形や動名詞の形で、過去の動作を表す形ではありません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3298,6 +3536,7 @@
       "stays": "三単現現在形で、過去を表す文では使えません。",
       "staying": "進行形や動名詞で、単純な過去を表す形ではありません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3312,6 +3551,7 @@
       "played": "助動詞『did』を使った疑問文では動詞は原形にします。",
       "playing": "進行形や動名詞で、疑問文の動詞の形としては不適切です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3326,6 +3566,7 @@
       "gone": "『have gone』など完了形で使いますが、ここは単純な過去形が必要です。",
       "going": "進行形や名詞的な使い方で、過去の動作をそのまま表せません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3336,6 +3577,7 @@
     "correct": "He went home yesterday.",
     "explanation": "goの過去形はwent。goedと間違えやすいので注意。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3346,6 +3588,7 @@
     "correct": "I wrote a letter yesterday.",
     "explanation": "過去形はwrote。過去分詞writtenと混同しないように注意します。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3356,6 +3599,7 @@
     "correct": "He did his homework last night.",
     "explanation": "過去を表すlast nightがあるので動詞はdidを使います。He did his homework last night. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3366,6 +3610,7 @@
     "correct": "I went to the library last week.",
     "explanation": "過去を表すlast weekがあるので動詞は過去形wentを使います。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3376,6 +3621,7 @@
     "correct": "I watched a movie yesterday.",
     "explanation": "過去を表す yesterday があるので動詞は過去形watchedを使います。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3390,6 +3636,7 @@
       "does": "『does』は現在形の一般動詞の疑問文で使いますが、『she is coming』のような進行形には不要で不適切です。",
       "when": "『when』は『いつ』を表す疑問詞で、『〜かどうか』を尋ねる意味には使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3400,6 +3647,7 @@
     "correct": "Do you know where he lives?",
     "explanation": "間接疑問文では疑問詞+平叙文の語順にして、Do you know where he lives? となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3414,6 +3662,7 @@
       "where": "「where」は場所を説明する関係副詞です。人を説明することはできません。",
       "which": "「which」は物や動物を先行詞に取る関係代名詞です。『The girl』は人なので『which』は使えません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3424,6 +3673,7 @@
     "correct": "The boy who is over there is my brother.",
     "explanation": "関係代名詞whoを使って主格の説明をします。thatや省略ができない点を確認。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3442,6 +3692,7 @@
       "This is the movie I see yesterday.": "『yesterday』があるので過去形 'saw' が必要です。現在形 'see' では時制が一致しません。",
       "This is the movie I looked yesterday.": "『look』は『見る』ではなく『見ようとする／〜の方を見る』という意味なので不自然です。"
     },
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3452,6 +3703,7 @@
     "correct": "This is the man whose name my father knows.",
     "explanation": "所有格の関係代名詞whoseを使い、名詞を修飾します。whoやwhichでは表現できません。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3465,6 +3717,7 @@
     ],
     "explanation": "関係代名詞whoを使って『歌っている女の子』を修飾します。who is singing over there となります。分詞を使ってもOK。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3479,6 +3732,7 @@
     ],
     "explanation": "関係代名詞whichを使い、『which I bought yesterday』で修飾します。目的格の関係代名詞は省略も可。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
@@ -3493,6 +3747,7 @@
       "am living": "進行形は『今この瞬間』の動作のイメージ。継続期間を示すと不自然。",
       "have been lived": "受動態＋現在完了は不可。主語が『住まされている』の意味になってしまいます。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3507,6 +3762,7 @@
       "went": "現在完了ではなく過去形。現在とのつながりが切れます。",
       "go": "原形は不可。時制・文法が合いません。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3521,6 +3777,7 @@
       "most high": "形容詞 high は ‘the highest’ を使います。",
       "the most high": "high の最上級は ‘the highest’。語形成が誤り。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3535,6 +3792,7 @@
       "for": "目的・用途を表すことが多く、この文脈では不自然。",
       "of": "性質評価（It is kind of you.）などで使う of とは別用法です。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3549,6 +3807,7 @@
       "an": "母音で始まる語に付ける不定冠詞ですが、ここでは the が必要。",
       "—": "無冠詞は基本不可。定冠詞 the を用います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3563,6 +3822,7 @@
       "she live": "現在形の三単現。live → lives が必要。",
       "does she lives": "助動詞 does の後は動詞原形。二重の誤り。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3577,6 +3837,7 @@
       "rain": "三単現の s が必要です（主語 it）。",
       "rained": "過去形ではありません。未来への備えを表す現在形。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3591,6 +3852,7 @@
       "which": "人には通常用いません（カンマ非制限用法など例外はあります）。",
       "that": "所有の関係は作れません。whose を使います。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3605,6 +3867,7 @@
       "has": "have/has ではなく be 動詞を使います。",
       "exists": "口語の存在表現は There is/are を用いるのが自然。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3619,6 +3882,7 @@
       "listen": "原形は不可。文法上の目的語が必要です。",
       "listened": "過去分詞/過去形は不可。ここでは名詞的用法が必要。"
     },
+    "format": "適語補充",
     "type": "multiple-choice"
   },
   {
@@ -3629,6 +3893,7 @@
     "correct": "everybody",
     "explanation": "「みなさん」は英語で everybody です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3639,6 +3904,7 @@
     "correct": "recess",
     "explanation": "「休憩」は英語で recess です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3649,6 +3915,7 @@
     "correct": "minute",
     "explanation": "「（時間の）分」は英語で minute です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3659,6 +3926,7 @@
     "correct": "period",
     "explanation": "「時限」は英語で period です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3669,6 +3937,7 @@
     "correct": "those",
     "explanation": "「あれらの」は英語で those です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3679,6 +3948,7 @@
     "correct": "chat",
     "explanation": "「おしゃべりをする」は英語で chat です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3689,6 +3959,7 @@
     "correct": "bench",
     "explanation": "「ベンチ」は英語で bench です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3699,6 +3970,7 @@
     "correct": "bring",
     "explanation": "「持ってくる」は英語で bring です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3709,6 +3981,7 @@
     "correct": "tea",
     "explanation": "「お茶」は英語で tea です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3719,6 +3992,7 @@
     "correct": "snack",
     "explanation": "「軽食」は英語で snack です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3729,6 +4003,7 @@
     "correct": "lawn",
     "explanation": "「芝生」は英語で lawn です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3739,6 +4014,7 @@
     "correct": "break",
     "explanation": "「短い休み」は英語で break です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3749,6 +4025,7 @@
     "correct": "classmate",
     "explanation": "「同級生」は英語で classmate です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3759,6 +4036,7 @@
     "correct": "different",
     "explanation": "「異なった」は英語で different です。（difficult ではありません）",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3769,6 +4047,7 @@
     "correct": "someone",
     "explanation": "「誰か」は英語で someone です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3779,6 +4058,7 @@
     "correct": "chorus",
     "explanation": "「合唱」は英語で chorus です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3789,6 +4069,7 @@
     "correct": "compete",
     "explanation": "「競争する」は英語で compete です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3799,6 +4080,7 @@
     "correct": "prize",
     "explanation": "「賞」は英語で prize です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3809,6 +4091,7 @@
     "correct": "behind",
     "explanation": "「～の後ろに」は英語で behind です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3819,6 +4102,7 @@
     "correct": "window",
     "explanation": "「窓」は英語で window です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3829,6 +4113,7 @@
     "correct": "stockroom",
     "explanation": "「商品倉庫」は英語で stockroom です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3839,6 +4124,7 @@
     "correct": "shelves",
     "explanation": "「shelf」の複数形は shelves です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3849,6 +4135,7 @@
     "correct": "shelf",
     "explanation": "「棚」は英語で shelf です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3859,6 +4146,7 @@
     "correct": "tough",
     "explanation": "「つらい、きつい」は英語で tough です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3869,6 +4157,7 @@
     "correct": "roast",
     "explanation": "「ローストした、焼いた」は英語で roast です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3879,6 +4168,7 @@
     "correct": "used",
     "explanation": "「かつて〜だった、よく〜したものだ」は英語で used（used to ～ の形で使います）。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3889,6 +4179,7 @@
     "correct": "number",
     "explanation": "「数、数字」は英語で number です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3899,6 +4190,7 @@
     "correct": "still",
     "explanation": "「まだ、依然として」は英語で still です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3909,6 +4201,7 @@
     "correct": "dangerous",
     "explanation": "「危険な」は英語で dangerous です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3919,6 +4212,7 @@
     "correct": "teamwork",
     "explanation": "「チームワーク」は英語で teamwork です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3929,6 +4223,7 @@
     "correct": "celebrate",
     "explanation": "「～を祝う」は英語で celebrate です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3939,6 +4234,7 @@
     "correct": "Halloween",
     "explanation": "「ハロウィーン」は英語で Halloween です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3949,6 +4245,7 @@
     "correct": "pumpkin",
     "explanation": "「カボチャ」は英語で pumpkin です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3959,6 +4256,7 @@
     "correct": "cut",
     "explanation": "「～を切る、切られた、切り取った」は英語で cut です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3969,6 +4267,7 @@
     "correct": "hole",
     "explanation": "「穴」は英語で hole です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3979,6 +4278,7 @@
     "correct": "top",
     "explanation": "「てっぺん、上（の部分）」は英語で top です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3989,6 +4289,7 @@
     "correct": "take out",
     "explanation": "「～を取り出す」は英語で take out ~ です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -3999,6 +4300,7 @@
     "correct": "seed",
     "explanation": "「種」は英語で seed（複数形は seeds）です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4009,6 +4311,7 @@
     "correct": "carve",
     "explanation": "「～を刻む」は英語で carve です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4019,6 +4322,7 @@
     "correct": "cut out",
     "explanation": "「～を切り取る」は英語で cut out ~ です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4029,6 +4333,7 @@
     "correct": "part",
     "explanation": "「部分」は英語で part です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4039,6 +4344,7 @@
     "correct": "candle",
     "explanation": "「ろうそく」は英語で candle です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4049,6 +4355,7 @@
     "correct": "face",
     "explanation": "「顔」は英語で face です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4059,6 +4366,7 @@
     "correct": "lastly",
     "explanation": "「最後に」は英語で lastly です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4069,6 +4377,7 @@
     "correct": "take place",
     "explanation": "「行われる、起こる」は英語で take place です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4079,6 +4388,7 @@
     "correct": "eve",
     "explanation": "「前日、前夜」は英語で eve です。例：Christmas Eve（クリスマスイブ）。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4089,6 +4399,7 @@
     "correct": "Ireland",
     "explanation": "「アイルランド」は英語で Ireland です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4099,6 +4410,7 @@
     "correct": "Irish",
     "explanation": "「アイルランドの」は英語で Irish です。例：Irish music（アイルランドの音楽）。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4109,6 +4421,7 @@
     "correct": "spirit",
     "explanation": "「霊、精霊」は英語で spirit です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4119,6 +4432,7 @@
     "correct": "dead",
     "explanation": "「死んでいる」は英語で dead です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4129,6 +4443,7 @@
     "correct": "evil",
     "explanation": "「邪悪な」は英語で evil です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4139,6 +4454,7 @@
     "correct": "therefore",
     "explanation": "「それゆえに、その結果」は英語で therefore です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4149,6 +4465,7 @@
     "correct": "scary",
     "explanation": "「怖い、恐ろしい」は英語で scary です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4159,6 +4476,7 @@
     "correct": "turnip",
     "explanation": "「カブ」は英語で turnip です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4169,6 +4487,7 @@
     "correct": "lantern",
     "explanation": "「ちょうちん」は英語で lantern です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4179,6 +4498,7 @@
     "correct": "keep away",
     "explanation": "「～を遠ざける」は英語で keep away です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4189,6 +4509,7 @@
     "correct": "history",
     "explanation": "「歴史」は英語で history です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4199,6 +4520,7 @@
     "correct": "party",
     "explanation": "「パーティー」は英語で party です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4209,6 +4531,7 @@
     "correct": "novel",
     "explanation": "「小説」は英語で novel です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4219,6 +4542,7 @@
     "correct": "which",
     "explanation": "「どちらの」は英語で which です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4229,6 +4553,7 @@
     "correct": "recommend",
     "explanation": "「～をすすめる」は英語で recommend です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4239,6 +4564,7 @@
     "correct": "special",
     "explanation": "「特別な」は英語で special です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4249,6 +4575,7 @@
     "correct": "come",
     "explanation": "「来る」は英語で come です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4259,6 +4586,7 @@
     "correct": "early",
     "explanation": "「早く」は英語で early です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4269,6 +4597,7 @@
     "correct": "kind",
     "explanation": "「優しい」は英語で kind です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4279,6 +4608,7 @@
     "correct": "full",
     "explanation": "「満腹で」は英語で full です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4289,6 +4619,7 @@
     "correct": "whose",
     "explanation": "「誰の」は英語で whose です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4299,6 +4630,7 @@
     "correct": "mine",
     "explanation": "「私のもの」は英語で mine です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4309,6 +4641,7 @@
     "correct": "yours",
     "explanation": "「あなたのもの」は英語で yours です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4319,6 +4652,7 @@
     "correct": "sandwich",
     "explanation": "「サンドイッチ」は英語で sandwich です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4329,6 +4663,7 @@
     "correct": "these",
     "explanation": "「これらの」は英語で these です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4339,6 +4674,7 @@
     "correct": "all",
     "explanation": "「全ての」は英語で all です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4349,6 +4685,7 @@
     "correct": "store",
     "explanation": "「店」は英語で store です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4359,6 +4696,7 @@
     "correct": "necessary",
     "explanation": "「必要な」は英語で necessary です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4369,6 +4707,7 @@
     "correct": "fact",
     "explanation": "「事実」は英語で fact です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4379,6 +4718,7 @@
     "correct": "coconut",
     "explanation": "「ココナッツ」は英語で coconut です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4389,6 +4729,7 @@
     "correct": "tart",
     "explanation": "「タルト」は英語で tart です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4399,6 +4740,7 @@
     "correct": "noodle",
     "explanation": "「そば」は英語で noodle です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4409,6 +4751,7 @@
     "correct": "dinner",
     "explanation": "「夕食」は英語で dinner です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4419,6 +4762,7 @@
     "correct": "January",
     "explanation": "「1月」は英語で January です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4429,6 +4773,7 @@
     "correct": "February",
     "explanation": "「2月」は英語で February です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4439,6 +4784,7 @@
     "correct": "March",
     "explanation": "「3月」は英語で March です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4449,6 +4795,7 @@
     "correct": "April",
     "explanation": "「4月」は英語で April です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4459,6 +4806,7 @@
     "correct": "May",
     "explanation": "「5月」は英語で May です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4469,6 +4817,7 @@
     "correct": "June",
     "explanation": "「6月」は英語で June です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4479,6 +4828,7 @@
     "correct": "July",
     "explanation": "「7月」は英語で July です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4489,6 +4839,7 @@
     "correct": "August",
     "explanation": "「8月」は英語で August です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4499,6 +4850,7 @@
     "correct": "September",
     "explanation": "「9月」は英語で September です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4509,6 +4861,7 @@
     "correct": "October",
     "explanation": "「10月」は英語で October です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4519,6 +4872,7 @@
     "correct": "November",
     "explanation": "「11月」は英語で November です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4529,6 +4883,7 @@
     "correct": "December",
     "explanation": "「12月」は英語で December です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4539,6 +4894,7 @@
     "correct": "Sunday",
     "explanation": "「日曜日」は英語で Sunday です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4549,6 +4905,7 @@
     "correct": "Monday",
     "explanation": "「月曜日」は英語で Monday です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4559,6 +4916,7 @@
     "correct": "Tuesday",
     "explanation": "「火曜日」は英語で Tuesday です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4569,6 +4927,7 @@
     "correct": "Wednesday",
     "explanation": "「水曜日」は英語で Wednesday です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4579,6 +4938,7 @@
     "correct": "Thursday",
     "explanation": "「木曜日」は英語で Thursday です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4589,6 +4949,7 @@
     "correct": "Friday",
     "explanation": "「金曜日」は英語で Friday です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4599,6 +4960,7 @@
     "correct": "Saturday",
     "explanation": "「土曜日」は英語で Saturday です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4609,6 +4971,7 @@
     "correct": "spring",
     "explanation": "「春」は英語で spring です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4619,6 +4982,7 @@
     "correct": "summer",
     "explanation": "「夏」は英語で summer です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4629,6 +4993,7 @@
     "correct": "autumn",
     "explanation": "「秋」は英語で autumn（または fall）です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4639,6 +5004,7 @@
     "correct": "winter",
     "explanation": "「冬」は英語で winter です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4649,6 +5015,7 @@
     "correct": "zero",
     "explanation": "「0」は英語で zero です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4659,6 +5026,7 @@
     "correct": "one",
     "explanation": "「1」は英語で one です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4669,6 +5037,7 @@
     "correct": "two",
     "explanation": "「2」は英語で two です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4679,6 +5048,7 @@
     "correct": "three",
     "explanation": "「3」は英語で three です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4689,6 +5059,7 @@
     "correct": "four",
     "explanation": "「4」は英語で four です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4699,6 +5070,7 @@
     "correct": "five",
     "explanation": "「5」は英語で five です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4709,6 +5081,7 @@
     "correct": "six",
     "explanation": "「6」は英語で six です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4719,6 +5092,7 @@
     "correct": "seven",
     "explanation": "「7」は英語で seven です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4729,6 +5103,7 @@
     "correct": "eight",
     "explanation": "「8」は英語で eight です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4739,6 +5114,7 @@
     "correct": "nine",
     "explanation": "「9」は英語で nine です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4749,6 +5125,7 @@
     "correct": "ten",
     "explanation": "「10」は英語で ten です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4759,6 +5136,7 @@
     "correct": "eleven",
     "explanation": "「11」は英語で eleven です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4769,6 +5147,7 @@
     "correct": "twelve",
     "explanation": "「12」は英語で twelve です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4779,6 +5158,7 @@
     "correct": "thirteen",
     "explanation": "「13」は英語で thirteen です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4789,6 +5169,7 @@
     "correct": "fourteen",
     "explanation": "「14」は英語で fourteen です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4799,6 +5180,7 @@
     "correct": "fifteen",
     "explanation": "「15」は英語で fifteen です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4809,6 +5191,7 @@
     "correct": "sixteen",
     "explanation": "「16」は英語で sixteen です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4819,6 +5202,7 @@
     "correct": "seventeen",
     "explanation": "「17」は英語で seventeen です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4829,6 +5213,7 @@
     "correct": "eighteen",
     "explanation": "「18」は英語で eighteen です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4839,6 +5224,7 @@
     "correct": "nineteen",
     "explanation": "「19」は英語で nineteen です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4849,6 +5235,7 @@
     "correct": "twenty",
     "explanation": "「20」は英語で twenty です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4859,6 +5246,7 @@
     "correct": "thirty",
     "explanation": "「30」は英語で thirty です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4869,6 +5257,7 @@
     "correct": "forty",
     "explanation": "「40」は英語で forty です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4879,6 +5268,7 @@
     "correct": "fifty",
     "explanation": "「50」は英語で fifty です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4889,6 +5279,7 @@
     "correct": "sixty",
     "explanation": "「60」は英語で sixty です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4899,6 +5290,7 @@
     "correct": "seventy",
     "explanation": "「70」は英語で seventy です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4909,6 +5301,7 @@
     "correct": "eighty",
     "explanation": "「80」は英語で eighty です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4919,6 +5312,7 @@
     "correct": "ninety",
     "explanation": "「90」は英語で ninety です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4929,6 +5323,7 @@
     "correct": "hundred",
     "explanation": "「100」は英語で hundred です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4939,6 +5334,7 @@
     "correct": "thousand",
     "explanation": "「1000」は英語で thousand です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4949,6 +5345,7 @@
     "correct": "first",
     "explanation": "「1番目」は英語で first です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4959,6 +5356,7 @@
     "correct": "second",
     "explanation": "「2番目」は英語で second です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4969,6 +5367,7 @@
     "correct": "third",
     "explanation": "「3番目」は英語で third です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4979,6 +5378,7 @@
     "correct": "fourth",
     "explanation": "「4番目」は英語で fourth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4989,6 +5389,7 @@
     "correct": "fifth",
     "explanation": "「5番目」は英語で fifth です（five → fifth へ変化）。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -4999,6 +5400,7 @@
     "correct": "sixth",
     "explanation": "「6番目」は英語で sixth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5009,6 +5411,7 @@
     "correct": "seventh",
     "explanation": "「7番目」は英語で seventh です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5019,6 +5422,7 @@
     "correct": "eighth",
     "explanation": "「8番目」は英語で eighth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5029,6 +5433,7 @@
     "correct": "ninth",
     "explanation": "「9番目」は英語で ninth です（nine → ninth へ変化）。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5039,6 +5444,7 @@
     "correct": "tenth",
     "explanation": "「10番目」は英語で tenth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5049,6 +5455,7 @@
     "correct": "eleventh",
     "explanation": "「11番目」は英語で eleventh です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5059,6 +5466,7 @@
     "correct": "twelfth",
     "explanation": "「12番目」は英語で twelfth です（twelve → twelfth）。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5069,6 +5477,7 @@
     "correct": "thirteenth",
     "explanation": "「13番目」は英語で thirteenth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5079,6 +5488,7 @@
     "correct": "fourteenth",
     "explanation": "「14番目」は英語で fourteenth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5089,6 +5499,7 @@
     "correct": "fifteenth",
     "explanation": "「15番目」は英語で fifteenth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5099,6 +5510,7 @@
     "correct": "sixteenth",
     "explanation": "「16番目」は英語で sixteenth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5109,6 +5521,7 @@
     "correct": "seventeenth",
     "explanation": "「17番目」は英語で seventeenth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5119,6 +5532,7 @@
     "correct": "eighteenth",
     "explanation": "「18番目」は英語で eighteenth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5129,6 +5543,7 @@
     "correct": "nineteenth",
     "explanation": "「19番目」は英語で nineteenth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5139,6 +5554,7 @@
     "correct": "twentieth",
     "explanation": "「20番目」は英語で twentieth です（y → ie 変化）。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5149,6 +5565,7 @@
     "correct": "thirtieth",
     "explanation": "「30番目」は英語で thirtieth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5159,6 +5576,7 @@
     "correct": "fortieth",
     "explanation": "「40番目」は英語で fortieth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5169,6 +5587,7 @@
     "correct": "fiftieth",
     "explanation": "「50番目」は英語で fiftieth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5179,6 +5598,7 @@
     "correct": "sixtieth",
     "explanation": "「60番目」は英語で sixtieth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5189,6 +5609,7 @@
     "correct": "seventieth",
     "explanation": "「70番目」は英語で seventieth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5199,6 +5620,7 @@
     "correct": "eightieth",
     "explanation": "「80番目」は英語で eightieth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5209,6 +5631,7 @@
     "correct": "ninetieth",
     "explanation": "「90番目」は英語で ninetieth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5219,6 +5642,7 @@
     "correct": "hundredth",
     "explanation": "「100番目」は英語で hundredth です。",
     "incorrectExplanations": {},
+    "format": "単語・熟語",
     "type": "input"
   },
   {
@@ -5238,6 +5662,7 @@
       "I don't like your pen.": "感謝に対して失礼な内容になります。",
       "Why do you like it?": "話の流れと合いません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5257,6 +5682,7 @@
       "You can buy a ticket there.": "まだ目的地に着いていません。",
       "Please come again tomorrow.": "意味が通じません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5276,6 +5702,7 @@
       "Who are you?": "失礼な表現です。",
       "I’m Lisa.": "不在の設定に反します。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5295,6 +5722,7 @@
       "When did you go there?": "まだ行っていません。",
       "What will you eat there?": "返答の内容と合いません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5314,6 +5742,7 @@
       "How much is that?": "まだ商品を選んでいません。",
       "I’m fine, thank you.": "店内接客では不自然です。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5333,6 +5762,7 @@
       "It was very hot yesterday.": "話題がずれています。",
       "You should study harder.": "攻撃的で不自然です。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5352,6 +5782,7 @@
       "I can drink water.": "許可ではなく希望を聞かれています。",
       "Do you like tea?": "質問を返してしまっています。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5371,6 +5802,7 @@
       "No, you can’t.": "拒否しており不自然です。",
       "I don’t have a camera.": "スマホでも撮影可能な時代なので不自然です。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5390,6 +5822,7 @@
       "Where is my umbrella?": "Bの返答が合いません。",
       "I hate water.": "会話のつながりがありません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5409,6 +5842,7 @@
       "I’m not interested.": "冷たい返答です。",
       "Don’t worry. I took it.": "意味が不適切です。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5428,6 +5862,7 @@
       "I like your hat.": "話題が関係ありません。",
       "You have to study harder.": "状況にそぐいません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5447,6 +5882,7 @@
       "I’m not working now.": "接客として不自然です。",
       "This is your seat.": "搭乗後の話になってしまいます。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5466,6 +5902,7 @@
       "Let’s go to the park.": "文脈に合いません。",
       "I didn’t do it either.": "反省の流れに合いません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5485,6 +5922,7 @@
       "Let’s go to school.": "場面が違います。",
       "It’s my favorite actor.": "質問の意図に合いません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5504,6 +5942,7 @@
       "No, you can’t.": "接客として不自然です。",
       "I’m busy now.": "無礼な返答になります。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5523,6 +5962,7 @@
       "Yes, I did.": "Not yet と矛盾します。",
       "I don’t like English.": "会話の流れに合いません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5542,6 +5982,7 @@
       "Close it, please.": "逆の意味になります。",
       "I hate windows.": "冗談でも意味が通りません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5561,6 +6002,7 @@
       "Yes, I will.": "期間の答えではありません。",
       "It’s sunny today.": "話題が関係ありません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5580,6 +6022,7 @@
       "Let’s be late together.": "不自然な提案です。",
       "I’m not sorry.": "意味が通りません。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   },
   {
@@ -5599,6 +6042,7 @@
       "I like summer.": "季節の話になっています。",
       "It’s cloudy today.": "全く関係のない話題です。"
     },
+    "format": "適文補充",
     "type": "multiple-choice"
   }
 ]

@@ -596,16 +596,7 @@ export default function EnglishTrapQuestions() {
     }
   }, [ocrEngine]);
 
-  // 🎯 出題形式（複数選択対応）
-  const [selectedFormats, setSelectedFormats] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("selectedFormats");
-      return saved ? JSON.parse(saved) : [];
-    }
-    return [];
-  });
   const [unitBgmPlaying, setUnitBgmPlaying] = useState(false);
-  const unitBgmRef = useRef(false); // ← 再生中フラグ
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -777,17 +768,6 @@ export default function EnglishTrapQuestions() {
 
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
 
-  // 入力式にしたい format をここで定義（必要に応じて追加OK）
-  const INPUT_FORMATS = ["単語・熟語", "英作文"];
-
-  // currentQuestion が null の瞬間に備えて安全に取り出す
-  const q = currentQuestion ?? null;
-  const qFormat = q?.format ?? "";
-
-  // フラグ化（q がなければ両方 false に）
-  const isInputFormat = q ? INPUT_FORMATS.includes(qFormat) : false;
-  const isChoiceFormat = q ? !isInputFormat : false;
-
   const startedRef = useRef(false);
 
   // 🧭 問題画面が表示された瞬間にトップへスクロール
@@ -807,13 +787,6 @@ export default function EnglishTrapQuestions() {
       startedRef.current = true;
     }
   }, [soundEnabled]);
-
-  // 🎯 出題形式を localStorage に保存
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("selectedFormats", JSON.stringify(selectedFormats));
-    }
-  }, [selectedFormats]);
 
   // unitModes が更新されたら localStorage に保存
   useEffect(() => {
@@ -1010,52 +983,20 @@ export default function EnglishTrapQuestions() {
     });
   }, [questions, unitModes]);
 
-  // ✅ クイズ開始処理（複数形式×複数単元対応）
+  // クイズ開始処理
   const startQuiz = () => {
-    if (selectedFormats.length === 0) {
-      alert("出題形式を1つ以上選んでください。");
-      return;
-    }
-
-    // 🔹 単元選択チェック
-    const activeUnits = Object.keys(unitModes).filter(
-      (u) => unitModes[u] !== 0
-    );
-    if (activeUnits.length === 0) {
-      alert("単元を1つ以上選んでください。");
-      return;
-    }
-
-    // 🔹 出題対象を絞り込み
-    const filtered = questions.filter((q) => {
-      const unitSelected = activeUnits.includes(q.unit);
-      const formatSelected = selectedFormats.includes(q.format || "単語・熟語"); // formatが未定義でも動作
-      const mode = unitModes[q.unit] || 0;
-
-      if (!unitSelected || !formatSelected) return false;
-
-      // 0=未選択, 1=両方, 2=選択問題のみ, 3=記述問題のみ
-      if (mode === 0) return false;
-      if (mode === 1) return true;
-      if (mode === 2) return q.type === "multiple-choice";
-      if (mode === 3) return q.type === "input";
-      return false;
-    });
-
     if (filtered.length === 0) {
-      alert("選択した形式と単元に合う問題がありません。");
+      alert("選択した単元に問題がありません。");
       return;
     }
 
-    // 🔹 問題をシャッフル
     const shuffled = shuffleArray(filtered);
-
-    // 🔹 出題数制限
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
 
-    // ✅ 初期化処理（既存機能保持）
-    setInitialQuestionCount(limited.length);
+    // ✅ filteredQuestions の更新前に limited.length を使う
+    setInitialQuestionCount(limited.length); // ← これが重要！
+
     setCharacterMood("neutral");
     setFilteredQuestions(limited);
     setInitialQuestions(limited);
@@ -1065,19 +1006,6 @@ export default function EnglishTrapQuestions() {
     setShowFeedback(false);
     setSelectedChoice(null);
     setMistakes({});
-    setIsReviewMode(false);
-    setReviewList([]);
-    setReviewMistakes([]);
-    setAddMessage("");
-    setHintLevels({});
-    setHintText("");
-    setHintLevel(0);
-
-    console.log("🚀 出題開始:", {
-      selectedFormats,
-      activeUnits,
-      total: limited.length,
-    });
   };
 
   // 出題対象の問題を作る処理
@@ -1124,101 +1052,77 @@ export default function EnglishTrapQuestions() {
       initAudio();
 
       if (!soundEnabled) {
-        stopQbgm(true);
-        stopBgm(true);
         bgmGain.gain.value = 0;
         qbgmGain.gain.value = 0;
-        globalUnitBgmPlaying = false;
-        setUnitBgmPlaying(false);
         return;
       }
 
       await ensureAudioResume();
 
-      // === ✅ 問題中 or 復習中 BGM ===
+      // ✅ 通常問題中 or 復習中のBGM制御
       if (showQuestions) {
         if (isReviewMode) {
-          if (bgmSource) {
-            stopBgm(true);
-            bgmSource = null;
-          }
+          prepareNextAudioResume();
           stopQbgm(true);
           qbgmSource = null;
-
           await ensureAudioResume();
-          await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
-          fadeInBGM(qbgmGain, 0.4, 3.0);
-          console.log("[Audio] review BGM started");
-        } else {
-          stopBgm(true);
-          await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm", true);
-          fadeInBGM(qbgmGain, 0.4, 3.0);
-        }
 
-        bgmGain.gain.value = 0;
-        globalUnitBgmPlaying = false;
-        setUnitBgmPlaying(false);
-        return;
-      }
-
-      // === ✅ 結果画面 ===
-      if (showResult) {
-        fadeInBGM(qbgmGain, 0, 1.0);
-        setTimeout(() => stopQbgm(true), 1200);
-        bgmGain.gain.value = 0;
-        globalUnitBgmPlaying = false;
-        setUnitBgmPlaying(false);
-        return;
-      }
-
-      // === ✅ 単元選択画面（重複再生防止処理つき）===
-      if (!showQuestions && !showResult) {
-        // 🚫 すでに流れているなら再度再生しない
-        if (globalUnitBgmPlaying && bgmSource) {
-          console.log("[Audio] bgm already playing → skip start");
-          return;
-        }
-
-        try {
-          stopQbgm(true); // 🔇 念のため前BGM停止
-          qbgmSource = null;
-
-          // ✅ 二重再生防止：既存ソースを確実に破棄
-          if (bgmSource) {
+          setTimeout(async () => {
             try {
-              bgmSource.stop(0);
-            } catch (_) {}
-            bgmSource = null;
-          }
-
+              await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
+              fadeInBGM(qbgmGain, 0.4, 3.0);
+              console.log("[Audio] review BGM started (iOS tap-safe)");
+            } catch (e) {
+              console.warn("[Audio] review BGM start failed:", e);
+            }
+          }, 300);
+        } else {
           await ensureAudioResume();
-          await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true);
-          fadeInBGM(bgmGain, 0.4, 2.0);
+          await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm");
+          fadeInBGM(qbgmGain, 0.4, 3.0);
+        }
+        bgmGain.gain.value = 0;
+        setUnitBgmPlaying(false); // ✅ 単元BGM再生中フラグを解除
+        globalUnitBgmPlaying = false;
+      }
 
-          globalUnitBgmPlaying = true;
-          setUnitBgmPlaying(true);
+      // ✅ 結果画面
+      else if (showResult) {
+        if (isReviewMode) {
+          fadeInBGM(qbgmGain, 0, 1.0);
+          setTimeout(() => stopQbgm(true), 1200);
+        } else {
+          bgmGain.gain.value = 0.001;
+          qbgmGain.gain.value = 0;
+        }
+        setUnitBgmPlaying(false); // ✅ 結果画面でも解除
+        globalUnitBgmPlaying = false;
+      }
 
-          console.log("[Audio] bgm started for unit select (once only)");
-        } catch (e) {
-          console.warn("[Audio] bgm start failed:", e);
+      // ✅ 単元選択画面（ここを重点修正）
+      else if (!showQuestions && !showResult) {
+        if (!globalUnitBgmPlaying) {
+          // まだ単元BGMが流れていない場合のみ再生
+          try {
+            if (bgmSource) {
+              bgmSource.stop(0);
+              bgmSource = null;
+            }
+            await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true);
+            fadeInBGM(bgmGain, 0.4, 2.0);
+            qbgmGain.gain.value = 0;
+            globalUnitBgmPlaying = true; // ✅ グローバル変数に記録
+            console.log("[Audio] bgm started for unit select (first only)");
+          } catch (e) {
+            console.warn("[Audio] bgm start failed:", e);
+          }
+        } else {
+          console.log("[Audio] bgm already playing, skip start");
         }
       }
     };
 
     applyBGM();
-
-    // ✅ クリーンアップ（次回に残留音防止）
-    return () => {
-      if (showQuestions || showResult) return; // クイズ中・結果中は保持
-      if (bgmSource && globalUnitBgmPlaying) {
-        try {
-          bgmSource.stop(0);
-        } catch (_) {}
-        bgmSource = null;
-        globalUnitBgmPlaying = false;
-        console.log("[Audio] bgm cleanup on unmount");
-      }
-    };
   }, [soundEnabled, showQuestions, showResult, isReviewMode]);
 
   useEffect(() => {
@@ -1501,34 +1405,6 @@ export default function EnglishTrapQuestions() {
 
     playResultSound();
   }, [showResult]);
-
-  // ✅ BGMを安全に停止する関数（多重再生防止）
-  const stopBgm = (immediate = false) => {
-    try {
-      if (bgmSource) {
-        if (immediate) {
-          bgmSource.stop(0);
-          console.log("[Audio] bgm stopped (immediate)");
-        } else {
-          const now = audioCtx.currentTime;
-          bgmGain.gain.cancelScheduledValues(now);
-          bgmGain.gain.setValueAtTime(bgmGain.gain.value, now);
-          bgmGain.gain.linearRampToValueAtTime(0, now + 1.0);
-          setTimeout(() => {
-            try {
-              bgmSource.stop(0);
-              console.log("[Audio] bgm stopped (fade out)");
-            } catch (e) {
-              console.warn("[Audio] bgm stop failed:", e);
-            }
-          }, 1000);
-        }
-        bgmSource = null;
-      }
-    } catch (e) {
-      console.warn("[Audio] stopBgm() error:", e);
-    }
-  };
 
   useEffect(() => {
     if (currentQuestion?.choices) {
@@ -1954,7 +1830,7 @@ export default function EnglishTrapQuestions() {
   // ✅ 最終スコア
   const adjustedCorrectRate = Math.max(0, correctRate - totalHintPenalty);
 
-  if (!showQuestions && !showResult && units.length === 0 && !currentQuestion) {
+  if (!showQuestions && !showResult && units.length === 0) {
     return <div className="p-8 text-lg">読み込み中です...</div>;
   }
 
@@ -1982,11 +1858,9 @@ export default function EnglishTrapQuestions() {
             )}
           </div>
           {!showQuestions && !showResult && (
-            <div className="w-full py-3 bg-gradient-to-r from-pink-100 to-yellow-100 shadow-md sticky top-0 z-[100]">
-              <h1 className="text-2xl font-extrabold text-center text-[#4A6572] tracking-wide">
-                英語ひっかけ問題 ～塾長からの挑戦状～
-              </h1>
-            </div>
+            <h1 className="text-2xl font-bold">
+              英語ひっかけ問題 ～塾長からの挑戦状～
+            </h1>
           )}
           <button
             onClick={() => playButtonSound(() => setShowQuestionModal(true))}
@@ -1997,99 +1871,46 @@ export default function EnglishTrapQuestions() {
         </div>
       )}
 
-      {/* 🎯 新スタート画面：複数形式選択＋単元グリッド＋正答率カラー */}
+      {/* スタート画面 */}
       {!showQuestions && !showResult && units.length > 0 && (
-        <div className="max-w-3xl mx-auto bg-[#F9F9F9] border border-[#E0E0E0] rounded-2xl p-6 shadow-lg">
-          {/* === 出題形式タブ（複数選択対応） === */}
-          <h1 className="text-2xl font-bold text-center mb-4 text-[#4A6572]">
-            🎯 出題形式を選ぼう！（複数選択OK）
-          </h1>
-
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {[
-              "単語・熟語",
-              "適語補充",
-              "適文補充",
-              "整序問題",
-              "英作文",
-              "長文読解",
-              "リスニング",
-            ].map((format) => {
-              const isSelected = selectedFormats.includes(format);
-              return (
-                <button
-                  key={format}
-                  onClick={() =>
-                    playButtonSound(() => {
-                      setSelectedFormats(
-                        (prev) =>
-                          prev.includes(format)
-                            ? prev.filter((f) => f !== format) // OFF
-                            : [...prev, format] // ON
-                      );
-                    })
-                  }
-                  className={`px-3 py-2 rounded-full shadow-sm text-sm font-semibold transition-all ${
-                    isSelected
-                      ? "bg-gradient-to-r from-pink-400 to-orange-400 text-white scale-105"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
-                >
-                  {format}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* === 現在の選択状態 === */}
-          <motion.h2
-            key={selectedFormats.join(",")}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="text-center text-lg font-bold text-[#4A6572] mb-3"
-          >
-            📘{" "}
-            {selectedFormats.length > 0
-              ? `${selectedFormats.join("・")} の単元を選ぼう！`
-              : "出題形式を選んでください"}
-          </motion.h2>
-
-          {/* === 全選択・全解除ボタン === */}
-          <div className="flex justify-center gap-3 mb-3">
+        <div className="max-w-2xl mx-auto bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-6 shadow">
+          <h2 className="text-2xl font-bold text-[#4A6572] mb-4 text-center">
+            単元を選んでください（緑=両方、青=選択、橙=記述）
+          </h2>
+          <div className="flex justify-center gap-4 mb-4">
             <button
-              onClick={() => playButtonSound(selectAllUnits)}
-              className="bg-green-400 hover:bg-green-500 text-white px-4 py-1.5 rounded-full shadow text-sm"
+              onClick={() => playButtonSound(() => selectAllUnits())}
+              className="bg-[#A7D5C0] text-[#4A6572] px-4 py-2 rounded-full shadow-sm hover:bg-[#92C8B2] transition"
             >
               全選択
             </button>
             <button
-              onClick={() => playButtonSound(clearAllUnits)}
-              className="bg-red-400 hover:bg-red-500 text-white px-4 py-1.5 rounded-full shadow text-sm"
+              onClick={() => playButtonSound(() => clearAllUnits())}
+              className="bg-[#F8B195] text-white px-4 py-2 rounded-full shadow-sm hover:bg-[#F49A87] transition"
             >
               全解除
             </button>
           </div>
 
-          {/* === 単元グリッド（動的生成＋モード色＋正答率カラー） === */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-6">
-            {Array.from(new Set(questions.map((q) => q.unit))).map((unit) => {
+          {userName && (
+            <div className="text-center text-lg font-bold text-[#4A6572] mb-2">
+              👋 ようこそ、{userName} さん！
+            </div>
+          )}
+
+          <div className="flex gap-3 flex-wrap justify-center mb-4">
+            {units.map((unit) => {
               const mode = unitModes[unit] || 0;
+              let color = "bg-white border"; // 未選択
 
-              // === ✅ 背景色を安全に定義（Tailwind purge対策・再レンダリング安定化） ===
-              let bgColorClass =
-                "bg-white border border-gray-300 text-gray-800"; // デフォルト＝未選択
-              if (mode === 1)
-                bgColorClass = "bg-green-400 text-white border-green-400";
-              // 両方
-              else if (mode === 2)
-                bgColorClass = "bg-blue-400 text-white border-blue-400"; // ４択
-              else if (mode === 3)
-                bgColorClass = "bg-orange-400 text-white border-orange-400"; // 記述
+              if (mode === 1) color = "bg-green-400"; // 両方
+              if (mode === 2) color = "bg-blue-400"; // 選択のみ
+              if (mode === 3) color = "bg-orange-400"; // 記述のみ
 
-              // === ✅ 正答率による文字色変化（従来仕様保持） ===
+              // 🎨 色分けロジック（割合によって文字色を決定）
               const stat = unitStats[unit];
-              let textColor = "text-gray-800";
+              let textColor = "text-gray-800"; // デフォルト
+
               if (stat && stat.total > 0) {
                 const rate = stat.wrong / stat.total;
                 if (rate === 0) textColor = "text-gray-800";
@@ -2099,47 +1920,40 @@ export default function EnglishTrapQuestions() {
                 else textColor = "text-red-500 font-bold";
               }
 
+              // 🎯 ボタン本体の return はここ！
               return (
-                <motion.button
+                <button
                   key={unit}
-                  whileTap={{ scale: 0.92 }}
                   onClick={() => playButtonSound(() => toggleUnitMode(unit))}
-                  // 🎯 Tailwindの動的クラス結合を安全化・安定レンダリング
-                  className={`rounded-full text-sm font-semibold shadow-sm px-3 py-1 min-w-[70px] transition-all duration-150 ease-out ${bgColorClass}`}
-                  style={{
-                    transformOrigin: "center center",
-                  }}
+                  className={`px-4 py-2 rounded-full shadow-sm transition ${color}`}
                 >
                   <span className={textColor}>{unit}</span>
-                </motion.button>
+                </button>
               );
             })}
           </div>
-
-          {/* === 出題数選択 === */}
-          <h2 className="text-lg font-bold text-[#4A6572] mb-2 text-center">
-            出題数を選ぼう！
+          <h2 className="text-xl font-bold text-[#4A6572] mb-2 text-center">
+            出題数を選んでください
           </h2>
           <div className="flex gap-3 flex-wrap justify-center mb-4">
             {[5, 10, 15, "all"].map((count) => (
               <button
                 key={count}
                 onClick={() => playButtonSound(() => setQuestionCount(count))}
-                className={`px-4 py-2 rounded-full border shadow-sm transition text-sm ${
+                className={`px-4 py-2 rounded-full border shadow-sm transition ${
                   questionCount === count
-                    ? "bg-[#A7D5C0] text-[#4A6572] font-bold scale-105"
-                    : "bg-white text-[#4A6572] hover:bg-[#F1F1F1]"
+                    ? "bg-[#A7D5C0] text-[#4A6572] font-semibold"
+                    : "bg-white text-[#4A6572]"
                 }`}
               >
                 {count === "all" ? "すべて" : `${count}問`}
               </button>
             ))}
           </div>
-
-          {/* === サウンド・単語帳 === */}
-          <div className="flex justify-center gap-3 mb-4">
+          {/* サウンドON/OFFボタン */}
+          <div className="flex justify-center mb-4">
             <button
-              onClick={() => playButtonSound(() => setShowWordList(true))}
+              onClick={() => setShowWordList(true)}
               className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow transition"
             >
               📖 単語帳（{wordList.length}件）
@@ -2147,47 +1961,43 @@ export default function EnglishTrapQuestions() {
 
             <button
               onClick={async () => {
+                // ✅ ON/OFF に関わらず、ボタンクリック時に必ず resume() を試みる
                 if (audioCtx && audioCtx.state === "suspended") {
                   try {
                     await audioCtx.resume();
+                    console.log("[Audio] resumed by sound button");
                   } catch (e) {
                     console.warn("[Audio] resume failed", e);
                   }
                 }
+
+                // ✅ soundEnabled の切り替え
                 setSoundEnabled((prev) => !prev);
               }}
-              className={`px-4 py-2 rounded-full shadow transition text-sm font-semibold ${
+              className={`px-4 py-2 rounded-full shadow transition ${
                 soundEnabled
                   ? "bg-green-400 text-white"
-                  : "bg-gray-300 text-gray-800"
+                  : "bg-gray-300 text-black"
               }`}
             >
               {soundEnabled ? "🔊 サウンドOFF" : "🔈 サウンドON"}
             </button>
           </div>
 
-          {/* === OCR切替 === */}
-          <div className="text-center mb-4">
-            <label className="text-sm text-gray-700 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={ocrEngine === "vision"}
-                onChange={() =>
-                  setOcrEngine(ocrEngine === "vision" ? "tesseract" : "vision")
-                }
-                className="mr-1"
-              />
-              高精度OCR（Google Vision）を使う
-            </label>
-          </div>
+          <label className="text-sm text-gray-700 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={ocrEngine === "vision"}
+              onChange={() =>
+                setOcrEngine(ocrEngine === "vision" ? "tesseract" : "vision")
+              }
+              className="mr-1"
+            />
+            高精度OCR（Google Vision）を使う
+          </label>
 
-          {/* === スタートボタン === */}
           <button
             onClick={() => {
-              if (selectedFormats.length === 0) {
-                alert("出題形式を1つ以上選んでください。");
-                return;
-              }
               if (filtered.length === 0) {
                 alert("選択した単元に問題がありません。");
                 return;
@@ -2196,13 +2006,14 @@ export default function EnglishTrapQuestions() {
               startQuiz();
             }}
             disabled={units.length === 0 || !questionCount}
-            className={`rounded-full px-8 py-3 shadow-lg font-bold mx-auto block transition text-lg ${
-              units.length === 0 || !questionCount
-                ? "bg-gray-400 text-white cursor-not-allowed"
-                : "bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white scale-105"
-            }`}
+            className={`rounded-full px-6 py-3 shadow transition mx-auto block font-bold
+    ${
+      units.length === 0 || !questionCount
+        ? "bg-gray-400 text-white cursor-not-allowed"
+        : "bg-red-500 hover:bg-red-600 text-white"
+    }`}
           >
-            🚀 スタート！
+            🚀 開始
           </button>
         </div>
       )}
@@ -2212,16 +2023,14 @@ export default function EnglishTrapQuestions() {
         <div>
           <Character mood={characterMood} userName={userName} />
 
-          {/* 🌟 連続正解カウンター */}
+          {/* 🌟 連続正解カウンター表示 */}
           {streak > 0 && (
             <div className="text-center text-lg font-bold text-[#4A6572] mt-2">
               🌟 連続正解：{streak}問！
             </div>
           )}
 
-          {/* === formatごとの分岐 === */}
           {showFeedback ? (
-            /* ✅ 解答結果画面（既存部分はほぼ変更なし） */
             <div
               className={`p-4 rounded-lg shadow-md mb-4 ${
                 isCorrect
@@ -2237,8 +2046,6 @@ export default function EnglishTrapQuestions() {
               >
                 解答結果
               </motion.h2>
-
-              {/* ✅ 正誤メッセージ */}
               {isCorrect ? (
                 <div className="bg-[#6DBD98] text-white p-4 rounded-lg shadow text-center">
                   ✅ 正解です！ よくできました！
@@ -2281,10 +2088,10 @@ export default function EnglishTrapQuestions() {
                 </div>
               )}
 
-              {/* ✅ あなたの答え・解説など（既存） */}
               <p className="text-gray-800 mt-2">
                 あなたの答え: {selectedChoice}
               </p>
+
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -2297,6 +2104,8 @@ export default function EnglishTrapQuestions() {
                     解説をしっかり読もう！
                   </h3>
                 </div>
+
+                {/* ✅ 正解/不正解で表示内容を切り替え */}
                 <p className="text-gray-800 leading-relaxed">
                   {isCorrect
                     ? currentQuestion.explanation
@@ -2304,7 +2113,7 @@ export default function EnglishTrapQuestions() {
                       `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`}
                 </p>
 
-                {/* 🔊 音声ボタン */}
+                {/* ✅ 音声も同じ内容を読み上げるよう統一 */}
                 <button
                   onClick={() => {
                     const textToRead = isCorrect
@@ -2321,27 +2130,34 @@ export default function EnglishTrapQuestions() {
                 </button>
               </motion.div>
 
-              {/* 🔁 覚え直す・質問する・次へ */}
+              {/* 🔁 覚え直すボタン */}
               <button
                 onClick={() => {
                   const current = filteredQuestions[currentIndex];
-                  setReviewing(true);
+
+                  setReviewing(true); // ← 覚え直し中モードに切り替え
+
+                  // ✅ 正答を2秒間だけ表示
                   setTemporaryAnswer(
                     Array.isArray(current.correct)
                       ? current.correct.join(" / ")
-                      : current.correct ?? ""
+                      : current.correct ?? current.correctAnswer ?? ""
                   );
                   setShowAnswerTemporarily(true);
+
+                  // ✅ この問題を覚え直しリストに追加
                   setReviewList((prev) => {
-                    if (prev.find((q) => q.id === current.id)) return prev;
+                    if (prev.find((q) => q.id === current.id)) return prev; // 重複防止
                     return [...prev, current];
                   });
+
+                  // ✅ 2秒後に答えを伏せて再出題
                   setTimeout(() => {
                     setShowAnswerTemporarily(false);
                     setTemporaryAnswer("");
                     setShowFeedback(false);
                     setTimerActive(true);
-                    setReviewing(false);
+                    setReviewing(false); // ← 再出題完了後に解除
                   }, 2000);
                 }}
                 className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
@@ -2358,20 +2174,28 @@ export default function EnglishTrapQuestions() {
 
               <button
                 onClick={handleNext}
-                disabled={isSpeaking}
+                disabled={isSpeaking} // ✅ 再生中は押せない
                 className={`px-6 py-3 rounded-full shadow-md transition mt-4 text-white font-bold ${
                   isSpeaking
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-pink-400 hover:bg-pink-500"
+                    ? "bg-gray-400 cursor-not-allowed" // 🔒 再生中はグレーで無効
+                    : "bg-pink-400 hover:bg-pink-500" // 🔓 通常時はピンクで有効
                 }`}
               >
                 {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
               </button>
             </div>
           ) : (
-            /* ✅ 出題画面（ここがformat対応の重要部分） */
             <div className="flex flex-col h-[calc(100vh-80px)] bg-gradient-to-r from-pink-100 to-yellow-100">
+              {/* === 上部：問題表示エリア（スクロール可） === */}
               <div className="flex-1 overflow-y-auto p-4">
+                {/* 🔥 応援メッセージ */}
+                {addMessage && (
+                  <div className="text-center text-xl font-bold text-[#E57373] mt-1">
+                    {addMessage}
+                  </div>
+                )}
+
+                {/* 🔹 問題番号 */}
                 <h2 className="text-lg sm:text-xl font-bold mb-4">
                   第{currentIndex + 1}問 / 全{filteredQuestions.length}問
                 </h2>
@@ -2414,7 +2238,7 @@ export default function EnglishTrapQuestions() {
                 {/* 🔹 問題文 */}
                 <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-4 shadow mb-6 text-left max-w-2xl mx-auto">
                   <h2 className="text-base sm:text-lg font-bold mb-2 word-break-clean whitespace-pre-wrap max-w-prose mx-auto">
-                    {isChoiceFormat ? (
+                    {currentQuestion.type === "multiple-choice" && (
                       <span>
                         {currentQuestion.question
                           .split(" ")
@@ -2428,14 +2252,13 @@ export default function EnglishTrapQuestions() {
                             </span>
                           ))}
                       </span>
-                    ) : (
-                      // 手入力問題はそのまま表示
-                      currentQuestion.question
                     )}
+                    {currentQuestion.type === "input" &&
+                      currentQuestion.question}
                   </h2>
                 </div>
 
-                {/* ✅ 覚え直し時に一時的に答えを表示（変更なし） */}
+                {/* ✅ 覚え直し時に一時的に答えを表示 */}
                 {showAnswerTemporarily && (
                   <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[2000]">
                     <p className="text-white text-4xl sm:text-6xl font-extrabold text-center px-4 break-words leading-snug">
@@ -2444,8 +2267,11 @@ export default function EnglishTrapQuestions() {
                   </div>
                 )}
 
-                {/* === 💡ヒント＆🔁覚え直すボタン群（変更なし） === */}
-                <div className="w-full flex justify-center gap-3 -1 mb-1">
+                {/* === 💡ヒント＆🔁覚え直すボタン群（問題文に近接配置） === */}
+                <div
+                  className="w-full flex justify-center gap-3 
+                -1 mb-1"
+                >
                   {/* 💡ヒントボタン */}
                   <button
                     onClick={handleShowHint}
@@ -2454,7 +2280,7 @@ export default function EnglishTrapQuestions() {
                     💡 ヒント
                   </button>
 
-                  {/* 🔁覚え直すボタン（中身・ロジックそのまま） */}
+                  {/* 🔁覚え直すボタン */}
                   <button
                     onClick={() => {
                       const current = filteredQuestions[currentIndex];
@@ -2507,7 +2333,7 @@ export default function EnglishTrapQuestions() {
                   </button>
                 </div>
 
-                {/* ヒントテキスト（変更なし） */}
+                {/* ヒントテキストの表示（もしすでに無ければ追加） */}
                 {hintText && (
                   <div className="mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded-lg shadow text-gray-800 text-center">
                     {hintText}
@@ -2515,24 +2341,21 @@ export default function EnglishTrapQuestions() {
                 )}
 
                 {/* 🔹 選択肢ボタン */}
-                {/* 🔄 ここを format 判定に変更：単語・熟語以外（=4択）だけ表示 */}
-                {isChoiceFormat &&
-                  Array.isArray(shuffledChoices) &&
-                  shuffledChoices.length > 0 && (
-                    <div className="fixed bottom-20 left-0 w-full bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-40 grid grid-cols-2 gap-2">
-                      {shuffledChoices.map((choice, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleAnswer(choice)}
-                          className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
-                        >
-                          {choice}
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                {currentQuestion.type === "multiple-choice" && (
+                  <div className="fixed bottom-20 left-0 w-full bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-40 grid grid-cols-2 gap-2">
+                    {shuffledChoices.map((choice, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleAnswer(choice)}
+                        className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
+                      >
+                        {choice}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
-                {/* 🔹 単語タップ翻訳結果（変更なし） */}
+                {/* 🔹 単語タップ翻訳結果 */}
                 {selectedWord && (
                   <div className="mt-4 p-3 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
                     <h3 className="text-base font-bold text-[#4A6572] mb-1">
@@ -2546,7 +2369,7 @@ export default function EnglishTrapQuestions() {
 
               {/* === 下部：回答欄（固定表示） === */}
               <div className="sticky bottom-0 bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-50">
-                {isInputFormat && renderInputSection()}
+                {currentQuestion.type === "input" && renderInputSection()}
               </div>
             </div>
           )}
