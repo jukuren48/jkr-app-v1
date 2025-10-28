@@ -3481,6 +3481,186 @@
     "type": "multiple-choice"
   },
   {
+    "id": "9f4c1c20-cc4b-4b9c-9b41-0b78b7c60a01",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】兄はサッカーが得意です。\n【英語】My brother is _ _ soccer.",
+    "correctAnswer": "My brother is good at soccer.",
+    "explanation": "「be good at ～」で『～が得意だ』を表す連語です。『good』と『at』のどちらが欠けても文が成り立ちません。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "e8bcdab5-0e2e-4a2d-b13a-3c40a61e76d2",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】私たちは先週、その映画をテレビで見ました。\n【英語】We _ _ the movie on TV last week.",
+    "correctAnswer": "We watched the movie on TV last week.",
+    "explanation": "「watch ～ on TV」で『テレビで～を見る』を表します。『on』を忘れないようにしましょう。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "d23c8b75-d7d3-4f3c-b75b-f75e23dcf0f1",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】メアリーと太朗は昨日たくさん話しました。\n【英語】Mary and Taro _ _ a lot yesterday.",
+    "correctAnswer": "Mary and Taro talked a lot yesterday.",
+    "explanation": "「talk a lot」で『たくさん話す』を意味します。『talked』の過去形にも注意しましょう。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "61a5e4a0-8f2b-4b6e-82d1-89ab17e7d3c9",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】ジェーンは日本の歴史に興味があります。\n【英語】Jane _ _ Japanese history.",
+    "correctAnswer": "Jane is interested in Japanese history.",
+    "explanation": "「be interested in ～」で『～に興味がある』を表します。形容詞『interested』と前置詞『in』の組み合わせが重要です。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "e17b8e77-0d5a-4a58-972f-505d3d02d6c0",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】子供たちはよくこの犬に話しかけます。\n【英語】The children often _ _ this dog.",
+    "correctAnswer": "The children often talk to this dog.",
+    "explanation": "「talk to ～」で『～に話しかける』を意味します。『talk with』ではなく『talk to』が自然です。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "4d9b7725-35b0-4e0a-aaf2-1c54b7ad87c3",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】私たちのバスは東京に８時に到着するでしょう。\n【英語】Our bus will _ _ Tokyo at eight.",
+    "correctAnswer": "Our bus will arrive at Tokyo at eight.",
+    "explanation": "「arrive at ～」で『～に到着する』を表します。場所が都市名や小さな地点のときは『at』を使います。空港や駅などの場合も同様です。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "b7b9d650-8369-4f21-bc84-61682d88b68a",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】彼らはお互いに知っています。\n【英語】They _ _ each other.",
+    "correctAnswer": "They know each other.",
+    "explanation": "「each other」は『お互いに』という意味で、動詞のあとに置きます。「know each other」で『お互いを知っている』になります。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "3ad5fd24-53eb-4b15-91df-5c762d8ad1f8",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】姉は昨日、フランス語で手紙を書きました。\n【英語】My sister _ _ a letter in French yesterday.",
+    "correctAnswer": "My sister wrote a letter in French yesterday.",
+    "explanation": "「write a letter in ～」で『～語で手紙を書く』を表します。過去形『wrote』を使う点にも注意。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "0c8b247b-4e0a-4fa9-bb39-fb8914b82e4c",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】トムは動物園でライオンの写真を１枚とりました。\n【英語】Tom _ _ picture of a lion at the zoo.",
+    "correctAnswer": "Tom took a picture of a lion at the zoo.",
+    "explanation": "「take a picture of ～」で『～の写真をとる』という連語です。『took』はその過去形になります。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "08e5e9bb-c4db-4e88-9004-8e5cb0f2a07e",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】妹は今朝７時に起きませんでした。\n【英語】My sister _ _ up at seven this morning.",
+    "correctAnswer": "My sister didn't get up at seven this morning.",
+    "explanation": "「get up」で『起きる』を意味します。否定文では『didn't get up』の形になることに注意。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "1b9e1f72-7dc7-4b49-bbfb-6a18b6128b50",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】私の母は今日、少し疲れています。\n【英語】My mother is _ _ today.",
+    "correctAnswer": "My mother is a little tired today.",
+    "explanation": "「a little tired」で『少し疲れている』を表します。『a little』は形容詞の前に置かれます。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "b5cb6a8e-07a9-4208-bfe0-33c2f36e61e4",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】私はボブの兄弟の１人に会いました。\n【英語】I _ _ of Bob's brothers.",
+    "correctAnswer": "I met one of Bob's brothers.",
+    "explanation": "「one of ～」で『～の一人』を表します。動詞『met』は『meet』の過去形です。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "89e24d09-b83f-4c73-96cf-12c79bb727a3",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】私は夕食後、妹の宿題を手伝いました。\n【英語】I _ my sister _ her homework after dinner.",
+    "correctAnswer": "I helped my sister with her homework after dinner.",
+    "explanation": "「help 人 with ～」で『人の～を手伝う』という意味になります。『help my sister with her homework』で『妹の宿題を手伝う』です。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "7b441fc6-f6b2-4c82-858a-c1744eeb8c73",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】太朗は自分のかばんを探しています。\n【英語】Taro is _ _ his bag.",
+    "correctAnswer": "Taro is looking for his bag.",
+    "explanation": "「look for ～」で『～を探す』という連語です。『look at』や『look after』と混同しないよう注意。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "cd76db7d-7f1f-46a4-ae24-bd8220c50f7f",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】ジャックはニュージーランドの出身です。\n【英語】Jack _ _ New Zealand.",
+    "correctAnswer": "Jack is from New Zealand.",
+    "explanation": "「be from ～」で『～の出身である』を意味します。『come from』も同様の意味ですが、現在の状態を表すときは『be from』が自然です。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "b24e7c09-02c1-4a58-a2de-4ebcf9c2a9aa",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】体育館には１００人より多くの人がいました。\n【英語】There _ _ than one hundred people in the gym.",
+    "correctAnswer": "There were more than one hundred people in the gym.",
+    "explanation": "「more than ～」で『～より多く』を表します。『There were ... in the gym』の形で『体育館に～がいました』となります。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "51ef4e10-4f2f-4c25-a2d3-df23cb31c7e3",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】あの美しい鳥を見てください。\n【英語】_ _ that beautiful bird.",
+    "correctAnswer": "Look at that beautiful bird.",
+    "explanation": "「look at ～」で『～を見る』を表します。『see』や『watch』と混同しないよう注意しましょう。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "f41b93b0-8a0e-44db-85a5-f0f6a3588ad3",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】あなたは放課後どこに行きましたか？\n【英語】Where _ you _ after school?",
+    "correctAnswer": "Where did you go after school?",
+    "explanation": "過去の出来事をたずねる疑問文なので『did』を使い、動詞は原形『go』にします。『Where did you go ～？』で『どこへ行きましたか？』です。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "4bc60c15-8b90-4acb-a138-6505a5a8f8c3",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】その女の子は猫をこわがっています。\n【英語】The girl is _ _ cats.",
+    "correctAnswer": "The girl is afraid of cats.",
+    "explanation": "「be afraid of ～」で『～をこわがる』を意味します。形容詞『afraid』と前置詞『of』のセットで覚えましょう。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
+    "id": "8f203d83-76d1-4b46-b451-b8b07d3dfb7d",
+    "unit": "連語",
+    "question": "【指示】下線部を埋めて全文で書きなさい。\n【日本語】私たちの将来について話しましょう。\n【英語】Let's _ _ our future.",
+    "correctAnswer": "Let's talk about our future.",
+    "explanation": "「talk about ～」で『～について話す』という意味です。『Let's』で『～しましょう』を表します。",
+    "format": "適語補充",
+    "type": "input"
+  },
+  {
     "id": "0354aa83-b5f8-45b8-8122-fcd1138dc279",
     "unit": "過去形",
     "question": "They ( ) a movie last night.",
