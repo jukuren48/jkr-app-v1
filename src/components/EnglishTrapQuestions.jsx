@@ -406,21 +406,20 @@ function HandwritingPad({
 
       {/* === キャンバス === */}
       <div className="flex-1 flex justify-center items-center pb-16 sm:pb-4">
-        <SignatureCanvas
-          ref={sigCanvas}
-          penColor="black"
-          minWidth={2}
-          maxWidth={3}
-          backgroundColor="#ffffff"
-          canvasProps={{
-            width: 800, // 🟢 横幅を大幅に拡大（元: 360）
-            height: 240, // 🔸 高さも少し拡大（元: 160）
-            className:
-              // 🟢 横幅を広げつつレスポンシブ対応
-              "border-2 border-gray-300 rounded-2xl mx-auto block bg-gradient-to-b from-white to-gray-50 shadow-md w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-[900px]",
-          }}
-          onEnd={handleEndStroke}
-        />
+        <div className="w-[95vw] sm:w-[90vw] md:w-[80vw] max-w-[900px]">
+          <SignatureCanvas
+            ref={sigCanvas}
+            penColor="black"
+            minWidth={2}
+            maxWidth={3}
+            backgroundColor="#ffffff"
+            canvasProps={{
+              className:
+                "border-2 border-gray-300 rounded-2xl mx-auto block bg-gradient-to-b from-white to-gray-50 shadow-md w-full h-[240px]",
+            }}
+            onEnd={handleEndStroke}
+          />
+        </div>
       </div>
 
       {/* === ボタン群 === */}
