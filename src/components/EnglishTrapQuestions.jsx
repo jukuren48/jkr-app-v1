@@ -1180,7 +1180,7 @@ export default function EnglishTrapQuestions() {
         qbgmGain.gain.value = 0;
         globalUnitBgmPlaying = false;
         setUnitBgmPlaying(false);
-        lastBgmType = null; // 🆕 状態リセット
+        lastBgmType = null;
         return;
       }
 
@@ -1188,16 +1188,27 @@ export default function EnglishTrapQuestions() {
 
       // === 🎵 問題中 or 復習中 ===
       if (showQuestions) {
-        // ✅ 復習モードのとき
+        // 🚫 旧BGM（単元選択時）を確実に停止してから問題BGM開始
+        if (bgmSource) {
+          try {
+            bgmSource.stop(0);
+            console.log("[Audio] stopped old bgm before question start");
+          } catch (e) {
+            console.warn("[Audio] stop old bgm failed:", e);
+          }
+          bgmSource = null;
+          globalUnitBgmPlaying = false;
+          setUnitBgmPlaying(false);
+        }
+
+        // ✅ 復習モード
         if (isReviewMode) {
           if (qbgmSource && lastBgmType === "review") {
             console.log("[Audio] review BGM already playing → skip");
             return;
           }
 
-          stopBgm(true);
           stopQbgm(true);
-
           await ensureAudioResume();
           await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
           fadeInBGM(qbgmGain, 0.4, 3.0);
@@ -1210,9 +1221,7 @@ export default function EnglishTrapQuestions() {
             return;
           }
 
-          stopBgm(true);
           stopQbgm(true);
-
           await ensureAudioResume();
           await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm", true);
           fadeInBGM(qbgmGain, 0.4, 3.0);
@@ -1220,9 +1229,6 @@ export default function EnglishTrapQuestions() {
           console.log("[Audio] question BGM started");
         }
 
-        bgmGain.gain.value = 0;
-        globalUnitBgmPlaying = false;
-        setUnitBgmPlaying(false);
         return;
       }
 
@@ -1234,15 +1240,12 @@ export default function EnglishTrapQuestions() {
           lastBgmType = "result";
           console.log("[Audio] result screen → stop qbgm");
         }
-        bgmGain.gain.value = 0;
-        globalUnitBgmPlaying = false;
-        setUnitBgmPlaying(false);
         return;
       }
 
       // === 🏫 単元選択画面 ===
       if (!showQuestions && !showResult) {
-        // 🚫 すでに単元選択BGMが再生中ならスキップ
+        // 🚫 すでに単元選択BGM再生中ならスキップ
         if (globalUnitBgmPlaying && bgmSource && lastBgmType === "unit") {
           console.log("[Audio] bgm already playing → skip start");
           return;
@@ -1274,9 +1277,8 @@ export default function EnglishTrapQuestions() {
 
     applyBGM();
 
-    // ✅ クリーンアップ：次回に残留音防止
+    // ✅ クリーンアップ
     return () => {
-      // クイズ中・結果中では停止せず維持
       if (showQuestions || showResult) return;
 
       try {
@@ -1286,7 +1288,7 @@ export default function EnglishTrapQuestions() {
         qbgmSource = null;
         globalUnitBgmPlaying = false;
         setUnitBgmPlaying(false);
-        lastBgmType = null; // 🆕 クリーンアップ時もリセット
+        lastBgmType = null;
         console.log("[Audio] cleanup complete (no residual sound)");
       } catch (e) {
         console.warn("[Audio] cleanup error:", e);
