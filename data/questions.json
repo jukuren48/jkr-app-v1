@@ -1364,6 +1364,7 @@
     "correct": "This song is sung in many countries.",
     "explanation": "受動態はbe動詞＋過去分詞を使い、This song is sung in many countries. となります。",
     "incorrectExplanations": {},
+    "format": "英作文",
     "type": "input"
   },
   {
