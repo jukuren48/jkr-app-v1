@@ -2591,21 +2591,19 @@ export default function EnglishTrapQuestions() {
 
                 {/* 🔹 選択肢ボタン */}
                 {/* 🔄 ここを format 判定に変更：単語・熟語以外（=4択）だけ表示 */}
-                {isChoiceFormat &&
-                  Array.isArray(shuffledChoices) &&
-                  shuffledChoices.length > 0 && (
-                    <div className="fixed bottom-20 left-0 w-full bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-40 grid grid-cols-2 gap-2">
-                      {shuffledChoices.map((choice, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleAnswer(choice)}
-                          className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
-                        >
-                          {choice}
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                {currentQuestion.type === "multiple-choice" && (
+                  <div className="fixed bottom-20 left-0 w-full bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-40 grid grid-cols-2 gap-2">
+                    {shuffledChoices.map((choice, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleAnswer(choice)}
+                        className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
+                      >
+                        {choice}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 {/* 🔹 単語タップ翻訳結果（変更なし） */}
                 {selectedWord && (
@@ -2621,7 +2619,7 @@ export default function EnglishTrapQuestions() {
 
               {/* === 下部：回答欄（固定表示） === */}
               <div className="sticky bottom-0 bg-white/95 backdrop-blur-sm p-3 border-t shadow-lg z-50">
-                {isInputFormat && renderInputSection()}
+                {currentQuestion.type === "input" && renderInputSection()}
               </div>
             </div>
           )}
