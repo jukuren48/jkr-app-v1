@@ -3550,7 +3550,7 @@
     "id": "b7b9d650-8369-4f21-bc84-61682d88b68a",
     "unit": "連語",
     "question": "下線部に入る単語を書きなさい。\n【日本語】彼らはお互いに知っています。\n【英語】They know _ _.",
-    "correct": "each other.",
+    "correct": "each other",
     "choices": [],
     "explanation": "「each other」は『お互いに』という意味で、動詞のあとに置きます。「know each other」で『お互いを知っている』になります。",
     "incorrectExplanations": {},
