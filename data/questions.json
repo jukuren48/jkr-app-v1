@@ -2951,6 +2951,106 @@
     "type": "multiple-choice"
   },
   {
+    "id": "bfa3cb4c-1c5d-4d3a-9fcb-3b9e9c47a2a8",
+    "unit": "読解",
+    "question": "Tom got up ten minutes later than usual, so he left home late. It takes twenty minutes to walk from his house to school. He arrived at school at seven fifty today. What time does he usually leave home?",
+    "choices": ["seven o’clock", "seven ten", "seven twenty", "seven thirty"],
+    "correct": "seven twenty",
+    "explanation": "トムはいつもより10分遅く起きたため、家を出るのも10分遅くなりました。学校まで歩いて20分かかり、今日は7時50分に着いたので、今日は7時30分に出発したことになります。したがって、いつもはその10分前の7時20分に家を出ています。",
+    "incorrectExplanations": {
+      "seven o’clock": "20分＋10分の差を考えると、7時0分は早すぎます。",
+      "seven ten": "さらに10分早く出てしまっています。",
+      "seven thirty": "今日は7時30分に出たので、いつもはそれより10分早い7時20分です。"
+    },
+    "format": "長文読解",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "ee7e986a-b5a9-41b1-8f10-7d5de3a8e79b",
+    "unit": "読解",
+    "question": "Lisa studies English every evening. She usually studies for one hour, but yesterday she was very tired, so she studied for only half an hour. How long did she study yesterday?",
+    "choices": ["ten minutes", "half an hour", "one hour", "two hours"],
+    "correct": "half an hour",
+    "explanation": "リサは普段1時間勉強しますが、昨日は疲れていたので30分しか勉強していません。したがって正解は「half an hour（30分）」です。",
+    "incorrectExplanations": {
+      "ten minutes": "本文には『only half an hour（30分）』とあります。",
+      "one hour": "それは普段の時間であり、昨日は短くなっています。",
+      "two hours": "本文中にそのような記述はありません。"
+    },
+    "format": "長文読解",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "90a59ff0-d6a6-42bb-97a1-420c21046a63",
+    "unit": "読解",
+    "question": "Ken left home at seven forty this morning. It takes fifteen minutes to get to the station and another twenty minutes by train to school. What time did he arrive at school?",
+    "choices": ["eight ten", "eight fifteen", "eight twenty", "eight thirty"],
+    "correct": "eight fifteen",
+    "explanation": "7:40に家を出て、駅まで15分（7:55）、さらに電車で20分（8:15）かかるので、到着時刻は8:15です。",
+    "incorrectExplanations": {
+      "eight ten": "合計35分かかるため、8:10は少し早すぎます。",
+      "eight twenty": "正確には8:15に到着です。",
+      "eight thirty": "それは5分遅い時刻です。"
+    },
+    "format": "長文読解",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "c09794c0-86b1-4a27-b45a-c77211cb3d0f",
+    "unit": "読解",
+    "question": "Yumi bought three apples for one hundred yen each and one banana for one hundred fifty yen. How much did she pay in total?",
+    "choices": [
+      "three hundred yen",
+      "four hundred yen",
+      "four hundred fifty yen",
+      "five hundred yen"
+    ],
+    "correct": "four hundred fifty yen",
+    "explanation": "リンゴ3個×100円＝300円、バナナ1本150円、合計で450円になります。",
+    "incorrectExplanations": {
+      "three hundred yen": "リンゴ分だけの合計で、バナナ分が抜けています。",
+      "four hundred yen": "もう少し高いです。150円分が足りません。",
+      "five hundred yen": "実際の合計は450円です。"
+    },
+    "format": "長文読解",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "fbf299a9-6b85-4c2a-8b16-7cd640ffb0f1",
+    "unit": "読解",
+    "question": "It takes Emi ten minutes to walk to the station. She takes the 8:10 train every morning. Today, she left her house at 8:05. Could she catch the train?",
+    "choices": [
+      "Yes, she could.",
+      "No, she couldn’t.",
+      "Yes, she was early.",
+      "No, she was too early."
+    ],
+    "correct": "No, she couldn’t.",
+    "explanation": "駅まで徒歩10分、出発が8:05なので8:15に到着。電車は8:10発なので、間に合いません。",
+    "incorrectExplanations": {
+      "Yes, she could.": "8:05出発では8:10の電車に間に合いません。",
+      "Yes, she was early.": "むしろ遅れています。",
+      "No, she was too early.": "早すぎたのではなく、遅れたのです。"
+    },
+    "format": "長文読解",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "7d7c5bda-d0b4-4c58-9b0f-bb17326dd234",
+    "unit": "読解",
+    "question": "Mike’s birthday is on April 5th. His brother’s birthday is ten days after his. When is his brother’s birthday?",
+    "choices": ["April 10th", "April 12th", "April 15th", "April 20th"],
+    "correct": "April 15th",
+    "explanation": "マイクの誕生日は4月5日で、弟の誕生日はその10日後なので4月15日になります。",
+    "incorrectExplanations": {
+      "April 10th": "5日後です。問題は10日後を聞いています。",
+      "April 12th": "7日後です。もう少し後の日です。",
+      "April 20th": "10日後ではなく15日後です。"
+    },
+    "format": "長文読解",
+    "type": "multiple-choice"
+  },
+  {
     "id": "4d3f7bf7-8900-408d-9e52-fe66a109414e",
     "unit": "連語",
     "question": "【日本語】紙を１枚くれませんか。\n【英語】Will you give me (  ) paper?",
