@@ -119,78 +119,43 @@ async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
   if (storeRefName === "qbgm") qbgmSource = source;
 }
 
-// 🆕 BGM 停止関数（qbgmと対になるもの）
+// ✅ 非同期対応：停止完了を保証する
 function stopBgm(force = false) {
-  if (bgmSource) {
+  return new Promise((resolve) => {
     try {
-      bgmSource.stop(0);
-      console.log("[Audio] bgm stopped");
+      if (bgmSource) {
+        bgmSource.stop(0);
+        bgmSource = null;
+        console.log("[Audio] bgm stopped");
+      } else if (force) {
+        console.log("[Audio] bgm already null");
+        bgmSource = null;
+      }
     } catch (e) {
       console.warn("[stopBgm] failed:", e);
+    } finally {
+      resolve();
     }
-    bgmSource = null;
-  } else if (force) {
-    console.log("[Audio] bgm already null, force reset");
-    bgmSource = null;
-  }
-}
-
-// 🆕 1周目だけ確実にBGM開始、2周目以降は無視
-async function startAllBGMsOnce() {
-  initAudio();
-
-  // すでに再生中なら skip（iOS 二重再生防止）
-  if (!isBgmPlaying) {
-    await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm");
-    fadeInBGM(bgmGain, 0.8, 2.0);
-    isBgmPlaying = true;
-  } else {
-    console.log("[Audio] bgm already playing → skip");
-  }
-
-  if (!isQbgmPlaying) {
-    await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm");
-    fadeInBGM(qbgmGain, 0.7, 2.0);
-    isQbgmPlaying = true;
-  } else {
-    console.log("[Audio] qbgm already playing → skip");
-  }
-}
-
-// 🆕 停止時には確実にリセット
-function stopAllBGMs() {
-  stopBgm(true);
-  stopQbgm(true);
-  isBgmPlaying = false;
-  isQbgmPlaying = false;
-  console.log("[Audio] all bgm stopped");
+  });
 }
 
 function stopQbgm(force = false) {
-  if (qbgmSource) {
+  return new Promise((resolve) => {
     try {
-      qbgmSource.stop(0);
-      console.log("[Audio] qbgm stopped");
+      if (qbgmSource) {
+        qbgmSource.stop(0);
+        qbgmSource = null;
+        console.log("[Audio] qbgm stopped");
+      } else if (force) {
+        console.log("[Audio] qbgm already null");
+        qbgmSource = null;
+      }
     } catch (e) {
       console.warn("[stopQbgm] failed:", e);
+    } finally {
+      resolve();
     }
-    qbgmSource = null;
-  } else if (force) {
-    console.log("[Audio] qbgm already null, force reset");
-    qbgmSource = null;
-  }
-}
-
-function prepareNextAudioResume() {
-  const resumeOnGesture = async () => {
-    if (audioCtx && audioCtx.state === "suspended") {
-      await audioCtx.resume();
-      console.log("[Audio] resumed on next gesture (iOS safe)");
-    }
-  };
-
-  document.addEventListener("touchstart", resumeOnGesture, { once: true });
-  document.addEventListener("click", resumeOnGesture, { once: true });
+  });
 }
 
 function fadeInBGM(gainNode, targetVolume = 1.0, duration = 2.0) {
@@ -541,22 +506,6 @@ function HandwritingPad({
   );
 }
 
-// 入力文字列の正規化（大文字小文字・全角半角・末尾句読点を吸収）
-const normText = (s = "") =>
-  s
-    .toString()
-    .trim()
-    .toLowerCase()
-    .replace(/[Ａ-Ｚａ-ｚ０-９]/g, (ch) =>
-      String.fromCharCode(ch.charCodeAt(0) - 0xfee0)
-    )
-    .replace(/[’‘]/g, "'")
-    .replace(/[“”]/g, '"')
-    // 🚫 以下の2行を削除 → ピリオドやカンマを削らない
-    // .replace(/[。．，、・！？；：]+$/u, "")
-    // .replace(/[.,!?;:]+$/u, "")
-    .replace(/\s+/g, " "); // 連続空白のみ整える
-
 // 正答が「in front of / in the front of」のように複数書かれている場合に分割
 const expandCorrects = (raw) => {
   if (Array.isArray(raw)) return raw;
@@ -648,8 +597,7 @@ export default function EnglishTrapQuestions() {
     }
     return [];
   });
-  const [unitBgmPlaying, setUnitBgmPlaying] = useState(false);
-  const unitBgmRef = useRef(false); // ← 再生中フラグ
+
   const [questionCount, setQuestionCount] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -666,14 +614,10 @@ export default function EnglishTrapQuestions() {
   const [characterMood, setCharacterMood] = useState("neutral");
   const [inputAnswer, setInputAnswer] = useState("");
   const [lastLength, setLastLength] = useState(0);
-  const [lastTime, setLastTime] = useState(Date.now());
-  const [showWarning, setShowWarning] = useState(false);
-  const [inputHistory, setInputHistory] = useState([]);
   const [selectedWord, setSelectedWord] = useState(null);
   const [wordMeaning, setWordMeaning] = useState("");
   const [reviewList, setReviewList] = useState([]); // 「覚え直す」対象を保存
   const [isReviewMode, setIsReviewMode] = useState(false);
-  const [reviewAnsweredIds, setReviewAnsweredIds] = useState(new Set());
   const [showReviewPrompt, setShowReviewPrompt] = useState(false); // 復習開始モーダル表示フラグ
   const reviewQueueRef = useRef([]); // 復習出題キューを保持（alert排除で安全に受け渡し）
   // ✅ 覚え直し（復習）中フラグ
@@ -684,8 +628,6 @@ export default function EnglishTrapQuestions() {
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
-  const [addMessage, setAddMessage] = useState("");
-  const [inputDisabled, setInputDisabled] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
   // 選択肢を一度だけシャッフルして保持
   const [shuffledChoices, setShuffledChoices] = useState([]);
@@ -714,7 +656,6 @@ export default function EnglishTrapQuestions() {
   const [wrongWords, setWrongWords] = useState([]);
   const [round, setRound] = useState(1); // 1 = 英→日, 2 = 日→英
   const [lastLengthTest, setLastLengthTest] = useState(0);
-  const [showWarningTest, setShowWarningTest] = useState(false);
 
   // 単元ごとの間違い回数を記録
   const [unitStats, setUnitStats] = useState(() => {
@@ -743,9 +684,6 @@ export default function EnglishTrapQuestions() {
     setUnitStats(savedStats ? JSON.parse(savedStats) : {});
   };
 
-  // デバッグログ用（不要になったら削除してOK）
-  const [debugLogs, setDebugLogs] = useState([]);
-
   function log(message) {
     console.log(message); // PC用にも出す
     setDebugLogs((prev) => [...prev.slice(-20), message]);
@@ -759,24 +697,6 @@ export default function EnglishTrapQuestions() {
       log("[BGM] muted " + audioCtx?.state);
     } else {
       log("[BGM] mute skipped - no bgmGain");
-    }
-  }
-
-  async function unmuteBGM() {
-    initAudio();
-    if (audioCtx && audioCtx.state === "suspended") {
-      try {
-        await audioCtx.resume();
-        log("[BGM] resumed in unmuteBGM → state=" + audioCtx.state);
-      } catch (e) {
-        log("[BGM] resume failed in unmuteBGM");
-      }
-    }
-    if (bgmGain) {
-      bgmGain.gain.value = 0.4;
-      log("[BGM] unmuted " + audioCtx?.state);
-    } else {
-      log("[BGM] unmute skipped - no bgmGain");
     }
   }
 
@@ -794,8 +714,6 @@ export default function EnglishTrapQuestions() {
     return Number(localStorage.getItem("vol_bgm") ?? 50);
   });
 
-  const firstRunRef = useRef(true);
-
   // 効果音付きボタンハンドラ
   const playButtonSound = (callback) => {
     if (soundEnabled) {
@@ -805,11 +723,9 @@ export default function EnglishTrapQuestions() {
   };
 
   // 参照（GainやBuffer保持）
-  const soundsRef = useRef({}); // { count, timeup, correct, wrong, bgm } を保持
   const masterGainRef = useRef(null);
   const sfxGainRef = useRef(null);
   const bgmGainRef = useRef(null);
-  const bgmSourceRef = useRef(null);
 
   const toggleUnitMode = (unit) => {
     setUnitModes((prev) => {
@@ -1182,23 +1098,13 @@ export default function EnglishTrapQuestions() {
       await ensureAudioResume();
 
       // === 🎵 問題中 / 復習中 ===
+      // === 🎵 問題中 / 復習中 ===
       if (showQuestions) {
-        // 🚫 BGMを確実に一旦停止（多重再生防止）
-        if (bgmSource) {
-          try {
-            bgmSource.stop(0);
-            console.log("[Audio] bgm stopped before question start");
-          } catch (e) {}
-          bgmSource = null;
-        }
+        // 🚫 旧BGMを確実に停止
+        await stopBgm(true);
+        await stopQbgm(true); // ←ここを追加して完全同期停止
 
-        if (qbgmSource) {
-          try {
-            qbgmSource.stop(0);
-            console.log("[Audio] qbgm stopped before question start");
-          } catch (e) {}
-          qbgmSource = null;
-        }
+        console.log("[Audio] all bgm stopped before new question start");
 
         // 🕒 iOS再生遅延対策：少し待つ
         await new Promise((r) => setTimeout(r, 300));
