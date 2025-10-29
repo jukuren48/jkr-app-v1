@@ -395,11 +395,6 @@ function HandwritingPad({
       ? currentQuestion.correctAnswers
       : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
 
-    //const correctArray = Array.isArray(rawCorrect)
-    //  ? rawCorrect
-    //  : String(rawCorrect)
-    //      .split(/\s*(\/|｜|\||,|，)\s*/)
-    //      .filter(Boolean);
     const correctArray = expandCorrects(rawCorrect);
 
     // ✅ 大文字小文字・句読点・空白を標準化
@@ -1188,7 +1183,7 @@ export default function EnglishTrapQuestions() {
 
       // === 🎵 問題中 or 復習中 ===
       if (showQuestions) {
-        // 🚫 旧BGM（単元選択時）を確実に停止してから問題BGM開始
+        // 🚫 旧BGMを確実に停止
         if (bgmSource) {
           try {
             bgmSource.stop(0);
@@ -1200,6 +1195,9 @@ export default function EnglishTrapQuestions() {
           globalUnitBgmPlaying = false;
           setUnitBgmPlaying(false);
         }
+
+        // 🕒 iOSでの重複防止：BGM停止後少し待つ
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
         // ✅ 復習モード
         if (isReviewMode) {
@@ -1245,7 +1243,6 @@ export default function EnglishTrapQuestions() {
 
       // === 🏫 単元選択画面 ===
       if (!showQuestions && !showResult) {
-        // 🚫 すでに単元選択BGM再生中ならスキップ
         if (globalUnitBgmPlaying && bgmSource && lastBgmType === "unit") {
           console.log("[Audio] bgm already playing → skip start");
           return;
