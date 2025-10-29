@@ -1167,7 +1167,7 @@ export default function EnglishTrapQuestions() {
     const applyBGM = async () => {
       initAudio();
 
-      // === 🔇 サウンドOFF時 ===
+      // 🔇 サウンドOFF時
       if (!soundEnabled) {
         stopQbgm(true);
         stopBgm(true);
@@ -1181,52 +1181,49 @@ export default function EnglishTrapQuestions() {
 
       await ensureAudioResume();
 
-      // === 🎵 問題中 or 復習中 ===
+      // === 🎵 問題中 / 復習中 ===
       if (showQuestions) {
-        // 🚫 旧BGMを確実に停止
+        // 🚫 BGMを確実に一旦停止（多重再生防止）
         if (bgmSource) {
           try {
             bgmSource.stop(0);
-            console.log("[Audio] stopped old bgm before question start");
-          } catch (e) {
-            console.warn("[Audio] stop old bgm failed:", e);
-          }
+            console.log("[Audio] bgm stopped before question start");
+          } catch (e) {}
           bgmSource = null;
-          globalUnitBgmPlaying = false;
-          setUnitBgmPlaying(false);
         }
 
-        // 🕒 iOSでの重複防止：BGM停止後少し待つ
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        if (qbgmSource) {
+          try {
+            qbgmSource.stop(0);
+            console.log("[Audio] qbgm stopped before question start");
+          } catch (e) {}
+          qbgmSource = null;
+        }
+
+        // 🕒 iOS再生遅延対策：少し待つ
+        await new Promise((r) => setTimeout(r, 300));
 
         // ✅ 復習モード
         if (isReviewMode) {
-          if (qbgmSource && lastBgmType === "review") {
-            console.log("[Audio] review BGM already playing → skip");
-            return;
+          if (lastBgmType !== "review") {
+            await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
+            fadeInBGM(qbgmGain, 0.4, 2.0);
+            lastBgmType = "review";
+            console.log("[Audio] ▶ review BGM started");
+          } else {
+            console.log("[Audio] review BGM already active → skip");
           }
-
-          stopQbgm(true);
-          await ensureAudioResume();
-          await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
-          fadeInBGM(qbgmGain, 0.4, 3.0);
-          lastBgmType = "review";
-          console.log("[Audio] review BGM started");
         } else {
-          // ✅ 通常の問題BGM
-          if (qbgmSource && lastBgmType === "question") {
-            console.log("[Audio] qbgm already playing → skip");
-            return;
+          // ✅ 通常モード
+          if (lastBgmType !== "question") {
+            await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm", true);
+            fadeInBGM(qbgmGain, 0.4, 2.0);
+            lastBgmType = "question";
+            console.log("[Audio] ▶ question BGM started");
+          } else {
+            console.log("[Audio] question BGM already active → skip");
           }
-
-          stopQbgm(true);
-          await ensureAudioResume();
-          await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm", true);
-          fadeInBGM(qbgmGain, 0.4, 3.0);
-          lastBgmType = "question";
-          console.log("[Audio] question BGM started");
         }
-
         return;
       }
 
@@ -1236,39 +1233,33 @@ export default function EnglishTrapQuestions() {
           fadeInBGM(qbgmGain, 0, 1.0);
           setTimeout(() => stopQbgm(true), 1200);
           lastBgmType = "result";
-          console.log("[Audio] result screen → stop qbgm");
+          console.log("[Audio] ▶ result BGM fadeout");
         }
         return;
       }
 
       // === 🏫 単元選択画面 ===
       if (!showQuestions && !showResult) {
-        if (globalUnitBgmPlaying && bgmSource && lastBgmType === "unit") {
-          console.log("[Audio] bgm already playing → skip start");
+        // 🚫 既に単元BGMが流れていればスキップ
+        if (lastBgmType === "unit" && bgmSource) {
+          console.log("[Audio] unit BGM already active → skip");
           return;
         }
 
-        try {
-          stopQbgm(true);
-
-          if (bgmSource) {
-            try {
-              bgmSource.stop(0);
-            } catch (_) {}
-            bgmSource = null;
-          }
-
-          await ensureAudioResume();
-          await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true);
-          fadeInBGM(bgmGain, 0.4, 2.0);
-
-          globalUnitBgmPlaying = true;
-          setUnitBgmPlaying(true);
-          lastBgmType = "unit";
-          console.log("[Audio] bgm started for unit select (once only)");
-        } catch (e) {
-          console.warn("[Audio] bgm start failed:", e);
+        // 🎵 他のBGMをすべて止めてから再生
+        stopQbgm(true);
+        if (bgmSource) {
+          try {
+            bgmSource.stop(0);
+          } catch (e) {}
+          bgmSource = null;
         }
+
+        await ensureAudioResume();
+        await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true);
+        fadeInBGM(bgmGain, 0.4, 2.0);
+        lastBgmType = "unit";
+        console.log("[Audio] ▶ unit BGM started");
       }
     };
 
@@ -1276,17 +1267,17 @@ export default function EnglishTrapQuestions() {
 
     // ✅ クリーンアップ
     return () => {
-      if (showQuestions || showResult) return;
-
       try {
-        stopQbgm(true);
-        stopBgm(true);
-        bgmSource = null;
-        qbgmSource = null;
-        globalUnitBgmPlaying = false;
-        setUnitBgmPlaying(false);
-        lastBgmType = null;
-        console.log("[Audio] cleanup complete (no residual sound)");
+        if (!showQuestions && !showResult) {
+          stopQbgm(true);
+          stopBgm(true);
+          bgmSource = null;
+          qbgmSource = null;
+          lastBgmType = null;
+          globalUnitBgmPlaying = false;
+          setUnitBgmPlaying(false);
+          console.log("[Audio] cleanup done");
+        }
       } catch (e) {
         console.warn("[Audio] cleanup error:", e);
       }
