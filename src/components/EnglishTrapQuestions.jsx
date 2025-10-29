@@ -16,6 +16,7 @@ let isQbgmPlaying = false;
 // ===== BGM多重再生防止のグローバルフラグ =====
 let globalUnitBgmPlaying = false;
 let lastBgmType = null;
+let bgmInitLock = false;
 
 function unlockAudio() {
   if (audioCtx && audioCtx.state === "suspended") {
@@ -53,6 +54,21 @@ function initAudio() {
   }
 }
 
+function resetAudioState() {
+  try {
+    stopBgm(true);
+    stopQbgm(true);
+  } catch (e) {
+    console.warn("[Audio] resetAudioState failed:", e);
+  }
+
+  bgmSource = null;
+  qbgmSource = null;
+  globalUnitBgmPlaying = false;
+  lastBgmType = null;
+  console.log("[Audio] full resetAudioState() complete");
+}
+
 async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
   initAudio();
 
@@ -69,23 +85,13 @@ async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
 
   // ✅ 強制リロード or 再生前に他の音を確実に止める
   try {
-    // 🎯 どのモードでもbgmを先に止める（特にqbgm再生前に重要）
-    if (bgmSource) {
-      bgmSource.stop(0);
-      bgmSource = null;
-      console.log("[ensureLoop] stopped bgm (safety)");
-    }
-
-    if (storeRefName === "bgm" && bgmSource) {
-      bgmSource.stop(0);
-      bgmSource = null;
-      console.log("[ensureLoop] force stop bgm");
-    }
-    if (storeRefName === "qbgm" && qbgmSource) {
-      qbgmSource.stop(0);
-      qbgmSource = null;
-      console.log("[ensureLoop] force stop qbgm");
-    }
+    // 🎯 再生する前に確実に既存のbgmを止める
+    stopBgm(true);
+    stopQbgm(true);
+    bgmSource = null;
+    qbgmSource = null;
+    globalUnitBgmPlaying = false;
+    console.log("[ensureLoop] force cleared both bgm/qbgm before start");
   } catch (e) {
     console.warn("[ensureLoop] force stop error:", e);
   }
@@ -295,6 +301,7 @@ function HandwritingPad({
   onCharRecognized,
   onSpace,
   onClearAll,
+
   onSubmitAnswer,
   currentAnswer,
   currentQuestion,
@@ -1119,12 +1126,27 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     const applyBGM = async () => {
+      console.log(
+        `[AudioDebug] applyBGM() triggered: ${Date.now()} state=${lastBgmType}`
+      );
+
       initAudio();
+
+      // 🧹 iOS再ロード時・Fast Refresh対策
+      if (
+        audioCtx &&
+        audioCtx.state === "running" &&
+        showQuestions &&
+        bgmSource
+      ) {
+        console.log("[Audio] cleanup residual BGM before question start");
+        resetAudioState();
+      }
 
       // === 🔇 サウンドOFF時 ===
       if (!soundEnabled) {
-        stopQbgm(true);
-        stopBgm(true);
+        //stopQbgm(true);
+        //stopBgm(true);
 
         if (audioCtx && audioCtx.state === "running") {
           try {
@@ -1134,9 +1156,10 @@ export default function EnglishTrapQuestions() {
             console.warn("[Audio] suspend failed:", e);
           }
         }
-
-        bgmGain.gain.value = 0;
-        qbgmGain.gain.value = 0;
+        stopQbgm(true);
+        stopBgm(true);
+        //bgmGain.gain.value = 0;
+        //qbgmGain.gain.value = 0;
         globalUnitBgmPlaying = false;
         setUnitBgmPlaying(false);
         lastBgmType = null;
@@ -1178,12 +1201,21 @@ export default function EnglishTrapQuestions() {
 
       // === 🏫 単元選択画面 ===
       if (!showQuestions && !showResult) {
-        // 初回ロード時 or 戻ってきた時のみ再生
-        if (!globalUnitBgmPlaying && !bgmSource) {
+        // 🚫 BGMがすでに存在または再生中なら完全スキップ
+        // 🚫 二重起動防止ロック
+        if (
+          bgmInitLock ||
+          bgmSource ||
+          globalUnitBgmPlaying ||
+          lastBgmType === "unit"
+        ) {
+          console.log("[Audio] bgm already active or locked → skip start");
+        } else {
+          bgmInitLock = true;
           try {
-            stopQbgm(true);
+            stopQbgm(true); // 念のため他BGM停止
 
-            await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm", true);
+            await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm");
             fadeInBGM(bgmGain, 0.4, 2.0);
 
             globalUnitBgmPlaying = true;
@@ -1193,12 +1225,15 @@ export default function EnglishTrapQuestions() {
             console.log("[Audio] bgm started (unit select)");
           } catch (e) {
             console.warn("[Audio] bgm start failed:", e);
+          } finally {
+            // 🕒 500ms後にロック解除（再レンダー安全対策）
+            setTimeout(() => {
+              bgmInitLock = false;
+            }, 500);
           }
-        } else {
-          console.log("[Audio] skip bgm (already playing)");
         }
 
-        // 🔊 初回ロードで「選択してください」再生
+        // 🔊 初回ロードで「選択してください」再生（重複防止済み）
         if (firstLoadRef.current) {
           firstLoadRef.current = false;
           playSFX("/sounds/sentaku.mp3");
@@ -1213,6 +1248,7 @@ export default function EnglishTrapQuestions() {
     // ✅ クリーンアップ（不要な音残留防止）
     return () => {
       if (showQuestions || showResult) return;
+      resetAudioState();
       stopQbgm(true);
       stopBgm(true);
       bgmSource = null;
@@ -1506,32 +1542,43 @@ export default function EnglishTrapQuestions() {
   }, [showResult]);
 
   // ✅ BGMを安全に停止する関数（多重再生防止）
-  const stopBgm = (immediate = false) => {
+  function stopBgm(immediate = false) {
     try {
       if (bgmSource) {
+        const now = audioCtx.currentTime;
         if (immediate) {
           bgmSource.stop(0);
-          console.log("[Audio] bgm stopped (immediate)");
+          console.log("[Audio] bgm stopped immediately");
         } else {
-          const now = audioCtx.currentTime;
-          bgmGain.gain.cancelScheduledValues(now);
-          bgmGain.gain.setValueAtTime(bgmGain.gain.value, now);
-          bgmGain.gain.linearRampToValueAtTime(0, now + 1.0);
+          // 🎚 フェードアウト → 完全停止
+          const gain = bgmGain?.gain;
+          if (gain) {
+            gain.cancelScheduledValues(now);
+            gain.setValueAtTime(gain.value, now);
+            gain.linearRampToValueAtTime(0, now + 1.0);
+          }
           setTimeout(() => {
             try {
               bgmSource.stop(0);
-              console.log("[Audio] bgm stopped (fade out)");
+              console.log("[Audio] bgm stopped after fade");
             } catch (e) {
               console.warn("[Audio] bgm stop failed:", e);
             }
           }, 1000);
         }
+
+        // ✅ 完全破棄
+        bgmSource.disconnect();
         bgmSource = null;
+        globalUnitBgmPlaying = false;
+        lastBgmType = null;
+      } else {
+        console.log("[Audio] no bgmSource to stop");
       }
     } catch (e) {
       console.warn("[Audio] stopBgm() error:", e);
     }
-  };
+  }
 
   useEffect(() => {
     if (currentQuestion?.choices) {
