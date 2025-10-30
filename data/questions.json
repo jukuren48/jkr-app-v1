@@ -473,6 +473,116 @@
     "type": "multiple-choice"
   },
   {
+    "id": "f1a9c7a4-4e56-4f6a-9b7d-12fbd2a8e23f",
+    "unit": "不定詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼は何か飲むものが欲しいと言いました。\n( something / said / he / to / drink / wanted ).",
+    "choices": [],
+    "correct": "He said he wanted something to drink.",
+    "explanation": "『something to drink』で『飲むもの』という意味の不定詞の形容詞的用法です。『want 人 to～』の形ではありませんので注意。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "a7d9f8b1-89e3-4fbb-8e6f-1c1a5fb310c2",
+    "unit": "不定詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はそのニュースを聞いてうれしかったです。\n( hear / happy / I / was / to / the / news ).",
+    "choices": [],
+    "correct": "I was happy to hear the news.",
+    "explanation": "『be happy to～』で『～してうれしい』という意味。不定詞の副詞的用法（感情の原因）を表しています。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b8a2e3c5-6df7-4e5d-8364-3a8e2d70d4a1",
+    "unit": "不定詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女は医者になることを望んでいます。\n( be / wants / a / to / she / doctor ).",
+    "choices": [],
+    "correct": "She wants to be a doctor.",
+    "explanation": "『want to～』で『～したい』を意味します。名詞『a doctor』の前に『to be』が入る形を忘れないようにしましょう。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c6f85b29-8f20-49e4-9a9c-b75b0f71a96e",
+    "unit": "不定詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼は私に何をすべきか教えてくれました。\n( to / me / what / he / told / do ).",
+    "choices": [],
+    "correct": "He told me what to do.",
+    "explanation": "『疑問詞＋to不定詞』の形で『何を～すべきか』を表します。関係代名詞ではなく、名詞節を作る用法に注意。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d4c77c82-f61e-4a8b-b2a2-6bff58ad34a7",
+    "unit": "不定詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nその部屋は掃除するには広すぎます。\n( to / is / the / clean / too / large / room ).",
+    "choices": [],
+    "correct": "The room is too large to clean.",
+    "explanation": "『too ～ to ...』で『～すぎて…できない』を意味します。形容詞『large』の後に『to clean』を置くのがポイントです。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "a3bdf07c-81a9-4f28-a331-52a7b23e39d4",
+    "unit": "動名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は外国へ行くことに興味があります。\n( going / interested / I / am / abroad / in ).",
+    "choices": [],
+    "correct": "I am interested in going abroad.",
+    "explanation": "『be interested in ～』の後は名詞（または動名詞）を置きます。『in going abroad』で『外国へ行くことに興味がある』となります。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b7d2c2f9-2af3-4c09-a5de-7b0f8f81409e",
+    "unit": "動名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はそのニュースを聞いたことを覚えています。\n( remembers / news / the / hearing / he ).",
+    "choices": [],
+    "correct": "He remembers hearing the news.",
+    "explanation": "『remember doing』で『～したことを覚えている』。一方『remember to do』は『～するのを忘れずに』なので混同注意。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c6a918f2-2c8c-48d5-b1c7-efda02eb8c18",
+    "unit": "動名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nその少年はボールを窓に投げたことを認めました。\n( the / boy / throwing / the / admitted / ball / window / at ).",
+    "choices": [],
+    "correct": "The boy admitted throwing the ball at the window.",
+    "explanation": "『admit doing』で『～したことを認める』という表現です。『admit to do』にはできません。不定詞ではなく動名詞を使うのがポイント。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d2cb3bcf-5c61-4d27-a23b-8c541f0c08a7",
+    "unit": "動名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はその仕事を終えることをあきらめました。\n( the / gave / job / up / finishing / he ).",
+    "choices": [],
+    "correct": "He gave up finishing the job.",
+    "explanation": "『give up ～ing』で『～するのをあきらめる』。熟語『give up』の後は必ず動名詞を置きます。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e9f3a171-2d16-49b1-a91d-0d9d2aaf94f6",
+    "unit": "動名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は早起きすることに慣れています。\n( getting / used / to / I / up / am / early ).",
+    "choices": [],
+    "correct": "I am used to getting up early.",
+    "explanation": "『be used to ～ing』で『～することに慣れている』を表します。『to』は前置詞なので、後ろは動名詞になる点に注意。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
     "id": "7ff5e97c-7ac3-4283-9223-729fab45894a",
     "unit": "付加疑問文",
     "question": "You’re from Tokyo, (  )?",
@@ -486,6 +596,116 @@
     },
     "format": "適語補充",
     "type": "multiple-choice"
+  },
+  {
+    "id": "a2e4b9c7-81f5-44db-8d7c-92b13a4f34c9",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは学生ですよね。\n( are / a / student / you / , / aren’t / you ).",
+    "choices": [],
+    "correct": "You are a student, aren’t you?",
+    "explanation": "基本形：肯定文＋否定のタグ。『You are a student, aren’t you?』で『あなたは学生ですよね』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b4f7e6a3-52c9-4d26-9b9f-1e56c92b4e52",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼は昨日忙しくなかったですよね。\n( wasn’t / yesterday / he / busy / , / was / he ).",
+    "choices": [],
+    "correct": "He wasn’t busy yesterday, was he?",
+    "explanation": "否定文＋肯定のタグの形。『wasn’t ～, was he?』が自然な構造です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c6b3f8a1-9e4a-4a3b-93f5-4b09b9d832db",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女はピアノを弾くのが上手ですよね。\n( plays / she / well / the / piano / , / doesn’t / she ).",
+    "choices": [],
+    "correct": "She plays the piano well, doesn’t she?",
+    "explanation": "一般動詞のときは助動詞『do』を使ってタグを作ります。『doesn’t she?』が正しい形です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d9f1e5b8-54f1-45ab-b73a-6b5c6e1cf0d2",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこの本は面白いですよね。\n( this / , / interesting / book / is / isn’t / it ).",
+    "choices": [],
+    "correct": "This book is interesting, isn’t it?",
+    "explanation": "be動詞の肯定文＋否定タグのパターン。主語が『this book』なのでタグは『it』になります。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e8c9f3a2-2b5e-4983-bd7f-85fa3a7b943d",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nドアを閉めてくれますね。（命令文＋付加疑問）\n( the / door / , / will / shut / you ).",
+    "choices": [],
+    "correct": "Shut the door, will you?",
+    "explanation": "命令文＋付加疑問は『will you?』で依頼の意味になります。『won’t you?』だと少し丁寧な響きになります。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "a3e2b9d7-5c72-4b81-9b8a-1b3a43cfe2e7",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はほとんど外出しませんよね。\n( goes / he / , / hardly / does / he ).",
+    "choices": [],
+    "correct": "He hardly goes out, does he?",
+    "explanation": "『hardly（ほとんど～ない）』は否定の意味を含むため、タグは肯定形になります。『does he?』が正解。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b5f1d8e6-6a83-4e2e-9a34-3c5d90a3b7e1",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n誰もそのことを知らないですよね。\n( knows / , / does / no / one / he ).",
+    "choices": [],
+    "correct": "No one knows it, do they?",
+    "explanation": "『no one』『nobody』は否定の意味を含むため、タグは肯定（do they?）になります。主語は『they』で受けるのが自然です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c8b7f2a9-2d13-4a8f-9b9c-1a54dce2e6b0",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの人はあなたのお父さんですよね。\n( that / your / , / is / father / he / isn’t ).",
+    "choices": [],
+    "correct": "That’s your father, isn’t he?",
+    "explanation": "『That’s ～』のタグは『isn’t it?』ではなく、主語が『he』の場合は『isn’t he?』になります。意味上の主語で一致させます。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d2a5c7f4-4b19-4c3b-8e6c-8a3a72b9e0e8",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nみんなパーティーに来るんですよね。\n( everyone / , / will / won’t / come / they ).",
+    "choices": [],
+    "correct": "Everyone will come, won’t they?",
+    "explanation": "『everyone（みんな）』は単数扱いだが、タグでは慣例的に『they』で受けます。『won’t they?』が正しい形です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e6d9b1a5-48b2-4c4d-9a45-67b1e83d9cf7",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもうそろそろ出発しましょうか。\n( , / shall / go / we / now ).",
+    "choices": [],
+    "correct": "Let’s go now, shall we?",
+    "explanation": "『Let’s ～, shall we?』は提案を柔らかくする付加疑問。『will we?』ではなく『shall we?』が決まり文句です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
   },
   {
     "id": "11a03566-d035-4c19-a5d3-403153f99ec9",
@@ -511,6 +731,116 @@
     "explanation": "仮定法過去でIf I were you, I would + 動詞の原形を使います。",
     "incorrectExplanations": {},
     "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "a1e8d7f2-3f7b-4a6b-98d2-6b5a9d3f7a23",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし私が鳥なら、空を飛べるのに。\n( fly / I / if / a / were / I / bird / could ).",
+    "choices": [],
+    "correct": "If I were a bird, I could fly.",
+    "explanation": "仮定法過去では『be動詞』の形は主語に関係なく『were』を使います。『could』は可能の仮定。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b2f7e5a9-4d9e-48c1-bc81-3b0e5d1a6b92",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもしあのときもっと一生懸命勉強していたら、今は医者になっているでしょう。\n( had / I / studied / then / harder / would / a / now / be / doctor ).",
+    "choices": [],
+    "correct": "If I had studied harder then, I would be a doctor now.",
+    "explanation": "『If＋仮定法過去完了』＋『主節に仮定法過去』で“混合仮定法”。過去の事実と現在の結果をつなげています。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c4e2b6f8-7c3b-42b7-b94b-1d0a6f8a5d90",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたが忙しくなければ、私と来られるのに。\n( with / come / if / weren’t / me / you / could / busy ).",
+    "choices": [],
+    "correct": "If you weren’t busy, you could come with me.",
+    "explanation": "仮定法過去。現在とは異なる仮定を表す。『be動詞→were』、助動詞『could』が条件を示す鍵。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d3c9f5e1-8a6c-4d81-b9f7-2b0a6e4a9b52",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし彼がここにいたら、そのことを知っていただろうに。\n( he / had / would / it / if / known / been / here / have ).",
+    "choices": [],
+    "correct": "If he had been here, he would have known it.",
+    "explanation": "仮定法過去完了。『If＋had＋過去分詞』で“過去の事実に反する仮定”を表します。主節は『would have＋過去分詞』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e5a8f6b3-4f0c-4a42-8b8b-4c8a1e3b7f11",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はあなたの立場なら、そのことをしないでしょう。\n( were / in / that / I / your / wouldn’t / do / case / it ).",
+    "choices": [],
+    "correct": "If I were in your case, I wouldn’t do it.",
+    "explanation": "『If I were you』や『If I were in your case』は仮定法の定番構文。助動詞は『would』を使い、現在の事実に反する仮定を表す。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "a2b7e8f4-9c3d-4fa1-9c72-3b5e8f13a6e4",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は今お金をもっと持っていたらいいのになあ。\n( I / money / wish / more / had / I ).",
+    "choices": [],
+    "correct": "I wish I had more money.",
+    "explanation": "『I wish＋過去形』で現在の事実に反する願望を表します。実際には『お金をあまり持っていない』ことを意味します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b3f8a5c2-4d6b-4f91-9b53-9c5a4a1b2f77",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼がここにいればいいのになあ。\n( he / wish / here / I / were ).",
+    "choices": [],
+    "correct": "I wish he were here.",
+    "explanation": "be動詞は主語に関係なく『were』を使います。『I wish he were here.』＝『彼がここにいればいいのに（実際はいない）』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c4e7d9a8-7f5b-4b92-99e3-1c9f9b0e7a6d",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n昨日もっと早く寝ていればよかったなあ。\n( I / had / gone / wish / to / bed / earlier ).",
+    "choices": [],
+    "correct": "I wish I had gone to bed earlier.",
+    "explanation": "『I wish＋過去完了』で過去の事実に反する後悔を表します。『もっと早く寝ていなかった』という意味になります。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d5a3c8e6-5b81-4d82-9a1a-3e7b1f6c5a88",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は英語を上手に話せたらいいのになあ。\n( wish / could / speak / I / I / English / well ).",
+    "choices": [],
+    "correct": "I wish I could speak English well.",
+    "explanation": "『I wish I could ～』で『～できたらいいのに（実際はできない）』という現在の非現実的願望を表します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e6f9b2a4-6c94-42a1-9e83-7f9a3e4b8a2d",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n外で雨が降っていなければいいのになあ。\n( I / raining / it / isn’t / wish / were / outside ).",
+    "choices": [],
+    "correct": "I wish it weren’t raining outside.",
+    "explanation": "『I wish it weren’t raining.』で『雨が降っていなければいいのに』。現在進行形＋仮定法過去の組み合わせで“今の状況の不満”を表します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
     "type": "input"
   },
   {
@@ -715,6 +1045,61 @@
     "explanation": "過去分詞paintedを使い『描かれた』を表現します。描く人が主語ではない点に注意。",
     "incorrectExplanations": {},
     "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "a2c8e5b1-0b8a-4ef5-9b4a-8a1cdd9ad0f2",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあそこで歌っている少女は私の妹です。\n( is / the / girl / there / my / singing / sister ).",
+    "choices": [],
+    "correct": "The girl singing there is my sister.",
+    "explanation": "『the girl singing there』で『あそこで歌っている少女』を表します。現在分詞が名詞を修飾する形容詞的用法です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b4e6da7f-3f14-45c1-b727-394e7e7d92a5",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n日本で作られた車はとても人気があります。\n( in / made / is / cars / popular / Japan / very ).",
+    "choices": [],
+    "correct": "Cars made in Japan are very popular.",
+    "explanation": "『cars made in Japan』で『日本で作られた車』。過去分詞が名詞を修飾する形容詞的用法です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c3f4b65e-67a1-4c0a-829f-5f1b5e4a3b8b",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nその知らせを聞いて彼女は驚きました。\n( was / news / she / the / by / surprised ).",
+    "choices": [],
+    "correct": "She was surprised by the news.",
+    "explanation": "『be surprised by ～』で『～に驚く』。感情を表す形容詞（過去分詞形）で、原因を表す前置詞には『by』を使います。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d5b8e13f-62c7-44e0-8579-0b2e2dfb87f9",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n笑っているその少年を知っていますか。\n( do / the / know / you / boy / laughing ).",
+    "choices": [],
+    "correct": "Do you know the boy laughing?",
+    "explanation": "『the boy laughing』で『笑っている少年』を表します。現在分詞が名詞を修飾する形容詞的用法です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e1a5f7d9-318d-43fa-bd7b-29bcd68baf35",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n雨が降っていたので、彼らは外出をやめました。\n( because / was / stopped / they / raining / going / it / out ).",
+    "choices": [],
+    "correct": "They stopped going out because it was raining.",
+    "explanation": "『it was raining』は進行形、『stopped going out』で『外出するのをやめた』。動名詞との区別も重要です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
     "type": "input"
   },
   {
@@ -2071,6 +2456,61 @@
     "type": "input"
   },
   {
+    "id": "a2e5b8c3-3a7a-4a6a-9ef3-8a4c3df72b44",
+    "unit": "比較",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこの川はあの川より長いです。\n( this / longer / is / river / than / that / one ).",
+    "choices": [],
+    "correct": "This river is longer than that one.",
+    "explanation": "比較級『～er than』を使った基本構文。『that one』で“あの川”を指しています。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b4d2f9a6-8a9c-4a02-843e-1a75f8b31d56",
+    "unit": "比較",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はクラスの中で一番速く走ります。\n( runs / the / class / in / he / fastest ).",
+    "choices": [],
+    "correct": "He runs fastest in the class.",
+    "explanation": "最上級ではなく副詞の最上級『runs fastest』。『in the class』で範囲を示します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c7b9d5e8-64b4-45d8-b5a7-63b02798c255",
+    "unit": "比較",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女は私と同じくらい背が高いです。\n( tall / as / I / as / is / she ).",
+    "choices": [],
+    "correct": "She is as tall as I am.",
+    "explanation": "原級比較『as＋形容詞＋as』を使った表現。後半の主語＋動詞『I am』まで書くのが正確です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d1e7a6b4-2d19-4f17-8f0a-83f0cb8e1b13",
+    "unit": "比較",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこの箱はあの箱の2倍の大きさです。\n( this / that / big / twice / box / is / as / as / one ).",
+    "choices": [],
+    "correct": "This box is twice as big as that one.",
+    "explanation": "『倍数表現＋as〜as』で『○倍の～』を表します。『twice as big as～』＝『～の2倍の大きさ』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e8f4c3d9-5b9f-4e29-93a5-8b41cb6a9477",
+    "unit": "比較",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこの問題は私が思っていたより難しいです。\n( is / than / I / difficult / thought / more / this / problem ).",
+    "choices": [],
+    "correct": "This problem is more difficult than I thought.",
+    "explanation": "『than I thought』で『思っていたよりも』という比較表現になります。『more difficult』は比較級です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
     "id": "6fa6caf1-2b22-41d2-a817-5e4171a1f5fb",
     "unit": "現在完了",
     "question": "「彼はロンドンに3回行ったことがあります。」を英語に訳しなさい。",
@@ -2117,6 +2557,61 @@
     },
     "format": "適語補充",
     "type": "multiple-choice"
+  },
+  {
+    "id": "a1c9f8e7-4d3a-4a26-b5cf-4c3df8b81750",
+    "unit": "現在完了",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は一度も外国に行ったことがありません。\n( have / I / been / never / abroad ).",
+    "choices": [],
+    "correct": "I have never been abroad.",
+    "explanation": "現在完了の経験用法。『have＋過去分詞』で『～したことがある』を表し、否定文では『never』を用いて『一度も～ない』を示します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b2d8a6f9-64d1-4a7e-bb82-7132b85a4e34",
+    "unit": "現在完了",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女は3年間ずっとここに住んでいます。\n( three / has / lived / for / years / she / here ).",
+    "choices": [],
+    "correct": "She has lived here for three years.",
+    "explanation": "現在完了の継続用法。『have＋過去分詞＋for（期間）』で『～の間ずっと～している』を表します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c3e1b9f2-825f-4743-b17d-9d9e8b4d42a7",
+    "unit": "現在完了",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はちょうど宿題を終えたところです。\n( my / finished / just / have / homework / I ).",
+    "choices": [],
+    "correct": "I have just finished my homework.",
+    "explanation": "現在完了の完了用法。『have just＋過去分詞』で『ちょうど～したところだ』を意味します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d4f5c8a1-3b7d-4b2c-a4e0-28de4b3af943",
+    "unit": "現在完了",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はすでにその映画を2回見ています。\n( that / has / twice / movie / seen / already / he ).",
+    "choices": [],
+    "correct": "He has already seen that movie twice.",
+    "explanation": "現在完了の経験用法。『have＋過去分詞＋回数』で『～を～回したことがある』。『already』は肯定文でよく使われます。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e5a2c4d6-7cb5-4b18-8619-24cc7b9e9c1d",
+    "unit": "現在完了",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n雨がやんでしまいました。\n( stopped / has / raining / it ).",
+    "choices": [],
+    "correct": "It has stopped raining.",
+    "explanation": "現在完了の結果用法。『It has stopped raining.』で『雨がやんでしまった（今はもう降っていない）』という現在の状態を表します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
   },
   {
     "id": "36821373-e817-452b-9589-ad7446c684db",
@@ -4057,6 +4552,61 @@
     "type": "input"
   },
   {
+    "id": "a8c2d6b7-9234-4fda-9360-3b91d0e1a17f",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私たちは昨夜雨が降った町に行きました。\n( last / we / to / went / which / it / rained / night / in / town / the ).",
+    "choices": [],
+    "correct": "We went to the town in which it rained last night.",
+    "explanation": "関係代名詞の前に前置詞を置く形。『the town in which it rained』＝『雨が降った町』。前置詞＋which は文語的で正確な表現です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b3f7e14d-d4de-45c1-bc4a-7850de214d9f",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はみんなに愛されている先生です。\n( who / loved / by / everyone / is / he / a / teacher ).",
+    "choices": [],
+    "correct": "He is a teacher who is loved by everyone.",
+    "explanation": "『who is loved by everyone』で『みんなに愛されている先生』。受け身の形にも注目。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c9b0d8c2-82f2-4973-b32a-f0c6e4030cf3",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこれは私が一番好きな映画です。\n( I / that / like / is / movie / the / this / best ).",
+    "choices": [],
+    "correct": "This is the movie that I like best.",
+    "explanation": "『that I like best』で『私が一番好きな～』を表す制限用法。目的格の関係代名詞 that は省略できるが、ここでは残して明示しています。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d4f9e1a6-bae0-43d4-a1cf-70a7a07a6d5b",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの犬の耳はとても長いです。\n( whose / is / dog / ears / long / very / that ).",
+    "choices": [],
+    "correct": "That is the dog whose ears are very long.",
+    "explanation": "『whose＋名詞』で『～の…』を表す関係代名詞。『the dog whose ears are long』＝『耳が長い犬』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e1c3b6c9-36db-472a-bbf3-29d61e2838ae",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこれは彼が最初に訪れた学校です。\n( which / this / is / he / first / visited / the / school ).",
+    "choices": [],
+    "correct": "This is the school which he visited first.",
+    "explanation": "『which he visited first』で『彼が最初に訪れた学校』。目的格の関係代名詞 which は省略も可能です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
     "id": "a1f7c3d6-5b2e-4d3a-9c71-2b8f5e7d9a10",
     "unit": "現在完了",
     "question": "I (  ) in Tokyo since 2020.",
@@ -4145,6 +4695,61 @@
     },
     "format": "適語補充",
     "type": "multiple-choice"
+  },
+  {
+    "id": "a1f8d9c2-83d7-4d79-8f05-8b27d79f5a91",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がどこに住んでいるか知っていますか。\n( know / lives / he / do / where ).",
+    "choices": [],
+    "correct": "Do you know where he lives?",
+    "explanation": "間接疑問文では語順が平叙文型になります。『Do you know where he lives?』で『彼がどこに住んでいるか知っていますか？』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b3e7a8f6-72a1-4c0e-8e90-9b98a0d3b7d0",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n先生は私に何をすべきか教えてくれました。\n( me / to / told / teacher / what / the / do ).",
+    "choices": [],
+    "correct": "The teacher told me what to do.",
+    "explanation": "『疑問詞＋to不定詞』で『何をすべきか』を表す。『tell 人 what to do』＝『人に何をすべきか教える』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c6b9f2e8-58a1-45ab-a3c1-72915e1c9e9b",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はなぜ彼が怒っているのか知りたいです。\n( angry / is / he / know / why / to / want / I ).",
+    "choices": [],
+    "correct": "I want to know why he is angry.",
+    "explanation": "『want to know＋間接疑問』で『なぜ～なのか知りたい』。間接疑問では『why he is angry』のように疑問文語順にしない点に注意。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d9c3b6f5-88df-4fb7-b9c8-18b4e403a58c",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がその問題を解けると思いますか。\n( can / that / he / do / think / you / it ).",
+    "choices": [],
+    "correct": "Do you think that he can do it?",
+    "explanation": "『Do you think that～？』は間接疑問ではなく、主節の中に疑問を埋め込む構文。『that』は省略も可だが、正式には残すのが自然。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e7f2a1d9-31b8-4de3-a9b1-47d43e5d97a3",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は彼女がいつ帰ってくるのか分かりません。\n( will / she / when / come / know / don’t / I / back ).",
+    "choices": [],
+    "correct": "I don’t know when she will come back.",
+    "explanation": "『I don’t know＋間接疑問』の形。疑問詞の後は平叙文語順『when she will come back』にします。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
   },
   {
     "id": "f1a2b3c4-d5e6-4f7a-8b9c-0a1b2c3d4e86",
