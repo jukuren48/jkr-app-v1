@@ -913,25 +913,25 @@ export default function EnglishTrapQuestions() {
     </div>
   );
 
-  // 🎙️ 日本語＋英語を自動切替して自然発音で読み上げ（改良版）
-  const speakExplanation = async (text) => {
+  // 🎙️ 日本語＋英語を自動切替して自然発音で読み上げ（明るい・スロー英語対応）
+  const speakSmartExplanation = async (text) => {
     if (!text || text.trim() === "") return;
 
-    // ✅ 英語部分を検出して分割
+    // ✅ 英単語や英文を分割
     const segments = text.split(/([A-Za-z][A-Za-z\s,'".!?-]*)/).filter(Boolean);
 
     for (const seg of segments) {
       const isEnglish = /[A-Za-z]/.test(seg);
       const lang = isEnglish ? "en-US" : "ja-JP";
 
-      // ✅ パラメータ調整
+      // ✅ 各セグメントごとの音声設定
       const body = {
         text: seg.trim(),
         lang,
-        // 🎧 英語はやや遅め・明るい声、日本語は自然速度
-        voiceName: isEnglish ? "en-US-Wavenet-F" : "ja-JP-Wavenet-B",
-        speakingRate: isEnglish ? 0.1 : 1.0,
-        pitch: isEnglish ? 5.0 : 0.0, // 英語だけ少し明るめ
+        // 🎧 明るく自然な音声に調整
+        voiceName: isEnglish ? "en-US-Wavenet-G" : "ja-JP-Wavenet-B",
+        speakingRate: isEnglish ? 0.75 : 1.0, // 英語はゆっくり・日本語は自然速度
+        pitch: isEnglish ? 4.0 : 0.0, // 英語は明るく軽いトーン
       };
 
       try {
@@ -950,7 +950,7 @@ export default function EnglishTrapQuestions() {
         const audio = new Audio(audioSrc);
         audio.volume = masterVol / 100;
 
-        // 区切りごとに順番に再生
+        // 🎵 セグメントごとに再生完了を待機
         await new Promise((resolve) => {
           audio.onended = resolve;
           audio.play().catch(resolve);
@@ -959,8 +959,8 @@ export default function EnglishTrapQuestions() {
         console.error("音声再生エラー:", err);
       }
 
-      // 🎧 英語と日本語の間の間隔を短縮（自然な流れ）
-      await new Promise((r) => setTimeout(r, 10)); // ← 0.1秒だけ間を置く
+      // 🎧 英語↔日本語の切り替え時のラグをほぼゼロに
+      await new Promise((r) => setTimeout(r, 30));
     }
   };
 
