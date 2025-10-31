@@ -913,25 +913,44 @@ export default function EnglishTrapQuestions() {
     </div>
   );
 
-  const speakExplanation = async (text, lang = "ja-JP") => {
+  // 🎙️ 日本語＋英語を自動切替して自然発音で読み上げ
+  const speakExplanation = async (text) => {
     if (!text || text.trim() === "") return;
-    try {
-      const res = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, lang }),
-      });
-      if (!res.ok) throw new Error("TTS API error");
 
-      const data = await res.json();
-      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
-        /\s+/g,
-        ""
-      )}`;
-      const audio = new Audio(audioSrc);
-      await audio.play();
-    } catch (err) {
-      console.error("音声再生エラー:", err);
+    // ✅ 英単語や英文を抽出（a-zやA-Zを含む部分を分離）
+    const segments = text.split(/([A-Za-z][A-Za-z\s,'".!?-]*)/).filter(Boolean);
+
+    for (const seg of segments) {
+      const isEnglish = /[A-Za-z]/.test(seg);
+      const lang = isEnglish ? "en-US" : "ja-JP";
+
+      try {
+        const res = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: seg.trim(), lang }),
+        });
+        if (!res.ok) throw new Error("TTS API error");
+
+        const data = await res.json();
+        const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
+          /\s+/g,
+          ""
+        )}`;
+        const audio = new Audio(audioSrc);
+        audio.volume = masterVol / 100;
+
+        // 区切りごとに順番に再生
+        await new Promise((resolve) => {
+          audio.onended = resolve;
+          audio.play().catch(resolve);
+        });
+      } catch (err) {
+        console.error("音声再生エラー:", err);
+      }
+
+      // 🎧 英語と日本語の間は0.3秒ほど間を置くと自然
+      await new Promise((r) => setTimeout(r, 300));
     }
   };
 
