@@ -5,6 +5,46 @@ import SignatureCanvas from "react-signature-canvas";
 import Tesseract from "tesseract.js";
 //import HandwritingPad from "./HandwritingPad";
 
+const BackgroundParticles = () => {
+  const particles = Array.from({ length: 18 });
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {particles.map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute bg-[#1CC5A3]/10 rounded-full blur-lg"
+          initial={{
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            scale: Math.random() * 0.6 + 0.3,
+            opacity: 0,
+          }}
+          animate={{
+            x: [
+              Math.random() * window.innerWidth,
+              Math.random() * window.innerWidth,
+            ],
+            y: [
+              Math.random() * window.innerHeight,
+              Math.random() * window.innerHeight,
+            ],
+            opacity: [0.4, 0.8, 0.4],
+          }}
+          transition={{
+            duration: 14 + Math.random() * 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          style={{
+            width: `${Math.random() * 70 + 30}px`,
+            height: `${Math.random() * 70 + 30}px`,
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
 let bgmGain, qbgmGain, sfxGain;
@@ -2102,229 +2142,218 @@ export default function EnglishTrapQuestions() {
         </div>
       )}
 
-      {/* 🎯 新スタート画面：複数形式選択＋単元グリッド＋正答率カラー */}
+      {/* 🌟 トップ画面（塾∞練デザイン統一版） */}
       {!showQuestions && !showResult && units.length > 0 && (
-        <div className="max-w-3xl mx-auto bg-[#F9F9F9] border border-[#E0E0E0] rounded-2xl p-6 shadow-lg">
-          {/* === 出題形式タブ（複数選択対応） === */}
-          <h1 className="text-2xl font-bold text-center mb-4 text-[#4A6572]">
-            🎯 出題形式を選ぼう！（複数選択OK）
-          </h1>
+        <div className="relative min-h-screen flex flex-col justify-start items-center overflow-hidden bg-gradient-to-br from-[#E0F7FA] via-white to-[#F1F8E9]">
+          {/* ✨ 背景アニメーション */}
+          <BackgroundParticles />
 
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {[
-              "単語・熟語",
-              "適語補充",
-              "適文補充",
-              "整序問題",
-              "英作文",
-              "長文読解",
-              "リスニング",
-            ].map((format) => {
-              const isSelected = selectedFormats.includes(format);
-              return (
-                <button
-                  key={format}
-                  onClick={() =>
-                    playButtonSound(() => {
-                      setSelectedFormats(
-                        (prev) =>
-                          prev.includes(format)
-                            ? prev.filter((f) => f !== format) // OFF
-                            : [...prev, format] // ON
-                      );
-                    })
-                  }
-                  className={`px-3 py-2 rounded-full shadow-sm text-sm font-semibold transition-all ${
-                    isSelected
-                      ? "bg-gradient-to-r from-pink-400 to-orange-400 text-white scale-105"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
-                >
-                  {format}
-                </button>
-              );
-            })}
-          </div>
+          {/* 🏷️ タイトル */}
+          <header className="text-center mt-8 mb-6 z-10">
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1CC5A3] tracking-wide drop-shadow-md">
+              英語ひっかけ問題
+            </h1>
+            <p className="text-gray-600 font-semibold text-sm sm:text-base mt-1">
+              ～ 塾∞練からの挑戦状 ～
+            </p>
+          </header>
 
-          {/* === 現在の選択状態 === */}
-          <motion.h2
-            key={selectedFormats.join(",")}
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="text-center text-lg font-bold text-[#4A6572] mb-3"
-          >
-            📘{" "}
-            {selectedFormats.length > 0
-              ? `${selectedFormats.join("・")} の単元を選ぼう！`
-              : "出題形式を選んでください"}
-          </motion.h2>
+          {/* 🧩 メインカード */}
+          <main className="w-[92%] sm:w-[80%] md:w-[70%] lg:w-[60%] bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-6 z-10">
+            {/* === 出題形式タブ === */}
+            <h2 className="text-2xl font-bold text-center mb-4 text-[#4A6572]">
+              🎯 出題形式を選ぼう！（複数選択OK）
+            </h2>
 
-          {/* === 全選択・全解除ボタン === */}
-          <div className="flex justify-center gap-3 mb-3">
-            <button
-              onClick={() => playButtonSound(selectAllUnits)}
-              className="bg-green-400 hover:bg-green-500 text-white px-4 py-1.5 rounded-full shadow text-sm"
-            >
-              全選択
-            </button>
-            <button
-              onClick={() => playButtonSound(clearAllUnits)}
-              className="bg-red-400 hover:bg-red-500 text-white px-4 py-1.5 rounded-full shadow text-sm"
-            >
-              全解除
-            </button>
-          </div>
-
-          <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg">
-            {/* === 単元グリッド（視認性・統一感UP版） === */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-8">
-              {Array.from(new Set(questions.map((q) => q.unit))).map((unit) => {
-                const mode = unitModes[unit] || 0;
-
-                // 背景＋文字カラー設定
-                let bgClass =
-                  "bg-white border border-gray-300 text-gray-800 hover:bg-gray-100";
-                if (mode === 1)
-                  bgClass =
-                    "bg-gradient-to-b from-green-300 to-green-500 text-white border-green-500 shadow-md hover:scale-[1.03]";
-                else if (mode === 2)
-                  bgClass =
-                    "bg-gradient-to-b from-blue-300 to-blue-500 text-white border-blue-500 shadow-md hover:scale-[1.03]";
-                else if (mode === 3)
-                  bgClass =
-                    "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.03]";
-
-                // 正答率カラー（右上ラベル用）
-                const stat = unitStats[unit];
-                let badgeColor = "bg-gray-300";
-                if (stat && stat.total > 0) {
-                  const rate = stat.wrong / stat.total;
-                  if (rate === 0) badgeColor = "bg-green-600";
-                  else if (rate <= 0.1) badgeColor = "bg-green-400";
-                  else if (rate <= 0.2) badgeColor = "bg-yellow-400";
-                  else if (rate <= 0.3) badgeColor = "bg-orange-400";
-                  else badgeColor = "bg-red-500";
-                }
-
+            <div className="flex flex-wrap justify-center gap-2 mb-4">
+              {[
+                "単語・熟語",
+                "適語補充",
+                "適文補充",
+                "整序問題",
+                "英作文",
+                "長文読解",
+                "リスニング",
+              ].map((format) => {
+                const isSelected = selectedFormats.includes(format);
                 return (
-                  <motion.button
-                    key={unit}
-                    whileTap={{ scale: 0.93 }}
-                    onClick={() => playButtonSound(() => toggleUnitMode(unit))}
-                    className={`relative rounded-2xl text-sm font-bold shadow-sm px-3 py-2 min-w-[80px] text-center transition-all duration-200 ease-out transform ${bgClass}`}
-                    style={{ transformOrigin: "center center" }}
+                  <button
+                    key={format}
+                    onClick={() =>
+                      playButtonSound(() => {
+                        setSelectedFormats((prev) =>
+                          prev.includes(format)
+                            ? prev.filter((f) => f !== format)
+                            : [...prev, format]
+                        );
+                      })
+                    }
+                    className={`px-3 py-2 rounded-full shadow-sm text-sm font-semibold transition-all ${
+                      isSelected
+                        ? "bg-gradient-to-r from-pink-400 to-orange-400 text-white scale-105"
+                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
                   >
-                    {/* 単元名 */}
-                    <span className="drop-shadow-sm text-base sm:text-lg tracking-wide">
-                      {unit}
-                    </span>
-
-                    {/* 正答率ラベル */}
-                    {stat && stat.total > 0 && (
-                      <span
-                        className={`absolute -top-1.5 -right-1.5 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
-                      >
-                        {Math.round(
-                          ((stat.total - stat.wrong) / stat.total) * 100
-                        )}
-                        %
-                      </span>
-                    )}
-                  </motion.button>
+                    {format}
+                  </button>
                 );
               })}
             </div>
-          </div>
 
-          {/* === 出題数選択 === */}
-          <h2 className="text-lg font-bold text-[#4A6572] mb-2 text-center">
-            出題数を選ぼう！
-          </h2>
-          <div className="flex gap-3 flex-wrap justify-center mb-4">
-            {[5, 10, 15, "all"].map((count) => (
-              <button
-                key={count}
-                onClick={() => playButtonSound(() => setQuestionCount(count))}
-                className={`px-4 py-2 rounded-full border shadow-sm transition text-sm ${
-                  questionCount === count
-                    ? "bg-[#A7D5C0] text-[#4A6572] font-bold scale-105"
-                    : "bg-white text-[#4A6572] hover:bg-[#F1F1F1]"
-                }`}
-              >
-                {count === "all" ? "すべて" : `${count}問`}
-              </button>
-            ))}
-          </div>
-
-          {/* === サウンド・単語帳 === */}
-          <div className="flex justify-center gap-3 mb-4">
-            <button
-              onClick={() => playButtonSound(() => setShowWordList(true))}
-              className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow transition"
+            <motion.h2
+              key={selectedFormats.join(",")}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-center text-lg font-bold text-[#4A6572] mb-3"
             >
-              📖 単語帳（{wordList.length}件）
-            </button>
+              📘{" "}
+              {selectedFormats.length > 0
+                ? `${selectedFormats.join("・")} の単元を選ぼう！`
+                : "出題形式を選んでください"}
+            </motion.h2>
 
-            <button
-              onClick={async () => {
-                if (audioCtx && audioCtx.state === "suspended") {
-                  try {
-                    await audioCtx.resume();
-                  } catch (e) {
-                    console.warn("[Audio] resume failed", e);
+            {/* === 単元グリッド === */}
+            <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg mb-6">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-8">
+                {Array.from(new Set(questions.map((q) => q.unit))).map(
+                  (unit) => {
+                    const mode = unitModes[unit] || 0;
+                    let bgClass =
+                      "bg-white border border-gray-300 text-gray-800 hover:bg-gray-100";
+                    if (mode === 1)
+                      bgClass =
+                        "bg-gradient-to-b from-green-300 to-green-500 text-white border-green-500 shadow-md hover:scale-[1.03]";
+                    else if (mode === 2)
+                      bgClass =
+                        "bg-gradient-to-b from-blue-300 to-blue-500 text-white border-blue-500 shadow-md hover:scale-[1.03]";
+                    else if (mode === 3)
+                      bgClass =
+                        "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.03]";
+
+                    const stat = unitStats[unit];
+                    let badgeColor = "bg-gray-300";
+                    if (stat && stat.total > 0) {
+                      const rate = stat.wrong / stat.total;
+                      if (rate === 0) badgeColor = "bg-green-600";
+                      else if (rate <= 0.1) badgeColor = "bg-green-400";
+                      else if (rate <= 0.2) badgeColor = "bg-yellow-400";
+                      else if (rate <= 0.3) badgeColor = "bg-orange-400";
+                      else badgeColor = "bg-red-500";
+                    }
+
+                    return (
+                      <motion.button
+                        key={unit}
+                        whileTap={{ scale: 0.93 }}
+                        onClick={() =>
+                          playButtonSound(() => toggleUnitMode(unit))
+                        }
+                        className={`relative rounded-2xl text-sm font-bold shadow-sm px-3 py-2 min-w-[80px] text-center transition-all duration-200 ease-out transform ${bgClass}`}
+                      >
+                        <span className="drop-shadow-sm text-base sm:text-lg tracking-wide">
+                          {unit}
+                        </span>
+
+                        {stat && stat.total > 0 && (
+                          <span
+                            className={`absolute -top-1.5 -right-1.5 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
+                          >
+                            {Math.round(
+                              ((stat.total - stat.wrong) / stat.total) * 100
+                            )}
+                            %
+                          </span>
+                        )}
+                      </motion.button>
+                    );
                   }
+                )}
+              </div>
+            </div>
+
+            {/* === 出題数・単語帳・サウンド設定 === */}
+            <div className="text-center space-y-4">
+              <h2 className="text-lg font-bold text-[#4A6572]">
+                出題数を選ぼう！
+              </h2>
+              <div className="flex gap-3 flex-wrap justify-center mb-2">
+                {[5, 10, 15, "all"].map((count) => (
+                  <button
+                    key={count}
+                    onClick={() =>
+                      playButtonSound(() => setQuestionCount(count))
+                    }
+                    className={`px-4 py-2 rounded-full border shadow-sm transition text-sm ${
+                      questionCount === count
+                        ? "bg-[#A7D5C0] text-[#4A6572] font-bold scale-105"
+                        : "bg-white text-[#4A6572] hover:bg-[#F1F1F1]"
+                    }`}
+                  >
+                    {count === "all" ? "すべて" : `${count}問`}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex justify-center gap-3 flex-wrap">
+                <button
+                  onClick={() => playButtonSound(() => setShowWordList(true))}
+                  className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow transition"
+                >
+                  📖 単語帳（{wordList.length}件）
+                </button>
+
+                <button
+                  onClick={async () => {
+                    if (audioCtx && audioCtx.state === "suspended") {
+                      try {
+                        await audioCtx.resume();
+                      } catch (e) {
+                        console.warn("[Audio] resume failed", e);
+                      }
+                    }
+                    setSoundEnabled((prev) => !prev);
+                  }}
+                  className={`px-4 py-2 rounded-full shadow transition text-sm font-semibold ${
+                    soundEnabled
+                      ? "bg-green-400 text-white"
+                      : "bg-gray-300 text-gray-800"
+                  }`}
+                >
+                  {soundEnabled ? "🔊 サウンドOFF" : "🔈 サウンドON"}
+                </button>
+              </div>
+            </div>
+
+            {/* === スタートボタン === */}
+            <button
+              onClick={() => {
+                if (selectedFormats.length === 0) {
+                  alert("出題形式を1つ以上選んでください。");
+                  return;
                 }
-                setSoundEnabled((prev) => !prev);
+                if (filtered.length === 0) {
+                  alert("選択した単元に問題がありません。");
+                  return;
+                }
+                initAudio();
+                startQuiz();
               }}
-              className={`px-4 py-2 rounded-full shadow transition text-sm font-semibold ${
-                soundEnabled
-                  ? "bg-green-400 text-white"
-                  : "bg-gray-300 text-gray-800"
+              disabled={units.length === 0 || !questionCount}
+              className={`mt-8 rounded-full px-8 py-3 shadow-lg font-bold mx-auto block transition text-lg ${
+                units.length === 0 || !questionCount
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white scale-105"
               }`}
             >
-              {soundEnabled ? "🔊 サウンドOFF" : "🔈 サウンドON"}
+              🚀 スタート！
             </button>
-          </div>
+          </main>
 
-          {/* === OCR切替 === */}
-          <div className="text-center mb-4">
-            <label className="text-sm text-gray-700 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={ocrEngine === "vision"}
-                onChange={() =>
-                  setOcrEngine(ocrEngine === "vision" ? "tesseract" : "vision")
-                }
-                className="mr-1"
-              />
-              高精度OCR（Google Vision）を使う
-            </label>
-          </div>
-
-          {/* === スタートボタン === */}
-          <button
-            onClick={() => {
-              if (selectedFormats.length === 0) {
-                alert("出題形式を1つ以上選んでください。");
-                return;
-              }
-              if (filtered.length === 0) {
-                alert("選択した単元に問題がありません。");
-                return;
-              }
-              initAudio();
-              startQuiz();
-            }}
-            disabled={units.length === 0 || !questionCount}
-            className={`rounded-full px-8 py-3 shadow-lg font-bold mx-auto block transition text-lg ${
-              units.length === 0 || !questionCount
-                ? "bg-gray-400 text-white cursor-not-allowed"
-                : "bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white scale-105"
-            }`}
-          >
-            🚀 スタート！
-          </button>
+          {/* 🦶 フッター */}
+          <footer className="text-center text-xs text-gray-400 mt-8 mb-4 z-10">
+            © 塾∞練 JUKUREN — Learning Without Limits
+          </footer>
         </div>
       )}
 
