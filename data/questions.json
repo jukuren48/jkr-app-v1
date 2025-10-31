@@ -6793,7 +6793,7 @@
   },
   {
     "id": "cf33e78a-4902-4e63-96ab-2f7a73e47a53",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Can I use a pen?\nB: Yes. []\nA: Oh, thank you very much.",
     "choices": [
       "Whose pen is this?",
@@ -6813,7 +6813,7 @@
   },
   {
     "id": "28b5c665-4f0e-4d83-8e5d-06a9617ff6c7",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Excuse me, where is the nearest bus stop?\nB: [] It's next to the library.",
     "choices": [
       "Go straight and turn right.",
@@ -6833,7 +6833,7 @@
   },
   {
     "id": "b8c1b5a1-1f48-43b1-9a2c-45d3a7d26a71",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Hello, this is Tom. May I speak to Lisa?\nB: [] She’s not here right now.",
     "choices": [
       "Just a moment, please.",
@@ -6853,7 +6853,7 @@
   },
   {
     "id": "5cbb07d5-fd0e-4cf5-9ff2-20b92a88b3df",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: I’m going to Kyoto this weekend.\nB: Sounds nice! []\nA: By train.",
     "choices": [
       "How are you?",
@@ -6873,7 +6873,7 @@
   },
   {
     "id": "ba83e7b9-2e7a-4e14-b4e1-9b01bb9939f8",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Can I help you?\nB: Yes, please. []\nA: Sure. This way, please.",
     "choices": [
       "I want to see some shoes.",
@@ -6893,7 +6893,7 @@
   },
   {
     "id": "fba71b3e-7cc0-464b-92a9-7d05f3c77a5c",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: What did you do yesterday?\nB: []\nA: That sounds fun!",
     "choices": [
       "I stayed home and watched a movie.",
@@ -6913,7 +6913,7 @@
   },
   {
     "id": "1d2a6e09-52a9-47a3-bb44-80f94327690d",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: What would you like to drink?\nB: []\nA: OK. One coffee.",
     "choices": [
       "Yes, I would.",
@@ -6933,7 +6933,7 @@
   },
   {
     "id": "9a6c2e32-fc1e-4e0b-b9d1-5da2b16de1f8",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Excuse me, can you take a picture of us?\nB: []\nA: Thank you!",
     "choices": [
       "Sorry, I’m in a hurry.",
@@ -6953,7 +6953,7 @@
   },
   {
     "id": "b7b1f9cf-1432-4a18-9c6b-c727777a1eb7",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: It’s raining hard. []\nB: Good idea!",
     "choices": [
       "Let’s play baseball.",
@@ -6973,7 +6973,7 @@
   },
   {
     "id": "a3b7b55f-29e9-4b46-801b-5d77f457385c",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: I lost my wallet!\nB: Oh no! []\nA: Thank you, I’ll go now.",
     "choices": [
       "Let’s look for it together.",
@@ -6993,7 +6993,7 @@
   },
   {
     "id": "c9e40db4-9e10-46bb-9d9a-8bb2dbe987a4",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: What’s the matter?\nB: I have a headache.\nA: Oh, that’s too bad. []",
     "choices": [
       "You should take some medicine.",
@@ -7013,7 +7013,7 @@
   },
   {
     "id": "f7a72c91-58d8-4657-b87e-23a4dfac48df",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Excuse me, where can I check in?\nB: []\nA: Thank you very much.",
     "choices": [
       "At the counter over there.",
@@ -7033,7 +7033,7 @@
   },
   {
     "id": "4c2e39d1-4984-4b79-a78b-2ff557c13283",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: I forgot my homework again.\nB: []\nA: I know... I’ll do better next time.",
     "choices": [
       "You should be more careful.",
@@ -7053,7 +7053,7 @@
   },
   {
     "id": "df7c1970-1f2c-4f08-bb36-46b15f2f8c9e",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: What time does the movie start?\nB: []\nA: OK, we have enough time.",
     "choices": [
       "At seven o’clock.",
@@ -7073,7 +7073,7 @@
   },
   {
     "id": "43a7d173-949f-4f79-9a74-85c0ee70621f",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Waiter, can I have the menu, please?\nB: []\nA: Thank you.",
     "choices": [
       "Here you are.",
@@ -7093,7 +7093,7 @@
   },
   {
     "id": "8a2b650f-d4d1-4c33-917b-d59cf8c31b9e",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Did you finish your report?\nB: Not yet. []\nA: OK. Let’s do it together.",
     "choices": [
       "I’m still working on it.",
@@ -7113,7 +7113,7 @@
   },
   {
     "id": "e4d4dc9a-7b6b-441d-845f-73f6db58b451",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: Do you mind if I open the window?\nB: []\nA: Thanks. It’s hot in here.",
     "choices": [
       "Not at all.",
@@ -7133,7 +7133,7 @@
   },
   {
     "id": "bc4f9b46-7492-4a4c-a87e-81465a5f05f0",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: How long will you stay in Japan?\nB: []\nA: I hope you enjoy your trip.",
     "choices": [
       "For two weeks.",
@@ -7153,7 +7153,7 @@
   },
   {
     "id": "53b86d9e-bdf6-4af2-b5ff-8b82dd172bc0",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: I’m sorry I’m late.\nB: []\nA: Thanks, I’ll hurry next time.",
     "choices": [
       "That’s OK.",
@@ -7173,7 +7173,7 @@
   },
   {
     "id": "3e4967a8-1c30-4a42-90e1-9988dc7bb1c8",
-    "unit": "適文補充（会話）",
+    "unit": "会話文",
     "question": "A: What club do you belong to?\nB: []\nA: Oh, I like basketball too!",
     "choices": [
       "I’m in the basketball club.",
