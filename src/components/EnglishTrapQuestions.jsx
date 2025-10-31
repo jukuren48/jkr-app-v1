@@ -930,8 +930,8 @@ export default function EnglishTrapQuestions() {
         lang,
         // 🎧 英語はやや遅め・明るい声、日本語は自然速度
         voiceName: isEnglish ? "en-US-Wavenet-F" : "ja-JP-Wavenet-B",
-        speakingRate: isEnglish ? 0.85 : 1.0,
-        pitch: isEnglish ? 2.0 : 0.0, // 英語だけ少し明るめ
+        speakingRate: isEnglish ? 0.8 : 1.0,
+        pitch: isEnglish ? 3.0 : 0.0, // 英語だけ少し明るめ
       };
 
       try {
@@ -960,7 +960,7 @@ export default function EnglishTrapQuestions() {
       }
 
       // 🎧 英語と日本語の間の間隔を短縮（自然な流れ）
-      await new Promise((r) => setTimeout(r, 100)); // ← 0.1秒だけ間を置く
+      await new Promise((r) => setTimeout(r, 20)); // ← 0.1秒だけ間を置く
     }
   };
 
