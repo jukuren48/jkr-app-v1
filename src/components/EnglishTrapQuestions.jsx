@@ -2176,49 +2176,65 @@ export default function EnglishTrapQuestions() {
             </button>
           </div>
 
-          {/* === 単元グリッド（動的生成＋モード色＋正答率カラー） === */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-6">
-            {Array.from(new Set(questions.map((q) => q.unit))).map((unit) => {
-              const mode = unitModes[unit] || 0;
+          <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg">
+            {/* === 単元グリッド（視認性・統一感UP版） === */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-8">
+              {Array.from(new Set(questions.map((q) => q.unit))).map((unit) => {
+                const mode = unitModes[unit] || 0;
 
-              // === ✅ 背景色を安全に定義（Tailwind purge対策・再レンダリング安定化） ===
-              let bgColorClass =
-                "bg-white border border-gray-300 text-gray-800"; // デフォルト＝未選択
-              if (mode === 1)
-                bgColorClass = "bg-green-400 text-white border-green-400";
-              // 両方
-              else if (mode === 2)
-                bgColorClass = "bg-blue-400 text-white border-blue-400"; // ４択
-              else if (mode === 3)
-                bgColorClass = "bg-orange-400 text-white border-orange-400"; // 記述
+                // 背景＋文字カラー設定
+                let bgClass =
+                  "bg-white border border-gray-300 text-gray-800 hover:bg-gray-100";
+                if (mode === 1)
+                  bgClass =
+                    "bg-gradient-to-b from-green-300 to-green-500 text-white border-green-500 shadow-md hover:scale-[1.03]";
+                else if (mode === 2)
+                  bgClass =
+                    "bg-gradient-to-b from-blue-300 to-blue-500 text-white border-blue-500 shadow-md hover:scale-[1.03]";
+                else if (mode === 3)
+                  bgClass =
+                    "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.03]";
 
-              // === ✅ 正答率による文字色変化（従来仕様保持） ===
-              const stat = unitStats[unit];
-              let textColor = "text-gray-800";
-              if (stat && stat.total > 0) {
-                const rate = stat.wrong / stat.total;
-                if (rate === 0) textColor = "text-gray-800";
-                else if (rate <= 0.1) textColor = "text-green-300 font-bold";
-                else if (rate <= 0.2) textColor = "text-yellow-300 font-bold";
-                else if (rate <= 0.3) textColor = "text-orange-400 font-bold";
-                else textColor = "text-red-500 font-bold";
-              }
+                // 正答率カラー（右上ラベル用）
+                const stat = unitStats[unit];
+                let badgeColor = "bg-gray-300";
+                if (stat && stat.total > 0) {
+                  const rate = stat.wrong / stat.total;
+                  if (rate === 0) badgeColor = "bg-green-600";
+                  else if (rate <= 0.1) badgeColor = "bg-green-400";
+                  else if (rate <= 0.2) badgeColor = "bg-yellow-400";
+                  else if (rate <= 0.3) badgeColor = "bg-orange-400";
+                  else badgeColor = "bg-red-500";
+                }
 
-              return (
-                <motion.button
-                  key={unit}
-                  whileTap={{ scale: 0.92 }}
-                  onClick={() => playButtonSound(() => toggleUnitMode(unit))}
-                  // 🎯 Tailwindの動的クラス結合を安全化・安定レンダリング
-                  className={`rounded-full text-sm font-semibold shadow-sm px-3 py-1 min-w-[70px] transition-all duration-150 ease-out ${bgColorClass}`}
-                  style={{
-                    transformOrigin: "center center",
-                  }}
-                >
-                  <span className={textColor}>{unit}</span>
-                </motion.button>
-              );
-            })}
+                return (
+                  <motion.button
+                    key={unit}
+                    whileTap={{ scale: 0.93 }}
+                    onClick={() => playButtonSound(() => toggleUnitMode(unit))}
+                    className={`relative rounded-2xl text-sm font-bold shadow-sm px-3 py-2 min-w-[80px] text-center transition-all duration-200 ease-out transform ${bgClass}`}
+                    style={{ transformOrigin: "center center" }}
+                  >
+                    {/* 単元名 */}
+                    <span className="drop-shadow-sm text-base sm:text-lg tracking-wide">
+                      {unit}
+                    </span>
+
+                    {/* 正答率ラベル */}
+                    {stat && stat.total > 0 && (
+                      <span
+                        className={`absolute -top-1.5 -right-1.5 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
+                      >
+                        {Math.round(
+                          ((stat.total - stat.wrong) / stat.total) * 100
+                        )}
+                        %
+                      </span>
+                    )}
+                  </motion.button>
+                );
+              })}
+            </div>
           </div>
 
           {/* === 出題数選択 === */}
