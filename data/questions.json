@@ -1662,7 +1662,7 @@
     "question": "「私は泳ぐことが好きです。」を英語に訳しなさい。",
     "choices": [],
     "correct": "I like swimming.",
-    "explanation": "likeの後は動名詞を使ってI like swimming. となります。I like to swimもOKだが、ここでは動名詞を意識。",
+    "explanation": "likeの後は動名詞を使ってI like swimming. となります。I like to swim.もよいが、ここでは動名詞を意識。",
     "incorrectExplanations": {},
     "format": "英作文",
     "type": "input"

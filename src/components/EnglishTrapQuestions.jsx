@@ -1122,17 +1122,25 @@ export default function EnglishTrapQuestions() {
 
   // 出題対象の問題を作る処理
   useEffect(() => {
-    if (questions.length > 0 && Object.keys(unitModes).length > 0) {
-      const selected = questions.filter((q) => {
-        const mode = unitModes[q.unit] || 0;
-        if (mode === 0) return false; // 未選択 → 出さない
-        if (mode === 1) return true; // 両方 → 出す
-        if (mode === 2) return q.type === "multiple-choice"; // 選択問題のみ
-        if (mode === 3) return q.type === "input"; // 記述問題のみ
-        return false;
-      });
+    if (questions.length === 0) return;
 
+    // 🔹 何も選択されていないときは再描画しない（タイトルが消えるのを防止）
+    if (Object.keys(unitModes).length === 0) return;
+
+    const selected = questions.filter((q) => {
+      const mode = unitModes[q.unit] || 0;
+      if (mode === 0) return false; // 未選択 → 出さない
+      if (mode === 1) return true; // 両方 → 出す
+      if (mode === 2) return q.type === "multiple-choice"; // 選択問題のみ
+      if (mode === 3) return q.type === "input"; // 記述問題のみ
+      return false;
+    });
+
+    // 🔹 空リストにすることでタイトルが一瞬消えるのを防ぐ
+    if (selected.length > 0) {
       setFilteredQuestions(selected);
+    } else {
+      console.log("[Filter] No questions matched — skipping update");
     }
   }, [questions, unitModes]);
 
