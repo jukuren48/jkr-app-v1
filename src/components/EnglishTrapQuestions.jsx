@@ -914,7 +914,7 @@ export default function EnglishTrapQuestions() {
   );
 
   // 🎙️ 日本語＋英語を自動切替して自然発音で読み上げ（明るい・スロー英語対応）
-  const speakSmartExplanation = async (text) => {
+  const speakExplanation = async (text) => {
     if (!text || text.trim() === "") return;
 
     // ✅ 英単語や英文を分割
