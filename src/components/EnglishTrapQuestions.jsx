@@ -913,22 +913,32 @@ export default function EnglishTrapQuestions() {
     </div>
   );
 
-  // 🎙️ 日本語＋英語を自動切替して自然発音で読み上げ
+  // 🎙️ 日本語＋英語を自動切替して自然発音で読み上げ（改良版）
   const speakExplanation = async (text) => {
     if (!text || text.trim() === "") return;
 
-    // ✅ 英単語や英文を抽出（a-zやA-Zを含む部分を分離）
+    // ✅ 英語部分を検出して分割
     const segments = text.split(/([A-Za-z][A-Za-z\s,'".!?-]*)/).filter(Boolean);
 
     for (const seg of segments) {
       const isEnglish = /[A-Za-z]/.test(seg);
       const lang = isEnglish ? "en-US" : "ja-JP";
 
+      // ✅ パラメータ調整
+      const body = {
+        text: seg.trim(),
+        lang,
+        // 🎧 英語はやや遅め・明るい声、日本語は自然速度
+        voiceName: isEnglish ? "en-US-Wavenet-F" : "ja-JP-Wavenet-B",
+        speakingRate: isEnglish ? 0.85 : 1.0,
+        pitch: isEnglish ? 2.0 : 0.0, // 英語だけ少し明るめ
+      };
+
       try {
         const res = await fetch("/api/tts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: seg.trim(), lang }),
+          body: JSON.stringify(body),
         });
         if (!res.ok) throw new Error("TTS API error");
 
@@ -949,8 +959,8 @@ export default function EnglishTrapQuestions() {
         console.error("音声再生エラー:", err);
       }
 
-      // 🎧 英語と日本語の間は0.3秒ほど間を置くと自然
-      await new Promise((r) => setTimeout(r, 300));
+      // 🎧 英語と日本語の間の間隔を短縮（自然な流れ）
+      await new Promise((r) => setTimeout(r, 100)); // ← 0.1秒だけ間を置く
     }
   };
 
