@@ -2480,7 +2480,7 @@
   {
     "id": "c7b9d5e8-64b4-45d8-b5a7-63b02798c255",
     "unit": "比較",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女は私と同じくらい背が高いです。\n( tall / as / I / as / is / she ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女は私と同じくらい背が高いです。\n( tall / as / I / as / is / she / am ).",
     "choices": [],
     "correct": "She is as tall as I am.",
     "explanation": "原級比較『as＋形容詞＋as』を使った表現。後半の主語＋動詞『I am』まで書くのが正確です。",

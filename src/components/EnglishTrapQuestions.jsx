@@ -935,6 +935,31 @@ export default function EnglishTrapQuestions() {
     }
   };
 
+  // 🎧 英語専用の高品質TTS（Google TTSを利用）
+  const speakEnglishAnswer = async (text) => {
+    if (!text || text.trim() === "") return;
+    try {
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, lang: "en-US" }), // 🇺🇸英語で発音
+      });
+      if (!res.ok) throw new Error("TTS API error");
+
+      const data = await res.json();
+      const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
+        /\s+/g,
+        ""
+      )}`;
+      const audio = new Audio(audioSrc);
+      audio.volume = masterVol / 100; // ✅ マスターボリュームと連動
+      await audio.play();
+      console.log("[Audio] English pronunciation played:", text);
+    } catch (err) {
+      console.error("英語TTS再生エラー:", err);
+    }
+  };
+
   const handleWordClick = async (word) => {
     // ✅ 単語を正規化（末尾ピリオド等を除去）
     const cleanWord = normEn(word);
@@ -1308,14 +1333,6 @@ export default function EnglishTrapQuestions() {
       );
     }
   }, [bgmVol]);
-
-  //useEffect(() => {
-  //  if (!soundEnabled) return; // 🔇 OFFなら鳴らさない
-  // 単元選択画面が表示されたときに再生
-  //  if (soundEnabled && !showQuestions && !showResult && units.length > 0) {
-  //    playSFX("/sounds/sentaku.mp3");
-  //  }
-  //}, [soundEnabled, showQuestions, showResult, units]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -2383,6 +2400,14 @@ export default function EnglishTrapQuestions() {
                       : current.correct ?? ""
                   );
                   setShowAnswerTemporarily(true);
+                  // 🎙️ 英語TTSで正答をネイティブ発音
+                  if (soundEnabled && current?.correct) {
+                    // 複数解答対応（/区切りなら最初のものを読む）
+                    const englishText = Array.isArray(current.correct)
+                      ? current.correct[0]
+                      : String(current.correct).split("/")[0].trim();
+                    speakEnglishAnswer(englishText);
+                  }
                   setReviewList((prev) => {
                     if (prev.find((q) => q.id === current.id)) return prev;
                     return [...prev, current];
@@ -2522,6 +2547,14 @@ export default function EnglishTrapQuestions() {
                       setReviewing(true);
                       setTemporaryAnswer(correctText);
                       setShowAnswerTemporarily(true);
+                      // 🎙️ 英語TTSで正答をネイティブ発音
+                      if (soundEnabled && current?.correct) {
+                        // 複数解答対応（/区切りなら最初のものを読む）
+                        const englishText = Array.isArray(current.correct)
+                          ? current.correct[0]
+                          : String(current.correct).split("/")[0].trim();
+                        speakEnglishAnswer(englishText);
+                      }
 
                       if (!mistakes[current.id]) {
                         setMistakes((prev) => ({
