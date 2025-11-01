@@ -1,6 +1,6 @@
 // EnglishTrapQuestions.jsx - 手書き入力＋OCR採点＋記憶機能統合版
 import { useEffect, useState, useRef, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import SignatureCanvas from "react-signature-canvas";
 import Tesseract from "tesseract.js";
 //import HandwritingPad from "./HandwritingPad";
@@ -707,7 +707,6 @@ export default function EnglishTrapQuestions() {
     return [];
   });
 
-  const [showWordFolder, setShowWordFolder] = useState(false);
   const [showWordList, setShowWordList] = useState(false);
   const [showWordTest, setShowWordTest] = useState(false);
   const [testIndex, setTestIndex] = useState(0);
@@ -793,87 +792,6 @@ export default function EnglishTrapQuestions() {
       const next = (current + 1) % 4; // 0→1→2→3→0…
       return { ...prev, [unit]: next };
     });
-  };
-
-  const renderUnitButton = (unit) => {
-    const mode = unitModes[unit] || 0;
-
-    // 背景カラー
-    let bgClass =
-      "bg-white border border-gray-300 text-gray-800 hover:bg-gray-100";
-    if (mode === 1)
-      bgClass =
-        "bg-gradient-to-b from-green-300 to-green-500 text-white border-green-500 shadow-md hover:scale-[1.03]";
-    else if (mode === 2)
-      bgClass =
-        "bg-gradient-to-b from-blue-300 to-blue-500 text-white border-blue-500 shadow-md hover:scale-[1.03]";
-    else if (mode === 3)
-      bgClass =
-        "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.03]";
-
-    // 正答率バッジ
-    const stat = unitStats[unit];
-    let badgeColor = "bg-gray-300";
-    if (stat && stat.total > 0) {
-      const rate = stat.wrong / stat.total;
-      if (rate === 0) badgeColor = "bg-green-600";
-      else if (rate <= 0.1) badgeColor = "bg-green-400";
-      else if (rate <= 0.2) badgeColor = "bg-yellow-400";
-      else if (rate <= 0.3) badgeColor = "bg-orange-400";
-      else badgeColor = "bg-red-500";
-    }
-
-    // モード名ラベル（右下）
-    const modeLabel =
-      mode === 1 ? "両方" : mode === 2 ? "４択" : mode === 3 ? "記述" : "";
-
-    return (
-      <motion.button
-        key={unit}
-        whileTap={{ scale: 0.93 }}
-        onClick={() => playButtonSound(() => toggleUnitMode(unit))}
-        className={`relative rounded-2xl text-sm font-bold shadow-sm px-3 py-5 min-w-[80px] text-center transition-all duration-200 ease-out transform ${bgClass}`}
-        style={{ transformOrigin: "center center" }}
-      >
-        {/* 単元名（中央） */}
-        <div className="absolute inset-0 grid place-items-center px-2 text-center pointer-events-none">
-          <span
-            className="
-            block w-full font-semibold tracking-wide leading-snug
-            text-[13px] sm:text-[14px]
-            break-words [text-wrap:balance]
-            [line-clamp:2] [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]
-            overflow-hidden
-          "
-          >
-            {unit.replace("単語テスト", "").trim() || "単語テスト"}
-          </span>
-        </div>
-
-        {/* 正答率バッジ（右上） */}
-        {stat && stat.total > 0 && (
-          <span
-            className={`absolute -top-1.5 -right-1.5 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
-          >
-            {Math.round(((stat.total - stat.wrong) / stat.total) * 100)}%
-          </span>
-        )}
-
-        {/* モードラベル（右下・半透明） */}
-        {modeLabel && (
-          <span
-            className="absolute bottom-[2px] right-[2px] text-[9px] text-white/95 font-semibold px-[4px] py-[1px] 
-               rounded-md bg-black/20 backdrop-blur-sm shadow-sm"
-            style={{
-              lineHeight: "1",
-              opacity: 0.9,
-            }}
-          >
-            {modeLabel}
-          </span>
-        )}
-      </motion.button>
-    );
   };
 
   const currentQuestion = filteredQuestions?.[currentIndex] ?? null;
@@ -2311,48 +2229,107 @@ export default function EnglishTrapQuestions() {
                 </button>
               </div>
 
-              {/* === 単元グリッド（単語テストフォルダー対応・アニメーション付き） === */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-8">
-                {/* === 📁 単語テストフォルダー === */}
-                <motion.button
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() =>
-                    playButtonSound(() => setShowWordFolder((p) => !p))
+              {/* === 単元グリッド（最適化＋モードラベル付き） === */}
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3 mb-8 px-1 sm:px-2">
+                {Array.from(new Set(questions.map((q) => q.unit))).map(
+                  (unit) => {
+                    const mode = unitModes[unit] || 0;
+
+                    // 背景＋文字カラー設定
+                    let bgClass =
+                      "bg-white border border-gray-300 text-gray-800 hover:bg-gray-100";
+                    if (mode === 1)
+                      bgClass =
+                        "bg-gradient-to-b from-green-300 to-green-500 text-white border-green-500 shadow-md hover:scale-[1.03]";
+                    else if (mode === 2)
+                      bgClass =
+                        "bg-gradient-to-b from-blue-300 to-blue-500 text-white border-blue-500 shadow-md hover:scale-[1.03]";
+                    else if (mode === 3)
+                      bgClass =
+                        "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.03]";
+
+                    // 正答率カラー
+                    const stat = unitStats[unit];
+                    let badgeColor = "bg-gray-300";
+                    if (stat && stat.total > 0) {
+                      const rate = stat.wrong / stat.total;
+                      if (rate === 0) badgeColor = "bg-green-600";
+                      else if (rate <= 0.1) badgeColor = "bg-green-400";
+                      else if (rate <= 0.2) badgeColor = "bg-yellow-400";
+                      else if (rate <= 0.3) badgeColor = "bg-orange-400";
+                      else badgeColor = "bg-red-500";
+                    }
+
+                    // モードラベル
+                    const modeLabel =
+                      mode === 1
+                        ? "両方"
+                        : mode === 2
+                        ? "4択"
+                        : mode === 3
+                        ? "記述"
+                        : "";
+
+                    return (
+                      <motion.button
+                        key={unit}
+                        whileTap={{ scale: 0.94 }}
+                        onClick={() =>
+                          playButtonSound(() => toggleUnitMode(unit))
+                        }
+                        className={`relative rounded-xl text-[13px] sm:text-sm font-semibold shadow-sm px-2.5 py-2 text-center leading-tight transition-all duration-200 ease-out transform ${bgClass}`}
+                        style={{
+                          transformOrigin: "center center",
+                          minHeight: "48px",
+                        }}
+                      >
+                        {/* 単元名（完全中央揃え・折り返し対応） */}
+                        <div className="flex justify-left items-center text-center w-full h-full">
+                          <span
+                            className="font-semibold drop-shadow-sm tracking-wide leading-tight text-[12px] sm:text-[13px]"
+                            style={{
+                              display: "inline-block",
+                              textAlign: "center",
+                              whiteSpace: "normal",
+                              wordBreak: "keep-all",
+                              lineHeight: "1.2",
+                              transform: "translateX(-2%)", // ✅ 全体を微調整して“視覚的中央”に補正
+                              maxWidth: "90%",
+                            }}
+                          >
+                            {unit}
+                          </span>
+                        </div>
+
+                        {/* 正答率ラベル（右上） */}
+                        {stat && stat.total > 0 && (
+                          <span
+                            className={`absolute -top-1 -right-1 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
+                          >
+                            {Math.round(
+                              ((stat.total - stat.wrong) / stat.total) * 100
+                            )}
+                            %
+                          </span>
+                        )}
+
+                        {/* モードラベル（右下・半透明＆小型化） */}
+                        {modeLabel && (
+                          <span
+                            className="absolute bottom-[2px] right-[2px] text-[9px] text-white/95 font-semibold px-[4px] py-[1px] 
+               rounded-md bg-black/20 backdrop-blur-sm shadow-sm"
+                            style={{
+                              lineHeight: "1",
+                              opacity: 0.9,
+                            }}
+                          >
+                            {modeLabel}
+                          </span>
+                        )}
+                      </motion.button>
+                    );
                   }
-                  className="col-span-3 sm:col-span-4 bg-gradient-to-r from-yellow-300 to-yellow-400 text-[#4A6572] font-bold py-2 rounded-xl shadow-md transition-all"
-                >
-                  📘 単語テスト {showWordFolder ? "▲" : "▼"}
-                </motion.button>
-
-                {/* === 展開部分（スムーズ開閉） === */}
-                <AnimatePresence>
-                  {showWordFolder && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.4, ease: "easeInOut" }}
-                      className="col-span-3 sm:col-span-4 grid grid-cols-3 sm:grid-cols-4 gap-3 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
-                    >
-                      {Array.from(
-                        new Set(
-                          questions
-                            .map((q) => q.unit)
-                            .filter((unit) => unit.includes("単語テスト"))
-                        )
-                      ).map((unit) => renderUnitButton(unit))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* === その他の単元 === */}
-                {Array.from(
-                  new Set(
-                    questions
-                      .map((q) => q.unit)
-                      .filter((unit) => !unit.includes("単語テスト"))
-                  )
-                ).map((unit) => renderUnitButton(unit))}
+                )}
               </div>
             </div>
             {/* === 出題数・単語帳・サウンド設定 === */}
