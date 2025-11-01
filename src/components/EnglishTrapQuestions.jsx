@@ -830,39 +830,41 @@ export default function EnglishTrapQuestions() {
     return (
       <motion.button
         key={unit}
-        whileTap={{ scale: 0.93 }}
+        whileTap={{ scale: 0.96 }}
         onClick={() => playButtonSound(() => toggleUnitMode(unit))}
-        className={`relative rounded-2xl text-sm font-bold shadow-sm px-3 py-5 min-w-[80px] text-center transition-all duration-200 ease-out transform ${bgClass}`}
-        style={{ transformOrigin: "center center" }}
+        className={`relative text-center font-bold shadow-md 
+    rounded-2xl transition-all duration-200 ease-out transform 
+    ${bgClass}
+    w-full min-h-[70px] sm:min-h-[80px] 
+    flex flex-col justify-center items-center`}
+        style={{
+          transformOrigin: "center center",
+        }}
       >
-        {/* 単元名（中央） */}
-        <div className="absolute inset-0 grid place-items-center px-2 text-center pointer-events-none">
+        {/* 単元名 */}
+        <div className="w-full px-2 text-center leading-snug flex justify-center items-center">
           <span
-            className="
-            block w-full font-semibold tracking-wide leading-snug
-            text-[13px] sm:text-[14px]
-            break-words [text-wrap:balance]
-            [line-clamp:2] [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]
-            overflow-hidden
-          "
+            className="font-semibold tracking-wide text-[14px] sm:text-[16px]
+        text-ellipsis overflow-hidden text-center break-words
+        [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]"
           >
             {unit.replace("単語テスト", "").trim() || "単語テスト"}
           </span>
         </div>
 
-        {/* 正答率バッジ（右上） */}
+        {/* 正答率バッジ */}
         {stat && stat.total > 0 && (
           <span
-            className={`absolute -top-1.5 -right-1.5 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
+            className={`absolute top-1 right-1 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
           >
             {Math.round(((stat.total - stat.wrong) / stat.total) * 100)}%
           </span>
         )}
 
-        {/* モードラベル（右下・半透明） */}
+        {/* モードラベル */}
         {modeLabel && (
           <span
-            className="absolute bottom-[2px] right-[2px] text-[9px] text-white/95 font-semibold px-[4px] py-[1px] 
+            className="absolute bottom-[4px] right-[4px] text-[11px] text-white/95 font-semibold px-[4px] py-[1px] 
                rounded-md bg-black/20 backdrop-blur-sm shadow-sm"
             style={{
               lineHeight: "1",
@@ -2312,7 +2314,7 @@ export default function EnglishTrapQuestions() {
               </div>
 
               {/* === 単元グリッド（単語テストフォルダー対応・アニメーション付き） === */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-8">
+              <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3 w-full max-w-[1200px] mx-auto mb-8">
                 {/* === 📁 単語テストフォルダー === */}
                 <motion.button
                   whileTap={{ scale: 0.95 }}
