@@ -2229,26 +2229,26 @@ export default function EnglishTrapQuestions() {
                 </button>
               </div>
 
-              {/* === 単元ボタン群 === */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 sm:gap-3 mb-8">
+              {/* === 単元グリッド（最適化＋モードラベル付き） === */}
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3 mb-8 px-1 sm:px-2">
                 {Array.from(new Set(questions.map((q) => q.unit))).map(
                   (unit) => {
                     const mode = unitModes[unit] || 0;
 
-                    // ✅ 背景と文字色（コントラスト調整）
+                    // 背景＋文字カラー設定
                     let bgClass =
                       "bg-white border border-gray-300 text-gray-800 hover:bg-gray-100";
                     if (mode === 1)
                       bgClass =
-                        "bg-gradient-to-b from-green-200 to-green-400 text-gray-900 border-green-400 shadow-md hover:scale-[1.03]";
+                        "bg-gradient-to-b from-green-300 to-green-500 text-white border-green-500 shadow-md hover:scale-[1.03]";
                     else if (mode === 2)
                       bgClass =
-                        "bg-gradient-to-b from-blue-200 to-blue-400 text-gray-900 border-blue-400 shadow-md hover:scale-[1.03]";
+                        "bg-gradient-to-b from-blue-300 to-blue-500 text-white border-blue-500 shadow-md hover:scale-[1.03]";
                     else if (mode === 3)
                       bgClass =
-                        "bg-gradient-to-b from-orange-200 to-orange-400 text-gray-900 border-orange-400 shadow-md hover:scale-[1.03]";
+                        "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.03]";
 
-                    // ✅ 正答率バッジカラー
+                    // 正答率カラー
                     const stat = unitStats[unit];
                     let badgeColor = "bg-gray-300";
                     if (stat && stat.total > 0) {
@@ -2260,24 +2260,51 @@ export default function EnglishTrapQuestions() {
                       else badgeColor = "bg-red-500";
                     }
 
+                    // モードラベル
+                    const modeLabel =
+                      mode === 1
+                        ? "両方"
+                        : mode === 2
+                        ? "4択"
+                        : mode === 3
+                        ? "記述"
+                        : "";
+
                     return (
                       <motion.button
                         key={unit}
-                        whileTap={{ scale: 0.93 }}
+                        whileTap={{ scale: 0.94 }}
                         onClick={() =>
                           playButtonSound(() => toggleUnitMode(unit))
                         }
-                        className={`relative rounded-2xl text-xs sm:text-sm font-bold shadow-sm px-2 py-2 text-center transition-all duration-200 ease-out transform ${bgClass}`}
+                        className={`relative rounded-xl text-[13px] sm:text-sm font-semibold shadow-sm px-2.5 py-2 text-center leading-tight transition-all duration-200 ease-out transform ${bgClass}`}
+                        style={{
+                          transformOrigin: "center center",
+                          minHeight: "48px",
+                        }}
                       >
-                        {/* 単元名 */}
-                        <span className="drop-shadow-sm text-base tracking-wide">
-                          {unit}
-                        </span>
+                        {/* 単元名（完全中央揃え・折り返し対応） */}
+                        <div className="flex justify-left items-center text-center w-full h-full">
+                          <span
+                            className="font-semibold drop-shadow-sm tracking-wide leading-tight text-[12px] sm:text-[13px]"
+                            style={{
+                              display: "inline-block",
+                              textAlign: "center",
+                              whiteSpace: "normal",
+                              wordBreak: "keep-all",
+                              lineHeight: "1.2",
+                              transform: "translateX(-2%)", // ✅ 全体を微調整して“視覚的中央”に補正
+                              maxWidth: "90%",
+                            }}
+                          >
+                            {unit}
+                          </span>
+                        </div>
 
-                        {/* 正答率バッジ */}
+                        {/* 正答率ラベル（右上） */}
                         {stat && stat.total > 0 && (
                           <span
-                            className={`absolute -top-1.5 -right-1.5 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
+                            className={`absolute -top-1 -right-1 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor}`}
                           >
                             {Math.round(
                               ((stat.total - stat.wrong) / stat.total) * 100
@@ -2286,24 +2313,17 @@ export default function EnglishTrapQuestions() {
                           </span>
                         )}
 
-                        {/* 🆕 モードラベル（背景なしでスッキリ） */}
-                        {mode > 0 && (
+                        {/* モードラベル（右下・半透明＆小型化） */}
+                        {modeLabel && (
                           <span
-                            className={`absolute bottom-0.5 right-1 text-[10px] font-semibold opacity-70 ${
-                              mode === 1
-                                ? "text-green-800"
-                                : mode === 2
-                                ? "text-blue-800"
-                                : "text-orange-800"
-                            }`}
+                            className="absolute bottom-[2px] right-[2px] text-[9px] text-white/95 font-semibold px-[4px] py-[1px] 
+               rounded-md bg-black/20 backdrop-blur-sm shadow-sm"
+                            style={{
+                              lineHeight: "1",
+                              opacity: 0.9,
+                            }}
                           >
-                            {mode === 1
-                              ? "両方"
-                              : mode === 2
-                              ? "４択"
-                              : mode === 3
-                              ? "記述"
-                              : ""}
+                            {modeLabel}
                           </span>
                         )}
                       </motion.button>
@@ -2312,7 +2332,6 @@ export default function EnglishTrapQuestions() {
                 )}
               </div>
             </div>
-
             {/* === 出題数・単語帳・サウンド設定 === */}
             <div className="text-center space-y-4">
               <h2 className="text-lg font-bold text-[#4A6572]">
