@@ -2126,19 +2126,6 @@ export default function EnglishTrapQuestions() {
               </button>
             )}
           </div>
-          {!showQuestions && !showResult && (
-            <div className="w-full py-3 bg-gradient-to-r from-pink-100 to-yellow-100 shadow-md sticky top-0 z-[100]">
-              <h1 className="text-2xl font-extrabold text-center text-[#4A6572] tracking-wide">
-                英語ひっかけ問題 ～塾長からの挑戦状～
-              </h1>
-            </div>
-          )}
-          <button
-            onClick={() => playButtonSound(() => setShowQuestionModal(true))}
-            className="bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-4 py-2 rounded-full shadow transition"
-          >
-            📥 質問ボックス（{questionList.length}件）
-          </button>
         </div>
       )}
 
@@ -2148,13 +2135,28 @@ export default function EnglishTrapQuestions() {
           {/* ✨ 背景アニメーション */}
           <BackgroundParticles />
 
-          {/* 🏷️ タイトル */}
-          <header className="text-center mt-8 mb-6 z-10">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1CC5A3] tracking-wide drop-shadow-md">
-              英語ひっかけ問題
-            </h1>
+          {/* 🏷️ タイトル＋質問ボックス（かぶり修正版） */}
+          <header className="relative flex flex-col items-center text-center mt-6 mb-8 z-10">
+            {/* タイトル行（英語タイトルとボタンを横並び） */}
+            <div className="flex items-center justify-center gap-3 relative">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1CC5A3] tracking-wide drop-shadow-md whitespace-nowrap">
+                英語ひっかけ問題
+              </h1>
+
+              {/* 📥 質問ボックスボタン（横並びで右側に配置） */}
+              <button
+                onClick={() =>
+                  playButtonSound(() => setShowQuestionModal(true))
+                }
+                className="bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow transition text-xs sm:text-sm font-semibold whitespace-nowrap"
+              >
+                📥 質問ボックス（{questionList.length}件）
+              </button>
+            </div>
+
+            {/* サブタイトル（下に配置） */}
             <p className="text-gray-600 font-semibold text-sm sm:text-base mt-1">
-              ～ 塾∞練からの挑戦状 ～
+              ～ 塾長からの挑戦状 ～
             </p>
           </header>
 
