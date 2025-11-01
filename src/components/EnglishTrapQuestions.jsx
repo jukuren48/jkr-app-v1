@@ -2230,7 +2230,7 @@ export default function EnglishTrapQuestions() {
               </div>
 
               {/* === 単元ボタン群 === */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5 sm:gap-3 mb-8">
                 {Array.from(new Set(questions.map((q) => q.unit))).map(
                   (unit) => {
                     const mode = unitModes[unit] || 0;
@@ -2267,7 +2267,7 @@ export default function EnglishTrapQuestions() {
                         onClick={() =>
                           playButtonSound(() => toggleUnitMode(unit))
                         }
-                        className={`relative rounded-xl text-sm font-bold shadow-sm px-3 py-2 min-w-[90px] text-center transition-all duration-200 ease-out transform ${bgClass}`}
+                        className={`relative rounded-2xl text-xs sm:text-sm font-bold shadow-sm px-2 py-2 text-center transition-all duration-200 ease-out transform ${bgClass}`}
                       >
                         {/* 単元名 */}
                         <span className="drop-shadow-sm text-base tracking-wide">
