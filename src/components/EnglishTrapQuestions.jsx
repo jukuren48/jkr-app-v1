@@ -2135,29 +2135,25 @@ export default function EnglishTrapQuestions() {
           {/* ✨ 背景アニメーション */}
           <BackgroundParticles />
 
-          {/* 🏷️ タイトル＋質問ボックス（かぶり修正版） */}
-          <header className="relative flex flex-col items-center text-center mt-6 mb-8 z-10">
-            {/* タイトル行（英語タイトルとボタンを横並び） */}
-            <div className="flex items-center justify-center gap-3 relative">
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1CC5A3] tracking-wide drop-shadow-md whitespace-nowrap">
+          {/* 🏷️ タイトル＋質問ボックス（レスポンシブ対応） */}
+          <header className="relative flex flex-col sm:flex-row items-center justify-center text-center mt-6 mb-8 z-10 gap-2 sm:gap-4">
+            {/* タイトル本体 */}
+            <div className="flex flex-col items-center sm:items-start">
+              <h1 className="text-2xl sm:text-4xl font-extrabold text-[#1CC5A3] tracking-wide drop-shadow-md">
                 英語ひっかけ問題
               </h1>
-
-              {/* 📥 質問ボックスボタン（横並びで右側に配置） */}
-              <button
-                onClick={() =>
-                  playButtonSound(() => setShowQuestionModal(true))
-                }
-                className="bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full shadow transition text-xs sm:text-sm font-semibold whitespace-nowrap"
-              >
-                📥 質問ボックス（{questionList.length}件）
-              </button>
+              <p className="text-gray-600 font-semibold text-sm sm:text-base mt-1">
+                ～ 塾長からの挑戦状 ～
+              </p>
             </div>
 
-            {/* サブタイトル（下に配置） */}
-            <p className="text-gray-600 font-semibold text-sm sm:text-base mt-1">
-              ～ 塾長からの挑戦状 ～
-            </p>
+            {/* 📥 質問ボックス（PCでは右側、スマホでは下） */}
+            <button
+              onClick={() => playButtonSound(() => setShowQuestionModal(true))}
+              className="bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-4 py-2 rounded-full shadow transition text-sm font-semibold whitespace-nowrap sm:ml-4"
+            >
+              📥 質問ボックス（{questionList.length}件）
+            </button>
           </header>
 
           {/* 🧩 メインカード */}
