@@ -578,14 +578,39 @@ function HandwritingPad({
           onClick={() => {
             if (!recognizedChar) return;
 
-            // ▼ 現在の解答欄へ追加
             const newAnswer = (currentAnswer || "") + recognizedChar;
 
-            // ▼ 親へ通知（renderInputSection が setInputAnswer を持つ）
+            // ▼ 親コンポーネントの inputAnswer を更新
             onCharRecognized && onCharRecognized(recognizedChar);
 
-            // ▼ 採点（以前の動作に戻す）
-            handleAnswer && handleAnswer(newAnswer);
+            // ▼ ↓↓↓ ここから「現行コードの判定ロジック」に準拠 ↓↓↓
+
+            if (currentQuestion) {
+              const raw = Array.isArray(currentQuestion.correct)
+                ? currentQuestion.correct
+                : Array.isArray(currentQuestion.correctAnswers)
+                ? currentQuestion.correctAnswers
+                : currentQuestion.correctAnswer ??
+                  currentQuestion.correct ??
+                  "";
+
+              // ★ あなたの現行コードの関数をそのまま使う
+              const corrects = expandCorrects(raw);
+
+              // ★ あなたの現行の英語正規化ルール
+              const userNorm = normEn(newAnswer);
+
+              const isPerfectMatch = corrects.some(
+                (c) => normEn(c) === userNorm
+              );
+
+              if (isPerfectMatch) {
+                // ★ 完全一致の場合のみ handleAnswer を発火 → 正解扱い
+                handleAnswer && handleAnswer(newAnswer);
+              }
+            }
+
+            // ▼ ↑↑↑ ここまで現行仕様準拠のアップ判定 ↑↑↑
 
             clearCanvas();
             setRecognizedChar("");
@@ -1217,10 +1242,6 @@ export default function EnglishTrapQuestions() {
 
   const renderInputSection = () => (
     <div className="flex flex-col gap-2 mt-2 items-center">
-      <p className="text-gray-700 text-lg font-mono mb-2">
-        🧾 現在の解答欄：
-        <span className="font-bold text-[#4A6572]">{inputAnswer}</span>
-      </p>
       {/* === 通常の問題用 手書きパッド === */}
       {useHandwriting ? (
         <HandwritingPad
@@ -1246,7 +1267,7 @@ export default function EnglishTrapQuestions() {
             type="text"
             value={inputAnswer}
             onChange={(e) => setInputAnswer(e.target.value)}
-            className="border px-3 py-2 rounded w-full"
+            className="border px-3 py-1 rounded w-full"
           />
         </>
       )}
