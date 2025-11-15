@@ -422,7 +422,7 @@ function HandwritingPad({
     fixed bottom-2 right-2
     bg-white border border-gray-300 rounded-xl shadow-xl
     w-[90vw] max-w-[650px]
-    h-[300px]   /* ← ここを小さめにする */
+    h-[250px]   /* ← ここを小さめにする */
     z-[9000]
     flex flex-col relative
   "
@@ -549,7 +549,7 @@ function HandwritingPad({
         backgroundColor="#ffffff"
         canvasProps={{
           className:
-            "border-2 border-gray-300 rounded-xl bg-white w-full h-[100px] mb-2",
+            "border-2 border-gray-300 rounded-xl bg-white w-full h-[120px] mb-2",
         }}
         onEnd={handleEndStroke}
       />
