@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* カスタムクラス（必ず@tailwindの後） */
+.word-break-keep-all {
+  word-break: keep-all;
+  overflow-wrap: normal;
+  hyphens: auto;
+}
+
+.word-break-clean {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
