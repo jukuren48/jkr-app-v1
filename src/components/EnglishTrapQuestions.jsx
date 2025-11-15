@@ -2818,6 +2818,13 @@ export default function EnglishTrapQuestions() {
     setFilteredQuestions([...initialQuestions]);
   };
 
+  const newModes = {
+    ...unitModes,
+    ["単語テストオリジナル"]: 1,
+  };
+  setUnitModes(newModes);
+  localStorage.setItem("unitModes", JSON.stringify(newModes));
+
   const hintPenalties = [2, 5, 10];
 
   const generateHint = () => {
@@ -3246,7 +3253,12 @@ export default function EnglishTrapQuestions() {
                         {/* オリジナル単語テスト */}
                         <button
                           onClick={() => {
-                            // 既存の単語テスト形式で出題 → 単元「単語テストオリジナル」を選択状態にする
+                            if (customWords.length === 0) {
+                              alert("登録されたオリジナル単語がありません。");
+                              return;
+                            }
+
+                            // 単語テストオリジナルを選択状態にする
                             const newModes = {
                               ...unitModes,
                               ["単語テストオリジナル"]: 1,
@@ -3258,10 +3270,16 @@ export default function EnglishTrapQuestions() {
                             );
 
                             setShowOriginalFolder(false);
-                            playButtonSound(() => setShowQuestionModal(true));
+
+                            // ❗ 質問ボックスではなく、テスト開始画面へ誘導
+                            playButtonSound(() => {
+                              // 「単語テストオリジナル」単元が選ばれた状態で
+                              // 生徒がスタートボタンを押せる画面にする
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            });
                           }}
                           className="col-span-4 sm:col-span-5 bg-pink-300 hover:bg-pink-400 
-                   text-[#6b123a] font-bold py-2 rounded-xl shadow-md"
+   text-[#6b123a] font-bold py-2 rounded-xl shadow-md"
                         >
                           📝 オリジナル単語テスト
                         </button>
