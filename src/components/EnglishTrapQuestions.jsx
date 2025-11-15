@@ -2994,6 +2994,7 @@ export default function EnglishTrapQuestions() {
                     setShowHandwritingFor("meaning");
                   } else {
                     setTempCustomMeaning(text);
+                    setSuggestedMeaning(""); // ← ★候補を閉じる
                     setShowHandwritingFor(null);
                   }
                 }}
@@ -3944,7 +3945,10 @@ export default function EnglishTrapQuestions() {
                 </p>
                 <p className="text-blue-700 mb-2">{suggestedMeaning}</p>
                 <button
-                  onClick={() => setTempCustomMeaning(suggestedMeaning)}
+                  onClick={() => {
+                    setTempCustomMeaning(suggestedMeaning);
+                    setSuggestedMeaning(""); // ← ★候補を閉じる
+                  }}
                   className="px-3 py-1 bg-blue-500 text-white rounded shadow text-sm hover:bg-blue-600"
                 >
                   ➕ この意味で決定する
@@ -4037,6 +4041,8 @@ export default function EnglishTrapQuestions() {
               onClick={() => {
                 setShowCustomWordInput(false);
                 setEditingId(null);
+                setShowHandwritingFor(null); // ← ★手書きパッドも閉じる
+                setSuggestedMeaning(""); // ← ★候補も消す（安全）
               }}
             >
               閉じる
