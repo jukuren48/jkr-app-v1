@@ -1845,37 +1845,76 @@ export default function EnglishTrapQuestions() {
   }, [questions, unitModes]);
 
   // ✅ クイズ開始処理（複数形式×複数単元対応）
-  const startQuiz = () => {
+  // 📌 修正版 startQuiz（オリジナルテスト時は絞り込みをスキップ）
+  const startQuiz = (options = {}) => {
+    const { skipFiltering = false } = options;
+
+    // ---------------------------
+    // ① フィルタリングを飛ばすモード（オリジナル単語テスト）
+    // ---------------------------
+    if (skipFiltering) {
+      // filteredQuestions はすでに外側でセットされている前提
+      if (!filteredQuestions || filteredQuestions.length === 0) {
+        alert("出題できる問題がありません。");
+        return;
+      }
+
+      const limited =
+        questionCount === "all"
+          ? filteredQuestions
+          : filteredQuestions.slice(0, questionCount);
+
+      setInitialQuestionCount(limited.length);
+      setCharacterMood("neutral");
+      setFilteredQuestions(limited);
+      setInitialQuestions(limited);
+      setCurrentIndex(0);
+      setShowQuestions(true);
+      setShowResult(false);
+      setShowFeedback(false);
+      setSelectedChoice(null);
+      setMistakes({});
+      setIsReviewMode(false);
+      setReviewList([]);
+      setReviewMistakes([]);
+      setAddMessage("");
+      setHintLevels({});
+      setHintText("");
+      setHintLevel(0);
+
+      return; // ← 絶対にここで終了！
+    }
+
+    // ---------------------------
+    // ② 通常スタート（従来の動作）
+    // ---------------------------
+
     if (selectedFormats.length === 0) {
       alert("出題形式を1つ以上選んでください。");
       return;
     }
 
-    // 🔹 単元選択チェック
     const activeUnits = Object.keys(unitModes).filter(
       (u) => unitModes[u] !== 0
     );
+
     if (activeUnits.length === 0) {
       alert("単元を1つ以上選んでください。");
       return;
     }
 
-    // 🎯 問題開始前にBGM関係を確実にリセット
     if (typeof stopBgm === "function") stopBgm(true);
     globalUnitBgmPlaying = false;
     setUnitBgmPlaying(false);
     lastBgmType = null;
-    //console.log("[Audio] BGM reset before entering quiz");
 
-    // 🔹 出題対象を絞り込み
+    // 🔹 通常フィルター
     const filtered = questions.filter((q) => {
       const unitSelected = activeUnits.includes(q.unit);
-      const formatSelected = selectedFormats.includes(q.format || "単語・熟語"); // formatが未定義でも動作
+      const formatSelected = selectedFormats.includes(q.format || "単語・熟語");
       const mode = unitModes[q.unit] || 0;
 
       if (!unitSelected || !formatSelected) return false;
-
-      // 0=未選択, 1=両方, 2=選択問題のみ, 3=記述問題のみ
       if (mode === 0) return false;
       if (mode === 1) return true;
       if (mode === 2) return q.type === "multiple-choice";
@@ -1888,14 +1927,10 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // 🔹 問題をシャッフル
     const shuffled = shuffleArray(filtered);
-
-    // 🔹 出題数制限
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
 
-    // ✅ 初期化処理（既存機能保持）
     setInitialQuestionCount(limited.length);
     setCharacterMood("neutral");
     setFilteredQuestions(limited);
@@ -1913,12 +1948,6 @@ export default function EnglishTrapQuestions() {
     setHintLevels({});
     setHintText("");
     setHintLevel(0);
-
-    //console.log("🚀 出題開始:", {
-    //  selectedFormats,
-    //  activeUnits,
-    //  total: limited.length,
-    //});
   };
 
   // 出題対象の問題を作る処理
@@ -2818,12 +2847,34 @@ export default function EnglishTrapQuestions() {
     setFilteredQuestions([...initialQuestions]);
   };
 
-  const newModes = {
-    ...unitModes,
-    ["単語テストオリジナル"]: 1,
+  const startOriginalQuiz = (originalQs) => {
+    if (originalQs.length === 0) {
+      alert("オリジナル単語がありません。");
+      return;
+    }
+
+    // 🎯 単元など一切見ずにそのまま出題
+    const shuffled = shuffleArray(originalQs);
+
+    setFilteredQuestions(shuffled);
+    setInitialQuestions(shuffled);
+
+    setInitialQuestionCount(shuffled.length);
+    setCharacterMood("neutral");
+    setCurrentIndex(0);
+    setShowQuestions(true);
+    setShowResult(false);
+    setShowFeedback(false);
+    setSelectedChoice(null);
+    setMistakes({});
+    setIsReviewMode(false);
+    setReviewList([]);
+    setReviewMistakes([]);
+    setAddMessage("");
+    setHintLevels({});
+    setHintText("");
+    setHintLevel(0);
   };
-  setUnitModes(newModes);
-  localStorage.setItem("unitModes", JSON.stringify(newModes));
 
   const hintPenalties = [2, 5, 10];
 
@@ -2967,789 +3018,627 @@ export default function EnglishTrapQuestions() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-transparent">
-      {/* ✍️ 手書きパッド（最前面化） */}
-      {showHandwritingFor &&
-        createPortal(
-          <div className="fixed inset-0 z-[999999] pointer-events-none">
-            <div className="absolute bottom-4 right-4 pointer-events-auto">
-              <HandwritingPad
-                compact
-                target={showHandwritingFor}
-                ocrEngine={ocrEngine}
-                lowSpecMode={lowSpecMode}
-                currentAnswer={
-                  showHandwritingFor === "word"
-                    ? tempCustomWord
-                    : tempCustomMeaning
-                }
-                onCharRecognized={(char) => {
-                  if (showHandwritingFor === "word") {
-                    setTempCustomWord((prev) => prev + char);
-                  } else {
-                    setTempCustomMeaning((prev) => prev + char);
+    <>
+      <DynamicSkyCanvasBackground lowSpecMode={lowSpecMode} />
+      <div className="min-h-screen flex flex-col items-center bg-transparent relative z-10">
+        {/* ✍️ 手書きパッド（最前面化） */}
+        {showHandwritingFor &&
+          createPortal(
+            <div className="fixed inset-0 z-[999999] pointer-events-none">
+              <div className="absolute bottom-4 right-4 pointer-events-auto">
+                <HandwritingPad
+                  compact
+                  target={showHandwritingFor}
+                  ocrEngine={ocrEngine}
+                  lowSpecMode={lowSpecMode}
+                  currentAnswer={
+                    showHandwritingFor === "word"
+                      ? tempCustomWord
+                      : tempCustomMeaning
                   }
-                }}
-                onUpload={async (text) => {
-                  if (showHandwritingFor === "word") {
-                    setTempCustomWord(text);
+                  onCharRecognized={(char) => {
+                    if (showHandwritingFor === "word") {
+                      setTempCustomWord((prev) => prev + char);
+                    } else {
+                      setTempCustomMeaning((prev) => prev + char);
+                    }
+                  }}
+                  onUpload={async (text) => {
+                    if (showHandwritingFor === "word") {
+                      setTempCustomWord(text);
 
-                    // ★ 英和候補を取得して表示
-                    const meaning = await fetchJapaneseMeaning(text);
-                    setSuggestedMeaning(meaning);
+                      // ★ 英和候補を取得して表示
+                      const meaning = await fetchJapaneseMeaning(text);
+                      setSuggestedMeaning(meaning);
 
-                    setShowHandwritingFor("meaning");
-                  } else {
-                    setTempCustomMeaning(text);
-                    setSuggestedMeaning(""); // ← ★候補を閉じる
-                    setShowHandwritingFor(null);
-                  }
-                }}
-                onClearAll={() => {
-                  if (showHandwritingFor === "word") setTempCustomWord("");
-                  else setTempCustomMeaning("");
-                }}
-                onSpace={() => {
-                  if (showHandwritingFor === "word")
-                    setTempCustomWord((p) => p + " ");
-                  else setTempCustomMeaning((p) => p + " ");
-                }}
-              />
+                      setShowHandwritingFor("meaning");
+                    } else {
+                      setTempCustomMeaning(text);
+                      setSuggestedMeaning(""); // ← ★候補を閉じる
+                      setShowHandwritingFor(null);
+                    }
+                  }}
+                  onClearAll={() => {
+                    if (showHandwritingFor === "word") setTempCustomWord("");
+                    else setTempCustomMeaning("");
+                  }}
+                  onSpace={() => {
+                    if (showHandwritingFor === "word")
+                      setTempCustomWord((p) => p + " ");
+                    else setTempCustomMeaning((p) => p + " ");
+                  }}
+                />
+              </div>
+            </div>,
+            document.body
+          )}
+
+        {!(useHandwriting && currentQuestion?.type === "input") && (
+          <div className="flex justify-between items-center mb-4">
+            <div className="fixed bottom-3 right-4 flex items-center gap-2 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full shadow-md">
+              <span className="text-gray-700 font-bold">
+                {userName ? `${userName} さん` : "ゲスト"}
+              </span>
+              {!showQuestions && !showResult && (
+                <button
+                  onClick={() => {
+                    const name = prompt("新しい名前を入力してください");
+                    if (name && name.trim() !== "") {
+                      handleSetUserName(name.trim());
+                      localStorage.setItem("userName", name.trim());
+                    }
+                  }}
+                  className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
+                >
+                  ユーザー変更
+                </button>
+              )}
             </div>
-          </div>,
-          document.body
+          </div>
         )}
 
-      {!(useHandwriting && currentQuestion?.type === "input") && (
-        <div className="flex justify-between items-center mb-4">
-          <div className="fixed bottom-3 right-4 flex items-center gap-2 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full shadow-md">
-            <span className="text-gray-700 font-bold">
-              {userName ? `${userName} さん` : "ゲスト"}
-            </span>
-            {!showQuestions && !showResult && (
-              <button
-                onClick={() => {
-                  const name = prompt("新しい名前を入力してください");
-                  if (name && name.trim() !== "") {
-                    handleSetUserName(name.trim());
-                    localStorage.setItem("userName", name.trim());
-                  }
-                }}
-                className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
-              >
-                ユーザー変更
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-      <DynamicSkyCanvasBackground lowSpecMode={lowSpecMode} />
-      {/* 🌟 トップ画面（塾∞練デザイン統一版・フル幅対応） */}
-      {!showQuestions && !showResult && units.length > 0 && (
-        <>
-          {/* 🏷️ タイトル：背景の上に直接乗せる層 */}
-          <header
-            className="
+        {/* 🌟 トップ画面（塾∞練デザイン統一版・フル幅対応） */}
+        {!showQuestions && !showResult && units.length > 0 && (
+          <>
+            {/* 🏷️ タイトル：背景の上に直接乗せる層 */}
+            <header
+              className="
     fixed top-4 left-0 right-0 
     flex flex-col sm:flex-row items-center justify-center 
     text-center gap-2 sm:gap-4 
     z-[2] bg-transparent backdrop-blur-none pointer-events-none
   "
-          >
-            <div className="flex flex-col items-center sm:items-start bg-transparent">
-              <motion.h1
-                className={`text-3xl sm:text-5xl font-extrabold tracking-wide bg-clip-text text-transparent ${
-                  lowSpecMode
-                    ? "bg-gradient-to-r from-[#FFD56B] to-[#AACCFF] text-[#333] drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]"
-                    : "bg-gradient-to-r from-[#FFD56B] via-[#1CC5A3] to-[#AACCFF] drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]"
-                }`}
-                animate={
-                  lowSpecMode
-                    ? {} // 軽量モード時はアニメ停止
-                    : { backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }
-                }
-                transition={
-                  lowSpecMode
-                    ? {}
-                    : {
-                        backgroundPosition: {
-                          duration: 12,
-                          repeat: Infinity,
-                          ease: "linear",
-                        },
-                      }
-                }
-                style={{ zIndex: 10 }} // 💡 最前面固定
-              >
-                英語ひっかけ問題
-              </motion.h1>
+            >
+              <div className="flex flex-col items-center sm:items-start bg-transparent">
+                <motion.h1
+                  className={`text-3xl sm:text-5xl font-extrabold tracking-wide bg-clip-text text-transparent ${
+                    lowSpecMode
+                      ? "bg-gradient-to-r from-[#FFD56B] to-[#AACCFF] text-[#333] drop-shadow-[0_0_6px_rgba(255,255,255,0.8)]"
+                      : "bg-gradient-to-r from-[#FFD56B] via-[#1CC5A3] to-[#AACCFF] drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]"
+                  }`}
+                  animate={
+                    lowSpecMode
+                      ? {} // 軽量モード時はアニメ停止
+                      : { backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }
+                  }
+                  transition={
+                    lowSpecMode
+                      ? {}
+                      : {
+                          backgroundPosition: {
+                            duration: 12,
+                            repeat: Infinity,
+                            ease: "linear",
+                          },
+                        }
+                  }
+                  style={{ zIndex: 10 }} // 💡 最前面固定
+                >
+                  英語ひっかけ問題
+                </motion.h1>
 
-              <p className="text-white/85 font-semibold text-sm sm:text-base mt-1 drop-shadow-sm">
-                ～ 塾長からの挑戦状 ～
-              </p>
-            </div>
+                <p className="text-white/85 font-semibold text-sm sm:text-base mt-1 drop-shadow-sm">
+                  ～ 塾長からの挑戦状 ～
+                </p>
+              </div>
 
-            {/* 📥 質問ボックス：クリックできるように pointer-events を戻す */}
-            <button
-              onClick={() => playButtonSound(() => setShowQuestionModal(true))}
-              className="
+              {/* 📥 質問ボックス：クリックできるように pointer-events を戻す */}
+              <button
+                onClick={() =>
+                  playButtonSound(() => setShowQuestionModal(true))
+                }
+                className="
           bg-yellow-300/95 hover:bg-yellow-400 
           text-[#4A6572] px-4 py-2 rounded-full shadow 
           transition text-sm font-semibold whitespace-nowrap sm:ml-4
           pointer-events-auto
         "
-            >
-              📥 質問ボックス（{questionList.length}件）
-            </button>
-          </header>
-
-          {/* 🧩 メインUI：問題形式・単元ボタンなど（背景より上の層） */}
-          <div className="relative min-h-screen overflow-hidden z-0 flex flex-col items-center pt-24 bg-transparent pointer-events-none">
-            {/* ここに今までの main / 出題形式タブ / 単元グリッド / スタートボタン / フッター をそのまま置く */}
-            <main
-              className={`w-full p-4 sm:p-6 rounded-2xl border z-10 pointer-events-auto transition-all duration-300 ${
-                lowSpecMode
-                  ? "bg-white border-gray-200" // ⚡️軽量モード（影・ぼかしOFF）
-                  : "bg-white/60 backdrop-blur-md shadow-[inset_0_0_15px_rgba(255,255,255,0.5)] border-white/30"
-              }`}
-            >
-              {/* === 出題形式タブ === */}
-              <h2 className="text-2xl font-bold text-center mb-4 text-[#4A6572]">
-                🎯 出題形式を選ぼう！（複数選択OK）
-              </h2>
-
-              {/* === 出題形式ボタン群 === */}
-              <div className="flex flex-wrap justify-center gap-2 mb-4">
-                {[
-                  "単語・熟語",
-                  "適語補充",
-                  "適文補充",
-                  "整序問題",
-                  "英作文",
-                  "長文読解",
-                  "リスニング",
-                ].map((format) => {
-                  const isSelected = selectedFormats.includes(format);
-                  return (
-                    <button
-                      key={format}
-                      onClick={() =>
-                        playButtonSound(() => {
-                          setSelectedFormats((prev) =>
-                            prev.includes(format)
-                              ? prev.filter((f) => f !== format)
-                              : [...prev, format]
-                          );
-                        })
-                      }
-                      className={`px-3 py-2 rounded-full shadow-sm text-sm font-semibold transition-all ${
-                        isSelected
-                          ? "bg-gradient-to-r from-pink-400 to-orange-400 text-white scale-105"
-                          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                      }`}
-                    >
-                      {format}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <motion.h2
-                key={selectedFormats.join(",")}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-center text-lg font-bold text-[#4A6572] mb-3"
               >
-                📘{" "}
-                {selectedFormats.length > 0
-                  ? `${selectedFormats.join("・")} の単元を選ぼう！`
-                  : "出題形式を選んでください"}
-              </motion.h2>
+                📥 質問ボックス（{questionList.length}件）
+              </button>
+            </header>
 
-              {/* === 単元グリッド === */}
-              <div className="w-full px-2 sm:px-4">
-                {/* === 全選択・全解除 === */}
-                <div className="flex justify-center gap-3 mb-4">
-                  <button
-                    onClick={() => playButtonSound(selectAllUnits)}
-                    className="bg-green-400 hover:bg-green-500 text-white px-4 py-1.5 rounded-full shadow text-sm transition"
-                  >
-                    全選択
-                  </button>
-                  <button
-                    onClick={() => playButtonSound(clearAllUnits)}
-                    className="bg-red-400 hover:bg-red-500 text-white px-4 py-1.5 rounded-full shadow text-sm transition"
-                  >
-                    全解除
-                  </button>
+            {/* 🧩 メインUI：問題形式・単元ボタンなど（背景より上の層） */}
+            <div className="relative min-h-screen overflow-hidden z-0 flex flex-col items-center pt-24 bg-transparent pointer-events-none">
+              {/* ここに今までの main / 出題形式タブ / 単元グリッド / スタートボタン / フッター をそのまま置く */}
+              <main
+                className={`w-full p-4 sm:p-6 rounded-2xl border z-10 pointer-events-auto transition-all duration-300 ${
+                  lowSpecMode
+                    ? "bg-white border-gray-200" // ⚡️軽量モード（影・ぼかしOFF）
+                    : "bg-white/60 backdrop-blur-md shadow-[inset_0_0_15px_rgba(255,255,255,0.5)] border-white/30"
+                }`}
+              >
+                {/* === 出題形式タブ === */}
+                <h2 className="text-2xl font-bold text-center mb-4 text-[#4A6572]">
+                  🎯 出題形式を選ぼう！（複数選択OK）
+                </h2>
+
+                {/* === 出題形式ボタン群 === */}
+                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                  {[
+                    "単語・熟語",
+                    "適語補充",
+                    "適文補充",
+                    "整序問題",
+                    "英作文",
+                    "長文読解",
+                    "リスニング",
+                  ].map((format) => {
+                    const isSelected = selectedFormats.includes(format);
+                    return (
+                      <button
+                        key={format}
+                        onClick={() =>
+                          playButtonSound(() => {
+                            setSelectedFormats((prev) =>
+                              prev.includes(format)
+                                ? prev.filter((f) => f !== format)
+                                : [...prev, format]
+                            );
+                          })
+                        }
+                        className={`px-3 py-2 rounded-full shadow-sm text-sm font-semibold transition-all ${
+                          isSelected
+                            ? "bg-gradient-to-r from-pink-400 to-orange-400 text-white scale-105"
+                            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                        }`}
+                      >
+                        {format}
+                      </button>
+                    );
+                  })}
                 </div>
 
-                {/* === 単元ボタン群 === */}
-                <div
-                  className="
+                <motion.h2
+                  key={selectedFormats.join(",")}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-center text-lg font-bold text-[#4A6572] mb-3"
+                >
+                  📘{" "}
+                  {selectedFormats.length > 0
+                    ? `${selectedFormats.join("・")} の単元を選ぼう！`
+                    : "出題形式を選んでください"}
+                </motion.h2>
+
+                {/* === 単元グリッド === */}
+                <div className="w-full px-2 sm:px-4">
+                  {/* === 全選択・全解除 === */}
+                  <div className="flex justify-center gap-3 mb-4">
+                    <button
+                      onClick={() => playButtonSound(selectAllUnits)}
+                      className="bg-green-400 hover:bg-green-500 text-white px-4 py-1.5 rounded-full shadow text-sm transition"
+                    >
+                      全選択
+                    </button>
+                    <button
+                      onClick={() => playButtonSound(clearAllUnits)}
+                      className="bg-red-400 hover:bg-red-500 text-white px-4 py-1.5 rounded-full shadow text-sm transition"
+                    >
+                      全解除
+                    </button>
+                  </div>
+
+                  {/* === 単元ボタン群 === */}
+                  <div
+                    className="
             grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 
             gap-[6px] sm:gap-2 lg:gap-3 
             w-full mb-8
           "
-                >
-                  {/* === 📁 単語テストフォルダー === */}
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() =>
-                      playButtonSound(() => setShowWordFolder((p) => !p))
-                    }
-                    className="col-span-4 sm:col-span-5 bg-gradient-to-r from-yellow-300 to-yellow-400 text-[#4A6572] font-bold py-2 rounded-xl shadow-md transition-all text-center"
                   >
-                    📘 単語テスト {showWordFolder ? "▲" : "▼"}
-                  </motion.button>
-
-                  {/* === 📗 オリジナル単語帳フォルダ === */}
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() =>
-                      playButtonSound(() => setShowOriginalFolder((p) => !p))
-                    }
-                    className="col-span-4 sm:col-span-5 bg-gradient-to-r from-green-300 to-green-400 
-             text-[#2d4a22] font-bold py-2 rounded-xl shadow-md transition-all text-center"
-                  >
-                    📗 オリジナル単語帳 {showOriginalFolder ? "▲" : "▼"}
-                  </motion.button>
-
-                  <AnimatePresence>
-                    {showOriginalFolder && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                        className="col-span-4 sm:col-span-5 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 
-                 gap-2 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
-                      >
-                        {/* 単語追加 */}
-                        <button
-                          onClick={() => {
-                            setShowCustomWordInput(true);
-                            setShowOriginalFolder(false);
-                          }}
-                          className="col-span-4 sm:col-span-5 bg-yellow-300 hover:bg-yellow-400 
-                   text-[#4A6572] font-bold py-2 rounded-xl shadow-md"
-                        >
-                          ✍️ 単語を追加する
-                        </button>
-
-                        {/* 単語一覧 */}
-                        <button
-                          onClick={() => {
-                            setShowOriginalList(true);
-                            setShowOriginalFolder(false);
-                          }}
-                          className="col-span-4 sm:col-span-5 bg-blue-300 hover:bg-blue-400 
-                   text-[#123a6b] font-bold py-2 rounded-xl shadow-md"
-                        >
-                          📄 登録単語一覧
-                        </button>
-
-                        {/* オリジナル単語テスト */}
-                        <button
-                          onClick={() => {
-                            if (customWords.length === 0) {
-                              alert("登録されたオリジナル単語がありません。");
-                              return;
-                            }
-
-                            // 単語テストオリジナルを選択状態にする
-                            const newModes = {
-                              ...unitModes,
-                              ["単語テストオリジナル"]: 1,
-                            };
-                            setUnitModes(newModes);
-                            localStorage.setItem(
-                              "unitModes",
-                              JSON.stringify(newModes)
-                            );
-
-                            setShowOriginalFolder(false);
-
-                            // ❗ 質問ボックスではなく、テスト開始画面へ誘導
-                            playButtonSound(() => {
-                              // 「単語テストオリジナル」単元が選ばれた状態で
-                              // 生徒がスタートボタンを押せる画面にする
-                              window.scrollTo({ top: 0, behavior: "smooth" });
-                            });
-                          }}
-                          className="col-span-4 sm:col-span-5 bg-pink-300 hover:bg-pink-400 
-   text-[#6b123a] font-bold py-2 rounded-xl shadow-md"
-                        >
-                          📝 オリジナル単語テスト
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {/* === 展開部分 === */}
-                  <AnimatePresence>
-                    {showWordFolder && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.4, ease: "easeInOut" }}
-                        className="col-span-4 sm:col-span-5 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
-                      >
-                        {/* ▼ 既存：questions.json にある「単語テスト」単元ボタン */}
-                        {Array.from(
-                          new Set(
-                            questions
-                              .map((q) => q.unit)
-                              .filter((unit) => unit.includes("単語テスト"))
-                          )
-                        ).map((unit) => {
-                          const displayName = unit
-                            .replace("単語テスト", "")
-                            .trim();
-                          return renderUnitButton(unit, displayName);
-                        })}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {/* === その他の単元 === */}
-                  {Array.from(
-                    new Set(
-                      questions
-                        .map((q) => q.unit)
-                        .filter((unit) => !unit.includes("単語テスト"))
-                    )
-                  ).map((unit) => renderUnitButton(unit))}
-                </div>
-              </div>
-
-              {/* === 出題数・単語帳・サウンド設定 === */}
-              <div className="text-center space-y-4">
-                <h2 className="text-lg font-bold text-[#4A6572]">
-                  出題数を選ぼう！
-                </h2>
-                <div className="flex gap-3 flex-wrap justify-center mb-2">
-                  {[5, 10, 15, "all"].map((count) => (
-                    <button
-                      key={count}
+                    {/* === 📁 単語テストフォルダー === */}
+                    <motion.button
+                      whileTap={{ scale: 0.95 }}
                       onClick={() =>
-                        playButtonSound(() => setQuestionCount(count))
+                        playButtonSound(() => setShowWordFolder((p) => !p))
                       }
-                      className={`px-4 py-2 rounded-full border shadow-sm transition text-sm ${
-                        questionCount === count
-                          ? "bg-[#A7D5C0] text-[#4A6572] font-bold scale-105"
-                          : "bg-white text-[#4A6572] hover:bg-[#F1F1F1]"
+                      className="col-span-4 sm:col-span-5 bg-gradient-to-r from-yellow-300 to-yellow-400 text-[#4A6572] font-bold py-2 rounded-xl shadow-md transition-all text-center"
+                    >
+                      📘 単語テスト {showWordFolder ? "▲" : "▼"}
+                    </motion.button>
+
+                    {/* === 📗 オリジナル単語帳フォルダ === */}
+                    <motion.button
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() =>
+                        playButtonSound(() => setShowOriginalFolder((p) => !p))
+                      }
+                      className="col-span-4 sm:col-span-5 bg-gradient-to-r from-green-300 to-green-400 
+             text-[#2d4a22] font-bold py-2 rounded-xl shadow-md transition-all text-center"
+                    >
+                      📗 オリジナル単語帳 {showOriginalFolder ? "▲" : "▼"}
+                    </motion.button>
+
+                    <AnimatePresence>
+                      {showOriginalFolder && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.4, ease: "easeInOut" }}
+                          className="col-span-4 sm:col-span-5 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 
+                 gap-2 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
+                        >
+                          {/* 単語追加 */}
+                          <button
+                            onClick={() => {
+                              setShowCustomWordInput(true);
+                              setShowOriginalFolder(false);
+                            }}
+                            className="col-span-4 sm:col-span-5 bg-yellow-300 hover:bg-yellow-400 
+                   text-[#4A6572] font-bold py-2 rounded-xl shadow-md"
+                          >
+                            ✍️ 単語を追加する
+                          </button>
+
+                          {/* 単語一覧 */}
+                          <button
+                            onClick={() => {
+                              setShowOriginalList(true);
+                              setShowOriginalFolder(false);
+                            }}
+                            className="col-span-4 sm:col-span-5 bg-blue-300 hover:bg-blue-400 
+                   text-[#123a6b] font-bold py-2 rounded-xl shadow-md"
+                          >
+                            📄 登録単語一覧
+                          </button>
+
+                          {/* オリジナル単語テスト */}
+                          <button
+                            onClick={() => {
+                              const originalQs = questions.filter(
+                                (q) => q.unit === "単語テストオリジナル"
+                              );
+
+                              setShowOriginalFolder(false);
+
+                              playButtonSound(() => {
+                                initAudio();
+                                startOriginalQuiz(originalQs); // ← startQuizではなく専用関数
+                              });
+                            }}
+                            className="col-span-4 sm:col-span-5 bg-pink-300 hover:bg-pink-400 text-[#6b123a] 
+             font-bold py-2 rounded-xl shadow-md"
+                          >
+                            📝 オリジナル単語テスト
+                          </button>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* === 展開部分 === */}
+                    <AnimatePresence>
+                      {showWordFolder && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.4, ease: "easeInOut" }}
+                          className="col-span-4 sm:col-span-5 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
+                        >
+                          {/* ▼ 既存：questions.json にある「単語テスト」単元ボタン */}
+                          {Array.from(
+                            new Set(
+                              questions
+                                .map((q) => q.unit)
+                                .filter((unit) => unit.includes("単語テスト"))
+                            )
+                          ).map((unit) => {
+                            const displayName = unit
+                              .replace("単語テスト", "")
+                              .trim();
+                            return renderUnitButton(unit, displayName);
+                          })}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* === その他の単元 === */}
+                    {Array.from(
+                      new Set(
+                        questions
+                          .map((q) => q.unit)
+                          .filter((unit) => !unit.includes("単語テスト"))
+                      )
+                    ).map((unit) => renderUnitButton(unit))}
+                  </div>
+                </div>
+
+                {/* === 出題数・単語帳・サウンド設定 === */}
+                <div className="text-center space-y-4">
+                  <h2 className="text-lg font-bold text-[#4A6572]">
+                    出題数を選ぼう！
+                  </h2>
+                  <div className="flex gap-3 flex-wrap justify-center mb-2">
+                    {[5, 10, 15, "all"].map((count) => (
+                      <button
+                        key={count}
+                        onClick={() =>
+                          playButtonSound(() => setQuestionCount(count))
+                        }
+                        className={`px-4 py-2 rounded-full border shadow-sm transition text-sm ${
+                          questionCount === count
+                            ? "bg-[#A7D5C0] text-[#4A6572] font-bold scale-105"
+                            : "bg-white text-[#4A6572] hover:bg-[#F1F1F1]"
+                        }`}
+                      >
+                        {count === "all" ? "すべて" : `${count}問`}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex justify-center gap-3 flex-wrap">
+                    <button
+                      onClick={() =>
+                        playButtonSound(() => setShowWordList(true))
+                      }
+                      className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow transition"
+                    >
+                      📖 単語帳（{wordList.length}件）
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        if (audioCtx && audioCtx.state === "suspended") {
+                          try {
+                            await audioCtx.resume();
+                          } catch (e) {
+                            console.warn("[Audio] resume failed", e);
+                          }
+                        }
+                        setSoundEnabled((prev) => !prev);
+                      }}
+                      className={`px-4 py-2 rounded-full shadow transition text-sm font-semibold ${
+                        soundEnabled
+                          ? "bg-green-400 text-white"
+                          : "bg-gray-300 text-gray-800"
                       }`}
                     >
-                      {count === "all" ? "すべて" : `${count}問`}
+                      {soundEnabled ? "🔊 サウンドOFF" : "🔈 サウンドON"}
                     </button>
-                  ))}
+                  </div>
                 </div>
 
-                <div className="flex justify-center gap-3 flex-wrap">
-                  <button
-                    onClick={() => playButtonSound(() => setShowWordList(true))}
-                    className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow transition"
-                  >
-                    📖 単語帳（{wordList.length}件）
-                  </button>
-
-                  <button
-                    onClick={async () => {
-                      if (audioCtx && audioCtx.state === "suspended") {
-                        try {
-                          await audioCtx.resume();
-                        } catch (e) {
-                          console.warn("[Audio] resume failed", e);
-                        }
-                      }
-                      setSoundEnabled((prev) => !prev);
-                    }}
-                    className={`px-4 py-2 rounded-full shadow transition text-sm font-semibold ${
-                      soundEnabled
-                        ? "bg-green-400 text-white"
-                        : "bg-gray-300 text-gray-800"
-                    }`}
-                  >
-                    {soundEnabled ? "🔊 サウンドOFF" : "🔈 サウンドON"}
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-3 flex items-center justify-center gap-2 bg-gray-50 p-2 rounded-lg border">
-                <input
-                  type="checkbox"
-                  id="lowSpecModeToggle"
-                  checked={lowSpecMode}
-                  onChange={() => setLowSpecMode(!lowSpecMode)}
-                  className="w-4 h-4 accent-blue-600"
-                />
-                <label
-                  htmlFor="lowSpecModeToggle"
-                  className="text-sm text-gray-800 font-semibold select-none"
-                >
-                  ⚙️ 軽量モード（アニメ・シャドウOFF）
-                </label>
-              </div>
-
-              {/* 🧠 OCRモード切替（Google Vision / Tesseract） */}
-              {useHandwriting && (
-                <div className="mt-2 flex items-center justify-center gap-2 bg-gray-50 p-2 rounded-lg border">
+                <div className="mt-3 flex items-center justify-center gap-2 bg-gray-50 p-2 rounded-lg border">
                   <input
                     type="checkbox"
-                    id="useGoogleOCR"
-                    checked={ocrEngine === "vision"}
-                    onChange={(e) =>
-                      setOcrEngine(e.target.checked ? "vision" : "tesseract")
-                    }
+                    id="lowSpecModeToggle"
+                    checked={lowSpecMode}
+                    onChange={() => setLowSpecMode(!lowSpecMode)}
                     className="w-4 h-4 accent-blue-600"
                   />
                   <label
-                    htmlFor="useGoogleOCR"
+                    htmlFor="lowSpecModeToggle"
                     className="text-sm text-gray-800 font-semibold select-none"
                   >
-                    🌐 高精度OCR（Google Vision）を使う
+                    ⚙️ 軽量モード（アニメ・シャドウOFF）
                   </label>
                 </div>
-              )}
 
-              {/* === スタートボタン === */}
-              <button
-                onClick={() => {
-                  if (selectedFormats.length === 0) {
-                    alert("出題形式を1つ以上選んでください。");
-                    return;
-                  }
-                  if (filtered.length === 0) {
-                    alert("選択した単元に問題がありません。");
-                    return;
-                  }
-                  initAudio();
-                  startQuiz();
-                }}
-                disabled={units.length === 0 || !questionCount}
-                className={`mt-8 rounded-full px-8 py-3 shadow-lg font-bold mx-auto block transition text-lg ${
-                  units.length === 0 || !questionCount
-                    ? "bg-gray-400 text-white cursor-not-allowed"
-                    : "bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white scale-105"
-                }`}
-              >
-                🚀 スタート！
-              </button>
-            </main>
+                {/* 🧠 OCRモード切替（Google Vision / Tesseract） */}
+                {useHandwriting && (
+                  <div className="mt-2 flex items-center justify-center gap-2 bg-gray-50 p-2 rounded-lg border">
+                    <input
+                      type="checkbox"
+                      id="useGoogleOCR"
+                      checked={ocrEngine === "vision"}
+                      onChange={(e) =>
+                        setOcrEngine(e.target.checked ? "vision" : "tesseract")
+                      }
+                      className="w-4 h-4 accent-blue-600"
+                    />
+                    <label
+                      htmlFor="useGoogleOCR"
+                      className="text-sm text-gray-800 font-semibold select-none"
+                    >
+                      🌐 高精度OCR（Google Vision）を使う
+                    </label>
+                  </div>
+                )}
 
-            {/* 🦶 フッター */}
-            <footer className="text-center text-xs text-gray-400 mt-8 mb-4 z-10 bg-transparent">
-              © 塾∞練 JUKUREN — Learning Without Limits
-            </footer>
-          </div>
-        </>
-      )}
-
-      {/* クイズ進行中 */}
-      {showQuestions && !showResult && currentQuestion && (
-        <>
-          {/* 上：問題・タイマーなど */}
-          <div className="w-full flex justify-center">
-            <div className="w-full max-w-[900px] px-4 sm:px-6 md:px-8 flex flex-col items-center pb-[300px]">
-              {/* ← 👆 pb-[220px] は下の手書きパッド分の余白 */}
-
-              <Character mood={characterMood} userName={userName} />
-
-              {/* 🌟 連続正解カウンター */}
-              {streak > 0 && (
-                <div className="text-center text-lg font-bold text-[#4A6572] mt-2">
-                  🌟 連続正解：{streak}問！
-                </div>
-              )}
-
-              {/* === formatごとの分岐 === */}
-              {showFeedback ? (
-                /* ✅ 解答結果画面（既存部分はほぼ変更なし） */
-                <div
-                  className={`p-4 rounded-lg shadow-md mb-4 overflow-y-auto max-h-[calc(100vh-260px)] pb-[220px] z-[7000] relative ${
-                    isCorrect
-                      ? "bg-green-100 border-green-300"
-                      : "bg-red-100 border-red-300"
+                {/* === スタートボタン === */}
+                <button
+                  onClick={() => {
+                    if (selectedFormats.length === 0) {
+                      alert("出題形式を1つ以上選んでください。");
+                      return;
+                    }
+                    if (filtered.length === 0) {
+                      alert("選択した単元に問題がありません。");
+                      return;
+                    }
+                    initAudio();
+                    startQuiz();
+                  }}
+                  disabled={units.length === 0 || !questionCount}
+                  className={`mt-8 rounded-full px-8 py-3 shadow-lg font-bold mx-auto block transition text-lg ${
+                    units.length === 0 || !questionCount
+                      ? "bg-gray-400 text-white cursor-not-allowed"
+                      : "bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white scale-105"
                   }`}
                 >
-                  <motion.h2
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="text-xl font-bold mb-4"
-                  >
-                    解答結果
-                  </motion.h2>
+                  🚀 スタート！
+                </button>
+              </main>
 
-                  {/* ✅ 正誤メッセージ */}
-                  {isCorrect ? (
-                    <div className="bg-[#6DBD98] text-white p-4 rounded-lg shadow text-center">
-                      ✅ 正解です！ よくできました！
-                    </div>
-                  ) : (
-                    <div className="bg-[#F8B195] text-white p-4 rounded-lg shadow text-center">
-                      ❌ 不正解です。
-                      {!showAnswer ? (
-                        <div className="mt-4">
-                          <button
-                            onClick={() =>
-                              playButtonSound(() => setShowAnswer(true))
-                            }
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow"
-                          >
-                            答えを見てみる
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="mt-4">
-                          <p className="font-bold mb-2">✅ 正解は：</p>
-                          <p className="bg-green-100 text-gray-800 p-2 rounded">
-                            {Array.isArray(currentQuestion.correct)
-                              ? currentQuestion.correct.join(" / ")
-                              : currentQuestion.correct}
-                          </p>
-                          <button
-                            onClick={() =>
-                              playButtonSound(() => {
-                                setShowAnswer(false);
-                                setShowFeedback(false);
-                              })
-                            }
-                            className="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow"
-                          >
-                            もう一度解いてみる
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
+              {/* 🦶 フッター */}
+              <footer className="text-center text-xs text-gray-400 mt-8 mb-4 z-10 bg-transparent">
+                © 塾∞練 JUKUREN — Learning Without Limits
+              </footer>
+            </div>
+          </>
+        )}
 
-                  {/* ✅ あなたの答え・解説など（既存） */}
-                  <p className="text-gray-800 mt-2">
-                    あなたの答え: {selectedChoice}
-                  </p>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="bg-[#F9F9F9] border-l-8 border-[#A7D5C0] rounded-xl p-6 mt-4 shadow"
+        {/* クイズ進行中 */}
+        {showQuestions && !showResult && currentQuestion && (
+          <>
+            {/* 上：問題・タイマーなど */}
+            <div className="w-full flex justify-center">
+              <div className="w-full max-w-[900px] px-4 sm:px-6 md:px-8 flex flex-col items-center pb-[300px]">
+                {/* ← 👆 pb-[220px] は下の手書きパッド分の余白 */}
+
+                <Character mood={characterMood} userName={userName} />
+
+                {/* 🌟 連続正解カウンター */}
+                {streak > 0 && (
+                  <div className="text-center text-lg font-bold text-[#4A6572] mt-2">
+                    🌟 連続正解：{streak}問！
+                  </div>
+                )}
+
+                {/* === formatごとの分岐 === */}
+                {showFeedback ? (
+                  /* ✅ 解答結果画面（既存部分はほぼ変更なし） */
+                  <div
+                    className={`p-4 rounded-lg shadow-md mb-4 overflow-y-auto max-h-[calc(100vh-260px)] pb-[220px] z-[7000] relative ${
+                      isCorrect
+                        ? "bg-green-100 border-green-300"
+                        : "bg-red-100 border-red-300"
+                    }`}
                   >
-                    <div className="flex items-center mb-2">
-                      <span className="text-2xl mr-2">📘</span>
-                      <h3 className="text-[#4A6572] font-bold text-lg">
-                        解説をしっかり読もう！
-                      </h3>
-                    </div>
-                    <p className="text-gray-800 leading-relaxed">
-                      {isCorrect
-                        ? currentQuestion.explanation
-                        : currentQuestion.incorrectExplanations?.[
-                            selectedChoice
-                          ] ??
-                          `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`}
+                    <motion.h2
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                      className="text-xl font-bold mb-4"
+                    >
+                      解答結果
+                    </motion.h2>
+
+                    {/* ✅ 正誤メッセージ */}
+                    {isCorrect ? (
+                      <div className="bg-[#6DBD98] text-white p-4 rounded-lg shadow text-center">
+                        ✅ 正解です！ よくできました！
+                      </div>
+                    ) : (
+                      <div className="bg-[#F8B195] text-white p-4 rounded-lg shadow text-center">
+                        ❌ 不正解です。
+                        {!showAnswer ? (
+                          <div className="mt-4">
+                            <button
+                              onClick={() =>
+                                playButtonSound(() => setShowAnswer(true))
+                              }
+                              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded shadow"
+                            >
+                              答えを見てみる
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="mt-4">
+                            <p className="font-bold mb-2">✅ 正解は：</p>
+                            <p className="bg-green-100 text-gray-800 p-2 rounded">
+                              {Array.isArray(currentQuestion.correct)
+                                ? currentQuestion.correct.join(" / ")
+                                : currentQuestion.correct}
+                            </p>
+                            <button
+                              onClick={() =>
+                                playButtonSound(() => {
+                                  setShowAnswer(false);
+                                  setShowFeedback(false);
+                                })
+                              }
+                              className="mt-4 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow"
+                            >
+                              もう一度解いてみる
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* ✅ あなたの答え・解説など（既存） */}
+                    <p className="text-gray-800 mt-2">
+                      あなたの答え: {selectedChoice}
                     </p>
-
-                    {/* 🔊 音声ボタン */}
-                    <button
-                      onClick={() => {
-                        let textToRead;
-                        if (isCorrect) {
-                          // ✅ 正解時も日本語イントロを追加
-                          textToRead = `正解です。「${currentQuestion.correct}」。${currentQuestion.explanation}`;
-                        } else {
-                          textToRead =
-                            currentQuestion.incorrectExplanations?.[
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-[#F9F9F9] border-l-8 border-[#A7D5C0] rounded-xl p-6 mt-4 shadow"
+                    >
+                      <div className="flex items-center mb-2">
+                        <span className="text-2xl mr-2">📘</span>
+                        <h3 className="text-[#4A6572] font-bold text-lg">
+                          解説をしっかり読もう！
+                        </h3>
+                      </div>
+                      <p className="text-gray-800 leading-relaxed">
+                        {isCorrect
+                          ? currentQuestion.explanation
+                          : currentQuestion.incorrectExplanations?.[
                               selectedChoice
                             ] ??
-                            `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`;
-                        }
-
-                        playExplanation(textToRead);
-                      }}
-                      className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
-                    >
-                      🔊 解説を聞く
-                    </button>
-                    <button
-                      onClick={() => {
-                        if (window.stopExplanationPlayback) {
-                          window.stopExplanationPlayback(); // ✅ 状態も確実にリセット
-                          //console.log("🛑 解説停止 & 状態リセット");
-                        }
-                      }}
-                      className="bg-red-500 text-white px-4 py-2 rounded"
-                    >
-                      ⏹ 停止
-                    </button>
-                  </motion.div>
-
-                  {/* 🔁 覚え直す・質問する・次へ */}
-                  <button
-                    onClick={() => {
-                      const current = filteredQuestions[currentIndex];
-                      setReviewing(true);
-                      setTemporaryAnswer(
-                        Array.isArray(current.correct)
-                          ? current.correct.join(" / ")
-                          : current.correct ?? ""
-                      );
-                      setShowAnswerTemporarily(true);
-                      // 🎙️ 英語TTSで正答をネイティブ発音
-                      if (soundEnabled && current?.correct) {
-                        // 複数解答対応（/区切りなら最初のものを読む）
-                        const englishText = Array.isArray(current.correct)
-                          ? current.correct[0]
-                          : String(current.correct).split("/")[0].trim();
-                        speakEnglishAnswer(englishText);
-                      }
-                      setReviewList((prev) => {
-                        if (prev.find((q) => q.id === current.id)) return prev;
-                        return [...prev, current];
-                      });
-                      setTimeout(() => {
-                        setShowAnswerTemporarily(false);
-                        setTemporaryAnswer("");
-                        setShowFeedback(false);
-                        setTimerActive(true);
-                        setReviewing(false);
-                      }, 2000);
-                    }}
-                    className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
-                  >
-                    🔁 覚え直す
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      playButtonSound(() => handleAddToQuestionList())
-                    }
-                    className="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
-                  >
-                    後で先生に質問する
-                  </button>
-
-                  <button
-                    onClick={handleNext}
-                    disabled={isSpeaking}
-                    className={`px-6 py-3 rounded-full shadow-md transition mt-4 text-white font-bold ${
-                      isSpeaking
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-pink-400 hover:bg-pink-500"
-                    }`}
-                  >
-                    {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
-                  </button>
-                </div>
-              ) : (
-                /* ✅ 出題画面（ここがformat対応の重要部分） */
-
-                <div className="flex flex-col w-full bg-white/80 backdrop-blur-md rounded-xl shadow-md p-4 sm:p-6 mb-8">
-                  <h2 className="text-lg sm:text-xl font-bold mb-4">
-                    第{currentIndex + 1}問 / 全{filteredQuestions.length}問
-                  </h2>
-
-                  {/* 🔹 タイマー */}
-                  <div
-                    className={`text-base sm:text-lg font-bold mb-2 ${
-                      timeLeft <= 5
-                        ? "text-red-600 animate-pulse"
-                        : "text-gray-800"
-                    }`}
-                  >
-                    残り時間: {timeLeft} 秒
-                  </div>
-
-                  {/* 🔹 時間バー */}
-                  <div className="w-full bg-gray-200 h-3 rounded mb-4">
-                    <div
-                      className={`h-3 rounded transition-all duration-1000 ${
-                        timeLeft > 5
-                          ? "bg-green-500"
-                          : "bg-red-500 animate-pulse"
-                      }`}
-                      style={{
-                        width: `${
-                          maxTime > 0 ? (timeLeft / maxTime) * 100 : 0
-                        }%`,
-                      }}
-                    ></div>
-                  </div>
-
-                  {/* 🔹 時間切れ表示 */}
-                  {timeUp && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1.2 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="text-3xl sm:text-4xl font-extrabold text-red-600 text-center my-4"
-                    >
-                      ⏰ 時間切れ！
-                    </motion.div>
-                  )}
-
-                  {/* 🔹 問題文 */}
-
-                  <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-4 shadow mb-6 text-left">
-                    <h2 className="text-base sm:text-lg font-bold mb-2 whitespace-pre-wrap break-words">
-                      {isChoiceFormat ? (
-                        <span>
-                          {currentQuestion.question
-                            .split(" ")
-                            .map((word, idx) => (
-                              <span
-                                key={idx}
-                                onClick={() => handleWordClick(word)}
-                                className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
-                              >
-                                {word}
-                              </span>
-                            ))}
-                        </span>
-                      ) : (
-                        // 手入力問題はそのまま表示
-                        currentQuestion.question
-                      )}
-                    </h2>
-                  </div>
-
-                  {/* ✅ 覚え直し時に一時的に答えを表示（変更なし） */}
-                  {showAnswerTemporarily && (
-                    <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[2000]">
-                      <p className="text-white text-4xl sm:text-6xl font-extrabold text-center px-4 break-words leading-snug">
-                        ✅ {temporaryAnswer}
+                            `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`}
                       </p>
-                    </div>
-                  )}
 
-                  {/* === 💡ヒント＆🔁覚え直すボタン群（変更なし） === */}
-                  <div className="w-full flex justify-center gap-3 -1 mb-1">
-                    {/* 💡ヒントボタン */}
-                    <button
-                      onClick={handleShowHint}
-                      className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-3 py-1.5 rounded-full shadow text-sm sm:text-base"
-                    >
-                      💡 ヒント
-                    </button>
+                      {/* 🔊 音声ボタン */}
+                      <button
+                        onClick={() => {
+                          let textToRead;
+                          if (isCorrect) {
+                            // ✅ 正解時も日本語イントロを追加
+                            textToRead = `正解です。「${currentQuestion.correct}」。${currentQuestion.explanation}`;
+                          } else {
+                            textToRead =
+                              currentQuestion.incorrectExplanations?.[
+                                selectedChoice
+                              ] ??
+                              `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`;
+                          }
 
-                    {/* 🔁覚え直すボタン（中身・ロジックそのまま） */}
+                          playExplanation(textToRead);
+                        }}
+                        className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                      >
+                        🔊 解説を聞く
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.stopExplanationPlayback) {
+                            window.stopExplanationPlayback(); // ✅ 状態も確実にリセット
+                            //console.log("🛑 解説停止 & 状態リセット");
+                          }
+                        }}
+                        className="bg-red-500 text-white px-4 py-2 rounded"
+                      >
+                        ⏹ 停止
+                      </button>
+                    </motion.div>
+
+                    {/* 🔁 覚え直す・質問する・次へ */}
                     <button
                       onClick={() => {
                         const current = filteredQuestions[currentIndex];
-                        const raw = Array.isArray(current.correct)
-                          ? current.correct
-                          : Array.isArray(current.correctAnswers)
-                          ? current.correctAnswers
-                          : current.correctAnswer ?? current.correct ?? "";
-
-                        const correctText = Array.isArray(raw)
-                          ? raw.join(" / ")
-                          : raw;
-
                         setReviewing(true);
-                        setTemporaryAnswer(correctText);
+                        setTemporaryAnswer(
+                          Array.isArray(current.correct)
+                            ? current.correct.join(" / ")
+                            : current.correct ?? ""
+                        );
                         setShowAnswerTemporarily(true);
                         // 🎙️ 英語TTSで正答をネイティブ発音
                         if (soundEnabled && current?.correct) {
@@ -3759,30 +3648,11 @@ export default function EnglishTrapQuestions() {
                             : String(current.correct).split("/")[0].trim();
                           speakEnglishAnswer(englishText);
                         }
-
-                        if (!mistakes[current.id]) {
-                          setMistakes((prev) => ({
-                            ...prev,
-                            [current.id]: true,
-                          }));
-                          setFirstMistakeAnswers((prev) => ({
-                            ...prev,
-                            [current.id]: "(覚え直し選択)",
-                          }));
-                        }
-
                         setReviewList((prev) => {
                           if (prev.find((q) => q.id === current.id))
                             return prev;
                           return [...prev, current];
                         });
-
-                        setReviewMistakes((prev) => {
-                          if (prev.find((q) => q.id === current.id))
-                            return prev;
-                          return [...prev, current];
-                        });
-
                         setTimeout(() => {
                           setShowAnswerTemporarily(false);
                           setTemporaryAnswer("");
@@ -3791,714 +3661,896 @@ export default function EnglishTrapQuestions() {
                           setReviewing(false);
                         }, 2000);
                       }}
-                      className="bg-orange-400 hover:bg-orange-500 text-white font-bold px-3 py-1.5 rounded-full shadow text-sm sm:text-base"
+                      className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
                     >
                       🔁 覚え直す
                     </button>
+
+                    <button
+                      onClick={() =>
+                        playButtonSound(() => handleAddToQuestionList())
+                      }
+                      className="bg-yellow-400 hover:bg-yellow-500 text-white px-6 py-3 rounded-full shadow-md transition mt-4"
+                    >
+                      後で先生に質問する
+                    </button>
+
+                    <button
+                      onClick={handleNext}
+                      disabled={isSpeaking}
+                      className={`px-6 py-3 rounded-full shadow-md transition mt-4 text-white font-bold ${
+                        isSpeaking
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-pink-400 hover:bg-pink-500"
+                      }`}
+                    >
+                      {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
+                    </button>
                   </div>
+                ) : (
+                  /* ✅ 出題画面（ここがformat対応の重要部分） */
 
-                  {/* ヒントテキスト（変更なし） */}
-                  {hintText && (
-                    <div className="mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded-lg shadow text-gray-800 text-center">
-                      {hintText}
-                    </div>
-                  )}
+                  <div className="flex flex-col w-full bg-white/80 backdrop-blur-md rounded-xl shadow-md p-4 sm:p-6 mb-8">
+                    <h2 className="text-lg sm:text-xl font-bold mb-4">
+                      第{currentIndex + 1}問 / 全{filteredQuestions.length}問
+                    </h2>
 
-                  {/* 🔹 選択肢ボタン */}
-                  {/* 🔄 ここを format 判定に変更：単語・熟語以外（=4択）だけ表示 */}
-                  {currentQuestion.type === "multiple-choice" && (
-                    <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 mt-2">
-                      {shuffledChoices.map((choice, index) => (
-                        <button
-                          key={index}
-                          onClick={() => handleAnswer(choice)}
-                          className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
-                        >
-                          {choice}
-                        </button>
-                      ))}
+                    {/* 🔹 タイマー */}
+                    <div
+                      className={`text-base sm:text-lg font-bold mb-2 ${
+                        timeLeft <= 5
+                          ? "text-red-600 animate-pulse"
+                          : "text-gray-800"
+                      }`}
+                    >
+                      残り時間: {timeLeft} 秒
                     </div>
-                  )}
-                  {/* 🎧 リスニング問題 */}
-                  {currentQuestion.format === "リスニング" &&
-                    currentQuestion.type === "listening-choice" && (
-                      <div className="text-center mb-4">
-                        <button
-                          onClick={() => {
-                            // ✅ 再生回数制限（最大2回）
-                            if (!currentQuestion.playCount)
-                              currentQuestion.playCount = 0;
-                            if (currentQuestion.playCount >= 2) {
-                              alert("この音声は2回までしか再生できません。");
-                              return;
-                            }
-                            currentQuestion.playCount++;
-                            speakConversation(currentQuestion.audioText);
-                          }}
-                          className="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-full shadow transition"
-                        >
-                          🔊 音声を再生（{currentQuestion.playCount ?? 0}/2）
-                        </button>
-                        <p className="text-sm text-gray-600 mt-2">
-                          （2回まで再生できます）
+
+                    {/* 🔹 時間バー */}
+                    <div className="w-full bg-gray-200 h-3 rounded mb-4">
+                      <div
+                        className={`h-3 rounded transition-all duration-1000 ${
+                          timeLeft > 5
+                            ? "bg-green-500"
+                            : "bg-red-500 animate-pulse"
+                        }`}
+                        style={{
+                          width: `${
+                            maxTime > 0 ? (timeLeft / maxTime) * 100 : 0
+                          }%`,
+                        }}
+                      ></div>
+                    </div>
+
+                    {/* 🔹 時間切れ表示 */}
+                    {timeUp && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1.2 }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        className="text-3xl sm:text-4xl font-extrabold text-red-600 text-center my-4"
+                      >
+                        ⏰ 時間切れ！
+                      </motion.div>
+                    )}
+
+                    {/* 🔹 問題文 */}
+
+                    <div className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-xl p-4 shadow mb-6 text-left">
+                      <h2 className="text-base sm:text-lg font-bold mb-2 whitespace-pre-wrap break-words">
+                        {isChoiceFormat ? (
+                          <span>
+                            {currentQuestion.question
+                              .split(" ")
+                              .map((word, idx) => (
+                                <span
+                                  key={idx}
+                                  onClick={() => handleWordClick(word)}
+                                  className="hover:bg-[#A7D5C0] cursor-pointer px-1 rounded transition"
+                                >
+                                  {word}
+                                </span>
+                              ))}
+                          </span>
+                        ) : (
+                          // 手入力問題はそのまま表示
+                          currentQuestion.question
+                        )}
+                      </h2>
+                    </div>
+
+                    {/* ✅ 覚え直し時に一時的に答えを表示（変更なし） */}
+                    {showAnswerTemporarily && (
+                      <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[2000]">
+                        <p className="text-white text-4xl sm:text-6xl font-extrabold text-center px-4 break-words leading-snug">
+                          ✅ {temporaryAnswer}
                         </p>
-
-                        {/* 選択肢ボタン */}
-                        <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 mt-4">
-                          {currentQuestion.choices.map((choice, index) => (
-                            <button
-                              key={index}
-                              onClick={() => handleAnswer(choice)}
-                              className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
-                            >
-                              {choice}
-                            </button>
-                          ))}
-                        </div>
                       </div>
                     )}
 
-                  {/* 🔹 単語タップ翻訳結果（変更なし） */}
-                  {selectedWord && (
-                    <div className="mt-4 p-3 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
-                      <h3 className="text-base font-bold text-[#4A6572] mb-1">
-                        選択した単語
-                      </h3>
-                      <p className="text-lg text-[#4A6572]">{selectedWord}</p>
-                      <p className="text-gray-800">{wordMeaning}</p>
+                    {/* === 💡ヒント＆🔁覚え直すボタン群（変更なし） === */}
+                    <div className="w-full flex justify-center gap-3 -1 mb-1">
+                      {/* 💡ヒントボタン */}
+                      <button
+                        onClick={handleShowHint}
+                        className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold px-3 py-1.5 rounded-full shadow text-sm sm:text-base"
+                      >
+                        💡 ヒント
+                      </button>
+
+                      {/* 🔁覚え直すボタン（中身・ロジックそのまま） */}
+                      <button
+                        onClick={() => {
+                          const current = filteredQuestions[currentIndex];
+                          const raw = Array.isArray(current.correct)
+                            ? current.correct
+                            : Array.isArray(current.correctAnswers)
+                            ? current.correctAnswers
+                            : current.correctAnswer ?? current.correct ?? "";
+
+                          const correctText = Array.isArray(raw)
+                            ? raw.join(" / ")
+                            : raw;
+
+                          setReviewing(true);
+                          setTemporaryAnswer(correctText);
+                          setShowAnswerTemporarily(true);
+                          // 🎙️ 英語TTSで正答をネイティブ発音
+                          if (soundEnabled && current?.correct) {
+                            // 複数解答対応（/区切りなら最初のものを読む）
+                            const englishText = Array.isArray(current.correct)
+                              ? current.correct[0]
+                              : String(current.correct).split("/")[0].trim();
+                            speakEnglishAnswer(englishText);
+                          }
+
+                          if (!mistakes[current.id]) {
+                            setMistakes((prev) => ({
+                              ...prev,
+                              [current.id]: true,
+                            }));
+                            setFirstMistakeAnswers((prev) => ({
+                              ...prev,
+                              [current.id]: "(覚え直し選択)",
+                            }));
+                          }
+
+                          setReviewList((prev) => {
+                            if (prev.find((q) => q.id === current.id))
+                              return prev;
+                            return [...prev, current];
+                          });
+
+                          setReviewMistakes((prev) => {
+                            if (prev.find((q) => q.id === current.id))
+                              return prev;
+                            return [...prev, current];
+                          });
+
+                          setTimeout(() => {
+                            setShowAnswerTemporarily(false);
+                            setTemporaryAnswer("");
+                            setShowFeedback(false);
+                            setTimerActive(true);
+                            setReviewing(false);
+                          }, 2000);
+                        }}
+                        className="bg-orange-400 hover:bg-orange-500 text-white font-bold px-3 py-1.5 rounded-full shadow text-sm sm:text-base"
+                      >
+                        🔁 覚え直す
+                      </button>
                     </div>
-                  )}
+
+                    {/* ヒントテキスト（変更なし） */}
+                    {hintText && (
+                      <div className="mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded-lg shadow text-gray-800 text-center">
+                        {hintText}
+                      </div>
+                    )}
+
+                    {/* 🔹 選択肢ボタン */}
+                    {/* 🔄 ここを format 判定に変更：単語・熟語以外（=4択）だけ表示 */}
+                    {currentQuestion.type === "multiple-choice" && (
+                      <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 mt-2">
+                        {shuffledChoices.map((choice, index) => (
+                          <button
+                            key={index}
+                            onClick={() => handleAnswer(choice)}
+                            className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
+                          >
+                            {choice}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {/* 🎧 リスニング問題 */}
+                    {currentQuestion.format === "リスニング" &&
+                      currentQuestion.type === "listening-choice" && (
+                        <div className="text-center mb-4">
+                          <button
+                            onClick={() => {
+                              // ✅ 再生回数制限（最大2回）
+                              if (!currentQuestion.playCount)
+                                currentQuestion.playCount = 0;
+                              if (currentQuestion.playCount >= 2) {
+                                alert("この音声は2回までしか再生できません。");
+                                return;
+                              }
+                              currentQuestion.playCount++;
+                              speakConversation(currentQuestion.audioText);
+                            }}
+                            className="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-full shadow transition"
+                          >
+                            🔊 音声を再生（{currentQuestion.playCount ?? 0}/2）
+                          </button>
+                          <p className="text-sm text-gray-600 mt-2">
+                            （2回まで再生できます）
+                          </p>
+
+                          {/* 選択肢ボタン */}
+                          <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 mt-4">
+                            {currentQuestion.choices.map((choice, index) => (
+                              <button
+                                key={index}
+                                onClick={() => handleAnswer(choice)}
+                                className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-[#4A6572] hover:bg-[#A7D5C0] transition"
+                              >
+                                {choice}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                    {/* 🔹 単語タップ翻訳結果（変更なし） */}
+                    {selectedWord && (
+                      <div className="mt-4 p-3 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
+                        <h3 className="text-base font-bold text-[#4A6572] mb-1">
+                          選択した単語
+                        </h3>
+                        <p className="text-lg text-[#4A6572]">{selectedWord}</p>
+                        <p className="text-gray-800">{wordMeaning}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {console.log("=== DEBUG PAD ===", {
+              showQuestions,
+              showResult,
+              type: currentQuestion?.type,
+              format: currentQuestion?.format,
+              useHandwriting,
+            })}
+
+            {/* 下：問題解答用の手書きパッド（compact版とは完全に別物） */}
+            {showQuestions &&
+              !showResult &&
+              (currentQuestion.type?.trim() === "input" ||
+                currentQuestion.format === "単語・熟語") &&
+              !showHandwritingFor && ( // ← ★ compact表示中は通常パッドを出さない
+                <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t shadow-lg z-[60]">
+                  <div className="max-w-[900px] mx-auto px-4 sm:px-6 md:px-8 py-3">
+                    {renderInputSection()}
+                  </div>
                 </div>
               )}
-            </div>
-          </div>
+          </>
+        )}
 
-          {console.log("=== DEBUG PAD ===", {
-            showQuestions,
-            showResult,
-            type: currentQuestion?.type,
-            format: currentQuestion?.format,
-            useHandwriting,
-          })}
+        {showReviewPrompt && (
+          <div className="fixed inset-0 z-[9000] bg-black/40 flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl text-center relative z-[9001]">
+              <h3 className="text-lg font-bold mb-3">
+                📘 復習問題をもう一度出すよ！
+              </h3>
+              <p className="text-sm text-gray-600 mb-6">
+                解説を踏まえて、もう一度チャレンジ！
+              </p>
 
-          {/* 下：問題解答用の手書きパッド（compact版とは完全に別物） */}
-          {showQuestions &&
-            !showResult &&
-            (currentQuestion.type?.trim() === "input" ||
-              currentQuestion.format === "単語・熟語") &&
-            !showHandwritingFor && ( // ← ★ compact表示中は通常パッドを出さない
-              <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t shadow-lg z-[60]">
-                <div className="max-w-[900px] mx-auto px-4 sm:px-6 md:px-8 py-3">
-                  {renderInputSection()}
-                </div>
-              </div>
-            )}
-        </>
-      )}
+              <div className="flex gap-3 justify-center">
+                <button
+                  onClick={startReview}
+                  className="px-5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold"
+                >
+                  復習を始める
+                </button>
 
-      {showReviewPrompt && (
-        <div className="fixed inset-0 z-[9000] bg-black/40 flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl text-center relative z-[9001]">
-            <h3 className="text-lg font-bold mb-3">
-              📘 復習問題をもう一度出すよ！
-            </h3>
-            <p className="text-sm text-gray-600 mb-6">
-              解説を踏まえて、もう一度チャレンジ！
-            </p>
-
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={startReview}
-                className="px-5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold"
-              >
-                復習を始める
-              </button>
-
-              <button
-                onClick={() => {
-                  setShowReviewPrompt(false);
-                  setIsReviewMode(false);
-                  setShowQuestions(false);
-                  setShowResult(true);
-                }}
-                className="px-5 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800"
-              >
-                やめる
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showCustomWordInput && (
-        <div className="fixed inset-0 z-[7000] bg-black/30 flex items-start justify-center pt-10">
-          <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl">
-            <h2 className="text-xl font-bold mb-4">
-              {editingId ? "✏️ 単語を編集" : "✍️ オリジナル単語を追加"}
-            </h2>
-
-            {/* 英単語入力 */}
-            <div className="mb-3">
-              <label className="font-semibold">英単語：</label>
-              <input
-                type="text"
-                value={tempCustomWord}
-                onChange={(e) => setTempCustomWord(e.target.value)}
-                className="border p-2 w-full rounded"
-                placeholder="例: apple"
-              />
-              <button
-                onClick={() => setShowHandwritingFor("word")}
-                className="mt-2 bg-gray-200 px-3 py-1 rounded shadow text-sm"
-              >
-                ✍️ 手書きで入力する
-              </button>
-            </div>
-
-            {/* ▼ 自動取得した意味候補の表示（ある時だけ表示） */}
-            {suggestedMeaning && (
-              <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg shadow-sm">
-                <p className="text-sm font-semibold text-blue-800 mb-1">
-                  🔍 見つかった意味の候補：
-                </p>
-                <p className="text-blue-700 mb-2">{suggestedMeaning}</p>
                 <button
                   onClick={() => {
-                    setTempCustomMeaning(suggestedMeaning);
-                    setSuggestedMeaning(""); // ← ★候補を閉じる
+                    setShowReviewPrompt(false);
+                    setIsReviewMode(false);
+                    setShowQuestions(false);
+                    setShowResult(true);
                   }}
-                  className="px-3 py-1 bg-blue-500 text-white rounded shadow text-sm hover:bg-blue-600"
+                  className="px-5 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-800"
                 >
-                  ➕ この意味で決定する
+                  やめる
                 </button>
               </div>
-            )}
-
-            {/* 意味入力 */}
-            <div className="mb-3">
-              <label className="font-semibold">意味：</label>
-              <input
-                type="text"
-                value={tempCustomMeaning}
-                onChange={(e) => setTempCustomMeaning(e.target.value)}
-                className="border p-2 w-full rounded"
-                placeholder="例: りんご"
-              />
-              <button
-                onClick={() => setShowHandwritingFor("meaning")}
-                className="mt-2 bg-gray-200 px-3 py-1 rounded shadow text-sm"
-              >
-                ✍️ 手書きで入力する
-              </button>
             </div>
-
-            {/* 保存ボタン */}
-            <button
-              className="bg-blue-500 text-white p-2 rounded w-full mt-3"
-              onClick={() => {
-                if (!tempCustomWord.trim() || !tempCustomMeaning.trim()) return;
-
-                if (editingId) {
-                  // 編集モード
-                  const updated = customWords.map((w) =>
-                    w.id === editingId
-                      ? {
-                          ...w,
-                          word: tempCustomWord.trim(),
-                          meaning: tempCustomMeaning.trim(),
-                        }
-                      : w
-                  );
-                  saveCustomWords(updated);
-
-                  setTempCustomWord("");
-                  setTempCustomMeaning("");
-                  setEditingId(null);
-                  setShowCustomWordInput(false);
-
-                  // ★ 追加：候補と手書きパッドリセット
-                  setSuggestedMeaning("");
-                  setShowHandwritingFor(null);
-                } else {
-                  // 新規追加
-                  const newList = [
-                    ...customWords,
-                    {
-                      id: crypto.randomUUID(),
-                      word: tempCustomWord.trim(),
-                      meaning: tempCustomMeaning.trim(),
-                    },
-                  ];
-                  saveCustomWords(newList);
-
-                  // 🔥 トースト表示
-                  setShowSaveToast(true);
-                  setTimeout(() => setShowSaveToast(false), 1500);
-
-                  // 🔥 追加したい内容（新規追加後のリセット処理）
-                  setTempCustomWord("");
-                  setTempCustomMeaning("");
-
-                  // ★追加：候補消す
-                  setSuggestedMeaning("");
-
-                  // ★追加：手書きパッド閉じる
-                  setShowHandwritingFor(null);
-
-                  // ★（オプション）次の入力開始を「英単語」側から始めたい場合は↓
-                  setShowHandwritingFor("word");
-                }
-              }}
-            >
-              保存する
-            </button>
-
-            {/* 戻るボタン */}
-            <button
-              className="bg-gray-500 text-white p-2 rounded w-full mt-3"
-              onClick={() => {
-                setShowCustomWordInput(false);
-                setEditingId(null);
-                setShowHandwritingFor(null); // ← ★手書きパッドも閉じる
-                setSuggestedMeaning(""); // ← ★候補も消す（安全）
-              }}
-            >
-              閉じる
-            </button>
           </div>
-        </div>
-      )}
+        )}
 
-      {showOriginalList && (
-        <div className="fixed inset-0 bg-black/40 z-[2000] flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-6 w-[90%] max-w-[500px] shadow-xl">
-            <h2 className="text-xl font-bold mb-4">📄 登録単語一覧</h2>
+        {showCustomWordInput && (
+          <div className="fixed inset-0 z-[7000] bg-black/30 flex items-start justify-center pt-10">
+            <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl">
+              <h2 className="text-xl font-bold mb-4">
+                {editingId ? "✏️ 単語を編集" : "✍️ オリジナル単語を追加"}
+              </h2>
 
-            {customWords.length === 0 && (
-              <p className="text-gray-600">まだ単語が登録されていません。</p>
-            )}
-
-            <ul className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
-              {customWords.map((item) => (
-                <li
-                  key={item.id}
-                  className="bg-gray-50 p-3 rounded-xl shadow flex justify-between items-center"
-                >
-                  <div>
-                    <p className="font-bold text-lg">{item.word}</p>
-                    <p className="text-gray-600">{item.meaning}</p>
-                  </div>
-
-                  <div className="flex gap-2">
-                    {/* 編集 */}
-                    <button
-                      onClick={() => {
-                        setTempCustomWord(item.word);
-                        setTempCustomMeaning(item.meaning);
-                        setShowCustomWordInput(true);
-                        setEditingId(item.id);
-                        setShowOriginalList(false);
-                      }}
-                      className="bg-yellow-400 px-3 py-2 rounded"
-                    >
-                      ✏️
-                    </button>
-
-                    {/* 削除 */}
-                    <button
-                      onClick={() => {
-                        const updated = customWords.filter(
-                          (w) => w.id !== item.id
-                        );
-                        saveCustomWords(updated);
-                      }}
-                      className="bg-red-400 text-white px-3 py-2 rounded"
-                    >
-                      🗑️
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <button
-              onClick={() => setShowOriginalList(false)}
-              className="mt-4 bg-gray-500 text-white py-2 rounded w-full"
-            >
-              閉じる
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* 結果画面 */}
-      {showResult && (
-        <div>
-          <h2 className="text-2xl font-bold mb-4">結果発表</h2>
-          <p className="text-2xl font-bold mb-4">
-            {correctRate >= 90
-              ? "🎉 すばらしい！🥇"
-              : correctRate >= 80
-              ? "✨ よくできました！🥈"
-              : correctRate >= 70
-              ? "👍 もう少し！🥉"
-              : "💪 何度も挑戦しよう！"}
-          </p>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-2xl p-8 mb-6 text-center shadow-lg"
-          >
-            <h2 className="text-3xl font-bold text-[#4A6572] mb-4">結果発表</h2>
-            <p className="text-6xl font-extrabold text-[#6DBD98] mb-2">
-              {correctRate}%
-            </p>
-            <p className="text-[#4A6572]">
-              ヒント利用による減点: -{totalHintPenalty}%
-            </p>
-            <p className="text-xl font-bold text-[#4A6572]">
-              最終正答率: {adjustedCorrectRate}%
-            </p>
-          </motion.div>
-
-          {incorrectQuestionsList.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-xl font-bold mb-2">不正解だった問題と解説</h3>
-              {incorrectQuestionsList.map((q) => (
-                <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
-                  <p className="font-semibold">
-                    問題: {q.question || q.prompt}
-                  </p>
-                  <p className="text-red-600">
-                    あなたの答え: {firstMistakeAnswers[q.id]}
-                  </p>
-                  <p className="text-green-600">
-                    正解: {q.correct || q.correctAnswer}
-                  </p>
-                  <p className="mt-1 text-gray-700 flex items-center">
-                    解説: {q.explanation}
-                    {q.explanation && <TTSButton text={q.explanation} />}
-                    {/* ← ここに新しい質問ボタンを追加 */}
-                    <button
-                      onClick={() =>
-                        playButtonSound(() =>
-                          handleAddSpecificQuestionToList(
-                            q,
-                            firstMistakeAnswers[q.id]
-                          )
-                        )
-                      }
-                      className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow-md transition"
-                    >
-                      ❓ 後で先生に質問する
-                    </button>
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {reviewMistakes.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-lg font-bold text-orange-600 mb-2">
-                🔁 覚え直しリスト
-              </h3>
-              <ul className="space-y-3">
-                {reviewMistakes.map((q) => (
-                  <li
-                    key={q.id}
-                    className="bg-orange-50 border border-orange-200 p-3 rounded-lg shadow-sm"
-                  >
-                    <p className="font-semibold">{q.question}</p>
-                    <p className="text-gray-700">
-                      ✅ 正答：
-                      {Array.isArray(q.correct)
-                        ? q.correct.join(" / ")
-                        : q.correct ?? q.correctAnswer ?? ""}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          <div className="flex gap-4">
-            {" "}
-            <button
-              onClick={restartQuiz}
-              className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
-            >
-              同じ問題でもう一度
-            </button>
-            <button
-              onClick={() => window.location.reload()}
-              className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
-            >
-              別の問題にチャレンジ
-            </button>
-          </div>
-          {questionList.length > 0 && (
-            <div className="mt-6 p-4 bg-gray-100 rounded shadow">
-              <h3 className="font-bold mb-2">質問ボックス（仮表示）</h3>
-              <ul className="list-disc pl-5">
-                {questionList.map((item, index) => (
-                  <li key={index}>
-                    {item.question}（あなたの答え: {item.answer}）
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={() =>
-                  playButtonSound(() => {
-                    setQuestionList([]);
-                    localStorage.removeItem("questionList");
-                  })
-                }
-                className="bg-red-400 text-white px-4 py-2 rounded shadow hover:bg-red-500"
-              >
-                質問ボックスを全てクリア
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-
-      {showWordList && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
-            {/* タイトル */}
-            <h2 className="text-xl font-bold mb-4">📖 単語帳</h2>
-
-            {/* ===== テスト画面 or 単語一覧 ===== */}
-            {showWordTest ? (
-              // ===== テスト画面 =====
-              <div>
-                <h2 className="text-xl font-bold mb-4">
-                  {round === 1
-                    ? "英→日テスト"
-                    : round === 2
-                    ? "日→英テスト"
-                    : "復習テスト (英→日)"}{" "}
-                  ({testIndex + 1}/
-                  {round === 3 ? wrongWords.length : wordList.length})
-                </h2>
-
-                <p className="text-2xl mb-4">
-                  👉{" "}
-                  {round === 3
-                    ? wrongWords[testIndex].word
-                    : round === 1
-                    ? testWord.word
-                    : testWord.meaning}
-                </p>
-
-                {/* === 手書き入力欄 === */}
-                <HandwritingPad
-                  ocrEngine="vision" // もしくは "tesseract"
-                  currentAnswer={answer}
-                  onCharRecognized={(char) =>
-                    setAnswer((prev) => (prev + char).trim())
-                  }
-                  onSpace={() => setAnswer((prev) => prev + " ")}
-                  onClearAll={() => setAnswer("")}
-                  onSubmitAnswer={() => {
-                    // ✅ 正答と入力値を正規化して比較
-                    const correctAnswer =
-                      round === 1
-                        ? testWord.meaning // 英→日
-                        : round === 2
-                        ? testWord.word // 日→英
-                        : wrongWords[testIndex].meaning; // ✅ 復習は英→日固定
-
-                    const userAnswer =
-                      round === 1
-                        ? normJa(answer)
-                        : round === 2
-                        ? normEn(answer)
-                        : normJa(answer); // ✅ 復習は日本語で答える
-
-                    const corr =
-                      round === 1
-                        ? normJa(correctAnswer)
-                        : round === 2
-                        ? normEn(correctAnswer)
-                        : normJa(correctAnswer);
-
-                    if (userAnswer === corr) {
-                      alert("⭕ 正解！");
-                    } else {
-                      alert(`❌ 不正解。正解は「${correctAnswer}」`);
-                      setWrongWords((prev) => [...prev, testWord]);
-                    }
-
-                    // === 次の問題に進む処理 ===
-                    const nextIndex = testIndex + 1;
-
-                    if (
-                      nextIndex <
-                      (round === 3 ? wrongWords.length : wordList.length)
-                    ) {
-                      setTestIndex(nextIndex);
-                      if (round === 3) {
-                        setTestWord(wrongWords[nextIndex]); // ← 復習モード用の更新
-                      } else {
-                        setTestWord(wordList[nextIndex]); // ← 英→日 or 日→英用
-                      }
-                    } else {
-                      if (round === 1) {
-                        // 英→日が終わったら日→英へ
-                        setRound(2);
-                        setTestIndex(0);
-                        setTestWord(wordList[0]);
-                      } else if (round === 2) {
-                        // 日→英が終わったら復習へ
-                        if (wrongWords.length > 0) {
-                          setRound(3);
-                          setTestIndex(0);
-                          setTestWord(wrongWords[0]); // ← 復習モード最初の単語
-                        } else {
-                          alert("✅ テスト終了！");
-                          setShowWordTest(false);
-                        }
-                      } else {
-                        // 復習モードも終了
-                        alert("✅ 復習テスト終了！");
-                        setShowWordTest(false);
-                      }
-                    }
-                    setAnswer("");
-                  }}
+              {/* 英単語入力 */}
+              <div className="mb-3">
+                <label className="font-semibold">英単語：</label>
+                <input
+                  type="text"
+                  value={tempCustomWord}
+                  onChange={(e) => setTempCustomWord(e.target.value)}
+                  className="border p-2 w-full rounded"
+                  placeholder="例: apple"
                 />
-
-                {/* === 現在の入力を上部に表示（視覚的フィードバック） === */}
-                <div className="text-center mt-4 text-lg">
-                  🧩 現在の解答：{" "}
-                  <span className="font-bold text-blue-700">
-                    {answer || "(まだ入力なし)"}
-                  </span>
-                </div>
-              </div>
-            ) : (
-              // ===== 単語一覧 =====
-              <div>
-                {wordList.length === 0 ? (
-                  <p className="text-gray-600">
-                    まだ単語が登録されていません。
-                  </p>
-                ) : (
-                  <ul className="list-disc pl-6 mb-4">
-                    {wordList.map((w, i) => (
-                      <li
-                        key={i}
-                        className="flex justify-between items-center mb-2"
-                      >
-                        <span>
-                          {w.word} ― {w.meaning}
-                        </span>
-                        <button
-                          onClick={() =>
-                            setWordList((prev) =>
-                              prev.filter((_, idx) => idx !== i)
-                            )
-                          }
-                          className="ml-4 bg-red-400 hover:bg-red-500 text-white px-2 py-1 rounded"
-                        >
-                          削除
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
                 <button
-                  onClick={startWordTest}
-                  className="bg-green-400 hover:bg-green-500 text-white px-4 py-2 rounded-full shadow transition"
+                  onClick={() => setShowHandwritingFor("word")}
+                  className="mt-2 bg-gray-200 px-3 py-1 rounded shadow text-sm"
                 >
-                  📝 単語テスト開始（英→日 → 日→英）
+                  ✍️ 手書きで入力する
                 </button>
               </div>
-            )}
 
-            {/* 閉じるボタン */}
-            <button
-              onClick={() => setShowWordList(false)}
-              className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded mt-4"
-            >
-              閉じる
-            </button>
-          </div>
-        </div>
-      )}
+              {/* ▼ 自動取得した意味候補の表示（ある時だけ表示） */}
+              {suggestedMeaning && (
+                <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg shadow-sm">
+                  <p className="text-sm font-semibold text-blue-800 mb-1">
+                    🔍 見つかった意味の候補：
+                  </p>
+                  <p className="text-blue-700 mb-2">{suggestedMeaning}</p>
+                  <button
+                    onClick={() => {
+                      setTempCustomMeaning(suggestedMeaning);
+                      setSuggestedMeaning(""); // ← ★候補を閉じる
+                    }}
+                    className="px-3 py-1 bg-blue-500 text-white rounded shadow text-sm hover:bg-blue-600"
+                  >
+                    ➕ この意味で決定する
+                  </button>
+                </div>
+              )}
 
-      {showQuestionModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
-            <h2 className="text-xl font-bold mb-4 text-center">質問ボックス</h2>
+              {/* 意味入力 */}
+              <div className="mb-3">
+                <label className="font-semibold">意味：</label>
+                <input
+                  type="text"
+                  value={tempCustomMeaning}
+                  onChange={(e) => setTempCustomMeaning(e.target.value)}
+                  className="border p-2 w-full rounded"
+                  placeholder="例: りんご"
+                />
+                <button
+                  onClick={() => setShowHandwritingFor("meaning")}
+                  className="mt-2 bg-gray-200 px-3 py-1 rounded shadow text-sm"
+                >
+                  ✍️ 手書きで入力する
+                </button>
+              </div>
 
-            {questionList.length === 0 ? (
-              <p className="text-gray-600 text-center">
-                質問はまだありません。
-              </p>
-            ) : (
-              <ul className="space-y-4 max-h-96 overflow-y-auto">
-                {questionList.map((item, index) => (
-                  <li key={index} className="p-3 border rounded bg-gray-50">
-                    <p className="font-semibold">{item.question}</p>
-                    <p className="text-sm text-gray-600">
-                      あなたの答え: {item.answer}
-                    </p>
-                    <p className="text-sm text-green-700">
-                      正解: {item.correct}
-                    </p>
-                    <p className="text-sm text-gray-800 mt-1">
-                      {item.explanation}
-                    </p>
-                    <button
-                      onClick={() =>
-                        playButtonSound(() => handleDeleteQuestion(index))
-                      }
-                      className="mt-2 bg-red-400 text-white px-3 py-1 rounded shadow hover:bg-red-500"
-                    >
-                      削除
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            <div className="mt-4 flex justify-between">
+              {/* 保存ボタン */}
               <button
-                onClick={() =>
-                  playButtonSound(() => setShowQuestionModal(false))
-                }
-                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
+                className="bg-blue-500 text-white p-2 rounded w-full mt-3"
+                onClick={() => {
+                  if (!tempCustomWord.trim() || !tempCustomMeaning.trim())
+                    return;
+
+                  if (editingId) {
+                    // 編集モード
+                    const updated = customWords.map((w) =>
+                      w.id === editingId
+                        ? {
+                            ...w,
+                            word: tempCustomWord.trim(),
+                            meaning: tempCustomMeaning.trim(),
+                          }
+                        : w
+                    );
+                    saveCustomWords(updated);
+
+                    setTempCustomWord("");
+                    setTempCustomMeaning("");
+                    setEditingId(null);
+                    setShowCustomWordInput(false);
+
+                    // ★ 追加：候補と手書きパッドリセット
+                    setSuggestedMeaning("");
+                    setShowHandwritingFor(null);
+                  } else {
+                    // 新規追加
+                    const newList = [
+                      ...customWords,
+                      {
+                        id: crypto.randomUUID(),
+                        word: tempCustomWord.trim(),
+                        meaning: tempCustomMeaning.trim(),
+                      },
+                    ];
+                    saveCustomWords(newList);
+
+                    // 🔥 トースト表示
+                    setShowSaveToast(true);
+                    setTimeout(() => setShowSaveToast(false), 1500);
+
+                    // 🔥 追加したい内容（新規追加後のリセット処理）
+                    setTempCustomWord("");
+                    setTempCustomMeaning("");
+
+                    // ★追加：候補消す
+                    setSuggestedMeaning("");
+
+                    // ★追加：手書きパッド閉じる
+                    setShowHandwritingFor(null);
+
+                    // ★（オプション）次の入力開始を「英単語」側から始めたい場合は↓
+                    setShowHandwritingFor("word");
+                  }
+                }}
+              >
+                保存する
+              </button>
+
+              {/* 戻るボタン */}
+              <button
+                className="bg-gray-500 text-white p-2 rounded w-full mt-3"
+                onClick={() => {
+                  setShowCustomWordInput(false);
+                  setEditingId(null);
+                  setShowHandwritingFor(null); // ← ★手書きパッドも閉じる
+                  setSuggestedMeaning(""); // ← ★候補も消す（安全）
+                }}
               >
                 閉じる
               </button>
-              {questionList.length > 0 && (
+            </div>
+          </div>
+        )}
+
+        {showOriginalList && (
+          <div className="fixed inset-0 bg-black/40 z-[2000] flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-6 w-[90%] max-w-[500px] shadow-xl">
+              <h2 className="text-xl font-bold mb-4">📄 登録単語一覧</h2>
+
+              {customWords.length === 0 && (
+                <p className="text-gray-600">まだ単語が登録されていません。</p>
+              )}
+
+              <ul className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                {customWords.map((item) => (
+                  <li
+                    key={item.id}
+                    className="bg-gray-50 p-3 rounded-xl shadow flex justify-between items-center"
+                  >
+                    <div>
+                      <p className="font-bold text-lg">{item.word}</p>
+                      <p className="text-gray-600">{item.meaning}</p>
+                    </div>
+
+                    <div className="flex gap-2">
+                      {/* 編集 */}
+                      <button
+                        onClick={() => {
+                          setTempCustomWord(item.word);
+                          setTempCustomMeaning(item.meaning);
+                          setShowCustomWordInput(true);
+                          setEditingId(item.id);
+                          setShowOriginalList(false);
+                        }}
+                        className="bg-yellow-400 px-3 py-2 rounded"
+                      >
+                        ✏️
+                      </button>
+
+                      {/* 削除 */}
+                      <button
+                        onClick={() => {
+                          const updated = customWords.filter(
+                            (w) => w.id !== item.id
+                          );
+                          saveCustomWords(updated);
+                        }}
+                        className="bg-red-400 text-white px-3 py-2 rounded"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                onClick={() => setShowOriginalList(false)}
+                className="mt-4 bg-gray-500 text-white py-2 rounded w-full"
+              >
+                閉じる
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* 結果画面 */}
+        {showResult && (
+          <div>
+            <h2 className="text-2xl font-bold mb-4">結果発表</h2>
+            <p className="text-2xl font-bold mb-4">
+              {correctRate >= 90
+                ? "🎉 すばらしい！🥇"
+                : correctRate >= 80
+                ? "✨ よくできました！🥈"
+                : correctRate >= 70
+                ? "👍 もう少し！🥉"
+                : "💪 何度も挑戦しよう！"}
+            </p>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="bg-[#F9F9F9] border border-[#E0E0E0] rounded-2xl p-8 mb-6 text-center shadow-lg"
+            >
+              <h2 className="text-3xl font-bold text-[#4A6572] mb-4">
+                結果発表
+              </h2>
+              <p className="text-6xl font-extrabold text-[#6DBD98] mb-2">
+                {correctRate}%
+              </p>
+              <p className="text-[#4A6572]">
+                ヒント利用による減点: -{totalHintPenalty}%
+              </p>
+              <p className="text-xl font-bold text-[#4A6572]">
+                最終正答率: {adjustedCorrectRate}%
+              </p>
+            </motion.div>
+
+            {incorrectQuestionsList.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-xl font-bold mb-2">
+                  不正解だった問題と解説
+                </h3>
+                {incorrectQuestionsList.map((q) => (
+                  <div key={q.id} className="mb-4 p-3 border rounded bg-red-50">
+                    <p className="font-semibold">
+                      問題: {q.question || q.prompt}
+                    </p>
+                    <p className="text-red-600">
+                      あなたの答え: {firstMistakeAnswers[q.id]}
+                    </p>
+                    <p className="text-green-600">
+                      正解: {q.correct || q.correctAnswer}
+                    </p>
+                    <p className="mt-1 text-gray-700 flex items-center">
+                      解説: {q.explanation}
+                      {q.explanation && <TTSButton text={q.explanation} />}
+                      {/* ← ここに新しい質問ボタンを追加 */}
+                      <button
+                        onClick={() =>
+                          playButtonSound(() =>
+                            handleAddSpecificQuestionToList(
+                              q,
+                              firstMistakeAnswers[q.id]
+                            )
+                          )
+                        }
+                        className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow-md transition"
+                      >
+                        ❓ 後で先生に質問する
+                      </button>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {reviewMistakes.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-lg font-bold text-orange-600 mb-2">
+                  🔁 覚え直しリスト
+                </h3>
+                <ul className="space-y-3">
+                  {reviewMistakes.map((q) => (
+                    <li
+                      key={q.id}
+                      className="bg-orange-50 border border-orange-200 p-3 rounded-lg shadow-sm"
+                    >
+                      <p className="font-semibold">{q.question}</p>
+                      <p className="text-gray-700">
+                        ✅ 正答：
+                        {Array.isArray(q.correct)
+                          ? q.correct.join(" / ")
+                          : q.correct ?? q.correctAnswer ?? ""}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div className="flex gap-4">
+              {" "}
+              <button
+                onClick={restartQuiz}
+                className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
+              >
+                同じ問題でもう一度
+              </button>
+              <button
+                onClick={() => window.location.reload()}
+                className="bg-pink-400 hover:bg-pink-500 text-white px-6 py-3 rounded-full shadow-md transition"
+              >
+                別の問題にチャレンジ
+              </button>
+            </div>
+            {questionList.length > 0 && (
+              <div className="mt-6 p-4 bg-gray-100 rounded shadow">
+                <h3 className="font-bold mb-2">質問ボックス（仮表示）</h3>
+                <ul className="list-disc pl-5">
+                  {questionList.map((item, index) => (
+                    <li key={index}>
+                      {item.question}（あなたの答え: {item.answer}）
+                    </li>
+                  ))}
+                </ul>
                 <button
                   onClick={() =>
                     playButtonSound(() => {
                       setQuestionList([]);
                       localStorage.removeItem("questionList");
-                      setShowQuestionModal(false);
                     })
                   }
                   className="bg-red-400 text-white px-4 py-2 rounded shadow hover:bg-red-500"
                 >
-                  全てクリア
+                  質問ボックスを全てクリア
                 </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {showWordList && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
+              {/* タイトル */}
+              <h2 className="text-xl font-bold mb-4">📖 単語帳</h2>
+
+              {/* ===== テスト画面 or 単語一覧 ===== */}
+              {showWordTest ? (
+                // ===== テスト画面 =====
+                <div>
+                  <h2 className="text-xl font-bold mb-4">
+                    {round === 1
+                      ? "英→日テスト"
+                      : round === 2
+                      ? "日→英テスト"
+                      : "復習テスト (英→日)"}{" "}
+                    ({testIndex + 1}/
+                    {round === 3 ? wrongWords.length : wordList.length})
+                  </h2>
+
+                  <p className="text-2xl mb-4">
+                    👉{" "}
+                    {round === 3
+                      ? wrongWords[testIndex].word
+                      : round === 1
+                      ? testWord.word
+                      : testWord.meaning}
+                  </p>
+
+                  {/* === 手書き入力欄 === */}
+                  <HandwritingPad
+                    ocrEngine="vision" // もしくは "tesseract"
+                    currentAnswer={answer}
+                    onCharRecognized={(char) =>
+                      setAnswer((prev) => (prev + char).trim())
+                    }
+                    onSpace={() => setAnswer((prev) => prev + " ")}
+                    onClearAll={() => setAnswer("")}
+                    onSubmitAnswer={() => {
+                      // ✅ 正答と入力値を正規化して比較
+                      const correctAnswer =
+                        round === 1
+                          ? testWord.meaning // 英→日
+                          : round === 2
+                          ? testWord.word // 日→英
+                          : wrongWords[testIndex].meaning; // ✅ 復習は英→日固定
+
+                      const userAnswer =
+                        round === 1
+                          ? normJa(answer)
+                          : round === 2
+                          ? normEn(answer)
+                          : normJa(answer); // ✅ 復習は日本語で答える
+
+                      const corr =
+                        round === 1
+                          ? normJa(correctAnswer)
+                          : round === 2
+                          ? normEn(correctAnswer)
+                          : normJa(correctAnswer);
+
+                      if (userAnswer === corr) {
+                        alert("⭕ 正解！");
+                      } else {
+                        alert(`❌ 不正解。正解は「${correctAnswer}」`);
+                        setWrongWords((prev) => [...prev, testWord]);
+                      }
+
+                      // === 次の問題に進む処理 ===
+                      const nextIndex = testIndex + 1;
+
+                      if (
+                        nextIndex <
+                        (round === 3 ? wrongWords.length : wordList.length)
+                      ) {
+                        setTestIndex(nextIndex);
+                        if (round === 3) {
+                          setTestWord(wrongWords[nextIndex]); // ← 復習モード用の更新
+                        } else {
+                          setTestWord(wordList[nextIndex]); // ← 英→日 or 日→英用
+                        }
+                      } else {
+                        if (round === 1) {
+                          // 英→日が終わったら日→英へ
+                          setRound(2);
+                          setTestIndex(0);
+                          setTestWord(wordList[0]);
+                        } else if (round === 2) {
+                          // 日→英が終わったら復習へ
+                          if (wrongWords.length > 0) {
+                            setRound(3);
+                            setTestIndex(0);
+                            setTestWord(wrongWords[0]); // ← 復習モード最初の単語
+                          } else {
+                            alert("✅ テスト終了！");
+                            setShowWordTest(false);
+                          }
+                        } else {
+                          // 復習モードも終了
+                          alert("✅ 復習テスト終了！");
+                          setShowWordTest(false);
+                        }
+                      }
+                      setAnswer("");
+                    }}
+                  />
+
+                  {/* === 現在の入力を上部に表示（視覚的フィードバック） === */}
+                  <div className="text-center mt-4 text-lg">
+                    🧩 現在の解答：{" "}
+                    <span className="font-bold text-blue-700">
+                      {answer || "(まだ入力なし)"}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                // ===== 単語一覧 =====
+                <div>
+                  {wordList.length === 0 ? (
+                    <p className="text-gray-600">
+                      まだ単語が登録されていません。
+                    </p>
+                  ) : (
+                    <ul className="list-disc pl-6 mb-4">
+                      {wordList.map((w, i) => (
+                        <li
+                          key={i}
+                          className="flex justify-between items-center mb-2"
+                        >
+                          <span>
+                            {w.word} ― {w.meaning}
+                          </span>
+                          <button
+                            onClick={() =>
+                              setWordList((prev) =>
+                                prev.filter((_, idx) => idx !== i)
+                              )
+                            }
+                            className="ml-4 bg-red-400 hover:bg-red-500 text-white px-2 py-1 rounded"
+                          >
+                            削除
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <button
+                    onClick={startWordTest}
+                    className="bg-green-400 hover:bg-green-500 text-white px-4 py-2 rounded-full shadow transition"
+                  >
+                    📝 単語テスト開始（英→日 → 日→英）
+                  </button>
+                </div>
               )}
+
+              {/* 閉じるボタン */}
+              <button
+                onClick={() => setShowWordList(false)}
+                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded mt-4"
+              >
+                閉じる
+              </button>
             </div>
           </div>
-        </div>
-      )}
-      {showSaveToast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg z-[5000] animate-fade">
-          ✔ 保存しました！
-        </div>
-      )}
-    </div>
+        )}
+
+        {showQuestionModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
+              <h2 className="text-xl font-bold mb-4 text-center">
+                質問ボックス
+              </h2>
+
+              {questionList.length === 0 ? (
+                <p className="text-gray-600 text-center">
+                  質問はまだありません。
+                </p>
+              ) : (
+                <ul className="space-y-4 max-h-96 overflow-y-auto">
+                  {questionList.map((item, index) => (
+                    <li key={index} className="p-3 border rounded bg-gray-50">
+                      <p className="font-semibold">{item.question}</p>
+                      <p className="text-sm text-gray-600">
+                        あなたの答え: {item.answer}
+                      </p>
+                      <p className="text-sm text-green-700">
+                        正解: {item.correct}
+                      </p>
+                      <p className="text-sm text-gray-800 mt-1">
+                        {item.explanation}
+                      </p>
+                      <button
+                        onClick={() =>
+                          playButtonSound(() => handleDeleteQuestion(index))
+                        }
+                        className="mt-2 bg-red-400 text-white px-3 py-1 rounded shadow hover:bg-red-500"
+                      >
+                        削除
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              <div className="mt-4 flex justify-between">
+                <button
+                  onClick={() =>
+                    playButtonSound(() => setShowQuestionModal(false))
+                  }
+                  className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded shadow"
+                >
+                  閉じる
+                </button>
+                {questionList.length > 0 && (
+                  <button
+                    onClick={() =>
+                      playButtonSound(() => {
+                        setQuestionList([]);
+                        localStorage.removeItem("questionList");
+                        setShowQuestionModal(false);
+                      })
+                    }
+                    className="bg-red-400 text-white px-4 py-2 rounded shadow hover:bg-red-500"
+                  >
+                    全てクリア
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        {showSaveToast && (
+          <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg z-[5000] animate-fade">
+            ✔ 保存しました！
+          </div>
+        )}
+      </div>
+    </>
   );
 }
