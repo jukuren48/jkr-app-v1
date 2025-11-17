@@ -4010,20 +4010,31 @@ export default function EnglishTrapQuestions() {
 
               {/* ▼ 自動取得した意味候補の表示（ある時だけ表示） */}
               {suggestedMeaning && (
-                <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg shadow-sm">
-                  <p className="text-sm font-semibold text-blue-800 mb-1">
-                    🔍 見つかった意味の候補：
-                  </p>
-                  <p className="text-blue-700 mb-2">{suggestedMeaning}</p>
-                  <button
-                    onClick={() => {
-                      setTempCustomMeaning(suggestedMeaning);
-                      setSuggestedMeaning(""); // ← ★候補を閉じる
-                    }}
-                    className="px-3 py-1 bg-blue-500 text-white rounded shadow text-sm hover:bg-blue-600"
-                  >
-                    ➕ この意味で決定する
-                  </button>
+                <div className="fixed inset-0 z-[1000000] flex items-center justify-center bg-black/40">
+                  <div className="bg-white p-4 rounded-xl shadow-xl w-[90%] max-w-md">
+                    <p className="font-bold text-lg mb-2">意味候補：</p>
+                    <p className="text-gray-800 mb-4">{suggestedMeaning}</p>
+
+                    <div className="flex gap-2">
+                      <button
+                        className="flex-1 bg-blue-500 text-white p-2 rounded"
+                        onClick={() => {
+                          setTempCustomMeaning(suggestedMeaning);
+                          setSuggestedMeaning(""); // ← 候補を閉じる
+                          setShowHandwritingFor("meaning"); // ← 手書きパッドに戻る
+                        }}
+                      >
+                        この意味で決定する
+                      </button>
+
+                      <button
+                        className="flex-1 bg-gray-300 text-gray-800 p-2 rounded"
+                        onClick={() => setSuggestedMeaning("")}
+                      >
+                        閉じる
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
 
