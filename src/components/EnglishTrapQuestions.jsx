@@ -3034,8 +3034,8 @@ export default function EnglishTrapQuestions() {
         {/* ✍️ 手書きパッド（最前面化） */}
         {showHandwritingFor &&
           createPortal(
-            <div className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/20">
-              {/* パッドを中央に配置 */}
+            <div className="fixed inset-0 z-[900000] flex items-center justify-center bg-black/20">
+              {/* パッド本体 */}
               <div className="w-full max-w-[420px] pointer-events-auto">
                 <HandwritingPad
                   compact
@@ -3058,19 +3058,14 @@ export default function EnglishTrapQuestions() {
                     if (showHandwritingFor === "word") {
                       setTempCustomWord(text);
 
-                      // ⭐ 日本語候補取得
+                      // ⭐ 日本語候補を最前面で表示
                       const meaning = await fetchJapaneseMeaning(text);
                       setSuggestedMeaning(meaning);
 
-                      // 意味入力へ切替
                       setShowHandwritingFor("meaning");
                     } else {
                       setTempCustomMeaning(text);
-
-                      // 候補を閉じる
                       setSuggestedMeaning("");
-
-                      // 手書きパッドを閉じる
                       setShowHandwritingFor(null);
                     }
                   }}
@@ -4017,30 +4012,14 @@ export default function EnglishTrapQuestions() {
 
               {/* ▼ 自動取得した意味候補の表示（ある時だけ表示） */}
               {suggestedMeaning && (
-                <div className="fixed inset-0 z-[1000000] flex items-center justify-center bg-black/40">
-                  <div className="bg-white p-4 rounded-xl shadow-xl w-[90%] max-w-md">
-                    <p className="font-bold text-lg mb-2">意味候補：</p>
-                    <p className="text-gray-800 mb-4">{suggestedMeaning}</p>
+                <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-[999999]">
+                  <div className="bg-white p-4 rounded-xl shadow-xl max-w-[300px]">
+                    <p>{suggestedMeaning}</p>
 
-                    <div className="flex gap-2">
-                      <button
-                        className="flex-1 bg-blue-500 text-white p-2 rounded"
-                        onClick={() => {
-                          setTempCustomMeaning(suggestedMeaning);
-                          setSuggestedMeaning(""); // ← 候補を閉じる
-                          setShowHandwritingFor("meaning"); // ← 手書きパッドに戻る
-                        }}
-                      >
-                        この意味で決定する
-                      </button>
-
-                      <button
-                        className="flex-1 bg-gray-300 text-gray-800 p-2 rounded"
-                        onClick={() => setSuggestedMeaning("")}
-                      >
-                        閉じる
-                      </button>
-                    </div>
+                    <button onClick={decideMeaning}>この意味で決定する</button>
+                    <button onClick={() => setSuggestedMeaning("")}>
+                      閉じる
+                    </button>
                   </div>
                 </div>
               )}
