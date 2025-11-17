@@ -500,13 +500,21 @@ function HandwritingPad({
             認識
           </button>
           <button
+            disabled={!recognizedChar} // ← ★認識されるまで押せない
             onClick={() => {
               if (!recognizedChar) return;
               onUpload && onUpload(recognizedChar);
               clearCanvas();
               setRecognizedChar("");
             }}
-            className="px-3 py-1 bg-green-500 text-white rounded"
+            className={`
+    px-3 py-1 rounded 
+    ${
+      recognizedChar
+        ? "bg-green-500 text-white"
+        : "bg-gray-300 text-gray-400 cursor-not-allowed"
+    }
+  `}
           >
             ⬆
           </button>
@@ -575,16 +583,16 @@ function HandwritingPad({
         </button>
 
         <button
+          disabled={!recognizedChar} // ← ★認識されるまで押せない
           onClick={() => {
             if (!recognizedChar) return;
 
             const newAnswer = (currentAnswer || "") + recognizedChar;
 
-            // ▼ 親コンポーネントの inputAnswer を更新
+            // ▼ 親コンポーネントへ入力文字追加
             onCharRecognized && onCharRecognized(recognizedChar);
 
-            // ▼ ↓↓↓ ここから「現行コードの判定ロジック」に準拠 ↓↓↓
-
+            // ▼ ↓↓↓ 現行ロジックに準拠した判定 ↓↓↓
             if (currentQuestion) {
               const raw = Array.isArray(currentQuestion.correct)
                 ? currentQuestion.correct
@@ -594,10 +602,7 @@ function HandwritingPad({
                   currentQuestion.correct ??
                   "";
 
-              // ★ あなたの現行コードの関数をそのまま使う
               const corrects = expandCorrects(raw);
-
-              // ★ あなたの現行の英語正規化ルール
               const userNorm = normEn(newAnswer);
 
               const isPerfectMatch = corrects.some(
@@ -605,17 +610,22 @@ function HandwritingPad({
               );
 
               if (isPerfectMatch) {
-                // ★ 完全一致の場合のみ handleAnswer を発火 → 正解扱い
-                handleAnswer && handleAnswer(newAnswer);
+                handleAnswer && handleAnswer(newAnswer); // ★完全一致時だけ正解扱い！
               }
             }
-
-            // ▼ ↑↑↑ ここまで現行仕様準拠のアップ判定 ↑↑↑
+            // ↑↑↑ 現行判定ロジック維持 ↑↑↑
 
             clearCanvas();
             setRecognizedChar("");
           }}
-          className="px-3 py-1 bg-green-500 text-white rounded"
+          className={`
+    px-3 py-1 rounded 
+    ${
+      recognizedChar
+        ? "bg-green-500 text-white"
+        : "bg-gray-300 text-gray-400 cursor-not-allowed"
+    }
+  `}
         >
           ⬆
         </button>
