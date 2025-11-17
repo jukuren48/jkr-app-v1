@@ -3034,8 +3034,8 @@ export default function EnglishTrapQuestions() {
         {/* ✍️ 手書きパッド（最前面化） */}
         {showHandwritingFor &&
           createPortal(
-            <div className="fixed inset-0 z-[999999] flex items-end justify-end p-4">
-              <div className="w-full max-w-[500px]">
+            <div className="fixed inset-0 z-[999999] flex items-end justify-center pb-6">
+              <div className="w-[90vw] max-w-[500px]">
                 <HandwritingPad
                   compact
                   target={showHandwritingFor}
