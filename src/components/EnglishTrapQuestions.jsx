@@ -3024,8 +3024,8 @@ export default function EnglishTrapQuestions() {
         {/* ✍️ 手書きパッド（最前面化） */}
         {showHandwritingFor &&
           createPortal(
-            <div className="fixed inset-0 z-[999999] pointer-events-none">
-              <div className="absolute bottom-4 right-4 pointer-events-auto">
+            <div className="fixed inset-0 z-[999999] flex items-end justify-end p-4">
+              <div className="w-full max-w-[500px]">
                 <HandwritingPad
                   compact
                   target={showHandwritingFor}
@@ -3047,14 +3047,13 @@ export default function EnglishTrapQuestions() {
                     if (showHandwritingFor === "word") {
                       setTempCustomWord(text);
 
-                      // ★ 英和候補を取得して表示
                       const meaning = await fetchJapaneseMeaning(text);
                       setSuggestedMeaning(meaning);
 
                       setShowHandwritingFor("meaning");
                     } else {
                       setTempCustomMeaning(text);
-                      setSuggestedMeaning(""); // ← ★候補を閉じる
+                      setSuggestedMeaning("");
                       setShowHandwritingFor(null);
                     }
                   }}
