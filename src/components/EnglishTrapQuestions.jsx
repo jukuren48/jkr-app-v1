@@ -3034,8 +3034,8 @@ export default function EnglishTrapQuestions() {
         {/* ✍️ 手書きパッド（最前面化） */}
         {showHandwritingFor &&
           createPortal(
-            <div className="fixed inset-0 z-[900000] flex items-end justify-center pb-6">
-              <div className="w-[90vw] max-w-[500px]">
+            <div className="fixed inset-0 z-[999999] flex items-end justify-end p-4">
+              <div className="w-full max-w-[500px] pointer-events-auto">
                 <HandwritingPad
                   compact
                   target={showHandwritingFor}
@@ -3115,7 +3115,7 @@ export default function EnglishTrapQuestions() {
     fixed top-4 left-0 right-0 
     flex flex-col sm:flex-row items-center justify-center 
     text-center gap-2 sm:gap-4 
-    z-[2] bg-transparent backdrop-blur-none pointer-events-none
+    z-[2] bg-transparent backdrop-blur-none
   "
             >
               <div className="flex flex-col items-center sm:items-start bg-transparent">
@@ -3168,7 +3168,7 @@ export default function EnglishTrapQuestions() {
             </header>
 
             {/* 🧩 メインUI：問題形式・単元ボタンなど（背景より上の層） */}
-            <div className="relative min-h-screen overflow-hidden z-0 flex flex-col items-center pt-24 bg-transparent pointer-events-none">
+            <div className="relative min-h-screen overflow-hidden z-0 flex flex-col items-center pt-24 bg-transparent">
               {/* ここに今までの main / 出題形式タブ / 単元グリッド / スタートボタン / フッター をそのまま置く */}
               <main
                 className={`w-full p-4 sm:p-6 rounded-2xl border z-10 pointer-events-auto transition-all duration-300 ${
