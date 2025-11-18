@@ -3050,19 +3050,22 @@ export default function EnglishTrapQuestions() {
           createPortal(
             <div
               className="
-      fixed inset-0 z-[9990] 
-      flex items-center justify-center 
-      pointer-events-none
-    "
+        fixed inset-0 z-[9990]
+        flex items-center justify-center
+        bg-black/0
+      "
             >
-              {/* ▼ 手書きパッドを中央から少し下へズラす */}
+              {/* ▼ パッド + 候補表示 のコンテナ */}
               <div
                 className="
-        pointer-events-auto 
-        w-full max-w-[480px]
-        translate-y-[160px]   /* ← ★中央より少し下へ */
-      "
+          relative
+          w-full max-w-[480px]
+          pointer-events-auto
+          translate-y-[160px]
+          z-[9991]
+        "
               >
+                {/* ▼ 手書きパッド */}
                 <HandwritingPad
                   compact
                   target={showHandwritingFor}
@@ -3081,25 +3084,23 @@ export default function EnglishTrapQuestions() {
                     }
                   }}
                   onUpload={async (text) => {
-                    // ★ 閉じるボタンで閉じる場合は、ここで終了
+                    // ★ 閉じるフラグがONなら即終了
                     if (closeHandwritingForce) {
-                      setCloseHandwritingForce(false); // ← フラグを戻す
-                      return; // ← 処理しないで即終了！
+                      setCloseHandwritingForce(false);
+                      return;
                     }
 
                     if (showHandwritingFor === "word") {
                       setTempCustomWord(text || "");
 
-                      // ★ 英和候補を取得して表示
                       const meaning = await fetchJapaneseMeaning(text || "");
                       setSuggestedMeaning(meaning);
 
-                      // 次は日本語の意味入力フェーズへ
                       setShowHandwritingFor("meaning");
                     } else {
                       setTempCustomMeaning(text || "");
                       setSuggestedMeaning("");
-                      setShowHandwritingFor(null); // 完了 → パッド閉じる
+                      setShowHandwritingFor(null); // 完了
                     }
                   }}
                   onClearAll={() => {
@@ -3112,20 +3113,21 @@ export default function EnglishTrapQuestions() {
                     else setTempCustomMeaning((p) => (p || "") + " ");
                   }}
                   onClose={() => {
-                    setCloseHandwritingForce(true); // ← ★閉じる専用フラグON
-                    setSuggestedMeaning(""); // 候補も消す
-                    setShowHandwritingFor(null); // 手書きパッドを閉じる
+                    setCloseHandwritingForce(true);
+                    setSuggestedMeaning("");
+                    setShowHandwritingFor(null);
                   }}
                 />
 
-                {/* ▼ 候補表示（パッドより上に表示） */}
+                {/* ▼ 日本語の候補表示（手書きパッドの上、操作可） */}
                 {suggestedMeaning && (
                   <div
                     className="
-            absolute top-[-20px] left-1/2 -translate-x-1/2 
-            bg-white shadow-xl p-4 rounded-lg z-[9992] 
-            w-[90%]
-          "
+              absolute -top-4 left-1/2 -translate-x-1/2
+              bg-white shadow-xl p-4 rounded-lg
+              w-[90%]
+              z-[9992]
+            "
                   >
                     <p className="font-bold text-lg">{suggestedMeaning}</p>
 
