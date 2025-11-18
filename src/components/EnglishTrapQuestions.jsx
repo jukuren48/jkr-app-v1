@@ -865,6 +865,8 @@ export default function EnglishTrapQuestions() {
     return [];
   });
   const [closeHandwritingForce, setCloseHandwritingForce] = useState(false);
+  // ★ アップロードを無視するフラグ（永続する）
+  const ignoreNextUpload = useRef(false);
 
   const [showWordFolder, setShowWordFolder] = useState(false);
   const [showWordList, setShowWordList] = useState(false);
@@ -3075,9 +3077,10 @@ export default function EnglishTrapQuestions() {
                     }
                   }}
                   onUpload={async (text) => {
-                    if (closeHandwritingForce) {
-                      setCloseHandwritingForce(false);
-                      return;
+                    // ★ 閉じるボタンによる呼び出しの場合、完全スルー
+                    if (ignoreNextUpload.current) {
+                      ignoreNextUpload.current = false; // ← 一度だけ無視
+                      return; // ← 意味取得を発動させない
                     }
 
                     if (showHandwritingFor === "word") {
@@ -3103,9 +3106,9 @@ export default function EnglishTrapQuestions() {
                     else setTempCustomMeaning((p) => (p || "") + " ");
                   }}
                   onClose={() => {
-                    setCloseHandwritingForce(true);
-                    setSuggestedMeaning("");
-                    setShowHandwritingFor(null);
+                    ignoreNextUpload.current = true; // ← 次のアップロードを無視
+                    setSuggestedMeaning(""); // 候補を消す
+                    setShowHandwritingFor(null); // パッドを閉じる
                   }}
                 />
 
