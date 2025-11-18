@@ -3059,7 +3059,7 @@ export default function EnglishTrapQuestions() {
                 className="
         pointer-events-auto 
         w-full max-w-[480px]
-        translate-y-[60px]   /* ← ★中央より少し下へ */
+        translate-y-[100px]   /* ← ★中央より少し下へ */
       "
               >
                 <HandwritingPad
