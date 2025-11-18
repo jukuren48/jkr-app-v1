@@ -864,6 +864,7 @@ export default function EnglishTrapQuestions() {
     }
     return [];
   });
+  const [closeHandwritingForce, setCloseHandwritingForce] = useState(false);
 
   const [showWordFolder, setShowWordFolder] = useState(false);
   const [showWordList, setShowWordList] = useState(false);
@@ -3059,7 +3060,7 @@ export default function EnglishTrapQuestions() {
                 className="
         pointer-events-auto 
         w-full max-w-[480px]
-        translate-y-[140px]   /* ← ★中央より少し下へ */
+        translate-y-[160px]   /* ← ★中央より少し下へ */
       "
               >
                 <HandwritingPad
@@ -3080,16 +3081,25 @@ export default function EnglishTrapQuestions() {
                     }
                   }}
                   onUpload={async (text) => {
+                    // ★ 閉じるボタンで閉じる場合は、ここで終了
+                    if (closeHandwritingForce) {
+                      setCloseHandwritingForce(false); // ← フラグを戻す
+                      return; // ← 処理しないで即終了！
+                    }
+
                     if (showHandwritingFor === "word") {
                       setTempCustomWord(text || "");
 
+                      // ★ 英和候補を取得して表示
                       const meaning = await fetchJapaneseMeaning(text || "");
                       setSuggestedMeaning(meaning);
+
+                      // 次は日本語の意味入力フェーズへ
                       setShowHandwritingFor("meaning");
                     } else {
                       setTempCustomMeaning(text || "");
                       setSuggestedMeaning("");
-                      setShowHandwritingFor(null);
+                      setShowHandwritingFor(null); // 完了 → パッド閉じる
                     }
                   }}
                   onClearAll={() => {
@@ -3100,6 +3110,11 @@ export default function EnglishTrapQuestions() {
                     if (showHandwritingFor === "word")
                       setTempCustomWord((p) => (p || "") + " ");
                     else setTempCustomMeaning((p) => (p || "") + " ");
+                  }}
+                  onClose={() => {
+                    setCloseHandwritingForce(true); // ← ★閉じる専用フラグON
+                    setSuggestedMeaning(""); // 候補も消す
+                    setShowHandwritingFor(null); // 手書きパッドを閉じる
                   }}
                 />
 
