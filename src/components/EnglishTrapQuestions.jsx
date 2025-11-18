@@ -3047,9 +3047,21 @@ export default function EnglishTrapQuestions() {
         {/* ✍️ 手書きパッド（最前面化） */}
         {showHandwritingFor &&
           createPortal(
-            <div className="fixed inset-0 z-[9990] flex items-center justify-center pointer-events-none">
-              {/* ▼ 手書きパッド（操作可能） */}
-              <div className="w-full max-w-[480px] pointer-events-auto z-[9991] relative">
+            <div
+              className="
+      fixed inset-0 z-[9990] 
+      flex items-center justify-center 
+      pointer-events-none
+    "
+            >
+              {/* ▼ 手書きパッドを中央から少し下へズラす */}
+              <div
+                className="
+        pointer-events-auto 
+        w-full max-w-[480px]
+        translate-y-[60px]   /* ← ★中央より少し下へ */
+      "
+              >
                 <HandwritingPad
                   compact
                   target={showHandwritingFor}
@@ -3073,13 +3085,11 @@ export default function EnglishTrapQuestions() {
 
                       const meaning = await fetchJapaneseMeaning(text || "");
                       setSuggestedMeaning(meaning);
-
-                      // 次は意味入力へ
                       setShowHandwritingFor("meaning");
                     } else {
                       setTempCustomMeaning(text || "");
-                      setSuggestedMeaning(""); // 候補消す
-                      setShowHandwritingFor(null); // パッド閉じる
+                      setSuggestedMeaning("");
+                      setShowHandwritingFor(null);
                     }
                   }}
                   onClearAll={() => {
@@ -3093,11 +3103,14 @@ export default function EnglishTrapQuestions() {
                   }}
                 />
 
-                {/* ▼ 候補表示UI（ここが最前面） */}
+                {/* ▼ 候補表示（パッドより上に表示） */}
                 {suggestedMeaning && (
                   <div
-                    className="absolute top-[-10px] left-1/2 -translate-x-1/2 
-                          bg-white shadow-xl p-4 rounded-lg z-[9992] w-[90%]"
+                    className="
+            absolute top-[-20px] left-1/2 -translate-x-1/2 
+            bg-white shadow-xl p-4 rounded-lg z-[9992] 
+            w-[90%]
+          "
                   >
                     <p className="font-bold text-lg">{suggestedMeaning}</p>
 
@@ -3107,7 +3120,7 @@ export default function EnglishTrapQuestions() {
                         onClick={() => {
                           setTempCustomMeaning(suggestedMeaning);
                           setSuggestedMeaning("");
-                          setShowHandwritingFor(null); // パッド閉
+                          setShowHandwritingFor(null);
                         }}
                       >
                         この意味で決定する
