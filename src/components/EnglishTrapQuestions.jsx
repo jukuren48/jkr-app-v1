@@ -3048,24 +3048,15 @@ export default function EnglishTrapQuestions() {
         {/* ✍️ 手書きパッド（最前面化） */}
         {showHandwritingFor &&
           createPortal(
-            <div
-              className="
-        fixed inset-0 z-[9990]
-        flex items-center justify-center
-        bg-black/0
-      "
-            >
-              {/* ▼ パッド + 候補表示 のコンテナ */}
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+              {/* ▼ 手書きパッド全体（中央少し下） */}
               <div
                 className="
-          relative
-          w-full max-w-[480px]
           pointer-events-auto
-          translate-y-[160px]
-          z-[9991]
+          w-full max-w-[480px]
+          translate-y-[120px]    /* ← ここで下にズラす */
         "
               >
-                {/* ▼ 手書きパッド */}
                 <HandwritingPad
                   compact
                   target={showHandwritingFor}
@@ -3084,7 +3075,6 @@ export default function EnglishTrapQuestions() {
                     }
                   }}
                   onUpload={async (text) => {
-                    // ★ 閉じるフラグがONなら即終了
                     if (closeHandwritingForce) {
                       setCloseHandwritingForce(false);
                       return;
@@ -3100,7 +3090,7 @@ export default function EnglishTrapQuestions() {
                     } else {
                       setTempCustomMeaning(text || "");
                       setSuggestedMeaning("");
-                      setShowHandwritingFor(null); // 完了
+                      setShowHandwritingFor(null);
                     }
                   }}
                   onClearAll={() => {
@@ -3119,33 +3109,26 @@ export default function EnglishTrapQuestions() {
                   }}
                 />
 
-                {/* ▼ 日本語の候補表示（手書きパッドの上、操作可） */}
+                {/* ▼ 新しい候補UI（パッドの上に表示） */}
                 {suggestedMeaning && (
-                  <div
-                    className="
-              absolute -top-4 left-1/2 -translate-x-1/2
-              bg-white shadow-xl p-4 rounded-lg
-              w-[90%]
-              z-[9992]
-            "
-                  >
-                    <p className="font-bold text-lg">{suggestedMeaning}</p>
+                  <div className="absolute -top-20 left-1/2 -translate-x-1/2 bg-white p-3 shadow-xl rounded-lg z-[10000] w-[90%]">
+                    <p className="font-bold">{suggestedMeaning}</p>
 
                     <div className="flex gap-2 mt-3">
                       <button
-                        className="px-3 py-1 bg-green-500 text-white rounded"
                         onClick={() => {
                           setTempCustomMeaning(suggestedMeaning);
                           setSuggestedMeaning("");
                           setShowHandwritingFor(null);
                         }}
+                        className="px-3 py-1 bg-green-500 text-white rounded"
                       >
                         この意味で決定する
                       </button>
 
                       <button
-                        className="px-3 py-1 bg-gray-300 rounded"
                         onClick={() => setSuggestedMeaning("")}
+                        className="px-3 py-1 bg-gray-300 rounded"
                       >
                         閉じる
                       </button>
@@ -4082,25 +4065,6 @@ export default function EnglishTrapQuestions() {
                   ✍️ 手書きで入力する
                 </button>
               </div>
-
-              {/* ▼ 自動取得した意味候補の表示（ある時だけ表示） */}
-              {suggestedMeaning && (
-                <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-[999999]">
-                  <div className="bg-white p-4 rounded-xl shadow-xl max-w-[300px]">
-                    <p>{suggestedMeaning}</p>
-
-                    <button
-                      onClick={decideMeaning}
-                      className="px-4 py-2 bg-green-500 text-white rounded"
-                    >
-                      この意味で決定する
-                    </button>
-                    <button onClick={() => setSuggestedMeaning("")}>
-                      閉じる
-                    </button>
-                  </div>
-                </div>
-              )}
 
               {/* 意味入力 */}
               <div className="mb-3">
