@@ -949,6 +949,19 @@ export default function EnglishTrapQuestions() {
     }));
   };
 
+  const decideMeaning = () => {
+    if (!suggestedMeaning) return;
+
+    // ① 日本語訳を meaning にセット
+    setTempCustomMeaning(suggestedMeaning);
+
+    // ② 候補ポップアップを閉じる
+    setSuggestedMeaning("");
+
+    // ③ 手書きパッドを閉じる（意味入力完了）
+    setShowHandwritingFor(null);
+  };
+
   const fetchMeaning = async (word) => {
     try {
       const res = await fetch(
@@ -3034,9 +3047,9 @@ export default function EnglishTrapQuestions() {
         {/* ✍️ 手書きパッド（最前面化） */}
         {showHandwritingFor &&
           createPortal(
-            <div className="fixed inset-0 z-[900000] flex items-center justify-center bg-black/20">
-              {/* パッド本体 */}
-              <div className="w-full max-w-[420px] pointer-events-auto">
+            <div className="fixed inset-0 z-[9990] flex items-center justify-center pointer-events-none">
+              {/* ▼ 手書きパッド（操作可能） */}
+              <div className="w-full max-w-[480px] pointer-events-auto z-[9991] relative">
                 <HandwritingPad
                   compact
                   target={showHandwritingFor}
@@ -3049,24 +3062,24 @@ export default function EnglishTrapQuestions() {
                   }
                   onCharRecognized={(char) => {
                     if (showHandwritingFor === "word") {
-                      setTempCustomWord((prev) => prev + char);
+                      setTempCustomWord((p) => (p || "") + char);
                     } else {
-                      setTempCustomMeaning((prev) => prev + char);
+                      setTempCustomMeaning((p) => (p || "") + char);
                     }
                   }}
                   onUpload={async (text) => {
                     if (showHandwritingFor === "word") {
-                      setTempCustomWord(text);
+                      setTempCustomWord(text || "");
 
-                      // ⭐ 日本語候補を最前面で表示
-                      const meaning = await fetchJapaneseMeaning(text);
+                      const meaning = await fetchJapaneseMeaning(text || "");
                       setSuggestedMeaning(meaning);
 
+                      // 次は意味入力へ
                       setShowHandwritingFor("meaning");
                     } else {
-                      setTempCustomMeaning(text);
-                      setSuggestedMeaning("");
-                      setShowHandwritingFor(null);
+                      setTempCustomMeaning(text || "");
+                      setSuggestedMeaning(""); // 候補消す
+                      setShowHandwritingFor(null); // パッド閉じる
                     }
                   }}
                   onClearAll={() => {
@@ -3075,10 +3088,40 @@ export default function EnglishTrapQuestions() {
                   }}
                   onSpace={() => {
                     if (showHandwritingFor === "word")
-                      setTempCustomWord((p) => p + " ");
-                    else setTempCustomMeaning((p) => p + " ");
+                      setTempCustomWord((p) => (p || "") + " ");
+                    else setTempCustomMeaning((p) => (p || "") + " ");
                   }}
                 />
+
+                {/* ▼ 候補表示UI（ここが最前面） */}
+                {suggestedMeaning && (
+                  <div
+                    className="absolute top-[-10px] left-1/2 -translate-x-1/2 
+                          bg-white shadow-xl p-4 rounded-lg z-[9992] w-[90%]"
+                  >
+                    <p className="font-bold text-lg">{suggestedMeaning}</p>
+
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        className="px-3 py-1 bg-green-500 text-white rounded"
+                        onClick={() => {
+                          setTempCustomMeaning(suggestedMeaning);
+                          setSuggestedMeaning("");
+                          setShowHandwritingFor(null); // パッド閉
+                        }}
+                      >
+                        この意味で決定する
+                      </button>
+
+                      <button
+                        className="px-3 py-1 bg-gray-300 rounded"
+                        onClick={() => setSuggestedMeaning("")}
+                      >
+                        閉じる
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>,
             document.body
@@ -4016,7 +4059,12 @@ export default function EnglishTrapQuestions() {
                   <div className="bg-white p-4 rounded-xl shadow-xl max-w-[300px]">
                     <p>{suggestedMeaning}</p>
 
-                    <button onClick={decideMeaning}>この意味で決定する</button>
+                    <button
+                      onClick={decideMeaning}
+                      className="px-4 py-2 bg-green-500 text-white rounded"
+                    >
+                      この意味で決定する
+                    </button>
                     <button onClick={() => setSuggestedMeaning("")}>
                       閉じる
                     </button>
