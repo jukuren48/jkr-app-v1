@@ -1,3 +1,4 @@
+import { supabase } from "../../lib/supabaseClient";
 // EnglishTrapQuestions.jsx - 手書き入力＋OCR採点＋記憶機能統合版
 import DynamicSkyCanvasBackground from "@/src/components/DynamicSkyCanvasBackground";
 import { useEffect, useState, useRef, useMemo } from "react";
@@ -693,13 +694,8 @@ export default function EnglishTrapQuestions() {
 
   const [units, setUnits] = useState([]);
   // 0: 未選択, 1: 両方, 2: 選択のみ, 3: 記述のみ
-  const [unitModes, setUnitModes] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("unitModes");
-      return saved ? JSON.parse(saved) : {};
-    }
-    return {};
-  });
+  const [unitModes, setUnitModes] = useState({});
+
   // 効果音 ON/OFF（← これを state 群の先頭付近に）
   const [soundEnabled, setSoundEnabled] = useState(() => {
     if (typeof window !== "undefined") {
@@ -726,13 +722,24 @@ export default function EnglishTrapQuestions() {
   const [unitBgmPlaying, setUnitBgmPlaying] = useState(false);
   const [debugLogs, setDebugLogs] = useState([]);
 
-  // 🧑 生徒ごとのデータ切り替え用
-  const [userName, setUserName] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("userName") || "";
-    }
-    return "";
-  });
+  // Supabase のユーザー情報
+  const [supabaseUser, setSupabaseUser] = useState(null);
+
+  // Supabase から現在のログインユーザーを取得
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setSupabaseUser(data?.user || null);
+    });
+  }, []);
+
+  // Supabase の user_metadata.name を取得
+  const supabaseUserName = supabaseUser?.user_metadata?.name;
+
+  // 統合されたユーザー名（最優先は Supabase → fallbackで localStorage → 最後に "あなた"）
+  const userName =
+    supabaseUserName ||
+    (typeof window !== "undefined" && localStorage.getItem("userName")) ||
+    "あなた";
 
   // ✍️ 手書き入力モード（記憶機能付き）
   const [useHandwriting, setUseHandwriting] = useState(() => {
@@ -856,6 +863,9 @@ export default function EnglishTrapQuestions() {
   const [countPlayedForQuestion, setCountPlayedForQuestion] = useState({});
 
   // 単語帳（英単語と意味を保存）
+  const [customWords, setCustomWords] = useState([]);
+  // ✅ Supabase一本化した単語帳
+  const [originalWords, setOriginalWords] = useState([]);
   const [suggestedMeaning, setSuggestedMeaning] = useState("");
   const [wordList, setWordList] = useState(() => {
     if (typeof window !== "undefined") {
@@ -864,6 +874,13 @@ export default function EnglishTrapQuestions() {
     }
     return [];
   });
+  const [toastMessage, setToastMessage] = useState("");
+  // ✏️ 編集用ステート
+  const [editingWord, setEditingWord] = useState(null); // { word, meaning }
+  const [editWord, setEditWord] = useState("");
+  const [editMeaning, setEditMeaning] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+
   const [closeHandwritingForce, setCloseHandwritingForce] = useState(false);
   // ★ アップロードを無視するフラグ（永続する）
   const ignoreNextUpload = useRef(false);
@@ -886,13 +903,7 @@ export default function EnglishTrapQuestions() {
   const [lastLengthTest, setLastLengthTest] = useState(0);
 
   // 単元ごとの間違い回数を記録
-  const [unitStats, setUnitStats] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("unitStats");
-      return saved ? JSON.parse(saved) : {};
-    }
-    return {};
-  });
+  const [unitStats, setUnitStats] = useState({});
 
   // 連続正解カウンター
   const [streak, setStreak] = useState(() => {
@@ -902,44 +913,9 @@ export default function EnglishTrapQuestions() {
     return 0;
   });
 
-  // ▼ オリジナル単語の保存（localStorage）
-  const [customWords, setCustomWords] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("customWords");
-      return saved ? JSON.parse(saved) : [];
-    }
-    return [];
-  });
-
-  const saveCustomWords = (list) => {
-    setCustomWords(list);
-    localStorage.setItem("customWords", JSON.stringify(list));
-  };
-
-  const handleSaveCustomWord = () => {
-    const newItem = {
-      id: editingId || Date.now(),
-      word: tempCustomWord,
-      meaning: tempCustomMeaning,
-    };
-
-    const updated = editingId
-      ? customWords.map((w) => (w.id === editingId ? newItem : w))
-      : [...customWords, newItem];
-
-    saveCustomWords(updated);
-
-    // 🔥 保存後のリセット
-    setTempCustomWord("");
-    setTempCustomMeaning("");
-    setSuggestedMeaning("");
-    setShowHandwritingFor(null);
-    setShowMeaningSuggestion(false);
-  };
-
   // 🧩 オリジナル単語を既存問題形式へ変換
   const generateOriginalQuestions = () => {
-    return customWords.map((item) => ({
+    return originalWords.map((item) => ({
       id: `custom-${item.id}`,
       unit: "単語テストオリジナル",
       question: `「${item.meaning}」を英語で書きなさい。`,
@@ -982,14 +958,41 @@ export default function EnglishTrapQuestions() {
     }
   };
 
-  const handleSetUserName = (name) => {
-    setUserName(name);
-    setStreak(0); // 💡 連続正解はリセット
+  const handleSetUserName = async (newName) => {
+    // 空白チェック
+    if (!newName || newName.trim() === "") return;
+
+    const name = newName.trim();
+
+    // Supabase の user_metadata を更新
+    const { error } = await supabase.auth.updateUser({
+      data: { name },
+    });
+
+    if (error) {
+      alert("名前の更新に失敗しました");
+      return;
+    }
+
+    // 🔰 互換性のため localStorage にも保存（後で廃止予定）
+    localStorage.setItem("userName", name);
+
+    // streakリセット（あなたの仕様）
+    setStreak(0);
     localStorage.setItem("streak", "0");
 
-    // 新しいユーザーの unitStats を読み込む
+    // 🔥 旧仕様への互換（後でSupabase保存に切り替える）
     const savedStats = localStorage.getItem(`unitStats_${name}`);
     setUnitStats(savedStats ? JSON.parse(savedStats) : {});
+
+    alert("名前を更新しました！");
+  };
+
+  const handleChangeUserName = () => {
+    const name = prompt("新しい名前を入力してください");
+    if (name && name.trim() !== "") {
+      handleSetUserName(name.trim());
+    }
   };
 
   function log(message) {
@@ -1051,10 +1054,53 @@ export default function EnglishTrapQuestions() {
     }
   };
 
+  const handleFormatChange = async (newFormat) => {
+    // UI 更新
+    setSelectedFormats((prev) => {
+      // トグル動作：すでにある → 消す / ない → 追加
+      const updated = prev.includes(newFormat)
+        ? prev.filter((f) => f !== newFormat)
+        : [...prev, newFormat];
+
+      // 🔥 Supabase 保存
+      saveSelectedFormatsToSupabase(updated);
+
+      return updated;
+    });
+  };
+
+  // ⭐ Supabase：単元の設定を保存
+  const updateUnitSetting = async (unit, mode) => {
+    if (!supabaseUser) return;
+
+    const is_selected = mode !== 0;
+
+    const { error } = await supabase.from("user_unit_settings").upsert(
+      {
+        user_id: supabaseUser.id,
+        unit,
+        mode,
+        is_selected,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "user_id,unit" }
+    );
+
+    if (error) {
+      console.error("Supabase 単元設定保存エラー:", error);
+    } else {
+      console.log(`🔵 単元設定保存完了: ${unit} → mode=${mode}`);
+    }
+  };
+
   const toggleUnitMode = (unit) => {
     setUnitModes((prev) => {
       const current = prev[unit] || 0;
       const next = (current + 1) % 4; // 0→1→2→3→0…
+
+      // 🔥 Supabaseに保存
+      updateUnitSetting(unit, next);
+
       return { ...prev, [unit]: next };
     });
   };
@@ -1077,15 +1123,20 @@ export default function EnglishTrapQuestions() {
       bgClass =
         "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.03]";
 
-    // 正答率バッジ
+    // ★ Supabase 統合版 正答率バッジ処理
     const stat = unitStats[unit];
+
     let badgeColor = "bg-gray-300";
+    let ratePercent = null;
+
     if (stat && stat.total > 0) {
-      const rate = stat.wrong / stat.total;
-      if (rate === 0) badgeColor = "bg-green-600";
-      else if (rate <= 0.1) badgeColor = "bg-green-400";
-      else if (rate <= 0.2) badgeColor = "bg-yellow-400";
-      else if (rate <= 0.3) badgeColor = "bg-orange-400";
+      ratePercent = Math.round(((stat.total - stat.wrong) / stat.total) * 100);
+      const wrongRate = stat.wrong / stat.total;
+
+      if (wrongRate === 0) badgeColor = "bg-green-600";
+      else if (wrongRate <= 0.1) badgeColor = "bg-green-400";
+      else if (wrongRate <= 0.2) badgeColor = "bg-yellow-400";
+      else if (wrongRate <= 0.3) badgeColor = "bg-orange-400";
       else badgeColor = "bg-red-500";
     }
 
@@ -1138,11 +1189,11 @@ export default function EnglishTrapQuestions() {
           {displayName}
         </span>
 
-        {stat && stat.total > 0 && (
+        {ratePercent !== null && (
           <span
             className={`absolute top-1 right-1 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor} shadow-sm`}
           >
-            {Math.round(((stat.total - stat.wrong) / stat.total) * 100)}%
+            {ratePercent}%
           </span>
         )}
 
@@ -1176,6 +1227,122 @@ export default function EnglishTrapQuestions() {
   const isChoiceFormat = q ? !isInputFormat : false;
 
   const startedRef = useRef(false);
+
+  const loadOriginalWordsFromSupabase = async () => {
+    if (!supabaseUser) return;
+
+    const { data, error } = await supabase
+      .from("original_words")
+      .select("id, word, meaning, created_at")
+      .eq("user_id", supabaseUser.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("original_words 読み込みエラー:", error);
+      return;
+    }
+
+    setOriginalWords(data || []);
+
+    setCustomWords(data || []);
+  };
+
+  const loadUserSettings = async () => {
+    const { data, error } = await supabase
+      .from("user_settings")
+      .select("formats") // ←ここ重要（formats）
+      .eq("user_id", supabaseUser.id)
+      .single();
+
+    if (!error && data?.formats) {
+      try {
+        const parsed = JSON.parse(data.formats); // ←配列に戻す
+        setSelectedFormats(parsed);
+
+        // localStorage も更新しておくと安定します
+        localStorage.setItem("selectedFormats", JSON.stringify(parsed));
+      } catch (e) {
+        console.error("形式設定（formats）の JSON parse 失敗:", e);
+      }
+    }
+  };
+
+  const unitModesLoadedRef = useRef(false);
+
+  useEffect(() => {
+    if (!supabaseUser) return;
+    loadUserSettings();
+  }, [supabaseUser]);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      console.log("現在のログイン中UID:", data?.user?.id);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!supabaseUser) return;
+    loadOriginalWordsFromSupabase();
+  }, [supabaseUser]);
+
+  // 🔥 ログイン完了後に Supabase から unitModes + unitStats を読み込む
+  useEffect(() => {
+    if (!supabaseUser) return; // ← ログイン前は絶対に読まない
+
+    const loadFromSupabase = async () => {
+      const user_id = supabaseUser.id;
+
+      // ② unit_stats（= correct, wrong, total）
+      const { data: statRows, error: statError } = await supabase
+        .from("unit_stats")
+        .select("unit, correct, wrong, total")
+        .eq("user_id", user_id);
+
+      if (statError) {
+        console.error("Supabase stats 読み込みエラー:", statError);
+      } else {
+        const stats = {};
+        statRows?.forEach((row) => {
+          stats[row.unit] = {
+            wrong: row.wrong ?? 0,
+            total: row.total ?? 0,
+          };
+        });
+
+        setUnitStats(stats); // ← バッジ反映！
+      }
+    };
+
+    loadFromSupabase();
+  }, [supabaseUser]);
+
+  // ★ unitModes を Supabase から読み込む（1回だけ）
+  useEffect(() => {
+    if (!supabaseUser) return;
+
+    const loadUnitModes = async () => {
+      const { data, error } = await supabase
+        .from("unit_stats")
+        .select("unit, mode")
+        .eq("user_id", supabaseUser.id);
+
+      if (error) {
+        console.error("Unit modes load error:", error);
+        return;
+      }
+
+      const modes = {};
+      data?.forEach((row) => {
+        modes[row.unit] = row.mode ?? 0;
+      });
+
+      setUnitModes(modes);
+
+      console.log("Unit modes Loaded:", modes);
+    };
+
+    loadUnitModes();
+  }, [supabaseUser]);
 
   // 🧭 問題画面が表示された瞬間にトップへスクロール
   useEffect(() => {
@@ -1225,26 +1392,73 @@ export default function EnglishTrapQuestions() {
     fetch("/api/questions2")
       .then((res) => res.json())
       .then((data) => {
-        // ① JSONを読み込む
-        let baseQuestions = data;
+        // ① まずは通常の問題
+        let merged = data;
 
-        // ② オリジナルをこのタイミングで合体（ここが一番重要）
-        if (customWords.length > 0) {
+        // ② originalWords がある場合は統合
+        if (originalWords.length > 0) {
           const originalQuestions = generateOriginalQuestions();
-          baseQuestions = [
-            ...baseQuestions.filter((q) => !q.id.startsWith("custom-")),
+
+          merged = [
+            ...merged.filter((q) => !q.id?.startsWith("custom-")), // 重複対策
             ...originalQuestions,
           ];
         }
 
         // ③ 合体後に setQuestions
-        setQuestions(baseQuestions);
+        setQuestions(merged);
 
         // ④ 合体後のデータから単元一覧を作る
-        const uniqueUnits = [...new Set(baseQuestions.map((q) => q.unit))];
+        const uniqueUnits = [...new Set(merged.map((q) => q.unit))];
         setUnits(uniqueUnits);
       });
-  }, [customWords.length]); // ★オリジナル単語追加時にも最新化
+  }, [originalWords]);
+  // 🔥 originalWords が変わったら再読み込みされるように依存に追加
+
+  // 🔰 二重実行防止フラグ
+  const unitStatsLoadedRef = useRef(false);
+
+  useEffect(() => {
+    if (!supabaseUser || units.length === 0) return;
+
+    // 🔒 すでにロード済みなら 2 回目を完全スキップ！
+    if (unitStatsLoadedRef.current) {
+      console.log("⏭ unitStats の 2 回目読み込みをスキップ");
+      return;
+    }
+    unitStatsLoadedRef.current = true;
+
+    const fetchStats = async () => {
+      const { data, error } = await supabase
+        .from("unit_stats")
+        .select("unit, correct, wrong, total, streak")
+        .eq("user_id", supabaseUser.id);
+
+      if (error) {
+        console.error("Supabase stats 読み込みエラー:", error);
+        return;
+      }
+
+      const stats = {};
+      units.forEach((u) => {
+        stats[u] = { correct: 0, wrong: 0, total: 0, streak: 0 };
+      });
+
+      data.forEach((row) => {
+        stats[row.unit] = {
+          correct: row.correct ?? 0,
+          wrong: row.wrong ?? 0,
+          total: row.total ?? row.correct + row.wrong,
+          streak: row.streak ?? 0,
+        };
+      });
+
+      setUnitStats(stats);
+      console.log("🔵 unitStats を Supabase から復元:", stats);
+    };
+
+    fetchStats();
+  }, [supabaseUser, units]);
 
   useEffect(() => {
     // ✅ 出題が開始され、最初のリスニング問題になった瞬間だけ再生
@@ -1297,40 +1511,6 @@ export default function EnglishTrapQuestions() {
           />
         </>
       )}
-
-      {/* OCR切替 */}
-      {/*    {useHandwriting && (
-        <div className="mt-2 flex items-center justify-center gap-2">
-          <input
-            type="checkbox"
-            id="useGoogleOCR"
-            checked={ocrEngine === "vision"}
-            onChange={(e) =>
-              setOcrEngine(e.target.checked ? "vision" : "tesseract")
-            }
-            className="w-4 h-4 accent-blue-600"
-          />
-          <label
-            htmlFor="useGoogleOCR"
-            className="text-sm text-gray-800 font-medium select-none"
-          >
-            🌐 高精度OCR（Google Vision）を使う
-          </label>
-        </div>
-      )}
-
-      <div className="mt-2 flex justify-end w-full">
-        <label className="text-sm text-gray-600 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={useHandwriting}
-            onChange={() => setUseHandwriting(!useHandwriting)}
-            className="mr-1"
-          />
-          手書き入力を使う（記録されます）
-        </label>
-      </div>
-      */}
     </div>
   );
 
@@ -1360,6 +1540,23 @@ export default function EnglishTrapQuestions() {
       .replace(/>/g, "&gt;");
 
     return `<speak>${text}</speak>`;
+  };
+
+  // 🔊 単語だけを発音する関数（Google TTS）
+  const playSoundFor = (word) => {
+    if (!word) return;
+
+    try {
+      const utter = new SpeechSynthesisUtterance(word);
+      utter.lang = "en-US";
+      utter.rate = 0.9; // 少しゆっくりで聞きやすい
+      utter.pitch = 1.0;
+
+      window.speechSynthesis.cancel(); // 前の発音を止める
+      window.speechSynthesis.speak(utter);
+    } catch (e) {
+      console.error("発音エラー:", e);
+    }
   };
 
   // 🎙️ 日本語＋英語ミックスTTS（自然発音＋不要記号除去・安定再生）
@@ -1817,7 +2014,6 @@ export default function EnglishTrapQuestions() {
   };
 
   const handleWordClick = async (word) => {
-    // ✅ 単語を正規化（末尾ピリオド等を除去）
     const cleanWord = normEn(word);
 
     setSelectedWord(cleanWord);
@@ -1833,16 +2029,12 @@ export default function EnglishTrapQuestions() {
       if (!res.ok) throw new Error("Translation API error");
       const data = await res.json();
 
-      // ✅ 日本語訳を正規化（末尾「。」などを除去）
       const meaning = normJa(data.translation);
 
       setWordMeaning(meaning);
 
-      // ✅ 単語帳に保存（重複チェックあり）
-      setWordList((prev) => {
-        if (prev.some((item) => item.word === cleanWord)) return prev;
-        return [...prev, { word: cleanWord, meaning }];
-      });
+      // ✅ ここから変更：単語帳はSupabaseに一本化！
+      await saveOriginalWordToSupabase(cleanWord, meaning);
     } catch (err) {
       console.error(err);
       setWordMeaning("意味を取得できませんでした");
@@ -1975,30 +2167,6 @@ export default function EnglishTrapQuestions() {
     setHintText("");
     setHintLevel(0);
   };
-
-  // 出題対象の問題を作る処理
-  useEffect(() => {
-    if (questions.length === 0) return;
-
-    // 🔹 何も選択されていないときは再描画しない（タイトルが消えるのを防止）
-    if (Object.keys(unitModes).length === 0) return;
-
-    const selected = questions.filter((q) => {
-      const mode = unitModes[q.unit] || 0;
-      if (mode === 0) return false; // 未選択 → 出さない
-      if (mode === 1) return true; // 両方 → 出す
-      if (mode === 2) return q.type === "multiple-choice"; // 選択問題のみ
-      if (mode === 3) return q.type === "input"; // 記述問題のみ
-      return false;
-    });
-
-    // 🔹 空リストにすることでタイトルが一瞬消えるのを防ぐ
-    if (selected.length > 0) {
-      setFilteredQuestions(selected);
-    } else {
-      //console.log("[Filter] No questions matched — skipping update");
-    }
-  }, [questions, unitModes]);
 
   // 切り替えは音量制御のみ
   useEffect(() => {
@@ -2771,22 +2939,25 @@ export default function EnglishTrapQuestions() {
       if (currentIndex + 1 < filteredQuestions.length) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        // ここから ↓↓↓ 修正
+        // ★★★★★ ここに保存処理を最初に置く ★★★★★
+        await saveStatsToSupabase(); // ←これが正しい保存関数
+        // ★★★★★ ここまで ★★★★★
+
+        // 🔁 復習がある場合はモーダルへ
         if (reviewList.length > 0) {
-          // 復習出題キューを保存して、モーダルを出す
           reviewQueueRef.current = [...reviewList];
           setShowReviewPrompt(true);
-          return; // ← ここで一旦止める（開始はモーダルのボタンで）
+          return;
         }
-        // ↑↑↑ 修正 おわり
 
-        // 復習なし通常終了
+        // 復習なし → 結果画面へ
         setShowQuestions(false);
         setShowResult(true);
         setTimerActive(false);
         setTimeLeft(0);
         setIsReviewMode(false);
       }
+
       setShowFeedback(false);
     } else {
       if (soundEnabled) playSFX("/sounds/ganba.mp3");
@@ -2986,6 +3157,155 @@ export default function EnglishTrapQuestions() {
     setQuestionList(newList);
   };
 
+  const saveOriginalWordToSupabase = async (word, meaning) => {
+    if (!supabaseUser) return;
+
+    const payload = {
+      user_id: supabaseUser.id,
+      word,
+      meaning,
+      created_at: new Date().toISOString(),
+    };
+
+    const { data, error } = await supabase
+      .from("original_words")
+      .upsert(payload, { onConflict: "user_id,word" })
+      .select();
+
+    if (error) {
+      console.error("オリジナル単語保存エラー:", error);
+      return;
+    }
+
+    // ✅ UIも即反映（重複はUI側でもガード）
+    setOriginalWords((prev) => {
+      if (prev.some((x) => x.word === word)) return prev;
+      return [payload, ...prev];
+    });
+
+    console.log(`✅ original_wordsへ保存: ${word}=${meaning}`);
+
+    setToastMessage(`📘「${word}」を単語帳に追加しました！`);
+    setTimeout(() => setToastMessage(""), 2000); // 2秒で自動消滅
+  };
+
+  // ⭐ 出題形式を Supabase に保存する（配列 → JSON）
+  const saveSelectedFormatsToSupabase = async (updatedFormats) => {
+    if (!supabaseUser) return;
+
+    // 保存用 JSON 文字列
+    const json = JSON.stringify(updatedFormats);
+
+    const { error } = await supabase.from("user_settings").upsert(
+      {
+        user_id: supabaseUser.id,
+        formats: json,
+        updated: new Date().toISOString(),
+      },
+      { onConflict: "user_id" }
+    );
+
+    if (error) {
+      console.error("形式設定の保存エラー:", error);
+    } else {
+      console.log("形式設定を保存完了:", updatedFormats);
+    }
+  };
+
+  // ⭐ Supabase：単元成績を保存する
+  const saveStatsToSupabase = async () => {
+    if (!supabaseUser) return;
+
+    const user_id = supabaseUser.id;
+
+    for (const [unit, stat] of Object.entries(unitStats)) {
+      const wrong = Number(stat?.wrong ?? 0);
+      const total = Number(stat?.total ?? 0);
+      const correct = Math.max(0, total - wrong); // NaN 回避
+      const mode = Number(unitModes[unit] ?? 0);
+      const streak = Number(stat?.streak ?? 0);
+
+      const { error } = await supabase.from("unit_stats").upsert(
+        {
+          user_id,
+          unit,
+          mode,
+          correct,
+          wrong,
+          total,
+          streak,
+        },
+        {
+          onConflict: "user_id,unit",
+        }
+      );
+
+      if (error) {
+        console.error("Supabase 保存エラー:", error);
+      } else {
+        console.log("保存OK:", unit, { correct, wrong, total, mode });
+      }
+    }
+  };
+
+  const updateOriginalWord = async () => {
+    if (!supabaseUser || !editingWord) return;
+
+    try {
+      const { error } = await supabase
+        .from("original_words")
+        .update({
+          word: editWord,
+          meaning: editMeaning,
+        })
+        .eq("id", editingWord.id) // ← id で更新（最重要）
+        .eq("user_id", supabaseUser.id); // ← ログインユーザー以外の編集防止
+
+      if (error) throw error;
+
+      // 🔥 UIに即反映
+      setOriginalWords((prev) =>
+        prev.map((item) =>
+          item.id === editingWord.id
+            ? { ...item, word: editWord, meaning: editMeaning }
+            : item
+        )
+      );
+
+      setShowEditModal(false);
+
+      // 🔔 トースト
+      setToastMessage(`✏️ ${editWord} を更新しました！`);
+      setTimeout(() => setToastMessage(""), 2000);
+    } catch (err) {
+      console.error("update error:", err);
+      alert("更新できませんでした");
+    }
+  };
+
+  const deleteOriginalWord = async (id) => {
+    if (!supabaseUser) return;
+
+    const { error } = await supabase
+      .from("original_words")
+      .delete()
+      .eq("id", id) // ← ★ ここが最重要（id で削除）
+      .eq("user_id", supabaseUser.id);
+
+    if (error) {
+      console.error("削除エラー:", error);
+      alert("削除できませんでした");
+      return;
+    }
+
+    // UIから即削除
+    setOriginalWords((prev) => prev.filter((w) => w.id !== id));
+
+    // トースト表示（任意）
+    setToastMessage("🗑️ 単語を削除しました");
+    setTimeout(() => setToastMessage(""), 1500);
+  };
+
   // ========== UI ==========
   // ✅ 覚え直し問題ID一覧
   const reviewIds = new Set(
@@ -3144,26 +3464,18 @@ export default function EnglishTrapQuestions() {
           )}
 
         {!(useHandwriting && currentQuestion?.type === "input") && (
-          <div className="flex justify-between items-center mb-4">
-            <div className="fixed bottom-3 right-4 flex items-center gap-2 z-50 bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full shadow-md">
-              <span className="text-gray-700 font-bold">
-                {userName ? `${userName} さん` : "ゲスト"}
-              </span>
-              {!showQuestions && !showResult && (
-                <button
-                  onClick={() => {
-                    const name = prompt("新しい名前を入力してください");
-                    if (name && name.trim() !== "") {
-                      handleSetUserName(name.trim());
-                      localStorage.setItem("userName", name.trim());
-                    }
-                  }}
-                  className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
-                >
-                  ユーザー変更
-                </button>
-              )}
-            </div>
+          <div className="fixed bottom-20 right-4 flex items-center gap-2 z-[40] bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full shadow-md">
+            <span className="text-gray-700 font-bold">{userName} さん</span>
+
+            {/* クイズ中と結果画面以外で変更可 */}
+            {!showQuestions && !showResult && (
+              <button
+                onClick={handleChangeUserName}
+                className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
+              >
+                ユーザー変更
+              </button>
+            )}
           </div>
         )}
 
@@ -3260,11 +3572,22 @@ export default function EnglishTrapQuestions() {
                         key={format}
                         onClick={() =>
                           playButtonSound(() => {
-                            setSelectedFormats((prev) =>
-                              prev.includes(format)
+                            setSelectedFormats((prev) => {
+                              const updated = prev.includes(format)
                                 ? prev.filter((f) => f !== format)
-                                : [...prev, format]
-                            );
+                                : [...prev, format];
+
+                              // 🔥 Supabase に保存！
+                              saveSelectedFormatsToSupabase(updated);
+
+                              // localStorage も同期
+                              localStorage.setItem(
+                                "selectedFormats",
+                                JSON.stringify(updated)
+                              );
+
+                              return updated;
+                            });
                           })
                         }
                         className={`px-3 py-2 rounded-full shadow-sm text-sm font-semibold transition-all ${
@@ -3460,15 +3783,6 @@ export default function EnglishTrapQuestions() {
                   </div>
 
                   <div className="flex justify-center gap-3 flex-wrap">
-                    <button
-                      onClick={() =>
-                        playButtonSound(() => setShowWordList(true))
-                      }
-                      className="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow transition"
-                    >
-                      📖 単語帳（{wordList.length}件）
-                    </button>
-
                     <button
                       onClick={async () => {
                         if (audioCtx && audioCtx.state === "suspended") {
@@ -3972,14 +4286,53 @@ export default function EnglishTrapQuestions() {
                         </div>
                       )}
 
-                    {/* 🔹 単語タップ翻訳結果（変更なし） */}
+                    {/* 🔹 単語タップ翻訳結果（改善版） */}
                     {selectedWord && (
                       <div className="mt-4 p-3 bg-[#F9F9F9] border border-[#E0E0E0] rounded-lg shadow">
                         <h3 className="text-base font-bold text-[#4A6572] mb-1">
                           選択した単語
                         </h3>
-                        <p className="text-lg text-[#4A6572]">{selectedWord}</p>
-                        <p className="text-gray-800">{wordMeaning}</p>
+
+                        <p className="text-lg font-semibold text-[#4A6572]">
+                          {selectedWord}
+                        </p>
+
+                        <p className="text-gray-800 mb-2">{wordMeaning}</p>
+
+                        <div className="flex gap-2 mt-2">
+                          {/* 発音ボタン */}
+                          <button
+                            onClick={() => playSoundFor(selectedWord)}
+                            className="px-3 py-1 bg-blue-400 hover:bg-blue-500 text-white rounded-full shadow"
+                          >
+                            🔊 発音
+                          </button>
+
+                          {/* 単語帳追加ボタン */}
+                          <button
+                            onClick={() => {
+                              if (!selectedWord || !wordMeaning) return;
+                              saveOriginalWordToSupabase(
+                                selectedWord,
+                                wordMeaning
+                              );
+                            }}
+                            className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded-full shadow"
+                          >
+                            ＋ 単語帳に入れる
+                          </button>
+
+                          {/* 閉じる */}
+                          <button
+                            onClick={() => {
+                              setSelectedWord(null);
+                              setWordMeaning("");
+                            }}
+                            className="px-3 py-1 bg-gray-300 hover:bg-gray-400 text-gray-700 rounded-full shadow"
+                          >
+                            閉じる
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -4090,59 +4443,92 @@ export default function EnglishTrapQuestions() {
               {/* 保存ボタン */}
               <button
                 className="bg-blue-500 text-white p-2 rounded w-full mt-3"
-                onClick={() => {
-                  if (!tempCustomWord.trim() || !tempCustomMeaning.trim())
-                    return;
+                onClick={async () => {
+                  const word = tempCustomWord.trim();
+                  const meaning = tempCustomMeaning.trim();
+
+                  if (!word || !meaning) return;
+                  if (!supabaseUser) return alert("ログインしてください");
 
                   if (editingId) {
-                    // 編集モード
-                    const updated = customWords.map((w) =>
-                      w.id === editingId
-                        ? {
-                            ...w,
-                            word: tempCustomWord.trim(),
-                            meaning: tempCustomMeaning.trim(),
-                          }
-                        : w
-                    );
-                    saveCustomWords(updated);
+                    // ------------------------------
+                    // ✏️ 編集モード：Supabase 更新
+                    // ------------------------------
+                    const { error } = await supabase
+                      .from("original_words")
+                      .update({
+                        word,
+                        meaning,
+                        updated_at: new Date().toISOString(),
+                      })
+                      .eq("id", editingId)
+                      .eq("user_id", supabaseUser.id);
 
+                    if (error) {
+                      console.error("更新エラー:", error);
+                      return alert("更新できませんでした");
+                    }
+
+                    // UI 即反映
+                    setOriginalWords((prev) =>
+                      prev.map((item) =>
+                        item.id === editingId
+                          ? { ...item, word, meaning }
+                          : item
+                      )
+                    );
+
+                    // リセット
+                    setEditingId(null);
                     setTempCustomWord("");
                     setTempCustomMeaning("");
-                    setEditingId(null);
                     setShowCustomWordInput(false);
-
-                    // ★ 追加：候補と手書きパッドリセット
                     setSuggestedMeaning("");
                     setShowHandwritingFor(null);
-                  } else {
-                    // 新規追加
-                    const newList = [
-                      ...customWords,
-                      {
-                        id: crypto.randomUUID(),
-                        word: tempCustomWord.trim(),
-                        meaning: tempCustomMeaning.trim(),
-                      },
-                    ];
-                    saveCustomWords(newList);
 
-                    // 🔥 トースト表示
+                    // トースト
                     setShowSaveToast(true);
                     setTimeout(() => setShowSaveToast(false), 1500);
+                  } else {
+                    // ------------------------------
+                    // ✨ 新規追加：Supabase に保存
+                    // ------------------------------
+                    const { data, error } = await supabase
+                      .from("original_words")
+                      .upsert(
+                        {
+                          user_id: supabaseUser.id,
+                          word,
+                          meaning,
+                          created_at: new Date().toISOString(),
+                        },
+                        { onConflict: "user_id,word" }
+                      )
+                      .select();
 
-                    // 🔥 追加したい内容（新規追加後のリセット処理）
+                    if (error) {
+                      console.error("追加エラー:", error);
+                      return alert("保存できませんでした");
+                    }
+
+                    // Supabase の戻り値の id を反映
+                    const saved = data?.[0];
+
+                    // UI即反映（重複は避ける）
+                    setOriginalWords((prev) => {
+                      if (prev.some((x) => x.word === word)) return prev;
+                      return [saved, ...prev];
+                    });
+
+                    // 入力リセット
                     setTempCustomWord("");
                     setTempCustomMeaning("");
-
-                    // ★追加：候補消す
                     setSuggestedMeaning("");
-
-                    // ★追加：手書きパッド閉じる
                     setShowHandwritingFor(null);
 
-                    // ★（オプション）次の入力開始を「英単語」側から始めたい場合は↓
-                    setShowHandwritingFor("word");
+                    // トースト
+                    setShowSaveToast(true);
+                    setTimeout(() => setShowSaveToast(false), 1500);
                   }
                 }}
               >
@@ -4168,54 +4554,50 @@ export default function EnglishTrapQuestions() {
         {showOriginalList && (
           <div className="fixed inset-0 bg-black/40 z-[2000] flex items-center justify-center">
             <div className="bg-white rounded-2xl p-6 w-[90%] max-w-[500px] shadow-xl">
-              <h2 className="text-xl font-bold mb-4">📄 登録単語一覧</h2>
+              <h2 className="text-xl font-bold mb-4 text-[#123a6b]">
+                📘 登録単語一覧
+              </h2>
 
-              {customWords.length === 0 && (
+              {originalWords.length === 0 ? (
                 <p className="text-gray-600">まだ単語が登録されていません。</p>
+              ) : (
+                <ul className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                  {originalWords.map((item) => (
+                    <li
+                      key={item.id} // ← ★ 必ず id を使う
+                      className="bg-gray-50 p-3 rounded-xl shadow flex justify-between items-center"
+                    >
+                      <div>
+                        <p className="font-bold text-lg">{item.word}</p>
+                        <p className="text-gray-600">{item.meaning}</p>
+                      </div>
+
+                      <div className="flex gap-2">
+                        {/*  ✏️ 編集 */}
+                        <button
+                          onClick={() => {
+                            setEditingWord(item); // ★ item をそのまま保存（id を保持）
+                            setEditWord(item.word);
+                            setEditMeaning(item.meaning);
+                            setShowEditModal(true);
+                          }}
+                          className="bg-yellow-400 px-3 py-2 rounded"
+                        >
+                          ✏️
+                        </button>
+
+                        {/* 🗑️ Supabase 削除 */}
+                        <button
+                          onClick={() => deleteOriginalWord(item.id)} // ← ★ ここを id にする！
+                          className="bg-red-400 text-white px-3 py-2 rounded"
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               )}
-
-              <ul className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
-                {customWords.map((item) => (
-                  <li
-                    key={item.id}
-                    className="bg-gray-50 p-3 rounded-xl shadow flex justify-between items-center"
-                  >
-                    <div>
-                      <p className="font-bold text-lg">{item.word}</p>
-                      <p className="text-gray-600">{item.meaning}</p>
-                    </div>
-
-                    <div className="flex gap-2">
-                      {/* 編集 */}
-                      <button
-                        onClick={() => {
-                          setTempCustomWord(item.word);
-                          setTempCustomMeaning(item.meaning);
-                          setShowCustomWordInput(true);
-                          setEditingId(item.id);
-                          setShowOriginalList(false);
-                        }}
-                        className="bg-yellow-400 px-3 py-2 rounded"
-                      >
-                        ✏️
-                      </button>
-
-                      {/* 削除 */}
-                      <button
-                        onClick={() => {
-                          const updated = customWords.filter(
-                            (w) => w.id !== item.id
-                          );
-                          saveCustomWords(updated);
-                        }}
-                        className="bg-red-400 text-white px-3 py-2 rounded"
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
 
               <button
                 onClick={() => setShowOriginalList(false)}
@@ -4599,6 +4981,54 @@ export default function EnglishTrapQuestions() {
         {showSaveToast && (
           <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg z-[5000] animate-fade">
             ✔ 保存しました！
+          </div>
+        )}
+        {toastMessage && (
+          <div
+            className="fixed bottom-6 left-1/2 transform -translate-x-1/2 
+                  bg-black text-white px-4 py-2 rounded-lg shadow-lg
+                  text-sm z-[5000] opacity-90"
+          >
+            {toastMessage}
+          </div>
+        )}
+        {showEditModal && (
+          <div className="fixed inset-0 bg-black/40 z-[3000] flex items-center justify-center">
+            <div className="bg-white p-6 rounded-xl w-[90%] max-w-[450px] shadow-xl">
+              <h2 className="text-xl font-bold mb-3">✏️ 単語を編集</h2>
+
+              <label className="block mb-2 font-semibold">単語</label>
+              <input
+                type="text"
+                value={editWord}
+                onChange={(e) => setEditWord(e.target.value)}
+                className="border w-full p-2 rounded mb-4"
+              />
+
+              <label className="block mb-2 font-semibold">意味</label>
+              <input
+                type="text"
+                value={editMeaning}
+                onChange={(e) => setEditMeaning(e.target.value)}
+                className="border w-full p-2 rounded mb-4"
+              />
+
+              <div className="flex justify-between">
+                <button
+                  onClick={() => setShowEditModal(false)}
+                  className="px-4 py-2 bg-gray-400 text-white rounded-lg"
+                >
+                  キャンセル
+                </button>
+
+                <button
+                  onClick={updateOriginalWord}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                >
+                  保存
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
