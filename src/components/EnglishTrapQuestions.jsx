@@ -430,10 +430,9 @@ function HandwritingPad({
       >
         {/* ✖ 閉じるボタン */}
         <button
-          onClick={() => {
-            // 親で showHandwritingFor(null) を呼んでいるはず
-            if (onClearAll) onClearAll();
-            if (onUpload) onUpload(null); // 終了通知
+          onClick={(e) => {
+            e.stopPropagation(); // イベントバブリング防止
+            if (onClose) onClose(); // ★ 正しい閉じ方
           }}
           className="absolute -top-3 -right-3 bg-gray-700 text-white w-7 h-7 rounded-full shadow"
         >
