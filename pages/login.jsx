@@ -31,11 +31,14 @@ export default function Login() {
   };
 
   const googleLogin = async () => {
+    const redirectUrl =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000/"
+        : "https://jkr-app-v1.vercel.app/";
+
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: {
-        redirectTo: "http://localhost:3000/",
-      },
+      options: { redirectTo: redirectUrl },
     });
   };
 
