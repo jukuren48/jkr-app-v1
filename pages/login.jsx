@@ -80,7 +80,7 @@ export default function Login() {
         {/* ログイン */}
         <button
           onClick={handleLogin}
-          className="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 rounded-xl mb-3 shadow-md"
+          className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl mb-4 shadow-lg transition"
         >
           ログイン
         </button>
@@ -88,7 +88,7 @@ export default function Login() {
         {/* 新規登録 */}
         <button
           onClick={handleSignup}
-          className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-xl mb-6 shadow-md"
+          className="w-full border border-gray-400 bg-white hover:bg-gray-100 text-gray-700 font-bold py-3 rounded-xl mb-6 shadow-sm transition"
         >
           新規登録
         </button>
@@ -96,7 +96,7 @@ export default function Login() {
         {/* Googleログイン */}
         <button
           onClick={googleLogin}
-          className="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-bold py-3 rounded-xl shadow-md"
+          className="w-full flex items-center justify-center gap-3 bg-white border border-gray-400 hover:bg-gray-100 text-gray-700 font-bold py-3 rounded-xl shadow-md transition"
         >
           <img
             src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
