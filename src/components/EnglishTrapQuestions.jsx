@@ -3464,22 +3464,6 @@ export default function EnglishTrapQuestions() {
             document.body
           )}
 
-        {!(useHandwriting && currentQuestion?.type === "input") && (
-          <div className="fixed bottom-20 right-4 flex items-center gap-2 z-[40] bg-white/80 backdrop-blur-sm px-3 py-2 rounded-full shadow-md">
-            <span className="text-gray-700 font-bold">{userName} さん</span>
-
-            {/* クイズ中と結果画面以外で変更可 */}
-            {!showQuestions && !showResult && (
-              <button
-                onClick={handleChangeUserName}
-                className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow transition"
-              >
-                ユーザー変更
-              </button>
-            )}
-          </div>
-        )}
-
         {/* ★ ここにハンバーガーメニューを置くのが正解！ */}
         <div className="absolute top-4 right-4 z-50">
           <button
@@ -3586,21 +3570,6 @@ export default function EnglishTrapQuestions() {
                   {userName}、Let's try!
                 </p>
               </div>
-
-              {/* 📥 質問ボックス：クリックできるように pointer-events を戻す */}
-              <button
-                onClick={() =>
-                  playButtonSound(() => setShowQuestionModal(true))
-                }
-                className="
-          bg-yellow-300/95 hover:bg-yellow-400 
-          text-[#4A6572] px-4 py-2 rounded-full shadow 
-          transition text-sm font-semibold whitespace-nowrap sm:ml-4
-          pointer-events-auto
-        "
-              >
-                📥 質問ボックス（{questionList.length}件）
-              </button>
             </header>
 
             {/* 🧩 メインUI：問題形式・単元ボタンなど（背景より上の層） */}
