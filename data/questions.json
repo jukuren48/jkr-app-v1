@@ -1,20 +1,5 @@
 [
   {
-    "id": "e25db17f-d096-4d68-9fc5-a3f81063284e",
-    "unit": "５文型",
-    "question": "She gave me (  ).",
-    "choices": ["book", "a book", "books", "the books"],
-    "correct": "a book",
-    "explanation": "SVOO（第4文型）の例で、'me'（人）と 'a book'（物）の順で与える行為を表します。",
-    "incorrectExplanations": {
-      "book": "冠詞がないため『book』だけだと不自然です。英語では可算名詞の単数形には『a』が必要です。",
-      "books": "『books』は複数形ですが、ここでは特に複数の本を示す必要がなく、『a book』のように単数が自然です。",
-      "the books": "『the books』は特定の本を指す表現です。ここでは新しく情報を与える形なので不定冠詞『a』を使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
     "id": "61f39f9e-6dfc-4303-90b9-907e250678f7",
     "unit": "be動詞",
     "question": "My brother (  ) a good soccer player.",
@@ -1774,6 +1759,129 @@
     "type": "input"
   },
   {
+    "id": "e25db17f-d096-4d68-9fc5-a3f81063284e",
+    "unit": "第４文型",
+    "question": "She gave me (  ).",
+    "choices": ["book", "a book", "books", "the books"],
+    "correct": "a book",
+    "explanation": "SVOO（第4文型）の例で、'me'（人）と 'a book'（物）の順で与える行為を表します。",
+    "i ncorrectExplanations": {
+      "book": "冠詞がないため『book』だけだと不自然です。英語では可算名詞の単数形には『a』が必要です。",
+      "books": "『books』は複数形ですが、ここでは特に複数の本を示す必要がなく、『a book』のように単数が自然です。",
+      "the books": "『the books』は特定の本を指す表現です。ここでは新しく情報を与える形なので不定冠詞『a』を使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a7c9e1f3-5b7d-49c1-9f7a-6b2e3d4f5a67",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nなぜ優子はそんなに怒っているのですか。\n( angry / makes / so / what / Yuko ).",
+    "correct": "What makes Yuko so angry?",
+    "explanation": "『make 人 物』は第4文型。意図：『何が優子をそんな怒らせるの？』という使役動詞makeを使います。主語はWhatなので三単現のsをつけます。"
+  },
+  {
+    "id": "b8d0f2a4-6a9c-48e2-9a8b-7c3e0a1b2c78",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "「私は母に新しいかばんを買ってあげました。」を第４文型で書きなさい。",
+    "correct": "I bought my mother a new bag.",
+    "explanation": "buyは第4文型OK（ただし、第3文型にすると for が必要）。"
+  },
+  {
+    "id": "c9e1f3a5-7b0c-41d3-9b9e-8a4f6d2e3a89",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "「彼は私にその本の話をしてくれました。」を第４文型で書きなさい。",
+    "correct": "He told me the story of the book.",
+    "explanation": "tellは典型的な第4文型（tell 人 物）。"
+  },
+  {
+    "id": "d0f2a4b6-8c1d-49d0-9e3f-9b7c4d6e5b23",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "「私たちはケンに大きなチャンスをあげました。」を第４文型で書きなさい。",
+    "correct": "We gave Ken a big chance.",
+    "explanation": "giveはSVOOの代表。"
+  },
+  {
+    "id": "e1f3a5c7-9d2e-4be1-9f1c-0c6d5a7b1a45",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "「先生は私達にたくさんの宿題を出しました。」を第４文型で書きなさい。",
+    "correct": "The teacher gave us a lot of homework.",
+    "explanation": "give 人 物の形。homeworkは不可算名詞に注意。"
+  },
+  {
+    "id": "f2a4c6d8-1e3f-4fa2-9c8d-3e7d1f2a4c90",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "「私は友達に英語のノートを貸してあげました。」を第４文型で書きなさい。",
+    "correct": "I lent my friend my English notebook.",
+    "explanation": "lend 人 物の第4文型。『friend に notebook を』の語順が大事。"
+  },
+  {
+    "id": "a1b3c5d7-9e2f-4a7b-8c1d-0f4a7b8c9d01",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "He gave her a ring.（第４文型）を第３文型に書き換えなさい。",
+    "correct": "He gave a ring to her.",
+    "explanation": "第4文型SVOO → 第3文型SVO＋to人 の変換。giveは『to型』を使います。"
+  },
+  {
+    "id": "b2c4d6e8-0f3a-41b8-9c2d-1e5f9a0b1c12",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "My father showed me his new car. を第３文型に書き換えなさい。",
+    "correct": "My father showed his new car to me.",
+    "explanation": "showも『to型』で書き換える動詞です。"
+  },
+  {
+    "id": "c3d5e7f9-1a4b-42c9-9d3e-2b6c0d2e3f23",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "She lent me her bike. を第３文型に書き換えなさい。",
+    "correct": "She lent her bike to me.",
+    "explanation": "lendも『to型』で書き換えます。"
+  },
+  {
+    "id": "d4e6f8a0-2b5c-40d0-9e4f-3c7d1e3f4a34",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "They sent us a letter. を第３文型に書き換えなさい。",
+    "correct": "They sent a letter to us.",
+    "explanation": "sendは to型。『to us』を忘れずに。"
+  },
+  {
+    "id": "e5f7a9b1-3c6d-41e1-9f5c-4d8e2f5a6b45",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "The teacher taught us English. を第３文型に書き換えなさい。",
+    "correct": "The teacher taught English to us.",
+    "explanation": "teachもto型で書き換えることができます。"
+  },
+  {
+    "id": "f6a8b0c2-4d7e-43f2-9f6d-5e9a3b7c8d56",
+    "unit": "第４文型",
+    "format": "英作文",
+    "type": "input",
+    "question": "Tom bought me a T-shirt. を第３文型に書き換えなさい。",
+    "correct": "Tom bought a T-shirt for me.",
+    "explanation": "buyは『for型』になる代表動詞です（for〜の利益のために）。"
+  },
+  {
     "id": "6618e127-ffad-4f5e-ae2c-86af072057e5",
     "unit": "接続詞",
     "question": "I stayed home (  ) it was raining.",
@@ -2885,6 +2993,192 @@
     "format": "整序問題",
     "type": "input"
   },
+  {
+    "id": "471c7999-4889-4c99-9464-2a141109263c",
+    "unit": "間接疑問文",
+    "question": "I don’t know (  ) she is coming to the party.",
+    "choices": ["when", "is", "does", "whether"],
+    "correct": "whether",
+    "explanation": "間接疑問文では 'if' や 'whether' を使って「〜かどうか」を表します。この文では 'whether' が適切です。",
+    "incorrectExplanations": {
+      "is": "『is she coming』のような疑問文の語順をそのまま入れるのは間接疑問文では間違いです。正しくは『whether she is coming』のように平叙文の語順になります。",
+      "does": "『does』は現在形の一般動詞の疑問文で使いますが、『she is coming』のような進行形には不要で不適切です。",
+      "when": "『when』は『いつ』を表す疑問詞で、『〜かどうか』を尋ねる意味には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "1e77864d-88b8-40c7-b568-25b09d5360b1",
+    "unit": "間接疑問文",
+    "question": "「彼がどこに住んでいるのか知っていますか。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "Do you know where he lives?",
+    "explanation": "間接疑問文では疑問詞+平叙文の語順にして、Do you know where he lives? となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "7e3a5c1b-9d2f-4a6d-8c7b-1f2e3d4c5b75",
+    "unit": "間接疑問文",
+    "question": "Do you know where (  )?",
+    "choices": ["she lives", "does she live", "she live", "does she lives"],
+    "correct": "she lives",
+    "explanation": "間接疑問は平叙文語順（主語＋動詞）。Do/Does を倒置しません。",
+    "incorrectExplanations": {
+      "does she live": "直接疑問の語順。間接疑問では×。",
+      "she live": "現在形の三単現。live → lives が必要。",
+      "does she lives": "助動詞 does の後は動詞原形。二重の誤り。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a1f8d9c2-83d7-4d79-8f05-8b27d79f5a91",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がどこに住んでいるか知っていますか。\n( know / lives / he / do / where ).",
+    "choices": [],
+    "correct": "Do you know where he lives?",
+    "explanation": "間接疑問文では語順が平叙文型になります。『Do you know where he lives?』で『彼がどこに住んでいるか知っていますか？』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b3e7a8f6-72a1-4c0e-8e90-9b98a0d3b7d0",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n先生は私に何をすべきか教えてくれました。\n( me / to / told / teacher / what / the / do ).",
+    "choices": [],
+    "correct": "The teacher told me what to do.",
+    "explanation": "『疑問詞＋to不定詞』で『何をすべきか』を表す。『tell 人 what to do』＝『人に何をすべきか教える』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c6b9f2e8-58a1-45ab-a3c1-72915e1c9e9b",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はなぜ彼が怒っているのか知りたいです。\n( angry / is / he / know / why / to / want / I ).",
+    "choices": [],
+    "correct": "I want to know why he is angry.",
+    "explanation": "『want to know＋間接疑問』で『なぜ～なのか知りたい』。間接疑問では『why he is angry』のように疑問文語順にしない点に注意。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d9c3b6f5-88df-4fb7-b9c8-18b4e403a58c",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がその問題を解けると思いますか。\n( can / that / he / do / think / you / it ).",
+    "choices": [],
+    "correct": "Do you think that he can do it?",
+    "explanation": "『Do you think that～？』は間接疑問ではなく、主節の中に疑問を埋め込む構文。『that』は省略も可だが、正式には残すのが自然。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e7f2a1d9-31b8-4de3-a9b1-47d43e5d97a3",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は彼女がいつ帰ってくるのか分かりません。\n( will / she / when / come / know / don’t / I / back ).",
+    "choices": [],
+    "correct": "I don’t know when she will come back.",
+    "explanation": "『I don’t know＋間接疑問』の形。疑問詞の後は平叙文語順『when she will come back』にします。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "4c9a4a7d-8b61-4e72-9e15-13f5c0d3b3f1",
+    "unit": "第５文型",
+    "question": "【知覚動詞】次の文を完成させなさい。\nI saw Tom (  ) across the street.",
+    "choices": ["run", "runs", "running", "to run"],
+    "correct": "run",
+    "explanation": "「see＋目的語＋動詞の原形」で『Oが〜するのを見る』という第5文型（S＋V＋O＋C）になります。\nここでは「トムが通りを走って横切るのを見た」という意味なので、動詞の原形 run を使って I saw Tom run across the street. となります。\n※ see / hear / watch / feel などの知覚動詞のあとに、目的語＋動詞の原形が来る形は、入試頻出パターンです。",
+    "incorrectExplanations": {
+      "runs": "三人称単数の runs は「Tom が走る」という一般的な事実を述べるときの形で、第5文型の補語には使いません。",
+      "running": "running を使うと『走っているところを見た（動作の途中）』という意味になり、see＋O＋現在分詞の別パターンになります。この問題では「原形不定詞」を問うています。",
+      "to run": "see＋O＋to不定詞は基本的に使いません。知覚動詞のあとは動詞の原形か現在分詞を置きます。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "c7f8b2e0-7d4b-4d9c-9b1c-0d7f812d4d7b",
+    "unit": "第５文型",
+    "question": "【知覚動詞】次の文を完成させなさい。\nWe heard the baby (  ) in the next room.",
+    "choices": ["cry", "cries", "crying", "to cry"],
+    "correct": "cry",
+    "explanation": "hear＋目的語＋動詞の原形で『Oが〜するのを聞く』という第5文型になります。\nWe heard the baby cry in the next room. で「隣の部屋で赤ちゃんが泣くのを聞いた」という意味です。\n知覚動詞＋O＋原形は『動作全体』をとらえるイメージでよく出題されます。",
+    "incorrectExplanations": {
+      "cries": "cries は三人称単数現在の形で、『we heard the baby cries』とは言いません。第5文型の補語には動詞の原形（cry）を使います。",
+      "crying": "crying にすると『隣の部屋で赤ちゃんが泣いているのを（その途中を）聞いた』というニュアンスの別パターン（hear＋O＋現在分詞）になります。この問題は原形不定詞を問うています。",
+      "to cry": "hear＋O＋to不定詞は普通使いません。知覚動詞のあとでは原形か現在分詞が基本です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "1b1a3a77-3f6e-4c24-bd84-1a4d9843e7d2",
+    "unit": "第５文型",
+    "question": "【知覚動詞】次の文を完成させなさい。\nShe watched the children (  ) soccer in the park.",
+    "choices": ["play", "plays", "playing", "to play"],
+    "correct": "play",
+    "explanation": "watch＋目的語＋動詞の原形で『Oが〜するのを見る』という第5文型です。\nShe watched the children play soccer in the park. で「彼女は公園で子どもたちがサッカーをするのを見た」という意味になります。\n知覚動詞＋O＋原形は「一連の動作」をまとまりとして見るイメージです。",
+    "incorrectExplanations": {
+      "plays": "plays だと三人称単数現在で、ここでは children が複数主語でもあり、第5文型の補語にも使えません。",
+      "playing": "playing にすると『子どもたちがサッカーをしているところを見た』となり、watch＋O＋現在分詞の別パターンになります。この問題は原形不定詞の形を問うています。",
+      "to play": "watch＋O＋to不定詞は通常使いません。知覚動詞の後には原形か現在分詞を置きます。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "9f0e3f09-3c48-4e5e-8f3b-2f6c7b5c93a1",
+    "unit": "第５文型",
+    "question": "【使役動詞】次の文を完成させなさい。\nMy father made me (  ) the car.",
+    "choices": ["wash", "washed", "to wash", "washing"],
+    "correct": "wash",
+    "explanation": "make＋目的語＋動詞の原形で『Oに〜させる（強制的）』という第5文型です。\nMy father made me wash the car. で「父は私にその車を洗わせた」という意味になります。\n※make / let / have などの使役動詞は、原形不定詞をとる定番パターンとして必ず押さえたいところです。",
+    "incorrectExplanations": {
+      "washed": "washed は過去形・過去分詞で、『me washed the car』という形にはできません。ここでは補語に動詞の原形 wash が必要です。",
+      "to wash": "make＋O＋to不定詞とはせず、必ず make＋O＋動詞の原形 となります。",
+      "washing": "washing にすると動名詞になり、『me washing the car』では文が成立しません。第5文型の補語は動詞の原形です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e8b9680b-0b04-4fd5-a1fe-6efb782cc70a",
+    "unit": "第５文型",
+    "question": "【使役動詞】次の文を完成させなさい。\nOur teacher had us (  ) the dialogue again.",
+    "choices": ["practice", "practicing", "to practice", "practiced"],
+    "correct": "practice",
+    "explanation": "have＋目的語＋動詞の原形で『Oに〜させる（依頼・当然の行為）』という第5文型になります。\nOur teacher had us practice the dialogue again. で「先生は私たちにその会話文をもう一度練習させた」という意味です。",
+    "incorrectExplanations": {
+      "practicing": "practicing だと『us practicing the dialogue』となり、正しい第5文型の形になりません。",
+      "to practice": "have＋O＋to不定詞は基本形ではなく、ここでは原形不定詞 practice を使います。",
+      "practiced": "practiced は過去形・過去分詞で、『us practiced the dialogue』という形はとれません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "52a3e067-f9af-4f4c-8ee8-68452a3b86e7",
+    "unit": "第５文型",
+    "question": "【使役動詞】次の文を完成させなさい。\nMy mother let me (  ) video games for one hour.",
+    "choices": ["play", "plays", "to play", "playing"],
+    "correct": "play",
+    "explanation": "let＋目的語＋動詞の原形で『Oに〜させておく／〜することを許す』という第5文型です。\nMy mother let me play video games for one hour. で「母は私に1時間ビデオゲームをさせてくれた」という意味になります。\nlet も make / have と同様、必ず原形不定詞（play）をとる型として覚えましょう。",
+    "incorrectExplanations": {
+      "plays": "plays を使うと、『me plays video games』となり、文法的に誤りです。第5文型の補語には動詞の原形が必要です。",
+      "to play": "let＋O＋to不定詞とは言わず、let＋O＋動詞の原形 となります。",
+      "playing": "playing にすると動名詞で、第5文型の補語としては不適切です（ここでは原形不定詞を問う問題です）。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
 
   {
     "id": "c32c0242-7231-4114-9293-5ea45e55042d",
@@ -3045,102 +3339,7 @@
     "format": "適語補充",
     "type": "multiple-choice"
   },
-  {
-    "id": "471c7999-4889-4c99-9464-2a141109263c",
-    "unit": "間接疑問文",
-    "question": "I don’t know (  ) she is coming to the party.",
-    "choices": ["when", "is", "does", "whether"],
-    "correct": "whether",
-    "explanation": "間接疑問文では 'if' や 'whether' を使って「〜かどうか」を表します。この文では 'whether' が適切です。",
-    "incorrectExplanations": {
-      "is": "『is she coming』のような疑問文の語順をそのまま入れるのは間接疑問文では間違いです。正しくは『whether she is coming』のように平叙文の語順になります。",
-      "does": "『does』は現在形の一般動詞の疑問文で使いますが、『she is coming』のような進行形には不要で不適切です。",
-      "when": "『when』は『いつ』を表す疑問詞で、『〜かどうか』を尋ねる意味には使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "1e77864d-88b8-40c7-b568-25b09d5360b1",
-    "unit": "間接疑問文",
-    "question": "「彼がどこに住んでいるのか知っていますか。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "Do you know where he lives?",
-    "explanation": "間接疑問文では疑問詞+平叙文の語順にして、Do you know where he lives? となります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "7e3a5c1b-9d2f-4a6d-8c7b-1f2e3d4c5b75",
-    "unit": "間接疑問文",
-    "question": "Do you know where (  )?",
-    "choices": ["she lives", "does she live", "she live", "does she lives"],
-    "correct": "she lives",
-    "explanation": "間接疑問は平叙文語順（主語＋動詞）。Do/Does を倒置しません。",
-    "incorrectExplanations": {
-      "does she live": "直接疑問の語順。間接疑問では×。",
-      "she live": "現在形の三単現。live → lives が必要。",
-      "does she lives": "助動詞 does の後は動詞原形。二重の誤り。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "a1f8d9c2-83d7-4d79-8f05-8b27d79f5a91",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がどこに住んでいるか知っていますか。\n( know / lives / he / do / where ).",
-    "choices": [],
-    "correct": "Do you know where he lives?",
-    "explanation": "間接疑問文では語順が平叙文型になります。『Do you know where he lives?』で『彼がどこに住んでいるか知っていますか？』。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "b3e7a8f6-72a1-4c0e-8e90-9b98a0d3b7d0",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n先生は私に何をすべきか教えてくれました。\n( me / to / told / teacher / what / the / do ).",
-    "choices": [],
-    "correct": "The teacher told me what to do.",
-    "explanation": "『疑問詞＋to不定詞』で『何をすべきか』を表す。『tell 人 what to do』＝『人に何をすべきか教える』。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "c6b9f2e8-58a1-45ab-a3c1-72915e1c9e9b",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はなぜ彼が怒っているのか知りたいです。\n( angry / is / he / know / why / to / want / I ).",
-    "choices": [],
-    "correct": "I want to know why he is angry.",
-    "explanation": "『want to know＋間接疑問』で『なぜ～なのか知りたい』。間接疑問では『why he is angry』のように疑問文語順にしない点に注意。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "d9c3b6f5-88df-4fb7-b9c8-18b4e403a58c",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がその問題を解けると思いますか。\n( can / that / he / do / think / you / it ).",
-    "choices": [],
-    "correct": "Do you think that he can do it?",
-    "explanation": "『Do you think that～？』は間接疑問ではなく、主節の中に疑問を埋め込む構文。『that』は省略も可だが、正式には残すのが自然。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "e7f2a1d9-31b8-4de3-a9b1-47d43e5d97a3",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は彼女がいつ帰ってくるのか分かりません。\n( will / she / when / come / know / don’t / I / back ).",
-    "choices": [],
-    "correct": "I don’t know when she will come back.",
-    "explanation": "『I don’t know＋間接疑問』の形。疑問詞の後は平叙文語順『when she will come back』にします。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
+
   {
     "id": "810c1be9-6308-4b01-be46-2d5861156c73",
     "unit": "分詞",
