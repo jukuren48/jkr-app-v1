@@ -2939,19 +2939,22 @@ export default function EnglishTrapQuestions() {
 
     if (isCorrect) {
       if (currentIndex + 1 < filteredQuestions.length) {
+        // 次の問題へ
         setCurrentIndex(currentIndex + 1);
       } else {
-        // -------------------------
-        // ★ ローディング表示開始
-        // -------------------------
+        // -------------------------------
+        // ★ 集計開始 → ローディング表示
+        // -------------------------------
         setLoadingResult(true);
 
-        // saveStatsToSupabaseを並列処理で実行
-        saveStatsToSupabase(); // ← await を外して非同期化！
+        // ★ 保存処理は裏で並列実行（UX向上）
+        saveStatsToSupabase(); // await を付けない！
 
-        // 少し待ってから画面遷移（React の描画時間を確保）
+        // -------------------------------
+        // ほんの少しだけ待ってから画面遷移
+        // -------------------------------
         setTimeout(() => {
-          // 復習がある場合は復習モーダルへ
+          // 復習がある場合
           if (reviewList.length > 0) {
             reviewQueueRef.current = [...reviewList];
             setShowReviewPrompt(true);
@@ -2959,18 +2962,21 @@ export default function EnglishTrapQuestions() {
             return;
           }
 
-          // 復習なし → 結果画面へ
+          // 結果画面へ
           setShowQuestions(false);
           setShowResult(true);
           setTimerActive(false);
           setTimeLeft(0);
           setIsReviewMode(false);
+
+          // ローディング解除
           setLoadingResult(false);
-        }, 300); // ← 0.3秒で十分
+        }, 300); // ← 0.3秒で十分にスムーズ
       }
 
       setShowFeedback(false);
     } else {
+      // 不正解
       if (soundEnabled) playSFX("/sounds/ganba.mp3");
       setShowFeedback(false);
       setQuestionPlayCount((prev) => prev + 1);
@@ -3228,15 +3234,16 @@ export default function EnglishTrapQuestions() {
     if (!supabaseUser) return;
 
     const user_id = supabaseUser.id;
+    const tasks = [];
 
     for (const [unit, stat] of Object.entries(unitStats)) {
       const wrong = Number(stat?.wrong ?? 0);
       const total = Number(stat?.total ?? 0);
-      const correct = Math.max(0, total - wrong); // NaN 回避
+      const correct = Math.max(0, total - wrong);
       const mode = Number(unitModes[unit] ?? 0);
       const streak = Number(stat?.streak ?? 0);
 
-      const { error } = await supabase.from("unit_stats").upsert(
+      const task = supabase.from("unit_stats").upsert(
         {
           user_id,
           unit,
@@ -3246,17 +3253,22 @@ export default function EnglishTrapQuestions() {
           total,
           streak,
         },
-        {
-          onConflict: "user_id,unit",
-        }
+        { onConflict: "user_id,unit" }
       );
 
-      if (error) {
-        console.error("Supabase 保存エラー:", error);
-      } else {
-        console.log("保存OK:", unit, { correct, wrong, total, mode });
-      }
+      tasks.push(task);
     }
+
+    // ★ すべて同時に実行 → 超高速化
+    const results = await Promise.all(tasks);
+
+    results.forEach((res, idx) => {
+      if (res.error) {
+        console.error("Supabase 保存エラー:", res.error);
+      } else {
+        console.log("保存OK:", Object.keys(unitStats)[idx]);
+      }
+    });
   };
 
   const updateOriginalWord = async () => {
