@@ -7,6 +7,7 @@ import SignatureCanvas from "react-signature-canvas";
 import Tesseract from "tesseract.js";
 import React from "react";
 import { createPortal } from "react-dom";
+import { logout } from "../../lib/logout";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
@@ -3528,7 +3529,7 @@ export default function EnglishTrapQuestions() {
               <button
                 onClick={() => {
                   setMenuOpen(false);
-                  handleLogout();
+                  logout(); // ← これで LogoutButton.jsx と同じ動作！
                 }}
                 className="w-full text-left bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-semibold shadow transition"
               >
