@@ -40,21 +40,7 @@
     "format": "英作文",
     "type": "input"
   },
-  {
-    "id": "3daa4212-00ec-4c1f-baa3-6258417ef6cf",
-    "unit": "前置詞",
-    "question": "The boy gave a ring ( ) her.",
-    "choices": ["on", "for", "to", "by"],
-    "correct": "to",
-    "explanation": "動詞がgaveなので、直接渡せる状態だからtoを使う。",
-    "incorrectExplanations": {
-      "on": "on her では文法的におかしい。彼女に（へ）☚あげた。に注目。",
-      "for": "for her の場合、間接的にものが移動するというイメージなので違います。",
-      "by": "by her では彼女があげるような表現になってしまうのであわない。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
+
   {
     "id": "d646db5e-101a-4b21-a26e-15cce1a84ee7",
     "unit": "一般動詞",
@@ -99,6 +85,1842 @@
     "choices": [],
     "correct": "They play soccer.",
     "explanation": "主語がTheyなので三単現のsは不要です。They play soccer. になります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "96c3a4d2-3dda-4306-8b19-45711b14b2ac",
+    "unit": "冠詞",
+    "question": "He has (  ) orange in his bag.",
+    "choices": ["a", "an", "the", "no"],
+    "correct": "an",
+    "explanation": "母音で始まる 'orange' の前には 'an' を使います。",
+    "incorrectExplanations": {
+      "a": "『a』は子音で始まる単語に使います。『orange』は母音で始まるので『an』が必要です。",
+      "no": "『no』を使うと意味が変わり、『持っていない』という否定になります。",
+      "the": "『the』は特定のものを指すときに使いますが、ここでは特定されていないので不自然です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "5b19eeb5-824c-4fd3-a14a-1a6a8d0b889c",
+    "unit": "冠詞",
+    "question": "He has (  ) orange in his hand.",
+    "choices": ["a", "an", "the", "×"],
+    "correct": "an",
+    "explanation": "母音で始まる単語 'orange' には 'an' を使います。",
+    "incorrectExplanations": {
+      "a": "'orange' は母音で始まるので 'a' は使えません。",
+      "the": "'the' は特定の物に使いますが、ここでは初出なので不適切です。",
+      "×": "数えられる名詞の単数には必ず冠詞が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "0e63aa33-35aa-420c-97c8-27029be609f0",
+    "unit": "冠詞",
+    "question": "I saw (  ) elephant at the zoo.",
+    "choices": ["a", "an", "the", "×"],
+    "correct": "an",
+    "explanation": "elephant は母音 'e' で始まるので 'an' を使います。",
+    "incorrectExplanations": {
+      "a": "母音で始まる単語には 'an' を使います。",
+      "the": "ここでは初めて言及する象なので不適切です。",
+      "×": "名詞の前には冠詞が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "f23cd212-91e4-4a13-b1cb-c886b9e25292",
+    "unit": "冠詞",
+    "question": "I want to buy (  ) new bike.",
+    "choices": ["a", "an", "the", "×"],
+    "correct": "a",
+    "explanation": "子音で始まる 'new' の前は 'a' を使います。",
+    "incorrectExplanations": {
+      "an": "'new' は 'n' という子音で始まるので 'an' は使いません。",
+      "the": "ここでは新しく購入したいという初めての言及なので不適切です。",
+      "×": "数えられる単数名詞には冠詞が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "b1926eb8-070e-4052-a06a-cbff4b8593b3",
+    "unit": "冠詞",
+    "question": "She is (  ) teacher at my school.",
+    "choices": ["a", "an", "the", "×"],
+    "correct": "a",
+    "explanation": "'teacher' は子音で始まり、初めての言及なので 'a' を使います。",
+    "incorrectExplanations": {
+      "an": "'an' は母音で始まる語に使います。",
+      "the": "ここでは特定されていない先生について話しているので 'the' は使いません。",
+      "×": "職業を表す単数名詞には冠詞が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "892fe1c7-8e91-4c4f-9208-3b5c5f9c115f",
+    "unit": "冠詞",
+    "question": "Please open (  ) window.",
+    "choices": ["a", "an", "the", "×"],
+    "correct": "the",
+    "explanation": "話し手と聞き手の間でどの窓かが特定されている場合は 'the' を使います。",
+    "incorrectExplanations": {
+      "a": "どの窓か特定しているので 'a' は不自然です。",
+      "an": "'window' は母音で始まらないので 'an' ではありません。",
+      "×": "名詞が特定されているので 'the' が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "db5287a4-e3ce-4bff-8f9e-9480d1cb893f",
+    "unit": "冠詞",
+    "question": "She can play (  ) piano very well.",
+    "choices": ["a", "an", "the", "×"],
+    "correct": "the",
+    "explanation": "楽器の前には通常 'the' を使います。",
+    "incorrectExplanations": {
+      "a": "楽器には 'the' を使います。",
+      "an": "'piano' は母音ではないので 'an' ではありません。",
+      "×": "楽器の前には冠詞 'the' をつけるのが正しい用法です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "d8a5a1f3-cb4b-4c87-b187-0b9c6fa521a7",
+    "unit": "冠詞",
+    "question": "I usually go to (  ) school at 8 a.m.",
+    "choices": ["a", "the", "×", "an"],
+    "correct": "×",
+    "explanation": "『go to school』のように学校へ行くという行為そのものを表すときは冠詞を付けません。",
+    "incorrectExplanations": {
+      "a": "『a school』にすると『ある学校へ』という意味になり、文脈に合いません。",
+      "the": "『the school』だと特定の学校になりますが、ここでは一般的な通学を表しています。",
+      "an": "『an』は母音の前につけますが、ここでは無冠詞が適切です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "acdfe65e-fc60-4f95-9c3f-c3d7a0fc7b25",
+    "unit": "冠詞",
+    "question": "He is in (  ) prison for robbery.",
+    "choices": ["the", "a", "an", "×"],
+    "correct": "×",
+    "explanation": "『in prison』のように刑務所にいる状態を表すときは冠詞をつけません。",
+    "incorrectExplanations": {
+      "the": "『the prison』だと建物としての刑務所を意味してしまいます。",
+      "a": "『a prison』も不自然です。状態としての『in prison』では冠詞なしが正解です。",
+      "an": "不定冠詞『an』は使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "efbc02c5-bb3a-49f0-bb3e-3b4dc35f6f96",
+    "unit": "冠詞",
+    "question": "She is at (  ) work now, so she can't come to the phone.",
+    "choices": ["a", "the", "×", "an"],
+    "correct": "×",
+    "explanation": "『at work』は慣用表現で『仕事中』という意味で、冠詞を使いません。",
+    "incorrectExplanations": {
+      "a": "『a work』という表現は存在しません。",
+      "the": "『the work』だと特定の作業にかかわる意味になり、不自然です。",
+      "an": "work は不可算名詞なので『an』はつきません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "5e0bd181-e6f2-4f87-83c1-3f09f2b8eb3c",
+    "unit": "冠詞",
+    "question": "We stayed at (  ) home all day because of the rain.",
+    "choices": ["×", "a", "the", "an"],
+    "correct": "×",
+    "explanation": "『at home』も慣用表現で、特定の家ではなく『自宅に』の意味で冠詞を使いません。",
+    "incorrectExplanations": {
+      "a": "『a home』という表現はこの場合不自然です。",
+      "the": "『the home』だと特定の家を指すことになり文脈に合いません。",
+      "an": "『an home』は文法的にも意味的にも不自然です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "c4d7e2a9-1b5f-4c8d-9e2f-7a3b5d1e6f64",
+    "unit": "冠詞",
+    "question": "He plays (  ) piano very well.",
+    "choices": ["the", "a", "an", "—"],
+    "correct": "the",
+    "explanation": "楽器名は通例 the を用います（play the piano / the guitar など）。",
+    "incorrectExplanations": {
+      "a": "楽器では a は通常使いません。",
+      "an": "母音で始まる語に付ける不定冠詞ですが、ここでは the が必要。",
+      "—": "無冠詞は基本不可。定冠詞 the を用います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "77db378d-3932-4dd0-a15e-fdd6a73721b4",
+    "unit": "名詞",
+    "question": "There are many (  ) in the park.",
+    "choices": ["child", "childs", "children", "childrens"],
+    "correct": "children",
+    "explanation": "'children' は 'child' の正しい複数形です。",
+    "incorrectExplanations": {
+      "child": "単数形で、『many』や『are』と一緒に使う複数形には合いません。",
+      "childs": "『child』の複数形は不規則で、『childs』は誤りです。正しくは『children』です。",
+      "childrens": "『children』自体が複数形なので、さらに『s』をつけることはできません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "b2af9a7c-57a3-4ed2-a844-017693c24130",
+    "unit": "代名詞",
+    "question": "(  ) is raining today, so bring an umbrella.",
+    "choices": ["He", "It", "This", "That"],
+    "correct": "It",
+    "explanation": "天候・時間・距離などを表すときには形式主語『It』を使います。",
+    "incorrectExplanations": {
+      "He": "『He』は人を表す代名詞なので天気には使えません。",
+      "This": "『This is raining』は文法的に不自然です。",
+      "That": "『That is raining』では、特定の何かが雨を降らせているような意味になります。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "d3f8cc94-292b-4aa4-9635-5b4a927f63ec",
+    "unit": "代名詞",
+    "question": "Look at (  ). She is my sister.",
+    "choices": ["her", "she", "hers", "herself"],
+    "correct": "her",
+    "explanation": "『look at』の後には目的格の『her』を使います。",
+    "incorrectExplanations": {
+      "she": "『she』は主格なので、動詞の目的語には使えません。",
+      "hers": "『hers』は所有代名詞で、単体で『彼女のもの』という意味になります。",
+      "herself": "『herself』は強調や再帰を表す代名詞で、この文には合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "f13a7d4e-0ee4-497f-87f1-5c5b0e9a2f99",
+    "unit": "代名詞",
+    "question": "(  ) of the students passed the test.",
+    "choices": ["Each", "All", "Every", "Another"],
+    "correct": "All",
+    "explanation": "複数の学生を主語にしているので『All』が適切です。",
+    "incorrectExplanations": {
+      "Each": "『Each』は単数扱いで『Each student』などと使うのが自然です。",
+      "Every": "『Every』も単数扱いで『Every student』の形を取ります。",
+      "Another": "『Another』は『もう一つ（1人・1つ）』なので文の意味と合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "df5982b0-bc36-49e6-b8f4-2f8978f65c36",
+    "unit": "代名詞",
+    "question": "Ken hurt (  ) while playing soccer.",
+    "choices": ["him", "himself", "his", "he"],
+    "correct": "himself",
+    "explanation": "主語Kenと目的語が同一人物なので『himself』という再帰代名詞を使います。",
+    "incorrectExplanations": {
+      "him": "『him』だと第三者を指してしまい、『Ken自身』ではなくなってしまいます。",
+      "his": "『his』は所有格でこの文には不適切です。",
+      "he": "『he』は主格で目的語には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "cac20669-dc11-4b5e-a364-9e79eb5e490a",
+    "unit": "代名詞",
+    "question": "(  ) is my pen. That one is yours.",
+    "choices": ["These", "This", "They", "Their"],
+    "correct": "This",
+    "explanation": "目の前にある単数の物を指す場合は『This』を使います。",
+    "incorrectExplanations": {
+      "These": "『These』は複数形を指すため、単数のペンには使えません。",
+      "They": "『They』も複数を指します。",
+      "Their": "『Their』は所有格で、『彼らの』という意味になります。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e68fa2b5-c8c9-48ff-b1c1-9873514c5b18",
+    "unit": "代名詞",
+    "question": "Do you know (  ) name?",
+    "choices": ["he", "his", "him", "he's"],
+    "correct": "his",
+    "explanation": "『his name』という形で、所有格『his』を使います。",
+    "incorrectExplanations": {
+      "he": "『he name』という表現は不自然で文法的に間違いです。",
+      "him": "『him name』も文法的に不正です。目的格では所有を表せません。",
+      "he's": "『he's』は『he is』または『he has』の短縮形で、ここでは意味が通じません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "abc3fa10-0e14-4a6e-b7e1-3c55f65f1de4",
+    "unit": "代名詞",
+    "question": "(  ) is in the box, but I don't know what it is.",
+    "choices": ["Something", "Anything", "Nothing", "Everything"],
+    "correct": "Something",
+    "explanation": "肯定文なので『something』が正解です。『何かが』入っているという意味。",
+    "incorrectExplanations": {
+      "Anything": "『anything』は主に疑問文や否定文で使います。",
+      "Nothing": "『nothing』は『何もない』という否定の意味なので文意に合いません。",
+      "Everything": "『everything』は『すべて』という意味で、漠然とした何かを指す文とは異なります。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e1942a47-7b6e-4d71-a20c-38b776db24b7",
+    "unit": "代名詞",
+    "question": "I didn’t see (  ) at the park yesterday.",
+    "choices": ["someone", "anyone", "everyone", "no one"],
+    "correct": "anyone",
+    "explanation": "否定文で『誰も〜ない』を表すときは『anyone』を使います。",
+    "incorrectExplanations": {
+      "someone": "『someone』は肯定文で使うのが基本です。",
+      "everyone": "『everyone』は『みんな』で意味が逆になります。",
+      "no one": "『didn't』と『no one』を一緒に使うと二重否定になってしまいます。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "6d6db622-7c02-4639-99e0-6c86df90f1fb",
+    "unit": "代名詞",
+    "question": "(  ) knows the answer to this question.",
+    "choices": ["Everyone", "Someone", "Anyone", "No one"],
+    "correct": "Everyone",
+    "explanation": "『everyone』は『みんな』という意味で、この文に合います。",
+    "incorrectExplanations": {
+      "Someone": "『someone』だと『誰かが』という意味で、全員に言及していません。",
+      "Anyone": "『anyone』は疑問文や否定文で使うのが自然です。",
+      "No one": "『no one』は『誰も〜ない』という否定の意味で、文意に合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "98e0f697-57e4-4624-9e44-21f345f27671",
+    "unit": "代名詞",
+    "question": "(  ) in the room was silent.",
+    "choices": ["Everybody", "Someone", "Anybody", "Nobody"],
+    "correct": "Everybody",
+    "explanation": "『everybody』は『全員』を指すため、複数人が静かだったという文脈に合います。",
+    "incorrectExplanations": {
+      "Someone": "『誰か』なので、1人だけ静かだったように感じられ、文の意味と合いません。",
+      "Anybody": "肯定文では『anybody』は不自然で、通常疑問文や否定文で使います。",
+      "Nobody": "『nobody』だと『誰もいなかった』という否定の意味になります。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a3be3939-9de1-4f77-9b78-96440b1e87b4",
+    "unit": "代名詞",
+    "question": "There is (  ) wrong with this machine.",
+    "choices": ["something", "anything", "nothing", "everything"],
+    "correct": "something",
+    "explanation": "『何か問題がある』＝『something wrong』が自然な表現です。",
+    "incorrectExplanations": {
+      "anything": "『anything wrong』は主に疑問文や否定文で使います。",
+      "nothing": "『nothing wrong』だと『問題は何もない』という意味になります。",
+      "everything": "『everything wrong』は『すべて間違っている』という強すぎる意味になります。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "1c1a23e2-51cf-4329-a962-9b3c29b73ae7",
+    "unit": "代名詞",
+    "question": "I have two pens. One is black, and (  ) is red.",
+    "choices": ["other", "the other", "another", "others"],
+    "correct": "the other",
+    "explanation": "2つのうちの残りの1つを指すので『the other』が正解です。",
+    "incorrectExplanations": {
+      "other": "『other』だけでは名詞が必要で、ここでは単独で使われているので不適切です。",
+      "another": "『another』は『もう1つ（他に）』の意味ですが、2つのうちの残りには使いません。",
+      "others": "『others』は複数の残りを指すので、ここでは合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "ba0b48b1-befe-4c49-83a1-7816c0101ce1",
+    "unit": "代名詞",
+    "question": "Some students are reading books. (  ) are playing soccer.",
+    "choices": ["Others", "The other", "Another", "Other"],
+    "correct": "Others",
+    "explanation": "『others』は『他の人たち』という意味で複数形に合います。",
+    "incorrectExplanations": {
+      "The other": "『the other』は単数扱いなので複数の『students』には合いません。",
+      "Another": "『another』は単数形なので複数の人を指す文に合いません。",
+      "Other": "『other』は形容詞で名詞が必要です。単独では使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "cbcd5be7-dc3a-4e7f-84a6-d6cb2053544b",
+    "unit": "代名詞",
+    "question": "This cake is delicious. I want (  ) one.",
+    "choices": ["another", "the other", "others", "other"],
+    "correct": "another",
+    "explanation": "『another』は『もう1つの』という意味で、数えられる単数に使われます。",
+    "incorrectExplanations": {
+      "the other": "『the other』はすでに存在が特定されているものに使いますが、この文では不特定です。",
+      "others": "『others』は複数形なので『one』には合いません。",
+      "other": "『other』は単独では使えず、名詞が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "56863cc6-8b8c-4076-89d6-cccfa0a963b0",
+    "unit": "代名詞",
+    "question": "I don’t like this shirt. Do you have (  ) color?",
+    "choices": ["another", "other", "the other", "others"],
+    "correct": "another",
+    "explanation": "『another』は『別の1つ』という意味で、可算名詞の単数に使います。",
+    "incorrectExplanations": {
+      "other": "『other』は名詞と一緒に使う形容詞ですが、ここでは『another』がより自然です。",
+      "the other": "『the other』は特定のもう1つを指すときに使いますが、ここでは不特定の別の色です。",
+      "others": "『others』は複数形で、この文では単数が適切です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "2a8745f1-05e4-4604-bb69-71c07ccf9dd9",
+    "unit": "代名詞",
+    "question": "We visited one temple today. We'll visit (  ) temples tomorrow.",
+    "choices": ["other", "others", "the other", "another"],
+    "correct": "other",
+    "explanation": "『other temples』のように名詞が続くときは形容詞の『other』が正解です。",
+    "incorrectExplanations": {
+      "others": "『others』は名詞なしで使う代名詞なので『temples』とは一緒に使えません。",
+      "the other": "『the other temples』とすると特定の残りを指しますが、ここでは不特定の複数です。",
+      "another": "『another』は単数の名詞にしか使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "2dd1e832-46fd-4f92-80ec-11bd13370870",
+    "unit": "形容詞",
+    "question": "This is a (  ) story.",
+    "choices": ["interest", "interested", "interesting", "interests"],
+    "correct": "interesting",
+    "explanation": "'story' は人ではないので、性質を表す 'interesting' を使います。",
+    "incorrectExplanations": {
+      "interest": "『interest』は名詞で、形容詞として使うには『interesting』が必要です。",
+      "interests": "これは名詞の複数形や動詞の三単現形で、形容詞としては使えません。",
+      "interested": "『interested』は人の感情を表します。物や話の性質を説明するときは『interesting』を使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "b17ed4c5-5e50-460b-a115-c1b2c51992e0",
+    "unit": "命令文",
+    "question": "「ドアを閉めなさい。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "Close the door.",
+    "explanation": "命令文は動詞の原形で始めて、Close the door. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "06c507d1-5964-4700-afab-82bb433773d1",
+    "unit": "命令文",
+    "question": "「静かにしなさい。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "Be quiet.",
+    "explanation": "命令文は動詞の原形で始める。quietは形容詞なのでbe動詞をつかう。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "3daa4212-00ec-4c1f-baa3-6258417ef6cf",
+    "unit": "前置詞",
+    "question": "The boy gave a ring ( ) her.",
+    "choices": ["on", "for", "to", "by"],
+    "correct": "to",
+    "explanation": "動詞がgaveなので、直接渡せる状態だからtoを使う。",
+    "incorrectExplanations": {
+      "on": "on her では文法的におかしい。彼女に（へ）☚あげた。に注目。",
+      "for": "for her の場合、間接的にものが移動するというイメージなので違います。",
+      "by": "by her では彼女があげるような表現になってしまうのであわない。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "03d277d0-d513-43aa-b12d-d94a60d4a85b",
+    "unit": "前置詞",
+    "question": "This gift is (  ) you.",
+    "choices": ["for", "from", "with", "by"],
+    "correct": "for",
+    "explanation": "「for」は〜のために。",
+    "incorrectExplanations": {
+      "by": "「by」は『〜によって』を表します。『a gift by you』だと『あなたによって作られた贈り物』という意味になり、『あなたのための』という意図とは異なります。",
+      "from": "「from」は『〜から』を表します。『a gift from you』だと『あなたからの贈り物』という意味になり、『あなたのための贈り物』を表したいこの文には合いません。",
+      "with": "「with」は『〜と一緒に』を表します。『a gift with you』だと『あなたと一緒の贈り物』のような意味になり、『あなたのための』という気持ちは伝わりません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "79298f6c-81e1-4546-9c11-685d2b70b8cd",
+    "unit": "前置詞",
+    "question": "Please (  ) for me here.",
+    "choices": ["wait", "look", "watch", "see"],
+    "correct": "wait",
+    "explanation": "「wait for」は待つ。",
+    "incorrectExplanations": {
+      "see": "「see」は意識せずに目に入る、自然に見えることを表します。『see』には『待つ』という意味は全くありません。『Please see for me』という言い方は意味が通じません。",
+      "look": "「look」は意識して視線を向けることを表します。『look at』のように前置詞を伴って『～を見る』と言いますが、『wait for』のように人を待つ意味はありません。『Please look at me』なら『私を見てください』になります。",
+      "watch": "「watch」は動きや変化を注意して見ることを表します。テレビや試合など、動きがあるものをじっと見るときに使います。『Please watch for me』だと不自然で、『watch』は『待つ』の意味では使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "6164e24a-3688-4f46-b9a7-7832900a8830",
+    "unit": "前置詞",
+    "question": "Please (  ) at this picture.",
+    "choices": ["look", "watch", "see", "wait"],
+    "correct": "look",
+    "explanation": "「look at」は注意して見る。",
+    "incorrectExplanations": {
+      "see": "「see」は自然に目に入ることを表します。『I see the picture』なら『その絵が見える』ですが、『Please see at』という形は文法的に間違いで、『at』は使いません。",
+      "wait": "「wait」は『待つ』という意味で、見ることとは関係ありません。『Please wait at this picture』だと『この絵で待って』になり、見てほしいという意味になりません。",
+      "watch": "「watch」は動きや変化があるものをじっと見るときに使います。例えば『watch TV』はテレビの動きを見ることです。『picture』は静止画なので『watch』は不自然です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "fdd5ddd5-42d6-470d-ae38-881d384e50b7",
+    "unit": "前置詞",
+    "question": "She stayed home (  ) the rain.",
+    "choices": ["because of", "for", "with", "by"],
+    "correct": "because of",
+    "explanation": "「because of」は原因。",
+    "incorrectExplanations": {
+      "by": "「by」は手段や方法を表します。例えば『by car（車で）』のように使いますが、雨が手段になるわけではないので、『by the rain』は不自然で原因を表せません。",
+      "for": "「for」は目的や対象を表します。『for the rain』だと『雨のために（雨を目的として）』になってしまい、雨が原因で家にいたという意味を正しく伝えられません。",
+      "with": "「with」は『〜と一緒に』の意味です。『with the rain』だと『雨と一緒に』というおかしな意味になってしまい、原因を表すことはできません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "3af83ae2-c8e7-4fc1-96e8-ed8c9f99d226",
+    "unit": "前置詞",
+    "question": "He is absent (  ) school because of illness.",
+    "choices": ["from", "at", "in", "to"],
+    "correct": "from",
+    "explanation": "「absent from school」学校を欠席。",
+    "incorrectExplanations": {
+      "at": "「at」はある地点を指します。『at school』は『学校にいる』を表しますが、『absent at school』は文法的におかしく、『学校で欠席』という意味にはなりません。",
+      "in": "「in」は『内部にいる』ことを表します。『in school』は『学校の中にいる』という意味になり、『欠席』とは真逆の意味になるので使えません。",
+      "to": "「to」は方向や到着点を表します。『to school』は『学校へ』という意味になり、『absent』と一緒に使うと『学校へ欠席』という不自然な表現になってしまいます。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "ee54b198-5330-4271-bbcd-047690aa0455",
+    "unit": "前置詞",
+    "question": "I went to the store (  ) my mother.",
+    "choices": ["with", "without", "by", "for"],
+    "correct": "with",
+    "explanation": "「with」は一緒に。",
+    "incorrectExplanations": {
+      "by": "「by」は手段や方法を表します。例えば『by car（車で）』など。『by my mother』だと『母によって』という意味になり、人と一緒に行くことを伝えられません。",
+      "for": "「for」は目的や利益を表します。『for my mother』だと『母のために』という意味になり、『一緒に行った』という意味にはなりません。",
+      "without": "「without」は『〜なしで』を表します。『without my mother』だと『母なしで』になり、一緒に行ったという意味になりません。問題は一緒に行ったことを言いたいので正しくありません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "3f60a83e-42b3-471a-b517-33ae14a3d577",
+    "unit": "前置詞",
+    "question": "I can't do it (  ) your help.",
+    "choices": ["without", "with", "by", "for"],
+    "correct": "without",
+    "explanation": "「without」は〜なしで。",
+    "incorrectExplanations": {
+      "by": "「by」は手段や方法を表します。例えば『by car（車で）』など。『by your help』は不自然で、助けを手段として使う表現にはしません。",
+      "for": "「for」は目的や利益を表します。『for your help』だと『あなたの助けのために』という意味になり、『〜なしで』という意味を伝えることはできません。",
+      "with": "「with」は『〜と一緒に』を表します。『with your help』だと『あなたの助けと一緒にできる』という意味になり、『できない』という否定文には合いません。ここは『〜なしで』を表す『without』が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "81f5e045-961f-4160-8fa6-fcc0cc089c83",
+    "unit": "前置詞",
+    "question": "He did it (  ) mistake.",
+    "choices": ["by", "with", "without", "for"],
+    "correct": "by",
+    "explanation": "「by mistake」は「間違えて」。",
+    "incorrectExplanations": {
+      "for": "「for」は目的や利益を表します。『for mistake』だと『間違いのために』という意味になり、『間違えて』という偶発的なニュアンスを正しく伝えられません。",
+      "with": "「with」は道具や一緒に使う相手を表します。『with mistake』だと『間違いを持って』という不自然な表現になり、『間違えて』という意味にはなりません。",
+      "without": "「without」は『〜なしで』を表します。『without mistake』なら『間違いなしで』という意味になり、間違えてやったことを表現できません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "aae9d0a1-fdfb-4b65-8e69-37ec74336036",
+    "unit": "前置詞",
+    "question": "He is standing (  ) the two trees.",
+    "choices": ["between", "among", "behind", "in front of"],
+    "correct": "between",
+    "explanation": "「between」は2つの間。",
+    "incorrectExplanations": {
+      "among": "「among」は3つ以上のものに囲まれているときに使います。ここは『the two trees』と2つだけなので、『among』では不自然です。",
+      "behind": "「behind」は『後ろに』を表します。『behind the two trees』だと『2本の木の後ろに立っている』意味になり、『2本の間に』という問題の意味を正しく表せません。",
+      "in front of": "「in front of」は『前に』を表します。『in front of the two trees』だと『2本の木の前に』という意味になり、『間に』という指定された位置を正しく表せません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "c30a150f-adf7-44be-85fc-a88f52749cf3",
+    "unit": "前置詞",
+    "question": "She sat (  ) her friends.",
+    "choices": ["between", "among", "behind", "in front of"],
+    "correct": "among",
+    "explanation": "「among」は3つ以上の中で。",
+    "incorrectExplanations": {
+      "behind": "「behind」は『後ろに』を表します。『behind her friends』だと『友達の後ろに座った』という意味になり、友達の中に混じって座る感じは伝わりません。",
+      "between": "「between」は2つのものの間にいることを表します。『her friends』は友達が3人以上いるイメージなので、『between』だと人数に合わず不自然です。",
+      "in front of": "「in front of」は『前に』を表します。『in front of her friends』だと『友達の前に座った』という意味になり、友達に囲まれて座っているイメージではありません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a91654c6-8ab3-42a6-a054-81abd1a61cd2",
+    "unit": "前置詞",
+    "question": "The bridge is (  ) the river.",
+    "choices": ["over", "under", "between", "among"],
+    "correct": "over",
+    "explanation": "「over」は上にまたがって。",
+    "incorrectExplanations": {
+      "among": "「among」は3つ以上のものに囲まれている状態を表します。川は1つなので、『among the river』というのは意味が通りません。",
+      "under": "「under」は『下に』を表します。『under the river』だと『川の下に橋がある』という意味になり、川を渡す橋のイメージとは逆になります。",
+      "between": "「between」は2つの物の間にあることを表します。『the river』は1つの川なので『between』を使うと不自然です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "0a986384-59ee-4142-847a-e6c46c3e0605",
+    "unit": "前置詞",
+    "question": "The dog is (  ) the box.",
+    "choices": ["under", "over", "between", "among"],
+    "correct": "under",
+    "explanation": "「under」は下に。",
+    "incorrectExplanations": {
+      "over": "「over」は上に覆うように、またがっていることを表します。『over the box』だと『箱の上に』や『箱を覆っている』イメージになり、『箱の下にいる』という意味は伝えられません。",
+      "among": "「among」は3つ以上のものに囲まれている状態を表します。『the box』が1つなので、『among the box』は意味が通りません。",
+      "between": "「between」は2つの物の間にいることを表します。『the box』は単数なので、『between the box』は文法的に不自然です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "dc5ee401-efa1-4aca-9584-669e52854355",
+    "unit": "前置詞",
+    "question": "He stood (  ) the door.",
+    "choices": ["behind", "in front of", "between", "among"],
+    "correct": "in front of",
+    "explanation": "「in front of」は前に。",
+    "incorrectExplanations": {
+      "among": "「among」は3つ以上のものに囲まれている状態を表します。『the door』が単数なので『among the door』は意味が通りません。",
+      "behind": "「behind」は『後ろに』を表します。『behind the door』だと『ドアの後ろに立った』意味になり、前に立つという問題の意図と逆になってしまいます。",
+      "between": "「between」は2つの物の間にいることを表します。『the door』は1つの物なので、『between the door』は文法的に不自然です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "0cebfec7-196b-44cc-aeed-6cda14ac67f3",
+    "unit": "前置詞",
+    "question": "The school is (  ) the river.",
+    "choices": ["across", "along", "through", "into"],
+    "correct": "across",
+    "explanation": "「across」は向こう側に。",
+    "incorrectExplanations": {
+      "into": "「into」は『〜の中へ入る』を表します。『into the river』だと『川の中へ入る』という意味になり、川をはさんで向こう側に学校があるという意味にはなりません。",
+      "along": "「along」は『〜に沿って』を表します。『along the river』だと『川に沿って学校が建っている』という意味になり、川の向こう側にあるという問題の意図とは違ってしまいます。",
+      "through": "「through」は『〜を通り抜けて』を表します。『through the river』だと『川を通り抜けて』の意味になり、学校が川の向こう側にあるという位置関係を正しく伝えられません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "292bb8d2-8601-4101-b7e3-3444c396924f",
+    "unit": "前置詞",
+    "question": "We ran (  ) the park.",
+    "choices": ["through", "along", "across", "by"],
+    "correct": "through",
+    "explanation": "「through」は中を通り抜ける。",
+    "incorrectExplanations": {
+      "by": "「by」は『〜の近くを』を表します。『by the park』だと『公園のそばを走った』という意味になり、公園の中を通ったという意味にはなりません。",
+      "along": "「along」は『〜に沿って』を表します。『along the park』だと『公園の外側や端に沿って走った』という意味になり、公園の中を通り抜けたイメージではありません。",
+      "across": "「across」は『横切って』を表します。『across the park』だと『公園を一方向に横切る』イメージになりますが、『through』は公園の中を通り抜ける全体的な経路を表します。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e5fb41bb-bd3a-4063-9e2a-6ba43a0dbdd0",
+    "unit": "前置詞",
+    "question": "They walked (  ) the street.",
+    "choices": ["along", "across", "through", "by"],
+    "correct": "along",
+    "explanation": "「along」は〜に沿って。",
+    "incorrectExplanations": {
+      "by": "「by」は『〜の近くを』を表します。『by the street』だと『道のそばを歩く』という意味になり、道に沿って歩くという問題の意図とは違ってしまいます。",
+      "across": "「across」は『横切って』を表します。『across the street』だと『道を渡って横切る』という意味になり、道に沿って歩くイメージとは異なります。",
+      "through": "「through」は『〜を通り抜けて』を表します。『through the street』だと『道の中を突っ切る』ような不自然なイメージになり、道沿いを歩くことを正しく伝えられません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "b3c62d9a-c657-4751-8685-64c0c40a2c38",
+    "unit": "前置詞",
+    "question": "She came (  ) the house.",
+    "choices": ["out of", "into", "through", "by"],
+    "correct": "out of",
+    "explanation": "「out of」は外へ出る動作。",
+    "incorrectExplanations": {
+      "by": "「by」は『〜のそばを』や『近くを』を表します。『by the house』だと『家のそばを通って』という意味になり、家から出てくる動作は表せません。",
+      "into": "「into」は『中へ入る』を表します。『She came into the house』だと『家に入ってきた』になり、外へ出る動作を表したいこの文とは反対の意味になります。",
+      "through": "「through」は『〜を通り抜けて』を表します。『through the house』だと『家の中を通り抜けて』という意味になり、単に外へ出る動作を表せません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "ff03abb2-79d3-4058-a1f3-89c94b0cf71a",
+    "unit": "前置詞",
+    "question": "He went (  ) the room.",
+    "choices": ["into", "out of", "through", "by"],
+    "correct": "into",
+    "explanation": "「into」は中へ入る動作。",
+    "incorrectExplanations": {
+      "by": "「by」は『〜のそばを』や『〜によって』などの意味があります。『by the room』だと『部屋の近くを』という意味になり、部屋の中に入る動作を表すことはできません。",
+      "out of": "「out of」は『〜の外へ出る』を表します。『out of the room』だと『部屋の外へ出た』意味になり、部屋に入る動作を表す『into』とは逆の意味になります。",
+      "through": "「through」は『〜を通り抜ける』を表します。『through the room』だと『部屋を突っ切って進む』イメージになり、部屋に入るという動作だけを表すことはできません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "44bd8f34-03ca-4d0d-8265-e655eb917551",
+    "unit": "前置詞",
+    "question": "She works (  ) a library.",
+    "choices": ["on", "in", "at", "to"],
+    "correct": "in",
+    "explanation": "「～の中に［で］」広い場所を表す。",
+    "incorrectExplanations": {
+      "at": "「at」は狭い場所や特定の地点を表します。『in』は建物や部屋など広めの空間の中を表すので、『a library』には『in』が自然です。",
+      "on": "「on」は『上に接触している』を表します。建物の中で働くイメージには合いません。",
+      "to": "「to」は『〜へ』という方向を表します。どこで働くかを表すときには使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "7df27d35-9d29-4587-bb8c-449df3b6341d",
+    "unit": "前置詞",
+    "question": "He talked (  ) his trip to Japan.",
+    "choices": ["about", "from", "for", "with"],
+    "correct": "about",
+    "explanation": "「about」は話題・〜について。",
+    "incorrectExplanations": {
+      "for": "「for」は『〜のために』を表します。『〜について話す』には使えません。",
+      "from": "「from」は『〜から』という出発点や出身地を表します。話題を表す『〜について』には使えません。",
+      "with": "「with」は『〜と一緒に』を表します。『talk with』は『誰と話すか』を表し、話題を表す『about』とは意味が異なります。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "22beb010-a68f-43bd-bdfe-5e42b46b5d5a",
+    "unit": "前置詞",
+    "question": "I got a letter (  ) my friend.",
+    "choices": ["from", "for", "by", "about"],
+    "correct": "from",
+    "explanation": "「from」は送信者・出所。",
+    "incorrectExplanations": {
+      "by": "「by」は『〜によって』や手段を表します。『a letter by my friend』だと『友達によって書かれた手紙』という意味になることもありますが、普通は『from』で送信者を表します。",
+      "for": "「for」は『〜のために』を表します。『a letter for my friend』だと『友達宛ての手紙』『友達のための手紙』という意味になり、友達からもらったことは表せません。",
+      "about": "「about」は『〜について』を表します。『a letter about my friend』だと『友達についての手紙』という意味になり、友達からもらったことを表せません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a0cfea4a-5a45-4cfd-8a7d-68ceb628b6b9",
+    "unit": "前置詞",
+    "question": "「彼は川のそばに住んでいます。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "He lives by the river.",
+    "explanation": "『〜のそばに』はbyを使って表現します。He lives by the river. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "56b0832a-2294-409f-b4db-d36832adb719",
+    "unit": "前置詞",
+    "question": "「机の上に本があります。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "There is a book on the desk.",
+    "explanation": "『〜の上に』はonを使います。There is構文で存在を表します。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "9bf13e27-4a6d-4b8c-9f21-3d5e7a9c1b53",
+    "unit": "前置詞",
+    "question": "She is good (  ) baseball.",
+    "choices": ["at", "in", "for", "of"],
+    "correct": "at",
+    "explanation": "『～が得意だ』は be good at ～。",
+    "incorrectExplanations": {
+      "in": "be interested in などと混同注意。good には at。",
+      "for": "目的・用途を表すことが多く、この文脈では不自然。",
+      "of": "性質評価（It is kind of you.）などで使う of とは別用法です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "36821373-e817-452b-9589-ad7446c684db",
+    "unit": "現在形",
+    "question": "She ( ) TV after dinner.",
+    "choices": ["watch", "watches", "watching", "watched"],
+    "correct": "watches",
+    "explanation": "三単現のsを忘れずにwatches。",
+    "incorrectExplanations": {
+      "watch": "『she』は三人称単数なので、『watches』とsをつける必要があります。",
+      "watched": "過去形で、現在の習慣を表す文には使えません。",
+      "watching": "進行形や動名詞の形で、現在の習慣を表す動詞の形には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "d3820037-81c0-4912-86a0-8956c5896168",
+    "unit": "現在形",
+    "question": "They always ( ) to school on foot.",
+    "choices": ["walk", "walks", "walking", "walked"],
+    "correct": "walk",
+    "explanation": "主語が複数形theyなので動詞は原形walk。",
+    "incorrectExplanations": {
+      "walks": "『they』は複数主語なので三単現のsは不要です。",
+      "walked": "過去形で、現在の習慣を表す文には合いません。",
+      "walking": "現在分詞や進行形の形で、習慣を表す現在形には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "c6669902-f974-4049-86cc-98e51eb01c0e",
+    "unit": "現在形",
+    "question": "He ( ) soccer every Sunday.",
+    "choices": ["play", "plays", "playing", "played"],
+    "correct": "plays",
+    "explanation": "三人称単数現在形なのでsをつけてplays。",
+    "incorrectExplanations": {
+      "play": "『he』は三人称単数なので、『plays』のようにsをつける必要があります。",
+      "played": "過去形で、現在の習慣を表すには使えません。",
+      "playing": "進行形や動名詞の形で、現在の習慣を表す動詞の形としては使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e4b2d539-3efe-4f88-b46c-094c322245e4",
+    "unit": "現在形",
+    "question": "My father ( ) up early every day.",
+    "choices": ["get", "gets", "getting", "got"],
+    "correct": "gets",
+    "explanation": "三人称単数現在形でsをつける。",
+    "incorrectExplanations": {
+      "get": "『my father』は三人称単数なので、『gets』の形が必要です。",
+      "got": "過去形で、現在の習慣を表すには使えません。",
+      "getting": "現在分詞や進行形の形で、現在形の習慣を表す文には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e59d6bef-6927-4825-b09c-70d98bb22174",
+    "unit": "現在形",
+    "question": "I ( ) lunch at noon.",
+    "choices": ["have", "has", "having", "had"],
+    "correct": "have",
+    "explanation": "主語がIなのでhaveを使う。",
+    "incorrectExplanations": {
+      "had": "過去形で、現在の習慣を表すには使えません。",
+      "has": "『has』は三人称単数用です。『I』には『have』を使います。",
+      "having": "進行形や動名詞で、現在の習慣を表す動詞の形としては使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "11ed9d6c-8e37-4e96-a30c-ea05545e069b",
+    "unit": "現在形",
+    "question": "「彼は毎日走ります。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "He runs every day.",
+    "explanation": "主語がHe（3単現）なので動詞にsをつけてrunsにします。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "37304474-af69-4fff-b0af-d5d4c9601036",
+    "unit": "現在形",
+    "question": "「彼と彼の兄は毎日サッカーをします。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "He and his brother play soccer every day.",
+    "explanation": "主語が複数なのでplayにsをつけないことに注意します。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "672720fe-8208-488b-adf9-c381d85d9492",
+    "unit": "現在形",
+    "question": "「私はピアノを弾きます。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "I play the piano.",
+    "explanation": "主語Iに現在形のplayを使います。楽器にはtheをつけてI play the piano. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "cd2467f8-90c5-4a8a-8d53-b8e775441446",
+    "unit": "現在形",
+    "question": "「彼は毎朝6時に起きます。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "He gets up at six every morning.",
+    "explanation": "主語がHeなのでgetsにsを忘れないようにします。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "97cca401-6f5d-436e-8673-67c94291e4d9",
+    "unit": "現在形",
+    "question": "These days, my sister usually (  ) to school by bike.",
+    "choices": ["go", "goes", "going", "went"],
+    "correct": "goes",
+    "explanation": "現在の習慣を表し、主語が三人称単数なので 'goes'。",
+    "incorrectExplanations": {
+      "go": "主語が『my sister』で三人称単数なので、『go』ではなく『goes』が必要です。",
+      "went": "『went』は過去形で、『These days』という現在の習慣を表す文には合いません。",
+      "going": "『going』は動名詞や現在進行形に使う形で、ここでは現在形の動詞が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "b0d47615-9ad3-4a3b-b887-7f781f4b2fe9",
+    "unit": "現在進行形",
+    "question": "Look! The baby (  ) now.",
+    "choices": ["sleep", "sleeps", "sleeping", "is sleeping"],
+    "correct": "is sleeping",
+    "explanation": "現在進行形は be動詞＋動詞のing形で表現します。この場合は 'is sleeping'。",
+    "incorrectExplanations": {
+      "sleep": "『sleep』は動詞の原形で、進行中を表す現在進行形にはなりません。『is sleeping』が必要です。",
+      "sleeps": "三単現の現在形で習慣的な動作を表しますが、『今まさにしているところ』は表せません。",
+      "sleeping": "『sleeping』だけでは動詞の形が不完全で、『be動詞』が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "ac96ba28-921f-4f7d-bc60-570fa4b6e114",
+    "unit": "現在進行形",
+    "question": "「私は今手紙を書いています。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "I am writing a letter now.",
+    "explanation": "進行形はbe動詞＋ing形を忘れず、am writingとします。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "2fd429d9-60dc-4c54-87b8-ae6c14b9397d",
+    "unit": "現在進行形",
+    "question": "「彼らは今テレビを見ています。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "They are watching TV now.",
+    "explanation": "現在進行形はbe動詞＋動詞ing形で表し、They are watching TV now. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "0bee1a90-e855-49bd-b1d2-9a76724452ca",
+    "unit": "現在進行形",
+    "question": "「彼は今テニスをしています。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "He is playing tennis now.",
+    "explanation": "『今〜している』は現在進行形。間違えて現在形He playsにならないよう注意します。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "ed6ff610-8f28-4cd2-bd59-e86b37b1798e",
+    "unit": "現在進行形",
+    "question": "「私は今昼ご飯を食べています。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "I am eating lunch now.",
+    "explanation": "現在進行形はbe動詞＋動詞ing形で、I am eating lunch now. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "d47c40bf-cd35-42e0-8f57-ba0956b20683",
+    "unit": "現在進行形",
+    "question": "「彼女は今勉強しています。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "She is studying now.",
+    "explanation": "現在進行形はbe動詞＋動詞ing形で表し、She is studying now. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ is your birthday?",
+    "choices": ["What", "Where", "When", "Why"],
+    "correct": "When",
+    "explanation": "誕生日を尋ねるのは「いつ」なので 'When' が正解。",
+    "incorrectExplanations": {
+      "What": "『What』は『何』を尋ねるときに使います。",
+      "Where": "『Where』は『どこ』を尋ねるときに使います。",
+      "Why": "『Why』は『なぜ』を尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "54bdbdff-5701-4ad6-82cf-46de9a4e096d"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ do you go to school?",
+    "choices": ["Where", "Why", "When", "How"],
+    "correct": "How",
+    "explanation": "通学手段を尋ねるので 'How'（どうやって）が正解。",
+    "incorrectExplanations": {
+      "Where": "『Where』は場所を尋ねるときに使います。",
+      "Why": "『Why』は理由を尋ねるときに使います。",
+      "When": "『When』は時間を尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "4100fbad-a87c-4d1f-90a2-765779d1e030"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ book is this?",
+    "choices": ["Who", "Whose", "What", "Which"],
+    "correct": "Whose",
+    "explanation": "持ち主を尋ねているので 'Whose'（誰の）が正解。",
+    "incorrectExplanations": {
+      "Who": "『Who』は人そのものを尋ねるときに使います。",
+      "What": "『What』は『何』を尋ねるときに使います。",
+      "Which": "『Which』は選択肢の中から選ぶときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "2eb348a2-6b42-41bb-a271-e799c9d0a35b"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ do you like, cats or dogs?",
+    "choices": ["Which", "What", "Who", "Whose"],
+    "correct": "Which",
+    "explanation": "選択肢があるときは 'Which'（どちら）が正解。",
+    "incorrectExplanations": {
+      "What": "『What』は漠然と『何』と尋ねるときに使います。",
+      "Who": "『Who』は人を尋ねるときに使います。",
+      "Whose": "『Whose』は所有を尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "8a053618-fb16-4697-a0e6-75ab58802804"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ is that girl standing by the door?",
+    "choices": ["Whose", "What", "Who", "Why"],
+    "correct": "Who",
+    "explanation": "人を尋ねるときは 'Who'（誰）が正解。",
+    "incorrectExplanations": {
+      "Whose": "『Whose』は所有を尋ねる疑問詞です。",
+      "What": "『What』は『何』について尋ねるときに使います。",
+      "Why": "『Why』は理由を尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "14b811eb-745e-4131-8ed8-a733cb0c9965"
+  },
+  {
+    "id": "50d50e4c-4763-44e4-beb8-90cc51f1cc4c",
+    "unit": "疑問詞",
+    "question": "(  ) do you go to school? – By bike.",
+    "choices": ["When", "How", "What", "Where"],
+    "correct": "How",
+    "explanation": "'By bike'（自転車で）という答え方に合う疑問詞は 'How'（どうやって）です。",
+    "incorrectExplanations": {
+      "What": "『What』は『何』を尋ねる疑問詞で、方法を聞くには不自然です。",
+      "When": "『When』は『いつ』を尋ねるときに使い、移動手段には合いません。",
+      "Where": "『Where』は『どこ』を尋ねる疑問詞で、移動手段を聞くときには使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ is your sister? – She is ten.",
+    "choices": ["How long", "How many", "How old", "How far"],
+    "correct": "How old",
+    "explanation": "年齢を尋ねるときは 'How old' を使います。",
+    "incorrectExplanations": {
+      "How long": "時間の長さを尋ねるときに使います。",
+      "How many": "可算名詞の数を尋ねるときに使います。",
+      "How far": "距離を尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "b1fc0c32-5a3d-4f88-b493-19f5ad0c3004"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ apples do you want?",
+    "choices": ["How many", "How much", "How far", "How old"],
+    "correct": "How many",
+    "explanation": "apple は数えられる名詞なので 'How many' を使います。",
+    "incorrectExplanations": {
+      "How much": "不可算名詞や金額を尋ねるときに使います。",
+      "How far": "距離を尋ねるときに使います。",
+      "How old": "年齢を尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "6716d770-8de5-45cc-beb4-e4b67b78d560"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ water do you drink every day?",
+    "choices": ["How many", "How much", "How long", "How far"],
+    "correct": "How much",
+    "explanation": "water は数えられない名詞なので 'How much' を使います。",
+    "incorrectExplanations": {
+      "How many": "可算名詞には使えますが、水は不可算名詞です。",
+      "How long": "時間の長さを尋ねるときに使います。",
+      "How far": "距離を尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "1dbed8d8-45b4-4a3a-a99f-2a3187dc4901"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ do you go to the gym? – Twice a week.",
+    "choices": ["How often", "How far", "How old", "How long"],
+    "correct": "How often",
+    "explanation": "頻度を尋ねるときは 'How often' を使います。",
+    "incorrectExplanations": {
+      "How far": "距離を尋ねるときに使います。",
+      "How old": "年齢を尋ねるときに使います。",
+      "How long": "時間の長さを尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "49025de5-3ae4-4c79-b8a4-10c89346d457"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ does it take from Tokyo to Osaka by train?",
+    "choices": ["How long", "How far", "How many", "How often"],
+    "correct": "How long",
+    "explanation": "時間の長さ（所要時間）を尋ねるときに 'How long' を使います。",
+    "incorrectExplanations": {
+      "How far": "距離を尋ねる表現です。",
+      "How many": "数を尋ねる表現ですが、ここでは使いません。",
+      "How often": "頻度を尋ねる表現です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "4d2cfc3e-5ff6-403f-b158-8b1c49bc96b5"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ is it from here to the station?",
+    "choices": ["How far", "How long", "How old", "How much"],
+    "correct": "How far",
+    "explanation": "距離を尋ねているので 'How far' が正解です。",
+    "incorrectExplanations": {
+      "How long": "時間を尋ねるときに使います。",
+      "How old": "年齢を尋ねるときに使います。",
+      "How much": "金額や量を尋ねるときに使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "8594e294-9a3e-4fa1-a99a-e95ad9eb3df4"
+  },
+  {
+    "unit": "疑問詞",
+    "question": "______ pencils do you have in your bag?",
+    "choices": ["How many", "How much", "How often", "How far"],
+    "correct": "How many",
+    "explanation": "pencil は可算名詞なので 'How many' を使います。",
+    "incorrectExplanations": {
+      "How much": "不可算名詞や金額に使います。",
+      "How often": "頻度を尋ねる表現です。",
+      "How far": "距離を尋ねる表現です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice",
+    "id": "b7e65bc9-15f0-4d3b-a3c5-291d3c14448c"
+  },
+  {
+    "id": "aff61670-8c84-41a2-910e-809c6ea4b71e",
+    "unit": "疑問詞",
+    "question": "「あなたはどこに住んでいますか。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "Where do you live?",
+    "explanation": "疑問詞Whereを使って、Where do you live? と尋ねます。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "913da0bc-1ba2-4efe-8e0f-3172deaf139c",
+    "unit": "疑問詞",
+    "question": "「あなたはなぜここに来たのですか。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "Why did you come here?",
+    "explanation": "疑問詞Whyで始め、did you comeの語順を忘れないようにします。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "2dbf9bcd-f705-413a-bced-81aaf990eba5",
+    "unit": "疑問詞",
+    "question": "「あなたはいつ学校へ行きますか。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "When do you go to school?",
+    "explanation": "疑問詞Whenを文頭に使い、do you goの語順にします。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "66491791-e75a-4990-9c28-10a8d443d148",
+    "unit": "助動詞",
+    "question": "He ( ) play the piano well.",
+    "choices": ["can", "cans", "is", "was"],
+    "correct": "can",
+    "explanation": "能力を表すのでcan。",
+    "incorrectExplanations": {
+      "is": "『is』はbe動詞で、能力を表す意味を持ちません。",
+      "was": "『was』は過去形のbe動詞で、現在の能力を表すときには使えません。",
+      "cans": "助動詞には三単現のsはつきません。常に『can』を使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a0d629af-c894-4ac9-98ef-fcc84bf2912a",
+    "unit": "助動詞",
+    "question": "You (  ) take an umbrella. It looks like rain.",
+    "choices": ["should", "must to", "can to", "has to"],
+    "correct": "should",
+    "explanation": "'should' は助言や提案を表す助動詞で、文脈に最も合っています。",
+    "incorrectExplanations": {
+      "can to": "『can』にも『to』はつけず、『can + 動詞の原形』が正しい形です。",
+      "has to": "『has to』は三人称単数用なので、『you』には使えません。『you have to』が正しい形です。",
+      "must to": "『must』の後に『to』は不要です。正しくは『must + 動詞の原形』です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "b0568ffa-4432-4667-8a69-e9b0f212fef7",
+    "unit": "助動詞",
+    "question": "We ( ) be late for school.",
+    "choices": ["mustn't", "can't", "should", "will"],
+    "correct": "mustn't",
+    "explanation": "禁止を表すmustn't。",
+    "incorrectExplanations": {
+      "will": "『will』は未来を表す助動詞で、禁止の意味はありません。",
+      "can't": "『can't』は『できない』『不可能』を表し、禁止の意味にはなりません。",
+      "should": "『should』は助言や推奨を表し、強い禁止を伝える『mustn't』とは意味が異なります。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "9e210528-0ec0-4d0e-9900-c969a4037eb2",
+    "unit": "助動詞",
+    "question": "You ( ) open the window.",
+    "choices": ["can", "cans", "could", "will"],
+    "correct": "can",
+    "explanation": "能力・可能を表すcanを使う。",
+    "incorrectExplanations": {
+      "cans": "助動詞に三単現のsはつきません。常に原形の『can』を使います。",
+      "will": "『will』は未来を表す助動詞で、現在の可能や許可を表す『can』とは意味が異なります。",
+      "could": "『could』は『can』の過去形やより丁寧な表現ですが、ここではシンプルな現在の可能を表す『can』が自然です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "8b1a6abf-bd9a-45d2-95dd-874f1425fc78",
+    "unit": "助動詞",
+    "question": "In our school rules, students (  ) bring their ID cards every day.",
+    "choices": ["must", "must to", "have to", "has to"],
+    "correct": "must",
+    "explanation": "'must' は助動詞で、義務やルールを示すときに使います。",
+    "incorrectExplanations": {
+      "has to": "『has to』は三人称単数用ですが、『students』は複数なので使えません。",
+      "have to": "意味は近いですが、ルールや規則を表すときには『must』のほうが強くて自然です。",
+      "must to": "『must』の後に『to』はつけません。正しくは『must + 動詞の原形』です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "f05bce4a-0e30-4d69-8daf-1979d164463e",
+    "unit": "助動詞",
+    "question": "( ) I go to the bathroom?",
+    "choices": ["Can", "Do", "Did", "Am"],
+    "correct": "Can",
+    "explanation": "許可を求める表現ではCanを使う。",
+    "incorrectExplanations": {
+      "Am": "『Am』はbe動詞で、『Can』のように能力や許可を表す助動詞ではありません。",
+      "Do": "『Do I』は一般動詞の現在形疑問文で、許可を求める表現には使えません。",
+      "Did": "『Did』は過去形の疑問文で、現在の許可を聞く文には合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "7fe650e1-fa29-4edc-90f7-518f8fbcb622",
+    "unit": "助動詞",
+    "question": "You ( ) study harder.",
+    "choices": ["should", "shall", "will", "can"],
+    "correct": "should",
+    "explanation": "助言・義務を表すshould。",
+    "incorrectExplanations": {
+      "can": "『can』は能力や可能を表すので、『〜すべき』という助言には使えません。",
+      "will": "『will』は未来の意志を表すため、勧めや助言をする『should』とは使い方が異なります。",
+      "shall": "『shall』は提案や意志を表す場合が多く、『study harder』という助言には不自然です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "c7ddf008-6475-49c4-a46a-008665103715",
+    "unit": "助動詞",
+    "question": "「あなたはここで写真を撮ってもよいです。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "You may take pictures here.",
+    "explanation": "許可を表す助動詞mayを使って、You may take pictures here. になります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "c147cd4e-9660-437e-96b5-1b075c636ddf",
+    "unit": "助動詞",
+    "question": "「あなたはここで静かにしなければなりません。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "You must be quiet here.",
+    "explanation": "義務を表す助動詞mustを使ってYou must be quiet here. になります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "38fcf014-5e08-4115-8b0c-ef009d1a0371",
+    "unit": "感嘆文",
+    "question": "「なんて美しい花なんでしょう！」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "What a beautiful flower!",
+    "explanation": "感嘆文はWhat + a + 形容詞 + 名詞の形を使います。How beautiful flower! ではなくWhatを使う。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "599d6ab8-a48d-408c-a95b-2b2d9d780b00",
+    "unit": "感嘆文",
+    "question": "「なんて大きい犬なんだ！」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "What a big dog!",
+    "explanation": "感嘆文ではWhat a + 形容詞 + 名詞を使います。How big dog! は誤り。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "e7d6c5b4-a3f2-4e1d-9c8b-7a6f5e4d3c08",
+    "unit": "There構文",
+    "question": "There (  ) three books on the desk.",
+    "choices": ["are", "is", "has", "exists"],
+    "correct": "are",
+    "explanation": "There + be 構文は後ろの主語（three books）に一致。複数形 ⇒ are。",
+    "incorrectExplanations": {
+      "is": "単数主語の場合に用います。ここは three books（複数）。",
+      "has": "have/has ではなく be 動詞を使います。",
+      "exists": "口語の存在表現は There is/are を用いるのが自然。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "0354aa83-b5f8-45b8-8122-fcd1138dc279",
+    "unit": "過去形",
+    "question": "They ( ) a movie last night.",
+    "choices": ["watch", "watched", "watching", "watches"],
+    "correct": "watched",
+    "explanation": "過去を表すlast nightなのでwatched。",
+    "incorrectExplanations": {
+      "watch": "現在形で、過去を表す『last night』には合いません。",
+      "watches": "三単現の現在形で、過去の出来事を表すことはできません。",
+      "watching": "進行形や名詞的な使い方で、過去形としては使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "bba6c5a4-4b3a-415e-aa26-bcb2fccf5dfd",
+    "unit": "過去形",
+    "question": "She ( ) a letter last week.",
+    "choices": ["write", "writes", "wrote", "writing"],
+    "correct": "wrote",
+    "explanation": "過去のことなのでwrote。",
+    "incorrectExplanations": {
+      "write": "現在形で、過去を表す『last week』には合いません。",
+      "writes": "三単現現在形で、過去の動作は表せません。",
+      "writing": "進行形や動名詞の形で、単純過去を表せません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "bdf60092-977b-4e91-bbcd-a6fbef3a60c8",
+    "unit": "過去形",
+    "question": "He ( ) to the park yesterday.",
+    "choices": ["go", "goes", "went", "going"],
+    "correct": "went",
+    "explanation": "過去のことを表すのでwent。",
+    "incorrectExplanations": {
+      "go": "現在形で、昨日のことを表す『yesterday』には合いません。",
+      "goes": "三単現現在形で、過去の動作は表せません。",
+      "going": "進行形や動名詞の形で、過去の動作を表す形ではありません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "92a69924-7196-4181-9159-a3cba27a0a21",
+    "unit": "過去形",
+    "question": "I ( ) at home all day.",
+    "choices": ["stay", "stays", "stayed", "staying"],
+    "correct": "stayed",
+    "explanation": "過去の出来事なのでstayed。",
+    "incorrectExplanations": {
+      "stay": "現在形で、過去の出来事を表す『all day』には合いません。",
+      "stays": "三単現現在形で、過去を表す文では使えません。",
+      "staying": "進行形や動名詞で、単純な過去を表す形ではありません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "cc1639b5-c04e-4628-a6a2-3047ae9600b1",
+    "unit": "過去形",
+    "question": "Did you ( ) tennis yesterday?",
+    "choices": ["play", "played", "playing", "plays"],
+    "correct": "play",
+    "explanation": "Didを使うときは動詞の原形を使う。",
+    "incorrectExplanations": {
+      "plays": "三単現の現在形で、過去の出来事を尋ねる文には使えません。",
+      "played": "助動詞『did』を使った疑問文では動詞は原形にします。",
+      "playing": "進行形や動名詞で、疑問文の動詞の形としては不適切です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "9cf3b13c-712d-4633-b286-2bbb8a5394ca",
+    "unit": "過去形",
+    "question": "I (  ) to Kyoto last weekend.",
+    "choices": ["go", "went", "going", "gone"],
+    "correct": "went",
+    "explanation": "'last weekend' があるため、過去形の 'went' を使います。",
+    "incorrectExplanations": {
+      "go": "現在形で、過去を表す『last weekend』には合いません。",
+      "gone": "『have gone』など完了形で使いますが、ここは単純な過去形が必要です。",
+      "going": "進行形や名詞的な使い方で、過去の動作をそのまま表せません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "34a9fc0d-b05c-43a1-a27d-768f56450c74",
+    "unit": "過去形",
+    "question": "「彼は昨日家に帰りました。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "He went home yesterday.",
+    "explanation": "goの過去形はwent。goedと間違えやすいので注意。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "57ec7df1-3c94-4ad5-9ebc-f274d1bea512",
+    "unit": "過去形",
+    "question": "「私は昨日手紙を書きました。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "I wrote a letter yesterday.",
+    "explanation": "過去形はwrote。過去分詞writtenと混同しないように注意します。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "0d0eed70-1a3d-485c-81f2-80addd36d6e2",
+    "unit": "過去形",
+    "question": "「彼は昨夜宿題をしました。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "He did his homework last night.",
+    "explanation": "過去を表すlast nightがあるので動詞はdidを使います。He did his homework last night. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "235df498-7000-4b88-8771-33b92eb8d790",
+    "unit": "過去形",
+    "question": "「私は先週図書館へ行きました。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "I went to the library last week.",
+    "explanation": "過去を表すlast weekがあるので動詞は過去形wentを使います。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "5834bde1-7061-4282-adeb-e1531b7c62b3",
+    "unit": "過去形",
+    "question": "「私は昨日映画を見ました。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "I watched a movie yesterday.",
+    "explanation": "過去を表す yesterday があるので動詞は過去形watchedを使います。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "6fbc8289-8fda-4227-891f-25ae93613413",
+    "unit": "未来形",
+    "question": "They ( ) go camping tomorrow.",
+    "choices": ["will", "is", "are", "was"],
+    "correct": "will",
+    "explanation": "未来の予定を表すのでwill。",
+    "incorrectExplanations": {
+      "is": "現在形のbe動詞で、『they』の未来を表すには『will』が必要です。",
+      "are": "現在形で、未来の予定を表すには使えません。『will』を使います。",
+      "was": "過去形で、未来を表す文には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "778742ad-5eca-446c-a099-7ba95f8b7f9e",
+    "unit": "未来形",
+    "question": "You ( ) be busy tomorrow.",
+    "choices": ["will", "am", "is", "was"],
+    "correct": "will",
+    "explanation": "未来を表すのでwill。",
+    "incorrectExplanations": {
+      "am": "『am』は現在形のbe動詞で、未来を表すには『will』が必要です。",
+      "is": "『is』も現在形で、未来を言いたいときには使えません。",
+      "was": "『was』は過去形で、未来を表すことはできません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "ec0c0c08-89e8-45bc-8c35-5a7c66f0986a",
+    "unit": "未来形",
+    "question": "We ( ) have a meeting next Monday.",
+    "choices": ["will", "has", "had", "having"],
+    "correct": "will",
+    "explanation": "未来を表すのでwillを使う。",
+    "incorrectExplanations": {
+      "had": "『had』は過去形で、未来の予定を表すときには使えません。",
+      "has": "『has』は三単現の現在形で、未来を表すことはできません。",
+      "having": "『having』は動名詞で、『will』のように未来を表す助動詞が必要です。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "e7b328c6-ea74-4c68-a6f5-1da1608d1da4",
+    "unit": "未来形",
+    "question": "She ( ) study English tonight.",
+    "choices": ["will", "does", "did", "doing"],
+    "correct": "will",
+    "explanation": "未来を表すのでwillを使う。",
+    "incorrectExplanations": {
+      "did": "『did』は過去形で、未来のことを話すときには使えません。",
+      "does": "『does』は現在形の三人称単数で、未来の予定を表すことはできません。",
+      "doing": "『doing』は進行形や動名詞で、未来の助動詞『will』とは形が合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "062f5982-b1a7-43f7-a4df-12955e5e8a09",
+    "unit": "未来形",
+    "question": "She (  ) visit her grandma next week.",
+    "choices": ["will", "is", "was", "are"],
+    "correct": "will",
+    "explanation": "未来の予定には 'will＋動詞の原形' を使います。",
+    "incorrectExplanations": {
+      "is": "現在形のbe動詞だけでは未来を表すことはできません。『will』が必要です。",
+      "are": "主語が『she』なので『are』は文法的に合いません。",
+      "was": "過去形で、未来の予定を表す文には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a18d70c9-530d-4167-a2a0-e9f7e218a6b2",
+    "unit": "未来形",
+    "question": "I ( ) visit my grandmother next week.",
+    "choices": ["will", "am", "was", "were"],
+    "correct": "will",
+    "explanation": "未来の予定を表すのでwill。",
+    "incorrectExplanations": {
+      "am": "現在形のbe動詞で、未来の予定を表すには『will』が必要です。",
+      "was": "過去形で、未来を表す予定には使えません。",
+      "were": "過去形のbe動詞で、『I』の未来の予定には合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "fed12573-ebd3-4f57-830f-b04d9366bf6c",
+    "unit": "未来形",
+    "question": "「私は明日友達に会うつもりです。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": [
+      "I will meet my friend tomorrow.",
+      "I am going to meet my friend tomorrow."
+    ],
+    "explanation": "未来を表すtomorrowがあるのでwillを使ってI will meet my friend tomorrow. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "6618e127-ffad-4f5e-ae2c-86af072057e5",
+    "unit": "接続詞",
+    "question": "I stayed home (  ) it was raining.",
+    "choices": ["and", "but", "because", "or"],
+    "correct": "because",
+    "explanation": "理由を表す接続詞は 'because'。雨が降っていたから家にいた、という因果関係を表す。",
+    "incorrectExplanations": {
+      "or": "『or』は選択肢を示す接続詞で、理由を表す文には不適切です。",
+      "and": "『and』は内容を単純に並べる接続詞で、理由を表すことはできません。",
+      "but": "『but』は逆接を表す接続詞で、原因と結果をつなぐときには使いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "62b0efd5-2ca6-4e45-84eb-3aaaea75e31a",
+    "unit": "接続詞",
+    "question": "She is small ( ) she is strong.",
+    "choices": ["but", "and", "because", "while"],
+    "correct": "but",
+    "explanation": "逆接を表すのでbutを使う。",
+    "incorrectExplanations": {
+      "and": "「and」は同じ性質のものを並べて追加する接続詞です。この文は『小さいけれど強い』と逆の内容をつなぐので使えません。",
+      "while": "「while」は『〜する間に』や対比を表しますが、この文のように正反対の性質をはっきり対立させるときは『but』を使います。",
+      "because": "「because」は理由を表す接続詞で、『なぜ強いのか』を説明する形になります。逆接には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "45c723cd-3f6c-419e-ae41-28af18785265",
+    "unit": "接続詞",
+    "question": "I like dogs ( ) cats.",
+    "choices": ["and", "but", "because", "while"],
+    "correct": "and",
+    "explanation": "並列を表すときはandを使う。",
+    "incorrectExplanations": {
+      "but": "『but』は逆の意味をつなげる接続詞で、『犬も猫も好き』という並列には使えません。",
+      "while": "『while』は『〜する間』や対比を表す接続詞で、単純に好きなものを並べるときには使えません。",
+      "because": "『because』は理由を説明する接続詞で、『犬と猫』を並べる意味にはなりません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "ac3dc3bd-73a2-4361-86cb-a25523557614",
+    "unit": "接続詞",
+    "question": "He was sick ( ) he went to the hospital.",
+    "choices": ["so", "because", "but", "when"],
+    "correct": "so",
+    "explanation": "結果を表すのでsoを使う。",
+    "incorrectExplanations": {
+      "but": "『but』は逆接を表す接続詞で、結果を示すときには使えません。",
+      "when": "『when』は時間を表す接続詞で、『だから』という結果を示す『so』とは意味が違います。",
+      "because": "『because』は理由を表しますが、この文では『病気だったので病院へ行った』という結果を言いたいので合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "5261cffe-9107-4835-961c-46a3c4755410",
+    "unit": "接続詞",
+    "question": "I went to bed ( ) I was very tired.",
+    "choices": ["so", "because", "but", "and"],
+    "correct": "because",
+    "explanation": "理由を表すのでbecauseを使う。",
+    "incorrectExplanations": {
+      "so": "『so』は『だから』という結果を表し、理由を説明する『because』とは逆の関係です。",
+      "and": "『and』は単に情報を並べる接続詞で、理由を説明することはできません。",
+      "but": "『but』は逆接を表し、理由を表す文には使えません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "7b7f53f9-a2cd-4138-99d0-be4f975a343e",
+    "unit": "接続詞",
+    "question": "I was watching TV ( ) my mother was cooking.",
+    "choices": ["and", "but", "because", "while"],
+    "correct": "while",
+    "explanation": "同時進行を表すときはwhileを使う。",
+    "incorrectExplanations": {
+      "and": "『and』はただ出来事を並べるだけで、同時進行を強調することはできません。",
+      "but": "『but』は逆接を表す接続詞で、同時に起こることを表せません。",
+      "because": "『because』は理由を表す接続詞で、同時進行の意味にはなりません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "15369649-ceca-4f47-8817-203f7e8f9390",
+    "unit": "接続詞",
+    "question": "I will call you (  ) I get home.",
+    "choices": ["if", "when", "because", "so"],
+    "correct": "when",
+    "explanation": "'get home' は確実に起こる未来の出来事なので 'when' が自然です。",
+    "incorrectExplanations": {
+      "if": "『if』は『もし〜なら』という不確実な条件を表します。ここは帰宅が確実なので『when』が自然です。",
+      "so": "『so』は結果を表す接続詞で、『〜するとき』を表す文には使えません。",
+      "because": "『because』は理由を表しますが、この文はタイミングを伝えるので合いません。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "6af7f3cb-d503-4118-ab7a-b8cd79b2e4ed",
+    "unit": "接続詞",
+    "question": "「私は雨が降っていたので家にいました。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "I stayed home because it was raining.",
+    "explanation": "理由を表す接続詞 because を使い、『because it was raining』で『雨が降っていたので』を表現します。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "8486949c-3b31-4bc4-af3c-bac18b5861b4",
+    "unit": "接続詞",
+    "question": "「私は空腹だったので昼ご飯を食べました。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": [
+      "I ate lunch because I was hungry.",
+      "I had lunch because I was hungry."
+    ],
+    "explanation": "理由を表す接続詞becauseを使い、because I was hungryと続けます。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "be2795ad-7b9e-493e-9232-859aa07b782a",
+    "unit": "条件文",
+    "question": "「もし雨が降ったら、私は家にいるでしょう。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "If it rains, I will stay home.",
+    "explanation": "条件を表すif節では、未来のことでも現在形を使います。これは「まだ起こるか分からない条件」を表すためです。例えば 'If it rains, I will stay home.' が正しい形です。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "be2795ad-7b9e-493e-9232-859aa07b782a",
+    "unit": "条件文",
+    "question": "「もし雨が降ったら、私は家にいるでしょう。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "If it rains, I will stay home.",
+    "explanation": "条件を表すif節では、未来のことでも現在形を使います。これは「まだ起こるか分からない条件」を表すためです。例えば 'If it rains, I will stay home.' が正しい形です。",
     "incorrectExplanations": {},
     "format": "英作文",
     "type": "input"
@@ -583,990 +2405,6 @@
     "type": "input"
   },
   {
-    "id": "7ff5e97c-7ac3-4283-9223-729fab45894a",
-    "unit": "付加疑問文",
-    "question": "You’re from Tokyo, (  )?",
-    "choices": ["aren’t you", "don’t you", "are you", "isn't it"],
-    "correct": "aren’t you",
-    "explanation": "肯定文のあとには否定の疑問タグをつけます。'You are' に対して 'aren’t you?' が適切です。",
-    "incorrectExplanations": {
-      "are you": "肯定文には否定のタグをつけるのがルールです。『You’re』が肯定なので『aren’t you』にする必要があります。",
-      "isn't it": "主語が『you』なのに『it』を使うのは不一致です。代名詞は主語に合わせて『you』を使います。",
-      "don’t you": "文が『You are』なので、動詞はbe動詞です。『don’t』は一般動詞に使う形なので間違いです。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "a2e4b9c7-81f5-44db-8d7c-92b13a4f34c9",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは学生ですよね。\n( are / a / student / you / , / aren’t / you ).",
-    "choices": [],
-    "correct": "You are a student, aren’t you?",
-    "explanation": "基本形：肯定文＋否定のタグ。『You are a student, aren’t you?』で『あなたは学生ですよね』。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "b4f7e6a3-52c9-4d26-9b9f-1e56c92b4e52",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼は昨日忙しくなかったですよね。\n( wasn’t / yesterday / he / busy / , / was / he ).",
-    "choices": [],
-    "correct": "He wasn’t busy yesterday, was he?",
-    "explanation": "否定文＋肯定のタグの形。『wasn’t ～, was he?』が自然な構造です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "c6b3f8a1-9e4a-4a3b-93f5-4b09b9d832db",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女はピアノを弾くのが上手ですよね。\n( plays / she / well / the / piano / , / doesn’t / she ).",
-    "choices": [],
-    "correct": "She plays the piano well, doesn’t she?",
-    "explanation": "一般動詞のときは助動詞『do』を使ってタグを作ります。『doesn’t she?』が正しい形です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "d9f1e5b8-54f1-45ab-b73a-6b5c6e1cf0d2",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこの本は面白いですよね。\n( this / , / interesting / book / is / isn’t / it ).",
-    "choices": [],
-    "correct": "This book is interesting, isn’t it?",
-    "explanation": "be動詞の肯定文＋否定タグのパターン。主語が『this book』なのでタグは『it』になります。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "e8c9f3a2-2b5e-4983-bd7f-85fa3a7b943d",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nドアを閉めてくれますね。（命令文＋付加疑問）\n( the / door / , / will / shut / you ).",
-    "choices": [],
-    "correct": "Shut the door, will you?",
-    "explanation": "命令文＋付加疑問は『will you?』で依頼の意味になります。『won’t you?』だと少し丁寧な響きになります。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "a3e2b9d7-5c72-4b81-9b8a-1b3a43cfe2e7",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はほとんど外出しませんよね。\n( goes / he / , / hardly / does / he / out).",
-    "choices": [],
-    "correct": "He hardly goes out, does he?",
-    "explanation": "『hardly（ほとんど～ない）』は否定の意味を含むため、タグは肯定形になります。『does he?』が正解。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "b5f1d8e6-6a83-4e2e-9a34-3c5d90a3b7e1",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n誰もそのことを知らないですよね。\n( knows / , / do / no / one / they / it).",
-    "choices": [],
-    "correct": "No one knows it, do they?",
-    "explanation": "『no one』『nobody』は否定の意味を含むため、タグは肯定（do they?）になります。主語は『they』で受けるのが自然です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "c8b7f2a9-2d13-4a8f-9b9c-1a54dce2e6b0",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの人はあなたのお父さんですよね。\n( that / your / , / is / father / he / isn’t ).",
-    "choices": [],
-    "correct": "That is your father, isn’t he?",
-    "explanation": "『That’s ～』のタグは『isn’t it?』ではなく、主語が『he』の場合は『isn’t he?』になります。意味上の主語で一致させます。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "d2a5c7f4-4b19-4c3b-8e6c-8a3a72b9e0e8",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nみんなパーティーに来るんですよね。\n( everyone / , / will / won’t / come / they ).",
-    "choices": [],
-    "correct": "Everyone will come, won’t they?",
-    "explanation": "『everyone（みんな）』は単数扱いだが、タグでは慣例的に『they』で受けます。『won’t they?』が正しい形です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "e6d9b1a5-48b2-4c4d-9a45-67b1e83d9cf7",
-    "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）に１語を補って並べ替えなさい。\nもうそろそろ出発しましょうか。\n( , / shall / go / we / now ).",
-    "choices": [],
-    "correct": "Let’s go now, shall we?",
-    "explanation": "『Let’s ～, shall we?』は提案を柔らかくする付加疑問。『will we?』ではなく『shall we?』が決まり文句です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "11a03566-d035-4c19-a5d3-403153f99ec9",
-    "unit": "仮定法",
-    "question": "If I were you, I (  ) take the job.",
-    "choices": ["will", "would", "can", "am"],
-    "correct": "would",
-    "explanation": "仮定法過去の表現では 'If I were 〜, I would 〜' の形を取ります。現実と異なる仮の状況を表します。",
-    "incorrectExplanations": {
-      "am": "『If I were』が仮定法過去の正しい形です。『If I am』だと現実的な条件を表してしまい、仮定法になりません。",
-      "can": "「can」は現実的な能力や可能性を表しますが、ここでは現実とは違う想像の話なので使えません。",
-      "will": "「will」は未来の意志や予定を表す助動詞で、仮定法の非現実的な条件には使いません。『If I were you』のような仮定法では『would』を使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "72d026d4-c0af-46bf-ad88-934cd865b180",
-    "unit": "仮定法",
-    "question": "「もし私があなたなら、その本を読むでしょう。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "If I were you, I would read the book.",
-    "explanation": "仮定法過去でIf I were you, I would + 動詞の原形を使います。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "a1e8d7f2-3f7b-4a6b-98d2-6b5a9d3f7a23",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし私が鳥なら、空を飛べるのに。\n( fly / I / if / a / were / I / bird / could ).",
-    "choices": [],
-    "correct": "If I were a bird, I could fly.",
-    "explanation": "仮定法過去では『be動詞』の形は主語に関係なく『were』を使います。『could』は可能の仮定。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "b2f7e5a9-4d9e-48c1-bc81-3b0e5d1a6b92",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもしあのときもっと一生懸命勉強していたら、今は医者になっているでしょう。\n( had / I / studied / then / harder / I / would / a / now / be / doctor ).",
-    "choices": [],
-    "correct": "If I had studied harder then, I would be a doctor now.",
-    "explanation": "『If＋仮定法過去完了』＋『主節に仮定法過去』で“混合仮定法”。過去の事実と現在の結果をつなげています。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "c4e2b6f8-7c3b-42b7-b94b-1d0a6f8a5d90",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたが忙しくなければ、私と来られるのに。\n( with / come / if / weren’t / me / you / could / busy / you).",
-    "choices": [],
-    "correct": "If you weren’t busy, you could come with me.",
-    "explanation": "仮定法過去。現在とは異なる仮定を表す。『be動詞→were』、助動詞『could』が条件を示す鍵。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "d3c9f5e1-8a6c-4d81-b9f7-2b0a6e4a9b52",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし彼がここにいたら、そのことを知っていただろうに。\n( he / had / would / it / if / known / he / been / here / have ).",
-    "choices": [],
-    "correct": "If he had been here, he would have known it.",
-    "explanation": "仮定法過去完了。『If＋had＋過去分詞』で“過去の事実に反する仮定”を表します。主節は『would have＋過去分詞』。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "e5a8f6b3-4f0c-4a42-8b8b-4c8a1e3b7f11",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はあなたの立場なら、そのことをしないでしょう。\n( were / in / that / I / your / wouldn’t / do / case / it / I).",
-    "choices": [],
-    "correct": "If I were in your case, I wouldn’t do it.",
-    "explanation": "『If I were you』や『If I were in your case』は仮定法の定番構文。助動詞は『would』を使い、現在の事実に反する仮定を表す。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "a2b7e8f4-9c3d-4fa1-9c72-3b5e8f13a6e4",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は今お金をもっと持っていたらいいのになあ。\n( I / money / wish / more / had / I ).",
-    "choices": [],
-    "correct": "I wish I had more money.",
-    "explanation": "『I wish＋過去形』で現在の事実に反する願望を表します。実際には『お金をあまり持っていない』ことを意味します。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "b3f8a5c2-4d6b-4f91-9b53-9c5a4a1b2f77",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼がここにいればいいのになあ。\n( he / wish / here / I / were ).",
-    "choices": [],
-    "correct": "I wish he were here.",
-    "explanation": "be動詞は主語に関係なく『were』を使います。『I wish he were here.』＝『彼がここにいればいいのに（実際はいない）』。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "c4e7d9a8-7f5b-4b92-99e3-1c9f9b0e7a6d",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n昨日もっと早く寝ていればよかったなあ。\n( I / had / gone / wish / to / bed / I / earlier ).",
-    "choices": [],
-    "correct": "I wish I had gone to bed earlier.",
-    "explanation": "『I wish＋過去完了』で過去の事実に反する後悔を表します。『もっと早く寝ていなかった』という意味になります。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "d5a3c8e6-5b81-4d82-9a1a-3e7b1f6c5a88",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は英語を上手に話せたらいいのになあ。\n( wish / could / speak / I / I / English / well ).",
-    "choices": [],
-    "correct": "I wish I could speak English well.",
-    "explanation": "『I wish I could ～』で『～できたらいいのに（実際はできない）』という現在の非現実的願望を表します。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "e6f9b2a4-6c94-42a1-9e83-7f9a3e4b8a2d",
-    "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n外で雨が降っていなければいいのになあ。\n( I / raining / it / wish / weren't / outside ).",
-    "choices": [],
-    "correct": "I wish it weren’t raining outside.",
-    "explanation": "『I wish it weren’t raining.』で『雨が降っていなければいいのに』。現在進行形＋仮定法過去の組み合わせで“今の状況の不満”を表します。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "96c3a4d2-3dda-4306-8b19-45711b14b2ac",
-    "unit": "冠詞",
-    "question": "He has (  ) orange in his bag.",
-    "choices": ["a", "an", "the", "no"],
-    "correct": "an",
-    "explanation": "母音で始まる 'orange' の前には 'an' を使います。",
-    "incorrectExplanations": {
-      "a": "『a』は子音で始まる単語に使います。『orange』は母音で始まるので『an』が必要です。",
-      "no": "『no』を使うと意味が変わり、『持っていない』という否定になります。",
-      "the": "『the』は特定のものを指すときに使いますが、ここでは特定されていないので不自然です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "5b19eeb5-824c-4fd3-a14a-1a6a8d0b889c",
-    "unit": "冠詞",
-    "question": "He has (  ) orange in his hand.",
-    "choices": ["a", "an", "the", "×"],
-    "correct": "an",
-    "explanation": "母音で始まる単語 'orange' には 'an' を使います。",
-    "incorrectExplanations": {
-      "a": "'orange' は母音で始まるので 'a' は使えません。",
-      "the": "'the' は特定の物に使いますが、ここでは初出なので不適切です。",
-      "×": "数えられる名詞の単数には必ず冠詞が必要です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "0e63aa33-35aa-420c-97c8-27029be609f0",
-    "unit": "冠詞",
-    "question": "I saw (  ) elephant at the zoo.",
-    "choices": ["a", "an", "the", "×"],
-    "correct": "an",
-    "explanation": "elephant は母音 'e' で始まるので 'an' を使います。",
-    "incorrectExplanations": {
-      "a": "母音で始まる単語には 'an' を使います。",
-      "the": "ここでは初めて言及する象なので不適切です。",
-      "×": "名詞の前には冠詞が必要です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "f23cd212-91e4-4a13-b1cb-c886b9e25292",
-    "unit": "冠詞",
-    "question": "I want to buy (  ) new bike.",
-    "choices": ["a", "an", "the", "×"],
-    "correct": "a",
-    "explanation": "子音で始まる 'new' の前は 'a' を使います。",
-    "incorrectExplanations": {
-      "an": "'new' は 'n' という子音で始まるので 'an' は使いません。",
-      "the": "ここでは新しく購入したいという初めての言及なので不適切です。",
-      "×": "数えられる単数名詞には冠詞が必要です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "b1926eb8-070e-4052-a06a-cbff4b8593b3",
-    "unit": "冠詞",
-    "question": "She is (  ) teacher at my school.",
-    "choices": ["a", "an", "the", "×"],
-    "correct": "a",
-    "explanation": "'teacher' は子音で始まり、初めての言及なので 'a' を使います。",
-    "incorrectExplanations": {
-      "an": "'an' は母音で始まる語に使います。",
-      "the": "ここでは特定されていない先生について話しているので 'the' は使いません。",
-      "×": "職業を表す単数名詞には冠詞が必要です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "892fe1c7-8e91-4c4f-9208-3b5c5f9c115f",
-    "unit": "冠詞",
-    "question": "Please open (  ) window.",
-    "choices": ["a", "an", "the", "×"],
-    "correct": "the",
-    "explanation": "話し手と聞き手の間でどの窓かが特定されている場合は 'the' を使います。",
-    "incorrectExplanations": {
-      "a": "どの窓か特定しているので 'a' は不自然です。",
-      "an": "'window' は母音で始まらないので 'an' ではありません。",
-      "×": "名詞が特定されているので 'the' が必要です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "db5287a4-e3ce-4bff-8f9e-9480d1cb893f",
-    "unit": "冠詞",
-    "question": "She can play (  ) piano very well.",
-    "choices": ["a", "an", "the", "×"],
-    "correct": "the",
-    "explanation": "楽器の前には通常 'the' を使います。",
-    "incorrectExplanations": {
-      "a": "楽器には 'the' を使います。",
-      "an": "'piano' は母音ではないので 'an' ではありません。",
-      "×": "楽器の前には冠詞 'the' をつけるのが正しい用法です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "d8a5a1f3-cb4b-4c87-b187-0b9c6fa521a7",
-    "unit": "冠詞",
-    "question": "I usually go to (  ) school at 8 a.m.",
-    "choices": ["a", "the", "×", "an"],
-    "correct": "×",
-    "explanation": "『go to school』のように学校へ行くという行為そのものを表すときは冠詞を付けません。",
-    "incorrectExplanations": {
-      "a": "『a school』にすると『ある学校へ』という意味になり、文脈に合いません。",
-      "the": "『the school』だと特定の学校になりますが、ここでは一般的な通学を表しています。",
-      "an": "『an』は母音の前につけますが、ここでは無冠詞が適切です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "acdfe65e-fc60-4f95-9c3f-c3d7a0fc7b25",
-    "unit": "冠詞",
-    "question": "He is in (  ) prison for robbery.",
-    "choices": ["the", "a", "an", "×"],
-    "correct": "×",
-    "explanation": "『in prison』のように刑務所にいる状態を表すときは冠詞をつけません。",
-    "incorrectExplanations": {
-      "the": "『the prison』だと建物としての刑務所を意味してしまいます。",
-      "a": "『a prison』も不自然です。状態としての『in prison』では冠詞なしが正解です。",
-      "an": "不定冠詞『an』は使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "efbc02c5-bb3a-49f0-bb3e-3b4dc35f6f96",
-    "unit": "冠詞",
-    "question": "She is at (  ) work now, so she can't come to the phone.",
-    "choices": ["a", "the", "×", "an"],
-    "correct": "×",
-    "explanation": "『at work』は慣用表現で『仕事中』という意味で、冠詞を使いません。",
-    "incorrectExplanations": {
-      "a": "『a work』という表現は存在しません。",
-      "the": "『the work』だと特定の作業にかかわる意味になり、不自然です。",
-      "an": "work は不可算名詞なので『an』はつきません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "5e0bd181-e6f2-4f87-83c1-3f09f2b8eb3c",
-    "unit": "冠詞",
-    "question": "We stayed at (  ) home all day because of the rain.",
-    "choices": ["×", "a", "the", "an"],
-    "correct": "×",
-    "explanation": "『at home』も慣用表現で、特定の家ではなく『自宅に』の意味で冠詞を使いません。",
-    "incorrectExplanations": {
-      "a": "『a home』という表現はこの場合不自然です。",
-      "the": "『the home』だと特定の家を指すことになり文脈に合いません。",
-      "an": "『an home』は文法的にも意味的にも不自然です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "810c1be9-6308-4b01-be46-2d5861156c73",
-    "unit": "分詞",
-    "question": "「あそこで走っている少年はケンです。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": [
-      "The boy running over there is Ken.",
-      "The boy who is running over there is Ken."
-    ],
-    "explanation": "現在分詞runningを使って『走っている少年』を表現します。関係代名詞whoを使ってもよい。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "288b05ab-f250-4ecb-8a8c-963f5beae518",
-    "unit": "分詞",
-    "question": "「あそこで泣いている赤ちゃんは私の妹です。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": [
-      "The baby crying over there is my sister.",
-      "The baby who is crying over there is my sister."
-    ],
-    "explanation": "『泣いている赤ちゃん』は分詞１語で修飾する場合は「the crying baby」となりますが、『あそこで泣いている赤ちゃん』と２語以上の場合は「the baby crying over there」と後置修飾となる。関係代名詞whoを使ってもよい。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "46443c52-1dfb-4e8f-9f86-14a66d171aa8",
-    "unit": "分詞",
-    "question": "「壁に描かれた絵は美しいです。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "The picture painted on the wall is beautiful.",
-    "explanation": "過去分詞paintedを使い『描かれた』を表現します。描く人が主語ではない点に注意。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "a2c8e5b1-0b8a-4ef5-9b4a-8a1cdd9ad0f2",
-    "unit": "分詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあそこで歌っている少女は私の妹です。\n( is / the / girl / there / my / singing / sister ).",
-    "choices": [],
-    "correct": "The girl singing there is my sister.",
-    "explanation": "『the girl singing there』で『あそこで歌っている少女』を表します。現在分詞が名詞を修飾する形容詞的用法です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "b4e6da7f-3f14-45c1-b727-394e7e7d92a5",
-    "unit": "分詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n日本で作られた車はとても人気があります。\n( in / made / are / cars / popular / Japan / very ).",
-    "choices": [],
-    "correct": "Cars made in Japan are very popular.",
-    "explanation": "『cars made in Japan』で『日本で作られた車』。過去分詞が名詞を修飾する形容詞的用法です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "c3f4b65e-67a1-4c0a-829f-5f1b5e4a3b8b",
-    "unit": "分詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nその知らせを聞いて彼女は驚きました。\n( was / news / she / the / by / surprised ).",
-    "choices": [],
-    "correct": "She was surprised by the news.",
-    "explanation": "『be surprised by ～』で『～に驚く』。感情を表す形容詞（過去分詞形）で、原因を表す前置詞には『by』を使います。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "d5b8e13f-62c7-44e0-8579-0b2e2dfb87f9",
-    "unit": "分詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n笑っているその少年を知っていますか。\n( do / the / know / you / boy / laughing ).",
-    "choices": [],
-    "correct": "Do you know the boy laughing?",
-    "explanation": "『the boy laughing』で『笑っている少年』を表します。現在分詞が名詞を修飾する形容詞的用法です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "e1a5f7d9-318d-43fa-bd7b-29bcd68baf35",
-    "unit": "分詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n雨が降っていたので、彼らは外出をやめました。\n( because / was / stopped / they / raining / going / it / out ).",
-    "choices": [],
-    "correct": "They stopped going out because it was raining.",
-    "explanation": "『it was raining』は進行形、『stopped going out』で『外出するのをやめた』。動名詞との区別も重要です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "03d277d0-d513-43aa-b12d-d94a60d4a85b",
-    "unit": "前置詞",
-    "question": "This gift is (  ) you.",
-    "choices": ["for", "from", "with", "by"],
-    "correct": "for",
-    "explanation": "「for」は〜のために。",
-    "incorrectExplanations": {
-      "by": "「by」は『〜によって』を表します。『a gift by you』だと『あなたによって作られた贈り物』という意味になり、『あなたのための』という意図とは異なります。",
-      "from": "「from」は『〜から』を表します。『a gift from you』だと『あなたからの贈り物』という意味になり、『あなたのための贈り物』を表したいこの文には合いません。",
-      "with": "「with」は『〜と一緒に』を表します。『a gift with you』だと『あなたと一緒の贈り物』のような意味になり、『あなたのための』という気持ちは伝わりません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "79298f6c-81e1-4546-9c11-685d2b70b8cd",
-    "unit": "前置詞",
-    "question": "Please (  ) for me here.",
-    "choices": ["wait", "look", "watch", "see"],
-    "correct": "wait",
-    "explanation": "「wait for」は待つ。",
-    "incorrectExplanations": {
-      "see": "「see」は意識せずに目に入る、自然に見えることを表します。『see』には『待つ』という意味は全くありません。『Please see for me』という言い方は意味が通じません。",
-      "look": "「look」は意識して視線を向けることを表します。『look at』のように前置詞を伴って『～を見る』と言いますが、『wait for』のように人を待つ意味はありません。『Please look at me』なら『私を見てください』になります。",
-      "watch": "「watch」は動きや変化を注意して見ることを表します。テレビや試合など、動きがあるものをじっと見るときに使います。『Please watch for me』だと不自然で、『watch』は『待つ』の意味では使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "6164e24a-3688-4f46-b9a7-7832900a8830",
-    "unit": "前置詞",
-    "question": "Please (  ) at this picture.",
-    "choices": ["look", "watch", "see", "wait"],
-    "correct": "look",
-    "explanation": "「look at」は注意して見る。",
-    "incorrectExplanations": {
-      "see": "「see」は自然に目に入ることを表します。『I see the picture』なら『その絵が見える』ですが、『Please see at』という形は文法的に間違いで、『at』は使いません。",
-      "wait": "「wait」は『待つ』という意味で、見ることとは関係ありません。『Please wait at this picture』だと『この絵で待って』になり、見てほしいという意味になりません。",
-      "watch": "「watch」は動きや変化があるものをじっと見るときに使います。例えば『watch TV』はテレビの動きを見ることです。『picture』は静止画なので『watch』は不自然です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "fdd5ddd5-42d6-470d-ae38-881d384e50b7",
-    "unit": "前置詞",
-    "question": "She stayed home (  ) the rain.",
-    "choices": ["because of", "for", "with", "by"],
-    "correct": "because of",
-    "explanation": "「because of」は原因。",
-    "incorrectExplanations": {
-      "by": "「by」は手段や方法を表します。例えば『by car（車で）』のように使いますが、雨が手段になるわけではないので、『by the rain』は不自然で原因を表せません。",
-      "for": "「for」は目的や対象を表します。『for the rain』だと『雨のために（雨を目的として）』になってしまい、雨が原因で家にいたという意味を正しく伝えられません。",
-      "with": "「with」は『〜と一緒に』の意味です。『with the rain』だと『雨と一緒に』というおかしな意味になってしまい、原因を表すことはできません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "3af83ae2-c8e7-4fc1-96e8-ed8c9f99d226",
-    "unit": "前置詞",
-    "question": "He is absent (  ) school because of illness.",
-    "choices": ["from", "at", "in", "to"],
-    "correct": "from",
-    "explanation": "「absent from school」学校を欠席。",
-    "incorrectExplanations": {
-      "at": "「at」はある地点を指します。『at school』は『学校にいる』を表しますが、『absent at school』は文法的におかしく、『学校で欠席』という意味にはなりません。",
-      "in": "「in」は『内部にいる』ことを表します。『in school』は『学校の中にいる』という意味になり、『欠席』とは真逆の意味になるので使えません。",
-      "to": "「to」は方向や到着点を表します。『to school』は『学校へ』という意味になり、『absent』と一緒に使うと『学校へ欠席』という不自然な表現になってしまいます。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "ee54b198-5330-4271-bbcd-047690aa0455",
-    "unit": "前置詞",
-    "question": "I went to the store (  ) my mother.",
-    "choices": ["with", "without", "by", "for"],
-    "correct": "with",
-    "explanation": "「with」は一緒に。",
-    "incorrectExplanations": {
-      "by": "「by」は手段や方法を表します。例えば『by car（車で）』など。『by my mother』だと『母によって』という意味になり、人と一緒に行くことを伝えられません。",
-      "for": "「for」は目的や利益を表します。『for my mother』だと『母のために』という意味になり、『一緒に行った』という意味にはなりません。",
-      "without": "「without」は『〜なしで』を表します。『without my mother』だと『母なしで』になり、一緒に行ったという意味になりません。問題は一緒に行ったことを言いたいので正しくありません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "3f60a83e-42b3-471a-b517-33ae14a3d577",
-    "unit": "前置詞",
-    "question": "I can't do it (  ) your help.",
-    "choices": ["without", "with", "by", "for"],
-    "correct": "without",
-    "explanation": "「without」は〜なしで。",
-    "incorrectExplanations": {
-      "by": "「by」は手段や方法を表します。例えば『by car（車で）』など。『by your help』は不自然で、助けを手段として使う表現にはしません。",
-      "for": "「for」は目的や利益を表します。『for your help』だと『あなたの助けのために』という意味になり、『〜なしで』という意味を伝えることはできません。",
-      "with": "「with」は『〜と一緒に』を表します。『with your help』だと『あなたの助けと一緒にできる』という意味になり、『できない』という否定文には合いません。ここは『〜なしで』を表す『without』が必要です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "81f5e045-961f-4160-8fa6-fcc0cc089c83",
-    "unit": "前置詞",
-    "question": "He did it (  ) mistake.",
-    "choices": ["by", "with", "without", "for"],
-    "correct": "by",
-    "explanation": "「by mistake」は「間違えて」。",
-    "incorrectExplanations": {
-      "for": "「for」は目的や利益を表します。『for mistake』だと『間違いのために』という意味になり、『間違えて』という偶発的なニュアンスを正しく伝えられません。",
-      "with": "「with」は道具や一緒に使う相手を表します。『with mistake』だと『間違いを持って』という不自然な表現になり、『間違えて』という意味にはなりません。",
-      "without": "「without」は『〜なしで』を表します。『without mistake』なら『間違いなしで』という意味になり、間違えてやったことを表現できません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "aae9d0a1-fdfb-4b65-8e69-37ec74336036",
-    "unit": "前置詞",
-    "question": "He is standing (  ) the two trees.",
-    "choices": ["between", "among", "behind", "in front of"],
-    "correct": "between",
-    "explanation": "「between」は2つの間。",
-    "incorrectExplanations": {
-      "among": "「among」は3つ以上のものに囲まれているときに使います。ここは『the two trees』と2つだけなので、『among』では不自然です。",
-      "behind": "「behind」は『後ろに』を表します。『behind the two trees』だと『2本の木の後ろに立っている』意味になり、『2本の間に』という問題の意味を正しく表せません。",
-      "in front of": "「in front of」は『前に』を表します。『in front of the two trees』だと『2本の木の前に』という意味になり、『間に』という指定された位置を正しく表せません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "c30a150f-adf7-44be-85fc-a88f52749cf3",
-    "unit": "前置詞",
-    "question": "She sat (  ) her friends.",
-    "choices": ["between", "among", "behind", "in front of"],
-    "correct": "among",
-    "explanation": "「among」は3つ以上の中で。",
-    "incorrectExplanations": {
-      "behind": "「behind」は『後ろに』を表します。『behind her friends』だと『友達の後ろに座った』という意味になり、友達の中に混じって座る感じは伝わりません。",
-      "between": "「between」は2つのものの間にいることを表します。『her friends』は友達が3人以上いるイメージなので、『between』だと人数に合わず不自然です。",
-      "in front of": "「in front of」は『前に』を表します。『in front of her friends』だと『友達の前に座った』という意味になり、友達に囲まれて座っているイメージではありません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "a91654c6-8ab3-42a6-a054-81abd1a61cd2",
-    "unit": "前置詞",
-    "question": "The bridge is (  ) the river.",
-    "choices": ["over", "under", "between", "among"],
-    "correct": "over",
-    "explanation": "「over」は上にまたがって。",
-    "incorrectExplanations": {
-      "among": "「among」は3つ以上のものに囲まれている状態を表します。川は1つなので、『among the river』というのは意味が通りません。",
-      "under": "「under」は『下に』を表します。『under the river』だと『川の下に橋がある』という意味になり、川を渡す橋のイメージとは逆になります。",
-      "between": "「between」は2つの物の間にあることを表します。『the river』は1つの川なので『between』を使うと不自然です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "0a986384-59ee-4142-847a-e6c46c3e0605",
-    "unit": "前置詞",
-    "question": "The dog is (  ) the box.",
-    "choices": ["under", "over", "between", "among"],
-    "correct": "under",
-    "explanation": "「under」は下に。",
-    "incorrectExplanations": {
-      "over": "「over」は上に覆うように、またがっていることを表します。『over the box』だと『箱の上に』や『箱を覆っている』イメージになり、『箱の下にいる』という意味は伝えられません。",
-      "among": "「among」は3つ以上のものに囲まれている状態を表します。『the box』が1つなので、『among the box』は意味が通りません。",
-      "between": "「between」は2つの物の間にいることを表します。『the box』は単数なので、『between the box』は文法的に不自然です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "dc5ee401-efa1-4aca-9584-669e52854355",
-    "unit": "前置詞",
-    "question": "He stood (  ) the door.",
-    "choices": ["behind", "in front of", "between", "among"],
-    "correct": "in front of",
-    "explanation": "「in front of」は前に。",
-    "incorrectExplanations": {
-      "among": "「among」は3つ以上のものに囲まれている状態を表します。『the door』が単数なので『among the door』は意味が通りません。",
-      "behind": "「behind」は『後ろに』を表します。『behind the door』だと『ドアの後ろに立った』意味になり、前に立つという問題の意図と逆になってしまいます。",
-      "between": "「between」は2つの物の間にいることを表します。『the door』は1つの物なので、『between the door』は文法的に不自然です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "0cebfec7-196b-44cc-aeed-6cda14ac67f3",
-    "unit": "前置詞",
-    "question": "The school is (  ) the river.",
-    "choices": ["across", "along", "through", "into"],
-    "correct": "across",
-    "explanation": "「across」は向こう側に。",
-    "incorrectExplanations": {
-      "into": "「into」は『〜の中へ入る』を表します。『into the river』だと『川の中へ入る』という意味になり、川をはさんで向こう側に学校があるという意味にはなりません。",
-      "along": "「along」は『〜に沿って』を表します。『along the river』だと『川に沿って学校が建っている』という意味になり、川の向こう側にあるという問題の意図とは違ってしまいます。",
-      "through": "「through」は『〜を通り抜けて』を表します。『through the river』だと『川を通り抜けて』の意味になり、学校が川の向こう側にあるという位置関係を正しく伝えられません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "292bb8d2-8601-4101-b7e3-3444c396924f",
-    "unit": "前置詞",
-    "question": "We ran (  ) the park.",
-    "choices": ["through", "along", "across", "by"],
-    "correct": "through",
-    "explanation": "「through」は中を通り抜ける。",
-    "incorrectExplanations": {
-      "by": "「by」は『〜の近くを』を表します。『by the park』だと『公園のそばを走った』という意味になり、公園の中を通ったという意味にはなりません。",
-      "along": "「along」は『〜に沿って』を表します。『along the park』だと『公園の外側や端に沿って走った』という意味になり、公園の中を通り抜けたイメージではありません。",
-      "across": "「across」は『横切って』を表します。『across the park』だと『公園を一方向に横切る』イメージになりますが、『through』は公園の中を通り抜ける全体的な経路を表します。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "e5fb41bb-bd3a-4063-9e2a-6ba43a0dbdd0",
-    "unit": "前置詞",
-    "question": "They walked (  ) the street.",
-    "choices": ["along", "across", "through", "by"],
-    "correct": "along",
-    "explanation": "「along」は〜に沿って。",
-    "incorrectExplanations": {
-      "by": "「by」は『〜の近くを』を表します。『by the street』だと『道のそばを歩く』という意味になり、道に沿って歩くという問題の意図とは違ってしまいます。",
-      "across": "「across」は『横切って』を表します。『across the street』だと『道を渡って横切る』という意味になり、道に沿って歩くイメージとは異なります。",
-      "through": "「through」は『〜を通り抜けて』を表します。『through the street』だと『道の中を突っ切る』ような不自然なイメージになり、道沿いを歩くことを正しく伝えられません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "b3c62d9a-c657-4751-8685-64c0c40a2c38",
-    "unit": "前置詞",
-    "question": "She came (  ) the house.",
-    "choices": ["out of", "into", "through", "by"],
-    "correct": "out of",
-    "explanation": "「out of」は外へ出る動作。",
-    "incorrectExplanations": {
-      "by": "「by」は『〜のそばを』や『近くを』を表します。『by the house』だと『家のそばを通って』という意味になり、家から出てくる動作は表せません。",
-      "into": "「into」は『中へ入る』を表します。『She came into the house』だと『家に入ってきた』になり、外へ出る動作を表したいこの文とは反対の意味になります。",
-      "through": "「through」は『〜を通り抜けて』を表します。『through the house』だと『家の中を通り抜けて』という意味になり、単に外へ出る動作を表せません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "ff03abb2-79d3-4058-a1f3-89c94b0cf71a",
-    "unit": "前置詞",
-    "question": "He went (  ) the room.",
-    "choices": ["into", "out of", "through", "by"],
-    "correct": "into",
-    "explanation": "「into」は中へ入る動作。",
-    "incorrectExplanations": {
-      "by": "「by」は『〜のそばを』や『〜によって』などの意味があります。『by the room』だと『部屋の近くを』という意味になり、部屋の中に入る動作を表すことはできません。",
-      "out of": "「out of」は『〜の外へ出る』を表します。『out of the room』だと『部屋の外へ出た』意味になり、部屋に入る動作を表す『into』とは逆の意味になります。",
-      "through": "「through」は『〜を通り抜ける』を表します。『through the room』だと『部屋を突っ切って進む』イメージになり、部屋に入るという動作だけを表すことはできません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "44bd8f34-03ca-4d0d-8265-e655eb917551",
-    "unit": "前置詞",
-    "question": "She works (  ) a library.",
-    "choices": ["on", "in", "at", "to"],
-    "correct": "in",
-    "explanation": "「～の中に［で］」広い場所を表す。",
-    "incorrectExplanations": {
-      "at": "「at」は狭い場所や特定の地点を表します。『in』は建物や部屋など広めの空間の中を表すので、『a library』には『in』が自然です。",
-      "on": "「on」は『上に接触している』を表します。建物の中で働くイメージには合いません。",
-      "to": "「to」は『〜へ』という方向を表します。どこで働くかを表すときには使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "7df27d35-9d29-4587-bb8c-449df3b6341d",
-    "unit": "前置詞",
-    "question": "He talked (  ) his trip to Japan.",
-    "choices": ["about", "from", "for", "with"],
-    "correct": "about",
-    "explanation": "「about」は話題・〜について。",
-    "incorrectExplanations": {
-      "for": "「for」は『〜のために』を表します。『〜について話す』には使えません。",
-      "from": "「from」は『〜から』という出発点や出身地を表します。話題を表す『〜について』には使えません。",
-      "with": "「with」は『〜と一緒に』を表します。『talk with』は『誰と話すか』を表し、話題を表す『about』とは意味が異なります。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "22beb010-a68f-43bd-bdfe-5e42b46b5d5a",
-    "unit": "前置詞",
-    "question": "I got a letter (  ) my friend.",
-    "choices": ["from", "for", "by", "about"],
-    "correct": "from",
-    "explanation": "「from」は送信者・出所。",
-    "incorrectExplanations": {
-      "by": "「by」は『〜によって』や手段を表します。『a letter by my friend』だと『友達によって書かれた手紙』という意味になることもありますが、普通は『from』で送信者を表します。",
-      "for": "「for」は『〜のために』を表します。『a letter for my friend』だと『友達宛ての手紙』『友達のための手紙』という意味になり、友達からもらったことは表せません。",
-      "about": "「about」は『〜について』を表します。『a letter about my friend』だと『友達についての手紙』という意味になり、友達からもらったことを表せません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "a0cfea4a-5a45-4cfd-8a7d-68ceb628b6b9",
-    "unit": "前置詞",
-    "question": "「彼は川のそばに住んでいます。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "He lives by the river.",
-    "explanation": "『〜のそばに』はbyを使って表現します。He lives by the river. となります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "56b0832a-2294-409f-b4db-d36832adb719",
-    "unit": "前置詞",
-    "question": "「机の上に本があります。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "There is a book on the desk.",
-    "explanation": "『〜の上に』はonを使います。There is構文で存在を表します。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "66491791-e75a-4990-9c28-10a8d443d148",
-    "unit": "助動詞",
-    "question": "He ( ) play the piano well.",
-    "choices": ["can", "cans", "is", "was"],
-    "correct": "can",
-    "explanation": "能力を表すのでcan。",
-    "incorrectExplanations": {
-      "is": "『is』はbe動詞で、能力を表す意味を持ちません。",
-      "was": "『was』は過去形のbe動詞で、現在の能力を表すときには使えません。",
-      "cans": "助動詞には三単現のsはつきません。常に『can』を使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "a0d629af-c894-4ac9-98ef-fcc84bf2912a",
-    "unit": "助動詞",
-    "question": "You (  ) take an umbrella. It looks like rain.",
-    "choices": ["should", "must to", "can to", "has to"],
-    "correct": "should",
-    "explanation": "'should' は助言や提案を表す助動詞で、文脈に最も合っています。",
-    "incorrectExplanations": {
-      "can to": "『can』にも『to』はつけず、『can + 動詞の原形』が正しい形です。",
-      "has to": "『has to』は三人称単数用なので、『you』には使えません。『you have to』が正しい形です。",
-      "must to": "『must』の後に『to』は不要です。正しくは『must + 動詞の原形』です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "b0568ffa-4432-4667-8a69-e9b0f212fef7",
-    "unit": "助動詞",
-    "question": "We ( ) be late for school.",
-    "choices": ["mustn't", "can't", "should", "will"],
-    "correct": "mustn't",
-    "explanation": "禁止を表すmustn't。",
-    "incorrectExplanations": {
-      "will": "『will』は未来を表す助動詞で、禁止の意味はありません。",
-      "can't": "『can't』は『できない』『不可能』を表し、禁止の意味にはなりません。",
-      "should": "『should』は助言や推奨を表し、強い禁止を伝える『mustn't』とは意味が異なります。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "9e210528-0ec0-4d0e-9900-c969a4037eb2",
-    "unit": "助動詞",
-    "question": "You ( ) open the window.",
-    "choices": ["can", "cans", "could", "will"],
-    "correct": "can",
-    "explanation": "能力・可能を表すcanを使う。",
-    "incorrectExplanations": {
-      "cans": "助動詞に三単現のsはつきません。常に原形の『can』を使います。",
-      "will": "『will』は未来を表す助動詞で、現在の可能や許可を表す『can』とは意味が異なります。",
-      "could": "『could』は『can』の過去形やより丁寧な表現ですが、ここではシンプルな現在の可能を表す『can』が自然です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "8b1a6abf-bd9a-45d2-95dd-874f1425fc78",
-    "unit": "助動詞",
-    "question": "In our school rules, students (  ) bring their ID cards every day.",
-    "choices": ["must", "must to", "have to", "has to"],
-    "correct": "must",
-    "explanation": "'must' は助動詞で、義務やルールを示すときに使います。",
-    "incorrectExplanations": {
-      "has to": "『has to』は三人称単数用ですが、『students』は複数なので使えません。",
-      "have to": "意味は近いですが、ルールや規則を表すときには『must』のほうが強くて自然です。",
-      "must to": "『must』の後に『to』はつけません。正しくは『must + 動詞の原形』です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "f05bce4a-0e30-4d69-8daf-1979d164463e",
-    "unit": "助動詞",
-    "question": "( ) I go to the bathroom?",
-    "choices": ["Can", "Do", "Did", "Am"],
-    "correct": "Can",
-    "explanation": "許可を求める表現ではCanを使う。",
-    "incorrectExplanations": {
-      "Am": "『Am』はbe動詞で、『Can』のように能力や許可を表す助動詞ではありません。",
-      "Do": "『Do I』は一般動詞の現在形疑問文で、許可を求める表現には使えません。",
-      "Did": "『Did』は過去形の疑問文で、現在の許可を聞く文には合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "7fe650e1-fa29-4edc-90f7-518f8fbcb622",
-    "unit": "助動詞",
-    "question": "You ( ) study harder.",
-    "choices": ["should", "shall", "will", "can"],
-    "correct": "should",
-    "explanation": "助言・義務を表すshould。",
-    "incorrectExplanations": {
-      "can": "『can』は能力や可能を表すので、『〜すべき』という助言には使えません。",
-      "will": "『will』は未来の意志を表すため、勧めや助言をする『should』とは使い方が異なります。",
-      "shall": "『shall』は提案や意志を表す場合が多く、『study harder』という助言には不自然です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "c7ddf008-6475-49c4-a46a-008665103715",
-    "unit": "助動詞",
-    "question": "「あなたはここで写真を撮ってもよいです。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "You may take pictures here.",
-    "explanation": "許可を表す助動詞mayを使って、You may take pictures here. になります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "c147cd4e-9660-437e-96b5-1b075c636ddf",
-    "unit": "助動詞",
-    "question": "「あなたはここで静かにしなければなりません。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "You must be quiet here.",
-    "explanation": "義務を表す助動詞mustを使ってYou must be quiet here. になります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
     "id": "5ce7ffec-e40b-4120-9d12-cfa2af1e7b8c",
     "unit": "動名詞",
     "question": "They talked about ( ) to Okinawa.",
@@ -1694,622 +2532,19 @@
     "type": "multiple-choice"
   },
   {
-    "id": "030e2d0e-a97c-42cf-9bd3-d294fef89f81",
-    "unit": "単語テスト",
-    "question": "「来る」を英語で書きなさい。",
-    "choices": [],
-    "correct": "come",
-    "explanation": "『来る』は英語で come です。",
-    "incorrectExplanations": {},
-    "format": "単語・熟語",
-    "type": "input"
-  },
-  {
-    "id": "95f27e98-9309-4a61-9fd3-d16a14c27105",
-    "unit": "単語テスト",
-    "question": "「見る」を英語で書きなさい。",
-    "choices": [],
-    "correct": "see",
-    "explanation": "『見る』の基本形は see です。",
-    "incorrectExplanations": {},
-    "format": "単語・熟語",
-    "type": "input"
-  },
-  {
-    "id": "8c82c0c5-4ab6-429c-98db-8700b94eab61",
-    "unit": "単語テスト",
-    "question": "「読む」を英語で書きなさい。",
-    "choices": [],
-    "correct": "read",
-    "explanation": "『読む』は英語で read（リード）です。",
-    "incorrectExplanations": {},
-    "format": "単語・熟語",
-    "type": "input"
-  },
-  {
-    "id": "c32c0242-7231-4114-9293-5ea45e55042d",
-    "unit": "受動態",
-    "question": "English (  ) in many countries.",
-    "choices": ["speaks", "is speaking", "is spoken", "was spoken"],
-    "correct": "is spoken",
-    "explanation": "現在形の受動態は 'is + 過去分詞'。多くの国で英語が話されている、という意味です。",
+    "id": "3b2a1c4d-5e6f-4789-8a7b-9c0d1e2f3a19",
+    "unit": "動名詞",
+    "question": "I enjoy (  ) to music after dinner.",
+    "choices": ["listening", "to listen", "listen", "listened"],
+    "correct": "listening",
+    "explanation": "enjoy の後ろは動名詞（～すること）。listen to ～ の形に注意。",
     "incorrectExplanations": {
-      "speaks": "『speaks』は能動態で主語が人の場合に使います。ここでは『English（英語）』が話される対象なので受動態が必要です。",
-      "was spoken": "『was spoken』は過去形の受動態で『話された』という過去を表しますが、文は現在形なので時制が合いません。",
-      "is speaking": "『is speaking』は進行形の能動態で『話しているところ』を表します。受動態では『is spoken』を使います。"
+      "to listen": "enjoy は to不定詞を取りません。",
+      "listen": "原形は不可。文法上の目的語が必要です。",
+      "listened": "過去分詞/過去形は不可。ここでは名詞的用法が必要。"
     },
     "format": "適語補充",
     "type": "multiple-choice"
-  },
-  {
-    "id": "84b3e4f3-af6f-469d-a517-2738b43f1e61",
-    "unit": "受動態",
-    "question": "「この歌は多くの国で歌われています。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "This song is sung in many countries.",
-    "explanation": "受動態はbe動詞＋過去分詞を使い、This song is sung in many countries. となります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "77db378d-3932-4dd0-a15e-fdd6a73721b4",
-    "unit": "名詞",
-    "question": "There are many (  ) in the park.",
-    "choices": ["child", "childs", "children", "childrens"],
-    "correct": "children",
-    "explanation": "'children' は 'child' の正しい複数形です。",
-    "incorrectExplanations": {
-      "child": "単数形で、『many』や『are』と一緒に使う複数形には合いません。",
-      "childs": "『child』の複数形は不規則で、『childs』は誤りです。正しくは『children』です。",
-      "childrens": "『children』自体が複数形なので、さらに『s』をつけることはできません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "b2af9a7c-57a3-4ed2-a844-017693c24130",
-    "unit": "代名詞",
-    "question": "(  ) is raining today, so bring an umbrella.",
-    "choices": ["He", "It", "This", "That"],
-    "correct": "It",
-    "explanation": "天候・時間・距離などを表すときには形式主語『It』を使います。",
-    "incorrectExplanations": {
-      "He": "『He』は人を表す代名詞なので天気には使えません。",
-      "This": "『This is raining』は文法的に不自然です。",
-      "That": "『That is raining』では、特定の何かが雨を降らせているような意味になります。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "d3f8cc94-292b-4aa4-9635-5b4a927f63ec",
-    "unit": "代名詞",
-    "question": "Look at (  ). She is my sister.",
-    "choices": ["her", "she", "hers", "herself"],
-    "correct": "her",
-    "explanation": "『look at』の後には目的格の『her』を使います。",
-    "incorrectExplanations": {
-      "she": "『she』は主格なので、動詞の目的語には使えません。",
-      "hers": "『hers』は所有代名詞で、単体で『彼女のもの』という意味になります。",
-      "herself": "『herself』は強調や再帰を表す代名詞で、この文には合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "f13a7d4e-0ee4-497f-87f1-5c5b0e9a2f99",
-    "unit": "代名詞",
-    "question": "(  ) of the students passed the test.",
-    "choices": ["Each", "All", "Every", "Another"],
-    "correct": "All",
-    "explanation": "複数の学生を主語にしているので『All』が適切です。",
-    "incorrectExplanations": {
-      "Each": "『Each』は単数扱いで『Each student』などと使うのが自然です。",
-      "Every": "『Every』も単数扱いで『Every student』の形を取ります。",
-      "Another": "『Another』は『もう一つ（1人・1つ）』なので文の意味と合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "df5982b0-bc36-49e6-b8f4-2f8978f65c36",
-    "unit": "代名詞",
-    "question": "Ken hurt (  ) while playing soccer.",
-    "choices": ["him", "himself", "his", "he"],
-    "correct": "himself",
-    "explanation": "主語Kenと目的語が同一人物なので『himself』という再帰代名詞を使います。",
-    "incorrectExplanations": {
-      "him": "『him』だと第三者を指してしまい、『Ken自身』ではなくなってしまいます。",
-      "his": "『his』は所有格でこの文には不適切です。",
-      "he": "『he』は主格で目的語には使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "cac20669-dc11-4b5e-a364-9e79eb5e490a",
-    "unit": "代名詞",
-    "question": "(  ) is my pen. That one is yours.",
-    "choices": ["These", "This", "They", "Their"],
-    "correct": "This",
-    "explanation": "目の前にある単数の物を指す場合は『This』を使います。",
-    "incorrectExplanations": {
-      "These": "『These』は複数形を指すため、単数のペンには使えません。",
-      "They": "『They』も複数を指します。",
-      "Their": "『Their』は所有格で、『彼らの』という意味になります。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "e68fa2b5-c8c9-48ff-b1c1-9873514c5b18",
-    "unit": "代名詞",
-    "question": "Do you know (  ) name?",
-    "choices": ["he", "his", "him", "he's"],
-    "correct": "his",
-    "explanation": "『his name』という形で、所有格『his』を使います。",
-    "incorrectExplanations": {
-      "he": "『he name』という表現は不自然で文法的に間違いです。",
-      "him": "『him name』も文法的に不正です。目的格では所有を表せません。",
-      "he's": "『he's』は『he is』または『he has』の短縮形で、ここでは意味が通じません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "abc3fa10-0e14-4a6e-b7e1-3c55f65f1de4",
-    "unit": "代名詞",
-    "question": "(  ) is in the box, but I don't know what it is.",
-    "choices": ["Something", "Anything", "Nothing", "Everything"],
-    "correct": "Something",
-    "explanation": "肯定文なので『something』が正解です。『何かが』入っているという意味。",
-    "incorrectExplanations": {
-      "Anything": "『anything』は主に疑問文や否定文で使います。",
-      "Nothing": "『nothing』は『何もない』という否定の意味なので文意に合いません。",
-      "Everything": "『everything』は『すべて』という意味で、漠然とした何かを指す文とは異なります。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "e1942a47-7b6e-4d71-a20c-38b776db24b7",
-    "unit": "代名詞",
-    "question": "I didn’t see (  ) at the park yesterday.",
-    "choices": ["someone", "anyone", "everyone", "no one"],
-    "correct": "anyone",
-    "explanation": "否定文で『誰も〜ない』を表すときは『anyone』を使います。",
-    "incorrectExplanations": {
-      "someone": "『someone』は肯定文で使うのが基本です。",
-      "everyone": "『everyone』は『みんな』で意味が逆になります。",
-      "no one": "『didn't』と『no one』を一緒に使うと二重否定になってしまいます。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "6d6db622-7c02-4639-99e0-6c86df90f1fb",
-    "unit": "代名詞",
-    "question": "(  ) knows the answer to this question.",
-    "choices": ["Everyone", "Someone", "Anyone", "No one"],
-    "correct": "Everyone",
-    "explanation": "『everyone』は『みんな』という意味で、この文に合います。",
-    "incorrectExplanations": {
-      "Someone": "『someone』だと『誰かが』という意味で、全員に言及していません。",
-      "Anyone": "『anyone』は疑問文や否定文で使うのが自然です。",
-      "No one": "『no one』は『誰も〜ない』という否定の意味で、文意に合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "98e0f697-57e4-4624-9e44-21f345f27671",
-    "unit": "代名詞",
-    "question": "(  ) in the room was silent.",
-    "choices": ["Everybody", "Someone", "Anybody", "Nobody"],
-    "correct": "Everybody",
-    "explanation": "『everybody』は『全員』を指すため、複数人が静かだったという文脈に合います。",
-    "incorrectExplanations": {
-      "Someone": "『誰か』なので、1人だけ静かだったように感じられ、文の意味と合いません。",
-      "Anybody": "肯定文では『anybody』は不自然で、通常疑問文や否定文で使います。",
-      "Nobody": "『nobody』だと『誰もいなかった』という否定の意味になります。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "a3be3939-9de1-4f77-9b78-96440b1e87b4",
-    "unit": "代名詞",
-    "question": "There is (  ) wrong with this machine.",
-    "choices": ["something", "anything", "nothing", "everything"],
-    "correct": "something",
-    "explanation": "『何か問題がある』＝『something wrong』が自然な表現です。",
-    "incorrectExplanations": {
-      "anything": "『anything wrong』は主に疑問文や否定文で使います。",
-      "nothing": "『nothing wrong』だと『問題は何もない』という意味になります。",
-      "everything": "『everything wrong』は『すべて間違っている』という強すぎる意味になります。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "1c1a23e2-51cf-4329-a962-9b3c29b73ae7",
-    "unit": "代名詞",
-    "question": "I have two pens. One is black, and (  ) is red.",
-    "choices": ["other", "the other", "another", "others"],
-    "correct": "the other",
-    "explanation": "2つのうちの残りの1つを指すので『the other』が正解です。",
-    "incorrectExplanations": {
-      "other": "『other』だけでは名詞が必要で、ここでは単独で使われているので不適切です。",
-      "another": "『another』は『もう1つ（他に）』の意味ですが、2つのうちの残りには使いません。",
-      "others": "『others』は複数の残りを指すので、ここでは合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "ba0b48b1-befe-4c49-83a1-7816c0101ce1",
-    "unit": "代名詞",
-    "question": "Some students are reading books. (  ) are playing soccer.",
-    "choices": ["Others", "The other", "Another", "Other"],
-    "correct": "Others",
-    "explanation": "『others』は『他の人たち』という意味で複数形に合います。",
-    "incorrectExplanations": {
-      "The other": "『the other』は単数扱いなので複数の『students』には合いません。",
-      "Another": "『another』は単数形なので複数の人を指す文に合いません。",
-      "Other": "『other』は形容詞で名詞が必要です。単独では使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "cbcd5be7-dc3a-4e7f-84a6-d6cb2053544b",
-    "unit": "代名詞",
-    "question": "This cake is delicious. I want (  ) one.",
-    "choices": ["another", "the other", "others", "other"],
-    "correct": "another",
-    "explanation": "『another』は『もう1つの』という意味で、数えられる単数に使われます。",
-    "incorrectExplanations": {
-      "the other": "『the other』はすでに存在が特定されているものに使いますが、この文では不特定です。",
-      "others": "『others』は複数形なので『one』には合いません。",
-      "other": "『other』は単独では使えず、名詞が必要です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "56863cc6-8b8c-4076-89d6-cccfa0a963b0",
-    "unit": "代名詞",
-    "question": "I don’t like this shirt. Do you have (  ) color?",
-    "choices": ["another", "other", "the other", "others"],
-    "correct": "another",
-    "explanation": "『another』は『別の1つ』という意味で、可算名詞の単数に使います。",
-    "incorrectExplanations": {
-      "other": "『other』は名詞と一緒に使う形容詞ですが、ここでは『another』がより自然です。",
-      "the other": "『the other』は特定のもう1つを指すときに使いますが、ここでは不特定の別の色です。",
-      "others": "『others』は複数形で、この文では単数が適切です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "2a8745f1-05e4-4604-bb69-71c07ccf9dd9",
-    "unit": "代名詞",
-    "question": "We visited one temple today. We'll visit (  ) temples tomorrow.",
-    "choices": ["other", "others", "the other", "another"],
-    "correct": "other",
-    "explanation": "『other temples』のように名詞が続くときは形容詞の『other』が正解です。",
-    "incorrectExplanations": {
-      "others": "『others』は名詞なしで使う代名詞なので『temples』とは一緒に使えません。",
-      "the other": "『the other temples』とすると特定の残りを指しますが、ここでは不特定の複数です。",
-      "another": "『another』は単数の名詞にしか使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "b17ed4c5-5e50-460b-a115-c1b2c51992e0",
-    "unit": "命令文",
-    "question": "「ドアを閉めなさい。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "Close the door.",
-    "explanation": "命令文は動詞の原形で始めて、Close the door. となります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "06c507d1-5964-4700-afab-82bb433773d1",
-    "unit": "命令文",
-    "question": "「静かにしなさい。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "Be quiet.",
-    "explanation": "命令文は動詞の原形で始める。quietは形容詞なのでbe動詞をつかう。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "2dd1e832-46fd-4f92-80ec-11bd13370870",
-    "unit": "形容詞",
-    "question": "This is a (  ) story.",
-    "choices": ["interest", "interested", "interesting", "interests"],
-    "correct": "interesting",
-    "explanation": "'story' は人ではないので、性質を表す 'interesting' を使います。",
-    "incorrectExplanations": {
-      "interest": "『interest』は名詞で、形容詞として使うには『interesting』が必要です。",
-      "interests": "これは名詞の複数形や動詞の三単現形で、形容詞としては使えません。",
-      "interested": "『interested』は人の感情を表します。物や話の性質を説明するときは『interesting』を使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "38fcf014-5e08-4115-8b0c-ef009d1a0371",
-    "unit": "感嘆文",
-    "question": "「なんて美しい花なんでしょう！」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "What a beautiful flower!",
-    "explanation": "感嘆文はWhat + a + 形容詞 + 名詞の形を使います。How beautiful flower! ではなくWhatを使う。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "599d6ab8-a48d-408c-a95b-2b2d9d780b00",
-    "unit": "感嘆文",
-    "question": "「なんて大きい犬なんだ！」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "What a big dog!",
-    "explanation": "感嘆文ではWhat a + 形容詞 + 名詞を使います。How big dog! は誤り。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "6618e127-ffad-4f5e-ae2c-86af072057e5",
-    "unit": "接続詞",
-    "question": "I stayed home (  ) it was raining.",
-    "choices": ["and", "but", "because", "or"],
-    "correct": "because",
-    "explanation": "理由を表す接続詞は 'because'。雨が降っていたから家にいた、という因果関係を表す。",
-    "incorrectExplanations": {
-      "or": "『or』は選択肢を示す接続詞で、理由を表す文には不適切です。",
-      "and": "『and』は内容を単純に並べる接続詞で、理由を表すことはできません。",
-      "but": "『but』は逆接を表す接続詞で、原因と結果をつなぐときには使いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "62b0efd5-2ca6-4e45-84eb-3aaaea75e31a",
-    "unit": "接続詞",
-    "question": "She is small ( ) she is strong.",
-    "choices": ["but", "and", "because", "while"],
-    "correct": "but",
-    "explanation": "逆接を表すのでbutを使う。",
-    "incorrectExplanations": {
-      "and": "「and」は同じ性質のものを並べて追加する接続詞です。この文は『小さいけれど強い』と逆の内容をつなぐので使えません。",
-      "while": "「while」は『〜する間に』や対比を表しますが、この文のように正反対の性質をはっきり対立させるときは『but』を使います。",
-      "because": "「because」は理由を表す接続詞で、『なぜ強いのか』を説明する形になります。逆接には使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "45c723cd-3f6c-419e-ae41-28af18785265",
-    "unit": "接続詞",
-    "question": "I like dogs ( ) cats.",
-    "choices": ["and", "but", "because", "while"],
-    "correct": "and",
-    "explanation": "並列を表すときはandを使う。",
-    "incorrectExplanations": {
-      "but": "『but』は逆の意味をつなげる接続詞で、『犬も猫も好き』という並列には使えません。",
-      "while": "『while』は『〜する間』や対比を表す接続詞で、単純に好きなものを並べるときには使えません。",
-      "because": "『because』は理由を説明する接続詞で、『犬と猫』を並べる意味にはなりません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "ac3dc3bd-73a2-4361-86cb-a25523557614",
-    "unit": "接続詞",
-    "question": "He was sick ( ) he went to the hospital.",
-    "choices": ["so", "because", "but", "when"],
-    "correct": "so",
-    "explanation": "結果を表すのでsoを使う。",
-    "incorrectExplanations": {
-      "but": "『but』は逆接を表す接続詞で、結果を示すときには使えません。",
-      "when": "『when』は時間を表す接続詞で、『だから』という結果を示す『so』とは意味が違います。",
-      "because": "『because』は理由を表しますが、この文では『病気だったので病院へ行った』という結果を言いたいので合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "5261cffe-9107-4835-961c-46a3c4755410",
-    "unit": "接続詞",
-    "question": "I went to bed ( ) I was very tired.",
-    "choices": ["so", "because", "but", "and"],
-    "correct": "because",
-    "explanation": "理由を表すのでbecauseを使う。",
-    "incorrectExplanations": {
-      "so": "『so』は『だから』という結果を表し、理由を説明する『because』とは逆の関係です。",
-      "and": "『and』は単に情報を並べる接続詞で、理由を説明することはできません。",
-      "but": "『but』は逆接を表し、理由を表す文には使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "7b7f53f9-a2cd-4138-99d0-be4f975a343e",
-    "unit": "接続詞",
-    "question": "I was watching TV ( ) my mother was cooking.",
-    "choices": ["and", "but", "because", "while"],
-    "correct": "while",
-    "explanation": "同時進行を表すときはwhileを使う。",
-    "incorrectExplanations": {
-      "and": "『and』はただ出来事を並べるだけで、同時進行を強調することはできません。",
-      "but": "『but』は逆接を表す接続詞で、同時に起こることを表せません。",
-      "because": "『because』は理由を表す接続詞で、同時進行の意味にはなりません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "15369649-ceca-4f47-8817-203f7e8f9390",
-    "unit": "接続詞",
-    "question": "I will call you (  ) I get home.",
-    "choices": ["if", "when", "because", "so"],
-    "correct": "when",
-    "explanation": "'get home' は確実に起こる未来の出来事なので 'when' が自然です。",
-    "incorrectExplanations": {
-      "if": "『if』は『もし〜なら』という不確実な条件を表します。ここは帰宅が確実なので『when』が自然です。",
-      "so": "『so』は結果を表す接続詞で、『〜するとき』を表す文には使えません。",
-      "because": "『because』は理由を表しますが、この文はタイミングを伝えるので合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "6af7f3cb-d503-4118-ab7a-b8cd79b2e4ed",
-    "unit": "接続詞",
-    "question": "「私は雨が降っていたので家にいました。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "I stayed home because it was raining.",
-    "explanation": "理由を表す接続詞 because を使い、『because it was raining』で『雨が降っていたので』を表現します。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "8486949c-3b31-4bc4-af3c-bac18b5861b4",
-    "unit": "接続詞",
-    "question": "「私は空腹だったので昼ご飯を食べました。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": [
-      "I ate lunch because I was hungry.",
-      "I had lunch because I was hungry."
-    ],
-    "explanation": "理由を表す接続詞becauseを使い、because I was hungryと続けます。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "6fbc8289-8fda-4227-891f-25ae93613413",
-    "unit": "未来形",
-    "question": "They ( ) go camping tomorrow.",
-    "choices": ["will", "is", "are", "was"],
-    "correct": "will",
-    "explanation": "未来の予定を表すのでwill。",
-    "incorrectExplanations": {
-      "is": "現在形のbe動詞で、『they』の未来を表すには『will』が必要です。",
-      "are": "現在形で、未来の予定を表すには使えません。『will』を使います。",
-      "was": "過去形で、未来を表す文には使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "778742ad-5eca-446c-a099-7ba95f8b7f9e",
-    "unit": "未来形",
-    "question": "You ( ) be busy tomorrow.",
-    "choices": ["will", "am", "is", "was"],
-    "correct": "will",
-    "explanation": "未来を表すのでwill。",
-    "incorrectExplanations": {
-      "am": "『am』は現在形のbe動詞で、未来を表すには『will』が必要です。",
-      "is": "『is』も現在形で、未来を言いたいときには使えません。",
-      "was": "『was』は過去形で、未来を表すことはできません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "ec0c0c08-89e8-45bc-8c35-5a7c66f0986a",
-    "unit": "未来形",
-    "question": "We ( ) have a meeting next Monday.",
-    "choices": ["will", "has", "had", "having"],
-    "correct": "will",
-    "explanation": "未来を表すのでwillを使う。",
-    "incorrectExplanations": {
-      "had": "『had』は過去形で、未来の予定を表すときには使えません。",
-      "has": "『has』は三単現の現在形で、未来を表すことはできません。",
-      "having": "『having』は動名詞で、『will』のように未来を表す助動詞が必要です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "e7b328c6-ea74-4c68-a6f5-1da1608d1da4",
-    "unit": "未来形",
-    "question": "She ( ) study English tonight.",
-    "choices": ["will", "does", "did", "doing"],
-    "correct": "will",
-    "explanation": "未来を表すのでwillを使う。",
-    "incorrectExplanations": {
-      "did": "『did』は過去形で、未来のことを話すときには使えません。",
-      "does": "『does』は現在形の三人称単数で、未来の予定を表すことはできません。",
-      "doing": "『doing』は進行形や動名詞で、未来の助動詞『will』とは形が合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "062f5982-b1a7-43f7-a4df-12955e5e8a09",
-    "unit": "未来形",
-    "question": "She (  ) visit her grandma next week.",
-    "choices": ["will", "is", "was", "are"],
-    "correct": "will",
-    "explanation": "未来の予定には 'will＋動詞の原形' を使います。",
-    "incorrectExplanations": {
-      "is": "現在形のbe動詞だけでは未来を表すことはできません。『will』が必要です。",
-      "are": "主語が『she』なので『are』は文法的に合いません。",
-      "was": "過去形で、未来の予定を表す文には使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "a18d70c9-530d-4167-a2a0-e9f7e218a6b2",
-    "unit": "未来形",
-    "question": "I ( ) visit my grandmother next week.",
-    "choices": ["will", "am", "was", "were"],
-    "correct": "will",
-    "explanation": "未来の予定を表すのでwill。",
-    "incorrectExplanations": {
-      "am": "現在形のbe動詞で、未来の予定を表すには『will』が必要です。",
-      "was": "過去形で、未来を表す予定には使えません。",
-      "were": "過去形のbe動詞で、『I』の未来の予定には合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "fed12573-ebd3-4f57-830f-b04d9366bf6c",
-    "unit": "未来形",
-    "question": "「私は明日友達に会うつもりです。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": [
-      "I will meet my friend tomorrow.",
-      "I am going to meet my friend tomorrow."
-    ],
-    "explanation": "未来を表すtomorrowがあるのでwillを使ってI will meet my friend tomorrow. となります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "be2795ad-7b9e-493e-9232-859aa07b782a",
-    "unit": "条件文",
-    "question": "「もし雨が降ったら、私は家にいるでしょう。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "If it rains, I will stay home.",
-    "explanation": "条件を表すif節では、未来のことでも現在形を使います。これは「まだ起こるか分からない条件」を表すためです。例えば 'If it rains, I will stay home.' が正しい形です。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
   },
   {
     "id": "db44c070-3ec3-4244-b9f2-ab7a345000de",
@@ -2511,6 +2746,173 @@
     "type": "input"
   },
   {
+    "id": "2e7b3a10-9d5c-4f6a-8b2e-1c3d5e7f9a42",
+    "unit": "比較",
+    "question": "Mt. Fuji is (  ) mountain in Japan.",
+    "choices": ["the highest", "highest", "most high", "the most high"],
+    "correct": "the highest",
+    "explanation": "最上級は原則 the + 最上級。『日本で最も高い山』＝ the highest。",
+    "incorrectExplanations": {
+      "highest": "the が必要です（可算名詞の単数）。",
+      "most high": "形容詞 high は ‘the highest’ を使います。",
+      "the most high": "high の最上級は ‘the highest’。語形成が誤り。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "7ff5e97c-7ac3-4283-9223-729fab45894a",
+    "unit": "付加疑問文",
+    "question": "You’re from Tokyo, (  )?",
+    "choices": ["aren’t you", "don’t you", "are you", "isn't it"],
+    "correct": "aren’t you",
+    "explanation": "肯定文のあとには否定の疑問タグをつけます。'You are' に対して 'aren’t you?' が適切です。",
+    "incorrectExplanations": {
+      "are you": "肯定文には否定のタグをつけるのがルールです。『You’re』が肯定なので『aren’t you』にする必要があります。",
+      "isn't it": "主語が『you』なのに『it』を使うのは不一致です。代名詞は主語に合わせて『you』を使います。",
+      "don’t you": "文が『You are』なので、動詞はbe動詞です。『don’t』は一般動詞に使う形なので間違いです。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "a2e4b9c7-81f5-44db-8d7c-92b13a4f34c9",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは学生ですよね。\n( are / a / student / you / , / aren’t / you ).",
+    "choices": [],
+    "correct": "You are a student, aren’t you?",
+    "explanation": "基本形：肯定文＋否定のタグ。『You are a student, aren’t you?』で『あなたは学生ですよね』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b4f7e6a3-52c9-4d26-9b9f-1e56c92b4e52",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼は昨日忙しくなかったですよね。\n( wasn’t / yesterday / he / busy / , / was / he ).",
+    "choices": [],
+    "correct": "He wasn’t busy yesterday, was he?",
+    "explanation": "否定文＋肯定のタグの形。『wasn’t ～, was he?』が自然な構造です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c6b3f8a1-9e4a-4a3b-93f5-4b09b9d832db",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女はピアノを弾くのが上手ですよね。\n( plays / she / well / the / piano / , / doesn’t / she ).",
+    "choices": [],
+    "correct": "She plays the piano well, doesn’t she?",
+    "explanation": "一般動詞のときは助動詞『do』を使ってタグを作ります。『doesn’t she?』が正しい形です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d9f1e5b8-54f1-45ab-b73a-6b5c6e1cf0d2",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこの本は面白いですよね。\n( this / , / interesting / book / is / isn’t / it ).",
+    "choices": [],
+    "correct": "This book is interesting, isn’t it?",
+    "explanation": "be動詞の肯定文＋否定タグのパターン。主語が『this book』なのでタグは『it』になります。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e8c9f3a2-2b5e-4983-bd7f-85fa3a7b943d",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nドアを閉めてくれますね。（命令文＋付加疑問）\n( the / door / , / will / shut / you ).",
+    "choices": [],
+    "correct": "Shut the door, will you?",
+    "explanation": "命令文＋付加疑問は『will you?』で依頼の意味になります。『won’t you?』だと少し丁寧な響きになります。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "a3e2b9d7-5c72-4b81-9b8a-1b3a43cfe2e7",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はほとんど外出しませんよね。\n( goes / he / , / hardly / does / he / out).",
+    "choices": [],
+    "correct": "He hardly goes out, does he?",
+    "explanation": "『hardly（ほとんど～ない）』は否定の意味を含むため、タグは肯定形になります。『does he?』が正解。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b5f1d8e6-6a83-4e2e-9a34-3c5d90a3b7e1",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n誰もそのことを知らないですよね。\n( knows / , / do / no / one / they / it).",
+    "choices": [],
+    "correct": "No one knows it, do they?",
+    "explanation": "『no one』『nobody』は否定の意味を含むため、タグは肯定（do they?）になります。主語は『they』で受けるのが自然です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c8b7f2a9-2d13-4a8f-9b9c-1a54dce2e6b0",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの人はあなたのお父さんですよね。\n( that / your / , / is / father / he / isn’t ).",
+    "choices": [],
+    "correct": "That is your father, isn’t he?",
+    "explanation": "『That’s ～』のタグは『isn’t it?』ではなく、主語が『he』の場合は『isn’t he?』になります。意味上の主語で一致させます。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d2a5c7f4-4b19-4c3b-8e6c-8a3a72b9e0e8",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nみんなパーティーに来るんですよね。\n( everyone / , / will / won’t / come / they ).",
+    "choices": [],
+    "correct": "Everyone will come, won’t they?",
+    "explanation": "『everyone（みんな）』は単数扱いだが、タグでは慣例的に『they』で受けます。『won’t they?』が正しい形です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e6d9b1a5-48b2-4c4d-9a45-67b1e83d9cf7",
+    "unit": "付加疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）に１語を補って並べ替えなさい。\nもうそろそろ出発しましょうか。\n( , / shall / go / we / now ).",
+    "choices": [],
+    "correct": "Let’s go now, shall we?",
+    "explanation": "『Let’s ～, shall we?』は提案を柔らかくする付加疑問。『will we?』ではなく『shall we?』が決まり文句です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+
+  {
+    "id": "c32c0242-7231-4114-9293-5ea45e55042d",
+    "unit": "受動態",
+    "question": "English (  ) in many countries.",
+    "choices": ["speaks", "is speaking", "is spoken", "was spoken"],
+    "correct": "is spoken",
+    "explanation": "現在形の受動態は 'is + 過去分詞'。多くの国で英語が話されている、という意味です。",
+    "incorrectExplanations": {
+      "speaks": "『speaks』は能動態で主語が人の場合に使います。ここでは『English（英語）』が話される対象なので受動態が必要です。",
+      "was spoken": "『was spoken』は過去形の受動態で『話された』という過去を表しますが、文は現在形なので時制が合いません。",
+      "is speaking": "『is speaking』は進行形の能動態で『話しているところ』を表します。受動態では『is spoken』を使います。"
+    },
+    "format": "適語補充",
+    "type": "multiple-choice"
+  },
+  {
+    "id": "84b3e4f3-af6f-469d-a517-2738b43f1e61",
+    "unit": "受動態",
+    "question": "「この歌は多くの国で歌われています。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "This song is sung in many countries.",
+    "explanation": "受動態はbe動詞＋過去分詞を使い、This song is sung in many countries. となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
     "id": "6fa6caf1-2b22-41d2-a817-5e4171a1f5fb",
     "unit": "現在完了",
     "question": "「彼はロンドンに3回行ったことがあります。」を英語に訳しなさい。",
@@ -2614,437 +3016,517 @@
     "type": "input"
   },
   {
-    "id": "36821373-e817-452b-9589-ad7446c684db",
-    "unit": "現在形",
-    "question": "She ( ) TV after dinner.",
-    "choices": ["watch", "watches", "watching", "watched"],
-    "correct": "watches",
-    "explanation": "三単現のsを忘れずにwatches。",
+    "id": "a1f7c3d6-5b2e-4d3a-9c71-2b8f5e7d9a10",
+    "unit": "現在完了",
+    "question": "I (  ) in Tokyo since 2020.",
+    "choices": ["have lived", "lived", "am living", "have been lived"],
+    "correct": "have lived",
+    "explanation": "「since 2020」は過去のある時点からの継続 ⇒ 現在完了（have/has + 過去分詞）。",
     "incorrectExplanations": {
-      "watch": "『she』は三人称単数なので、『watches』とsをつける必要があります。",
-      "watched": "過去形で、現在の習慣を表す文には使えません。",
-      "watching": "進行形や動名詞の形で、現在の習慣を表す動詞の形には使えません。"
+      "lived": "過去形。『2020年から今まで』の継続を表せません。",
+      "am living": "進行形は『今この瞬間』の動作のイメージ。継続期間を示すと不自然。",
+      "have been lived": "受動態＋現在完了は不可。主語が『住まされている』の意味になってしまいます。"
     },
     "format": "適語補充",
     "type": "multiple-choice"
   },
   {
-    "id": "d3820037-81c0-4912-86a0-8956c5896168",
-    "unit": "現在形",
-    "question": "They always ( ) to school on foot.",
-    "choices": ["walk", "walks", "walking", "walked"],
-    "correct": "walk",
-    "explanation": "主語が複数形theyなので動詞は原形walk。",
+    "id": "5c2e9d3b-6a41-4f8f-8b2d-7e4a3c5b9d21",
+    "unit": "現在完了",
+    "question": "Ken has (  ) to Canada. He isn't here now.",
+    "choices": ["gone", "been", "went", "go"],
+    "correct": "gone",
+    "explanation": "has gone to… は『行ってしまって今ここにいない』。文末の “isn't here now” と一致。",
     "incorrectExplanations": {
-      "walks": "『they』は複数主語なので三単現のsは不要です。",
-      "walked": "過去形で、現在の習慣を表す文には合いません。",
-      "walking": "現在分詞や進行形の形で、習慣を表す現在形には使えません。"
+      "been": "has been to… は『行ったことがある（経験）』。今いないことは示しません。",
+      "went": "現在完了ではなく過去形。現在とのつながりが切れます。",
+      "go": "原形は不可。時制・文法が合いません。"
     },
     "format": "適語補充",
     "type": "multiple-choice"
   },
   {
-    "id": "c6669902-f974-4049-86cc-98e51eb01c0e",
-    "unit": "現在形",
-    "question": "He ( ) soccer every Sunday.",
-    "choices": ["play", "plays", "playing", "played"],
-    "correct": "plays",
-    "explanation": "三人称単数現在形なのでsをつけてplays。",
+    "id": "471c7999-4889-4c99-9464-2a141109263c",
+    "unit": "間接疑問文",
+    "question": "I don’t know (  ) she is coming to the party.",
+    "choices": ["when", "is", "does", "whether"],
+    "correct": "whether",
+    "explanation": "間接疑問文では 'if' や 'whether' を使って「〜かどうか」を表します。この文では 'whether' が適切です。",
     "incorrectExplanations": {
-      "play": "『he』は三人称単数なので、『plays』のようにsをつける必要があります。",
-      "played": "過去形で、現在の習慣を表すには使えません。",
-      "playing": "進行形や動名詞の形で、現在の習慣を表す動詞の形としては使えません。"
+      "is": "『is she coming』のような疑問文の語順をそのまま入れるのは間接疑問文では間違いです。正しくは『whether she is coming』のように平叙文の語順になります。",
+      "does": "『does』は現在形の一般動詞の疑問文で使いますが、『she is coming』のような進行形には不要で不適切です。",
+      "when": "『when』は『いつ』を表す疑問詞で、『〜かどうか』を尋ねる意味には使えません。"
     },
     "format": "適語補充",
     "type": "multiple-choice"
   },
   {
-    "id": "e4b2d539-3efe-4f88-b46c-094c322245e4",
-    "unit": "現在形",
-    "question": "My father ( ) up early every day.",
-    "choices": ["get", "gets", "getting", "got"],
-    "correct": "gets",
-    "explanation": "三人称単数現在形でsをつける。",
+    "id": "1e77864d-88b8-40c7-b568-25b09d5360b1",
+    "unit": "間接疑問文",
+    "question": "「彼がどこに住んでいるのか知っていますか。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "Do you know where he lives?",
+    "explanation": "間接疑問文では疑問詞+平叙文の語順にして、Do you know where he lives? となります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "7e3a5c1b-9d2f-4a6d-8c7b-1f2e3d4c5b75",
+    "unit": "間接疑問文",
+    "question": "Do you know where (  )?",
+    "choices": ["she lives", "does she live", "she live", "does she lives"],
+    "correct": "she lives",
+    "explanation": "間接疑問は平叙文語順（主語＋動詞）。Do/Does を倒置しません。",
     "incorrectExplanations": {
-      "get": "『my father』は三人称単数なので、『gets』の形が必要です。",
-      "got": "過去形で、現在の習慣を表すには使えません。",
-      "getting": "現在分詞や進行形の形で、現在形の習慣を表す文には使えません。"
+      "does she live": "直接疑問の語順。間接疑問では×。",
+      "she live": "現在形の三単現。live → lives が必要。",
+      "does she lives": "助動詞 does の後は動詞原形。二重の誤り。"
     },
     "format": "適語補充",
     "type": "multiple-choice"
   },
   {
-    "id": "e59d6bef-6927-4825-b09c-70d98bb22174",
-    "unit": "現在形",
-    "question": "I ( ) lunch at noon.",
-    "choices": ["have", "has", "having", "had"],
-    "correct": "have",
-    "explanation": "主語がIなのでhaveを使う。",
+    "id": "a1f8d9c2-83d7-4d79-8f05-8b27d79f5a91",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がどこに住んでいるか知っていますか。\n( know / lives / he / do / where ).",
+    "choices": [],
+    "correct": "Do you know where he lives?",
+    "explanation": "間接疑問文では語順が平叙文型になります。『Do you know where he lives?』で『彼がどこに住んでいるか知っていますか？』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b3e7a8f6-72a1-4c0e-8e90-9b98a0d3b7d0",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n先生は私に何をすべきか教えてくれました。\n( me / to / told / teacher / what / the / do ).",
+    "choices": [],
+    "correct": "The teacher told me what to do.",
+    "explanation": "『疑問詞＋to不定詞』で『何をすべきか』を表す。『tell 人 what to do』＝『人に何をすべきか教える』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c6b9f2e8-58a1-45ab-a3c1-72915e1c9e9b",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はなぜ彼が怒っているのか知りたいです。\n( angry / is / he / know / why / to / want / I ).",
+    "choices": [],
+    "correct": "I want to know why he is angry.",
+    "explanation": "『want to know＋間接疑問』で『なぜ～なのか知りたい』。間接疑問では『why he is angry』のように疑問文語順にしない点に注意。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d9c3b6f5-88df-4fb7-b9c8-18b4e403a58c",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がその問題を解けると思いますか。\n( can / that / he / do / think / you / it ).",
+    "choices": [],
+    "correct": "Do you think that he can do it?",
+    "explanation": "『Do you think that～？』は間接疑問ではなく、主節の中に疑問を埋め込む構文。『that』は省略も可だが、正式には残すのが自然。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e7f2a1d9-31b8-4de3-a9b1-47d43e5d97a3",
+    "unit": "間接疑問文",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は彼女がいつ帰ってくるのか分かりません。\n( will / she / when / come / know / don’t / I / back ).",
+    "choices": [],
+    "correct": "I don’t know when she will come back.",
+    "explanation": "『I don’t know＋間接疑問』の形。疑問詞の後は平叙文語順『when she will come back』にします。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "810c1be9-6308-4b01-be46-2d5861156c73",
+    "unit": "分詞",
+    "question": "「あそこで走っている少年はケンです。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": [
+      "The boy running over there is Ken.",
+      "The boy who is running over there is Ken."
+    ],
+    "explanation": "現在分詞runningを使って『走っている少年』を表現します。関係代名詞whoを使ってもよい。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "288b05ab-f250-4ecb-8a8c-963f5beae518",
+    "unit": "分詞",
+    "question": "「あそこで泣いている赤ちゃんは私の妹です。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": [
+      "The baby crying over there is my sister.",
+      "The baby who is crying over there is my sister."
+    ],
+    "explanation": "『泣いている赤ちゃん』は分詞１語で修飾する場合は「the crying baby」となりますが、『あそこで泣いている赤ちゃん』と２語以上の場合は「the baby crying over there」と後置修飾となる。関係代名詞whoを使ってもよい。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "46443c52-1dfb-4e8f-9f86-14a66d171aa8",
+    "unit": "分詞",
+    "question": "「壁に描かれた絵は美しいです。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "The picture painted on the wall is beautiful.",
+    "explanation": "過去分詞paintedを使い『描かれた』を表現します。描く人が主語ではない点に注意。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "a2c8e5b1-0b8a-4ef5-9b4a-8a1cdd9ad0f2",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあそこで歌っている少女は私の妹です。\n( is / the / girl / there / my / singing / sister ).",
+    "choices": [],
+    "correct": "The girl singing there is my sister.",
+    "explanation": "『the girl singing there』で『あそこで歌っている少女』を表します。現在分詞が名詞を修飾する形容詞的用法です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b4e6da7f-3f14-45c1-b727-394e7e7d92a5",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n日本で作られた車はとても人気があります。\n( in / made / are / cars / popular / Japan / very ).",
+    "choices": [],
+    "correct": "Cars made in Japan are very popular.",
+    "explanation": "『cars made in Japan』で『日本で作られた車』。過去分詞が名詞を修飾する形容詞的用法です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c3f4b65e-67a1-4c0a-829f-5f1b5e4a3b8b",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nその知らせを聞いて彼女は驚きました。\n( was / news / she / the / by / surprised ).",
+    "choices": [],
+    "correct": "She was surprised by the news.",
+    "explanation": "『be surprised by ～』で『～に驚く』。感情を表す形容詞（過去分詞形）で、原因を表す前置詞には『by』を使います。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d5b8e13f-62c7-44e0-8579-0b2e2dfb87f9",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n笑っているその少年を知っていますか。\n( do / the / know / you / boy / laughing ).",
+    "choices": [],
+    "correct": "Do you know the boy laughing?",
+    "explanation": "『the boy laughing』で『笑っている少年』を表します。現在分詞が名詞を修飾する形容詞的用法です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e1a5f7d9-318d-43fa-bd7b-29bcd68baf35",
+    "unit": "分詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n雨が降っていたので、彼らは外出をやめました。\n( because / was / stopped / they / raining / going / it / out ).",
+    "choices": [],
+    "correct": "They stopped going out because it was raining.",
+    "explanation": "『it was raining』は進行形、『stopped going out』で『外出するのをやめた』。動名詞との区別も重要です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "ca394fd4-3030-45ee-923d-aa69cbe1fe08",
+    "unit": "関係代名詞",
+    "question": "The girl (  ) is singing is my sister.",
+    "choices": ["who", "which", "where", "what"],
+    "correct": "who",
+    "explanation": "'who' は人を先行詞に取る関係代名詞。'The girl' を修飾しているので 'who' が正解です。",
     "incorrectExplanations": {
-      "had": "過去形で、現在の習慣を表すには使えません。",
-      "has": "『has』は三人称単数用です。『I』には『have』を使います。",
-      "having": "進行形や動名詞で、現在の習慣を表す動詞の形としては使えません。"
+      "what": "「what」は先行詞を含む形で、『the thing which』のような意味になります。すでに『The girl』が先行詞としてあるので『what』は使えません。",
+      "where": "「where」は場所を説明する関係副詞です。人を説明することはできません。",
+      "which": "「which」は物や動物を先行詞に取る関係代名詞です。『The girl』は人なので『which』は使えません。"
     },
     "format": "適語補充",
     "type": "multiple-choice"
   },
   {
-    "id": "11ed9d6c-8e37-4e96-a30c-ea05545e069b",
-    "unit": "現在形",
-    "question": "「彼は毎日走ります。」を英語に訳しなさい。",
+    "id": "1e93ca9c-cc0c-4bd1-b345-1dbdcbac62c2",
+    "unit": "関係代名詞",
+    "question": "「あそこにいる少年は私の弟です。」を英語に訳しなさい。",
     "choices": [],
-    "correct": "He runs every day.",
-    "explanation": "主語がHe（3単現）なので動詞にsをつけてrunsにします。",
+    "correct": "The boy who is over there is my brother.",
+    "explanation": "関係代名詞whoを使って主格の説明をします。thatや省略ができない点を確認。",
     "incorrectExplanations": {},
     "format": "英作文",
     "type": "input"
   },
   {
-    "id": "37304474-af69-4fff-b0af-d5d4c9601036",
-    "unit": "現在形",
-    "question": "「彼と彼の兄は毎日サッカーをします。」を英語に訳しなさい。",
+    "id": "9b2c6b35-0c31-4c4a-9c1b-1c1a2a7f9e34",
+    "unit": "関係代名詞",
+    "question": "「これは昨日私が見た映画です。」を英語に訳しなさい。",
     "choices": [],
-    "correct": "He and his brother play soccer every day.",
-    "explanation": "主語が複数なのでplayにsをつけないことに注意します。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "672720fe-8208-488b-adf9-c381d85d9492",
-    "unit": "現在形",
-    "question": "「私はピアノを弾きます。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "I play the piano.",
-    "explanation": "主語Iに現在形のplayを使います。楽器にはtheをつけてI play the piano. となります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "cd2467f8-90c5-4a8a-8d53-b8e775441446",
-    "unit": "現在形",
-    "question": "「彼は毎朝6時に起きます。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "He gets up at six every morning.",
-    "explanation": "主語がHeなのでgetsにsを忘れないようにします。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "97cca401-6f5d-436e-8673-67c94291e4d9",
-    "unit": "現在形",
-    "question": "These days, my sister usually (  ) to school by bike.",
-    "choices": ["go", "goes", "going", "went"],
-    "correct": "goes",
-    "explanation": "現在の習慣を表し、主語が三人称単数なので 'goes'。",
+    "correct": [
+      "This is the movie I saw yesterday.",
+      "This is the movie which I saw yesterday.",
+      "This is the movie that I saw yesterday."
+    ],
+    "explanation": "『映画を見る』は英語で 'see a movie' が一般的です。'watch a movie' も使えますが、『じっと鑑賞する』というニュアンスが強く、自然な表現としては 'see' が推奨されます。関係代名詞 'which/that' は目的格なので省略可能です。",
     "incorrectExplanations": {
-      "go": "主語が『my sister』で三人称単数なので、『go』ではなく『goes』が必要です。",
-      "went": "『went』は過去形で、『These days』という現在の習慣を表す文には合いません。",
-      "going": "『going』は動名詞や現在進行形に使う形で、ここでは現在形の動詞が必要です。"
+      "This is the movie I watched yesterday.": "『watch』は『じっと見る・鑑賞する』というニュアンスが強いですが、映画を見た経験を言うときは 'saw' が自然です。",
+      "This is the movie I see yesterday.": "『yesterday』があるので過去形 'saw' が必要です。現在形 'see' では時制が一致しません。",
+      "This is the movie I looked yesterday.": "『look』は『見る』ではなく『見ようとする／〜の方を見る』という意味なので不自然です。"
+    },
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "3a9ce553-f660-481c-964d-e195f9aeae06",
+    "unit": "関係代名詞",
+    "question": "「これは父が名前を知っている男性です。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "This is the man whose name my father knows.",
+    "explanation": "所有格の関係代名詞whoseを使い、名詞を修飾します。whoやwhichでは表現できません。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "c2ed698a-844c-4403-9ec1-0e0d44081d8f",
+    "unit": "関係代名詞",
+    "question": "「あそこで歌っている女の子は私の妹です。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": [
+      "The girl who is singing over there is my sister.",
+      "The girl singing over there is my sister."
+    ],
+    "explanation": "関係代名詞whoを使って『歌っている女の子』を修飾します。who is singing over there となります。分詞を使ってもOK。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "5aff8cc8-3319-4539-a566-0be3be62ae39",
+    "unit": "関係代名詞",
+    "question": "「これは私が昨日買った本です。」を英語に訳しなさい。",
+    "choices": [],
+    "correct": [
+      "This is the book which I bought yesterday.",
+      "This is the book that I bought yesterday.",
+      "This is the book I bought yesterday."
+    ],
+    "explanation": "関係代名詞whichを使い、『which I bought yesterday』で修飾します。目的格の関係代名詞は省略も可。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "a8c2d6b7-9234-4fda-9360-3b91d0e1a17f",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私たちは昨夜雨が降った町に行きました。\n( last / we / to / went / which / it / rained / night / in / town / the ).",
+    "choices": [],
+    "correct": "We went to the town in which it rained last night.",
+    "explanation": "関係代名詞の前に前置詞を置く形。『the town in which it rained』＝『雨が降った町』。前置詞＋which は文語的で正確な表現です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "b3f7e14d-d4de-45c1-bc4a-7850de214d9f",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はみんなに愛されている先生です。\n( who / loved / by / everyone / is / he / a / teacher ).",
+    "choices": [],
+    "correct": "He is a teacher who is loved by everyone.",
+    "explanation": "『who is loved by everyone』で『みんなに愛されている先生』。受け身の形にも注目。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "c9b0d8c2-82f2-4973-b32a-f0c6e4030cf3",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこれは私が一番好きな映画です。\n( I / that / like / is / movie / the / this / best ).",
+    "choices": [],
+    "correct": "This is the movie that I like best.",
+    "explanation": "『that I like best』で『私が一番好きな～』を表す制限用法。目的格の関係代名詞 that は省略できるが、ここでは残して明示しています。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d4f9e1a6-bae0-43d4-a1cf-70a7a07a6d5b",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの犬の耳はとても長いです。\n( whose / is / dog / ears / long / very / that ).",
+    "choices": [],
+    "correct": "That is the dog whose ears are very long.",
+    "explanation": "『whose＋名詞』で『～の…』を表す関係代名詞。『the dog whose ears are long』＝『耳が長い犬』。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e1c3b6c9-36db-472a-bbf3-29d61e2838ae",
+    "unit": "関係代名詞",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこれは彼が最初に訪れた学校です。\n( which / this / is / he / first / visited / the / school ).",
+    "choices": [],
+    "correct": "This is the school which he visited first.",
+    "explanation": "『which he visited first』で『彼が最初に訪れた学校』。目的格の関係代名詞 which は省略も可能です。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "0c1d2e3f-4a5b-6c7d-8e9f-1a2b3c4d5e97",
+    "unit": "関係代名詞",
+    "question": "I met a boy (  ) father is a doctor.",
+    "choices": ["whose", "who", "which", "that"],
+    "correct": "whose",
+    "explanation": "所有格をつなぐのは whose（『その父』＝ the boy's father）。",
+    "incorrectExplanations": {
+      "who": "主格。後ろに名詞（father）が来るので不可。",
+      "which": "人には通常用いません（カンマ非制限用法など例外はあります）。",
+      "that": "所有の関係は作れません。whose を使います。"
     },
     "format": "適語補充",
     "type": "multiple-choice"
   },
   {
-    "id": "b0d47615-9ad3-4a3b-b887-7f781f4b2fe9",
-    "unit": "現在進行形",
-    "question": "Look! The baby (  ) now.",
-    "choices": ["sleep", "sleeps", "sleeping", "is sleeping"],
-    "correct": "is sleeping",
-    "explanation": "現在進行形は be動詞＋動詞のing形で表現します。この場合は 'is sleeping'。",
+    "id": "11a03566-d035-4c19-a5d3-403153f99ec9",
+    "unit": "仮定法",
+    "question": "If I were you, I (  ) take the job.",
+    "choices": ["will", "would", "can", "am"],
+    "correct": "would",
+    "explanation": "仮定法過去の表現では 'If I were 〜, I would 〜' の形を取ります。現実と異なる仮の状況を表します。",
     "incorrectExplanations": {
-      "sleep": "『sleep』は動詞の原形で、進行中を表す現在進行形にはなりません。『is sleeping』が必要です。",
-      "sleeps": "三単現の現在形で習慣的な動作を表しますが、『今まさにしているところ』は表せません。",
-      "sleeping": "『sleeping』だけでは動詞の形が不完全で、『be動詞』が必要です。"
+      "am": "『If I were』が仮定法過去の正しい形です。『If I am』だと現実的な条件を表してしまい、仮定法になりません。",
+      "can": "「can」は現実的な能力や可能性を表しますが、ここでは現実とは違う想像の話なので使えません。",
+      "will": "「will」は未来の意志や予定を表す助動詞で、仮定法の非現実的な条件には使いません。『If I were you』のような仮定法では『would』を使います。"
     },
     "format": "適語補充",
     "type": "multiple-choice"
   },
   {
-    "id": "ac96ba28-921f-4f7d-bc60-570fa4b6e114",
-    "unit": "現在進行形",
-    "question": "「私は今手紙を書いています。」を英語に訳しなさい。",
+    "id": "72d026d4-c0af-46bf-ad88-934cd865b180",
+    "unit": "仮定法",
+    "question": "「もし私があなたなら、その本を読むでしょう。」を英語に訳しなさい。",
     "choices": [],
-    "correct": "I am writing a letter now.",
-    "explanation": "進行形はbe動詞＋ing形を忘れず、am writingとします。",
+    "correct": "If I were you, I would read the book.",
+    "explanation": "仮定法過去でIf I were you, I would + 動詞の原形を使います。",
     "incorrectExplanations": {},
     "format": "英作文",
     "type": "input"
   },
   {
-    "id": "2fd429d9-60dc-4c54-87b8-ae6c14b9397d",
-    "unit": "現在進行形",
-    "question": "「彼らは今テレビを見ています。」を英語に訳しなさい。",
+    "id": "a1e8d7f2-3f7b-4a6b-98d2-6b5a9d3f7a23",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし私が鳥なら、空を飛べるのに。\n( fly / I / if / a / were / I / bird / could ).",
     "choices": [],
-    "correct": "They are watching TV now.",
-    "explanation": "現在進行形はbe動詞＋動詞ing形で表し、They are watching TV now. となります。",
+    "correct": "If I were a bird, I could fly.",
+    "explanation": "仮定法過去では『be動詞』の形は主語に関係なく『were』を使います。『could』は可能の仮定。",
     "incorrectExplanations": {},
-    "format": "英作文",
+    "format": "整序問題",
     "type": "input"
   },
   {
-    "id": "0bee1a90-e855-49bd-b1d2-9a76724452ca",
-    "unit": "現在進行形",
-    "question": "「彼は今テニスをしています。」を英語に訳しなさい。",
+    "id": "b2f7e5a9-4d9e-48c1-bc81-3b0e5d1a6b92",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもしあのときもっと一生懸命勉強していたら、今は医者になっているでしょう。\n( had / I / studied / then / harder / I / would / a / now / be / doctor ).",
     "choices": [],
-    "correct": "He is playing tennis now.",
-    "explanation": "『今〜している』は現在進行形。間違えて現在形He playsにならないよう注意します。",
+    "correct": "If I had studied harder then, I would be a doctor now.",
+    "explanation": "『If＋仮定法過去完了』＋『主節に仮定法過去』で“混合仮定法”。過去の事実と現在の結果をつなげています。",
     "incorrectExplanations": {},
-    "format": "英作文",
+    "format": "整序問題",
     "type": "input"
   },
   {
-    "id": "ed6ff610-8f28-4cd2-bd59-e86b37b1798e",
-    "unit": "現在進行形",
-    "question": "「私は今昼ご飯を食べています。」を英語に訳しなさい。",
+    "id": "c4e2b6f8-7c3b-42b7-b94b-1d0a6f8a5d90",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたが忙しくなければ、私と来られるのに。\n( with / come / if / weren’t / me / you / could / busy / you).",
     "choices": [],
-    "correct": "I am eating lunch now.",
-    "explanation": "現在進行形はbe動詞＋動詞ing形で、I am eating lunch now. となります。",
+    "correct": "If you weren’t busy, you could come with me.",
+    "explanation": "仮定法過去。現在とは異なる仮定を表す。『be動詞→were』、助動詞『could』が条件を示す鍵。",
     "incorrectExplanations": {},
-    "format": "英作文",
+    "format": "整序問題",
     "type": "input"
   },
   {
-    "id": "d47c40bf-cd35-42e0-8f57-ba0956b20683",
-    "unit": "現在進行形",
-    "question": "「彼女は今勉強しています。」を英語に訳しなさい。",
+    "id": "d3c9f5e1-8a6c-4d81-b9f7-2b0a6e4a9b52",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし彼がここにいたら、そのことを知っていただろうに。\n( he / had / would / it / if / known / he / been / here / have ).",
     "choices": [],
-    "correct": "She is studying now.",
-    "explanation": "現在進行形はbe動詞＋動詞ing形で表し、She is studying now. となります。",
+    "correct": "If he had been here, he would have known it.",
+    "explanation": "仮定法過去完了。『If＋had＋過去分詞』で“過去の事実に反する仮定”を表します。主節は『would have＋過去分詞』。",
     "incorrectExplanations": {},
-    "format": "英作文",
+    "format": "整序問題",
     "type": "input"
   },
   {
-    "unit": "疑問詞",
-    "question": "______ is your birthday?",
-    "choices": ["What", "Where", "When", "Why"],
-    "correct": "When",
-    "explanation": "誕生日を尋ねるのは「いつ」なので 'When' が正解。",
-    "incorrectExplanations": {
-      "What": "『What』は『何』を尋ねるときに使います。",
-      "Where": "『Where』は『どこ』を尋ねるときに使います。",
-      "Why": "『Why』は『なぜ』を尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "54bdbdff-5701-4ad6-82cf-46de9a4e096d"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ do you go to school?",
-    "choices": ["Where", "Why", "When", "How"],
-    "correct": "How",
-    "explanation": "通学手段を尋ねるので 'How'（どうやって）が正解。",
-    "incorrectExplanations": {
-      "Where": "『Where』は場所を尋ねるときに使います。",
-      "Why": "『Why』は理由を尋ねるときに使います。",
-      "When": "『When』は時間を尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "4100fbad-a87c-4d1f-90a2-765779d1e030"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ book is this?",
-    "choices": ["Who", "Whose", "What", "Which"],
-    "correct": "Whose",
-    "explanation": "持ち主を尋ねているので 'Whose'（誰の）が正解。",
-    "incorrectExplanations": {
-      "Who": "『Who』は人そのものを尋ねるときに使います。",
-      "What": "『What』は『何』を尋ねるときに使います。",
-      "Which": "『Which』は選択肢の中から選ぶときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "2eb348a2-6b42-41bb-a271-e799c9d0a35b"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ do you like, cats or dogs?",
-    "choices": ["Which", "What", "Who", "Whose"],
-    "correct": "Which",
-    "explanation": "選択肢があるときは 'Which'（どちら）が正解。",
-    "incorrectExplanations": {
-      "What": "『What』は漠然と『何』と尋ねるときに使います。",
-      "Who": "『Who』は人を尋ねるときに使います。",
-      "Whose": "『Whose』は所有を尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "8a053618-fb16-4697-a0e6-75ab58802804"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ is that girl standing by the door?",
-    "choices": ["Whose", "What", "Who", "Why"],
-    "correct": "Who",
-    "explanation": "人を尋ねるときは 'Who'（誰）が正解。",
-    "incorrectExplanations": {
-      "Whose": "『Whose』は所有を尋ねる疑問詞です。",
-      "What": "『What』は『何』について尋ねるときに使います。",
-      "Why": "『Why』は理由を尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "14b811eb-745e-4131-8ed8-a733cb0c9965"
-  },
-  {
-    "id": "50d50e4c-4763-44e4-beb8-90cc51f1cc4c",
-    "unit": "疑問詞",
-    "question": "(  ) do you go to school? – By bike.",
-    "choices": ["When", "How", "What", "Where"],
-    "correct": "How",
-    "explanation": "'By bike'（自転車で）という答え方に合う疑問詞は 'How'（どうやって）です。",
-    "incorrectExplanations": {
-      "What": "『What』は『何』を尋ねる疑問詞で、方法を聞くには不自然です。",
-      "When": "『When』は『いつ』を尋ねるときに使い、移動手段には合いません。",
-      "Where": "『Where』は『どこ』を尋ねる疑問詞で、移動手段を聞くときには使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ is your sister? – She is ten.",
-    "choices": ["How long", "How many", "How old", "How far"],
-    "correct": "How old",
-    "explanation": "年齢を尋ねるときは 'How old' を使います。",
-    "incorrectExplanations": {
-      "How long": "時間の長さを尋ねるときに使います。",
-      "How many": "可算名詞の数を尋ねるときに使います。",
-      "How far": "距離を尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "b1fc0c32-5a3d-4f88-b493-19f5ad0c3004"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ apples do you want?",
-    "choices": ["How many", "How much", "How far", "How old"],
-    "correct": "How many",
-    "explanation": "apple は数えられる名詞なので 'How many' を使います。",
-    "incorrectExplanations": {
-      "How much": "不可算名詞や金額を尋ねるときに使います。",
-      "How far": "距離を尋ねるときに使います。",
-      "How old": "年齢を尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "6716d770-8de5-45cc-beb4-e4b67b78d560"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ water do you drink every day?",
-    "choices": ["How many", "How much", "How long", "How far"],
-    "correct": "How much",
-    "explanation": "water は数えられない名詞なので 'How much' を使います。",
-    "incorrectExplanations": {
-      "How many": "可算名詞には使えますが、水は不可算名詞です。",
-      "How long": "時間の長さを尋ねるときに使います。",
-      "How far": "距離を尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "1dbed8d8-45b4-4a3a-a99f-2a3187dc4901"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ do you go to the gym? – Twice a week.",
-    "choices": ["How often", "How far", "How old", "How long"],
-    "correct": "How often",
-    "explanation": "頻度を尋ねるときは 'How often' を使います。",
-    "incorrectExplanations": {
-      "How far": "距離を尋ねるときに使います。",
-      "How old": "年齢を尋ねるときに使います。",
-      "How long": "時間の長さを尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "49025de5-3ae4-4c79-b8a4-10c89346d457"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ does it take from Tokyo to Osaka by train?",
-    "choices": ["How long", "How far", "How many", "How often"],
-    "correct": "How long",
-    "explanation": "時間の長さ（所要時間）を尋ねるときに 'How long' を使います。",
-    "incorrectExplanations": {
-      "How far": "距離を尋ねる表現です。",
-      "How many": "数を尋ねる表現ですが、ここでは使いません。",
-      "How often": "頻度を尋ねる表現です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "4d2cfc3e-5ff6-403f-b158-8b1c49bc96b5"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ is it from here to the station?",
-    "choices": ["How far", "How long", "How old", "How much"],
-    "correct": "How far",
-    "explanation": "距離を尋ねているので 'How far' が正解です。",
-    "incorrectExplanations": {
-      "How long": "時間を尋ねるときに使います。",
-      "How old": "年齢を尋ねるときに使います。",
-      "How much": "金額や量を尋ねるときに使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "8594e294-9a3e-4fa1-a99a-e95ad9eb3df4"
-  },
-  {
-    "unit": "疑問詞",
-    "question": "______ pencils do you have in your bag?",
-    "choices": ["How many", "How much", "How often", "How far"],
-    "correct": "How many",
-    "explanation": "pencil は可算名詞なので 'How many' を使います。",
-    "incorrectExplanations": {
-      "How much": "不可算名詞や金額に使います。",
-      "How often": "頻度を尋ねる表現です。",
-      "How far": "距離を尋ねる表現です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice",
-    "id": "b7e65bc9-15f0-4d3b-a3c5-291d3c14448c"
-  },
-  {
-    "id": "aff61670-8c84-41a2-910e-809c6ea4b71e",
-    "unit": "疑問詞",
-    "question": "「あなたはどこに住んでいますか。」を英語に訳しなさい。",
+    "id": "e5a8f6b3-4f0c-4a42-8b8b-4c8a1e3b7f11",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はあなたの立場なら、そのことをしないでしょう。\n( were / in / that / I / your / wouldn’t / do / case / it / I).",
     "choices": [],
-    "correct": "Where do you live?",
-    "explanation": "疑問詞Whereを使って、Where do you live? と尋ねます。",
+    "correct": "If I were in your case, I wouldn’t do it.",
+    "explanation": "『If I were you』や『If I were in your case』は仮定法の定番構文。助動詞は『would』を使い、現在の事実に反する仮定を表す。",
     "incorrectExplanations": {},
-    "format": "英作文",
+    "format": "整序問題",
     "type": "input"
   },
   {
-    "id": "913da0bc-1ba2-4efe-8e0f-3172deaf139c",
-    "unit": "疑問詞",
-    "question": "「あなたはなぜここに来たのですか。」を英語に訳しなさい。",
+    "id": "a2b7e8f4-9c3d-4fa1-9c72-3b5e8f13a6e4",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は今お金をもっと持っていたらいいのになあ。\n( I / money / wish / more / had / I ).",
     "choices": [],
-    "correct": "Why did you come here?",
-    "explanation": "疑問詞Whyで始め、did you comeの語順を忘れないようにします。",
+    "correct": "I wish I had more money.",
+    "explanation": "『I wish＋過去形』で現在の事実に反する願望を表します。実際には『お金をあまり持っていない』ことを意味します。",
     "incorrectExplanations": {},
-    "format": "英作文",
+    "format": "整序問題",
     "type": "input"
   },
   {
-    "id": "2dbf9bcd-f705-413a-bced-81aaf990eba5",
-    "unit": "疑問詞",
-    "question": "「あなたはいつ学校へ行きますか。」を英語に訳しなさい。",
+    "id": "b3f8a5c2-4d6b-4f91-9b53-9c5a4a1b2f77",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼がここにいればいいのになあ。\n( he / wish / here / I / were ).",
     "choices": [],
-    "correct": "When do you go to school?",
-    "explanation": "疑問詞Whenを文頭に使い、do you goの語順にします。",
+    "correct": "I wish he were here.",
+    "explanation": "be動詞は主語に関係なく『were』を使います。『I wish he were here.』＝『彼がここにいればいいのに（実際はいない）』。",
     "incorrectExplanations": {},
-    "format": "英作文",
+    "format": "整序問題",
     "type": "input"
   },
+  {
+    "id": "c4e7d9a8-7f5b-4b92-99e3-1c9f9b0e7a6d",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n昨日もっと早く寝ていればよかったなあ。\n( I / had / gone / wish / to / bed / I / earlier ).",
+    "choices": [],
+    "correct": "I wish I had gone to bed earlier.",
+    "explanation": "『I wish＋過去完了』で過去の事実に反する後悔を表します。『もっと早く寝ていなかった』という意味になります。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "d5a3c8e6-5b81-4d82-9a1a-3e7b1f6c5a88",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は英語を上手に話せたらいいのになあ。\n( wish / could / speak / I / I / English / well ).",
+    "choices": [],
+    "correct": "I wish I could speak English well.",
+    "explanation": "『I wish I could ～』で『～できたらいいのに（実際はできない）』という現在の非現実的願望を表します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+  {
+    "id": "e6f9b2a4-6c94-42a1-9e83-7f9a3e4b8a2d",
+    "unit": "仮定法",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n外で雨が降っていなければいいのになあ。\n( I / raining / it / wish / weren't / outside ).",
+    "choices": [],
+    "correct": "I wish it weren’t raining outside.",
+    "explanation": "『I wish it weren’t raining.』で『雨が降っていなければいいのに』。現在進行形＋仮定法過去の組み合わせで“今の状況の不満”を表します。",
+    "incorrectExplanations": {},
+    "format": "整序問題",
+    "type": "input"
+  },
+
   {
     "id": "e5f1a4a6-8435-4053-b66c-17ac1f5ae05b",
     "unit": "読解",
@@ -4295,465 +4777,10 @@
     "format": "適語補充",
     "type": "input"
   },
-  {
-    "id": "0354aa83-b5f8-45b8-8122-fcd1138dc279",
-    "unit": "過去形",
-    "question": "They ( ) a movie last night.",
-    "choices": ["watch", "watched", "watching", "watches"],
-    "correct": "watched",
-    "explanation": "過去を表すlast nightなのでwatched。",
-    "incorrectExplanations": {
-      "watch": "現在形で、過去を表す『last night』には合いません。",
-      "watches": "三単現の現在形で、過去の出来事を表すことはできません。",
-      "watching": "進行形や名詞的な使い方で、過去形としては使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "bba6c5a4-4b3a-415e-aa26-bcb2fccf5dfd",
-    "unit": "過去形",
-    "question": "She ( ) a letter last week.",
-    "choices": ["write", "writes", "wrote", "writing"],
-    "correct": "wrote",
-    "explanation": "過去のことなのでwrote。",
-    "incorrectExplanations": {
-      "write": "現在形で、過去を表す『last week』には合いません。",
-      "writes": "三単現現在形で、過去の動作は表せません。",
-      "writing": "進行形や動名詞の形で、単純過去を表せません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "bdf60092-977b-4e91-bbcd-a6fbef3a60c8",
-    "unit": "過去形",
-    "question": "He ( ) to the park yesterday.",
-    "choices": ["go", "goes", "went", "going"],
-    "correct": "went",
-    "explanation": "過去のことを表すのでwent。",
-    "incorrectExplanations": {
-      "go": "現在形で、昨日のことを表す『yesterday』には合いません。",
-      "goes": "三単現現在形で、過去の動作は表せません。",
-      "going": "進行形や動名詞の形で、過去の動作を表す形ではありません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "92a69924-7196-4181-9159-a3cba27a0a21",
-    "unit": "過去形",
-    "question": "I ( ) at home all day.",
-    "choices": ["stay", "stays", "stayed", "staying"],
-    "correct": "stayed",
-    "explanation": "過去の出来事なのでstayed。",
-    "incorrectExplanations": {
-      "stay": "現在形で、過去の出来事を表す『all day』には合いません。",
-      "stays": "三単現現在形で、過去を表す文では使えません。",
-      "staying": "進行形や動名詞で、単純な過去を表す形ではありません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "cc1639b5-c04e-4628-a6a2-3047ae9600b1",
-    "unit": "過去形",
-    "question": "Did you ( ) tennis yesterday?",
-    "choices": ["play", "played", "playing", "plays"],
-    "correct": "play",
-    "explanation": "Didを使うときは動詞の原形を使う。",
-    "incorrectExplanations": {
-      "plays": "三単現の現在形で、過去の出来事を尋ねる文には使えません。",
-      "played": "助動詞『did』を使った疑問文では動詞は原形にします。",
-      "playing": "進行形や動名詞で、疑問文の動詞の形としては不適切です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "9cf3b13c-712d-4633-b286-2bbb8a5394ca",
-    "unit": "過去形",
-    "question": "I (  ) to Kyoto last weekend.",
-    "choices": ["go", "went", "going", "gone"],
-    "correct": "went",
-    "explanation": "'last weekend' があるため、過去形の 'went' を使います。",
-    "incorrectExplanations": {
-      "go": "現在形で、過去を表す『last weekend』には合いません。",
-      "gone": "『have gone』など完了形で使いますが、ここは単純な過去形が必要です。",
-      "going": "進行形や名詞的な使い方で、過去の動作をそのまま表せません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "34a9fc0d-b05c-43a1-a27d-768f56450c74",
-    "unit": "過去形",
-    "question": "「彼は昨日家に帰りました。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "He went home yesterday.",
-    "explanation": "goの過去形はwent。goedと間違えやすいので注意。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "57ec7df1-3c94-4ad5-9ebc-f274d1bea512",
-    "unit": "過去形",
-    "question": "「私は昨日手紙を書きました。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "I wrote a letter yesterday.",
-    "explanation": "過去形はwrote。過去分詞writtenと混同しないように注意します。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "0d0eed70-1a3d-485c-81f2-80addd36d6e2",
-    "unit": "過去形",
-    "question": "「彼は昨夜宿題をしました。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "He did his homework last night.",
-    "explanation": "過去を表すlast nightがあるので動詞はdidを使います。He did his homework last night. となります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "235df498-7000-4b88-8771-33b92eb8d790",
-    "unit": "過去形",
-    "question": "「私は先週図書館へ行きました。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "I went to the library last week.",
-    "explanation": "過去を表すlast weekがあるので動詞は過去形wentを使います。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "5834bde1-7061-4282-adeb-e1531b7c62b3",
-    "unit": "過去形",
-    "question": "「私は昨日映画を見ました。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "I watched a movie yesterday.",
-    "explanation": "過去を表す yesterday があるので動詞は過去形watchedを使います。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "471c7999-4889-4c99-9464-2a141109263c",
-    "unit": "間接疑問文",
-    "question": "I don’t know (  ) she is coming to the party.",
-    "choices": ["when", "is", "does", "whether"],
-    "correct": "whether",
-    "explanation": "間接疑問文では 'if' や 'whether' を使って「〜かどうか」を表します。この文では 'whether' が適切です。",
-    "incorrectExplanations": {
-      "is": "『is she coming』のような疑問文の語順をそのまま入れるのは間接疑問文では間違いです。正しくは『whether she is coming』のように平叙文の語順になります。",
-      "does": "『does』は現在形の一般動詞の疑問文で使いますが、『she is coming』のような進行形には不要で不適切です。",
-      "when": "『when』は『いつ』を表す疑問詞で、『〜かどうか』を尋ねる意味には使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "1e77864d-88b8-40c7-b568-25b09d5360b1",
-    "unit": "間接疑問文",
-    "question": "「彼がどこに住んでいるのか知っていますか。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "Do you know where he lives?",
-    "explanation": "間接疑問文では疑問詞+平叙文の語順にして、Do you know where he lives? となります。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "ca394fd4-3030-45ee-923d-aa69cbe1fe08",
-    "unit": "関係代名詞",
-    "question": "The girl (  ) is singing is my sister.",
-    "choices": ["who", "which", "where", "what"],
-    "correct": "who",
-    "explanation": "'who' は人を先行詞に取る関係代名詞。'The girl' を修飾しているので 'who' が正解です。",
-    "incorrectExplanations": {
-      "what": "「what」は先行詞を含む形で、『the thing which』のような意味になります。すでに『The girl』が先行詞としてあるので『what』は使えません。",
-      "where": "「where」は場所を説明する関係副詞です。人を説明することはできません。",
-      "which": "「which」は物や動物を先行詞に取る関係代名詞です。『The girl』は人なので『which』は使えません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "1e93ca9c-cc0c-4bd1-b345-1dbdcbac62c2",
-    "unit": "関係代名詞",
-    "question": "「あそこにいる少年は私の弟です。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "The boy who is over there is my brother.",
-    "explanation": "関係代名詞whoを使って主格の説明をします。thatや省略ができない点を確認。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "9b2c6b35-0c31-4c4a-9c1b-1c1a2a7f9e34",
-    "unit": "関係代名詞",
-    "question": "「これは昨日私が見た映画です。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": [
-      "This is the movie I saw yesterday.",
-      "This is the movie which I saw yesterday.",
-      "This is the movie that I saw yesterday."
-    ],
-    "explanation": "『映画を見る』は英語で 'see a movie' が一般的です。'watch a movie' も使えますが、『じっと鑑賞する』というニュアンスが強く、自然な表現としては 'see' が推奨されます。関係代名詞 'which/that' は目的格なので省略可能です。",
-    "incorrectExplanations": {
-      "This is the movie I watched yesterday.": "『watch』は『じっと見る・鑑賞する』というニュアンスが強いですが、映画を見た経験を言うときは 'saw' が自然です。",
-      "This is the movie I see yesterday.": "『yesterday』があるので過去形 'saw' が必要です。現在形 'see' では時制が一致しません。",
-      "This is the movie I looked yesterday.": "『look』は『見る』ではなく『見ようとする／〜の方を見る』という意味なので不自然です。"
-    },
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "3a9ce553-f660-481c-964d-e195f9aeae06",
-    "unit": "関係代名詞",
-    "question": "「これは父が名前を知っている男性です。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": "This is the man whose name my father knows.",
-    "explanation": "所有格の関係代名詞whoseを使い、名詞を修飾します。whoやwhichでは表現できません。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "c2ed698a-844c-4403-9ec1-0e0d44081d8f",
-    "unit": "関係代名詞",
-    "question": "「あそこで歌っている女の子は私の妹です。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": [
-      "The girl who is singing over there is my sister.",
-      "The girl singing over there is my sister."
-    ],
-    "explanation": "関係代名詞whoを使って『歌っている女の子』を修飾します。who is singing over there となります。分詞を使ってもOK。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "5aff8cc8-3319-4539-a566-0be3be62ae39",
-    "unit": "関係代名詞",
-    "question": "「これは私が昨日買った本です。」を英語に訳しなさい。",
-    "choices": [],
-    "correct": [
-      "This is the book which I bought yesterday.",
-      "This is the book that I bought yesterday.",
-      "This is the book I bought yesterday."
-    ],
-    "explanation": "関係代名詞whichを使い、『which I bought yesterday』で修飾します。目的格の関係代名詞は省略も可。",
-    "incorrectExplanations": {},
-    "format": "英作文",
-    "type": "input"
-  },
-  {
-    "id": "a8c2d6b7-9234-4fda-9360-3b91d0e1a17f",
-    "unit": "関係代名詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私たちは昨夜雨が降った町に行きました。\n( last / we / to / went / which / it / rained / night / in / town / the ).",
-    "choices": [],
-    "correct": "We went to the town in which it rained last night.",
-    "explanation": "関係代名詞の前に前置詞を置く形。『the town in which it rained』＝『雨が降った町』。前置詞＋which は文語的で正確な表現です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "b3f7e14d-d4de-45c1-bc4a-7850de214d9f",
-    "unit": "関係代名詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はみんなに愛されている先生です。\n( who / loved / by / everyone / is / he / a / teacher ).",
-    "choices": [],
-    "correct": "He is a teacher who is loved by everyone.",
-    "explanation": "『who is loved by everyone』で『みんなに愛されている先生』。受け身の形にも注目。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "c9b0d8c2-82f2-4973-b32a-f0c6e4030cf3",
-    "unit": "関係代名詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこれは私が一番好きな映画です。\n( I / that / like / is / movie / the / this / best ).",
-    "choices": [],
-    "correct": "This is the movie that I like best.",
-    "explanation": "『that I like best』で『私が一番好きな～』を表す制限用法。目的格の関係代名詞 that は省略できるが、ここでは残して明示しています。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "d4f9e1a6-bae0-43d4-a1cf-70a7a07a6d5b",
-    "unit": "関係代名詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの犬の耳はとても長いです。\n( whose / is / dog / ears / long / very / that ).",
-    "choices": [],
-    "correct": "That is the dog whose ears are very long.",
-    "explanation": "『whose＋名詞』で『～の…』を表す関係代名詞。『the dog whose ears are long』＝『耳が長い犬』。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "e1c3b6c9-36db-472a-bbf3-29d61e2838ae",
-    "unit": "関係代名詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこれは彼が最初に訪れた学校です。\n( which / this / is / he / first / visited / the / school ).",
-    "choices": [],
-    "correct": "This is the school which he visited first.",
-    "explanation": "『which he visited first』で『彼が最初に訪れた学校』。目的格の関係代名詞 which は省略も可能です。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "a1f7c3d6-5b2e-4d3a-9c71-2b8f5e7d9a10",
-    "unit": "現在完了",
-    "question": "I (  ) in Tokyo since 2020.",
-    "choices": ["have lived", "lived", "am living", "have been lived"],
-    "correct": "have lived",
-    "explanation": "「since 2020」は過去のある時点からの継続 ⇒ 現在完了（have/has + 過去分詞）。",
-    "incorrectExplanations": {
-      "lived": "過去形。『2020年から今まで』の継続を表せません。",
-      "am living": "進行形は『今この瞬間』の動作のイメージ。継続期間を示すと不自然。",
-      "have been lived": "受動態＋現在完了は不可。主語が『住まされている』の意味になってしまいます。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "5c2e9d3b-6a41-4f8f-8b2d-7e4a3c5b9d21",
-    "unit": "現在完了",
-    "question": "Ken has (  ) to Canada. He isn't here now.",
-    "choices": ["gone", "been", "went", "go"],
-    "correct": "gone",
-    "explanation": "has gone to… は『行ってしまって今ここにいない』。文末の “isn't here now” と一致。",
-    "incorrectExplanations": {
-      "been": "has been to… は『行ったことがある（経験）』。今いないことは示しません。",
-      "went": "現在完了ではなく過去形。現在とのつながりが切れます。",
-      "go": "原形は不可。時制・文法が合いません。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "2e7b3a10-9d5c-4f6a-8b2e-1c3d5e7f9a42",
-    "unit": "比較",
-    "question": "Mt. Fuji is (  ) mountain in Japan.",
-    "choices": ["the highest", "highest", "most high", "the most high"],
-    "correct": "the highest",
-    "explanation": "最上級は原則 the + 最上級。『日本で最も高い山』＝ the highest。",
-    "incorrectExplanations": {
-      "highest": "the が必要です（可算名詞の単数）。",
-      "most high": "形容詞 high は ‘the highest’ を使います。",
-      "the most high": "high の最上級は ‘the highest’。語形成が誤り。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "9bf13e27-4a6d-4b8c-9f21-3d5e7a9c1b53",
-    "unit": "前置詞",
-    "question": "She is good (  ) baseball.",
-    "choices": ["at", "in", "for", "of"],
-    "correct": "at",
-    "explanation": "『～が得意だ』は be good at ～。",
-    "incorrectExplanations": {
-      "in": "be interested in などと混同注意。good には at。",
-      "for": "目的・用途を表すことが多く、この文脈では不自然。",
-      "of": "性質評価（It is kind of you.）などで使う of とは別用法です。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "c4d7e2a9-1b5f-4c8d-9e2f-7a3b5d1e6f64",
-    "unit": "冠詞",
-    "question": "He plays (  ) piano very well.",
-    "choices": ["the", "a", "an", "—"],
-    "correct": "the",
-    "explanation": "楽器名は通例 the を用います（play the piano / the guitar など）。",
-    "incorrectExplanations": {
-      "a": "楽器では a は通常使いません。",
-      "an": "母音で始まる語に付ける不定冠詞ですが、ここでは the が必要。",
-      "—": "無冠詞は基本不可。定冠詞 the を用います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "7e3a5c1b-9d2f-4a6d-8c7b-1f2e3d4c5b75",
-    "unit": "間接疑問文",
-    "question": "Do you know where (  )?",
-    "choices": ["she lives", "does she live", "she live", "does she lives"],
-    "correct": "she lives",
-    "explanation": "間接疑問は平叙文語順（主語＋動詞）。Do/Does を倒置しません。",
-    "incorrectExplanations": {
-      "does she live": "直接疑問の語順。間接疑問では×。",
-      "she live": "現在形の三単現。live → lives が必要。",
-      "does she lives": "助動詞 does の後は動詞原形。二重の誤り。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "a1f8d9c2-83d7-4d79-8f05-8b27d79f5a91",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がどこに住んでいるか知っていますか。\n( know / lives / he / do / where ).",
-    "choices": [],
-    "correct": "Do you know where he lives?",
-    "explanation": "間接疑問文では語順が平叙文型になります。『Do you know where he lives?』で『彼がどこに住んでいるか知っていますか？』。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "b3e7a8f6-72a1-4c0e-8e90-9b98a0d3b7d0",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n先生は私に何をすべきか教えてくれました。\n( me / to / told / teacher / what / the / do ).",
-    "choices": [],
-    "correct": "The teacher told me what to do.",
-    "explanation": "『疑問詞＋to不定詞』で『何をすべきか』を表す。『tell 人 what to do』＝『人に何をすべきか教える』。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "c6b9f2e8-58a1-45ab-a3c1-72915e1c9e9b",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はなぜ彼が怒っているのか知りたいです。\n( angry / is / he / know / why / to / want / I ).",
-    "choices": [],
-    "correct": "I want to know why he is angry.",
-    "explanation": "『want to know＋間接疑問』で『なぜ～なのか知りたい』。間接疑問では『why he is angry』のように疑問文語順にしない点に注意。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "d9c3b6f5-88df-4fb7-b9c8-18b4e403a58c",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは彼がその問題を解けると思いますか。\n( can / that / he / do / think / you / it ).",
-    "choices": [],
-    "correct": "Do you think that he can do it?",
-    "explanation": "『Do you think that～？』は間接疑問ではなく、主節の中に疑問を埋め込む構文。『that』は省略も可だが、正式には残すのが自然。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
-  {
-    "id": "e7f2a1d9-31b8-4de3-a9b1-47d43e5d97a3",
-    "unit": "間接疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私は彼女がいつ帰ってくるのか分かりません。\n( will / she / when / come / know / don’t / I / back ).",
-    "choices": [],
-    "correct": "I don’t know when she will come back.",
-    "explanation": "『I don’t know＋間接疑問』の形。疑問詞の後は平叙文語順『when she will come back』にします。",
-    "incorrectExplanations": {},
-    "format": "整序問題",
-    "type": "input"
-  },
+
   {
     "id": "f1a2b3c4-d5e6-4f7a-8b9c-0a1b2c3d4e86",
-    "unit": "条件表現",
+    "unit": "分詞構文",
     "question": "Bring an umbrella in case it (  ).",
     "choices": ["rains", "will rain", "rain", "rained"],
     "correct": "rains",
@@ -4766,51 +4793,7 @@
     "format": "適語補充",
     "type": "multiple-choice"
   },
-  {
-    "id": "0c1d2e3f-4a5b-6c7d-8e9f-1a2b3c4d5e97",
-    "unit": "関係代名詞",
-    "question": "I met a boy (  ) father is a doctor.",
-    "choices": ["whose", "who", "which", "that"],
-    "correct": "whose",
-    "explanation": "所有格をつなぐのは whose（『その父』＝ the boy's father）。",
-    "incorrectExplanations": {
-      "who": "主格。後ろに名詞（father）が来るので不可。",
-      "which": "人には通常用いません（カンマ非制限用法など例外はあります）。",
-      "that": "所有の関係は作れません。whose を使います。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "e7d6c5b4-a3f2-4e1d-9c8b-7a6f5e4d3c08",
-    "unit": "There構文",
-    "question": "There (  ) three books on the desk.",
-    "choices": ["are", "is", "has", "exists"],
-    "correct": "are",
-    "explanation": "There + be 構文は後ろの主語（three books）に一致。複数形 ⇒ are。",
-    "incorrectExplanations": {
-      "is": "単数主語の場合に用います。ここは three books（複数）。",
-      "has": "have/has ではなく be 動詞を使います。",
-      "exists": "口語の存在表現は There is/are を用いるのが自然。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
-  {
-    "id": "3b2a1c4d-5e6f-4789-8a7b-9c0d1e2f3a19",
-    "unit": "動名詞",
-    "question": "I enjoy (  ) to music after dinner.",
-    "choices": ["listening", "to listen", "listen", "listened"],
-    "correct": "listening",
-    "explanation": "enjoy の後ろは動名詞（～すること）。listen to ～ の形に注意。",
-    "incorrectExplanations": {
-      "to listen": "enjoy は to不定詞を取りません。",
-      "listen": "原形は不可。文法上の目的語が必要です。",
-      "listened": "過去分詞/過去形は不可。ここでは名詞的用法が必要。"
-    },
-    "format": "適語補充",
-    "type": "multiple-choice"
-  },
+
   {
     "id": "ab2bc818-dfe0-4ee1-9469-dfa29a6d9931",
     "unit": "単語テスト１L5",
