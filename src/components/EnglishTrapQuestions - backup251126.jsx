@@ -823,7 +823,6 @@ export default function EnglishTrapQuestions() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showQuestions, setShowQuestions] = useState(false);
   const [showQuestionModal, setShowQuestionModal] = useState(false);
-  const [loadingResult, setLoadingResult] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedChoice, setSelectedChoice] = useState(null);
@@ -2941,32 +2940,23 @@ export default function EnglishTrapQuestions() {
       if (currentIndex + 1 < filteredQuestions.length) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        // -------------------------
-        // ★ ローディング表示開始
-        // -------------------------
-        setLoadingResult(true);
+        // ★★★★★ ここに保存処理を最初に置く ★★★★★
+        await saveStatsToSupabase(); // ←これが正しい保存関数
+        // ★★★★★ ここまで ★★★★★
 
-        // saveStatsToSupabaseを並列処理で実行
-        saveStatsToSupabase(); // ← await を外して非同期化！
+        // 🔁 復習がある場合はモーダルへ
+        if (reviewList.length > 0) {
+          reviewQueueRef.current = [...reviewList];
+          setShowReviewPrompt(true);
+          return;
+        }
 
-        // 少し待ってから画面遷移（React の描画時間を確保）
-        setTimeout(() => {
-          // 復習がある場合は復習モーダルへ
-          if (reviewList.length > 0) {
-            reviewQueueRef.current = [...reviewList];
-            setShowReviewPrompt(true);
-            setLoadingResult(false);
-            return;
-          }
-
-          // 復習なし → 結果画面へ
-          setShowQuestions(false);
-          setShowResult(true);
-          setTimerActive(false);
-          setTimeLeft(0);
-          setIsReviewMode(false);
-          setLoadingResult(false);
-        }, 300); // ← 0.3秒で十分
+        // 復習なし → 結果画面へ
+        setShowQuestions(false);
+        setShowResult(true);
+        setTimerActive(false);
+        setTimeLeft(0);
+        setIsReviewMode(false);
       }
 
       setShowFeedback(false);
@@ -3532,14 +3522,6 @@ export default function EnglishTrapQuestions() {
             </div>
           )}
         </div>
-
-        {loadingResult && (
-          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-[9999]">
-            <div className="bg-white/90 px-6 py-4 rounded-xl shadow-xl text-xl font-bold text-[#4A6572] animate-pulse">
-              結果を集計中です…
-            </div>
-          </div>
-        )}
 
         {/* 🌟 トップ画面（塾∞練デザイン統一版・フル幅対応） */}
         {!showQuestions && !showResult && units.length > 0 && (
