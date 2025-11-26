@@ -813,6 +813,7 @@ export default function EnglishTrapQuestions() {
     }
   }, [lowSpecMode, bgmVol, bgmGain, qbgmGain]);
 
+  const [menuOpen, setMenuOpen] = useState(false);
   const [isCustomWordMode, setIsCustomWordMode] = useState(false);
   const [showHandwritingFor, setShowHandwritingFor] = useState(null);
   const [questionCount, setQuestionCount] = useState(null);
@@ -3477,6 +3478,65 @@ export default function EnglishTrapQuestions() {
             )}
           </div>
         )}
+
+        {/* ★ ここにハンバーガーメニューを置くのが正解！ */}
+        <div className="absolute top-4 right-4 z-50">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 bg-white/90 backdrop-blur-md rounded-lg shadow-md border"
+          >
+            ☰
+          </button>
+        </div>
+
+        {/* ▼ ハンバーガーメニュー（右上固定） */}
+        <div className="absolute top-4 right-4 z-[200]">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-3 bg-white/90 backdrop-blur-md rounded-xl shadow-lg border border-gray-300 hover:bg-gray-100 transition"
+          >
+            {/* 三本線アイコン */}
+            <span className="text-2xl">☰</span>
+          </button>
+
+          {/* ▼ 開いたときのメニュー */}
+          {menuOpen && (
+            <div className="mt-2 w-48 bg-white/95 backdrop-blur-md shadow-xl border border-gray-200 rounded-xl p-3 space-y-3">
+              {/* 質問BOX */}
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  playButtonSound(() => setShowQuestionModal(true));
+                }}
+                className="w-full text-left bg-yellow-300 hover:bg-yellow-400 text-[#4A6572] px-3 py-2 rounded-lg font-semibold shadow transition"
+              >
+                📥 質問ボックス（{questionList.length}件）
+              </button>
+
+              {/* ユーザー変更 */}
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  handleChangeUserName();
+                }}
+                className="w-full text-left bg-blue-400 hover:bg-blue-500 text-white px-3 py-2 rounded-lg font-semibold shadow transition"
+              >
+                👤 ユーザー変更
+              </button>
+
+              {/* ログアウト */}
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  handleLogout();
+                }}
+                className="w-full text-left bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-semibold shadow transition"
+              >
+                🚪 ログアウト
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* 🌟 トップ画面（塾∞練デザイン統一版・フル幅対応） */}
         {!showQuestions && !showResult && units.length > 0 && (
