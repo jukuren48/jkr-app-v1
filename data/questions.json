@@ -679,7 +679,7 @@
     "unit": "付加疑問文",
     "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの人はあなたのお父さんですよね。\n( that / your / , / is / father / he / isn’t ).",
     "choices": [],
-    "correct": "That’s your father, isn’t he?",
+    "correct": "That is your father, isn’t he?",
     "explanation": "『That’s ～』のタグは『isn’t it?』ではなく、主語が『he』の場合は『isn’t he?』になります。意味上の主語で一致させます。",
     "incorrectExplanations": {},
     "format": "整序問題",
