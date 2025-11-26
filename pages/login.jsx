@@ -80,9 +80,9 @@ export default function Login() {
         {/* ログイン */}
         <button
           onClick={handleLogin}
-          className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl mb-4 shadow-lg transition"
+          className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl mb-4 shadow-xl border-2 border-red-800"
         >
-          ログイン
+          ログイン（テスト）
         </button>
 
         {/* 新規登録 */}
