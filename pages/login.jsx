@@ -33,8 +33,8 @@ export default function Login() {
   const googleLogin = async () => {
     const redirectUrl =
       process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/auth/callback"
-        : "https://jkr-app-v1.vercel.app/auth/callback";
+        ? "http://localhost:3000/" // 最終的に戻る場所
+        : "https://jkr-app-v1.vercel.app/"; // 最終的に戻る場所
 
     await supabase.auth.signInWithOAuth({
       provider: "google",
