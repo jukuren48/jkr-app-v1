@@ -3566,7 +3566,7 @@ export default function EnglishTrapQuestions() {
                 <p className="text-white/85 font-semibold text-sm sm:text-base mt-1 drop-shadow-sm">
                   ～ 塾長からの挑戦状 ～
                 </p>
-                <p className="text-white/90 text-lg font-bold mt-3 drop-shadow-lg">
+                <p className="text-yellow-300 font-extrabold text-xl mt-2 drop-shadow-[0_0_5px_rgba(255,255,255,1)]">
                   {userName}、Let's try!
                 </p>
               </div>
