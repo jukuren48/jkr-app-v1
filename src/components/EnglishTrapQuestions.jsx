@@ -3520,9 +3520,9 @@ export default function EnglishTrapQuestions() {
                   setMenuOpen(false);
                   handleChangeUserName();
                 }}
-                className="w-full text-left bg-blue-400 hover:bg-blue-500 text-white px-3 py-2 rounded-lg font-semibold shadow transition"
+                className="w-full text-left bg-blue-400 hover:bg-blue-500 text-white px-3 py-2 rounded-lg font-semibold shadow"
               >
-                👤 ユーザー変更
+                👤 現在のユーザーから変更：{userName}
               </button>
 
               {/* ログアウト */}
@@ -3581,6 +3581,9 @@ export default function EnglishTrapQuestions() {
 
                 <p className="text-white/85 font-semibold text-sm sm:text-base mt-1 drop-shadow-sm">
                   ～ 塾長からの挑戦状 ～
+                </p>
+                <p className="text-white/90 text-lg font-bold mt-3 drop-shadow-lg">
+                  {userName}、Let's try!
                 </p>
               </div>
 
