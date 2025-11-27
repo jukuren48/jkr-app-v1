@@ -646,10 +646,18 @@ function HandwritingPad({
         </button>
 
         <button
-          onClick={() => handleAnswer(inputAnswer)}
-          className="px-3 py-1 bg-[#4A6572] text-white rounded-lg shadow"
+          disabled={!currentAnswer || currentAnswer.trim() === ""}
+          onClick={() => handleAnswer(currentAnswer)}
+          className={`
+    px-3 py-1 rounded-lg font-bold
+    ${
+      currentAnswer && currentAnswer.trim() !== ""
+        ? "bg-purple-600 hover:bg-purple-700 text-white shadow"
+        : "bg-gray-300 text-gray-400 cursor-not-allowed"
+    }
+  `}
         >
-          採点
+          判定
         </button>
       </div>
     </div>
