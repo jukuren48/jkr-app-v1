@@ -866,6 +866,8 @@ export default function EnglishTrapQuestions() {
   const [countPlayedForQuestion, setCountPlayedForQuestion] = useState({});
 
   // 単語帳（英単語と意味を保存）
+  // 📘 単語テスト専用の複数選択
+  const [selectedWordUnits, setSelectedWordUnits] = useState([]);
   const [customWords, setCustomWords] = useState([]);
   const [selectedUnit, setSelectedUnit] = useState(null);
   // ✅ Supabase一本化した単語帳
@@ -1109,26 +1111,6 @@ export default function EnglishTrapQuestions() {
     });
   };
 
-  // ===============================
-  // 📘 単語テスト専用ボタン
-  // ===============================
-  const renderWordTestButton = (unitName, label) => (
-    <button
-      key={unitName}
-      onClick={() => setSelectedUnit(unitName)}
-      className={`
-      col-span-4 sm:col-span-5 rounded-xl py-2 font-bold shadow-md transition
-      ${
-        selectedUnit === unitName
-          ? "bg-blue-500 text-white"
-          : "bg-white text-[#4A6572] border border-gray-300 hover:bg-gray-100"
-      }
-    `}
-    >
-      {label}
-    </button>
-  );
-
   // ✅ 第2引数に「表示名」を受け取れるよう変更
   const renderUnitButton = (unit, displayNameOverride) => {
     const displayName = displayNameOverride || unit;
@@ -1234,6 +1216,38 @@ export default function EnglishTrapQuestions() {
           </span>
         )}
       </motion.button>
+    );
+  };
+
+  // ===============================
+  // 📘 単語テスト専用ボタン
+  // ===============================
+  const renderWordTestButton = (unitName, label) => {
+    const isSelected = selectedWordUnits.includes(unitName);
+
+    return (
+      <button
+        key={unitName}
+        onClick={() => {
+          if (isSelected) {
+            setSelectedWordUnits(
+              selectedWordUnits.filter((u) => u !== unitName)
+            );
+          } else {
+            setSelectedWordUnits([...selectedWordUnits, unitName]);
+          }
+        }}
+        className={`
+        col-span-4 sm:col-span-5 rounded-xl py-2 font-bold shadow-md transition
+        ${
+          isSelected
+            ? "bg-blue-500 text-white"
+            : "bg-white text-[#4A6572] border border-gray-300 hover:bg-gray-100"
+        }
+      `}
+      >
+        {label}
+      </button>
     );
   };
 
@@ -3839,10 +3853,12 @@ export default function EnglishTrapQuestions() {
                           transition={{ duration: 0.4, ease: "easeInOut" }}
                           className="col-span-4 sm:col-span-5 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
                         >
+                          {/* 📘 案内文 */}
                           <div className="col-span-4 sm:col-span-5 text-center mb-2 font-bold text-[#4A6572]">
                             📘 覚えたい・テストしたい単語を選んでください
                           </div>
-                          {/* ▼ 既存：questions.json にある「単語テスト」単元ボタン */}
+
+                          {/* 単語テスト用のユニットボタン */}
                           {Array.from(
                             new Set(
                               questions
@@ -3850,37 +3866,39 @@ export default function EnglishTrapQuestions() {
                                 .filter((unit) => unit.includes("単語テスト"))
                             )
                           ).map((unit) => {
-                            const displayName = unit
-                              .replace("単語テスト", "")
-                              .trim();
-                            return renderWordTestButton(unit, displayName);
+                            const name = unit.replace("単語テスト", "").trim();
+                            return renderWordTestButton(unit, name);
                           })}
-                          {/* ▼ GO! ボタン */}
+
+                          {/* 🚀 GO ボタン */}
                           <div className="col-span-4 sm:col-span-5 flex justify-center mt-3">
                             <button
-                              disabled={!selectedUnit}
+                              disabled={selectedWordUnits.length === 0}
                               onClick={() => {
-                                if (!selectedUnit) return;
-
-                                const qs = questions.filter(
-                                  (q) => q.unit === selectedUnit
+                                // 単語ユニットの問題だけを抽出
+                                const qs = questions.filter((q) =>
+                                  selectedWordUnits.includes(q.unit)
                                 );
 
-                                playButtonSound(() => {
-                                  initAudio();
-                                  startQuiz(qs);
-                                });
+                                if (qs.length === 0) {
+                                  alert("単語単元が選ばれていません。");
+                                  return;
+                                }
+
+                                // startQuiz の通常ルートではなく、skipFiltering ルートで開始
+                                setFilteredQuestions(qs);
+                                startQuiz({ skipFiltering: true });
 
                                 setShowWordFolder(false);
                               }}
                               className={`
-          px-6 py-3 rounded-full font-bold text-white shadow-lg transition
-          ${
-            selectedUnit
-              ? "bg-pink-500 hover:bg-pink-600"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }
-        `}
+            px-6 py-3 rounded-full font-bold text-white shadow-lg transition
+            ${
+              selectedWordUnits.length > 0
+                ? "bg-pink-500 hover:bg-pink-600"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }
+          `}
                             >
                               🚀 GO！
                             </button>
