@@ -867,7 +867,6 @@ export default function EnglishTrapQuestions() {
 
   // 単語帳（英単語と意味を保存）
   // 📘 単語テスト専用の複数選択
-  const [selectedWordUnits, setSelectedWordUnits] = useState([]);
   const [customWords, setCustomWords] = useState([]);
   const [selectedUnit, setSelectedUnit] = useState(null);
   // ✅ Supabase一本化した単語帳
@@ -918,6 +917,30 @@ export default function EnglishTrapQuestions() {
     }
     return 0;
   });
+
+  const [selectedWordUnits, setSelectedWordUnits] = useState(() => {
+    if (typeof window === "undefined") return [];
+    try {
+      const saved = localStorage.getItem("selectedWordUnits");
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(
+        "selectedWordUnits",
+        JSON.stringify(selectedWordUnits)
+      );
+    } catch (e) {
+      console.warn("failed to save selectedWordUnits", e);
+    }
+  }, [selectedWordUnits]);
 
   // 単語テスト開始フラグ
   const [startWordQuizFlag, setStartWordQuizFlag] = useState(false);
@@ -1248,11 +1271,15 @@ export default function EnglishTrapQuestions() {
         key={unitName}
         onClick={() => {
           if (isSelected) {
+            // 選択解除 → unitModes を 0 にする
             setSelectedWordUnits(
               selectedWordUnits.filter((u) => u !== unitName)
             );
+            setUnitModes((prev) => ({ ...prev, [unitName]: 0 }));
           } else {
+            // 選択 → unitModes に「両方モード 1」を登録
             setSelectedWordUnits([...selectedWordUnits, unitName]);
+            setUnitModes((prev) => ({ ...prev, [unitName]: 1 }));
           }
         }}
         className={`
@@ -2139,24 +2166,86 @@ export default function EnglishTrapQuestions() {
     });
   }, [questions, unitModes]);
 
+  // ===============================
+  // 📘 単語テスト専用スタート関数
+  // ===============================
+  const startWordQuiz = () => {
+    // ① 単語単元が1つも選ばれていない
+    if (!selectedWordUnits || selectedWordUnits.length === 0) {
+      alert("単語テストの単元を1つ以上選んでください。");
+      return;
+    }
+
+    // ② 出題形式が未選択（単語・熟語だけでもOK）
+    if (!selectedFormats || selectedFormats.length === 0) {
+      alert(
+        "出題形式を1つ以上選んでください。（単語テストなら「単語・熟語」を選んでください）"
+      );
+      return;
+    }
+
+    // ③ 単語単元 ＆ 出題形式 でフィルタ
+    const wordQuestions = questions.filter((q) => {
+      const inUnit = selectedWordUnits.includes(q.unit);
+      const inFormat = selectedFormats.includes(q.format || "単語・熟語");
+      return inUnit && inFormat;
+    });
+
+    if (wordQuestions.length === 0) {
+      alert("選択した単語単元と出題形式に合う問題がありません。");
+      return;
+    }
+
+    // ④ シャッフル＆出題数を反映
+    const shuffled = shuffleArray(wordQuestions);
+    const limited =
+      questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
+
+    if (limited.length === 0) {
+      alert("出題できる問題がありません。");
+      return;
+    }
+
+    // ⑤ ここから下は、通常の startQuiz の「最後のセット部分」と同じでOK
+    setInitialQuestionCount(limited.length);
+    setCharacterMood("neutral");
+    setFilteredQuestions(limited);
+    setInitialQuestions(limited);
+    setCurrentIndex(0);
+    setShowQuestions(true);
+    setShowResult(false);
+    setShowFeedback(false);
+    setSelectedChoice(null);
+    setMistakes({});
+    setIsReviewMode(false);
+    setReviewList([]);
+    setReviewMistakes([]);
+    setAddMessage("");
+    setHintLevels({});
+    setHintText("");
+    setHintLevel(0);
+  };
+
   // ✅ クイズ開始処理（複数形式×複数単元対応）
   // 📌 修正版 startQuiz（オリジナルテスト時は絞り込みをスキップ）
   const startQuiz = (options = {}) => {
-    const { skipFiltering = false, directQuestions = null } = options;
+    const {
+      skipFiltering = false, // ★ 単語GO・オリジナルGO 用
+      directQuestions = null, // ★ 直接問題リストを渡す
+    } = options;
 
-    // ---------------------------
-    // ① 新：外部から直接問題配列を渡すモード
-    // ---------------------------
-    if (skipFiltering && Array.isArray(directQuestions)) {
-      if (directQuestions.length === 0) {
+    // ================================
+    // ★ ① skipFiltering（単語GO / オリジナルGO）
+    // ================================
+    if (skipFiltering) {
+      const qs = directQuestions;
+
+      if (!qs || qs.length === 0) {
         alert("出題できる問題がありません。");
         return;
       }
 
-      const limited =
-        questionCount === "all"
-          ? directQuestions
-          : directQuestions.slice(0, questionCount);
+      const limited = questionCount === "all" ? qs : qs.slice(0, questionCount);
 
       setInitialQuestionCount(limited.length);
       setCharacterMood("neutral");
@@ -2176,18 +2265,18 @@ export default function EnglishTrapQuestions() {
       setHintText("");
       setHintLevel(0);
 
-      return;
+      return; // ⭐完全に終了（通常ルートに入らない！）
     }
 
-    // ---------------------------
-    // ② 通常スタート（従来の動作）
-    // ---------------------------
-
+    // ================================
+    // ★② 通常（文法＋単語混合）スタート
+    // ================================
     if (selectedFormats.length === 0) {
       alert("出題形式を1つ以上選んでください。");
       return;
     }
 
+    // 単語単元も文法単元も unitModes が 1〜3 なら混合可能
     const activeUnits = Object.keys(unitModes).filter(
       (u) => unitModes[u] !== 0
     );
@@ -2202,22 +2291,22 @@ export default function EnglishTrapQuestions() {
     setUnitBgmPlaying(false);
     lastBgmType = null;
 
-    // 🔹 通常フィルター
     const filtered = questions.filter((q) => {
       const unitSelected = activeUnits.includes(q.unit);
       const formatSelected = selectedFormats.includes(q.format || "単語・熟語");
-      const mode = unitModes[q.unit] || 0;
 
       if (!unitSelected || !formatSelected) return false;
-      if (mode === 0) return false;
+
+      const mode = unitModes[q.unit] || 0;
       if (mode === 1) return true;
       if (mode === 2) return q.type === "multiple-choice";
       if (mode === 3) return q.type === "input";
+
       return false;
     });
 
     if (filtered.length === 0) {
-      alert("選択した形式と単元に合う問題がありません。");
+      alert("選択した単元に合う問題がありません。");
       return;
     }
 
@@ -3775,6 +3864,31 @@ export default function EnglishTrapQuestions() {
                     : "出題形式を選んでください"}
                 </motion.h2>
 
+                {/* === 出題数ボタン（ここに移動！） === */}
+                <div className="text-center space-y-2 mb-6">
+                  <h2 className="text-lg font-bold text-[#4A6572]">
+                    出題数を選ぼう！
+                  </h2>
+
+                  <div className="flex gap-2 flex-wrap justify-center">
+                    {[5, 10, 15, "all"].map((count) => (
+                      <button
+                        key={count}
+                        onClick={() =>
+                          playButtonSound(() => setQuestionCount(count))
+                        }
+                        className={`px-4 py-2 rounded-full border shadow-sm transition text-sm ${
+                          questionCount === count
+                            ? "bg-[#A7D5C0] text-[#4A6572] font-bold scale-105"
+                            : "bg-white text-[#4A6572] hover:bg-[#F1F1F1]"
+                        }`}
+                      >
+                        {count === "all" ? "すべて" : `${count}問`}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* === 単元グリッド === */}
                 <div className="w-full px-2 sm:px-4">
                   {/* === 全選択・全解除 === */}
@@ -3913,22 +4027,21 @@ export default function EnglishTrapQuestions() {
                             <button
                               disabled={selectedWordUnits.length === 0}
                               onClick={() => {
-                                const qs = questions.filter((q) =>
-                                  selectedWordUnits.includes(q.unit)
-                                );
-
-                                setFilteredQuestions(qs); // ← 先にセット
-                                setStartWordQuizFlag(true); // ← 後から起動
+                                // 🔊 サウンド初期化（通常スタートと同じ）
+                                initAudio();
+                                // 📘 単語専用スタート
+                                startWordQuiz();
+                                // 📂 フォルダを閉じる
                                 setShowWordFolder(false);
                               }}
                               className={`
-            px-6 py-3 rounded-full font-bold text-white shadow-lg transition
-            ${
-              selectedWordUnits.length > 0
-                ? "bg-pink-500 hover:bg-pink-600"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }
-          `}
+      px-6 py-3 rounded-full font-bold text-white shadow-lg transition
+      ${
+        selectedWordUnits.length > 0
+          ? "bg-pink-500 hover:bg-pink-600"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+      }
+    `}
                             >
                               🚀 GO！
                             </button>
@@ -3948,29 +4061,8 @@ export default function EnglishTrapQuestions() {
                   </div>
                 </div>
 
-                {/* === 出題数・単語帳・サウンド設定 === */}
+                {/* === 単語帳・サウンド設定 === */}
                 <div className="text-center space-y-4">
-                  <h2 className="text-lg font-bold text-[#4A6572]">
-                    出題数を選ぼう！
-                  </h2>
-                  <div className="flex gap-3 flex-wrap justify-center mb-2">
-                    {[5, 10, 15, "all"].map((count) => (
-                      <button
-                        key={count}
-                        onClick={() =>
-                          playButtonSound(() => setQuestionCount(count))
-                        }
-                        className={`px-4 py-2 rounded-full border shadow-sm transition text-sm ${
-                          questionCount === count
-                            ? "bg-[#A7D5C0] text-[#4A6572] font-bold scale-105"
-                            : "bg-white text-[#4A6572] hover:bg-[#F1F1F1]"
-                        }`}
-                      >
-                        {count === "all" ? "すべて" : `${count}問`}
-                      </button>
-                    ))}
-                  </div>
-
                   <div className="flex justify-center gap-3 flex-wrap">
                     <button
                       onClick={async () => {
@@ -4013,14 +4105,6 @@ export default function EnglishTrapQuestions() {
                 {/* === スタートボタン === */}
                 <button
                   onClick={() => {
-                    if (selectedFormats.length === 0) {
-                      alert("出題形式を1つ以上選んでください。");
-                      return;
-                    }
-                    if (filtered.length === 0) {
-                      alert("選択した単元に問題がありません。");
-                      return;
-                    }
                     initAudio();
                     startQuiz();
                   }}
