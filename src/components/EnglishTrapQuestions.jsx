@@ -2080,15 +2080,36 @@ export default function EnglishTrapQuestions() {
   };
 
   const selectAllUnits = () => {
-    const newModes = {};
-    units.forEach((u) => (newModes[u] = 1)); // 1 = 両方
-    setUnitModes(newModes);
+    // 文法単元の全選択（既存ロジック）
+    const updatedModes = {};
+    Object.keys(unitModes).forEach((unit) => {
+      updatedModes[unit] = 1; // mode = 1（両方）でON
+    });
+    setUnitModes(updatedModes);
+
+    // 📘 単語単元の全選択
+    const wordUnits = Array.from(
+      new Set(
+        questions
+          .map((q) => q.unit)
+          .filter((unit) => unit.includes("単語テスト"))
+      )
+    );
+    setSelectedWordUnits(wordUnits);
   };
+
   const clearAllUnits = () => {
-    const newModes = {};
-    units.forEach((u) => (newModes[u] = 0)); // 0 = 未選択
-    setUnitModes(newModes);
+    // 文法単元の全解除（既存ロジック）
+    const updatedModes = {};
+    Object.keys(unitModes).forEach((unit) => {
+      updatedModes[unit] = 0; // OFF
+    });
+    setUnitModes(updatedModes);
+
+    // 📘 単語単元の全解除
+    setSelectedWordUnits([]);
   };
+
   const filtered = useMemo(() => {
     return questions.filter((q) => {
       const mode = unitModes[q.unit] || 0;
