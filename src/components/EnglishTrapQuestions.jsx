@@ -3853,7 +3853,7 @@ export default function EnglishTrapQuestions() {
                             const displayName = unit
                               .replace("単語テスト", "")
                               .trim();
-                            return renderUnitButton(unit, displayName);
+                            return renderWordTestButton(unit, displayName);
                           })}
                           {/* ▼ GO! ボタン */}
                           <div className="col-span-4 sm:col-span-5 flex justify-center mt-3">
