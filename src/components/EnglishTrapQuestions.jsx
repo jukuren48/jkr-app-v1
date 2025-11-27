@@ -919,6 +919,24 @@ export default function EnglishTrapQuestions() {
     return 0;
   });
 
+  // 単語テスト開始フラグ
+  const [startWordQuizFlag, setStartWordQuizFlag] = useState(false);
+
+  // filteredQuestions がセットされ、フラグが ON のときにテスト開始
+  useEffect(() => {
+    if (!startWordQuizFlag) return;
+    if (!filteredQuestions || filteredQuestions.length === 0) return;
+
+    // 🎯 ここで skipFiltering モードで開始
+    startQuiz({
+      skipFiltering: true,
+      directQuestions: filteredQuestions,
+    });
+
+    // フラグを戻す
+    setStartWordQuizFlag(false);
+  }, [startWordQuizFlag, filteredQuestions]);
+
   // 🧩 オリジナル単語を既存問題形式へ変換
   const generateOriginalQuestions = () => {
     return originalWords.map((item) => ({
