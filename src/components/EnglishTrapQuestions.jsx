@@ -867,6 +867,7 @@ export default function EnglishTrapQuestions() {
 
   // 単語帳（英単語と意味を保存）
   const [customWords, setCustomWords] = useState([]);
+  const [selectedUnit, setSelectedUnit] = useState(null);
   // ✅ Supabase一本化した単語帳
   const [originalWords, setOriginalWords] = useState([]);
   const [suggestedMeaning, setSuggestedMeaning] = useState("");
@@ -1107,6 +1108,26 @@ export default function EnglishTrapQuestions() {
       return { ...prev, [unit]: next };
     });
   };
+
+  // ===============================
+  // 📘 単語テスト専用ボタン
+  // ===============================
+  const renderWordTestButton = (unitName, label) => (
+    <button
+      key={unitName}
+      onClick={() => setSelectedUnit(unitName)}
+      className={`
+      col-span-4 sm:col-span-5 rounded-xl py-2 font-bold shadow-md transition
+      ${
+        selectedUnit === unitName
+          ? "bg-blue-500 text-white"
+          : "bg-white text-[#4A6572] border border-gray-300 hover:bg-gray-100"
+      }
+    `}
+    >
+      {label}
+    </button>
+  );
 
   // ✅ 第2引数に「表示名」を受け取れるよう変更
   const renderUnitButton = (unit, displayNameOverride) => {
@@ -3728,7 +3749,7 @@ export default function EnglishTrapQuestions() {
             w-full mb-8
           "
                   >
-                    {/* === 📁 単語テストフォルダー === */}
+                    {/* === 📁 単語を覚える・テストする === */}
                     <motion.button
                       whileTap={{ scale: 0.95 }}
                       onClick={() =>
@@ -3736,19 +3757,19 @@ export default function EnglishTrapQuestions() {
                       }
                       className="col-span-4 sm:col-span-5 bg-gradient-to-r from-yellow-300 to-yellow-400 text-[#4A6572] font-bold py-2 rounded-xl shadow-md transition-all text-center"
                     >
-                      📘 単語テスト {showWordFolder ? "▲" : "▼"}
+                      📘 単語を覚える・テストする {showWordFolder ? "▲" : "▼"}
                     </motion.button>
 
-                    {/* === 📗 オリジナル単語帳フォルダ === */}
+                    {/* === 📗 My単語を覚える・テストする === */}
                     <motion.button
                       whileTap={{ scale: 0.95 }}
                       onClick={() =>
                         playButtonSound(() => setShowOriginalFolder((p) => !p))
                       }
-                      className="col-span-4 sm:col-span-5 bg-gradient-to-r from-green-300 to-green-400 
-             text-[#2d4a22] font-bold py-2 rounded-xl shadow-md transition-all text-center"
+                      className="col-span-4 sm:col-span-5 bg-gradient-to-r from-green-300 to-green-400 text-[#2d4a22] font-bold py-2 rounded-xl shadow-md transition-all text-center"
                     >
-                      📗 オリジナル単語帳 {showOriginalFolder ? "▲" : "▼"}
+                      📗 My単語を覚える・テストする{" "}
+                      {showOriginalFolder ? "▲" : "▼"}
                     </motion.button>
 
                     <AnimatePresence>
@@ -3818,6 +3839,9 @@ export default function EnglishTrapQuestions() {
                           transition={{ duration: 0.4, ease: "easeInOut" }}
                           className="col-span-4 sm:col-span-5 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
                         >
+                          <div className="col-span-4 sm:col-span-5 text-center mb-2 font-bold text-[#4A6572]">
+                            📘 覚えたい・テストしたい単語を選んでください
+                          </div>
                           {/* ▼ 既存：questions.json にある「単語テスト」単元ボタン */}
                           {Array.from(
                             new Set(
@@ -3831,6 +3855,36 @@ export default function EnglishTrapQuestions() {
                               .trim();
                             return renderUnitButton(unit, displayName);
                           })}
+                          {/* ▼ GO! ボタン */}
+                          <div className="col-span-4 sm:col-span-5 flex justify-center mt-3">
+                            <button
+                              disabled={!selectedUnit}
+                              onClick={() => {
+                                if (!selectedUnit) return;
+
+                                const qs = questions.filter(
+                                  (q) => q.unit === selectedUnit
+                                );
+
+                                playButtonSound(() => {
+                                  initAudio();
+                                  startQuiz(qs);
+                                });
+
+                                setShowWordFolder(false);
+                              }}
+                              className={`
+          px-6 py-3 rounded-full font-bold text-white shadow-lg transition
+          ${
+            selectedUnit
+              ? "bg-pink-500 hover:bg-pink-600"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }
+        `}
+                            >
+                              🚀 GO！
+                            </button>
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
