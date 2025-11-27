@@ -2992,27 +2992,51 @@ export default function EnglishTrapQuestions() {
     if (audioCtx && audioCtx.state === "suspended") {
       try {
         await audioCtx.resume();
-        //console.log("[Audio] resumed in startReview (tap-safe)");
       } catch (e) {
         console.warn("[Audio] resume failed in startReview", e);
       }
     }
 
-    // 2) 既存の問題BGMを安全停止し、復習BGMへ強制切替
+    // ▼▼▼ 2) サウンドOFFなら、BGMは一切再生しない ▼▼▼
+    if (!soundEnabled) {
+      // すべてのBGMを停止
+      try {
+        if (typeof stopBgm === "function") stopBgm(true);
+        if (typeof stopQbgm === "function") stopQbgm(true);
+      } catch (e) {
+        console.warn("[Audio] stopQbgm failed", e);
+      }
+
+      // 復習状態だけセットして終了
+      const reviewCopy = reviewQueueRef.current || [];
+      setFilteredQuestions(reviewCopy);
+      setCurrentIndex(0);
+      setShowFeedback(false);
+      setTimerActive(false);
+      setShowResult(false);
+      setReviewList([]);
+      setIsReviewMode(true);
+      setShowReviewPrompt(false);
+      return; // ← BGM再生は完全スキップ
+    }
+    // ▲▲▲ BGMなしモードはここでリターン ▲▲▲
+
+    // ▼▼▼ 3) サウンドON時のみBGM切替 ▼▼▼
     try {
       if (typeof stopBgm === "function") stopBgm(true);
       if (typeof stopQbgm === "function") stopQbgm(true);
     } catch (e) {
       console.warn("[Audio] stopQbgm failed", e);
     }
+
     try {
-      await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true); // ← forceReload=true
+      await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
       fadeInBGM(qbgmGain, 0.2, 2.0);
     } catch (e) {
       console.warn("[Audio] review BGM start failed", e);
     }
 
-    // 3) 復習の出題状態をセット
+    // ▼▼▼ 4) 復習の出題状態セット ▼▼▼
     const reviewCopy = reviewQueueRef.current || [];
     setFilteredQuestions(reviewCopy);
     setCurrentIndex(0);
@@ -3023,9 +3047,9 @@ export default function EnglishTrapQuestions() {
     setIsReviewMode(true);
     setShowReviewPrompt(false);
 
-    // 4) 出題SFX（ユーザー操作中なのでiOSでも確実に鳴る）
+    // ▼▼▼ 5) 出題SE（ONのときだけ） ▼▼▼
     if (soundEnabled) {
-      playSFX("/sounds/deden.mp3"); // 1問目SE
+      playSFX("/sounds/deden.mp3");
       setQuestionPlayCount((prev) => prev + 1);
     }
   };
