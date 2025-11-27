@@ -758,15 +758,8 @@ export default function EnglishTrapQuestions() {
     return true;
   });
 
-  // OCRエンジンの設定（localStorageに保存）
-  const [ocrEngine, setOcrEngine] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("ocrEngine");
-      if (!saved) localStorage.setItem("ocrEngine", "vision"); // 初期値はGoogle Vision
-      return saved || "vision";
-    }
-    return "vision";
-  });
+  // ✔ OCRエンジンをVision固定（state不要）
+  const ocrEngine = "vision";
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -1496,7 +1489,7 @@ export default function EnglishTrapQuestions() {
       {useHandwriting ? (
         <HandwritingPad
           compact={false} // ← これで通常パッドとして動く！
-          ocrEngine={ocrEngine}
+          ocrEngine="vision"
           lowSpecMode={lowSpecMode}
           /* ★ 認識文字を通常入力欄へ追加 */
           onCharRecognized={(char) => {
@@ -3413,7 +3406,7 @@ export default function EnglishTrapQuestions() {
                 <HandwritingPad
                   compact
                   target={showHandwritingFor}
-                  ocrEngine={ocrEngine}
+                  ocrEngine="vision"
                   lowSpecMode={lowSpecMode}
                   currentAnswer={
                     showHandwritingFor === "word"
@@ -3890,27 +3883,6 @@ export default function EnglishTrapQuestions() {
                     ⚙️ 軽量モード（アニメ・シャドウOFF）
                   </label>
                 </div>
-
-                {/* 🧠 OCRモード切替（Google Vision / Tesseract） */}
-                {useHandwriting && (
-                  <div className="mt-2 flex items-center justify-center gap-2 bg-gray-50 p-2 rounded-lg border">
-                    <input
-                      type="checkbox"
-                      id="useGoogleOCR"
-                      checked={ocrEngine === "vision"}
-                      onChange={(e) =>
-                        setOcrEngine(e.target.checked ? "vision" : "tesseract")
-                      }
-                      className="w-4 h-4 accent-blue-600"
-                    />
-                    <label
-                      htmlFor="useGoogleOCR"
-                      className="text-sm text-gray-800 font-semibold select-none"
-                    >
-                      🌐 高精度OCR（Google Vision）を使う
-                    </label>
-                  </div>
-                )}
 
                 {/* === スタートボタン === */}
                 <button
