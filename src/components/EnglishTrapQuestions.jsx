@@ -3899,14 +3899,8 @@ export default function EnglishTrapQuestions() {
                                   selectedWordUnits.includes(q.unit)
                                 );
 
-                                playButtonSound(() => {
-                                  initAudio();
-                                  startQuiz({
-                                    skipFiltering: true,
-                                    directQuestions: qs, // ← ココが重要！
-                                  });
-                                });
-
+                                setFilteredQuestions(qs); // ← 先にセット
+                                setStartWordQuizFlag(true); // ← 後から起動
                                 setShowWordFolder(false);
                               }}
                               className={`
