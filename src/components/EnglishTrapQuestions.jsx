@@ -2124,22 +2124,21 @@ export default function EnglishTrapQuestions() {
   // ✅ クイズ開始処理（複数形式×複数単元対応）
   // 📌 修正版 startQuiz（オリジナルテスト時は絞り込みをスキップ）
   const startQuiz = (options = {}) => {
-    const { skipFiltering = false } = options;
+    const { skipFiltering = false, directQuestions = null } = options;
 
     // ---------------------------
-    // ① フィルタリングを飛ばすモード（オリジナル単語テスト）
+    // ① 新：外部から直接問題配列を渡すモード
     // ---------------------------
-    if (skipFiltering) {
-      // filteredQuestions はすでに外側でセットされている前提
-      if (!filteredQuestions || filteredQuestions.length === 0) {
+    if (skipFiltering && Array.isArray(directQuestions)) {
+      if (directQuestions.length === 0) {
         alert("出題できる問題がありません。");
         return;
       }
 
       const limited =
         questionCount === "all"
-          ? filteredQuestions
-          : filteredQuestions.slice(0, questionCount);
+          ? directQuestions
+          : directQuestions.slice(0, questionCount);
 
       setInitialQuestionCount(limited.length);
       setCharacterMood("neutral");
@@ -2159,7 +2158,7 @@ export default function EnglishTrapQuestions() {
       setHintText("");
       setHintLevel(0);
 
-      return; // ← 絶対にここで終了！
+      return;
     }
 
     // ---------------------------
@@ -3896,19 +3895,17 @@ export default function EnglishTrapQuestions() {
                             <button
                               disabled={selectedWordUnits.length === 0}
                               onClick={() => {
-                                // 単語ユニットの問題だけを抽出
                                 const qs = questions.filter((q) =>
                                   selectedWordUnits.includes(q.unit)
                                 );
 
-                                if (qs.length === 0) {
-                                  alert("単語単元が選ばれていません。");
-                                  return;
-                                }
-
-                                // startQuiz の通常ルートではなく、skipFiltering ルートで開始
-                                setFilteredQuestions(qs);
-                                startQuiz({ skipFiltering: true });
+                                playButtonSound(() => {
+                                  initAudio();
+                                  startQuiz({
+                                    skipFiltering: true,
+                                    directQuestions: qs, // ← ココが重要！
+                                  });
+                                });
 
                                 setShowWordFolder(false);
                               }}
