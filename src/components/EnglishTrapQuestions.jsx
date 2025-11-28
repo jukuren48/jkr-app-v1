@@ -1271,19 +1271,16 @@ export default function EnglishTrapQuestions() {
         key={unitName}
         onClick={() => {
           if (isSelected) {
-            // 選択解除 → unitModes を 0 にする
             setSelectedWordUnits(
               selectedWordUnits.filter((u) => u !== unitName)
             );
-            setUnitModes((prev) => ({ ...prev, [unitName]: 0 }));
           } else {
-            // 選択 → unitModes に「両方モード 1」を登録
             setSelectedWordUnits([...selectedWordUnits, unitName]);
-            setUnitModes((prev) => ({ ...prev, [unitName]: 1 }));
           }
         }}
         className={`
-        col-span-4 sm:col-span-5 rounded-xl py-2 font-bold shadow-md transition
+        col-span-2 sm:col-span-1  /* ←★これで複数列に並ぶ！ */
+        rounded-xl py-2 font-bold shadow-md transition
         ${
           isSelected
             ? "bg-blue-500 text-white"
