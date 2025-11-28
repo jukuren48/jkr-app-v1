@@ -3777,11 +3777,11 @@ export default function EnglishTrapQuestions() {
                   }
                   style={{ zIndex: 10 }} // 💡 最前面固定
                 >
-                  英語ひっかけ問題
+                  Let'sエンタメ英語
                 </motion.h1>
 
                 <p className="text-white/85 font-semibold text-sm sm:text-base mt-1 drop-shadow-sm">
-                  ～ 塾長からの挑戦状 ～
+                  ～ 楽しく身につく英語トレーニング ～
                 </p>
                 <p className="text-yellow-300 font-extrabold text-xl mt-2 drop-shadow-[0_0_5px_rgba(255,255,255,1)]">
                   {userName}、Let's try!
@@ -3800,7 +3800,7 @@ export default function EnglishTrapQuestions() {
                 }`}
               >
                 {/* === 出題形式タブ === */}
-                <h2 className="text-2xl font-bold text-center mb-4 text-[#4A6572]">
+                <h2 className="text-lg font-bold text-center mb-4 text-[#4A6572]">
                   🎯 出題形式を選ぼう！（複数選択OK）
                 </h2>
 
@@ -4025,19 +4025,30 @@ export default function EnglishTrapQuestions() {
                           {/* 🚀 GO ボタン */}
                           <div className="col-span-4 sm:col-span-5 flex justify-center mt-3">
                             <button
-                              disabled={selectedWordUnits.length === 0}
+                              disabled={
+                                selectedWordUnits.length === 0 || !questionCount
+                              }
                               onClick={() => {
-                                // 🔊 サウンド初期化（通常スタートと同じ）
-                                initAudio();
-                                // 📘 単語専用スタート
-                                startWordQuiz();
-                                // 📂 フォルダを閉じる
+                                if (!questionCount) {
+                                  alert("出題数を選んでください。");
+                                  return;
+                                }
+
+                                const qs = questions.filter((q) =>
+                                  selectedWordUnits.includes(q.unit)
+                                );
+
+                                startQuiz({
+                                  skipFiltering: true,
+                                  directQuestions: qs,
+                                });
+
                                 setShowWordFolder(false);
                               }}
                               className={`
       px-6 py-3 rounded-full font-bold text-white shadow-lg transition
       ${
-        selectedWordUnits.length > 0
+        selectedWordUnits.length > 0 && questionCount
           ? "bg-pink-500 hover:bg-pink-600"
           : "bg-gray-300 text-gray-500 cursor-not-allowed"
       }
@@ -4105,12 +4116,43 @@ export default function EnglishTrapQuestions() {
                 {/* === スタートボタン === */}
                 <button
                   onClick={() => {
+                    if (selectedFormats.length === 0) {
+                      alert("出題形式を1つ以上選んでください。");
+                      return;
+                    }
+
+                    // ⚠ 単語も文法も選ばれていない場合
+                    const grammarUnitsSelected = Object.keys(unitModes).some(
+                      (u) => unitModes[u] !== 0
+                    );
+                    const wordsSelected = selectedWordUnits.length > 0;
+
+                    if (!grammarUnitsSelected && !wordsSelected) {
+                      alert("単元を1つ以上選んでください。");
+                      return;
+                    }
+
+                    if (!questionCount) {
+                      alert("出題数を選んでください。");
+                      return;
+                    }
+
                     initAudio();
                     startQuiz();
                   }}
-                  disabled={units.length === 0 || !questionCount}
+                  disabled={
+                    !questionCount ||
+                    !(
+                      Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
+                      selectedWordUnits.length > 0
+                    )
+                  }
                   className={`mt-8 rounded-full px-8 py-3 shadow-lg font-bold mx-auto block transition text-lg ${
-                    units.length === 0 || !questionCount
+                    !questionCount ||
+                    !(
+                      Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
+                      selectedWordUnits.length > 0
+                    )
                       ? "bg-gray-400 text-white cursor-not-allowed"
                       : "bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white scale-105"
                   }`}

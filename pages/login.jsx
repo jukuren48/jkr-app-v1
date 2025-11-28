@@ -25,7 +25,6 @@ export default function Login() {
       return;
     }
 
-    // 新規登録成功 → ログイン画面へ戻す
     alert("登録が完了しました！ログイン画面からログインしてください。");
     window.location.href = "/login";
   };
@@ -33,8 +32,8 @@ export default function Login() {
   const googleLogin = async () => {
     const redirectUrl =
       process.env.NODE_ENV === "development"
-        ? "http://localhost:3000/" // 最終的に戻る場所
-        : "https://jkr-app-v1.vercel.app/"; // 最終的に戻る場所
+        ? "http://localhost:3000/"
+        : "https://jkr-app-v1.vercel.app/";
 
     await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -45,18 +44,13 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-200 to-sky-400 flex items-center justify-center p-6">
       <div className="bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-10 w-full max-w-md text-center">
-        <h1 className="text-3xl font-bold text-sky-700 mb-4">
-          英語ひっかけ問題
-        </h1>
-        <p className="text-gray-600 text-sm mb-8">
-          〜 今日の成長を記録しよう！〜
-        </p>
-
-        {/* アイコン */}
-        <div className="flex justify-center mb-8">
-          <div className="w-24 h-24 bg-gradient-to-br from-sky-300 to-sky-500 rounded-full shadow-xl flex items-center justify-center">
-            📘
-          </div>
+        {/* ▼ ロゴ（ここに配置） */}
+        <div className="flex justify-center mb-6">
+          <img
+            src="/entame_eng.png" // ←ここをあなたのロゴファイル名に変更
+            alt="ロゴ"
+            className="w-150 h-auto select-none"
+          />
         </div>
 
         {/* メール */}
