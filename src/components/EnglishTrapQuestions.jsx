@@ -4574,25 +4574,29 @@ export default function EnglishTrapQuestions() {
     shadow-[0_-4px_12px_rgba(0,0,0,0.18)]
   "
                     >
-                      <button
-                        onClick={handleNext}
-                        disabled={isSpeaking}
-                        className={`
-    px-6 py-3 rounded-full shadow-md transition mt-4 text-white font-bold
-    relative z-[9999]       /* ★ 最前面へ固定 */
-    ${
-      isSpeaking
-        ? "bg-gray-400 cursor-not-allowed"
-        : "bg-pink-400 hover:bg-pink-500"
-    }
-  `}
-                        style={{
-                          position: "relative", // Safari対策: これがないとz-indexが効かない
-                          zIndex: 9999, // iOS安全値
-                        }}
-                      >
-                        {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
-                      </button>
+                      {showQuestions && showFeedback && (
+                        <button
+                          onClick={handleNext}
+                          disabled={isSpeaking}
+                          className={`
+      fixed bottom-4 left-1/2 -translate-x-1/2
+      z-[99999]
+      px-6 py-3 rounded-full shadow-xl text-white font-bold
+      transition-all
+      ${
+        isSpeaking
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-pink-500 hover:bg-pink-600"
+      }
+    `}
+                          style={{
+                            position: "fixed", // Safari最強固定
+                            zIndex: 99999, // ほぼ最前面
+                          }}
+                        >
+                          {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
+                        </button>
+                      )}
                     </div>
                   </div>
                 ) : (
