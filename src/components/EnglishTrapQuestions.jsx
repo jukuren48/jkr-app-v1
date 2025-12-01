@@ -8,6 +8,7 @@ import Tesseract from "tesseract.js";
 import React from "react";
 import { createPortal } from "react-dom";
 import { logout } from "../../lib/logout";
+import NextButtonPortal from "./NextButtonPortal";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
@@ -4576,35 +4577,25 @@ export default function EnglishTrapQuestions() {
                     >
                       {/* === 🔥 解説中限定：右下固定 Next ボタン === */}
                       {showQuestions && showFeedback && (
-                        <button
-                          onClick={handleNext}
-                          disabled={isSpeaking}
-                          className={`
-      fixed
-      bottom-5 right-5
-      z-[999999]               /* ← どのUIよりも最前面 */
-      px-6 py-3 
-      rounded-full 
-      shadow-xl 
-      text-white 
-      font-bold 
-      transition-all
-      active:scale-95
-      ${
-        isSpeaking
-          ? "bg-gray-400 cursor-not-allowed"
-          : "bg-pink-500 hover:bg-pink-600"
-      }
-    `}
-                          style={{
-                            position: "fixed",
-                            right: "20px",
-                            bottom: "20px",
-                            zIndex: 999999,
-                          }}
-                        >
-                          {isSpeaking ? "🔈 解説を再生中..." : "次へ →"}
-                        </button>
+                        <NextButtonPortal>
+                          <button
+                            onClick={handleNext}
+                            disabled={isSpeaking}
+                            className={`
+        fixed bottom-6 right-6
+        px-6 py-3 rounded-full font-bold
+        shadow-2xl
+        text-white text-lg
+        z-[99999999]
+        ${isSpeaking ? "bg-gray-400" : "bg-pink-500 hover:bg-pink-600"}
+      `}
+                            style={{
+                              pointerEvents: isSpeaking ? "none" : "auto",
+                            }}
+                          >
+                            {isSpeaking ? "🔈 再生中…" : "次へ →"}
+                          </button>
+                        </NextButtonPortal>
                       )}
                     </div>
                   </div>
