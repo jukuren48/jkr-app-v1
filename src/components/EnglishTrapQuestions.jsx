@@ -2938,6 +2938,9 @@ export default function EnglishTrapQuestions() {
     setLastLengthTest(value.length);
   };
 
+  const shouldBlinkRemember =
+    !showFeedback && !timeUp && timeLeft <= Math.floor(maxTime * (2 / 3));
+
   const handleAnswer = (answer) => {
     const currentQuestion = filteredQuestions[currentIndex];
     let isCorrectAnswer = false;
@@ -4485,7 +4488,11 @@ export default function EnglishTrapQuestions() {
                           setReviewing(false);
                         }, 2000);
                       }}
-                      className="bg-orange-400 hover:bg-orange-500 text-white px-4 py-2 rounded shadow ml-2"
+                      className={`
+    bg-orange-400 hover:bg-orange-500 text-white px-3 py-1.5 
+    rounded-full shadow text-sm sm:text-base font-bold
+    ${shouldBlinkRemember ? "blink-reminder" : ""}
+  `}
                     >
                       🔁 覚え直す
                     </button>
@@ -4659,7 +4666,11 @@ export default function EnglishTrapQuestions() {
                             setReviewing(false);
                           }, 2000);
                         }}
-                        className="bg-orange-400 hover:bg-orange-500 text-white font-bold px-3 py-1.5 rounded-full shadow text-sm sm:text-base"
+                        className={`
+    bg-orange-400 hover:bg-orange-500 text-white px-3 py-1.5 
+    rounded-full shadow text-sm sm:text-base font-bold
+    ${shouldBlinkRemember ? "blink-reminder" : ""}
+  `}
                       >
                         🔁 覚え直す
                       </button>
@@ -4791,6 +4802,7 @@ export default function EnglishTrapQuestions() {
             {/* 下：問題解答用の手書きパッド（compact版とは完全に別物） */}
             {showQuestions &&
               !showResult &&
+              currentQuestion.type !== "multiple-choice" &&
               (currentQuestion.type?.trim() === "input" ||
                 currentQuestion.format === "単語・熟語") &&
               !showHandwritingFor && ( // ← ★ compact表示中は通常パッドを出さない
