@@ -3525,6 +3525,14 @@ export default function EnglishTrapQuestions() {
   backdrop-blur-sm
 `;
 
+  const disabledStart =
+    !questionCount ||
+    selectedFormats.length === 0 ||
+    !(
+      Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
+      selectedWordUnits.length > 0
+    );
+
   // ========== UI ==========
   // ✅ 覚え直し問題ID一覧
   const reviewIds = new Set(
@@ -4173,60 +4181,99 @@ export default function EnglishTrapQuestions() {
                     <AnimatePresence>
                       {showOriginalFolder && (
                         <motion.div
-                          initial={{ opacity: 0, scaleY: 0.8 }}
-                          animate={{ opacity: 1, scaleY: 1 }}
-                          exit={{ opacity: 0, scaleY: 0.8 }}
-                          transition={{ duration: 0.22, ease: "easeOut" }}
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
                           className="
-        col-span-4 sm:col-span-5 origin-top
-        bg-white/80 backdrop-blur-sm
-        rounded-xl shadow-inner p-3 mt-2
-        grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2
+        col-span-4 sm:col-span-5
+        bg-white/70 backdrop-blur-lg
+        rounded-2xl shadow-xl border border-white/40
+        p-4 mt-2
       "
                         >
-                          {/* 追加ボタン */}
-                          <button
-                            onClick={() => {
-                              setShowCustomWordInput(true);
-                              setShowOriginalFolder(false);
-                            }}
-                            className="col-span-4 sm:col-span-5 bg-yellow-300 hover:bg-yellow-400 
-        text-[#4A6572] font-bold py-2 rounded-xl shadow-md"
-                          >
-                            ✍️ My単語を追加する
-                          </button>
+                          {/* タイトル */}
+                          <div className="text-center font-bold text-[#2d4a22] text-sm mb-4">
+                            📗 My単語帳で勉強しよう！
+                          </div>
 
-                          {/* 一覧ボタン */}
-                          <button
-                            onClick={() => {
-                              setShowOriginalList(true);
-                              setShowOriginalFolder(false);
-                            }}
-                            className="col-span-4 sm:col-span-5 bg-blue-300 hover:bg-blue-400 
-        text-[#123a6b] font-bold py-2 rounded-xl shadow-md"
-                          >
-                            📄 My単語一覧 / 編集 / 削除する
-                          </button>
+                          {/* 3つの操作ボタン（追加 / 一覧 / 編集） */}
+                          <div className="grid grid-cols-3 gap-2 mb-4">
+                            {/* 追加 */}
+                            <button
+                              onClick={() => {
+                                setShowCustomWordInput(true);
+                                setShowOriginalFolder(false);
+                              }}
+                              className="
+            flex flex-col items-center justify-center 
+            px-2 py-3 rounded-xl text-xs font-bold
+            bg-white text-[#2d4a22] border border-gray-300
+            hover:bg-gray-100 shadow-sm
+          "
+                            >
+                              <div className="text-lg mb-1">✍️</div>
+                              追加
+                            </button>
 
-                          {/* テストボタン */}
-                          <button
-                            onClick={() => {
-                              const originalQs = questions.filter(
-                                (q) => q.unit === "単語テストMy単語"
-                              );
+                            {/* 一覧 / 編集 */}
+                            <button
+                              onClick={() => {
+                                setShowOriginalList(true);
+                                setShowOriginalFolder(false);
+                              }}
+                              className="
+            flex flex-col items-center justify-center 
+            px-2 py-3 rounded-xl text-xs font-bold
+            bg-white text-[#2d4a22] border border-gray-300
+            hover:bg-gray-100 shadow-sm
+          "
+                            >
+                              <div className="text-lg mb-1">📄</div>
+                              一覧・編集
+                            </button>
 
-                              setShowOriginalFolder(false);
+                            {/* 削除機能（※必要なら） */}
+                            <button
+                              onClick={() => {
+                                setShowOriginalList(true); // 削除は一覧画面で可能
+                                setShowOriginalFolder(false);
+                              }}
+                              className="
+            flex flex-col items-center justify-center 
+            px-2 py-3 rounded-xl text-xs font-bold
+            bg-white text-[#2d4a22] border border-gray-300
+            hover:bg-gray-100 shadow-sm
+          "
+                            >
+                              <div className="text-lg mb-1">🗑️</div>
+                              削除
+                            </button>
+                          </div>
 
-                              playButtonSound(() => {
-                                initAudio();
-                                startOriginalQuiz(originalQs);
-                              });
-                            }}
-                            className="col-span-4 sm:col-span-5 bg-pink-300 hover:bg-pink-400 text-[#6b123a] 
-        font-bold py-2 rounded-xl shadow-md"
-                          >
-                            📝 My単語テスト
-                          </button>
+                          {/* === My単語テストボタン === */}
+                          <div className="flex justify-center">
+                            <button
+                              onClick={() => {
+                                const originalQs = questions.filter(
+                                  (q) => q.unit === "単語テストMy単語"
+                                );
+
+                                playButtonSound(() => {
+                                  setShowOriginalFolder(false);
+                                  initAudio();
+                                  startOriginalQuiz(originalQs); // ←専用関数
+                                });
+                              }}
+                              className="
+            px-6 py-3 rounded-full font-bold text-white
+            bg-gradient-to-r from-green-400 to-green-500
+            shadow-lg hover:opacity-90 transition
+          "
+                            >
+                              📝 My単語テスト
+                            </button>
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -4286,45 +4333,19 @@ export default function EnglishTrapQuestions() {
                 {/* === スタートボタン === */}
                 <button
                   onClick={() => {
-                    // 単語も文法も未選択
-                    const grammarUnitsSelected = Object.keys(unitModes).some(
-                      (u) => unitModes[u] !== 0
-                    );
-                    const wordsSelected = selectedWordUnits.length > 0;
-
-                    if (!grammarUnitsSelected && !wordsSelected) {
-                      showPopupMessage("単元を1つ以上選んでね！");
-                      return;
-                    }
-
-                    // 出題数未選択
-                    if (!questionCount) {
-                      showPopupMessage("出題数を選んでね！");
-                      return;
-                    }
+                    if (disabledStart) return;
 
                     initAudio();
                     startQuiz();
                   }}
-                  disabled={
-                    selectedFormats.length === 0 || // ★追加（出題形式 未選択）
-                    !questionCount || // 出題数 未選択
-                    !(
-                      Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
-                      selectedWordUnits.length > 0
-                    ) // 単語 or 文法どちらも未選択
-                  }
+                  disabled={disabledStart}
                   className={`relative mt-10 rounded-full px-10 py-3 font-bold mx-auto block text-lg
-    shadow-lg transition-all duration-200 active:scale-95
+    transition-all duration-300 active:scale-95
+
     ${
-      selectedFormats.length === 0 || // ★同じ条件で色を制御
-      !questionCount ||
-      !(
-        Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
-        selectedWordUnits.length > 0
-      )
-        ? "bg-gray-400 text-white cursor-not-allowed"
-        : "bg-gradient-to-r from-pink-500 to-orange-500 hover:opacity-90 text-white"
+      disabledStart
+        ? "bg-gray-400 text-white cursor-not-allowed opacity-70"
+        : "bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:opacity-90 shadow-lg gentle-pulse cursor-pointer"
     }
   `}
                 >

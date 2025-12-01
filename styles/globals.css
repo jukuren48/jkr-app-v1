@@ -41,6 +41,22 @@
   animation: blink 0.8s infinite;
 }
 
+@keyframes gentlePulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.gentle-pulse {
+  animation: gentlePulse 2.2s ease-in-out infinite;
+}
+
 /* カスタムクラス（必ず@tailwindの後） */
 .word-break-keep-all {
   word-break: keep-all;
