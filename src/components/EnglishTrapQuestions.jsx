@@ -4577,25 +4577,10 @@ export default function EnglishTrapQuestions() {
                     >
                       {/* === 🔥 解説中限定：右下固定 Next ボタン === */}
                       {showQuestions && showFeedback && (
-                        <NextButtonPortal>
-                          <button
-                            onClick={handleNext}
-                            disabled={isSpeaking}
-                            className={`
-        fixed bottom-6 right-6
-        px-6 py-3 rounded-full font-bold
-        shadow-2xl
-        text-white text-lg
-        z-[99999999]
-        ${isSpeaking ? "bg-gray-400" : "bg-pink-500 hover:bg-pink-600"}
-      `}
-                            style={{
-                              pointerEvents: isSpeaking ? "none" : "auto",
-                            }}
-                          >
-                            {isSpeaking ? "🔈 再生中…" : "次へ →"}
-                          </button>
-                        </NextButtonPortal>
+                        <NextButtonPortal
+                          onClick={handleNext}
+                          disabled={isSpeaking}
+                        />
                       )}
                     </div>
                   </div>
