@@ -4574,15 +4574,22 @@ export default function EnglishTrapQuestions() {
     shadow-[0_-4px_12px_rgba(0,0,0,0.18)]
   "
                     >
+                      {/* === 🔥 解説中限定：右下固定 Next ボタン === */}
                       {showQuestions && showFeedback && (
                         <button
                           onClick={handleNext}
                           disabled={isSpeaking}
                           className={`
-      fixed bottom-4 left-1/2 -translate-x-1/2
-      z-[99999]
-      px-6 py-3 rounded-full shadow-xl text-white font-bold
+      fixed
+      bottom-5 right-5
+      z-[999999]               /* ← どのUIよりも最前面 */
+      px-6 py-3 
+      rounded-full 
+      shadow-xl 
+      text-white 
+      font-bold 
       transition-all
+      active:scale-95
       ${
         isSpeaking
           ? "bg-gray-400 cursor-not-allowed"
@@ -4590,11 +4597,13 @@ export default function EnglishTrapQuestions() {
       }
     `}
                           style={{
-                            position: "fixed", // Safari最強固定
-                            zIndex: 99999, // ほぼ最前面
+                            position: "fixed",
+                            right: "20px",
+                            bottom: "20px",
+                            zIndex: 999999,
                           }}
                         >
-                          {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
+                          {isSpeaking ? "🔈 解説を再生中..." : "次へ →"}
                         </button>
                       )}
                     </div>
