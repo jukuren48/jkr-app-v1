@@ -4563,30 +4563,31 @@ export default function EnglishTrapQuestions() {
                       後で先生に質問する
                     </button>
 
-                    {/* === 次へボタン（常に画面下部に固定） === */}
+                    {/* 🔁 次へボタン（iOS対策：必ず最前面へ） */}
                     <div
                       className="
-  fixed bottom-0 left-0 w-full
-  bg-white border-t border-gray-200
-  py-3 flex justify-center
-  z-[2000]
-"
+    sticky bottom-0 left-0 
+    w-full flex justify-center 
+    bg-white/95 backdrop-blur-sm 
+    py-4 mt-4
+    z-[9999]     /* ← 最前面に固定 */
+    shadow-[0_-4px_10px_rgba(0,0,0,0.15)]
+  "
                     >
                       <button
                         onClick={handleNext}
                         disabled={isSpeaking}
                         className={`
-      px-8 py-3 rounded-full font-bold text-lg
-      transition-all duration-200 active:scale-95
-
+      px-8 py-3 rounded-full font-bold text-white
+      shadow-lg transition-all active:scale-95
       ${
         isSpeaking
-          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-          : "bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:opacity-90"
+          ? "bg-gray-400 cursor-not-allowed"
+          : "bg-pink-500 hover:bg-pink-600"
       }
     `}
                       >
-                        {isSpeaking ? "🔈 解説再生中..." : "次へ ➜"}
+                        {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
                       </button>
                     </div>
                   </div>
