@@ -4014,17 +4014,19 @@ export default function EnglishTrapQuestions() {
                       }
                       className="
     col-span-4 sm:col-span-5
-    w-full py-2 px-4 rounded-xl font-bold text-[#1f3b57]
-    bg-gradient-to-r from-yellow-300 to-yellow-400
-    shadow-md border border-yellow-300
+    w-full py-2 px-4 rounded-xl
+    bg-[#ffe89b]
+    border border-[#e6b72c]
+    shadow-sm hover:shadow-md
     flex items-center justify-between
+    transition-all font-bold text-[#6a4a09]
   "
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-xl">📘</span>
                         <span>単語を覚える・テストする</span>
                       </div>
-                      <span className="text-lg">
+                      <span className="text-xl">
                         {showWordFolder ? "▲" : "▼"}
                       </span>
                     </button>
@@ -4033,16 +4035,18 @@ export default function EnglishTrapQuestions() {
                     <AnimatePresence>
                       {showWordFolder && (
                         <motion.div
-                          initial={{ opacity: 0, scaleY: 0.8 }}
+                          initial={{ opacity: 0, scaleY: 0.85 }}
                           animate={{ opacity: 1, scaleY: 1 }}
-                          exit={{ opacity: 0, scaleY: 0.8 }}
+                          exit={{ opacity: 0, scaleY: 0.85 }}
                           transition={{ duration: 0.22, ease: "easeOut" }}
                           className="
-        col-span-4 sm:col-span-5 origin-top
-        bg-white/80 backdrop-blur-sm
-        rounded-xl shadow-inner p-3 mt-2
-        grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2
-      "
+    col-span-4 sm:col-span-5 origin-top
+    bg-white/90 
+    border border-gray-200
+    backdrop-blur-sm
+    rounded-xl shadow p-3 mt-2
+    grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2
+  "
                         >
                           {/* 📘 案内文 */}
                           <div className="col-span-4 sm:col-span-5 text-center mb-2 font-bold text-[#1f3b57]">
@@ -4085,13 +4089,14 @@ export default function EnglishTrapQuestions() {
                                 setShowWordFolder(false);
                               }}
                               className={`
-            px-6 py-3 rounded-full font-bold text-white shadow-lg transition
-            ${
-              selectedWordUnits.length > 0 && questionCount
-                ? "bg-pink-500 hover:bg-pink-600"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }
-          `}
+  px-6 py-3 rounded-full font-bold text-white
+  transition-all text-lg
+  ${
+    selectedWordUnits.length > 0 && questionCount
+      ? "bg-gradient-to-r from-pink-500 to-pink-600 shadow-[0_4px_10px_rgba(255,105,135,0.4)] hover:scale-105"
+      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+  }
+`}
                             >
                               🚀 GO！
                             </button>
@@ -4107,17 +4112,19 @@ export default function EnglishTrapQuestions() {
                       }
                       className="
     col-span-4 sm:col-span-5
-    w-full py-2 px-4 rounded-xl font-bold text-[#2d4a22]
-    bg-gradient-to-r from-green-300 to-green-400
-    shadow-md border border-green-300
+    w-full py-2 px-4 rounded-xl
+    bg-[#d4f7d4]
+    border border-[#7bc47b]
+    shadow-sm hover:shadow-md
     flex items-center justify-between
+    transition-all font-bold text-[#2f4f2f]
   "
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-xl">📗</span>
                         <span>My単語帳で勉強する・テストする</span>
                       </div>
-                      <span className="text-lg">
+                      <span className="text-xl">
                         {showOriginalFolder ? "▲" : "▼"}
                       </span>
                     </button>
