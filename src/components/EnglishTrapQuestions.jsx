@@ -4563,15 +4563,15 @@ export default function EnglishTrapQuestions() {
                       後で先生に質問する
                     </button>
 
-                    {/* 🔁 次へボタン（iOS対策：必ず最前面へ） */}
+                    {/* 🔁 次へボタン（解説画面専用 — iOSでも押せる前面固定） */}
                     <div
                       className="
-    sticky bottom-0 left-0 
-    w-full flex justify-center 
-    bg-white/95 backdrop-blur-sm 
-    py-4 mt-4
-    z-[9999]     /* ← 最前面に固定 */
-    shadow-[0_-4px_10px_rgba(0,0,0,0.15)]
+    fixed bottom-0 left-0
+    w-full flex justify-center
+    bg-white/95 backdrop-blur-sm
+    py-3
+    z-[9999]     /* ← 手書きパッドより上＆全部の前でOK！ */
+    shadow-[0_-4px_12px_rgba(0,0,0,0.18)]
   "
                     >
                       <button
@@ -4579,7 +4579,7 @@ export default function EnglishTrapQuestions() {
                         disabled={isSpeaking}
                         className={`
       px-8 py-3 rounded-full font-bold text-white
-      shadow-lg transition-all active:scale-95
+      shadow-md transition-all active:scale-95
       ${
         isSpeaking
           ? "bg-gray-400 cursor-not-allowed"
