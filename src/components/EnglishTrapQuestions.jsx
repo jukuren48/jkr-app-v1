@@ -815,6 +815,16 @@ export default function EnglishTrapQuestions() {
     }
   }, [lowSpecMode, bgmVol, bgmGain, qbgmGain]);
 
+  // ★ alert の代わりに使う小さなポップアップ
+  const [popupMessage, setPopupMessage] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+
+  const showPopupMessage = (msg) => {
+    setPopupMessage(msg);
+    setShowPopup(true);
+    setTimeout(() => setShowPopup(false), 1800); // 1.8秒で自動消滅
+  };
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [isCustomWordMode, setIsCustomWordMode] = useState(false);
   const [showHandwritingFor, setShowHandwritingFor] = useState(null);
@@ -2264,10 +2274,6 @@ export default function EnglishTrapQuestions() {
     // ================================
     // ★② 通常（文法＋単語混合）スタート
     // ================================
-    if (selectedFormats.length === 0) {
-      alert("出題形式を1つ以上選んでください。");
-      return;
-    }
 
     // 単語単元も文法単元も unitModes が 1〜3 なら混合可能
     const activeUnits = Object.keys(unitModes).filter(
@@ -4241,24 +4247,20 @@ export default function EnglishTrapQuestions() {
                 {/* === スタートボタン === */}
                 <button
                   onClick={() => {
-                    if (selectedFormats.length === 0) {
-                      alert("出題形式を1つ以上選んでください。");
-                      return;
-                    }
-
-                    // ⚠ 単語も文法も選ばれていない場合
+                    // 単語も文法も未選択
                     const grammarUnitsSelected = Object.keys(unitModes).some(
                       (u) => unitModes[u] !== 0
                     );
                     const wordsSelected = selectedWordUnits.length > 0;
 
                     if (!grammarUnitsSelected && !wordsSelected) {
-                      alert("単元を1つ以上選んでください。");
+                      showPopupMessage("単元を1つ以上選んでね！");
                       return;
                     }
 
+                    // 出題数未選択
                     if (!questionCount) {
-                      alert("出題数を選んでください。");
+                      showPopupMessage("出題数を選んでね！");
                       return;
                     }
 
@@ -4266,24 +4268,43 @@ export default function EnglishTrapQuestions() {
                     startQuiz();
                   }}
                   disabled={
-                    !questionCount ||
+                    selectedFormats.length === 0 || // ★追加（出題形式 未選択）
+                    !questionCount || // 出題数 未選択
                     !(
                       Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
                       selectedWordUnits.length > 0
-                    )
+                    ) // 単語 or 文法どちらも未選択
                   }
-                  className={`mt-8 rounded-full px-8 py-3 shadow-lg font-bold mx-auto block transition text-lg ${
-                    !questionCount ||
-                    !(
-                      Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
-                      selectedWordUnits.length > 0
-                    )
-                      ? "bg-gray-400 text-white cursor-not-allowed"
-                      : "bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white scale-105"
-                  }`}
+                  className={`relative mt-10 rounded-full px-10 py-3 font-bold mx-auto block text-lg
+    shadow-lg transition-all duration-200 active:scale-95
+    ${
+      selectedFormats.length === 0 || // ★同じ条件で色を制御
+      !questionCount ||
+      !(
+        Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
+        selectedWordUnits.length > 0
+      )
+        ? "bg-gray-400 text-white cursor-not-allowed"
+        : "bg-gradient-to-r from-pink-500 to-orange-500 hover:opacity-90 text-white"
+    }
+  `}
                 >
                   🚀 スタート！
                 </button>
+
+                {/* 🔔 注意ポップアップ（alert の代わり） */}
+                {showPopup && (
+                  <div
+                    className="
+      fixed top-5 left-1/2 -translate-x-1/2
+      bg-black/70 text-white px-5 py-2
+      rounded-full shadow-lg text-sm z-[9999]
+      animate-fadeInOut
+    "
+                  >
+                    {popupMessage}
+                  </div>
+                )}
               </main>
 
               {/* 🦶 フッター */}
