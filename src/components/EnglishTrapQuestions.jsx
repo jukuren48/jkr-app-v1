@@ -4874,6 +4874,7 @@ export default function EnglishTrapQuestions() {
 
             {/* 下：問題解答用の手書きパッド（compact版とは完全に別物） */}
             {showQuestions &&
+              !showFeedback &&
               !showResult &&
               currentQuestion.type !== "multiple-choice" &&
               (currentQuestion.type?.trim() === "input" ||
