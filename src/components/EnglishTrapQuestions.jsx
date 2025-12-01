@@ -3513,6 +3513,13 @@ export default function EnglishTrapQuestions() {
     setTimeout(() => setToastMessage(""), 1500);
   };
 
+  const baseWhiteButton = `
+  border border-white/70 
+  bg-white/85 
+  shadow-[0_1px_4px_rgba(0,0,0,0.1)]
+  backdrop-blur-sm
+`;
+
   // ========== UI ==========
   // ✅ 覚え直し問題ID一覧
   const reviewIds = new Set(
@@ -3796,37 +3803,69 @@ export default function EnglishTrapQuestions() {
                     : "bg-white/60 backdrop-blur-md shadow-[inset_0_0_15px_rgba(255,255,255,0.5)] border-white/30"
                 }`}
               >
-                {/* === 出題形式タブ === */}
-                <h2 className="text-lg font-bold text-center mb-4 text-[#4A6572]">
-                  🎯 出題形式を選ぼう！（複数選択OK）
-                </h2>
+                {/* === ガイド吹き出し（軽量） === */}
+                {!lowSpecMode && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="
+      mx-auto mb-4
+      flex items-center gap-3
+      bg-white/85 border border-white/60
+      shadow-[0_2px_6px_rgba(0,0,0,0.08)]
+      rounded-2xl px-4 py-2
+      w-fit
+    "
+                  >
+                    <div className="text-3xl">🧑‍🏫</div>
+                    <p className="text-sm text-[#4A6572] font-semibold whitespace-nowrap">
+                      まずは出題形式を選ぼう！ 複数選んでも OK だよ！
+                    </p>
+                  </motion.div>
+                )}
 
-                {/* === 出題形式ボタン群 === */}
-                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                {/* 低スペックモード時：アニメなし＋軽量版 */}
+                {lowSpecMode && (
+                  <div
+                    className="
+      mx-auto mb-4
+      flex items-center gap-3
+      bg-white/80 border border-white/40
+      shadow-sm rounded-2xl px-4 py-2 w-fit
+    "
+                  >
+                    <div className="text-3xl">🧑‍🏫</div>
+                    <p className="text-sm text-[#4A6572] font-semibold whitespace-nowrap">
+                      まずは出題形式を選ぼう！
+                    </p>
+                  </div>
+                )}
+
+                {/* === 出題形式カード群 === */}
+                <div className="flex flex-wrap justify-center gap-3 mb-6">
                   {[
-                    "単語・熟語",
-                    "適語補充",
-                    "適文補充",
-                    "整序問題",
-                    "英作文",
-                    "長文読解",
-                    "リスニング",
-                  ].map((format) => {
-                    const isSelected = selectedFormats.includes(format);
+                    { label: "単語・熟語", icon: "📘" },
+                    { label: "適語補充", icon: "✏️" },
+                    { label: "適文補充", icon: "🧩" },
+                    { label: "整序問題", icon: "🪄" },
+                    { label: "英作文", icon: "📝" },
+                    { label: "長文読解", icon: "📖" },
+                    { label: "リスニング", icon: "🎧" },
+                  ].map(({ label, icon }) => {
+                    const isSelected = selectedFormats.includes(label);
+
                     return (
                       <button
-                        key={format}
+                        key={label}
                         onClick={() =>
                           playButtonSound(() => {
                             setSelectedFormats((prev) => {
-                              const updated = prev.includes(format)
-                                ? prev.filter((f) => f !== format)
-                                : [...prev, format];
+                              const updated = prev.includes(label)
+                                ? prev.filter((f) => f !== label)
+                                : [...prev, label];
 
-                              // 🔥 Supabase に保存！
                               saveSelectedFormatsToSupabase(updated);
-
-                              // localStorage も同期
                               localStorage.setItem(
                                 "selectedFormats",
                                 JSON.stringify(updated)
@@ -3836,13 +3875,38 @@ export default function EnglishTrapQuestions() {
                             });
                           })
                         }
-                        className={`px-3 py-2 rounded-full shadow-sm text-sm font-semibold transition-all ${
-                          isSelected
-                            ? "bg-gradient-to-r from-pink-400 to-orange-400 text-white scale-105"
-                            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                        }`}
+                        className={`
+    relative flex flex-col items-center justify-center
+    w-[110px] h-[95px]
+    rounded-2xl border
+    transition-all duration-150
+    ${
+      isSelected
+        ? "bg-white text-[#1f3b57] border-teal-300 shadow-lg scale-[1.04]"
+        : "bg-white/80 text-[#4A6572] border-white/60 hover:bg-white"
+    }
+  `}
                       >
-                        {format}
+                        {/* アイコン */}
+                        <div className="text-3xl mb-1">{icon}</div>
+
+                        {/* ラベル */}
+                        <span className="text-xs font-bold text-center leading-tight">
+                          {label}
+                        </span>
+
+                        {/* 選択中の「光るアンダーライン」 */}
+                        {isSelected && (
+                          <div
+                            className="
+        absolute bottom-1 left-1/2 -translate-x-1/2
+        w-[60%] h-[4px]
+        rounded-full
+        bg-gradient-to-r from-sky-400 to-emerald-400
+        opacity-90
+      "
+                          />
+                        )}
                       </button>
                     );
                   })}
@@ -3853,7 +3917,7 @@ export default function EnglishTrapQuestions() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="text-center text-lg font-bold text-[#4A6572] mb-3"
+                  className="text-center text-lg font-bold text-[#4A6572] mb-3 drop-shadow-sm"
                 >
                   📘{" "}
                   {selectedFormats.length > 0
@@ -3861,29 +3925,60 @@ export default function EnglishTrapQuestions() {
                     : "出題形式を選んでください"}
                 </motion.h2>
 
-                {/* === 出題数ボタン（ここに移動！） === */}
-                <div className="text-center space-y-2 mb-6">
-                  <h2 className="text-lg font-bold text-[#4A6572]">
-                    出題数を選ぼう！
-                  </h2>
+                {/* === 出題数セレクター === */}
+                <h2 className="text-lg font-bold text-center mb-3 text-[#4A6572] drop-shadow-sm">
+                  🧮 出題数を選ぼう！
+                </h2>
 
-                  <div className="flex gap-2 flex-wrap justify-center">
-                    {[5, 10, 15, "all"].map((count) => (
+                <div className="flex gap-3 flex-wrap justify-center mb-4">
+                  {[5, 10, 15, "all"].map((count) => {
+                    const isSelected = questionCount === count;
+
+                    return (
                       <button
                         key={count}
                         onClick={() =>
                           playButtonSound(() => setQuestionCount(count))
                         }
-                        className={`px-4 py-2 rounded-full border shadow-sm transition text-sm ${
-                          questionCount === count
-                            ? "bg-[#A7D5C0] text-[#4A6572] font-bold scale-105"
-                            : "bg-white text-[#4A6572] hover:bg-[#F1F1F1]"
-                        }`}
+                        className={`
+          relative
+          w-[70px] h-[48px]
+          flex items-center justify-center
+          rounded-xl border
+          text-sm font-bold
+          transition-all duration-150
+          shadow-[0_1px_4px_rgba(0,0,0,0.08)]
+          bg-white/85 text-[#4A6572] border-white/70
+          hover:bg-white
+
+          ${
+            isSelected
+              ? `
+            text-[#1f3b57]
+            border-teal-300
+            scale-[1.06]
+            shadow-[0_2px_6px_rgba(0,0,0,0.15)]
+          `
+              : ""
+          }
+        `}
                       >
                         {count === "all" ? "すべて" : `${count}問`}
+
+                        {/* 選択中だけ光る下線 */}
+                        {isSelected && (
+                          <div
+                            className="
+              absolute bottom-1 left-1/2 -translate-x-1/2
+              w-[60%] h-[3px]
+              rounded-full
+              bg-gradient-to-r from-sky-400 to-emerald-400
+            "
+                          />
+                        )}
                       </button>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
 
                 {/* === 単元グリッド === */}
@@ -3912,33 +4007,49 @@ export default function EnglishTrapQuestions() {
             w-full mb-8
           "
                   >
-                    {/* === 📁 単語を覚える・テストする === */}
-                    <motion.button
-                      whileTap={{ scale: 0.95 }}
+                    {/* === 📁 単語を覚える・テストする（軽量アコーディオン） === */}
+                    <button
                       onClick={() =>
                         playButtonSound(() => setShowWordFolder((p) => !p))
                       }
-                      className="col-span-4 sm:col-span-5 bg-gradient-to-r from-yellow-300 to-yellow-400 text-[#4A6572] font-bold py-2 rounded-xl shadow-md transition-all text-center"
+                      className="
+    col-span-4 sm:col-span-5
+    w-full py-2 px-4 rounded-xl font-bold text-[#1f3b57]
+    bg-gradient-to-r from-yellow-300 to-yellow-400
+    shadow-md border border-yellow-300
+    flex items-center justify-between
+  "
                     >
-                      📘 単語を覚える・テストする {showWordFolder ? "▲" : "▼"}
-                    </motion.button>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">📘</span>
+                        <span>単語を覚える・テストする</span>
+                      </div>
+                      <span className="text-lg">
+                        {showWordFolder ? "▲" : "▼"}
+                      </span>
+                    </button>
 
-                    {/* === 展開部分 === */}
+                    {/* === 展開部（超軽量アニメ） === */}
                     <AnimatePresence>
                       {showWordFolder && (
                         <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.4, ease: "easeInOut" }}
-                          className="col-span-4 sm:col-span-5 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
+                          initial={{ opacity: 0, scaleY: 0.8 }}
+                          animate={{ opacity: 1, scaleY: 1 }}
+                          exit={{ opacity: 0, scaleY: 0.8 }}
+                          transition={{ duration: 0.22, ease: "easeOut" }}
+                          className="
+        col-span-4 sm:col-span-5 origin-top
+        bg-white/80 backdrop-blur-sm
+        rounded-xl shadow-inner p-3 mt-2
+        grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2
+      "
                         >
                           {/* 📘 案内文 */}
-                          <div className="col-span-4 sm:col-span-5 text-center mb-2 font-bold text-[#4A6572]">
+                          <div className="col-span-4 sm:col-span-5 text-center mb-2 font-bold text-[#1f3b57]">
                             📘 Partを選んでください（複数選択可）
                           </div>
 
-                          {/* 単語テスト用のユニットボタン */}
+                          {/* 単語テストユニット */}
                           {Array.from(
                             new Set(
                               questions
@@ -3950,7 +4061,7 @@ export default function EnglishTrapQuestions() {
                             return renderWordTestButton(unit, name);
                           })}
 
-                          {/* 🚀 GO ボタン */}
+                          {/* 🚀 GOボタン */}
                           <div className="col-span-4 sm:col-span-5 flex justify-center mt-3">
                             <button
                               disabled={
@@ -3974,13 +4085,13 @@ export default function EnglishTrapQuestions() {
                                 setShowWordFolder(false);
                               }}
                               className={`
-      px-6 py-3 rounded-full font-bold text-white shadow-lg transition
-      ${
-        selectedWordUnits.length > 0 && questionCount
-          ? "bg-pink-500 hover:bg-pink-600"
-          : "bg-gray-300 text-gray-500 cursor-not-allowed"
-      }
-    `}
+            px-6 py-3 rounded-full font-bold text-white shadow-lg transition
+            ${
+              selectedWordUnits.length > 0 && questionCount
+                ? "bg-pink-500 hover:bg-pink-600"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }
+          `}
                             >
                               🚀 GO！
                             </button>
@@ -3989,53 +4100,67 @@ export default function EnglishTrapQuestions() {
                       )}
                     </AnimatePresence>
 
-                    {/* === 📗 My単語を覚える・テストする === */}
-                    <motion.button
-                      whileTap={{ scale: 0.95 }}
+                    {/* === 📗 My単語帳（軽量アコーディオン） === */}
+                    <button
                       onClick={() =>
                         playButtonSound(() => setShowOriginalFolder((p) => !p))
                       }
-                      className="col-span-4 sm:col-span-5 bg-gradient-to-r from-green-300 to-green-400 text-[#2d4a22] font-bold py-2 rounded-xl shadow-md transition-all text-center"
+                      className="
+    col-span-4 sm:col-span-5
+    w-full py-2 px-4 rounded-xl font-bold text-[#2d4a22]
+    bg-gradient-to-r from-green-300 to-green-400
+    shadow-md border border-green-300
+    flex items-center justify-between
+  "
                     >
-                      📗 My単語帳で勉強する・テストする{" "}
-                      {showOriginalFolder ? "▲" : "▼"}
-                    </motion.button>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xl">📗</span>
+                        <span>My単語帳で勉強する・テストする</span>
+                      </div>
+                      <span className="text-lg">
+                        {showOriginalFolder ? "▲" : "▼"}
+                      </span>
+                    </button>
 
                     <AnimatePresence>
                       {showOriginalFolder && (
                         <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.4, ease: "easeInOut" }}
-                          className="col-span-4 sm:col-span-5 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 
-                 gap-2 mt-2 bg-white/60 backdrop-blur-md rounded-xl p-3 shadow-inner"
+                          initial={{ opacity: 0, scaleY: 0.8 }}
+                          animate={{ opacity: 1, scaleY: 1 }}
+                          exit={{ opacity: 0, scaleY: 0.8 }}
+                          transition={{ duration: 0.22, ease: "easeOut" }}
+                          className="
+        col-span-4 sm:col-span-5 origin-top
+        bg-white/80 backdrop-blur-sm
+        rounded-xl shadow-inner p-3 mt-2
+        grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2
+      "
                         >
-                          {/* 単語追加 */}
+                          {/* 追加ボタン */}
                           <button
                             onClick={() => {
                               setShowCustomWordInput(true);
                               setShowOriginalFolder(false);
                             }}
                             className="col-span-4 sm:col-span-5 bg-yellow-300 hover:bg-yellow-400 
-                   text-[#4A6572] font-bold py-2 rounded-xl shadow-md"
+        text-[#4A6572] font-bold py-2 rounded-xl shadow-md"
                           >
                             ✍️ My単語を追加する
                           </button>
 
-                          {/* 単語一覧 */}
+                          {/* 一覧ボタン */}
                           <button
                             onClick={() => {
                               setShowOriginalList(true);
                               setShowOriginalFolder(false);
                             }}
                             className="col-span-4 sm:col-span-5 bg-blue-300 hover:bg-blue-400 
-                   text-[#123a6b] font-bold py-2 rounded-xl shadow-md"
+        text-[#123a6b] font-bold py-2 rounded-xl shadow-md"
                           >
-                            📄 My単語一覧/編集/削除する
+                            📄 My単語一覧 / 編集 / 削除する
                           </button>
 
-                          {/* My単語テスト */}
+                          {/* テストボタン */}
                           <button
                             onClick={() => {
                               const originalQs = questions.filter(
@@ -4046,11 +4171,11 @@ export default function EnglishTrapQuestions() {
 
                               playButtonSound(() => {
                                 initAudio();
-                                startOriginalQuiz(originalQs); // ← startQuizではなく専用関数
+                                startOriginalQuiz(originalQs);
                               });
                             }}
                             className="col-span-4 sm:col-span-5 bg-pink-300 hover:bg-pink-400 text-[#6b123a] 
-             font-bold py-2 rounded-xl shadow-md"
+        font-bold py-2 rounded-xl shadow-md"
                           >
                             📝 My単語テスト
                           </button>
