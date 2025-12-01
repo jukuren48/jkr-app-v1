@@ -1152,27 +1152,26 @@ export default function EnglishTrapQuestions() {
     });
   };
 
-  // ✅ 第2引数に「表示名」を受け取れるよう変更
+  // ✅ 見やすさUP＋低負荷の最適化版
   const renderUnitButton = (unit, displayNameOverride) => {
     const displayName = displayNameOverride || unit;
     const mode = unitModes[unit] || 0;
 
-    // 背景カラー設定
+    // ======== 背景カラー ========
     let bgClass =
       "bg-white border border-gray-300 text-gray-800 hover:bg-gray-100";
     if (mode === 1)
       bgClass =
-        "bg-gradient-to-b from-green-300 to-green-500 text-white border-green-500 shadow-md hover:scale-[1.03]";
+        "bg-gradient-to-b from-green-300 to-green-500 text-white border-green-500 shadow-md hover:scale-[1.02]";
     else if (mode === 2)
       bgClass =
-        "bg-gradient-to-b from-blue-300 to-blue-500 text-white border-blue-500 shadow-md hover:scale-[1.03]";
+        "bg-gradient-to-b from-blue-300 to-blue-500 text-white border-blue-500 shadow-md hover:scale-[1.02]";
     else if (mode === 3)
       bgClass =
-        "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.03]";
+        "bg-gradient-to-b from-orange-300 to-orange-500 text-white border-orange-500 shadow-md hover:scale-[1.02]";
 
-    // ★ Supabase 統合版 正答率バッジ処理
+    // ======== 正答率バッジ ========
     const stat = unitStats[unit];
-
     let badgeColor = "bg-gray-300";
     let ratePercent = null;
 
@@ -1180,13 +1179,14 @@ export default function EnglishTrapQuestions() {
       ratePercent = Math.round(((stat.total - stat.wrong) / stat.total) * 100);
       const wrongRate = stat.wrong / stat.total;
 
-      if (wrongRate === 0) badgeColor = "bg-green-600";
-      else if (wrongRate <= 0.1) badgeColor = "bg-green-400";
+      if (wrongRate === 0) badgeColor = "bg-emerald-600";
+      else if (wrongRate <= 0.1) badgeColor = "bg-emerald-400";
       else if (wrongRate <= 0.2) badgeColor = "bg-yellow-400";
       else if (wrongRate <= 0.3) badgeColor = "bg-orange-400";
       else badgeColor = "bg-red-500";
     }
 
+    // ======== mode ラベル ========
     const modeLabel =
       mode === 1 ? "両方" : mode === 2 ? "４択" : mode === 3 ? "記述" : "";
 
@@ -1194,67 +1194,63 @@ export default function EnglishTrapQuestions() {
       <motion.button
         key={unit}
         whileTap={{ scale: 0.94 }}
-        whileHover={{
-          scale: 1.05,
-          boxShadow: "0px 0px 18px rgba(255, 180, 100, 0.6)",
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 15 }}
-        onClick={() => playButtonSound(() => toggleUnitMode(unit))} // ← unitは本来の名前
-        className={`relative w-full h-[72px] sm:h-[80px] rounded-2xl font-bold shadow-md border border-transparent 
-      backdrop-blur-md overflow-hidden group flex items-center justify-center
-      ${bgClass}
-      ${mode === 0 ? "text-gray-800" : "text-white"}`}
+        transition={{ type: "spring", stiffness: 220, damping: 16 }}
+        onClick={() => playButtonSound(() => toggleUnitMode(unit))}
+        className={`relative w-full h-[72px] sm:h-[80px] rounded-2xl font-bold shadow 
+        border border-transparent overflow-hidden flex items-center justify-center
+        backdrop-blur-sm ${bgClass}`}
         style={{ transformOrigin: "center center" }}
       >
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent 
-        opacity-0 group-hover:opacity-100 translate-x-[-100%] 
-        group-hover:translate-x-[100%] transition-all duration-[800ms]"
-        ></div>
-
-        {/* 👇ここで「表示名だけ短縮」 */}
+        {/* === 単元名（可変フォント） === */}
         <span
-          className="relative z-10 font-semibold text-center block"
+          className="relative z-10 block text-center leading-tight"
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "100%",
-            textAlign: "center",
-            lineHeight: "1.2",
-            wordBreak: "keep-all",
-            overflowWrap: "break-word",
             fontSize:
               displayName.length >= 8
-                ? "10px"
+                ? "11px"
                 : displayName.length >= 6
-                ? "12px"
-                : "14px",
+                ? "13px"
+                : "15px",
           }}
         >
           {displayName}
         </span>
 
+        {/* === 正答率バッジ（右上） === */}
         {ratePercent !== null && (
           <span
-            className={`absolute top-1 right-1 text-[10px] text-white px-1.5 py-0.5 rounded-full ${badgeColor} shadow-sm`}
+            className={`
+            absolute top-1 right-1 text-[10px] text-white 
+            px-1.5 py-[2px] rounded-full shadow-sm ${badgeColor}
+          `}
           >
             {ratePercent}%
           </span>
         )}
 
+        {/* === mode ラベル（左下へ移動 / 認識性UP） === */}
         {modeLabel && (
           <span
-            className="absolute bottom-[2px] right-[2px] text-[13px] text-white/95 font-semibold px-[4px] py-[1px] 
-            rounded-md bg-black/20 backdrop-blur-sm shadow-sm"
-            style={{
-              lineHeight: "1",
-              opacity: 0.9,
-            }}
+            className="
+            absolute bottom-[3px] left-[3px]
+            text-[11px] text-white/95 font-semibold 
+            px-[4px] py-[1px] rounded-md 
+            bg-black/25 backdrop-blur-sm shadow-sm
+          "
           >
             {modeLabel}
           </span>
+        )}
+
+        {/* === 選択状態（mode>0）だけ下線を表示 === */}
+        {mode > 0 && (
+          <div
+            className="
+            absolute bottom-0 left-1/2 -translate-x-1/2
+            w-[60%] h-[3px] rounded-full
+            bg-gradient-to-r from-sky-400 to-emerald-400 opacity-90
+          "
+          />
         )}
       </motion.button>
     );
