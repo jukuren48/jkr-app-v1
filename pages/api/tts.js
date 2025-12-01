@@ -1,85 +1,57 @@
-import textToSpeech from "@google-cloud/text-to-speech";
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { text, ssml, lang, voiceName, speakingRate, pitch } = req.body;
+  const {
+    text,
+    lang = "en-US",
+    voiceName = "en-US-Neural2-F",
+    speakingRate = 1.0,
+    pitch = 0,
+  } = req.body;
 
-  if (!text && !ssml) {
-    return res.status(400).json({ error: "Missing text or ssml" });
+  if (!text) {
+    return res.status(400).json({ error: "Missing text" });
   }
 
   try {
-    const credentialsBase64 =
-      process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64;
-    if (!credentialsBase64)
-      throw new Error("GOOGLE_APPLICATION_CREDENTIALS_JSON_BASE64 is not set");
-
-    const credentialsJson = JSON.parse(
-      Buffer.from(credentialsBase64, "base64").toString("utf8")
-    );
-
-    const client = new textToSpeech.TextToSpeechClient({
-      credentials: credentialsJson,
-    });
-
-    // ✅ 正確な声と性別マッピング
-    const genderMap = {
-      "en-US-Neural2-A": "MALE",
-      "en-US-Neural2-B": "MALE",
-      "en-US-Neural2-C": "FEMALE",
-      "en-US-Neural2-D": "MALE",
-      "en-US-Neural2-E": "FEMALE",
-      "en-US-Neural2-F": "FEMALE",
-      "en-US-Neural2-G": "MALE",
-      "en-US-Neural2-H": "FEMALE",
-      "en-US-Neural2-I": "MALE",
-      "en-US-Neural2-J": "MALE",
-      "ja-JP-Neural2-B": "FEMALE",
-      "ja-JP-Neural2-C": "MALE",
-    };
-
-    const detectedGender =
-      genderMap[voiceName] || "SSML_VOICE_GENDER_UNSPECIFIED";
-
-    // ✅ リクエスト構築（性別は安全にfallback）
-    const voiceConfig = {
-      languageCode: lang || "en-US",
-      name: voiceName || "en-US-Neural2-F",
-    };
-    if (detectedGender !== "SSML_VOICE_GENDER_UNSPECIFIED") {
-      voiceConfig.ssmlGender = detectedGender;
+    const apiKey = process.env.GOOGLE_TTS_API_KEY;
+    if (!apiKey) {
+      throw new Error("GOOGLE_TTS_API_KEY is missing");
     }
 
-    const request = {
-      input: ssml ? { ssml } : { text },
-      voice: voiceConfig,
-      audioConfig: {
-        audioEncoding: "MP3",
-        speakingRate: speakingRate || 1.0,
-        pitch: pitch || 0.0,
-      },
-    };
-
-    const [response] = await client.synthesizeSpeech(request);
-    if (!response.audioContent) throw new Error("No audio content returned");
-
-    const audioContentString = Buffer.from(response.audioContent).toString(
-      "base64"
+    const response = await fetch(
+      `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          input: { text },
+          voice: {
+            languageCode: lang,
+            name: voiceName,
+          },
+          audioConfig: {
+            audioEncoding: "MP3",
+            speakingRate,
+            pitch,
+          },
+        }),
+      }
     );
 
-    res.status(200).json({ audioContent: audioContentString });
-  } catch (error) {
-    console.error("🟥 TTS API ERROR:", error);
-    if (error.details)
-      console.error("🟨 details:", JSON.stringify(error.details));
-    if (error.response && error.response.data)
-      console.error("🟦 response:", JSON.stringify(error.response.data));
+    const data = await response.json();
 
-    res.status(500).json({
-      error: error.message || "TTS synthesis failed",
-    });
+    if (!data.audioContent) {
+      throw new Error(
+        "Google TTS returned no audioContent: " + JSON.stringify(data)
+      );
+    }
+
+    return res.status(200).json({ audioContent: data.audioContent });
+  } catch (err) {
+    console.error("🔴 TTS ERROR:", err);
+    return res.status(500).json({ error: err.message });
   }
 }

@@ -4563,17 +4563,32 @@ export default function EnglishTrapQuestions() {
                       後で先生に質問する
                     </button>
 
-                    <button
-                      onClick={handleNext}
-                      disabled={isSpeaking}
-                      className={`px-6 py-3 rounded-full shadow-md transition mt-4 text-white font-bold ${
-                        isSpeaking
-                          ? "bg-gray-400 cursor-not-allowed"
-                          : "bg-pink-400 hover:bg-pink-500"
-                      }`}
+                    {/* === 次へボタン（常に画面下部に固定） === */}
+                    <div
+                      className="
+  fixed bottom-0 left-0 w-full
+  bg-white border-t border-gray-200
+  py-3 flex justify-center
+  z-[2000]
+"
                     >
-                      {isSpeaking ? "🔈 解説を再生中..." : "次へ"}
-                    </button>
+                      <button
+                        onClick={handleNext}
+                        disabled={isSpeaking}
+                        className={`
+      px-8 py-3 rounded-full font-bold text-lg
+      transition-all duration-200 active:scale-95
+
+      ${
+        isSpeaking
+          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+          : "bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:opacity-90"
+      }
+    `}
+                      >
+                        {isSpeaking ? "🔈 解説再生中..." : "次へ ➜"}
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   /* ✅ 出題画面（ここがformat対応の重要部分） */
