@@ -4037,85 +4037,48 @@ export default function EnglishTrapQuestions() {
                     </button>
 
                     {/* === 展開部（超軽量アニメ） === */}
-                    {/* === 📘 単語テストフォルダ === */}
                     <AnimatePresence>
                       {showWordFolder && (
                         <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.3 }}
+                          initial={{ opacity: 0, scaleY: 0.85 }}
+                          animate={{ opacity: 1, scaleY: 1 }}
+                          exit={{ opacity: 0, scaleY: 0.85 }}
+                          transition={{ duration: 0.22, ease: "easeOut" }}
                           className="
-        col-span-4 sm:col-span-5 
-        bg-white/70 backdrop-blur-lg
-        rounded-2xl shadow-xl border border-white/40
-        p-4 mt-2
-      "
+    col-span-4 sm:col-span-5 origin-top
+    bg-white/90 
+    border border-gray-200
+    backdrop-blur-sm
+    rounded-xl shadow p-3 mt-2
+    grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 gap-2
+  "
                         >
-                          {/* タイトル */}
-                          <div className="text-center font-bold text-[#35516e] text-sm mb-3">
-                            📘 Part を選んでください（複数選択OK）
+                          {/* 📘 案内文 */}
+                          <div className="col-span-4 sm:col-span-5 text-center mb-2 font-bold text-[#1f3b57]">
+                            📘 Partを選んでください（複数選択可）
                           </div>
 
-                          {/* 単語Partグリッド（3列） */}
-                          <div className="grid grid-cols-3 gap-2 mb-4">
-                            {Array.from(
-                              new Set(
-                                questions
-                                  .map((q) => q.unit)
-                                  .filter((u) => u.includes("単語テスト"))
-                              )
-                            ).map((unit) => {
-                              const name = unit
-                                .replace("単語テスト", "")
-                                .trim();
-                              const isSelected =
-                                selectedWordUnits.includes(unit);
+                          {/* 単語テストユニット */}
+                          {Array.from(
+                            new Set(
+                              questions
+                                .map((q) => q.unit)
+                                .filter((unit) => unit.includes("単語テスト"))
+                            )
+                          ).map((unit) => {
+                            const name = unit.replace("単語テスト", "").trim();
+                            return renderWordTestButton(unit, name);
+                          })}
 
-                              return (
-                                <button
-                                  key={unit}
-                                  onClick={() => {
-                                    if (isSelected) {
-                                      setSelectedWordUnits(
-                                        selectedWordUnits.filter(
-                                          (u) => u !== unit
-                                        )
-                                      );
-                                    } else {
-                                      setSelectedWordUnits([
-                                        ...selectedWordUnits,
-                                        unit,
-                                      ]);
-                                    }
-                                  }}
-                                  className={`
-                flex flex-col items-center justify-center
-                px-2 py-3 rounded-xl text-xs font-bold
-                transition-all border shadow-sm
-                ${
-                  isSelected
-                    ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
-                    : "bg-white text-[#35516e] border-gray-300 hover:bg-gray-100"
-                }
-              `}
-                                >
-                                  <div className="text-lg mb-1">📖</div>
-                                  {name}
-                                </button>
-                              );
-                            })}
-                          </div>
-
-                          {/* GOボタン */}
-                          <div className="flex justify-center">
+                          {/* 🚀 GOボタン */}
+                          <div className="col-span-4 sm:col-span-5 flex justify-center mt-3">
                             <button
                               disabled={
                                 selectedWordUnits.length === 0 || !questionCount
                               }
                               onClick={() => {
                                 if (!questionCount) {
-                                  showPopupMessage("出題数を選んでね！");
+                                  alert("出題数を選んでください。");
                                   return;
                                 }
 
@@ -4131,13 +4094,14 @@ export default function EnglishTrapQuestions() {
                                 setShowWordFolder(false);
                               }}
                               className={`
-            px-6 py-3 rounded-full font-bold text-white shadow-lg transition
-            ${
-              selectedWordUnits.length > 0 && questionCount
-                ? "bg-pink-500 hover:bg-pink-600"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }
-          `}
+  px-6 py-3 rounded-full font-bold text-white
+  transition-all text-lg
+  ${
+    selectedWordUnits.length > 0 && questionCount
+      ? "bg-gradient-to-r from-pink-500 to-pink-600 shadow-[0_4px_10px_rgba(255,105,135,0.4)] hover:scale-105"
+      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+  }
+`}
                             >
                               🚀 GO！
                             </button>
