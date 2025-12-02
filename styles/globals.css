@@ -79,3 +79,8 @@
   z-index: -1 !important;
   pointer-events: none;
 }
+
+html,
+body {
+  background: #111 !important; /* 好きな暗い色 */
+}
