@@ -15,15 +15,19 @@ const DynamicSkyCanvasBackground = ({ lowSpecMode = false }) => {
     resize();
     window.addEventListener("resize", resize);
 
-    // 🌤 軽量モードのときは静止背景のみ描画
+    // 🌤 軽量モードのときは静止背景のみ描画（暗めにして見やすくする）
     if (lowSpecMode) {
       const w = canvas.width;
       const h = canvas.height;
+
+      // ★暗い背景グラデーション
       const grad = ctx.createLinearGradient(0, h, 0, 0);
-      grad.addColorStop(0, "#E0F7FA");
-      grad.addColorStop(1, "#B3E5FC");
+      grad.addColorStop(0, "#1a1a1a"); // 下：ほぼ黒
+      grad.addColorStop(1, "#333333"); // 上：ダークグレー
+
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
+
       return () => window.removeEventListener("resize", resize);
     }
 
