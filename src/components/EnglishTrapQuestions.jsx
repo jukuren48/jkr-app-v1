@@ -680,13 +680,13 @@ const normEn = (s = "") =>
     .toLowerCase()
     .replace(/[’‘]/g, "'")
     .replace(/[“”]/g, '"')
-    .replace(/[.,!?;:]+$/g, "") // 末尾の句読点を削除
+    .replace(/[.,!?;:~～]+$/g, "") // 末尾の句読点を削除
     .replace(/\s+/g, " ");
 
 const normJa = (s = "") =>
   s
     .trim()
-    .replace(/[。／！？、・（）()\[\]「」『』【】]+$/g, "") // 末尾の記号を削除
+    .replace(/[。／！？、・（）()\[\]「」『』【】～]+$/g, "") // 末尾の記号を削除
     .replace(/\s+/g, "");
 
 export default function EnglishTrapQuestions() {
