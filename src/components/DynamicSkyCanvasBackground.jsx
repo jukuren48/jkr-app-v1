@@ -15,20 +15,29 @@ const DynamicSkyCanvasBackground = ({ lowSpecMode = false }) => {
     resize();
     window.addEventListener("resize", resize);
 
-    // 🌤 軽量モードのときは静止背景のみ描画（暗めにして見やすくする）
+    // 🌤 背景描画（軽量モード：暗い静止画 / 通常モード：動くグラデーション）
     if (lowSpecMode) {
+      // ▼ 軽量モード：暗い背景
       const w = canvas.width;
       const h = canvas.height;
 
-      // ★暗い背景グラデーション
-      const grad = ctx.createLinearGradient(0, h, 0, 0);
-      grad.addColorStop(0, "#1a1a1a"); // 下：ほぼ黒
-      grad.addColorStop(1, "#333333"); // 上：ダークグレー
+      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, "#202020");
+      grad.addColorStop(1, "#000000");
 
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
+    } else {
+      // ▼ 通常モード：従来の明るいグラデーション背景
+      const w = canvas.width;
+      const h = canvas.height;
 
-      return () => window.removeEventListener("resize", resize);
+      const grad = ctx.createLinearGradient(0, h, 0, 0);
+      grad.addColorStop(0, "#E0F7FA");
+      grad.addColorStop(1, "#B3E5FC");
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
     }
 
     // 🌟 星データ
@@ -64,23 +73,36 @@ const DynamicSkyCanvasBackground = ({ lowSpecMode = false }) => {
       const sunY = h * (0.6 - sunHeight * 0.4);
       const isDay = sunHeight > 0;
 
-      const grad = ctx.createLinearGradient(0, h, 0, 0);
-      if (sunHeight < -0.3) {
-        grad.addColorStop(0, "#0D1B2A");
-        grad.addColorStop(1, "#1A237E");
-      } else if (sunHeight < 0) {
-        grad.addColorStop(0, "#FFB347");
-        grad.addColorStop(1, "#6A5ACD");
-      } else if (sunHeight < 0.5) {
-        grad.addColorStop(0, "#FFD194");
-        grad.addColorStop(1, "#70E1F5");
-      } else {
-        grad.addColorStop(0, "#4FC3F7");
-        grad.addColorStop(1, "#E0F7FA");
-      }
+      // === 背景 ===
+      if (lowSpecMode) {
+        // ★ 軽量モードは常に暗い固定背景（上書きされない）
+        const grad = ctx.createLinearGradient(0, 0, 0, h);
+        grad.addColorStop(0, "#202020");
+        grad.addColorStop(1, "#000000");
 
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+      } else {
+        // ★ 通常モードは動的背景（太陽・月で変化）
+        const grad = ctx.createLinearGradient(0, h, 0, 0);
+
+        if (sunHeight < -0.3) {
+          grad.addColorStop(0, "#0D1B2A");
+          grad.addColorStop(1, "#1A237E");
+        } else if (sunHeight < 0) {
+          grad.addColorStop(0, "#FFB347");
+          grad.addColorStop(1, "#6A5ACD");
+        } else if (sunHeight < 0.5) {
+          grad.addColorStop(0, "#FFD194");
+          grad.addColorStop(1, "#70E1F5");
+        } else {
+          grad.addColorStop(0, "#4FC3F7");
+          grad.addColorStop(1, "#E0F7FA");
+        }
+
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+      }
 
       // ☁️ 昼の雲
       if (isDay) {

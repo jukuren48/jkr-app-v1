@@ -82,5 +82,5 @@
 
 html,
 body {
-  background: #111 !important; /* 好きな暗い色 */
+  background: transparent !important;
 }
