@@ -3629,7 +3629,7 @@
   {
     "id": "b2f7e5a9-4d9e-48c1-bc81-3b0e5d1a6b92",
     "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもしあのときもっと一生懸命勉強していたら、今は医者になっているでしょう。\n( had / I / studied / then / harder / I / would / a / now / be / doctor ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもしあのときもっと一生懸命勉強していたら、今は医者になっているでしょう。\n( had / I / studied / then / harder / I / would / a / if / now / be / doctor ).",
     "choices": [],
     "correct": "If I had studied harder then, I would be a doctor now.",
     "explanation": "『If＋仮定法過去完了』＋『主節に仮定法過去』で“混合仮定法”。過去の事実と現在の結果をつなげています。",
