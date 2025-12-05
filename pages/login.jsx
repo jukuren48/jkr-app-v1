@@ -5,17 +5,52 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // ▼ ログイン処理（ここに last_login + users_extended 自動作成を統合）
   const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({
+    // ① ログイン実行
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
-    if (error) alert(error.message);
-    else window.location.href = "/";
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    const user = data.user;
+    const userId = user.id;
+    const now = new Date().toISOString();
+
+    // ② users_extended にレコードがあるか確認
+    const { data: userExt } = await supabase
+      .from("users_extended")
+      .select("id")
+      .eq("id", userId)
+      .maybeSingle();
+
+    if (!userExt) {
+      // ③ なければ新規作成（初回ログイン時）
+      await supabase.from("users_extended").insert({
+        id: userId,
+        role: "student", // デフォルト
+        last_login: now,
+      });
+    } else {
+      // ④ あれば last_login 更新
+      await supabase
+        .from("users_extended")
+        .update({ last_login: now })
+        .eq("id", userId);
+    }
+
+    // ⑤ 完了したらトップページへ
+    window.location.href = "/";
   };
 
+  // ▼ 新規登録
   const handleSignup = async () => {
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -29,6 +64,7 @@ export default function Login() {
     window.location.href = "/login";
   };
 
+  // ▼ Googleログイン（後で last_login 更新処理を追加できます）
   const googleLogin = async () => {
     const redirectUrl =
       process.env.NODE_ENV === "development"
@@ -44,10 +80,10 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-200 to-sky-400 flex items-center justify-center p-6">
       <div className="bg-white/90 backdrop-blur-lg rounded-3xl shadow-2xl p-10 w-full max-w-md text-center">
-        {/* ▼ ロゴ（ここに配置） */}
+        {/* ▼ ロゴ */}
         <div className="flex justify-center mb-6">
           <img
-            src="/entame_eng.png" // ←ここをあなたのロゴファイル名に変更
+            src="/entame_eng.png"
             alt="ロゴ"
             className="w-150 h-auto select-none"
           />
