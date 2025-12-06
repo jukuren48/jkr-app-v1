@@ -1,10 +1,7 @@
-// app/admin/dashboard/students/[id]/page.jsx
+// pages/admin/dashboard/students/[id].jsx
 
-import { cookies } from "next/headers";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import dayjs from "dayjs";
-
-// グラフ用コンポーネント
 import {
   BarChart,
   Bar,
@@ -17,47 +14,72 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default async function StudentDetailPage({ params }) {
-  const supabase = createServerComponentClient({ cookies });
-  const studentId = params.id;
+export async function getServerSideProps(ctx) {
+  const supabase = createServerSupabaseClient(ctx);
+  const { id } = ctx.params;
 
-  // 1️⃣ 生徒情報の取得
+  // ログインチェック
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  // 生徒情報取得
   const { data: student } = await supabase
     .from("users_extended")
     .select("*")
-    .eq("id", studentId)
+    .eq("id", id)
     .single();
 
-  // 2️⃣ 学習ログの取得
-  const { data: logs, error } = await supabase
+  // 学習ログ取得
+  const { data: logsRaw, error } = await supabase
     .from("study_logs")
     .select("*")
-    .eq("user_id", studentId);
+    .eq("user_id", id);
 
-  if (error) console.error("ログ取得エラー:", error);
+  if (error) {
+    console.error("ログ取得エラー:", error);
+  }
 
-  // ================================
-  // 📊 基本統計
-  // ================================
+  return {
+    props: {
+      student: student ?? null,
+      logs: logsRaw ?? [],
+    },
+  };
+}
+
+export default function StudentDetailPage({ student, logs }) {
+  // --- 各種集計 ---
+
   const total = logs.length;
   const correct = logs.filter((l) => l.is_correct).length;
   const suspicious = logs.filter((l) => l.is_suspicious).length;
 
   const accuracy = total > 0 ? ((correct / total) * 100).toFixed(1) : "-";
 
-  // 今日の学習数
-  const start = dayjs().startOf("day").toISOString();
-  const end = dayjs().endOf("day").toISOString();
+  // 今日の範囲
+  const startOfToday = dayjs().startOf("day").toISOString();
+  const endOfToday = dayjs().endOf("day").toISOString();
+
   const today = logs.filter(
-    (l) => l.created_at >= start && l.created_at <= end
+    (l) => l.created_at >= startOfToday && l.created_at <= endOfToday
   ).length;
 
-  // ================================
-  // 📘 単元別正答率
-  // ================================
+  // 単元別正答率
   const units = {};
   logs.forEach((log) => {
-    if (!units[log.unit]) units[log.unit] = { total: 0, correct: 0 };
+    if (!units[log.unit]) {
+      units[log.unit] = { total: 0, correct: 0 };
+    }
     units[log.unit].total++;
     if (log.is_correct) units[log.unit].correct++;
   });
@@ -74,16 +96,19 @@ export default async function StudentDetailPage({ params }) {
         {student?.name || "生徒"} の学習カルテ
       </h1>
 
-      {/* 基本統計カード */}
+      {/* 基本情報カード */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <InfoCard title="学習ログ総数" value={total} />
-        <InfoCard title="正答率" value={`${accuracy}%`} />
+        <InfoCard title="総ログ数" value={total} />
+        <InfoCard
+          title="正答率"
+          value={accuracy === "-" ? "-" : `${accuracy}%`}
+        />
         <InfoCard title="適当回答（疑い）" value={suspicious} />
         <InfoCard title="今日の学習数" value={today} />
         <InfoCard
           title="最終ログイン"
           value={
-            student.last_login
+            student?.last_login
               ? dayjs(student.last_login).format("YYYY/MM/DD HH:mm")
               : "-"
           }
@@ -94,18 +119,19 @@ export default async function StudentDetailPage({ params }) {
       <h2 className="text-2xl font-bold mb-3">単元別 正答率</h2>
       <UnitTable stats={unitStats} />
 
-      {/* グラフ */}
-      <h2 className="text-2xl font-bold mt-10 mb-3">日別の学習量</h2>
+      {/* 日別学習量 */}
+      <h2 className="text-2xl font-bold mb-3 mt-10">日別の学習量</h2>
       <DailyStudyChart logs={logs} />
 
-      <h2 className="text-2xl font-bold mt-10 mb-3">正答率の推移</h2>
+      {/* 正答率の推移 */}
+      <h2 className="text-2xl font-bold mb-3 mt-10">正答率の推移</h2>
       <AccuracyChart logs={logs} />
     </div>
   );
 }
 
 /* =======================
-  情報カードコンポーネント
+  情報カード
 ======================= */
 function InfoCard({ title, value }) {
   return (
@@ -137,6 +163,14 @@ function UnitTable({ stats }) {
             <td className="p-4">{u.total}</td>
           </tr>
         ))}
+
+        {stats.length === 0 && (
+          <tr>
+            <td className="p-4" colSpan={3}>
+              まだ学習ログがありません。
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
@@ -148,7 +182,7 @@ function UnitTable({ stats }) {
 function DailyStudyChart({ logs }) {
   const map = {};
   logs.forEach((log) => {
-    const date = log.created_at.slice(0, 10);
+    const date = log.created_at.slice(0, 10); // YYYY-MM-DD
     if (!map[date]) map[date] = 0;
     map[date]++;
   });
