@@ -9,6 +9,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { logout } from "../../lib/logout";
 import NextButtonPortal from "./NextButtonPortal";
+import { saveStudyLog } from "../../lib/saveStudyLog";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
