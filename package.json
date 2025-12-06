@@ -14,6 +14,7 @@
     "@google-cloud/vision": "^5.3.3",
     "@supabase/auth-helpers-nextjs": "^0.7.4",
     "@supabase/supabase-js": "^2.39.0",
+    "dayjs": "^1.11.19",
     "framer-motion": "^12.18.1",
     "next": "^14.2.30",
     "react": "^18.2.0",
