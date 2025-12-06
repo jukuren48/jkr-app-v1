@@ -2942,7 +2942,7 @@ export default function EnglishTrapQuestions() {
   const shouldBlinkRemember =
     !showFeedback && !timeUp && timeLeft <= Math.floor(maxTime * (2 / 3));
 
-  const handleAnswer = (answer) => {
+  const handleAnswer = async (answer) => {
     const currentQuestion = filteredQuestions[currentIndex];
     let isCorrectAnswer = false;
 
@@ -2989,6 +2989,28 @@ export default function EnglishTrapQuestions() {
     }
 
     const unit = currentQuestion.unit;
+
+    // ====== ⭐ Supabase 保存のために必要な値を準備 ======
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const isTimeout = timeLeft <= 0; // ★時間切れ判定（あなたのアプリ準拠）
+    const answerTime = questionTime - timeLeft; // ★経過時間（例：30秒 - 残り時間）
+    const didReview = reviewing || isReviewMode;
+    const isSuspicious = answerTime < 800; // ★AA判定（あなたの基準に合わせて調整可）
+
+    // ====== ⭐ Supabase に学習ログを保存 ======
+    await saveStudyLog({
+      user_id: user.id,
+      unit: currentQuestion.unit,
+      question_id: currentQuestion.id,
+      is_correct: isCorrectAnswer,
+      is_timeout: isTimeout,
+      answer_time: answerTime,
+      did_review: didReview,
+      is_suspicious: isSuspicious,
+    });
 
     // ✅ 覚え直しモードではスコア集計をスキップ
     if (!reviewing) {
