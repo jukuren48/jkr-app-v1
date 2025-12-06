@@ -1,47 +1,63 @@
-// app/admin/students/[id]/page.jsx
+// app/admin/dashboard/students/[id]/page.jsx
 
-import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import dayjs from "dayjs";
 
+// グラフ用コンポーネント
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  LineChart,
+  Line,
+  ResponsiveContainer,
+} from "recharts";
+
 export default async function StudentDetailPage({ params }) {
-  const supabase = createClient();
+  const supabase = createServerComponentClient({ cookies });
   const studentId = params.id;
 
-  // 1️⃣ 生徒情報を取得
+  // 1️⃣ 生徒情報の取得
   const { data: student } = await supabase
     .from("users_extended")
     .select("*")
     .eq("id", studentId)
     .single();
 
-  // 2️⃣ 学習ログを取得
-  const { data: logs } = await supabase
+  // 2️⃣ 学習ログの取得
+  const { data: logs, error } = await supabase
     .from("study_logs")
     .select("*")
     .eq("user_id", studentId);
 
-  // --- 各種集計 ---
+  if (error) console.error("ログ取得エラー:", error);
 
+  // ================================
+  // 📊 基本統計
+  // ================================
   const total = logs.length;
   const correct = logs.filter((l) => l.is_correct).length;
   const suspicious = logs.filter((l) => l.is_suspicious).length;
 
   const accuracy = total > 0 ? ((correct / total) * 100).toFixed(1) : "-";
 
-  // 今日の範囲
-  const startOfToday = dayjs().startOf("day").toISOString();
-  const endOfToday = dayjs().endOf("day").toISOString();
-
+  // 今日の学習数
+  const start = dayjs().startOf("day").toISOString();
+  const end = dayjs().endOf("day").toISOString();
   const today = logs.filter(
-    (l) => l.created_at >= startOfToday && l.created_at <= endOfToday
+    (l) => l.created_at >= start && l.created_at <= end
   ).length;
 
-  // 単元別正答率
+  // ================================
+  // 📘 単元別正答率
+  // ================================
   const units = {};
   logs.forEach((log) => {
-    if (!units[log.unit]) {
-      units[log.unit] = { total: 0, correct: 0 };
-    }
+    if (!units[log.unit]) units[log.unit] = { total: 0, correct: 0 };
     units[log.unit].total++;
     if (log.is_correct) units[log.unit].correct++;
   });
@@ -53,14 +69,14 @@ export default async function StudentDetailPage({ params }) {
   }));
 
   return (
-    <div>
+    <div className="p-6">
       <h1 className="text-3xl font-bold mb-4">
         {student?.name || "生徒"} の学習カルテ
       </h1>
 
-      {/* 基本情報カード */}
+      {/* 基本統計カード */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <InfoCard title="総ログ数" value={total} />
+        <InfoCard title="学習ログ総数" value={total} />
         <InfoCard title="正答率" value={`${accuracy}%`} />
         <InfoCard title="適当回答（疑い）" value={suspicious} />
         <InfoCard title="今日の学習数" value={today} />
@@ -76,41 +92,21 @@ export default async function StudentDetailPage({ params }) {
 
       {/* 単元別正答率 */}
       <h2 className="text-2xl font-bold mb-3">単元別 正答率</h2>
-      <table className="min-w-full bg-white shadow rounded-lg mb-10">
-        <thead>
-          <tr className="bg-gray-100 text-left text-gray-700 text-sm">
-            <th className="p-4">単元</th>
-            <th className="p-4">正答率</th>
-            <th className="p-4">学習数</th>
-          </tr>
-        </thead>
-        <tbody>
-          {unitStats.map((u) => (
-            <tr key={u.unit} className="border-b hover:bg-gray-50">
-              <td className="p-4">{u.unit}</td>
-              <td className="p-4">{u.accuracy}%</td>
-              <td className="p-4">{u.total}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* =======================
-    日別学習量グラフ
-======================= */}
-      <h2 className="text-2xl font-bold mb-3 mt-10">日別の学習量</h2>
+      <UnitTable stats={unitStats} />
 
+      {/* グラフ */}
+      <h2 className="text-2xl font-bold mt-10 mb-3">日別の学習量</h2>
       <DailyStudyChart logs={logs} />
 
-      {/* =======================
-    正答率の推移グラフ
-======================= */}
-      <h2 className="text-2xl font-bold mb-3 mt-10">正答率の推移</h2>
-
+      <h2 className="text-2xl font-bold mt-10 mb-3">正答率の推移</h2>
       <AccuracyChart logs={logs} />
     </div>
   );
 }
 
+/* =======================
+  情報カードコンポーネント
+======================= */
 function InfoCard({ title, value }) {
   return (
     <div className="bg-white shadow p-6 rounded-lg">
@@ -120,26 +116,39 @@ function InfoCard({ title, value }) {
   );
 }
 
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  LineChart,
-  Line,
-  ResponsiveContainer,
-} from "recharts";
+/* =======================
+  単元別正答率テーブル
+======================= */
+function UnitTable({ stats }) {
+  return (
+    <table className="min-w-full bg-white shadow rounded-lg mb-10">
+      <thead>
+        <tr className="bg-gray-100 text-left text-gray-700 text-sm">
+          <th className="p-4">単元</th>
+          <th className="p-4">正答率</th>
+          <th className="p-4">学習数</th>
+        </tr>
+      </thead>
+      <tbody>
+        {stats.map((u) => (
+          <tr key={u.unit} className="border-b hover:bg-gray-50">
+            <td className="p-4">{u.unit}</td>
+            <td className="p-4">{u.accuracy}%</td>
+            <td className="p-4">{u.total}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
 /* =======================
-    日別学習量グラフ
+  日別学習量グラフ
 ======================= */
 function DailyStudyChart({ logs }) {
-  // 日付ごとにカウント
   const map = {};
   logs.forEach((log) => {
-    const date = log.created_at.slice(0, 10); // YYYY-MM-DD
+    const date = log.created_at.slice(0, 10);
     if (!map[date]) map[date] = 0;
     map[date]++;
   });
@@ -165,10 +174,9 @@ function DailyStudyChart({ logs }) {
 }
 
 /* =======================
-    正答率の推移グラフ
+  正答率の推移グラフ
 ======================= */
 function AccuracyChart({ logs }) {
-  // 日付ごとの正答率計算
   const map = {};
   logs.forEach((log) => {
     const date = log.created_at.slice(0, 10);
