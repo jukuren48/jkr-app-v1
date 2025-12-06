@@ -3104,7 +3104,7 @@ export default function EnglishTrapQuestions() {
     } = await supabase.auth.getUser();
 
     const isTimeout = timeLeft <= 0; // ★時間切れ判定（あなたのアプリ準拠）
-    const answerTime = questionTime - timeLeft; // ★経過時間（例：30秒 - 残り時間）
+    const answerTime = maxTime - timeLeft; // ★経過時間（例：30秒 - 残り時間）
     const didReview = reviewing || isReviewMode;
     const isSuspicious = answerTime < 800; // ★AA判定（あなたの基準に合わせて調整可）
 
