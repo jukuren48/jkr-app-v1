@@ -1,3 +1,7 @@
+export async function getServerSideProps() {
+  return { props: {} };
+}
+
 // pages/admin/index.jsx
 import Link from "next/link";
 
