@@ -49,7 +49,7 @@ export default function StudentsPage() {
       // ② 生徒一覧取得
       const { data, error } = await supabase
         .from("users_extended")
-        .select("id, name, email, school, grade, created_at")
+        .select("id, name, email, school, grade, created_at, last_login")
         .eq("role", "student")
         .order("created_at", { ascending: false });
 
