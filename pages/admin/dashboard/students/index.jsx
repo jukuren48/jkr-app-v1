@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSupabase } from "@/src/providers/SupabaseProvider";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { formatJST } from "@/src/utils/formatDate";
 
 // ⭐ SSR / SSG 完全禁止
 export const dynamic = "error";
@@ -79,6 +80,7 @@ export default function StudentsPage() {
         <table className="min-w-full bg-white shadow rounded-lg">
           <thead>
             <tr className="bg-gray-100 text-left">
+              <th className="p-4">最終ログイン</th>
               <th className="p-4">名前</th>
               <th className="p-4">メール</th>
               <th className="p-4">詳細</th>
@@ -87,6 +89,7 @@ export default function StudentsPage() {
           <tbody>
             {students.map((u) => (
               <tr key={u.id} className="border-b hover:bg-gray-50">
+                <td className="p-4">{formatJST(u.last_login)}</td>
                 <td className="p-4">{u.name || "未設定"}</td>
                 <td className="p-4">{u.email}</td>
                 <td className="p-4">
