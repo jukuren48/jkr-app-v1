@@ -4621,7 +4621,7 @@ export default function EnglishTrapQuestions() {
   "
                     >
                       {/* === 🔥 解説中限定：右下固定 Next ボタン === */}
-                      {showQuestions && showFeedback && (
+                      {showFeedback && (
                         <NextButtonPortal
                           onClick={handleNext}
                           disabled={isSpeaking}
