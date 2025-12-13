@@ -7,9 +7,9 @@ import SignatureCanvas from "react-signature-canvas";
 import Tesseract from "tesseract.js";
 import React from "react";
 import { createPortal } from "react-dom";
-import { logout } from "../../lib/logout";
-import NextButtonPortal from "./NextButtonPortal";
-import { saveStudyLog } from "../../lib/saveStudyLog";
+import { logout } from "@/lib/logout";
+import NextButtonPortal from "@/src/components/NextButtonPortal";
+import { saveStudyLog } from "@/lib/saveStudyLog";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
@@ -930,30 +930,6 @@ export default function EnglishTrapQuestions() {
     return 0;
   });
 
-  const [selectedWordUnits, setSelectedWordUnits] = useState(() => {
-    if (typeof window === "undefined") return [];
-    try {
-      const saved = localStorage.getItem("selectedWordUnits");
-      if (!saved) return [];
-      const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch {
-      return [];
-    }
-  });
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      localStorage.setItem(
-        "selectedWordUnits",
-        JSON.stringify(selectedWordUnits)
-      );
-    } catch (e) {
-      console.warn("failed to save selectedWordUnits", e);
-    }
-  }, [selectedWordUnits]);
-
   // 単語テスト開始フラグ
   const [startWordQuizFlag, setStartWordQuizFlag] = useState(false);
 
@@ -1152,6 +1128,30 @@ export default function EnglishTrapQuestions() {
     }
   };
 
+  const updateAllUnitSettings = async (modesObject) => {
+    if (!supabaseUser) return;
+
+    const rows = Object.entries(modesObject).map(([unit, mode]) => ({
+      user_id: supabaseUser.id,
+      unit,
+      mode,
+      is_selected: mode !== 0,
+      updated_at: new Date().toISOString(),
+    }));
+
+    if (rows.length === 0) return;
+
+    const { error } = await supabase
+      .from("user_unit_settings")
+      .upsert(rows, { onConflict: "user_id,unit" });
+
+    if (error) {
+      console.error("❌ 全単元設定保存エラー:", error);
+    } else {
+      console.log("🟢 全単元設定保存完了", rows.length);
+    }
+  };
+
   const toggleUnitMode = (unit) => {
     setUnitModes((prev) => {
       const current = prev[unit] || 0;
@@ -1272,22 +1272,25 @@ export default function EnglishTrapQuestions() {
   // 📘 単語テスト専用ボタン
   // ===============================
   const renderWordTestButton = (unitName, label) => {
-    const isSelected = selectedWordUnits.includes(unitName);
+    const isSelected = unitModes[unitName] === 1;
 
     return (
       <button
         key={unitName}
-        onClick={() => {
-          if (isSelected) {
-            setSelectedWordUnits(
-              selectedWordUnits.filter((u) => u !== unitName)
-            );
-          } else {
-            setSelectedWordUnits([...selectedWordUnits, unitName]);
-          }
+        onClick={async () => {
+          const newMode = isSelected ? 0 : 1;
+
+          // UI即時反映
+          setUnitModes({
+            ...unitModes,
+            [unitName]: newMode,
+          });
+
+          // Supabase 保存
+          await updateUnitSetting(unitName, newMode);
         }}
         className={`
-        col-span-2 sm:col-span-1  /* ←★これで複数列に並ぶ！ */
+        col-span-2 sm:col-span-1
         rounded-xl py-2 font-bold shadow-md transition
         ${
           isSelected
@@ -1404,13 +1407,13 @@ export default function EnglishTrapQuestions() {
     loadFromSupabase();
   }, [supabaseUser]);
 
-  // ★ unitModes を Supabase から読み込む（1回だけ）
+  // ★ unitModes を Supabase（user_unit_settings）から復元
   useEffect(() => {
     if (!supabaseUser) return;
 
     const loadUnitModes = async () => {
       const { data, error } = await supabase
-        .from("unit_stats")
+        .from("user_unit_settings") // ★ unit_stats ではなくこちら
         .select("unit, mode")
         .eq("user_id", supabaseUser.id);
 
@@ -1420,13 +1423,20 @@ export default function EnglishTrapQuestions() {
       }
 
       const modes = {};
+
       data?.forEach((row) => {
         modes[row.unit] = row.mode ?? 0;
       });
 
-      setUnitModes(modes);
+      // ★ 単語テストが未登録なら OFF で補完
+      wordTestUnits.forEach((unit) => {
+        if (!(unit in modes)) {
+          modes[unit] = 0;
+        }
+      });
 
-      console.log("Unit modes Loaded:", modes);
+      setUnitModes(modes);
+      console.log("Unit modes Loaded (grammar + word):", modes);
     };
 
     loadUnitModes();
@@ -2129,36 +2139,37 @@ export default function EnglishTrapQuestions() {
     }
   };
 
-  const selectAllUnits = () => {
-    // 文法単元の全選択（既存ロジック）
+  const selectAllUnits = async () => {
     const updatedModes = {};
-    Object.keys(unitModes).forEach((unit) => {
-      updatedModes[unit] = 1; // mode = 1（両方）でON
+
+    // すべての unit を ON（文法＋単語テスト含む）
+    questions.forEach((q) => {
+      updatedModes[q.unit] = 1;
     });
+
     setUnitModes(updatedModes);
 
-    // 📘 単語単元の全選択
-    const wordUnits = Array.from(
-      new Set(
-        questions
-          .map((q) => q.unit)
-          .filter((unit) => unit.includes("単語テスト"))
-      )
-    );
-    setSelectedWordUnits(wordUnits);
+    // Supabase に一括保存
+    await updateAllUnitSettings(updatedModes);
   };
 
-  const clearAllUnits = () => {
-    // 文法単元の全解除（既存ロジック）
-    const updatedModes = {};
-    Object.keys(unitModes).forEach((unit) => {
-      updatedModes[unit] = 0; // OFF
+  const clearAllUnits = async () => {
+    const clearedModes = {};
+
+    questions.forEach((q) => {
+      clearedModes[q.unit] = 0;
     });
-    setUnitModes(updatedModes);
 
-    // 📘 単語単元の全解除
-    setSelectedWordUnits([]);
+    setUnitModes(clearedModes);
+
+    await updateAllUnitSettings(clearedModes);
   };
+
+  const wordTestUnits = Array.from(
+    new Set(
+      questions.map((q) => q.unit).filter((unit) => unit.includes("単語テスト"))
+    )
+  );
 
   const filtered = useMemo(() => {
     return questions.filter((q) => {
@@ -2175,13 +2186,17 @@ export default function EnglishTrapQuestions() {
   // 📘 単語テスト専用スタート関数
   // ===============================
   const startWordQuiz = () => {
-    // ① 単語単元が1つも選ばれていない
-    if (!selectedWordUnits || selectedWordUnits.length === 0) {
+    // ① 単語テスト単元が1つもONになっていない
+    const activeWordUnits = questions.filter(
+      (q) => q.unit.includes("単語テスト") && unitModes[q.unit] === 1
+    );
+
+    if (activeWordUnits.length === 0) {
       alert("単語テストの単元を1つ以上選んでください。");
       return;
     }
 
-    // ② 出題形式が未選択（単語・熟語だけでもOK）
+    // ② 出題形式が未選択
     if (!selectedFormats || selectedFormats.length === 0) {
       alert(
         "出題形式を1つ以上選んでください。（単語テストなら「単語・熟語」を選んでください）"
@@ -2189,11 +2204,14 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // ③ 単語単元 ＆ 出題形式 でフィルタ
+    // ③ 単語テスト ＆ 出題形式 でフィルタ
     const wordQuestions = questions.filter((q) => {
-      const inUnit = selectedWordUnits.includes(q.unit);
+      const isWordUnit =
+        q.unit.includes("単語テスト") && unitModes[q.unit] === 1;
+
       const inFormat = selectedFormats.includes(q.format || "単語・熟語");
-      return inUnit && inFormat;
+
+      return isWordUnit && inFormat;
     });
 
     if (wordQuestions.length === 0) {
@@ -2201,7 +2219,7 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // ④ シャッフル＆出題数を反映
+    // ④ シャッフル＆出題数制御
     const shuffled = shuffleArray(wordQuestions);
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
@@ -2211,7 +2229,7 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // ⑤ ここから下は、通常の startQuiz の「最後のセット部分」と同じでOK
+    // ⑤ 出題開始セット
     setInitialQuestionCount(limited.length);
     setCharacterMood("neutral");
     setFilteredQuestions(limited);
@@ -3552,10 +3570,7 @@ export default function EnglishTrapQuestions() {
   const disabledStart =
     !questionCount ||
     selectedFormats.length === 0 ||
-    !(
-      Object.keys(unitModes).some((u) => unitModes[u] !== 0) ||
-      selectedWordUnits.length > 0
-    );
+    !Object.keys(unitModes).some((u) => unitModes[u] !== 0);
 
   // ========== UI ==========
   // ✅ 覚え直し問題ID一覧
@@ -4101,36 +4116,33 @@ export default function EnglishTrapQuestions() {
                               const name = unit
                                 .replace("単語テスト", "")
                                 .trim();
-                              const isSelected =
-                                selectedWordUnits.includes(unit);
+                              const isSelected = (unitModes[unit] ?? 0) !== 0;
 
                               return (
                                 <button
                                   key={unit}
                                   onClick={() => {
-                                    if (isSelected) {
-                                      setSelectedWordUnits(
-                                        selectedWordUnits.filter(
-                                          (u) => u !== unit
-                                        )
-                                      );
-                                    } else {
-                                      setSelectedWordUnits([
-                                        ...selectedWordUnits,
-                                        unit,
-                                      ]);
-                                    }
+                                    const newMode = isSelected ? 0 : 1;
+
+                                    // ✅ ① React state を即時更新（見た目が変わる）
+                                    setUnitModes((prev) => ({
+                                      ...prev,
+                                      [unit]: newMode,
+                                    }));
+
+                                    // ✅ ② Supabase に保存
+                                    updateUnitSetting(unit, newMode);
                                   }}
                                   className={`
-                flex flex-col items-center justify-center
-                px-2 py-3 rounded-xl text-xs font-bold
-                transition-all border shadow-sm
-                ${
-                  isSelected
-                    ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
-                    : "bg-white text-[#35516e] border-gray-300 hover:bg-gray-100"
-                }
-              `}
+          flex flex-col items-center justify-center
+          px-2 py-3 rounded-xl text-xs font-bold
+          transition-all border shadow-sm
+          ${
+            isSelected
+              ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
+              : "bg-white text-[#35516e] border-gray-300 hover:bg-gray-100"
+          }
+        `}
                                 >
                                   <div className="text-lg mb-1">📖</div>
                                   {name}
@@ -4143,7 +4155,12 @@ export default function EnglishTrapQuestions() {
                           <div className="flex justify-center">
                             <button
                               disabled={
-                                selectedWordUnits.length === 0 || !questionCount
+                                !questionCount ||
+                                !Object.keys(unitModes).some(
+                                  (u) =>
+                                    u.includes("単語テスト") &&
+                                    unitModes[u] !== 0
+                                )
                               }
                               onClick={() => {
                                 if (!questionCount) {
@@ -4151,8 +4168,10 @@ export default function EnglishTrapQuestions() {
                                   return;
                                 }
 
-                                const qs = questions.filter((q) =>
-                                  selectedWordUnits.includes(q.unit)
+                                const qs = questions.filter(
+                                  (q) =>
+                                    q.unit.includes("単語テスト") &&
+                                    unitModes[q.unit] !== 0
                                 );
 
                                 startQuiz({
@@ -4163,13 +4182,16 @@ export default function EnglishTrapQuestions() {
                                 setShowWordFolder(false);
                               }}
                               className={`
-            px-6 py-3 rounded-full font-bold text-white shadow-lg transition
-            ${
-              selectedWordUnits.length > 0 && questionCount
-                ? "bg-pink-500 hover:bg-pink-600"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-            }
-          `}
+  px-6 py-3 rounded-full font-bold text-white shadow-lg transition
+  ${
+    questionCount &&
+    Object.keys(unitModes).some(
+      (u) => u.includes("単語テスト") && unitModes[u] !== 0
+    )
+      ? "bg-pink-500 hover:bg-pink-600"
+      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+  }
+`}
                             >
                               🚀 GO！
                             </button>

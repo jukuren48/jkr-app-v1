@@ -2012,7 +2012,7 @@
     "type": "input"
   },
   {
-    "id": "be2795ad-7b9e-493e-9232-859aa07b782a",
+    "id": "78b92f33-f541-4fb9-8efc-f80cf083e7a9",
     "unit": "条件文",
     "question": "「もし雨が降ったら、私は家にいるでしょう。」を英語に訳しなさい。",
     "choices": [],
@@ -2168,7 +2168,7 @@
     "type": "input"
   },
   {
-    "id": "inf001",
+    "id": "a0dab7f3-0975-4cf3-aaa9-399fc1115f55",
     "unit": "不定詞",
     "question": "To learn a new language is not easy.",
     "choices": ["名詞的用法", "副詞的用法", "形容詞的用法", "動名詞"],
@@ -2183,7 +2183,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf002",
+    "id": "bd3b67ef-ebb0-4ad1-8ad9-26f4fee9e522",
     "unit": "不定詞",
     "question": "She went to the park to play tennis.",
     "choices": ["名詞的用法", "副詞的用法", "形容詞的用法", "動名詞"],
@@ -2198,7 +2198,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf003",
+    "id": "f74ea41e-1299-40be-b0be-46771a5f60d4",
     "unit": "不定詞",
     "question": "I have a lot of homework to do.",
     "choices": ["名詞的用法", "副詞的用法", "形容詞的用法", "動名詞"],
@@ -2213,7 +2213,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf004",
+    "id": "1d3ac8e1-d822-4b62-8bff-7cdf77430254",
     "unit": "動名詞",
     "question": "Reading books is my hobby.",
     "choices": [
@@ -2233,7 +2233,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf005",
+    "id": "b5d36f54-9f33-47b6-b425-169d15f24226",
     "unit": "動名詞",
     "question": "He enjoys playing the guitar.",
     "choices": [
@@ -2253,7 +2253,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf006",
+    "id": "695ccd47-0fe6-4c8c-967e-a46f21157d14",
     "unit": "不定詞",
     "question": "I want (  ) a doctor in the future.",
     "choices": ["be", "to be", "being", "been"],
@@ -2268,7 +2268,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf007",
+    "id": "c565d74b-d0b7-4281-8ab9-e5f3fd9200d2",
     "unit": "動名詞",
     "question": "(  ) early in the morning is good for your health.",
     "choices": ["Get up", "Getting up", "To getting up", "Gets up"],
@@ -2283,7 +2283,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf008",
+    "id": "e9747275-7c7b-4c6b-83eb-56ad62210174",
     "unit": "動名詞",
     "question": "She is afraid of (  ) alone at night.",
     "choices": ["to be", "being", "be", "been"],
@@ -2298,7 +2298,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf009",
+    "id": "895371ac-8022-40b7-b596-15d4452cce80",
     "unit": "動名詞",
     "question": "Tom stopped (  ) and looked at me.",
     "choices": ["to walk", "walking", "walk", "walked"],
@@ -2313,7 +2313,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf010",
+    "id": "c5deb015-f164-43d5-97a5-bcc94dddde74",
     "unit": "不定詞",
     "question": "It is important (  ) English every day.",
     "choices": ["studying", "to study", "study", "studied"],
@@ -2328,7 +2328,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf011",
+    "id": "8e168b37-5a2b-4d23-bcad-35f7ef3787ff",
     "unit": "不定詞",
     "question": "I need something (  ) for the school festival.",
     "choices": ["cook", "cooking", "to cook", "cooked"],
@@ -2343,7 +2343,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf012",
+    "id": "317c766a-b08b-4dce-8c57-c6e2718bf6cf",
     "unit": "不定詞",
     "question": "Do you have anything (  )? I'm so bored.",
     "choices": ["do", "doing", "to do", "did"],
@@ -2358,7 +2358,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf013",
+    "id": "e6b50066-20cc-42ca-b0f0-2e9d967167ed",
     "unit": "不定詞",
     "question": "I have nothing (  ) with this trouble.",
     "choices": ["do", "to do", "doing", "did"],
@@ -2373,7 +2373,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf014",
+    "id": "a4c7e63d-1ed2-4031-99e7-8b4151e99e19",
     "unit": "不定詞",
     "question": "He found a book (  ) interesting to read.",
     "choices": ["was", "is", "being", "that was"],
@@ -2388,7 +2388,7 @@
     "type": "multiple-choice"
   },
   {
-    "id": "inf015",
+    "id": "eb1c3b15-252e-4b45-8f79-7645784a439b",
     "unit": "不定詞",
     "question": "She wants someone (  ) her with her homework.",
     "choices": ["to help", "help", "helps", "helping"],

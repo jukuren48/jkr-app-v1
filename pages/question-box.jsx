@@ -1,3 +1,10 @@
+// pages/question-box.jsx
+
+// ⭐ SSR と SSG を完全に禁止（build エラーを防ぐための3点セット）
+export const dynamic = "error";
+export const revalidate = 0;
+export const fetchCache = "only-no-store";
+
 import { useState, useEffect } from "react";
 
 export default function QuestionBox() {
@@ -5,7 +12,7 @@ export default function QuestionBox() {
   const [editingIndex, setEditingIndex] = useState(null);
   const [editingMemo, setEditingMemo] = useState("");
 
-  // ① 初回ロード
+  // ① 初回ロード（localStorage は useEffect 内なら安全）
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("studentQuestions") || "[]");
     setQuestions(saved);
@@ -43,6 +50,7 @@ export default function QuestionBox() {
   return (
     <div className="max-w-3xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4 text-[#4A6572]">質問ボックス</h1>
+
       {questions.length === 0 ? (
         <p>まだ質問は保存されていません。</p>
       ) : (

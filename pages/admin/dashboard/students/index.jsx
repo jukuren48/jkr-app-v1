@@ -1,83 +1,107 @@
 // pages/admin/dashboard/students/index.jsx
-import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 
-export async function getServerSideProps(context) {
-  const supabase = createPagesServerClient({
-    req: context.req,
-    res: context.res,
-  });
+import Link from "next/link";
+import { useSupabase } from "@/src/providers/SupabaseProvider";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+// ⭐ SSR / SSG 完全禁止
+export const dynamic = "error";
+export const revalidate = 0;
+export const fetchCache = "only-no-store";
 
-  console.log("=== SESSION (LATEST API) ===");
-  console.log(session);
+export default function StudentsPage() {
+  const router = useRouter();
+  const ctx = useSupabase();
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
+  // Provider 未初期化対策
+  if (!ctx) {
+    return <p className="p-6">読み込み中...</p>;
   }
 
-  const { data: students } = await supabase
-    .from("users_extended")
-    .select("*")
-    .order("last_login", { ascending: false });
+  const { supabase, session } = ctx;
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  return {
-    props: {
-      students: students ?? [],
-    },
-  };
-}
+  useEffect(() => {
+    // 未ログイン → login
+    if (session === null) {
+      router.push("/login");
+      return;
+    }
 
-export default function StudentListPage({ students }) {
+    if (!session) return;
+
+    const init = async () => {
+      // ① 管理者チェック
+      const { data: me, error: roleError } = await supabase
+        .from("users_extended")
+        .select("role")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+      if (roleError || me?.role !== "teacher") {
+        router.push("/admin/dashboard");
+        return;
+      }
+
+      // ② 生徒一覧取得
+      const { data, error } = await supabase
+        .from("users_extended")
+        .select("id, name, email, school, grade, created_at")
+        .eq("role", "student")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("生徒取得エラー:", error);
+        setStudents([]);
+      } else {
+        setStudents(data || []);
+      }
+
+      setLoading(false);
+    };
+
+    init();
+  }, [session]);
+
+  if (loading) {
+    return <p className="p-6">生徒一覧を読み込み中...</p>;
+  }
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">生徒一覧</h1>
 
-      <table className="min-w-full bg-white shadow rounded-lg">
-        <thead>
-          <tr className="bg-gray-100 text-left text-gray-700 text-sm">
-            <th className="p-4">名前</th>
-            <th className="p-4">最終ログイン</th>
-            <th className="p-4">詳細</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {students.map((s) => (
-            <tr key={s.id} className="border-b hover:bg-gray-50">
-              <td className="p-4">{s.name || "（未登録）"}</td>
-              <td className="p-4">
-                {s.last_login
-                  ? new Date(s.last_login).toLocaleString("ja-JP")
-                  : "-"}
-              </td>
-              <td className="p-4">
-                <Link
-                  className="text-blue-600 underline"
-                  href={`/admin/dashboard/students/${s.id}`}
-                >
-                  学習カルテを見る
-                </Link>
-              </td>
+      {students.length === 0 ? (
+        <p className="text-gray-600">生徒がまだ登録されていません。</p>
+      ) : (
+        <table className="min-w-full bg-white shadow rounded-lg">
+          <thead>
+            <tr className="bg-gray-100 text-left">
+              <th className="p-4">名前</th>
+              <th className="p-4">メール</th>
+              <th className="p-4">詳細</th>
             </tr>
-          ))}
-
-          {students.length === 0 && (
-            <tr>
-              <td className="p-4" colSpan={3}>
-                生徒データがまだありません。
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {students.map((u) => (
+              <tr key={u.id} className="border-b hover:bg-gray-50">
+                <td className="p-4">{u.name || "未設定"}</td>
+                <td className="p-4">{u.email}</td>
+                <td className="p-4">
+                  <Link
+                    href={`/admin/dashboard/students/${u.id}`}
+                    className="text-blue-600 underline"
+                  >
+                    開く
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
