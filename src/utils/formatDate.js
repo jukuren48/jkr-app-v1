@@ -1,11 +1,25 @@
 // src/utils/formatDate.js
+export function formatJST(isoString) {
+  if (!isoString) return "—";
+
+  const date = new Date(isoString);
+
+  return date.toLocaleString("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export function formatRelativeJST(isoString) {
   if (!isoString) return "";
 
   const now = new Date();
   const date = new Date(isoString);
 
-  // JST に揃える
   const nowJST = new Date(
     now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" })
   );
