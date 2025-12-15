@@ -4,8 +4,11 @@ import Link from "next/link";
 import { useSupabase } from "@/src/providers/SupabaseProvider";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { formatJST, formatRelativeJST } from "@/src/utils/formatDate";
-import { formatJST, getLoginStatus } from "@/src/utils/formatDate";
+import {
+  formatJST,
+  formatRelativeJST,
+  getLoginStatus,
+} from "@/src/utils/formatDate";
 
 // ⭐ SSR / SSG 完全禁止
 export const dynamic = "error";
