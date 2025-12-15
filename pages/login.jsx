@@ -1,14 +1,15 @@
 // pages/login.jsx
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useSupabase } from "@/src/providers/SupabaseProvider"; // ← これが重要
+import { useSupabase } from "@/src/providers/SupabaseProvider";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { supabase, session } = useSupabase(); // ← auth-helpers は使わない
+  const { supabase, session } = useSupabase();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignup, setIsSignup] = useState(false); // ★ 追加
 
   // すでにログイン済みならトップへ
   useEffect(() => {
@@ -17,19 +18,40 @@ export default function LoginPage() {
     }
   }, [session]);
 
-  // メール＋パスワードログイン
-  async function handleLogin(e) {
+  // ログイン / 新規登録 共通処理
+  async function handleAuth(e) {
     e.preventDefault();
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    if (!email || !password) {
+      alert("メールとパスワードを入力してください");
+      return;
+    }
 
-    if (error) {
-      alert("ログイン失敗: " + error.message);
+    if (isSignup) {
+      // 🔵 新規登録（生徒）
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) {
+        alert("新規登録失敗: " + error.message);
+        return;
+      }
+
+      alert("登録が完了しました。ログインしてください。");
+      setIsSignup(false);
+      setPassword("");
     } else {
-      router.push("/");
+      // 🔵 ログイン
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        alert("ログイン失敗: " + error.message);
+      }
     }
   }
 
@@ -46,9 +68,11 @@ export default function LoginPage() {
 
   return (
     <div className="p-6 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">ログイン</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        {isSignup ? "新規登録（生徒）" : "ログイン"}
+      </h1>
 
-      <form onSubmit={handleLogin} className="space-y-4">
+      <form onSubmit={handleAuth} className="space-y-4">
         <div>
           <label className="block mb-1">メール</label>
           <input
@@ -73,16 +97,32 @@ export default function LoginPage() {
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded w-full"
         >
-          ログイン
+          {isSignup ? "新規登録する" : "ログイン"}
         </button>
       </form>
 
-      <button
-        onClick={handleGoogleLogin}
-        className="mt-4 bg-red-500 text-white px-4 py-2 rounded w-full"
-      >
-        Google ログイン
-      </button>
+      {/* Googleログインはログイン時のみ表示 */}
+      {!isSignup && (
+        <button
+          onClick={handleGoogleLogin}
+          className="mt-4 bg-red-500 text-white px-4 py-2 rounded w-full"
+        >
+          Google ログイン
+        </button>
+      )}
+
+      {/* ★ 切り替えボタン */}
+      <div className="text-center mt-6">
+        <button
+          type="button"
+          onClick={() => setIsSignup(!isSignup)}
+          className="text-sm text-blue-600 underline"
+        >
+          {isSignup
+            ? "すでにアカウントをお持ちの方はこちら（ログイン）"
+            : "はじめての方はこちら（新規登録）"}
+        </button>
+      </div>
     </div>
   );
 }
