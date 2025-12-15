@@ -5,6 +5,7 @@ import { useSupabase } from "@/src/providers/SupabaseProvider";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { formatJST, formatRelativeJST } from "@/src/utils/formatDate";
+import { formatJST, getLoginStatus } from "@/src/utils/formatDate";
 
 // ⭐ SSR / SSG 完全禁止
 export const dynamic = "error";
@@ -90,26 +91,37 @@ export default function StudentsPage() {
             </tr>
           </thead>
           <tbody>
-            {students.map((u) => (
-              <tr key={u.id} className="border-b hover:bg-gray-50">
-                <td className="p-4">
-                  <div className="text-sm">{formatJST(u.last_login)}</div>
-                  <div className="text-xs text-gray-500">
-                    {formatRelativeJST(u.last_login)}
-                  </div>
-                </td>
-                <td className="p-4">{u.name || "未設定"}</td>
-                <td className="p-4">{u.email}</td>
-                <td className="p-4">
-                  <Link
-                    href={`/admin/dashboard/students/${u.id}`}
-                    className="text-blue-600 underline"
-                  >
-                    開く
-                  </Link>
-                </td>
-              </tr>
-            ))}
+            {students.map((u) => {
+              const status = getLoginStatus(u.last_login);
+
+              const rowClass =
+                status === "danger"
+                  ? "bg-red-50 hover:bg-red-100"
+                  : status === "warning"
+                  ? "bg-yellow-50 hover:bg-yellow-100"
+                  : "hover:bg-gray-50";
+
+              return (
+                <tr key={u.id} className={`border-b ${rowClass}`}>
+                  <td className="p-4 flex items-center gap-2">
+                    {status === "danger" && "🔴"}
+                    {status === "warning" && "🟡"}
+                    {status === "recent" && "🟢"}
+                    {formatJST(u.last_login)}
+                  </td>
+                  <td className="p-4">{u.name || "未設定"}</td>
+                  <td className="p-4">{u.email}</td>
+                  <td className="p-4">
+                    <Link
+                      href={`/admin/dashboard/students/${u.id}`}
+                      className="text-blue-600 underline"
+                    >
+                      開く
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}

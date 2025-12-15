@@ -39,3 +39,25 @@ export function formatRelativeJST(isoString) {
   const diffDay = Math.floor(diffHour / 24);
   return `${diffDay}日前`;
 }
+
+export function getLoginStatus(lastLoginISO) {
+  if (!lastLoginISO) return "never";
+
+  const now = new Date();
+  const last = new Date(lastLoginISO);
+
+  // JST基準にそろえる
+  const nowJST = new Date(
+    now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" })
+  );
+  const lastJST = new Date(
+    last.toLocaleString("en-US", { timeZone: "Asia/Tokyo" })
+  );
+
+  const diffMs = nowJST - lastJST;
+  const diffHours = diffMs / (1000 * 60 * 60);
+
+  if (diffHours < 24) return "recent";
+  if (diffHours < 72) return "warning";
+  return "danger";
+}
