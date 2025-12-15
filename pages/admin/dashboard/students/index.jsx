@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSupabase } from "@/src/providers/SupabaseProvider";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { formatJST } from "@/src/utils/formatDate";
+import { formatJST, formatRelativeJST } from "@/src/utils/formatDate";
 
 // ⭐ SSR / SSG 完全禁止
 export const dynamic = "error";
@@ -92,7 +92,12 @@ export default function StudentsPage() {
           <tbody>
             {students.map((u) => (
               <tr key={u.id} className="border-b hover:bg-gray-50">
-                <td className="p-4">{formatJST(u.last_login)}</td>
+                <td className="p-4">
+                  <div className="text-sm">{formatJST(u.last_login)}</div>
+                  <div className="text-xs text-gray-500">
+                    {formatRelativeJST(u.last_login)}
+                  </div>
+                </td>
                 <td className="p-4">{u.name || "未設定"}</td>
                 <td className="p-4">{u.email}</td>
                 <td className="p-4">

@@ -3,7 +3,7 @@
 import { useRouter } from "next/router";
 import { useSupabase } from "@/src/providers/SupabaseProvider";
 import { useEffect, useState } from "react";
-import { formatJST } from "@/src/utils/formatDate";
+import { formatJST, formatRelativeJST } from "@/src/utils/formatDate";
 
 // ⭐ SSR を完全に禁止
 export const dynamic = "error";
@@ -78,8 +78,11 @@ export default function StudentDetailPage() {
         <p>
           <strong>登録日:</strong> {formatJST(user.created_at)}
         </p>
-        <p>
-          <strong>最終ログイン:</strong> {formatJST(user.last_login)}
+        <p className="text-sm">
+          最終ログイン：{formatJST(user.last_login)}
+          <span className="ml-2 text-gray-500 text-xs">
+            （{formatRelativeJST(user.last_login)}）
+          </span>
         </p>
       </div>
     </div>
