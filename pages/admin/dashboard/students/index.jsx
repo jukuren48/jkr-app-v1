@@ -46,6 +46,9 @@ export default function StudentsPage() {
         return;
       }
 
+      // 🔁 Authの最終ログイン時刻を users_extended に同期
+      await supabase.rpc("sync_last_login");
+
       // ② 生徒一覧取得
       const { data, error } = await supabase
         .from("users_extended")

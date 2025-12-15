@@ -1,8 +1,10 @@
-// UTC → 日本時間（JST）に変換して表示する共通関数
-export function formatJST(dateString) {
-  if (!dateString) return "—";
+// src/utils/formatDate.js
+export function formatJST(isoString) {
+  if (!isoString) return "—";
 
-  return new Date(dateString).toLocaleString("ja-JP", {
+  const date = new Date(isoString);
+
+  return date.toLocaleString("ja-JP", {
     timeZone: "Asia/Tokyo",
     year: "numeric",
     month: "2-digit",
