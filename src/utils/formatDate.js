@@ -41,7 +41,8 @@ export function formatRelativeJST(isoString) {
 }
 
 export function getLoginStatus(lastLoginISO) {
-  if (!lastLoginISO) return "never";
+  // 🔴 未ログインは danger 扱い
+  if (!lastLoginISO) return "danger";
 
   const now = new Date();
   const last = new Date(lastLoginISO);
@@ -57,7 +58,7 @@ export function getLoginStatus(lastLoginISO) {
   const diffMs = nowJST - lastJST;
   const diffHours = diffMs / (1000 * 60 * 60);
 
-  if (diffHours < 24) return "recent";
-  if (diffHours < 72) return "warning";
-  return "danger";
+  if (diffHours < 24) return "recent"; // 🟢
+  if (diffHours < 72) return "warning"; // 🟡
+  return "danger"; // 🔴
 }

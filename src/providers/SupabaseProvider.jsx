@@ -8,27 +8,24 @@ export function SupabaseContextProvider({ children }) {
   const [session, setSession] = useState(undefined); // ← そのまま
 
   useEffect(() => {
-    // ★ 初回ロード時
     const loadSession = async () => {
       const { data } = await supabase.auth.getSession();
       const currentSession = data.session;
 
       setSession(currentSession);
 
-      // ★ セッションがあれば最終ログイン更新
       if (currentSession?.user) {
         await supabase
           .from("users_extended")
           .update({
-            last_login: new Date().toISOString(), // UTC保存でOK
+            last_login: new Date().toISOString(),
           })
-          .eq("id", currentSession.user.id);
+          .eq("user_id", currentSession.user.id);
       }
     };
 
     loadSession();
 
-    // ★ 認証状態が変わった時（ログイン・ログアウト）
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, newSession) => {
@@ -40,7 +37,7 @@ export function SupabaseContextProvider({ children }) {
           .update({
             last_login: new Date().toISOString(),
           })
-          .eq("id", newSession.user.id);
+          .eq("user_id", newSession.user.id);
       }
     });
 

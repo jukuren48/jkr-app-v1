@@ -42,7 +42,7 @@ export default function StudentsPage() {
       const { data: me, error: roleError } = await supabase
         .from("users_extended")
         .select("role")
-        .eq("id", session.user.id)
+        .eq("user_id", session.user.id)
         .maybeSingle();
 
       if (roleError || me?.role !== "teacher") {
@@ -50,22 +50,20 @@ export default function StudentsPage() {
         return;
       }
 
-      // 🔁 Authの最終ログイン時刻を users_extended に同期
-      await supabase.rpc("sync_last_login");
+      // ② 生徒一覧取得（API経由）
+      const res = await fetch("/api/admin/students");
 
-      // ② 生徒一覧取得
-      const { data, error } = await supabase
-        .from("users_extended")
-        .select("id, name, email, school, grade, created_at, last_login")
-        .eq("role", "student")
-        .order("created_at", { ascending: false });
-
-      if (error) {
-        console.error("生徒取得エラー:", error);
+      if (!res.ok) {
+        console.error("API error", res.status);
         setStudents([]);
-      } else {
-        setStudents(data || []);
+        setLoading(false);
+        return;
       }
+
+      const data = await res.json();
+
+      // ★ ここが重要
+      setStudents(Array.isArray(data) ? data : []);
 
       setLoading(false);
     };
@@ -95,6 +93,7 @@ export default function StudentsPage() {
           </thead>
           <tbody>
             {students.map((u) => {
+              // ★ ここが肝：last_login を渡す
               const status = getLoginStatus(u.last_login);
 
               const rowClass =
@@ -105,22 +104,27 @@ export default function StudentsPage() {
                   : "hover:bg-gray-50";
 
               return (
-                <tr key={u.id} className={`border-b ${rowClass}`}>
+                <tr key={u.user_id} className={`border-b ${rowClass}`}>
                   <td className="p-4 flex items-center gap-2">
                     {status === "danger" && "🔴"}
                     {status === "warning" && "🟡"}
                     {status === "recent" && "🟢"}
-                    {formatJST(u.last_login)}
+                    <span>{u.last_login ? formatJST(u.last_login) : "—"}</span>
                   </td>
-                  <td className="p-4">{u.name || "未設定"}</td>
+
+                  <td className="p-4">{u.name}</td>
+
                   <td className="p-4">{u.email}</td>
+
                   <td className="p-4">
-                    <Link
-                      href={`/admin/dashboard/students/${u.id}`}
+                    <button
+                      onClick={() =>
+                        router.push(`/admin/dashboard/students/${u.user_id}`)
+                      }
                       className="text-blue-600 underline"
                     >
                       開く
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               );

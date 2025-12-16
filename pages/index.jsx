@@ -28,8 +28,8 @@ export default function Home() {
       const { data, error } = await supabase
         .from("users_extended")
         .select("role")
-        .eq("id", session.user.id)
-        .maybeSingle();
+        .eq("user_id", session.user.id)
+        .single();
 
       if (!error && data?.role) {
         setRole(data.role);
