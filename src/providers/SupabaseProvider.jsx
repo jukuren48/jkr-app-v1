@@ -39,6 +39,9 @@ export function SupabaseContextProvider({ children }) {
           })
           .eq("user_id", newSession.user.id);
       }
+      if (_event === "SIGNED_OUT") {
+        setSession(null);
+      }
     });
 
     return () => subscription.unsubscribe();

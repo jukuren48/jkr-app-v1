@@ -10,11 +10,15 @@ export default function DashboardPage() {
   return (
     <div className="p-6">
       <button
-        className="px-4 py-2 bg-red-500 text-white rounded"
         onClick={async () => {
           await supabase.auth.signOut();
-          router.replace("/login"); // ← ★修正ポイント
+
+          // ★ セッション反映を待つ
+          setTimeout(() => {
+            router.replace("/login");
+          }, 100);
         }}
+        className="px-4 py-2 bg-red-500 text-white rounded"
       >
         ログアウト
       </button>

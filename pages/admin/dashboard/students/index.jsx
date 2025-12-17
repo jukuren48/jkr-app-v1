@@ -77,6 +77,13 @@ export default function StudentsPage() {
 
   return (
     <div className="p-6">
+      <button
+        className="mb-6 text-blue-600 underline"
+        onClick={() => router.push("/admin/dashboard")}
+      >
+        ← ダッシュボードに戻る
+      </button>
+
       <h1 className="text-3xl font-bold mb-6">生徒一覧</h1>
 
       {students.length === 0 ? (
