@@ -213,6 +213,22 @@ export default function StudentDetailPage() {
         </div>
       )}
 
+      <button
+        onClick={() => {
+          const params = new URLSearchParams({
+            period,
+            weak: showOnlyWeak ? "1" : "0",
+          });
+          window.open(
+            `/api/admin/study-export/${user_id}?${params.toString()}`,
+            "_blank"
+          );
+        }}
+        className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+      >
+        CSVでエクスポート
+      </button>
+
       <h2 className="text-2xl font-bold mt-10 mb-4">学習ログ（単元別）</h2>
 
       <div className="flex flex-wrap items-center gap-2 mb-4">
