@@ -15,6 +15,9 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import { useRef } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 // ⭐ SSR を完全に禁止
 export const dynamic = "error";
@@ -38,6 +41,7 @@ export default function StudentDetailPage() {
   }
 
   const { supabase, session } = ctx;
+  const reportRef = useRef(null);
 
   useEffect(() => {
     // 未ログイン
@@ -130,89 +134,119 @@ export default function StudentDetailPage() {
     return "#dc2626"; // red-600
   };
 
+  const exportPDF = async () => {
+    if (!reportRef.current) return;
+
+    const canvas = await html2canvas(reportRef.current, {
+      scale: 2, // 高解像度
+      useCORS: true,
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pdfWidth = 210;
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+    pdf.save(`study_report_${student.name}.pdf`);
+  };
+
   if (loading) {
     return <p className="p-6">生徒詳細を読み込み中...</p>;
   }
 
   return (
     <div className="p-6 max-w-xl">
-      <button
-        className="mb-6 text-blue-600 underline"
-        onClick={() => router.push("/admin/dashboard/students")}
-      >
-        ← 生徒一覧に戻る
-      </button>
+      {/* ▼▼▼ PDF化する範囲ここから ▼▼▼ */}
+      <div ref={reportRef} className="bg-white p-6">
+        <button
+          className="mb-6 text-blue-600 underline"
+          onClick={() => router.push("/admin/dashboard/students")}
+        >
+          ← 生徒一覧に戻る
+        </button>
 
-      <h1 className="text-3xl font-bold mb-6">{student.name} さんの詳細</h1>
+        <h1 className="text-3xl font-bold mb-6">{student.name} さんの詳細</h1>
 
-      <div className="space-y-4">
-        <div>
-          <strong>メール：</strong>
-          {student.email}
-        </div>
+        <div className="space-y-4">
+          <div>
+            <strong>メール：</strong>
+            {student.email}
+          </div>
 
-        <div>
-          <strong>登録日：</strong>
-          {formatJST(student.created_at)}
-        </div>
+          <div>
+            <strong>登録日：</strong>
+            {formatJST(student.created_at)}
+          </div>
 
-        <div>
-          <strong>最終ログイン：</strong>
-          {student.last_login ? formatJST(student.last_login) : "—"}
-          {student.last_login && (
-            <span className="ml-2 text-gray-500 text-xs">
-              （{formatRelativeJST(student.last_login)}）
-            </span>
-          )}
-        </div>
-      </div>
-
-      <h2 className="text-2xl font-bold mt-10 mb-4">単元別 正答率（グラフ）</h2>
-
-      {chartData.length === 0 ? (
-        <p className="text-gray-500">表示できるデータがありません。</p>
-      ) : (
-        // ★ 外側：スクロール担当
-        <div className="w-full max-h-[400px] overflow-y-auto bg-white rounded shadow p-4">
-          {/* ★ 内側：実際のグラフ高さ */}
-          <div style={{ height: `${chartHeight}px` }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={sortedChartData}
-                layout="vertical"
-                margin={{ top: 10, right: 20, left: 120, bottom: 10 }}
-              >
-                {/* 横軸：正答率 */}
-                <XAxis
-                  type="number"
-                  domain={[0, 100]}
-                  tickFormatter={(v) => `${v}%`}
-                />
-
-                {/* 縦軸：単元名 */}
-                <YAxis
-                  type="category"
-                  dataKey="unit"
-                  width={140}
-                  tick={{ fontSize: 12 }}
-                />
-
-                <Tooltip formatter={(v) => `${v}%`} />
-
-                <Bar dataKey="accuracy">
-                  {sortedChartData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={getBarColorByAccuracy(entry.accuracy)}
-                    />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+          <div>
+            <strong>最終ログイン：</strong>
+            {student.last_login ? formatJST(student.last_login) : "—"}
+            {student.last_login && (
+              <span className="ml-2 text-gray-500 text-xs">
+                （{formatRelativeJST(student.last_login)}）
+              </span>
+            )}
           </div>
         </div>
-      )}
 
+        <h2 className="text-2xl font-bold mt-10 mb-4">
+          単元別 正答率（グラフ）
+        </h2>
+
+        {chartData.length === 0 ? (
+          <p className="text-gray-500">表示できるデータがありません。</p>
+        ) : (
+          // ★ 外側：スクロール担当
+          <div className="w-full max-h-[400px] overflow-y-auto bg-white rounded shadow p-4">
+            {/* ★ 内側：実際のグラフ高さ */}
+            <div style={{ height: `${chartHeight}px` }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={sortedChartData}
+                  layout="vertical"
+                  margin={{ top: 10, right: 20, left: 120, bottom: 10 }}
+                >
+                  {/* 横軸：正答率 */}
+                  <XAxis
+                    type="number"
+                    domain={[0, 100]}
+                    tickFormatter={(v) => `${v}%`}
+                  />
+
+                  {/* 縦軸：単元名 */}
+                  <YAxis
+                    type="category"
+                    dataKey="unit"
+                    width={140}
+                    tick={{ fontSize: 12 }}
+                  />
+
+                  <Tooltip formatter={(v) => `${v}%`} />
+
+                  <Bar dataKey="accuracy">
+                    {sortedChartData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={getBarColorByAccuracy(entry.accuracy)}
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
+      </div>{" "}
+      {/* ← reportRef をここで閉じる */}
+      <button
+        onClick={exportPDF}
+        className="mt-4 ml-2 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+      >
+        PDFで出力
+      </button>
       <button
         onClick={() => {
           const params = new URLSearchParams({
@@ -228,9 +262,7 @@ export default function StudentDetailPage() {
       >
         CSVでエクスポート
       </button>
-
       <h2 className="text-2xl font-bold mt-10 mb-4">学習ログ（単元別）</h2>
-
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <button
           onClick={() => setPeriod("7")}
@@ -265,7 +297,6 @@ export default function StudentDetailPage() {
           すべて
         </button>
       </div>
-
       <div className="flex items-center gap-4 mb-4">
         <button
           onClick={() => setShowOnlyWeak((prev) => !prev)}
@@ -279,7 +310,6 @@ export default function StudentDetailPage() {
           {showOnlyWeak ? "すべて表示" : "弱点（🔴）のみ表示"}
         </button>
       </div>
-
       {logLoading ? (
         <p className="text-gray-500">学習ログを読み込み中...</p>
       ) : logs.length === 0 ? (

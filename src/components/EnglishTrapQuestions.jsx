@@ -10,6 +10,7 @@ import { createPortal } from "react-dom";
 import { logout } from "@/lib/logout";
 import NextButtonPortal from "@/src/components/NextButtonPortal";
 import { saveStudyLog } from "@/lib/saveStudyLog";
+import { useRouter } from "next/router";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
@@ -826,6 +827,8 @@ export default function EnglishTrapQuestions() {
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 1800); // 1.8秒で自動消滅
   };
+
+  const router = useRouter();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [isCustomWordMode, setIsCustomWordMode] = useState(false);
@@ -3752,6 +3755,13 @@ export default function EnglishTrapQuestions() {
           {/* ▼ 開いたときのメニュー */}
           {menuOpen && (
             <div className="mt-2 w-48 bg-white/95 backdrop-blur-md shadow-xl border border-gray-200 rounded-xl p-3 space-y-3">
+              <button
+                onClick={() => router.push("/my")}
+                className="mb-4 px-4 py-2 bg-indigo-600 text-white rounded"
+              >
+                Myデータ一覧
+              </button>
+
               {/* 質問BOX */}
               <button
                 onClick={() => {
