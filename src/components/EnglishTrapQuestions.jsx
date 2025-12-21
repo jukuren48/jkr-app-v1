@@ -27,16 +27,13 @@ let bgmInitLock = false;
 
 function unlockAudio() {
   if (audioCtx && audioCtx.state === "suspended") {
-    audioCtx.resume().then(() => {
-      //console.log("[Audio] resumed on user gesture");
-    });
+    audioCtx.resume().then(() => {});
   }
 }
 
 async function ensureAudioResume() {
   if (audioCtx && audioCtx.state === "suspended") {
     await audioCtx.resume();
-    //console.log("[Audio] resumed before BGM play");
   }
 }
 
@@ -83,7 +80,6 @@ function resetAudioState() {
   qbgmSource = null;
   globalUnitBgmPlaying = false;
   lastBgmType = null;
-  //console.log("[Audio] full resetAudioState() complete");
 }
 
 async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
@@ -829,6 +825,8 @@ export default function EnglishTrapQuestions() {
   };
 
   const router = useRouter();
+  const { unit: unitFromMyData } = router.query;
+  const [isWordOnlyMode, setIsWordOnlyMode] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [isCustomWordMode, setIsCustomWordMode] = useState(false);
@@ -932,24 +930,9 @@ export default function EnglishTrapQuestions() {
     }
     return 0;
   });
-
+  const launchedFromMyDataRef = useRef(false);
   // 単語テスト開始フラグ
-  const [startWordQuizFlag, setStartWordQuizFlag] = useState(false);
-
-  // filteredQuestions がセットされ、フラグが ON のときにテスト開始
-  useEffect(() => {
-    if (!startWordQuizFlag) return;
-    if (!filteredQuestions || filteredQuestions.length === 0) return;
-
-    // 🎯 ここで skipFiltering モードで開始
-    startQuiz({
-      skipFiltering: true,
-      directQuestions: filteredQuestions,
-    });
-
-    // フラグを戻す
-    setStartWordQuizFlag(false);
-  }, [startWordQuizFlag, filteredQuestions]);
+  //const [startWordQuizFlag, setStartWordQuizFlag] = useState(false);
 
   // 🧩 My単語を既存問題形式へ変換
   const generateOriginalQuestions = () => {
@@ -1439,7 +1422,6 @@ export default function EnglishTrapQuestions() {
       });
 
       setUnitModes(modes);
-      console.log("Unit modes Loaded (grammar + word):", modes);
     };
 
     loadUnitModes();
@@ -1493,27 +1475,23 @@ export default function EnglishTrapQuestions() {
     fetch("/api/questions2")
       .then((res) => res.json())
       .then((data) => {
-        // ① まずは通常の問題
         let merged = data;
 
-        // ② originalWords がある場合は統合
         if (originalWords.length > 0) {
           const originalQuestions = generateOriginalQuestions();
-
           merged = [
-            ...merged.filter((q) => !q.id?.startsWith("custom-")), // 重複対策
+            ...merged.filter((q) => !q.id?.startsWith("custom-")),
             ...originalQuestions,
           ];
         }
 
-        // ③ 合体後に setQuestions
         setQuestions(merged);
 
-        // ④ 合体後のデータから単元一覧を作る
         const uniqueUnits = [...new Set(merged.map((q) => q.unit))];
         setUnits(uniqueUnits);
       });
   }, [originalWords]);
+
   // 🔥 originalWords が変わったら再読み込みされるように依存に追加
 
   // 🔰 二重実行防止フラグ
@@ -2185,6 +2163,16 @@ export default function EnglishTrapQuestions() {
     });
   }, [questions, unitModes]);
 
+  const handleStart = () => {
+    setIsWordOnlyMode(false); // ★ 念のため解除
+    startQuiz();
+  };
+
+  const handleWordGo = () => {
+    setIsWordOnlyMode(true);
+    startWordQuiz();
+  };
+
   // ===============================
   // 📘 単語テスト専用スタート関数
   // ===============================
@@ -2232,67 +2220,20 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // ⑤ 出題開始セット
-    setInitialQuestionCount(limited.length);
-    setCharacterMood("neutral");
-    setFilteredQuestions(limited);
-    setInitialQuestions(limited);
-    setCurrentIndex(0);
-    setShowQuestions(true);
-    setShowResult(false);
-    setShowFeedback(false);
-    setSelectedChoice(null);
-    setMistakes({});
-    setIsReviewMode(false);
-    setReviewList([]);
-    setReviewMistakes([]);
-    setAddMessage("");
-    setHintLevels({});
-    setHintText("");
-    setHintLevel(0);
+    beginQuiz(limited);
   };
 
   // ✅ クイズ開始処理（複数形式×複数単元対応）
   // 📌 修正版 startQuiz（My単語テスト時は絞り込みをスキップ）
   const startQuiz = (options = {}) => {
+    if (isWordOnlyMode) {
+      console.log("⛔ 単語専用モード中のため通常スタートを無視");
+      return;
+    }
     const {
       skipFiltering = false, // ★ 単語GO・My単語GO 用
       directQuestions = null, // ★ 直接問題リストを渡す
     } = options;
-
-    // ================================
-    // ★ ① skipFiltering（単語GO / My単語GO）
-    // ================================
-    if (skipFiltering) {
-      const qs = directQuestions;
-
-      if (!qs || qs.length === 0) {
-        alert("出題できる問題がありません。");
-        return;
-      }
-
-      const limited = questionCount === "all" ? qs : qs.slice(0, questionCount);
-
-      setInitialQuestionCount(limited.length);
-      setCharacterMood("neutral");
-      setFilteredQuestions(limited);
-      setInitialQuestions(limited);
-      setCurrentIndex(0);
-      setShowQuestions(true);
-      setShowResult(false);
-      setShowFeedback(false);
-      setSelectedChoice(null);
-      setMistakes({});
-      setIsReviewMode(false);
-      setReviewList([]);
-      setReviewMistakes([]);
-      setAddMessage("");
-      setHintLevels({});
-      setHintText("");
-      setHintLevel(0);
-
-      return; // ⭐完全に終了（通常ルートに入らない！）
-    }
 
     // ================================
     // ★② 通常（文法＋単語混合）スタート
@@ -2335,6 +2276,38 @@ export default function EnglishTrapQuestions() {
     const shuffled = shuffleArray(filtered);
     const limited =
       questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
+
+    beginQuiz(limited);
+  };
+
+  const startQuizFromMyData = (unit) => {
+    const matched = questions.filter((q) => q.unit === unit);
+
+    if (matched.length === 0) {
+      alert("出題できる問題がありません");
+      return;
+    }
+
+    const shuffled = shuffleArray(matched);
+    const limited =
+      questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
+
+    // ★ ここは「通常の出題」と同じ
+    setInitialQuestionCount(limited.length);
+    setFilteredQuestions(limited);
+    setInitialQuestions(limited);
+    setCurrentIndex(0);
+    setShowQuestions(true);
+    setShowResult(false);
+    setShowFeedback(false);
+  };
+
+  // ✅ 出題開始の状態セットを共通化（ここだけが正とする）
+  const beginQuiz = (limited) => {
+    if (!limited || limited.length === 0) {
+      alert("出題できる問題がありません。beginQuiz");
+      return;
+    }
 
     setInitialQuestionCount(limited.length);
     setCharacterMood("neutral");
@@ -2932,6 +2905,50 @@ export default function EnglishTrapQuestions() {
     });
   }, [unitStats, units]);
 
+  useEffect(() => {
+    const unit = localStorage.getItem("startUnitFromMyData");
+    if (!unit) return;
+
+    if (!questions || questions.length === 0) {
+      console.log("⏳ questions 未ロードのため待機");
+      return;
+    }
+
+    console.log("🎯 Myデータから出題開始:", unit);
+
+    const matched = questions.filter((q) => {
+      const qUnit = q.unit?.trim();
+      const target = unit?.trim();
+
+      if (qUnit === target) {
+        console.log("✅ unit一致:", qUnit);
+        return true;
+      }
+
+      return false;
+    });
+
+    if (matched.length === 0) {
+      alert("出題できる問題がありません");
+      localStorage.removeItem("startUnitFromMyData");
+      return;
+    }
+
+    const shuffled = shuffleArray(matched);
+    const effectiveCount =
+      questionCount === "all" || !questionCount || questionCount <= 0
+        ? shuffled.length
+        : questionCount;
+
+    const limited = shuffled.slice(0, effectiveCount);
+
+    launchedFromMyDataRef.current = true;
+
+    beginQuiz(limited);
+
+    localStorage.removeItem("startUnitFromMyData");
+  }, [questions]);
+
   const handleInputChange = (e) => {
     const value = e.target.value;
 
@@ -3218,14 +3235,10 @@ export default function EnglishTrapQuestions() {
 
       // 復習状態だけセットして終了
       const reviewCopy = reviewQueueRef.current || [];
-      setFilteredQuestions(reviewCopy);
-      setCurrentIndex(0);
-      setShowFeedback(false);
-      setTimerActive(false);
-      setShowResult(false);
-      setReviewList([]);
+      beginQuiz(reviewCopy);
       setIsReviewMode(true);
       setShowReviewPrompt(false);
+      setTimerActive(false);
       return; // ← BGM再生は完全スキップ
     }
     // ▲▲▲ BGMなしモードはここでリターン ▲▲▲
@@ -3247,14 +3260,10 @@ export default function EnglishTrapQuestions() {
 
     // ▼▼▼ 4) 復習の出題状態セット ▼▼▼
     const reviewCopy = reviewQueueRef.current || [];
-    setFilteredQuestions(reviewCopy);
-    setCurrentIndex(0);
-    setShowFeedback(false);
-    setTimerActive(false);
-    setShowResult(false);
-    setReviewList([]);
+    beginQuiz(reviewCopy);
     setIsReviewMode(true);
     setShowReviewPrompt(false);
+    setTimerActive(false);
 
     // ▼▼▼ 5) 出題SE（ONのときだけ） ▼▼▼
     if (soundEnabled) {
@@ -3304,24 +3313,7 @@ export default function EnglishTrapQuestions() {
     // 🎯 単元など一切見ずにそのまま出題
     const shuffled = shuffleArray(originalQs);
 
-    setFilteredQuestions(shuffled);
-    setInitialQuestions(shuffled);
-
-    setInitialQuestionCount(shuffled.length);
-    setCharacterMood("neutral");
-    setCurrentIndex(0);
-    setShowQuestions(true);
-    setShowResult(false);
-    setShowFeedback(false);
-    setSelectedChoice(null);
-    setMistakes({});
-    setIsReviewMode(false);
-    setReviewList([]);
-    setReviewMistakes([]);
-    setAddMessage("");
-    setHintLevels({});
-    setHintText("");
-    setHintLevel(0);
+    beginQuiz(shuffled);
   };
 
   const hintPenalties = [2, 5, 10];
@@ -4184,7 +4176,7 @@ export default function EnglishTrapQuestions() {
                                     unitModes[q.unit] !== 0
                                 );
 
-                                startQuiz({
+                                handleWordGo({
                                   skipFiltering: true,
                                   directQuestions: qs,
                                 });
@@ -4392,7 +4384,7 @@ export default function EnglishTrapQuestions() {
                     if (disabledStart) return;
 
                     initAudio();
-                    startQuiz();
+                    handleStart();
                   }}
                   disabled={disabledStart}
                   className={`relative mt-10 rounded-full px-10 py-3 font-bold mx-auto block text-lg
@@ -4911,14 +4903,6 @@ export default function EnglishTrapQuestions() {
                 )}
               </div>
             </div>
-
-            {console.log("=== DEBUG PAD ===", {
-              showQuestions,
-              showResult,
-              type: currentQuestion?.type,
-              format: currentQuestion?.format,
-              useHandwriting,
-            })}
 
             {/* 下：問題解答用の手書きパッド（compact版とは完全に別物） */}
             {showQuestions &&

@@ -19,20 +19,23 @@ export default function MyDataPage() {
   const [showOnlyWeak, setShowOnlyWeak] = useState(false);
 
   // logs からグラフ用データを作る
-  const chartData = data.map((l) => ({
-    unit: l.unit,
-    accuracy: l.accuracy ?? 0,
-  }));
+  const chartData = data.map((l) => {
+    const accuracy = l.accuracy ?? 0;
+
+    return {
+      unit: l.unit,
+      accuracy, // ← 本来の正答率（表示・ロジック用）
+
+      // ★ 表示専用（0%でもクリック可能にする）
+      accuracyForChart: accuracy === 0 ? 0.1 : accuracy,
+    };
+  });
   const filteredChartData = showOnlyWeak
     ? chartData.filter((d) => d.accuracy !== null && d.accuracy < 80)
     : chartData;
-  const sortedChartData = [...filteredChartData].sort((a, b) => {
-    // null は一番下に
-    if (a.accuracy === null) return 1;
-    if (b.accuracy === null) return -1;
-
-    return a.accuracy - b.accuracy; // 低い順
-  });
+  const sortedChartData = [...filteredChartData].sort(
+    (a, b) => a.accuracyForChart - b.accuracyForChart
+  );
 
   const ROW_HEIGHT = 32; // 単元1つあたりの高さ
   const chartHeight = Math.max(sortedChartData.length * ROW_HEIGHT, 300);
@@ -130,9 +133,31 @@ export default function MyDataPage() {
                   tick={{ fontSize: 12 }}
                 />
 
-                <Tooltip formatter={(v) => `${v}%`} />
+                <Tooltip
+                  formatter={(value, name, props) =>
+                    `${props.payload.accuracy}%`
+                  }
+                />
 
-                <Bar dataKey="accuracy">
+                <Bar
+                  dataKey="accuracyForChart"
+                  minPointSize={6} // ★ これが決定打（6px以上必ず描画）
+                  onClick={(payload) => {
+                    const unit =
+                      payload?.payload?.unit ??
+                      payload?.activePayload?.[0]?.payload?.unit;
+
+                    if (!unit) {
+                      console.warn("❌ unit 取得失敗", payload);
+                      return;
+                    }
+
+                    console.log("🎯 Myデータから unit 指定:", unit);
+
+                    localStorage.setItem("startUnitFromMyData", unit);
+                    router.push("/");
+                  }}
+                >
                   {sortedChartData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
