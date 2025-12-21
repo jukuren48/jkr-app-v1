@@ -827,7 +827,7 @@ export default function EnglishTrapQuestions() {
   const router = useRouter();
   const { unit: unitFromMyData } = router.query;
   const [isWordOnlyMode, setIsWordOnlyMode] = useState(false);
-
+  const [finalResult, setFinalResult] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isCustomWordMode, setIsCustomWordMode] = useState(false);
   const [showHandwritingFor, setShowHandwritingFor] = useState(null);
@@ -3173,6 +3173,24 @@ export default function EnglishTrapQuestions() {
         // ★ 集計開始 → ローディング表示
         // -------------------------------
         setLoadingResult(true);
+        const displayResult =
+          isReviewMode && finalResult
+            ? finalResult
+            : {
+                totalQuestions,
+                incorrectCount,
+                correctCount,
+                correctRate,
+              };
+        // 集計結果を保存（この後に復習へ行っても、本番結果が残る）
+        setFinalResult(displayResult);
+
+        console.log({
+          totalQuestions,
+          incorrectCount,
+          correctCount,
+          correctRate,
+        });
 
         // ★ 保存処理は裏で並列実行（UX向上）
         saveStatsToSupabase(); // await を付けない！
@@ -3195,12 +3213,6 @@ export default function EnglishTrapQuestions() {
           setTimerActive(false);
           setTimeLeft(0);
           setIsReviewMode(false);
-          console.log({
-            totalQuestions,
-            incorrectCount,
-            correctCount,
-            correctRate,
-          });
 
           // ローディング解除
           setLoadingResult(false);
@@ -3599,16 +3611,6 @@ export default function EnglishTrapQuestions() {
     (q) => mistakes[q.id] && !reviewIds.has(String(q.id))
   );
 
-  // ✅ ヒントペナルティ
-  const totalHintPenalty = Object.values(hintLevels || {})
-    .map((level) =>
-      level === 0 ? 0 : hintPenalties.slice(0, level).reduce((a, b) => a + b, 0)
-    )
-    .reduce((a, b) => a + b, 0);
-
-  // ✅ 最終スコア
-  const adjustedCorrectRate = Math.max(0, correctRate - totalHintPenalty);
-
   // 🔍 英単語 → 日本語訳を取得する関数（必ず return の上に配置すること！）
   const fetchJapaneseMeaning = async (word) => {
     try {
@@ -3627,6 +3629,31 @@ export default function EnglishTrapQuestions() {
       return "（意味を取得できませんでした）";
     }
   };
+
+  // ✅ 結果発表で表示する値は「本番結果」を優先する
+  const displayResult = finalResult ?? {
+    totalQuestions,
+    incorrectCount,
+    correctCount,
+    correctRate,
+  };
+
+  const {
+    totalQuestions: displayTotal,
+    incorrectCount: displayIncorrect,
+    correctCount: displayCorrect,
+    correctRate: displayRate,
+  } = displayResult;
+
+  // ✅ ヒントペナルティ
+  const totalHintPenalty = Object.values(hintLevels || {})
+    .map((level) =>
+      level === 0 ? 0 : hintPenalties.slice(0, level).reduce((a, b) => a + b, 0)
+    )
+    .reduce((a, b) => a + b, 0);
+
+  // ✅ 最終スコア
+  const adjustedCorrectRate = Math.max(0, displayRate - totalHintPenalty);
 
   if (!showQuestions && !showResult && units.length === 0 && !currentQuestion) {
     return <div className="p-8 text-lg">読み込み中です...</div>;
@@ -5180,11 +5207,11 @@ export default function EnglishTrapQuestions() {
           <div>
             <h2 className="text-2xl font-bold mb-4">結果発表</h2>
             <p className="text-2xl font-bold mb-4">
-              {correctRate >= 90
+              {displayRate >= 90
                 ? "🎉 すばらしい！🥇"
-                : correctRate >= 80
+                : displayRate >= 80
                 ? "✨ よくできました！🥈"
-                : correctRate >= 70
+                : displayRate >= 70
                 ? "👍 もう少し！🥉"
                 : "💪 何度も挑戦しよう！"}
             </p>
@@ -5198,7 +5225,7 @@ export default function EnglishTrapQuestions() {
                 結果発表
               </h2>
               <p className="text-6xl font-extrabold text-[#6DBD98] mb-2">
-                {correctRate}%
+                {displayRate}%
               </p>
               <p className="text-[#4A6572]">
                 ヒント利用による減点: -{totalHintPenalty}%
