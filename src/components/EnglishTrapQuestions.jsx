@@ -3195,6 +3195,12 @@ export default function EnglishTrapQuestions() {
           setTimerActive(false);
           setTimeLeft(0);
           setIsReviewMode(false);
+          console.log({
+            totalQuestions,
+            incorrectCount,
+            correctCount,
+            correctRate,
+          });
 
           // ローディング解除
           setLoadingResult(false);
@@ -3576,8 +3582,10 @@ export default function EnglishTrapQuestions() {
   // ✅ 全体の出題数
   const totalQuestions = initialQuestionCount || filteredQuestions.length;
 
-  // ✅ 不正解数（スコア計算では覚え直しも“不正解扱い”）
-  const incorrectCount = Object.keys(mistakes || {}).length;
+  // ✅ 最終的に不正解のまま終わった問題だけ数える
+  const incorrectCount = filteredQuestions.filter(
+    (q) => mistakes[q.id] && !reviewIds.has(String(q.id))
+  ).length;
 
   // ✅ 正答数
   const correctCount = Math.max(0, totalQuestions - incorrectCount);
