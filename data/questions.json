@@ -2974,9 +2974,9 @@
   {
     "id": "d2a5c7f4-4b19-4c3b-8e6c-8a3a72b9e0e8",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nみんなパーティーに来るんですよね。\n( everyone / , / will / won’t / come / they ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nみんなパーティーに来るんですよね。\n( everyone / the / , / will / to / won’t / come / they / party).",
     "choices": [],
-    "correct": "Everyone will come, won’t they?",
+    "correct": "Everyone will come to the party, won’t they?",
     "explanation": "『everyone（みんな）』は単数扱いだが、タグでは慣例的に『they』で受けます。『won’t they?』が正しい形です。",
     "incorrectExplanations": {},
     "format": "整序問題",
