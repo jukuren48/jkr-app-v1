@@ -732,6 +732,16 @@ export default function EnglishTrapQuestions() {
   // Supabase のユーザー情報
   const [supabaseUser, setSupabaseUser] = useState(null);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const flag = localStorage.getItem("fromMyData");
+    if (flag) {
+      fromMyDataRef.current = true;
+      localStorage.removeItem("fromMyData");
+    }
+  }, []);
+
   // Supabase から現在のログインユーザーを取得
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -930,6 +940,7 @@ export default function EnglishTrapQuestions() {
     }
     return 0;
   });
+  const fromMyDataRef = useRef(false);
   const launchedFromMyDataRef = useRef(false);
   // 単語テスト開始フラグ
   //const [startWordQuizFlag, setStartWordQuizFlag] = useState(false);
@@ -1470,6 +1481,14 @@ export default function EnglishTrapQuestions() {
   useEffect(() => {
     localStorage.setItem("questionList", JSON.stringify(questionList));
   }, [questionList]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.stopBgm = stopBgm;
+      window.stopQbgm = stopQbgm;
+      window.resetAudioState = resetAudioState;
+    }
+  }, []);
 
   useEffect(() => {
     fetch("/api/questions2")
@@ -2304,6 +2323,8 @@ export default function EnglishTrapQuestions() {
 
   // ✅ 出題開始の状態セットを共通化（ここだけが正とする）
   const beginQuiz = (limited) => {
+    fromMyDataRef.current = false;
+
     localStorage.removeItem("fromMyData");
     if (!limited || limited.length === 0) {
       alert("出題できる問題がありません。beginQuiz");
@@ -2329,28 +2350,31 @@ export default function EnglishTrapQuestions() {
     setHintLevel(0);
   };
 
-  // 切り替えは音量制御のみ
+  // 切り替えは音量制御のみ（Myデータ経由は完全除外）
   useEffect(() => {
-    // ★ Myデータ経由なら単元BGMを鳴らさない
-    const fromMyData = localStorage.getItem("fromMyData");
-    if (fromMyData) return;
+    // 単元選択画面でないなら何もしない
+    if (showQuestions || showResult) return;
 
-    if (!showQuestions && !showResult) {
-      if (!soundEnabled) return;
-
-      (async () => {
-        try {
-          if (audioCtx?.state === "suspended") {
-            await audioCtx.resume();
-          }
-          if (bgmGain) {
-            bgmGain.gain.value = 0.2;
-          }
-        } catch (e) {
-          console.warn("[Audio] resume failed in unit select", e);
-        }
-      })();
+    // ★ Myデータ経由で戻ってきた直後は絶対に触らない
+    if (fromMyDataRef.current) {
+      // console.log("[Audio] skip unit volume control (from MyData)");
+      return;
     }
+
+    if (!soundEnabled) return;
+
+    (async () => {
+      try {
+        if (audioCtx?.state === "suspended") {
+          await audioCtx.resume();
+        }
+        if (bgmGain) {
+          bgmGain.gain.value = 0.2;
+        }
+      } catch (e) {
+        console.warn("[Audio] resume failed in unit select", e);
+      }
+    })();
   }, [showQuestions, showResult, soundEnabled]);
 
   // 🪄 BGM制御（重複再生防止・iOS対応）
@@ -2374,6 +2398,23 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     const applyBGM = async () => {
+      // === 🧠 Myデータ経由で戻ってきた場合 ===
+      const fromMyData =
+        typeof window !== "undefined" &&
+        localStorage.getItem("fromMyData") === "1";
+
+      if (fromMyData) {
+        // 🔇 まずすべての音を「音量ゼロ」にする
+        try {
+          if (bgmGain) bgmGain.gain.value = 0;
+          if (qbgmGain) qbgmGain.gain.value = 0;
+        } catch (e) {
+          console.warn("[Audio] gain mute failed:", e);
+        }
+
+        // フラグはここで消す（1回限り）
+        localStorage.removeItem("fromMyData");
+      }
       //console.log(
       // `[AudioDebug] applyBGM() triggered: ${Date.now()} state=${lastBgmType}`
       //);
@@ -2424,7 +2465,6 @@ export default function EnglishTrapQuestions() {
           bgmSource = null;
           globalUnitBgmPlaying = false;
           setUnitBgmPlaying(false);
-          //console.log("[Audio] stopped bgm before question start");
         }
 
         // すでに qbgm が再生中なら skip
@@ -2434,7 +2474,6 @@ export default function EnglishTrapQuestions() {
         await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm", true);
         fadeInBGM(qbgmGain, 0.2, 2.0);
         lastBgmType = "question";
-        //console.log("[Audio] qbgm started for question");
         return;
       }
 

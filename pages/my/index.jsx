@@ -146,8 +146,8 @@ export default function MyDataPage() {
                 />
 
                 <Bar
-                  dataKey="accuracyForChart"
-                  minPointSize={6} // ★ これが決定打（6px以上必ず描画）
+                  dataKey="accuracy"
+                  minPointSize={6}
                   onClick={(payload) => {
                     const unit =
                       payload?.payload?.unit ??
@@ -155,11 +155,28 @@ export default function MyDataPage() {
 
                     if (!unit) return;
 
-                    // ★ 追加：Myデータ経由フラグ
+                    console.log("🎯 Myデータから unit 指定:", unit);
+
+                    // ★★★★★ ここが決定打 ★★★★★
+                    try {
+                      // すべてのBGMを強制停止
+                      if (typeof window !== "undefined") {
+                        window.stopBgm?.(true);
+                        window.stopQbgm?.(true);
+                        window.resetAudioState?.();
+                      }
+                    } catch (e) {
+                      console.warn("[Audio] force stop failed:", e);
+                    }
+
+                    // Myデータ経由フラグ
                     localStorage.setItem("fromMyData", "1");
                     localStorage.setItem("startUnitFromMyData", unit);
 
-                    router.push("/");
+                    // 少しだけ待ってから遷移（音の完全停止を保証）
+                    setTimeout(() => {
+                      router.push("/");
+                    }, 50);
                   }}
                 >
                   {sortedChartData.map((entry, index) => (
