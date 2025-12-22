@@ -2459,7 +2459,15 @@ export default function EnglishTrapQuestions() {
 
       // === 🎯 問題画面 ===
       if (showQuestions) {
-        // まず旧BGM（単元選択用）を確実に停止
+        // 🔇【最重要】まずすべてのBGMを音量0にする（stopに頼らない）
+        try {
+          if (bgmGain) bgmGain.gain.value = 0;
+          if (qbgmGain) qbgmGain.gain.value = 0;
+        } catch (e) {
+          console.warn("[Audio] gain mute failed on question start", e);
+        }
+
+        // 単元選択BGMは停止を試みる（効かなくてもOK）
         if (bgmSource) {
           stopBgm(true);
           bgmSource = null;
@@ -2467,12 +2475,13 @@ export default function EnglishTrapQuestions() {
           setUnitBgmPlaying(false);
         }
 
-        // すでに qbgm が再生中なら skip
+        // すでに question BGM が鳴っていれば再起動しない
         if (qbgmSource && lastBgmType === "question") return;
 
+        // 問題BGMを新規起動（無音状態から）
         stopQbgm(true);
         await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm", true);
-        fadeInBGM(qbgmGain, 0.2, 2.0);
+        fadeInBGM(qbgmGain, 0.2, 2.0); // ← 0 → 0.2 にフェード
         lastBgmType = "question";
         return;
       }
