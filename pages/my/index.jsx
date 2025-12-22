@@ -155,9 +155,10 @@ export default function MyDataPage() {
 
                     if (!unit) return;
 
-                    console.log("🎯 Myデータから unit 指定:", unit);
-
+                    // ★ 追加：Myデータ経由フラグ
+                    localStorage.setItem("fromMyData", "1");
                     localStorage.setItem("startUnitFromMyData", unit);
+
                     router.push("/");
                   }}
                 >
