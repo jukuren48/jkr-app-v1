@@ -36,6 +36,7 @@ export default function MyDataPage() {
   const sortedChartData = [...filteredChartData].sort(
     (a, b) => a.accuracyForChart - b.accuracyForChart
   );
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
 
   const ROW_HEIGHT = 32; // 単元1つあたりの高さ
   const chartHeight = Math.max(sortedChartData.length * ROW_HEIGHT, 300);
@@ -118,7 +119,12 @@ export default function MyDataPage() {
               <BarChart
                 data={sortedChartData}
                 layout="vertical"
-                margin={{ top: 10, right: 20, left: 140, bottom: 10 }}
+                margin={{
+                  top: 10,
+                  right: 20,
+                  left: isMobile ? 80 : 140,
+                  bottom: 10,
+                }}
               >
                 <XAxis
                   type="number"
@@ -129,8 +135,8 @@ export default function MyDataPage() {
                 <YAxis
                   type="category"
                   dataKey="unit"
-                  width={140}
-                  tick={{ fontSize: 12 }}
+                  width={isMobile ? 80 : 140}
+                  tick={{ fontSize: isMobile ? 10 : 12 }}
                 />
 
                 <Tooltip
@@ -147,12 +153,17 @@ export default function MyDataPage() {
                       payload?.payload?.unit ??
                       payload?.activePayload?.[0]?.payload?.unit;
 
-                    if (!unit) {
-                      console.warn("❌ unit 取得失敗", payload);
-                      return;
-                    }
+                    if (!unit) return;
 
                     console.log("🎯 Myデータから unit 指定:", unit);
+
+                    // ★ ここで音を完全リセット
+                    if (
+                      typeof window !== "undefined" &&
+                      window.resetAudioState
+                    ) {
+                      window.resetAudioState();
+                    }
 
                     localStorage.setItem("startUnitFromMyData", unit);
                     router.push("/");

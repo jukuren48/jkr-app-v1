@@ -82,6 +82,12 @@ function resetAudioState() {
   lastBgmType = null;
 }
 
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    window.resetAudioState = resetAudioState;
+  }
+}, []);
+
 async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
   initAudio();
 
@@ -2330,6 +2336,10 @@ export default function EnglishTrapQuestions() {
 
   // 切り替えは音量制御のみ
   useEffect(() => {
+    // ★ Myデータ経由で戻ってきた場合は単元選択BGMを鳴らさない
+    const fromMyData = localStorage.getItem("startUnitFromMyData");
+    if (fromMyData) return;
+
     if (!showQuestions && !showResult) {
       // 単元選択画面
       if (soundEnabled) {
