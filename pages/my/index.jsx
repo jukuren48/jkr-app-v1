@@ -157,14 +157,6 @@ export default function MyDataPage() {
 
                     console.log("🎯 Myデータから unit 指定:", unit);
 
-                    // ★ ここで音を完全リセット
-                    if (
-                      typeof window !== "undefined" &&
-                      window.resetAudioState
-                    ) {
-                      window.resetAudioState();
-                    }
-
                     localStorage.setItem("startUnitFromMyData", unit);
                     router.push("/");
                   }}

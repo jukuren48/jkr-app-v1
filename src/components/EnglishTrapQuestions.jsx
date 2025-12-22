@@ -82,12 +82,6 @@ function resetAudioState() {
   lastBgmType = null;
 }
 
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    window.resetAudioState = resetAudioState;
-  }
-}, []);
-
 async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
   initAudio();
 
