@@ -172,6 +172,7 @@ export default function MyDataPage() {
                     // Myデータ経由フラグ
                     localStorage.setItem("fromMyData", "1");
                     localStorage.setItem("startUnitFromMyData", unit);
+                    localStorage.setItem("enteringQuestion", "1");
 
                     // 少しだけ待ってから遷移（音の完全停止を保証）
                     setTimeout(() => {

@@ -835,6 +835,7 @@ export default function EnglishTrapQuestions() {
   };
 
   const router = useRouter();
+  const enteringQuestionRef = useRef(false);
   const { unit: unitFromMyData } = router.query;
   const [isWordOnlyMode, setIsWordOnlyMode] = useState(false);
   const [finalResult, setFinalResult] = useState(null);
@@ -2398,57 +2399,24 @@ export default function EnglishTrapQuestions() {
 
   useEffect(() => {
     const applyBGM = async () => {
-      // === 🧠 Myデータ経由で戻ってきた場合 ===
+      // ★ ここで1回だけ取得（消さない）
+      if (
+        typeof window !== "undefined" &&
+        localStorage.getItem("enteringQuestion") === "1"
+      ) {
+        enteringQuestionRef.current = true;
+        localStorage.removeItem("enteringQuestion");
+      }
       const fromMyData =
         typeof window !== "undefined" &&
         localStorage.getItem("fromMyData") === "1";
 
-      if (fromMyData) {
-        // 🔇 まずすべての音を「音量ゼロ」にする
-        try {
-          if (bgmGain) bgmGain.gain.value = 0;
-          if (qbgmGain) qbgmGain.gain.value = 0;
-        } catch (e) {
-          console.warn("[Audio] gain mute failed:", e);
-        }
-
-        // フラグはここで消す（1回限り）
-        localStorage.removeItem("fromMyData");
-      }
-      //console.log(
-      // `[AudioDebug] applyBGM() triggered: ${Date.now()} state=${lastBgmType}`
-      //);
-
       initAudio();
-
-      // 🧹 iOS再ロード時・Fast Refresh対策
-      if (
-        audioCtx &&
-        audioCtx.state === "running" &&
-        showQuestions &&
-        bgmSource
-      ) {
-        //console.log("[Audio] cleanup residual BGM before question start");
-        resetAudioState();
-      }
 
       // === 🔇 サウンドOFF時 ===
       if (!soundEnabled) {
-        //stopQbgm(true);
-        //stopBgm(true);
-
-        if (audioCtx && audioCtx.state === "running") {
-          try {
-            await audioCtx.suspend();
-            //console.log("[Audio] audioCtx suspended (sound OFF)");
-          } catch (e) {
-            console.warn("[Audio] suspend failed:", e);
-          }
-        }
         stopQbgm(true);
         stopBgm(true);
-        //bgmGain.gain.value = 0;
-        //qbgmGain.gain.value = 0;
         globalUnitBgmPlaying = false;
         setUnitBgmPlaying(false);
         lastBgmType = null;
@@ -2459,29 +2427,20 @@ export default function EnglishTrapQuestions() {
 
       // === 🎯 問題画面 ===
       if (showQuestions) {
-        // 🔇【最重要】まずすべてのBGMを音量0にする（stopに頼らない）
-        try {
-          if (bgmGain) bgmGain.gain.value = 0;
-          if (qbgmGain) qbgmGain.gain.value = 0;
-        } catch (e) {
-          console.warn("[Audio] gain mute failed on question start", e);
-        }
-
-        // 単元選択BGMは停止を試みる（効かなくてもOK）
+        // 単元選択BGMを完全に無効化
+        if (bgmGain) bgmGain.gain.value = 0;
         if (bgmSource) {
           stopBgm(true);
           bgmSource = null;
-          globalUnitBgmPlaying = false;
-          setUnitBgmPlaying(false);
         }
+        globalUnitBgmPlaying = false;
+        setUnitBgmPlaying(false);
 
-        // すでに question BGM が鳴っていれば再起動しない
         if (qbgmSource && lastBgmType === "question") return;
 
-        // 問題BGMを新規起動（無音状態から）
         stopQbgm(true);
         await ensureLoop("/sounds/qbgm.mp3", qbgmGain, "qbgm", true);
-        fadeInBGM(qbgmGain, 0.2, 2.0); // ← 0 → 0.2 にフェード
+        fadeInBGM(qbgmGain, 0.1, 1.0);
         lastBgmType = "question";
         return;
       }
@@ -2491,69 +2450,49 @@ export default function EnglishTrapQuestions() {
         fadeInBGM(qbgmGain, 0, 1.0);
         setTimeout(() => stopQbgm(true), 1200);
         lastBgmType = "result";
-        //console.log("[Audio] result → stop qbgm");
         return;
       }
 
       // === 🏫 単元選択画面 ===
       if (!showQuestions && !showResult) {
-        // 🚫 BGMがすでに存在または再生中なら完全スキップ
-        // 🚫 二重起動防止ロック
+        // ★ 問題開始目的のマウントなら絶対に入らせない
+        if (enteringQuestionRef.current) {
+          return;
+        }
+
+        // 以降、通常の単元選択処理
         if (
           bgmInitLock ||
           bgmSource ||
           globalUnitBgmPlaying ||
           lastBgmType === "unit"
         ) {
-          //console.log("[Audio] bgm already active or locked → skip start");
-        } else {
-          bgmInitLock = true;
-          try {
-            stopQbgm(true); // 念のため他BGM停止
-
-            await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm");
-            fadeInBGM(bgmGain, 0.2, 2.0);
-
-            globalUnitBgmPlaying = true;
-            setUnitBgmPlaying(true);
-            lastBgmType = "unit";
-
-            //console.log("[Audio] bgm started (unit select)");
-          } catch (e) {
-            console.warn("[Audio] bgm start failed:", e);
-          } finally {
-            // 🕒 500ms後にロック解除（再レンダー安全対策）
-            setTimeout(() => {
-              bgmInitLock = false;
-            }, 500);
-          }
+          return;
         }
 
-        // 🔊 初回ロードで「選択してください」再生（重複防止済み）
+        bgmInitLock = true;
+        try {
+          stopQbgm(true);
+          await ensureLoop("/sounds/bgm.mp3", bgmGain, "bgm");
+          fadeInBGM(bgmGain, 0.2, 2.0);
+          globalUnitBgmPlaying = true;
+          setUnitBgmPlaying(true);
+          lastBgmType = "unit";
+        } finally {
+          setTimeout(() => {
+            bgmInitLock = false;
+          }, 500);
+        }
+
+        // ★ sentaku.mp3 もここでは鳴らさせない
         if (firstLoadRef.current) {
           firstLoadRef.current = false;
           playSFX("/sounds/sentaku.mp3");
         }
-
-        return;
       }
     };
 
     applyBGM();
-
-    // ✅ クリーンアップ（不要な音残留防止）
-    return () => {
-      if (showQuestions || showResult) return;
-      resetAudioState();
-      stopQbgm(true);
-      stopBgm(true);
-      bgmSource = null;
-      qbgmSource = null;
-      globalUnitBgmPlaying = false;
-      setUnitBgmPlaying(false);
-      lastBgmType = null;
-      //console.log("[Audio] cleanup complete");
-    };
   }, [soundEnabled, showQuestions, showResult]);
 
   useEffect(() => {
