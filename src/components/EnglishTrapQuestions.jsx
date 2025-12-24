@@ -833,7 +833,7 @@ export default function EnglishTrapQuestions() {
     setShowPopup(true);
     setTimeout(() => setShowPopup(false), 1800); // 1.8秒で自動消滅
   };
-
+  const unitStatsSaveRef = useRef(false);
   const router = useRouter();
   const enteringQuestionRef = useRef(false);
   const { unit: unitFromMyData } = router.query;
@@ -2939,6 +2939,17 @@ export default function EnglishTrapQuestions() {
     localStorage.removeItem("startUnitFromMyData");
   }, [questions]);
 
+  useEffect(() => {
+    if (!unitStatsSaveRef.current) return;
+
+    saveStatsToSupabase();
+    unitStatsSaveRef.current = false;
+  }, [unitStats]);
+
+  useEffect(() => {
+    console.log("🔥 unitStats updated:", unitStats);
+  }, [unitStats]);
+
   const handleInputChange = (e) => {
     const value = e.target.value;
 
@@ -3183,9 +3194,10 @@ export default function EnglishTrapQuestions() {
         });
 
         applyTestResultToUnitStats();
+        unitStatsSaveRef.current = true;
 
         // ★ 保存処理は裏で並列実行（UX向上）
-        saveStatsToSupabase(); // await を付けない！
+        //saveStatsToSupabase(); // await を付けない！
 
         // -------------------------------
         // ほんの少しだけ待ってから画面遷移
