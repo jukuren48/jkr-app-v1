@@ -1,6 +1,7 @@
 import { useSupabase } from "@/src/providers/SupabaseProvider";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { LabelList } from "recharts";
 import {
   BarChart,
   Bar,
@@ -17,24 +18,32 @@ export default function MyDataPage() {
   const [data, setData] = useState([]);
   const [period, setPeriod] = useState("all");
   const [showOnlyWeak, setShowOnlyWeak] = useState(false);
+  const aggregatedByUnit = {};
+  data.forEach((l) => {
+    const unit = l.unit;
+    const acc = l.accuracy ?? 0;
+
+    if (!aggregatedByUnit[unit]) {
+      aggregatedByUnit[unit] = {
+        total: 0,
+        count: 0,
+      };
+    }
+
+    aggregatedByUnit[unit].total += acc;
+    aggregatedByUnit[unit].count += 1;
+  });
 
   // logs からグラフ用データを作る
-  const chartData = data.map((l) => {
-    const accuracy = l.accuracy ?? 0;
-
-    return {
-      unit: l.unit,
-      accuracy, // ← 本来の正答率（表示・ロジック用）
-
-      // ★ 表示専用（0%でもクリック可能にする）
-      accuracyForChart: accuracy === 0 ? 0.1 : accuracy,
-    };
-  });
+  const chartData = Object.entries(aggregatedByUnit).map(([unit, v]) => ({
+    unit,
+    accuracy: Math.round(v.total / v.count),
+  }));
   const filteredChartData = showOnlyWeak
     ? chartData.filter((d) => d.accuracy !== null && d.accuracy < 80)
     : chartData;
   const sortedChartData = [...filteredChartData].sort(
-    (a, b) => a.accuracyForChart - b.accuracyForChart
+    (a, b) => a.accuracy - b.accuracy
   );
   const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
 
@@ -121,8 +130,8 @@ export default function MyDataPage() {
                 layout="vertical"
                 margin={{
                   top: 10,
-                  right: 20,
-                  left: isMobile ? 80 : 140,
+                  right: 40,
+                  left: isMobile ? 60 : 120,
                   bottom: 10,
                 }}
               >
@@ -180,6 +189,19 @@ export default function MyDataPage() {
                     }, 50);
                   }}
                 >
+                  {/* ★ 正答率ラベルを右側に表示 */}
+                  <LabelList
+                    dataKey="accuracy"
+                    position="right"
+                    formatter={(v) => `${v}%`}
+                    style={{
+                      fill: "#374151", // 濃いグレー（スマホでも見やすい）
+                      fontSize: 12,
+                      fontWeight: 600,
+                      pointerEvents: "none", // ← クリック判定に影響させない
+                    }}
+                  />
+
                   {sortedChartData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
