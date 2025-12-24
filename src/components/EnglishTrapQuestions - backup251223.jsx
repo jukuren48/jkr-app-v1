@@ -3182,8 +3182,6 @@ export default function EnglishTrapQuestions() {
           correctRate,
         });
 
-        applyTestResultToUnitStats();
-
         // ★ 保存処理は裏で並列実行（UX向上）
         saveStatsToSupabase(); // await を付けない！
 
@@ -3221,42 +3219,6 @@ export default function EnglishTrapQuestions() {
 
     setSelectedChoice(null);
     setTimeout(() => setInputDisabled(false), 300);
-  };
-
-  const applyTestResultToUnitStats = () => {
-    setUnitStats((prev) => {
-      const next = { ...prev };
-
-      // 今回プレイした単元を取得
-      const unitsPlayed = [...new Set(filteredQuestions.map((q) => q.unit))];
-
-      for (const unit of unitsPlayed) {
-        const prevStat = prev[unit] ?? {
-          total: 0,
-          wrong: 0,
-          streak: 0,
-        };
-
-        // 今回この単元で出題された問題
-        const questionsInUnit = filteredQuestions.filter(
-          (q) => q.unit === unit
-        );
-
-        const totalThisTime = questionsInUnit.length;
-        const wrongThisTime = questionsInUnit.filter(
-          (q) => mistakes[q.id]
-        ).length;
-
-        next[unit] = {
-          ...prevStat,
-          total: prevStat.total + totalThisTime,
-          wrong: prevStat.wrong + wrongThisTime,
-          streak: wrongThisTime === 0 ? prevStat.streak + 1 : 0,
-        };
-      }
-
-      return next;
-    });
   };
 
   const startReview = async () => {
