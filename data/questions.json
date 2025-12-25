@@ -8207,6 +8207,2024 @@
     "type": "input"
   },
   {
+    "id": "0a1b2c3d-1111-4aaa-8bbb-000000000001",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「become」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "became",
+    "explanation": "「become」の過去形は became です。例：He became a teacher.（彼は先生になりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-1111-4aaa-8bbb-000000000002",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「become」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "become",
+    "explanation": "「become」の過去分詞形は become です。例：She has become famous.（彼女は有名になりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-1111-4aaa-8bbb-000000000003",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「begin」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "began",
+    "explanation": "「begin」の過去形は began です。例：The class began at nine.（授業は9時に始まりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-1111-4aaa-8bbb-000000000004",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「begin」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "begun",
+    "explanation": "「begin」の過去分詞形は begun です。例：The game has begun.（試合は始まりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-1111-4aaa-8bbb-000000000005",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「blow」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "blew",
+    "explanation": "「blow」の過去形は blew です。例：The wind blew hard.（風が強く吹きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-1111-4aaa-8bbb-000000000006",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「blow」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "blown",
+    "explanation": "「blow」の過去分詞形は blown です。例：The leaves have blown away.（葉は吹き飛ばされました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-1111-4aaa-8bbb-000000000007",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「break」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "broke",
+    "explanation": "「break」の過去形は broke です。例：He broke the window.（彼は窓を割りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-1111-4aaa-8bbb-000000000008",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「break」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "broken",
+    "explanation": "「break」の過去分詞形は broken です。例：The window is broken.（窓は割れています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000009",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「bring」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "brought",
+    "explanation": "「bring」の過去形は brought です。例：She brought her lunch.（彼女は昼食を持ってきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000010",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「bring」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "brought",
+    "explanation": "「bring」の過去分詞形は brought です。例：He has brought a book.（彼は本を持ってきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000011",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「build」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "built",
+    "explanation": "「build」の過去形は built です。例：They built a bridge.（彼らは橋を建てました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000012",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「build」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "built",
+    "explanation": "「build」の過去分詞形は built です。例：The house was built last year.（その家は去年建てられました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000013",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「burn」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "burned",
+    "explanation": "「burn」の過去形は burned（または burnt）です。例：The fire burned brightly.（火は明るく燃えました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000014",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「burn」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "burned",
+    "explanation": "「burn」の過去分詞形は burned（または burnt）です。例：The paper has burned.（紙は燃えました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000015",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「buy」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "bought",
+    "explanation": "「buy」の過去形は bought です。例：I bought a new bag.（私は新しいかばんを買いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000016",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「buy」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "bought",
+    "explanation": "「buy」の過去分詞形は bought です。例：She has bought a ticket.（彼女はチケットを買いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000017",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「catch」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "caught",
+    "explanation": "「catch」の過去形は caught です。例：He caught the ball.（彼はボールを捕まえました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000018",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「catch」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "caught",
+    "explanation": "「catch」の過去分詞形は caught です。例：She has caught a cold.（彼女はかぜをひきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000019",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「choose」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "chose",
+    "explanation": "「choose」の過去形は chose です。例：She chose the red one.（彼女は赤いものを選びました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000020",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「choose」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "chosen",
+    "explanation": "「choose」の過去分詞形は chosen です。例：He has chosen a job.（彼は仕事を選びました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000021",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「come」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "came",
+    "explanation": "「come」の過去形は came です。例：She came home late.（彼女は遅く帰宅しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000022",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「come」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "come",
+    "explanation": "「come」の過去分詞形は come です。例：They have come to Japan.（彼らは日本に来ました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000023",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「cut」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "cut",
+    "explanation": "「cut」の過去形は cut です。例：He cut the paper.（彼は紙を切りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000024",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「cut」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "cut",
+    "explanation": "「cut」の過去分詞形も cut です。例：The cake has been cut.（ケーキは切られました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000025",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「die」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "died",
+    "explanation": "「die」は規則動詞で、過去形は died です。例：The man died young.（その男性は若くして亡くなりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000026",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「die」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "died",
+    "explanation": "「die」は規則動詞で、過去分詞形も died です。例：Many animals have died.（多くの動物が死にました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000027",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「do」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "did",
+    "explanation": "「do」の過去形は did です。例：I did my homework.（私は宿題をしました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000028",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「do」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "done",
+    "explanation": "「do」の過去分詞形は done です。例：My homework is done.（宿題は終わっています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000029",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「draw」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "drew",
+    "explanation": "「draw」の過去形は drew です。例：She drew a picture.（彼女は絵を描きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000030",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「draw」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "drawn",
+    "explanation": "「draw」の過去分詞形は drawn です。例：The picture has been drawn.（その絵は描かれました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000031",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「drink」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "drank",
+    "explanation": "「drink」の過去形は drank です。例：He drank some water.（彼は水を飲みました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000032",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「drink」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "drunk",
+    "explanation": "「drink」の過去分詞形は drunk です。例：The milk has been drunk.（牛乳は飲まれました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000033",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「drive」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "drove",
+    "explanation": "「drive」の過去形は drove です。例：He drove to work.（彼は車で仕事に行きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "0a1b2c3d-2222-4aaa-8bbb-000000000034",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「drive」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "driven",
+    "explanation": "「drive」の過去分詞形は driven です。例：The car has been driven a lot.（その車はよく運転されています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f001-9a1c-4c3e-9b01-001e01f00101",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「eat」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "ate",
+    "explanation": "「eat」の過去形は ate です。例：I ate breakfast at seven.（私は7時に朝食を食べました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f002-9a1c-4c3e-9b01-001e01f00102",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「eat」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "eaten",
+    "explanation": "「eat」の過去分詞形は eaten です。例：I have eaten lunch.（私は昼食を食べました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f003-9a1c-4c3e-9b01-001e01f00103",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「fall」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "fell",
+    "explanation": "「fall」の過去形は fell です。例：He fell off his bike.（彼は自転車から落ちました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f004-9a1c-4c3e-9b01-001e01f00104",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「fall」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "fallen",
+    "explanation": "「fall」の過去分詞形は fallen です。例：Leaves have fallen.（葉が落ちました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f005-9a1c-4c3e-9b01-001e01f00105",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「feel」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "felt",
+    "explanation": "「feel」の過去形は felt です。例：I felt tired.（私は疲れを感じました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f006-9a1c-4c3e-9b01-001e01f00106",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「feel」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "felt",
+    "explanation": "「feel」の過去分詞形も felt です。例：I have felt nervous.（私は緊張を感じたことがあります。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f007-9a1c-4c3e-9b01-001e01f00107",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「fight」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "fought",
+    "explanation": "「fight」の過去形は fought です。例：They fought bravely.（彼らは勇敢に戦いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f008-9a1c-4c3e-9b01-001e01f00108",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「fight」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "fought",
+    "explanation": "「fight」の過去分詞形も fought です。例：They have fought many times.（彼らは何度も戦ってきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f009-9a1c-4c3e-9b01-001e01f00109",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「find」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "found",
+    "explanation": "「find」の過去形は found です。例：She found her keys.（彼女は鍵を見つけました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f010-9a1c-4c3e-9b01-001e01f00110",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「find」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "found",
+    "explanation": "「find」の過去分詞形も found です。例：I have found a good book.（良い本を見つけました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f011-9a1c-4c3e-9b01-001e01f00111",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「fly」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "flew",
+    "explanation": "「fly」の過去形は flew です。例：Birds flew over the river.（鳥が川の上を飛びました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f012-9a1c-4c3e-9b01-001e01f00112",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「fly」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "flown",
+    "explanation": "「fly」の過去分詞形は flown です。例：The plane has flown to Osaka.（飛行機は大阪へ飛びました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f013-9a1c-4c3e-9b01-001e01f00113",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「forget」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "forgot",
+    "explanation": "「forget」の過去形は forgot です。例：I forgot his name.（私は彼の名前を忘れました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f014-9a1c-4c3e-9b01-001e01f00114",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「forget」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "forgotten",
+    "explanation": "「forget」の過去分詞形は forgotten です。例：I have forgotten the answer.（私は答えを忘れてしまいました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f015-9a1c-4c3e-9b01-001e01f00115",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「get」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "got",
+    "explanation": "「get」の過去形は got です。例：She got a present.（彼女はプレゼントをもらいました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f016-9a1c-4c3e-9b01-001e01f00116",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「get」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "got",
+    "explanation": "「get」の過去分詞形は got です（米英共通）。例：I have got a ticket.（チケットを手に入れました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f017-9a1c-4c3e-9b01-001e01f00117",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「give」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "gave",
+    "explanation": "「give」の過去形は gave です。例：She gave me a gift.（彼女は私に贈り物をくれました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f018-9a1c-4c3e-9b01-001e01f00118",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「give」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "given",
+    "explanation": "「give」の過去分詞形は given です。例：I have been given a chance.（私は機会を与えられました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f019-9a1c-4c3e-9b01-001e01f00119",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「go」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "went",
+    "explanation": "「go」の過去形は went です。例：He went to school.（彼は学校へ行きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f020-9a1c-4c3e-9b01-001e01f00120",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「go」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "gone",
+    "explanation": "「go」の過去分詞形は gone です。例：He has gone home.（彼は家に帰りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f021-9a1c-4c3e-9b01-001e01f00121",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「grow」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "grew",
+    "explanation": "「grow」の過去形は grew です。例：The tree grew fast.（木は速く成長しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f022-9a1c-4c3e-9b01-001e01f00122",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「grow」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "grown",
+    "explanation": "「grow」の過去分詞形は grown です。例：He has grown taller.（彼は背が伸びました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f023-9a1c-4c3e-9b01-001e01f00123",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「have」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "had",
+    "explanation": "「have」の過去形は had です。例：I had a good time.（私は楽しい時間を過ごしました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f024-9a1c-4c3e-9b01-001e01f00124",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「have」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "had",
+    "explanation": "「have」の過去分詞形も had です。例：I have had lunch.（私は昼食を食べました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f025-9a1c-4c3e-9b01-001e01f00125",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「hear」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "heard",
+    "explanation": "「hear」の過去形は heard です。例：I heard a strange sound.（私は変な音を聞きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f026-9a1c-4c3e-9b01-001e01f00126",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「hear」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "heard",
+    "explanation": "「hear」の過去分詞形も heard です。例：I have heard the news.（私はその知らせを聞きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f027-9a1c-4c3e-9b01-001e01f00127",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「hide」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "hid",
+    "explanation": "「hide」の過去形は hid です。例：He hid behind the door.（彼はドアの後ろに隠れました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f028-9a1c-4c3e-9b01-001e01f00128",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「hide」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "hidden",
+    "explanation": "「hide」の過去分詞形は hidden です。例：The treasure has been hidden.（宝は隠されています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "a101f029-9a1c-4c3e-9b01-001e01f00129",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「hit」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "hit",
+    "explanation": "「hit」の過去形は hit です。例：The ball hit the window.（ボールが窓に当たりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "a101f030-9a1c-4c3e-9b01-001e01f00130",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「hit」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "hit",
+    "explanation": "「hit」の過去分詞形も hit です。例：The window has been hit.（窓は当てられました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f001-1a2b-4c3d-9e01-100000000201",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「hold」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "held",
+    "explanation": "「hold」の過去形は held です。例：She held my hand.（彼女は私の手を握りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f002-1a2b-4c3d-9e01-100000000202",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「hold」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "held",
+    "explanation": "「hold」の過去分詞形も held です。例：The meeting has been held.（会議は開かれました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f003-1a2b-4c3d-9e01-100000000203",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「hurt」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "hurt",
+    "explanation": "「hurt」の過去形は hurt です。例：He hurt his leg.（彼は足をけがしました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f004-1a2b-4c3d-9e01-100000000204",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「hurt」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "hurt",
+    "explanation": "「hurt」の過去分詞形も hurt です。例：His arm has been hurt.（彼の腕はけがをしています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f005-1a2b-4c3d-9e01-100000000205",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「keep」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "kept",
+    "explanation": "「keep」の過去形は kept です。例：She kept the secret.（彼女は秘密を守りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f006-1a2b-4c3d-9e01-100000000206",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「keep」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "kept",
+    "explanation": "「keep」の過去分詞形も kept です。例：I have kept this book.（私はこの本を持ち続けています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f007-1a2b-4c3d-9e01-100000000207",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「knit」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "knit",
+    "explanation": "「knit」の過去形は knit です。例：She knit a sweater.（彼女はセーターを編みました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f008-1a2b-4c3d-9e01-100000000208",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「knit」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "knit",
+    "explanation": "「knit」の過去分詞形も knit です。例：The scarf has been knit by my grandmother.（そのマフラーは祖母に編まれました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f009-1a2b-4c3d-9e01-100000000209",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「know」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "knew",
+    "explanation": "「know」の過去形は knew です。例：I knew the answer.（私は答えを知っていました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f010-1a2b-4c3d-9e01-100000000210",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「know」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "known",
+    "explanation": "「know」の過去分詞形は known です。例：He has known her for years.（彼は何年も彼女を知っています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f011-1a2b-4c3d-9e01-100000000211",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「lay」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "laid",
+    "explanation": "「lay」の過去形は laid です。例：She laid the book on the desk.（彼女は机の上に本を置きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f012-1a2b-4c3d-9e01-100000000212",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「lay」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "laid",
+    "explanation": "「lay」の過去分詞形も laid です。例：The eggs have been laid.（卵が産み落とされました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f013-1a2b-4c3d-9e01-100000000213",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「lead」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "led",
+    "explanation": "「lead」の過去形は led です。例：He led the team.（彼はチームを率いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f014-1a2b-4c3d-9e01-100000000214",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「lead」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "led",
+    "explanation": "「lead」の過去分詞形も led です。例：She has led many projects.（彼女は多くの企画を率いてきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f015-1a2b-4c3d-9e01-100000000215",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「learn」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "learned",
+    "explanation": "「learn」の過去形は learned（または learnt）です。例：I learned English.（私は英語を学びました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f016-1a2b-4c3d-9e01-100000000216",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「learn」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "learned",
+    "explanation": "「learn」の過去分詞形も learned（または learnt）です。例：I have learned a lot.（私は多くのことを学びました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f017-1a2b-4c3d-9e01-100000000217",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「leave」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "left",
+    "explanation": "「leave」の過去形は left です。例：She left home early.（彼女は早く家を出ました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f018-1a2b-4c3d-9e01-100000000218",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「leave」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "left",
+    "explanation": "「leave」の過去分詞形も left です。例：I have left my bag at home.（私はかばんを家に置いてきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f019-1a2b-4c3d-9e01-100000000219",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「lend」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "lent",
+    "explanation": "「lend」の過去形は lent です。例：I lent him my pen.（私は彼にペンを貸しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f020-1a2b-4c3d-9e01-100000000220",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「lend」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "lent",
+    "explanation": "「lend」の過去分詞形も lent です。例：I have lent her a book.（私は彼女に本を貸しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f021-1a2b-4c3d-9e01-100000000221",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「let」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "let",
+    "explanation": "「let」の過去形は let です。例：She let me go.（彼女は私を行かせてくれました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f022-1a2b-4c3d-9e01-100000000222",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「let」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "let",
+    "explanation": "「let」の過去分詞形も let です。例：He has let his son try.（彼は息子にやらせました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f023-1a2b-4c3d-9e01-100000000223",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「lie（横になる）」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "lay",
+    "explanation": "「lie（横になる）」の過去形は lay です。例：He lay on the bed.（彼はベッドに横になりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f024-1a2b-4c3d-9e01-100000000224",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「lie（横になる）」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "lain",
+    "explanation": "「lie（横になる）」の過去分詞形は lain です。例：He has lain there for hours.（彼は何時間もそこに横たわっています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f025-1a2b-4c3d-9e01-100000000225",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「light」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "lit",
+    "explanation": "「light」の過去形は lit（または lighted）です。例：He lit a candle.（彼はろうそくに火をつけました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f026-1a2b-4c3d-9e01-100000000226",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「light」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "lit",
+    "explanation": "「light」の過去分詞形も lit（または lighted）です。例：The room has been lit.（部屋に明かりがつけられました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "b201f027-1a2b-4c3d-9e01-100000000227",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「lose」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "lost",
+    "explanation": "「lose」の過去形は lost です。例：I lost my wallet.（私は財布をなくしました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "b201f028-1a2b-4c3d-9e01-100000000228",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「lose」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "lost",
+    "explanation": "「lose」の過去分詞形も lost です。例：I have lost my keys.（私は鍵をなくしてしまいました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f001-2b3c-4d5e-9f01-200000000301",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「make」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "made",
+    "explanation": "「make」の過去形は made です。例：She made a cake.（彼女はケーキを作りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f002-2b3c-4d5e-9f01-200000000302",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「make」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "made",
+    "explanation": "「make」の過去分詞形も made です。例：This table was made in Japan.（この机は日本で作られました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f003-2b3c-4d5e-9f01-200000000303",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「mean」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "meant",
+    "explanation": "「mean」の過去形は meant です。例：What did you mean?（あなたは何を意味していたのですか。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f004-2b3c-4d5e-9f01-200000000304",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「mean」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "meant",
+    "explanation": "「mean」の過去分詞形も meant です。例：I have meant to call you.（私はあなたに電話するつもりでした。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f005-2b3c-4d5e-9f01-200000000305",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「meet」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "met",
+    "explanation": "「meet」の過去形は met です。例：I met him yesterday.（私は昨日彼に会いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f006-2b3c-4d5e-9f01-200000000306",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「meet」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "met",
+    "explanation": "「meet」の過去分詞形も met です。例：I have met her before.（私は以前彼女に会ったことがあります。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f007-2b3c-4d5e-9f01-200000000307",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「mistake」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "mistook",
+    "explanation": "「mistake」の過去形は mistook です。例：I mistook him for his brother.（私は彼を兄だと間違えました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f008-2b3c-4d5e-9f01-200000000308",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「mistake」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "mistaken",
+    "explanation": "「mistake」の過去分詞形は mistaken です。例：I have mistaken the address.（私は住所を間違えていました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f009-2b3c-4d5e-9f01-200000000309",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「pay」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "paid",
+    "explanation": "「pay」の過去形は paid です。例：She paid the bill.（彼女は料金を支払いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f010-2b3c-4d5e-9f01-200000000310",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「pay」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "paid",
+    "explanation": "「pay」の過去分詞形も paid です。例：I have paid for the ticket.（私はチケット代を支払いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f011-2b3c-4d5e-9f01-200000000311",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「put」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "put",
+    "explanation": "「put」の過去形は put です。例：He put the book on the desk.（彼は机の上に本を置きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f012-2b3c-4d5e-9f01-200000000312",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「put」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "put",
+    "explanation": "「put」の過去分詞形も put です。例：The book has been put away.（本は片づけられました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f013-2b3c-4d5e-9f01-200000000313",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「read」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "read",
+    "explanation": "「read」の過去形は read（レッド）です。例：I read the book yesterday.（私は昨日その本を読みました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f014-2b3c-4d5e-9f01-200000000314",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「read」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "read",
+    "explanation": "「read」の過去分詞形も read（レッド）です。例：I have read this book.（私はこの本を読んだことがあります。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f015-2b3c-4d5e-9f01-200000000315",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「ride」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "rode",
+    "explanation": "「ride」の過去形は rode です。例：She rode a bike.（彼女は自転車に乗りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f016-2b3c-4d5e-9f01-200000000316",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「ride」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "ridden",
+    "explanation": "「ride」の過去分詞形は ridden です。例：I have ridden a horse.（私は馬に乗ったことがあります。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f017-2b3c-4d5e-9f01-200000000317",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「ring」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "rang",
+    "explanation": "「ring」の過去形は rang です。例：The bell rang.（ベルが鳴りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f018-2b3c-4d5e-9f01-200000000318",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「ring」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "rung",
+    "explanation": "「ring」の過去分詞形は rung です。例：The bell has rung.（ベルが鳴りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f019-2b3c-4d5e-9f01-200000000319",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「rise」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "rose",
+    "explanation": "「rise」の過去形は rose です。例：The sun rose early.（太陽が早く昇りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f020-2b3c-4d5e-9f01-200000000320",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「rise」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "risen",
+    "explanation": "「rise」の過去分詞形は risen です。例：Prices have risen.（物価が上がりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f021-2b3c-4d5e-9f01-200000000321",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「run」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "ran",
+    "explanation": "「run」の過去形は ran です。例：He ran fast.（彼は速く走りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f022-2b3c-4d5e-9f01-200000000322",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「run」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "run",
+    "explanation": "「run」の過去分詞形も run です。例：I have run five kilometers.（私は5キロ走りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f023-2b3c-4d5e-9f01-200000000323",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「say」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "said",
+    "explanation": "「say」の過去形は said です。例：He said hello.（彼はこんにちはと言いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f024-2b3c-4d5e-9f01-200000000324",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「say」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "said",
+    "explanation": "「say」の過去分詞形も said です。例：It has been said that…（～と言われています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f025-2b3c-4d5e-9f01-200000000325",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「see」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "saw",
+    "explanation": "「see」の過去形は saw です。例：I saw a movie.（私は映画を見ました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f026-2b3c-4d5e-9f01-200000000326",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「see」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "seen",
+    "explanation": "「see」の過去分詞形は seen です。例：I have seen that movie.（私はその映画を見たことがあります。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f027-2b3c-4d5e-9f01-200000000327",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「sell」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sold",
+    "explanation": "「sell」の過去形は sold です。例：They sold their car.（彼らは車を売りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f028-2b3c-4d5e-9f01-200000000328",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「sell」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sold",
+    "explanation": "「sell」の過去分詞形も sold です。例：The house has been sold.（その家は売られました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f029-2b3c-4d5e-9f01-200000000329",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「send」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sent",
+    "explanation": "「send」の過去形は sent です。例：I sent an email.（私はメールを送りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f030-2b3c-4d5e-9f01-200000000330",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「send」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sent",
+    "explanation": "「send」の過去分詞形も sent です。例：The letter has been sent.（手紙は送られました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f031-2b3c-4d5e-9f01-200000000331",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「set」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "set",
+    "explanation": "「set」の過去形は set です。例：She set the table.（彼女は食卓を整えました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f032-2b3c-4d5e-9f01-200000000332",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「set」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "set",
+    "explanation": "「set」の過去分詞形も set です。例：The time has been set.（時間は設定されました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "c301f033-2b3c-4d5e-9f01-200000000333",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「shake」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shook",
+    "explanation": "「shake」の過去形は shook です。例：The ground shook.（地面が揺れました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "c301f034-2b3c-4d5e-9f01-200000000334",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「shake」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shaken",
+    "explanation": "「shake」の過去分詞形は shaken です。例：I was shaken by the news.（私はその知らせに動揺しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f001-aaaa-4bbb-9ccc-400000000401",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「shine」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shone",
+    "explanation": "「shine」の過去形は shone です。例：The sun shone brightly.（太陽が明るく輝きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f002-aaaa-4bbb-9ccc-400000000402",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「shine」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shone",
+    "explanation": "「shine」の過去分詞形も shone です。例：The stars have shone all night.（星が一晩中輝いていました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f003-aaaa-4bbb-9ccc-400000000403",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「shoot」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shot",
+    "explanation": "「shoot」の過去形は shot です。例：He shot a photo.（彼は写真を撮りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f004-aaaa-4bbb-9ccc-400000000404",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「shoot」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shot",
+    "explanation": "「shoot」の過去分詞形も shot です。例：The movie was shot in Tokyo.（その映画は東京で撮影されました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f005-aaaa-4bbb-9ccc-400000000405",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「show」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "showed",
+    "explanation": "「show」の過去形は showed です。例：She showed me the way.（彼女は道を教えてくれました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f006-aaaa-4bbb-9ccc-400000000406",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「show」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shown",
+    "explanation": "「show」の過去分詞形は shown です。例：He has shown great kindness.（彼は大きな親切を示しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f007-aaaa-4bbb-9ccc-400000000407",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「shut」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shut",
+    "explanation": "「shut」の過去形は shut です。例：She shut the door.（彼女はドアを閉めました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f008-aaaa-4bbb-9ccc-400000000408",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「shut」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "shut",
+    "explanation": "「shut」の過去分詞形も shut です。例：The shop has been shut.（その店は閉まっています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f009-aaaa-4bbb-9ccc-400000000409",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「sing」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sang",
+    "explanation": "「sing」の過去形は sang です。例：She sang a song.（彼女は歌を歌いました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f010-aaaa-4bbb-9ccc-400000000410",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「sing」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sung",
+    "explanation": "「sing」の過去分詞形は sung です。例：She has sung many songs.（彼女は多くの歌を歌ってきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f011-aaaa-4bbb-9ccc-400000000411",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「sink」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sank",
+    "explanation": "「sink」の過去形は sank です。例：The ship sank.（船が沈みました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f012-aaaa-4bbb-9ccc-400000000412",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「sink」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sunk",
+    "explanation": "「sink」の過去分詞形は sunk です。例：The boat has sunk.（そのボートは沈みました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f013-aaaa-4bbb-9ccc-400000000413",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「sit」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sat",
+    "explanation": "「sit」の過去形は sat です。例：He sat on the chair.（彼は椅子に座りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f014-aaaa-4bbb-9ccc-400000000414",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「sit」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sat",
+    "explanation": "「sit」の過去分詞形も sat です。例：He has sat there for hours.（彼は何時間もそこに座っています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f015-aaaa-4bbb-9ccc-400000000415",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「sleep」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "slept",
+    "explanation": "「sleep」の過去形は slept です。例：I slept well.（私はよく眠りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f016-aaaa-4bbb-9ccc-400000000416",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「sleep」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "slept",
+    "explanation": "「sleep」の過去分詞形も slept です。例：I have slept enough.（私は十分眠りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f017-aaaa-4bbb-9ccc-400000000417",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「slide」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "slid",
+    "explanation": "「slide」の過去形は slid です。例：The door slid open.（ドアが滑って開きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f018-aaaa-4bbb-9ccc-400000000418",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「slide」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "slid",
+    "explanation": "「slide」の過去分詞形も slid です。例：The door has slid open.（ドアは滑って開いています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f019-aaaa-4bbb-9ccc-400000000419",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「speak」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "spoke",
+    "explanation": "「speak」の過去形は spoke です。例：She spoke English.（彼女は英語を話しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f020-aaaa-4bbb-9ccc-400000000420",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「speak」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "spoken",
+    "explanation": "「speak」の過去分詞形は spoken です。例：English is spoken here.（ここでは英語が話されています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f021-aaaa-4bbb-9ccc-400000000421",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「speed」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sped",
+    "explanation": "「speed」の過去形は sped です。例：The car sped away.（車は走り去りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f022-aaaa-4bbb-9ccc-400000000422",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「speed」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "sped",
+    "explanation": "「speed」の過去分詞形も sped です。例：The car has sped through the town.（車は町を猛スピードで通り抜けました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f023-aaaa-4bbb-9ccc-400000000423",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「spend」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "spent",
+    "explanation": "「spend」の過去形は spent です。例：I spent much time there.（私はそこで多くの時間を過ごしました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f024-aaaa-4bbb-9ccc-400000000424",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「spend」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "spent",
+    "explanation": "「spend」の過去分詞形も spent です。例：I have spent all my money.（私はお金をすべて使ってしまいました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f025-aaaa-4bbb-9ccc-400000000425",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「spread」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "spread",
+    "explanation": "「spread」の過去形は spread です。例：The news spread quickly.（そのニュースはすぐ広まりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f026-aaaa-4bbb-9ccc-400000000426",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「spread」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "spread",
+    "explanation": "「spread」の過去分詞形も spread です。例：The disease has spread.（病気が広がりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f027-aaaa-4bbb-9ccc-400000000427",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「stand」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "stood",
+    "explanation": "「stand」の過去形は stood です。例：He stood up quickly.（彼はすぐ立ち上がりました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f028-aaaa-4bbb-9ccc-400000000428",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「stand」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "stood",
+    "explanation": "「stand」の過去分詞形も stood です。例：The statue has stood there for years.（その像は何年もそこに立っています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f029-aaaa-4bbb-9ccc-400000000429",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「swim」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "swam",
+    "explanation": "「swim」の過去形は swam です。例：She swam in the river.（彼女は川で泳ぎました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f030-aaaa-4bbb-9ccc-400000000430",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「swim」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "swum",
+    "explanation": "「swim」の過去分詞形は swum です。例：I have swum in the sea.（私は海で泳いだことがあります。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f031-aaaa-4bbb-9ccc-400000000431",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「take」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "took",
+    "explanation": "「take」の過去形は took です。例：I took a picture.（私は写真を撮りました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f032-aaaa-4bbb-9ccc-400000000432",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「take」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "taken",
+    "explanation": "「take」の過去分詞形は taken です。例：The photo has been taken.（写真は撮られました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f033-aaaa-4bbb-9ccc-400000000433",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「teach」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "taught",
+    "explanation": "「teach」の過去形は taught です。例：She taught English.（彼女は英語を教えました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f034-aaaa-4bbb-9ccc-400000000434",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「teach」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "taught",
+    "explanation": "「teach」の過去分詞形も taught です。例：I have taught many students.（私は多くの生徒を教えてきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f035-aaaa-4bbb-9ccc-400000000435",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「tell」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "told",
+    "explanation": "「tell」の過去形は told です。例：He told me the truth.（彼は私に真実を話しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f036-aaaa-4bbb-9ccc-400000000436",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「tell」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "told",
+    "explanation": "「tell」の過去分詞形も told です。例：I have told her already.（私はすでに彼女に伝えました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f037-aaaa-4bbb-9ccc-400000000437",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「think」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "thought",
+    "explanation": "「think」の過去形は thought です。例：I thought about it.（私はそれについて考えました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f038-aaaa-4bbb-9ccc-400000000438",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「think」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "thought",
+    "explanation": "「think」の過去分詞形も thought です。例：I have thought so.（私はそう思っていました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f039-aaaa-4bbb-9ccc-400000000439",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「throw」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "threw",
+    "explanation": "「throw」の過去形は threw です。例：He threw the ball.（彼はボールを投げました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f040-aaaa-4bbb-9ccc-400000000440",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「throw」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "thrown",
+    "explanation": "「throw」の過去分詞形は thrown です。例：The ball has been thrown away.（ボールは捨てられました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f041-aaaa-4bbb-9ccc-400000000441",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「understand」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "understood",
+    "explanation": "「understand」の過去形は understood です。例：I understood the problem.（私はその問題を理解しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f042-aaaa-4bbb-9ccc-400000000442",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「understand」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "understood",
+    "explanation": "「understand」の過去分詞形も understood です。例：I have understood everything.（私はすべて理解しました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f043-aaaa-4bbb-9ccc-400000000443",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「wake」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "woke",
+    "explanation": "「wake」の過去形は woke です。例：I woke up early.（私は早く目が覚めました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f044-aaaa-4bbb-9ccc-400000000444",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「wake」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "woken",
+    "explanation": "「wake」の過去分詞形は woken です。例：I have woken up already.（私はもう目が覚めています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f045-aaaa-4bbb-9ccc-400000000445",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「wear」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "wore",
+    "explanation": "「wear」の過去形は wore です。例：She wore a blue dress.（彼女は青い服を着ていました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f046-aaaa-4bbb-9ccc-400000000446",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「wear」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "worn",
+    "explanation": "「wear」の過去分詞形は worn です。例：These shoes have been worn a lot.（この靴はたくさん履かれています。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f047-aaaa-4bbb-9ccc-400000000447",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「win」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "won",
+    "explanation": "「win」の過去形は won です。例：They won the game.（彼らは試合に勝ちました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f048-aaaa-4bbb-9ccc-400000000448",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「win」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "won",
+    "explanation": "「win」の過去分詞形も won です。例：She has won many prizes.（彼女は多くの賞を獲得してきました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
+    "id": "d401f049-aaaa-4bbb-9ccc-400000000449",
+    "unit": "単語テスト不規則動詞・過去形",
+    "question": "「write」の過去形を英語で書きなさい。",
+    "choices": [],
+    "correct": "wrote",
+    "explanation": "「write」の過去形は wrote です。例：She wrote a letter.（彼女は手紙を書きました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+  {
+    "id": "d401f050-aaaa-4bbb-9ccc-400000000450",
+    "unit": "単語テスト不規則動詞・過去分詞形",
+    "question": "「write」の過去分詞形を英語で書きなさい。",
+    "choices": [],
+    "correct": "written",
+    "explanation": "「write」の過去分詞形は written です。例：The letter has been written.（手紙は書かれました。）",
+    "incorrectExplanations": {},
+    "format": "単語・熟語",
+    "type": "input"
+  },
+
+  {
     "id": "cf33e78a-4902-4e63-96ab-2f7a73e47a53",
     "unit": "会話文",
     "question": "A: Can I use a pen?\nB: Yes. []\nA: Oh, thank you very much.",
