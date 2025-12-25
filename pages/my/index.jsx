@@ -131,7 +131,7 @@ export default function MyDataPage() {
                 margin={{
                   top: 10,
                   right: 40,
-                  left: isMobile ? 60 : 120,
+                  left: isMobile ? 40 : 100,
                   bottom: 10,
                 }}
               >
