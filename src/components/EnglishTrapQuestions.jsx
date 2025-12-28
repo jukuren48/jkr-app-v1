@@ -924,6 +924,9 @@ export default function EnglishTrapQuestions() {
   const [tempCustomMeaning, setTempCustomMeaning] = useState("");
   const [showOriginalFolder, setShowOriginalFolder] = useState(false);
   const [showOriginalList, setShowOriginalList] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [sortMode, setSortMode] = useState("new"); // "new" | "abc"
+
   const [editingId, setEditingId] = useState(null);
   const [showSaveToast, setShowSaveToast] = useState(false);
   const [testIndex, setTestIndex] = useState(0);
@@ -3572,6 +3575,20 @@ export default function EnglishTrapQuestions() {
     setShowHandwritingFor("meaning");
   };
 
+  const filteredWords = originalWords
+    .filter(
+      (item) =>
+        item.word.toLowerCase().includes(searchText.toLowerCase()) ||
+        item.meaning.includes(searchText)
+    )
+    .sort((a, b) => {
+      if (sortMode === "abc") {
+        return a.word.localeCompare(b.word);
+      }
+      // 追加順（新しいものを上）
+      return new Date(b.created_at) - new Date(a.created_at);
+    });
+
   const updateOriginalWord = async () => {
     if (!supabaseUser || !editingWord) return;
 
@@ -4336,8 +4353,8 @@ export default function EnglishTrapQuestions() {
                             📗 My単語帳で勉強しよう！
                           </div>
 
-                          {/* 3つの操作ボタン（追加 / 一覧 / 編集） */}
-                          <div className="grid grid-cols-3 gap-2 mb-4">
+                          {/* 操作ボタン（追加 / 一覧） */}
+                          <div className="grid grid-cols-2 gap-3 mb-4">
                             {/* 追加 */}
                             <button
                               onClick={() => {
@@ -4346,16 +4363,16 @@ export default function EnglishTrapQuestions() {
                               }}
                               className="
             flex flex-col items-center justify-center 
-            px-2 py-3 rounded-xl text-xs font-bold
+            px-2 py-4 rounded-xl text-sm font-bold
             bg-white text-[#2d4a22] border border-gray-300
             hover:bg-gray-100 shadow-sm
           "
                             >
-                              <div className="text-lg mb-1">✍️</div>
+                              <div className="text-xl mb-1">✍️</div>
                               追加
                             </button>
 
-                            {/* 一覧 / 編集 */}
+                            {/* 一覧 */}
                             <button
                               onClick={() => {
                                 setShowOriginalList(true);
@@ -4363,30 +4380,13 @@ export default function EnglishTrapQuestions() {
                               }}
                               className="
             flex flex-col items-center justify-center 
-            px-2 py-3 rounded-xl text-xs font-bold
+            px-2 py-4 rounded-xl text-sm font-bold
             bg-white text-[#2d4a22] border border-gray-300
             hover:bg-gray-100 shadow-sm
           "
                             >
-                              <div className="text-lg mb-1">📄</div>
-                              一覧・編集
-                            </button>
-
-                            {/* 削除機能（※必要なら） */}
-                            <button
-                              onClick={() => {
-                                setShowOriginalList(true); // 削除は一覧画面で可能
-                                setShowOriginalFolder(false);
-                              }}
-                              className="
-            flex flex-col items-center justify-center 
-            px-2 py-3 rounded-xl text-xs font-bold
-            bg-white text-[#2d4a22] border border-gray-300
-            hover:bg-gray-100 shadow-sm
-          "
-                            >
-                              <div className="text-lg mb-1">🗑️</div>
-                              削除
+                              <div className="text-xl mb-1">📄</div>
+                              一覧
                             </button>
                           </div>
 
@@ -4401,7 +4401,7 @@ export default function EnglishTrapQuestions() {
                                 playButtonSound(() => {
                                   setShowOriginalFolder(false);
                                   initAudio();
-                                  startOriginalQuiz(originalQs); // ←専用関数
+                                  startOriginalQuiz(originalQs);
                                 });
                               }}
                               className="
@@ -5217,12 +5217,31 @@ export default function EnglishTrapQuestions() {
               <h2 className="text-xl font-bold mb-4 text-[#123a6b]">
                 📘 登録単語一覧
               </h2>
+              {/* 検索・並び替え */}
+              <div className="flex gap-2 mb-4">
+                <input
+                  type="text"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  placeholder="単語・意味を検索"
+                  className="flex-1 border p-2 rounded"
+                />
+
+                <select
+                  value={sortMode}
+                  onChange={(e) => setSortMode(e.target.value)}
+                  className="border p-2 rounded"
+                >
+                  <option value="new">新しい順</option>
+                  <option value="abc">ABC順</option>
+                </select>
+              </div>
 
               {originalWords.length === 0 ? (
                 <p className="text-gray-600">まだ単語が登録されていません。</p>
               ) : (
                 <ul className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
-                  {originalWords.map((item) => (
+                  {filteredWords.map((item) => (
                     <li
                       key={item.id} // ← ★ 必ず id を使う
                       className="bg-gray-50 p-3 rounded-xl shadow flex justify-between items-center"
@@ -5248,7 +5267,15 @@ export default function EnglishTrapQuestions() {
 
                         {/* 🗑️ Supabase 削除 */}
                         <button
-                          onClick={() => deleteOriginalWord(item.id)} // ← ★ ここを id にする！
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                `「${item.word}」を削除します。\nこの操作は取り消せません。`
+                              )
+                            ) {
+                              deleteOriginalWord(item.id);
+                            }
+                          }}
                           className="bg-red-400 text-white px-3 py-2 rounded"
                         >
                           🗑️
