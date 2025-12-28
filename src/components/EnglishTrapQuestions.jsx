@@ -359,6 +359,7 @@ function HandwritingPad({
   currentAnswer,
   currentQuestion,
   handleAnswer,
+  onClose,
   compact = false,
 }) {
   const sigCanvas = useRef(null);
