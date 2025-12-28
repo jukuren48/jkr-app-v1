@@ -3734,21 +3734,20 @@ export default function EnglishTrapQuestions() {
                     }
                   }}
                   onUpload={async (text) => {
+                    if (!text) return;
                     // ★ 閉じるボタンによる呼び出しの場合、完全スルー
-                    if (ignoreNextUpload.current) {
-                      ignoreNextUpload.current = false; // ← 一度だけ無視
-                      return; // ← 意味取得を発動させない
-                    }
+                    //if (ignoreNextUpload.current && text === "") {
+                    //  ignoreNextUpload.current = false;
+                    //  return;
+                    //}
 
                     if (showHandwritingFor === "word") {
-                      setTempCustomWord(text || "");
-
-                      const meaning = await fetchJapaneseMeaning(text || "");
+                      setTempCustomWord(text);
+                      const meaning = await fetchJapaneseMeaning(text);
                       setSuggestedMeaning(meaning);
-
                       setShowHandwritingFor("meaning");
                     } else {
-                      setTempCustomMeaning(text || "");
+                      setTempCustomMeaning(text);
                       setSuggestedMeaning("");
                       setShowHandwritingFor(null);
                     }
