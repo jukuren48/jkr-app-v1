@@ -896,6 +896,7 @@ export default function EnglishTrapQuestions() {
   const [selectedUnit, setSelectedUnit] = useState(null);
   // ✅ Supabase一本化した単語帳
   const [originalWords, setOriginalWords] = useState([]);
+  const [meaningLoading, setMeaningLoading] = useState(false);
   const [suggestedMeaning, setSuggestedMeaning] = useState("");
   const [wordList, setWordList] = useState(() => {
     if (typeof window !== "undefined") {
@@ -3556,6 +3557,21 @@ export default function EnglishTrapQuestions() {
     });
   };
 
+  const handleWordConfirmFromKeyboard = async () => {
+    const word = tempCustomWord.trim();
+    if (!word) return;
+
+    // すでに候補が出ている場合は二重取得しない
+    if (suggestedMeaning) return;
+    setMeaningLoading(true);
+    const meaning = await fetchJapaneseMeaning(word);
+    setMeaningLoading(false);
+    setSuggestedMeaning(meaning);
+
+    // 意味入力フェーズへ（手書きと同じ挙動）
+    setShowHandwritingFor("meaning");
+  };
+
   const updateOriginalWord = async () => {
     if (!supabaseUser || !editingWord) return;
 
@@ -5044,9 +5060,20 @@ export default function EnglishTrapQuestions() {
                   type="text"
                   value={tempCustomWord}
                   onChange={(e) => setTempCustomWord(e.target.value)}
+                  onKeyDown={async (e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      await handleWordConfirmFromKeyboard();
+                    }
+                  }}
                   className="border p-2 w-full rounded"
                   placeholder="例: apple"
                 />
+                {meaningLoading && (
+                  <p className="text-sm text-gray-500 mt-2">
+                    意味を取得しています…
+                  </p>
+                )}
                 <button
                   onClick={() => setShowHandwritingFor("word")}
                   className="mt-2 bg-gray-200 px-3 py-1 rounded shadow text-sm"
