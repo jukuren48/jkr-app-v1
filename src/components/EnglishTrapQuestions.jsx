@@ -4248,28 +4248,30 @@ export default function EnglishTrapQuestions() {
                               return (
                                 <button
                                   key={unit}
-                                  onClick={() => {
-                                    const newMode = isSelected ? 0 : 1;
+                                  onClick={() =>
+                                    playButtonSound(() => {
+                                      const newMode = isSelected ? 0 : 1;
 
-                                    // ✅ ① React state を即時更新（見た目が変わる）
-                                    setUnitModes((prev) => ({
-                                      ...prev,
-                                      [unit]: newMode,
-                                    }));
+                                      // ① React state を即時更新（見た目）
+                                      setUnitModes((prev) => ({
+                                        ...prev,
+                                        [unit]: newMode,
+                                      }));
 
-                                    // ✅ ② Supabase に保存
-                                    updateUnitSetting(unit, newMode);
-                                  }}
+                                      // ② Supabase に保存
+                                      updateUnitSetting(unit, newMode);
+                                    })
+                                  }
                                   className={`
-          flex flex-col items-center justify-center
-          px-2 py-3 rounded-xl text-xs font-bold
-          transition-all border shadow-sm
-          ${
-            isSelected
-              ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
-              : "bg-white text-[#35516e] border-gray-300 hover:bg-gray-100"
-          }
-        `}
+    flex flex-col items-center justify-center
+    px-2 py-3 rounded-xl text-xs font-bold
+    transition-all border shadow-sm
+    ${
+      isSelected
+        ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
+        : "bg-white text-[#35516e] border-gray-300 hover:bg-gray-100"
+    }
+  `}
                                 >
                                   <div className="text-lg mb-1">📖</div>
                                   {name}
@@ -4289,36 +4291,38 @@ export default function EnglishTrapQuestions() {
                                     unitModes[u] !== 0
                                 )
                               }
-                              onClick={() => {
-                                if (!questionCount) {
-                                  showPopupMessage("出題数を選んでね！");
-                                  return;
-                                }
+                              onClick={() =>
+                                playButtonSound(() => {
+                                  if (!questionCount) {
+                                    showPopupMessage("出題数を選んでね！");
+                                    return;
+                                  }
 
-                                const qs = questions.filter(
-                                  (q) =>
-                                    q.unit.includes("単語テスト") &&
-                                    unitModes[q.unit] !== 0
-                                );
+                                  const qs = questions.filter(
+                                    (q) =>
+                                      q.unit.includes("単語テスト") &&
+                                      unitModes[q.unit] !== 0
+                                  );
 
-                                handleWordGo({
-                                  skipFiltering: true,
-                                  directQuestions: qs,
-                                });
+                                  handleWordGo({
+                                    skipFiltering: true,
+                                    directQuestions: qs,
+                                  });
 
-                                setShowWordFolder(false);
-                              }}
+                                  setShowWordFolder(false);
+                                })
+                              }
                               className={`
-  px-6 py-3 rounded-full font-bold text-white shadow-lg transition
-  ${
-    questionCount &&
-    Object.keys(unitModes).some(
-      (u) => u.includes("単語テスト") && unitModes[u] !== 0
-    )
-      ? "bg-pink-500 hover:bg-pink-600"
-      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-  }
-`}
+    px-6 py-3 rounded-full font-bold text-white shadow-lg transition
+    ${
+      questionCount &&
+      Object.keys(unitModes).some(
+        (u) => u.includes("単語テスト") && unitModes[u] !== 0
+      )
+        ? "bg-pink-500 hover:bg-pink-600"
+        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+    }
+  `}
                             >
                               🚀 GO！
                             </button>
