@@ -5029,7 +5029,12 @@ export default function EnglishTrapQuestions() {
 
               <div className="flex gap-3 justify-center">
                 <button
-                  onClick={startReview}
+                  onClick={() => {
+                    // ★ 新しい復習セッション開始を宣言
+                    reviewBgmActiveRef.current = false;
+
+                    startReview();
+                  }}
                   className="px-5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold"
                 >
                   復習を始める
@@ -5037,6 +5042,10 @@ export default function EnglishTrapQuestions() {
 
                 <button
                   onClick={() => {
+                    // ★ 復習セッションを明確に終了
+                    reviewBgmActiveRef.current = false;
+                    stopQbgm?.(true);
+
                     setShowReviewPrompt(false);
                     setIsReviewMode(false);
                     setShowQuestions(false);
