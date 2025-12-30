@@ -837,6 +837,7 @@ export default function EnglishTrapQuestions() {
   const unitStatsSaveRef = useRef(false);
   const router = useRouter();
   const enteringQuestionRef = useRef(false);
+  const reviewBgmActiveRef = useRef(false);
   const { unit: unitFromMyData } = router.query;
   const [isWordOnlyMode, setIsWordOnlyMode] = useState(false);
   const [finalResult, setFinalResult] = useState(null);
@@ -3314,11 +3315,15 @@ export default function EnglishTrapQuestions() {
       console.warn("[Audio] stopQbgm failed", e);
     }
 
-    try {
-      await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
-      fadeInBGM(qbgmGain, 0.2, 2.0);
-    } catch (e) {
-      console.warn("[Audio] review BGM start failed", e);
+    // ▼▼▼ review.mp3 は一度だけ再生 ▼▼▼
+    if (!reviewBgmActiveRef.current) {
+      try {
+        await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
+        fadeInBGM(qbgmGain, 0.2, 2.0);
+        reviewBgmActiveRef.current = true;
+      } catch (e) {
+        console.warn("[Audio] review BGM start failed", e);
+      }
     }
 
     // ▼▼▼ 4) 復習の出題状態セット ▼▼▼
