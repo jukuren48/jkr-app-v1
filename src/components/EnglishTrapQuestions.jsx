@@ -838,6 +838,8 @@ export default function EnglishTrapQuestions() {
   const router = useRouter();
   const enteringQuestionRef = useRef(false);
   const reviewBgmActiveRef = useRef(false);
+  const reviewStartingRef = useRef(false);
+  const [reviewStarting, setReviewStarting] = useState(false);
   const { unit: unitFromMyData } = router.query;
   const [isWordOnlyMode, setIsWordOnlyMode] = useState(false);
   const [finalResult, setFinalResult] = useState(null);
@@ -3278,18 +3280,42 @@ export default function EnglishTrapQuestions() {
   };
 
   const startReview = async () => {
-    // 1) iOS許可をユーザー操作中に取得
-    if (audioCtx && audioCtx.state === "suspended") {
-      try {
-        await audioCtx.resume();
-      } catch (e) {
-        console.warn("[Audio] resume failed in startReview", e);
-      }
-    }
+    // ✅ Wタップ・連打で二重起動させない（最重要）
+    if (reviewStartingRef.current) return;
+    reviewStartingRef.current = true;
+    setReviewStarting(true);
 
-    // ▼▼▼ 2) サウンドOFFなら、BGMは一切再生しない ▼▼▼
-    if (!soundEnabled) {
-      // すべてのBGMを停止
+    try {
+      // 1) iOS許可をユーザー操作中に取得
+      if (audioCtx && audioCtx.state === "suspended") {
+        try {
+          await audioCtx.resume();
+        } catch (e) {
+          console.warn("[Audio] resume failed in startReview", e);
+        }
+      }
+
+      // 連打時にモーダルが残っていると再クリックできるので、
+      // 先に閉じてクリック導線を切る（UX的にも自然）
+      setShowReviewPrompt(false);
+
+      // ▼▼▼ サウンドOFFなら、BGMは一切再生しない ▼▼▼
+      if (!soundEnabled) {
+        try {
+          if (typeof stopBgm === "function") stopBgm(true);
+          if (typeof stopQbgm === "function") stopQbgm(true);
+        } catch (e) {
+          console.warn("[Audio] stopQbgm failed", e);
+        }
+
+        const reviewCopy = reviewQueueRef.current || [];
+        beginQuiz(reviewCopy);
+        setIsReviewMode(true);
+        setTimerActive(false);
+        return;
+      }
+
+      // ▼▼▼ サウンドON時のみBGM切替 ▼▼▼
       try {
         if (typeof stopBgm === "function") stopBgm(true);
         if (typeof stopQbgm === "function") stopQbgm(true);
@@ -3297,46 +3323,31 @@ export default function EnglishTrapQuestions() {
         console.warn("[Audio] stopQbgm failed", e);
       }
 
-      // 復習状態だけセットして終了
-      const reviewCopy = reviewQueueRef.current || [];
-      beginQuiz(reviewCopy);
-      setIsReviewMode(true);
-      setShowReviewPrompt(false);
-      setTimerActive(false);
-      return; // ← BGM再生は完全スキップ
-    }
-    // ▲▲▲ BGMなしモードはここでリターン ▲▲▲
+      // ✅ ここで reviewBgmActiveRef をセッション開始として確実にリセット
+      reviewBgmActiveRef.current = false;
 
-    // ▼▼▼ 3) サウンドON時のみBGM切替 ▼▼▼
-    try {
-      if (typeof stopBgm === "function") stopBgm(true);
-      if (typeof stopQbgm === "function") stopQbgm(true);
-    } catch (e) {
-      console.warn("[Audio] stopQbgm failed", e);
-    }
-
-    // ▼▼▼ review.mp3 は一度だけ再生 ▼▼▼
-    if (!reviewBgmActiveRef.current) {
-      try {
+      // ✅ reviewBgmActiveRef で「同一セッション内の二重再生」を防ぐ
+      if (!reviewBgmActiveRef.current) {
         await ensureLoop("/sounds/review.mp3", qbgmGain, "qbgm", true);
         fadeInBGM(qbgmGain, 0.2, 2.0);
         reviewBgmActiveRef.current = true;
-      } catch (e) {
-        console.warn("[Audio] review BGM start failed", e);
       }
-    }
 
-    // ▼▼▼ 4) 復習の出題状態セット ▼▼▼
-    const reviewCopy = reviewQueueRef.current || [];
-    beginQuiz(reviewCopy);
-    setIsReviewMode(true);
-    setShowReviewPrompt(false);
-    setTimerActive(false);
+      // ▼▼▼ 復習の出題状態セット ▼▼▼
+      const reviewCopy = reviewQueueRef.current || [];
+      beginQuiz(reviewCopy);
+      setIsReviewMode(true);
+      setTimerActive(false);
 
-    // ▼▼▼ 5) 出題SE（ONのときだけ） ▼▼▼
-    if (soundEnabled) {
+      // ▼▼▼ 出題SE（ONのときだけ） ▼▼▼
       playSFX("/sounds/deden.mp3");
       setQuestionPlayCount((prev) => prev + 1);
+    } catch (e) {
+      console.warn("[Audio] startReview failed", e);
+    } finally {
+      // ✅ 必ずロック解除
+      reviewStartingRef.current = false;
+      setReviewStarting(false);
     }
   };
 
@@ -5029,15 +5040,15 @@ export default function EnglishTrapQuestions() {
 
               <div className="flex gap-3 justify-center">
                 <button
-                  onClick={() => {
-                    // ★ 新しい復習セッション開始を宣言
-                    reviewBgmActiveRef.current = false;
-
-                    startReview();
-                  }}
-                  className="px-5 py-2 rounded-full bg-pink-500 hover:bg-pink-600 text-white font-bold"
+                  onClick={startReview}
+                  disabled={reviewStarting}
+                  className={`px-5 py-2 rounded-full text-white font-bold ${
+                    reviewStarting
+                      ? "bg-pink-300 cursor-not-allowed"
+                      : "bg-pink-500 hover:bg-pink-600"
+                  }`}
                 >
-                  復習を始める
+                  {reviewStarting ? "開始中..." : "復習を始める"}
                 </button>
 
                 <button
