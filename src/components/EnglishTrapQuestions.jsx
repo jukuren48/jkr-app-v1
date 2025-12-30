@@ -3410,6 +3410,7 @@ export default function EnglishTrapQuestions() {
 
   const handleShowHint = () => {
     if (hintLevel < 3) {
+      setStreak(0); // ← 連続正解リセット
       const nextLevel = hintLevel + 1;
       setHintLevel(nextLevel);
       setHintText(generateHint());
