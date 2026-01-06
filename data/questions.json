@@ -3555,7 +3555,7 @@
   {
     "id": "d4f9e1a6-bae0-43d4-a1cf-70a7a07a6d5b",
     "unit": "関係代名詞",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの犬の耳はとても長いです。\n( whose / is / dog / ears / long / very / that ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの犬の耳はとても長いです。\n( whose / is / are / dog / ears / the / long / very / that ).",
     "choices": [],
     "correct": "That is the dog whose ears are very long.",
     "explanation": "『whose＋名詞』で『～の…』を表す関係代名詞。『the dog whose ears are long』＝『耳が長い犬』。",
