@@ -99,10 +99,14 @@ async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
   // ✅ 強制リロード or 再生前に他の音を確実に止める
   try {
     // 🎯 再生する前に確実に既存のbgmを止める
-    stopBgm(true);
-    stopQbgm(true);
-    bgmSource = null;
-    qbgmSource = null;
+    if (storeRefName === "bgm") {
+      await stopBgm(true);
+      bgmSource = null;
+    }
+    if (storeRefName === "qbgm") {
+      await stopQbgm(true);
+      qbgmSource = null;
+    }
     globalUnitBgmPlaying = false;
     //console.log("[ensureLoop] force cleared both bgm/qbgm before start");
   } catch (e) {
@@ -119,10 +123,41 @@ async function ensureLoop(src, gainNode, storeRefName, forceReload = false) {
     }
   }
 
-  // ✅ AudioBufferを取得
-  const res = await fetch(src);
-  const buf = await res.arrayBuffer();
-  const audioBuffer = await audioCtx.decodeAudioData(buf);
+  // ✅ AudioBufferを取得（失敗しても落とさない + キャッシュ）
+  let audioBuffer = null;
+
+  try {
+    if (!audioCtx) {
+      console.warn("[ensureLoop] audioCtx is null");
+      return;
+    }
+
+    const url =
+      typeof window !== "undefined"
+        ? new URL(src, window.location.origin).toString()
+        : src;
+
+    if (audioBufferCache.has(url) && !forceReload) {
+      audioBuffer = audioBufferCache.get(url);
+    } else {
+      const res = await fetch(url, { cache: "force-cache" });
+
+      if (!res.ok) {
+        console.warn("[ensureLoop] fetch failed:", res.status, url);
+        return; // ★ここで静かに中断（落とさない）
+      }
+
+      const buf = await res.arrayBuffer();
+      audioBuffer = await audioCtx.decodeAudioData(buf);
+
+      // decode 成功したらキャッシュ
+      audioBufferCache.set(url, audioBuffer);
+    }
+  } catch (e) {
+    console.warn("[ensureLoop] audio fetch/decode failed:", src, e);
+    return; // ★ここで静かに中断（落とさない）
+  }
+  if (!audioBuffer) return;
 
   const source = audioCtx.createBufferSource();
   source.buffer = audioBuffer;
@@ -189,6 +224,9 @@ function fadeInBGM(gainNode, targetVolume = 0.2, duration = 2.0) {
   gainNode.gain.setValueAtTime(0, now); // いったん0から
   gainNode.gain.linearRampToValueAtTime(targetVolume, now + duration);
 }
+
+// ✅ AudioBuffer キャッシュ（同じ音源を毎回fetchしない）
+const audioBufferCache = new Map(); // key: absoluteUrl, value: AudioBuffer
 
 // 🎵 BGM音量を一時的に絞る関数（フェード付き）
 const fadeBGMVolume = async (targetVolume, duration = 500) => {
@@ -3227,6 +3265,30 @@ export default function EnglishTrapQuestions() {
     const didReview = reviewing || isReviewMode;
     const isSuspicious = answerTime < 800; // ★AA判定（あなたの基準に合わせて調整可）
 
+    // ✅ user が無い（未ログイン/セッション未確定）場合は学習ログ保存をスキップ
+    if (!user?.id) {
+      // console.log("[StudyLog] skip: user is null");
+    } else {
+      await saveStudyLog({
+        user_id: user.id,
+        unit: currentQuestion.unit,
+        question_id: currentQuestion.id,
+        is_correct: isCorrectAnswer,
+        // ...（他の項目）
+      });
+    }
+    if (!user?.id || !currentQuestion?.id) {
+      // user または currentQuestion が無い場合は保存しない
+    } else {
+      await saveStudyLog({
+        user_id: user.id,
+        unit: currentQuestion.unit ?? "",
+        question_id: currentQuestion.id,
+        is_correct: isCorrectAnswer,
+        // ...
+      });
+    }
+
     // ====== ⭐ Supabase に学習ログを保存 ======
     await saveStudyLog({
       user_id: user.id,
@@ -5119,11 +5181,11 @@ export default function EnglishTrapQuestions() {
                       renderInputSection()
                     ) : (
                       <KeyboardInputSection
-                        value={currentAnswer}
-                        onChange={(v) => setCurrentAnswer(v)} // ←あなたの実装に合わせて調整
-                        onJudge={() => handleAnswer(currentAnswer)} // ←既存判定に統一
+                        value={inputAnswer}
+                        onChange={(v) => setInputAnswer(v)}
+                        onJudge={() => handleAnswer((inputAnswer || "").trim())}
                         disabledJudge={
-                          !currentAnswer || currentAnswer.trim() === ""
+                          !inputAnswer || (inputAnswer || "").trim() === ""
                         }
                       />
                     )}
