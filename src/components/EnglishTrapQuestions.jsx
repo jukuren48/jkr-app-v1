@@ -463,34 +463,82 @@ function HandwritingPad({
     setRecognizedChar("");
   };
 
-  // 🔍 認識
+  // 🔍 認識（vision優先 → 空/失敗なら tesseract フォールバック）
   const recognizeChar = async () => {
     if (!sigCanvas.current) return;
+    if (recognizing) return;
+
+    // 「書いてないのに認識」事故を防ぐ（iPhoneで多い）
+    if (!strokes || strokes.length === 0) {
+      alert("まだ書かれていないようです。書いてから認識してください。");
+      return;
+    }
+
     setRecognizing(true);
-    const dataURL = sigCanvas.current.getCanvas().toDataURL("image/png");
+
     try {
+      const canvas = sigCanvas.current.getCanvas?.();
+      if (!canvas) {
+        console.warn("[HandwritingPad] canvas not found");
+        alert("キャンバスが取得できませんでした。");
+        return;
+      }
+
+      const dataURL = canvas.toDataURL("image/png");
+
       let text = "";
+
+      // ① vision-ocr
       if (ocrEngine === "vision") {
         const res = await fetch("/api/vision-ocr", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ imageBase64: dataURL }),
         });
-        const json = await res.json();
-        text = json.text || "";
-      } else {
-        const result = await Tesseract.recognize(dataURL, "eng+jpn", {
-          tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
-        });
-        text = result.data.text;
+
+        if (!res.ok) {
+          const err = await res.text().catch(() => "");
+          console.warn(
+            "[HandwritingPad] /api/vision-ocr failed:",
+            res.status,
+            err
+          );
+          throw new Error("vision-ocr fetch failed");
+        }
+
+        const json = await res.json().catch(() => ({}));
+        text = (json.text || "").toString();
       }
 
-      const cleaned = text.trim().replace(/[\u0000-\u001F]/g, "");
+      // ② vision結果が空なら tesseract へフォールバック
+      if (!text || text.trim() === "") {
+        try {
+          const result = await Tesseract.recognize(dataURL, "eng+jpn", {
+            tessedit_pageseg_mode: Tesseract.PSM.SINGLE_CHAR,
+          });
+          text = result?.data?.text || "";
+        } catch (e) {
+          console.warn("[HandwritingPad] tesseract failed:", e);
+        }
+      }
+
+      const cleaned = (text || "").trim().replace(/[\u0000-\u001F]/g, "");
+
+      if (!cleaned) {
+        setRecognizedChar("");
+        alert(
+          "うまく認識できませんでした。大きめに1文字（または短く）書いて、もう一度お試しください。"
+        );
+        return;
+      }
+
       setRecognizedChar(cleaned);
-    } catch {
-      alert("認識に失敗しました");
+    } catch (e) {
+      console.warn("[HandwritingPad] recognizeChar error:", e);
+      alert("認識に失敗しました（通信やOCRの状態をご確認ください）。");
+    } finally {
+      setRecognizing(false);
     }
-    setRecognizing(false);
   };
 
   // ============================================================
@@ -575,7 +623,12 @@ function HandwritingPad({
           </button>
           <button
             onClick={recognizeChar}
-            className="px-3 py-1 bg-blue-500 text-white rounded"
+            disabled={recognizing || !strokes || strokes.length === 0}
+            className={`px-3 py-1 rounded text-white ${
+              recognizing || !strokes || strokes.length === 0
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500"
+            }`}
           >
             認識
           </button>
@@ -657,7 +710,12 @@ function HandwritingPad({
 
         <button
           onClick={recognizeChar}
-          className="px-3 py-1 bg-blue-500 text-white rounded"
+          disabled={recognizing || !strokes || strokes.length === 0}
+          className={`px-3 py-1 rounded text-white ${
+            recognizing || !strokes || strokes.length === 0
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500"
+          }`}
         >
           認識
         </button>
