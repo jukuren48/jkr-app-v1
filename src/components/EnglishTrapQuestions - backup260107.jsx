@@ -346,47 +346,6 @@ function getFeedbackText({ currentQuestion, isCorrect, selectedChoice }) {
   return `正解は「${correctText}」。${base}`.trim();
 }
 
-function KeyboardInputSection({ value, onChange, onJudge, disabledJudge }) {
-  return (
-    <div className="w-full">
-      <input
-        type="text"
-        value={value || ""}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="ここに入力してEnterで判定"
-        className="w-full border-2 border-gray-300 rounded-xl p-3 text-lg"
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            if (!disabledJudge) onJudge();
-          }
-        }}
-      />
-
-      <div className="flex gap-2 mt-2">
-        <button
-          onClick={() => onChange("")}
-          className="px-3 py-2 rounded bg-gray-200"
-        >
-          クリア
-        </button>
-
-        <button
-          disabled={disabledJudge}
-          onClick={onJudge}
-          className="
-            px-4 py-2 rounded font-bold
-            bg-purple-600 text-white
-            disabled:bg-gray-300 disabled:text-gray-500
-          "
-        >
-          判定
-        </button>
-      </div>
-    </div>
-  );
-}
-
 // ======== 手書き入力パッドコンポーネント ========
 function HandwritingPad({
   target,
@@ -1629,65 +1588,35 @@ export default function EnglishTrapQuestions() {
   ]);
 
   const renderInputSection = () => (
-    <div className="flex flex-col gap-2 mt-2 items-center w-full">
+    <div className="flex flex-col gap-2 mt-2 items-center">
       {/* === 通常の問題用 手書きパッド === */}
       {useHandwriting ? (
         <HandwritingPad
-          compact={false}
+          compact={false} // ← これで通常パッドとして動く！
           ocrEngine="vision"
           lowSpecMode={lowSpecMode}
+          /* ★ 認識文字を通常入力欄へ追加 */
           onCharRecognized={(char) => {
-            setInputAnswer((prev) => (prev || "") + char);
+            setInputAnswer((prev) => prev + char);
           }}
+          /* ★ 通常モードでは onUpload を使わない */
           onUpload={null}
           onClearAll={() => setInputAnswer("")}
-          onSpace={() => setInputAnswer((prev) => (prev || "") + " ")}
+          onSpace={() => setInputAnswer((prev) => prev + " ")}
+          /* ★ 採点機能に必要 */
           currentAnswer={inputAnswer}
           currentQuestion={filteredQuestions[currentIndex]}
           handleAnswer={handleAnswer}
         />
       ) : (
-        <div className="w-full max-w-[900px]">
+        <>
           <input
             type="text"
-            value={inputAnswer || ""}
+            value={inputAnswer}
             onChange={(e) => setInputAnswer(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                const ans = (inputAnswer || "").trim();
-                if (!ans) return;
-                handleAnswer(ans); // ★手書きと同じ採点ルートに統一
-              }
-            }}
-            className="border-2 border-gray-300 px-3 py-3 rounded-xl w-full text-lg"
-            placeholder="ここに入力してEnterで判定"
-            autoCapitalize="none"
-            autoCorrect="off"
-            spellCheck={false}
+            className="border px-3 py-1 rounded w-full"
           />
-
-          <div className="flex gap-2 mt-2">
-            <button
-              onClick={() => setInputAnswer("")}
-              className="px-3 py-2 rounded bg-gray-200"
-            >
-              クリア
-            </button>
-
-            <button
-              disabled={!inputAnswer || inputAnswer.trim() === ""}
-              onClick={() => handleAnswer((inputAnswer || "").trim())}
-              className="
-              px-4 py-2 rounded font-bold
-              bg-purple-600 text-white
-              disabled:bg-gray-300 disabled:text-gray-500
-            "
-            >
-              判定
-            </button>
-          </div>
-        </div>
+        </>
       )}
     </div>
   );
@@ -5097,36 +5026,7 @@ export default function EnglishTrapQuestions() {
               !showHandwritingFor && ( // ← ★ compact表示中は通常パッドを出さない
                 <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t shadow-lg z-[60]">
                   <div className="max-w-[900px] mx-auto px-4 sm:px-6 md:px-8 py-3">
-                    {/* 入力方法スイッチ */}
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="text-sm font-bold text-gray-700">
-                        入力方法：{useHandwriting ? "手書き" : "キーボード"}
-                      </div>
-
-                      <button
-                        onClick={() => setUseHandwriting((p) => !p)}
-                        className="
-        px-3 py-1 rounded-full text-sm font-bold
-        border border-gray-300 bg-white hover:bg-gray-100
-      "
-                      >
-                        {useHandwriting ? "キーボードに切替" : "手書きに切替"}
-                      </button>
-                    </div>
-
-                    {/* 手書き or キーボード */}
-                    {useHandwriting ? (
-                      renderInputSection()
-                    ) : (
-                      <KeyboardInputSection
-                        value={currentAnswer}
-                        onChange={(v) => setCurrentAnswer(v)} // ←あなたの実装に合わせて調整
-                        onJudge={() => handleAnswer(currentAnswer)} // ←既存判定に統一
-                        disabledJudge={
-                          !currentAnswer || currentAnswer.trim() === ""
-                        }
-                      />
-                    )}
+                    {renderInputSection()}
                   </div>
                 </div>
               )}
