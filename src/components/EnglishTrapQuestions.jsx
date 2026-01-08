@@ -1007,6 +1007,8 @@ export default function EnglishTrapQuestions() {
   const [initialQuestions, setInitialQuestions] = useState([]);
   const [firstMistakeAnswers, setFirstMistakeAnswers] = useState({});
   const [characterMood, setCharacterMood] = useState("neutral");
+  // ✅ iPhoneソフトキーボード表示時の“持ち上げ量”
+  const [kbOffset, setKbOffset] = useState(0);
   const [inputAnswer, setInputAnswer] = useState("");
   const [lastLength, setLastLength] = useState(0);
   const [selectedWord, setSelectedWord] = useState(null);
@@ -3141,6 +3143,30 @@ export default function EnglishTrapQuestions() {
   useEffect(() => {
     console.log("🔥 unitStats updated:", unitStats);
   }, [unitStats]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const vv = window.visualViewport;
+    if (!vv) return;
+
+    const update = () => {
+      // innerHeight と visualViewport.height の差分が「キーボード等で潰れた領域」
+      const diff = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+
+      // 誤差やアドレスバー伸縮を除外（小さい値は0扱い）
+      setKbOffset(diff > 50 ? diff : 0);
+    };
+
+    update();
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
