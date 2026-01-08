@@ -1086,6 +1086,8 @@ export default function EnglishTrapQuestions() {
     }
     return 0;
   });
+  const INPUT_BAR_BASE = 240; // 下部入力UIの基本高さ（調整可）
+  const questionTopRef = useRef(null);
   const fromMyDataRef = useRef(false);
   const launchedFromMyDataRef = useRef(false);
   // 単語テスト開始フラグ
@@ -1747,6 +1749,14 @@ export default function EnglishTrapQuestions() {
           <input
             type="text"
             value={inputAnswer || ""}
+            onFocus={() => {
+              setTimeout(() => {
+                questionTopRef.current?.scrollIntoView({
+                  block: "start",
+                  behavior: "smooth",
+                });
+              }, 80);
+            }}
             onChange={(e) => setInputAnswer(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -4731,7 +4741,12 @@ export default function EnglishTrapQuestions() {
           <>
             {/* 上：問題・タイマーなど */}
             <div className="w-full flex justify-center">
-              <div className="w-full max-w-[900px] px-4 sm:px-6 md:px-8 flex flex-col items-center pb-[300px]">
+              <div
+                className="w-full max-w-[900px] px-4 sm:px-6 md:px-8 flex flex-col items-center"
+                style={{
+                  paddingBottom: `${INPUT_BAR_BASE + (kbOffset || 0)}px`,
+                }}
+              >
                 {/* ← 👆 pb-[220px] は下の手書きパッド分の余白 */}
 
                 <Character mood={characterMood} userName={userName} />
@@ -4980,6 +4995,8 @@ export default function EnglishTrapQuestions() {
                         ⏰ 時間切れ！
                       </motion.div>
                     )}
+
+                    <div ref={questionTopRef} />
 
                     {/* 🔹 問題文 */}
 
