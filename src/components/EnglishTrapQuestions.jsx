@@ -384,13 +384,20 @@ function getFeedbackText({ currentQuestion, isCorrect, selectedChoice }) {
   return `正解は「${correctText}」。${base}`.trim();
 }
 
-function KeyboardInputSection({ value, onChange, onJudge, disabledJudge }) {
+function KeyboardInputSection({
+  value,
+  onChange,
+  onJudge,
+  disabledJudge,
+  onFocusInput, // ✅ 追加
+}) {
   return (
     <div className="w-full">
       <input
         type="text"
         value={value || ""}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={onFocusInput} // ✅ 追加（フォーカス時に問題文へ戻す）
         placeholder="ここに入力してEnterで判定"
         className="w-full border-2 border-gray-300 rounded-xl p-3 text-lg"
         onKeyDown={(e) => {
@@ -1086,7 +1093,7 @@ export default function EnglishTrapQuestions() {
     }
     return 0;
   });
-  const INPUT_BAR_BASE = 240; // 下部入力UIの基本高さ（調整可）
+  const INPUT_BAR_BASE = 260; // 下部入力UIの基本高さ（調整可）
   const questionTopRef = useRef(null);
   const fromMyDataRef = useRef(false);
   const launchedFromMyDataRef = useRef(false);
@@ -4996,7 +5003,7 @@ export default function EnglishTrapQuestions() {
                       </motion.div>
                     )}
 
-                    <div ref={questionTopRef} />
+                    <div ref={questionTopRef} style={{ scrollMarginTop: 12 }} />
 
                     {/* 🔹 問題文 */}
 
@@ -5262,6 +5269,14 @@ export default function EnglishTrapQuestions() {
                         disabledJudge={
                           !inputAnswer || (inputAnswer || "").trim() === ""
                         }
+                        onFocusInput={() => {
+                          setTimeout(() => {
+                            questionTopRef.current?.scrollIntoView({
+                              block: "start",
+                              behavior: "smooth",
+                            });
+                          }, 80);
+                        }}
                       />
                     )}
                   </div>
