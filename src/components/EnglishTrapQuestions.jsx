@@ -1737,7 +1737,7 @@ export default function EnglishTrapQuestions() {
 
   const renderInputSection = () => (
     <div className="flex flex-col gap-2 mt-2 items-center w-full">
-      {/* === 通常の問題用 手書きパッド === */}
+      {/* 手書きモードのときだけ、ここでパッドを表示する */}
       {useHandwriting ? (
         <HandwritingPad
           compact={false}
@@ -1753,57 +1753,7 @@ export default function EnglishTrapQuestions() {
           currentQuestion={filteredQuestions[currentIndex]}
           handleAnswer={handleAnswer}
         />
-      ) : (
-        <div className="w-full max-w-[900px]">
-          <input
-            type="text"
-            value={inputAnswer || ""}
-            onFocus={() => {
-              setTimeout(() => {
-                questionTopRef.current?.scrollIntoView({
-                  block: "start",
-                  behavior: "smooth",
-                });
-              }, 80);
-            }}
-            onChange={(e) => setInputAnswer(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                const ans = (inputAnswer || "").trim();
-                if (!ans) return;
-                handleAnswer(ans); // ★手書きと同じ採点ルートに統一
-              }
-            }}
-            className="border-2 border-gray-300 px-3 py-3 rounded-xl w-full text-lg"
-            placeholder="ここに入力してEnterで判定"
-            autoCapitalize="none"
-            autoCorrect="off"
-            spellCheck={false}
-          />
-
-          <div className="flex gap-2 mt-2">
-            <button
-              onClick={() => setInputAnswer("")}
-              className="px-3 py-2 rounded bg-gray-200"
-            >
-              クリア
-            </button>
-
-            <button
-              disabled={!inputAnswer || inputAnswer.trim() === ""}
-              onClick={() => handleAnswer((inputAnswer || "").trim())}
-              className="
-              px-4 py-2 rounded font-bold
-              bg-purple-600 text-white
-              disabled:bg-gray-300 disabled:text-gray-500
-            "
-            >
-              判定
-            </button>
-          </div>
-        </div>
-      )}
+      ) : null}
     </div>
   );
 
@@ -5265,7 +5215,16 @@ export default function EnglishTrapQuestions() {
               (currentQuestion.type?.trim() === "input" ||
                 currentQuestion.format === "単語・熟語") &&
               !showHandwritingFor && ( // ← ★ compact表示中は通常パッドを出さない
-                <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t shadow-lg z-[60]">
+                <div
+                  className="fixed left-0 w-full bg-white/95 backdrop-blur-sm border-t shadow-lg z-[9999]"
+                  style={{
+                    bottom: 0,
+                    transform: `translateY(-${kbOffset || 0}px)`,
+                    transition: "transform 120ms ease-out",
+                    paddingBottom: "env(safe-area-inset-bottom)",
+                    willChange: "transform",
+                  }}
+                >
                   <div className="max-w-[900px] mx-auto px-4 sm:px-6 md:px-8 py-3">
                     {/* 入力方法スイッチ */}
                     <div className="flex items-center justify-between mb-2">
@@ -5283,6 +5242,12 @@ export default function EnglishTrapQuestions() {
                         {useHandwriting ? "キーボードに切替" : "手書きに切替"}
                       </button>
                     </div>
+
+                    {!useHandwriting && (
+                      <div className="text-xs text-gray-600 mb-2 line-clamp-2">
+                        問題：{currentQuestion?.question}
+                      </div>
+                    )}
 
                     {/* 手書き or キーボード */}
                     {useHandwriting ? (
