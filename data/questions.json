@@ -3695,9 +3695,9 @@
   {
     "id": "c4e7d9a8-7f5b-4b92-99e3-1c9f9b0e7a6d",
     "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n昨日もっと早く寝ていればよかったなあ。\n( I / had / gone / wish / to / bed / I / earlier ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n昨日もっと早く寝ていればよかったなあ。\n( I / had / yesterday / gone / wish / to / bed / I / earlier ).",
     "choices": [],
-    "correct": "I wish I had gone to bed earlier.",
+    "correct": "I wish I had gone to bed earlier yesterday.",
     "explanation": "『I wish＋過去完了』で過去の事実に反する後悔を表します。『もっと早く寝ていなかった』という意味になります。",
     "incorrectExplanations": {},
     "format": "整序問題",
