@@ -3618,7 +3618,7 @@
   {
     "id": "a1e8d7f2-3f7b-4a6b-98d2-6b5a9d3f7a23",
     "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし私が鳥なら、空を飛べるのに。\n( fly / I / if / a / were / I / bird / could ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし私が鳥なら、空を飛べるのに。\n( fly / I / if / a / were / I / bird / , / could ).",
     "choices": [],
     "correct": "If I were a bird, I could fly.",
     "explanation": "仮定法過去では『be動詞』の形は主語に関係なく『were』を使います。『could』は可能の仮定。",
@@ -3629,7 +3629,7 @@
   {
     "id": "b2f7e5a9-4d9e-48c1-bc81-3b0e5d1a6b92",
     "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもしあのときもっと一生懸命勉強していたら、今は医者になっているでしょう。\n( had / I / studied / then / harder / I / would / a / if / now / be / doctor ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもしあのときもっと一生懸命勉強していたら、今は医者になっているでしょう。\n( had / I / , / studied / then / harder / I / would / a / if / now / be / doctor ).",
     "choices": [],
     "correct": "If I had studied harder then, I would be a doctor now.",
     "explanation": "『If＋仮定法過去完了』＋『主節に仮定法過去』で“混合仮定法”。過去の事実と現在の結果をつなげています。",
@@ -3640,7 +3640,7 @@
   {
     "id": "c4e2b6f8-7c3b-42b7-b94b-1d0a6f8a5d90",
     "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたが忙しくなければ、私と来られるのに。\n( with / come / if / weren’t / me / you / could / busy / you).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたが忙しくなければ、私と来られるのに。\n( with / come / if / weren’t / , / me / you / could / busy / you).",
     "choices": [],
     "correct": "If you weren’t busy, you could come with me.",
     "explanation": "仮定法過去。現在とは異なる仮定を表す。『be動詞→were』、助動詞『could』が条件を示す鍵。",
@@ -3651,7 +3651,7 @@
   {
     "id": "d3c9f5e1-8a6c-4d81-b9f7-2b0a6e4a9b52",
     "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし彼がここにいたら、そのことを知っていただろうに。\n( he / had / would / it / if / known / he / been / here / have ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nもし彼がここにいたら、そのことを知っていただろうに。\n( he / had / would / it / , / if / known / he / been / here / have ).",
     "choices": [],
     "correct": "If he had been here, he would have known it.",
     "explanation": "仮定法過去完了。『If＋had＋過去分詞』で“過去の事実に反する仮定”を表します。主節は『would have＋過去分詞』。",
@@ -3662,7 +3662,7 @@
   {
     "id": "e5a8f6b3-4f0c-4a42-8b8b-4c8a1e3b7f11",
     "unit": "仮定法",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はあなたの立場なら、そのことをしないでしょう。\n( were / in / that / I / your / wouldn’t / do / if / case / it / I).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n私はあなたの立場なら、そのことをしないでしょう。\n( were / in / that / I / your / wouldn’t / do / if / case / it / I / , ).",
     "choices": [],
     "correct": "If I were in your case, I wouldn’t do it.",
     "explanation": "『If I were you』や『If I were in your case』は仮定法の定番構文。助動詞は『would』を使い、現在の事実に反する仮定を表す。",
