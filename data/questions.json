@@ -7321,7 +7321,7 @@
     "question": "「1月」を英語で書きなさい。",
     "choices": [],
     "correct": "January",
-    "explanation": "「1月」は英語で January です。",
+    "explanation": "「1月」は英語で January です。覚え方はジャヌアリー。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7332,7 +7332,7 @@
     "question": "「2月」を英語で書きなさい。",
     "choices": [],
     "correct": "February",
-    "explanation": "「2月」は英語で February です。",
+    "explanation": "「2月」は英語で February です。覚え方はフェブルアリー。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7354,7 +7354,7 @@
     "question": "「4月」を英語で書きなさい。",
     "choices": [],
     "correct": "April",
-    "explanation": "「4月」は英語で April です。",
+    "explanation": "「4月」は英語で April です。覚え方はアプリル。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7376,7 +7376,7 @@
     "question": "「6月」を英語で書きなさい。",
     "choices": [],
     "correct": "June",
-    "explanation": "「6月」は英語で June です。",
+    "explanation": "「6月」は英語で June です。覚え方はジュネ。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7387,7 +7387,7 @@
     "question": "「7月」を英語で書きなさい。",
     "choices": [],
     "correct": "July",
-    "explanation": "「7月」は英語で July です。",
+    "explanation": "「7月」は英語で July です。覚え方はジュエルワイ。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7398,7 +7398,7 @@
     "question": "「8月」を英語で書きなさい。",
     "choices": [],
     "correct": "August",
-    "explanation": "「8月」は英語で August です。",
+    "explanation": "「8月」は英語で August です。覚え方はアウグスト。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7409,7 +7409,7 @@
     "question": "「9月」を英語で書きなさい。",
     "choices": [],
     "correct": "September",
-    "explanation": "「9月」は英語で September です。",
+    "explanation": "「9月」は英語で September です。覚え方はセプテムバー。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7431,7 +7431,7 @@
     "question": "「11月」を英語で書きなさい。",
     "choices": [],
     "correct": "November",
-    "explanation": "「11月」は英語で November です。",
+    "explanation": "「11月」は英語で November です。覚え方はノーベムバー。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7442,7 +7442,7 @@
     "question": "「12月」を英語で書きなさい。",
     "choices": [],
     "correct": "December",
-    "explanation": "「12月」は英語で December です。",
+    "explanation": "「12月」は英語で December です。覚え方はデッセムバー。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7453,7 +7453,7 @@
     "question": "「日曜日」を英語で書きなさい。",
     "choices": [],
     "correct": "Sunday",
-    "explanation": "「日曜日」は英語で Sunday です。",
+    "explanation": "「日曜日」は英語で Sunday です。覚え方はスンダワイ。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7464,7 +7464,7 @@
     "question": "「月曜日」を英語で書きなさい。",
     "choices": [],
     "correct": "Monday",
-    "explanation": "「月曜日」は英語で Monday です。",
+    "explanation": "「月曜日」は英語で Monday です。覚え方はモンダワイ。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7475,7 +7475,7 @@
     "question": "「火曜日」を英語で書きなさい。",
     "choices": [],
     "correct": "Tuesday",
-    "explanation": "「火曜日」は英語で Tuesday です。",
+    "explanation": "「火曜日」は英語で Tuesday です。覚え方はツエスダワイ。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7486,7 +7486,7 @@
     "question": "「水曜日」を英語で書きなさい。",
     "choices": [],
     "correct": "Wednesday",
-    "explanation": "「水曜日」は英語で Wednesday です。",
+    "explanation": "「水曜日」は英語で Wednesday です。覚え方はウェドネスダワイ。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7497,7 +7497,7 @@
     "question": "「木曜日」を英語で書きなさい。",
     "choices": [],
     "correct": "Thursday",
-    "explanation": "「木曜日」は英語で Thursday です。",
+    "explanation": "「木曜日」は英語で Thursday です。覚え方はスゥアースダワイ。Thの音は上前歯から息を漏らすように。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7508,7 +7508,7 @@
     "question": "「金曜日」を英語で書きなさい。",
     "choices": [],
     "correct": "Friday",
-    "explanation": "「金曜日」は英語で Friday です。",
+    "explanation": "「金曜日」は英語で Friday です。覚え方はフリダワイ。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7519,7 +7519,7 @@
     "question": "「土曜日」を英語で書きなさい。",
     "choices": [],
     "correct": "Saturday",
-    "explanation": "「土曜日」は英語で Saturday です。",
+    "explanation": "「土曜日」は英語で Saturday です。覚え方はサツアールダワイ。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7530,7 +7530,7 @@
     "question": "「春」を英語で書きなさい。",
     "choices": [],
     "correct": "spring",
-    "explanation": "「春」は英語で spring です。",
+    "explanation": "「春」は英語で spring です。これはバネと一緒でスプリングで覚える。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7541,7 +7541,7 @@
     "question": "「夏」を英語で書きなさい。",
     "choices": [],
     "correct": "summer",
-    "explanation": "「夏」は英語で summer です。",
+    "explanation": "「夏」は英語で summer です。覚え方はスムメアー。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7552,7 +7552,7 @@
     "question": "「秋」を英語で書きなさい。",
     "choices": [],
     "correct": "autumn",
-    "explanation": "「秋」は英語で autumn（または fall）です。",
+    "explanation": "「秋」は英語で autumn（または fall）です。覚え方はアウツムン。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
@@ -7563,7 +7563,7 @@
     "question": "「冬」を英語で書きなさい。",
     "choices": [],
     "correct": "winter",
-    "explanation": "「冬」は英語で winter です。",
+    "explanation": "「冬」は英語で winter です。これはウィンターで覚える。",
     "incorrectExplanations": {},
     "format": "単語・熟語",
     "type": "input"
