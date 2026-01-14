@@ -1670,6 +1670,72 @@ export default function EnglishTrapQuestions() {
     return new Set(selectedWordQuestions.map((q) => q.unit)).size;
   }, [selectedWordQuestions]);
 
+  // 単語テストunitごとの「チェック状況」を集計
+  // status: "all" | "partial" | "none"
+  const wordUnitSelectionStatus = useMemo(() => {
+    const statusMap = {};
+
+    // 単語テストのunit一覧（questions基準）
+    const wordUnits = Array.from(
+      new Set(
+        questions
+          .map((q) => q.unit)
+          .filter((u) => typeof u === "string" && u.includes("単語テスト"))
+      )
+    );
+
+    for (const unit of wordUnits) {
+      const qs = questions.filter((q) => q.unit === unit);
+      if (qs.length === 0) {
+        statusMap[unit] = { status: "none", enabledCount: 0, total: 0 };
+        continue;
+      }
+
+      let enabledCount = 0;
+
+      for (const q of qs) {
+        const key = getWordKey(q);
+        // 未設定はtrue扱い
+        const enabled = wordEnabledMap[key] !== false;
+        if (enabled) enabledCount++;
+      }
+
+      const total = qs.length;
+
+      let status = "all";
+      if (enabledCount === 0) status = "none";
+      else if (enabledCount !== total) status = "partial";
+
+      statusMap[unit] = { status, enabledCount, total };
+    }
+
+    return statusMap;
+  }, [questions, wordEnabledMap]);
+  // 単語テストの選択も全ONに戻す（全選択と整合）
+  const resetAllWordSelections = () => {
+    setWordEnabledMap((prev) => {
+      const next = { ...prev };
+      for (const q of questions) {
+        if (typeof q.unit === "string" && q.unit.includes("単語テスト")) {
+          next[getWordKey(q)] = true;
+        }
+      }
+      return next;
+    });
+  };
+
+  const hasZeroPart = useMemo(() => {
+    return selectedWordUnits.some(
+      (u) => wordUnitSelectionStatus[u]?.status === "none"
+    );
+  }, [selectedWordUnits, wordUnitSelectionStatus]);
+
+  const hasPartialPart = useMemo(() => {
+    return selectedWordUnits.some(
+      (u) => wordUnitSelectionStatus[u]?.status === "partial"
+    );
+  }, [selectedWordUnits, wordUnitSelectionStatus]);
+
   const getCorrectText = (q) => {
     const c = q?.correct ?? q?.answer ?? q?.correctAnswer;
 
@@ -2426,6 +2492,8 @@ export default function EnglishTrapQuestions() {
 
     // Supabase に一括保存
     await updateAllUnitSettings(updatedModes);
+    resetAllWordSelections();
+    showPopupMessage("全ての単語を出題対象に戻しました！");
   };
 
   const clearAllUnits = async () => {
@@ -4577,6 +4645,10 @@ export default function EnglishTrapQuestions() {
                                 .replace("単語テスト", "")
                                 .trim();
                               const isSelected = (unitModes[unit] ?? 0) !== 0;
+                              const selectionInfo =
+                                wordUnitSelectionStatus[unit];
+                              const selectionStatus =
+                                selectionInfo?.status ?? "all"; // 未設定はall扱い
 
                               return (
                                 <button
@@ -4596,18 +4668,28 @@ export default function EnglishTrapQuestions() {
                                     })
                                   }
                                   className={`
-    flex flex-col items-center justify-center
-    px-2 py-3 rounded-xl text-xs font-bold
-    transition-all border shadow-sm
-    ${
-      isSelected
-        ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
-        : "bg-white text-[#35516e] border-gray-300 hover:bg-gray-100"
-    }
-  `}
+  flex flex-col items-center justify-center
+  px-2 py-3 rounded-xl text-xs font-bold
+  transition-all border shadow-sm
+  ${
+    !isSelected
+      ? "bg-white text-[#35516e] border-gray-300 hover:bg-gray-100"
+      : selectionStatus === "all"
+      ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
+      : selectionStatus === "partial"
+      ? "bg-gradient-to-br from-yellow-200 to-yellow-400 text-[#5a4300] border-yellow-400 scale-[1.04]"
+      : "bg-white text-[#6b7280] border-gray-300 scale-[1.04]"
+  }
+`}
                                 >
                                   <div className="text-lg mb-1">📖</div>
                                   {name}
+                                  {isSelected && selectionInfo && (
+                                    <div className="mt-1 text-[10px] opacity-90">
+                                      {selectionInfo.enabledCount}/
+                                      {selectionInfo.total}
+                                    </div>
+                                  )}
                                 </button>
                               );
                             })}
@@ -4671,6 +4753,16 @@ export default function EnglishTrapQuestions() {
       }
     `}
                             >
+                              {hasZeroPart && (
+                                <div className="text-center text-sm font-bold text-red-600 mb-2">
+                                  出題0のPartがあります（白いPart）。単語選択を確認してください。
+                                </div>
+                              )}
+                              {!hasZeroPart && hasPartialPart && (
+                                <div className="text-center text-sm font-bold text-yellow-700 mb-2">
+                                  一部除外しているPartがあります（黄色のPart）。
+                                </div>
+                              )}
                               🚀 GO！
                             </button>
 
