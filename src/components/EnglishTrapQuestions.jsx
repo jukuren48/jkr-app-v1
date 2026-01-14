@@ -4754,13 +4754,13 @@ export default function EnglishTrapQuestions() {
     `}
                             >
                               {hasZeroPart && (
-                                <div className="text-center text-sm font-bold text-red-600 mb-2">
-                                  出題0のPartがあります（白いPart）。単語選択を確認してください。
+                                <div className="text-center text-sm font-medium text-gray-500 mb-2">
+                                  出題されないPartがあります（白いPart）。単語選択を確認してください。
                                 </div>
                               )}
                               {!hasZeroPart && hasPartialPart && (
-                                <div className="text-center text-sm font-bold text-yellow-700 mb-2">
-                                  一部除外しているPartがあります（黄色のPart）。
+                                <div className="text-center text-sm font-medium text-gray-500 mb-2">
+                                  一部の単語を除外しているPartがあります（黄色のPart）。
                                 </div>
                               )}
                               🚀 GO！
