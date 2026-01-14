@@ -1099,8 +1099,22 @@ export default function EnglishTrapQuestions() {
   const questionTopRef = useRef(null);
   const fromMyDataRef = useRef(false);
   const launchedFromMyDataRef = useRef(false);
-  // 単語テスト開始フラグ
-  //const [startWordQuizFlag, setStartWordQuizFlag] = useState(false);
+  // === 単語一覧・単語選択（追加） ===
+  const [showWordListModal, setShowWordListModal] = useState(false);
+
+  // qごとの「出題する/しない」状態（true=出題する）
+  const [wordEnabledMap, setWordEnabledMap] = useState({});
+  const [wordSelectionHydrated, setWordSelectionHydrated] = useState(false);
+
+  // 「単語テスト」設問のキー生成（idが無い場合でも一意になりやすい形）
+  const getWordKey = (q) => {
+    // もし questions.json に id があるならそれが最優先
+    if (q?.id != null) return String(q.id);
+    // 次点：unit + question（同一unit内で question が重複しない前提）
+    return `${q?.unit ?? ""}__${q?.question ?? ""}`;
+  };
+
+  const WORD_SELECTION_STORAGE_KEY = "wordSelectionMap_v1";
 
   // 🧩 My単語を既存問題形式へ変換
   const generateOriginalQuestions = () => {
@@ -1594,6 +1608,122 @@ export default function EnglishTrapQuestions() {
 
     loadUnitModes();
   }, [supabaseUser]);
+
+  // localStorage から復元（最初に必ず1回だけ）
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(WORD_SELECTION_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") {
+          setWordEnabledMap(parsed);
+        }
+      }
+    } catch (e) {
+      // 壊れていたら無視
+    } finally {
+      // ★復元が終わった合図
+      setWordSelectionHydrated(true);
+    }
+  }, []);
+
+  // localStorage に保存（復元完了後のみ）
+  useEffect(() => {
+    if (!wordSelectionHydrated) return; // ★ここが重要
+
+    try {
+      localStorage.setItem(
+        WORD_SELECTION_STORAGE_KEY,
+        JSON.stringify(wordEnabledMap)
+      );
+    } catch (e) {}
+  }, [wordSelectionHydrated, wordEnabledMap]);
+
+  // 現在選択中の「単語テスト unit（Part）」一覧
+  // ① questions基準で「存在する単語テストunit」
+  const availableWordUnits = useMemo(() => {
+    return Array.from(
+      new Set(
+        questions
+          .map((q) => q.unit)
+          .filter((u) => typeof u === "string" && u.includes("単語テスト"))
+      )
+    );
+  }, [questions]);
+
+  // ② 選択中unit（unitModesは過去キーが残り得るので availableWordUnits を母集団に）
+  const selectedWordUnits = useMemo(() => {
+    return availableWordUnits.filter((u) => (Number(unitModes[u]) || 0) !== 0);
+  }, [availableWordUnits, unitModes]);
+
+  // 現在選択中 Part の「単語（設問）」一覧
+  const selectedWordQuestions = useMemo(() => {
+    return questions.filter(
+      (q) =>
+        typeof q.unit === "string" &&
+        q.unit.includes("単語テスト") &&
+        (unitModes[q.unit] ?? 0) !== 0
+    );
+  }, [questions, unitModes]);
+
+  const selectedPartCount = useMemo(() => {
+    return new Set(selectedWordQuestions.map((q) => q.unit)).size;
+  }, [selectedWordQuestions]);
+
+  const getCorrectText = (q) => {
+    const c = q?.correct ?? q?.answer ?? q?.correctAnswer;
+
+    if (Array.isArray(c)) return c.join(" / ");
+    if (typeof c === "string") return c;
+
+    // まれに choices に正解indexを持つ形式などがある場合の保険
+    if (typeof c === "number" && Array.isArray(q?.choices)) {
+      return q.choices[c] ?? "";
+    }
+
+    return "";
+  };
+
+  // モーダルを開く時：未登録の単語は「出題する=true」で初期化
+  const openWordListModal = () => {
+    setWordEnabledMap((prev) => {
+      const next = { ...prev };
+      for (const q of selectedWordQuestions) {
+        const key = getWordKey(q);
+        if (next[key] === undefined) next[key] = true; // 初期は出題する
+      }
+      return next;
+    });
+    setShowWordListModal(true);
+  };
+
+  const toggleWordEnabled = (q) => {
+    const key = getWordKey(q);
+    setWordEnabledMap((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const setAllEnabledForCurrent = (enabled) => {
+    setWordEnabledMap((prev) => {
+      const next = { ...prev };
+      for (const q of selectedWordQuestions) {
+        const key = getWordKey(q);
+        next[key] = enabled;
+      }
+      return next;
+    });
+  };
+
+  // 選択中 Part における「出題対象」だけを抽出
+  const enabledWordQuestions = useMemo(() => {
+    return selectedWordQuestions.filter((q) => {
+      const key = getWordKey(q);
+      // 未設定は true 扱い（安全側）
+      return wordEnabledMap[key] !== false;
+    });
+  }, [selectedWordQuestions, wordEnabledMap]);
 
   // 🧭 問題画面が表示された瞬間にトップへスクロール
   useEffect(() => {
@@ -2332,15 +2462,34 @@ export default function EnglishTrapQuestions() {
     startQuiz();
   };
 
-  const handleWordGo = () => {
+  const handleWordGo = (options = {}) => {
     setIsWordOnlyMode(true);
-    startWordQuiz();
+    startWordQuiz(options);
   };
 
   // ===============================
   // 📘 単語テスト専用スタート関数
   // ===============================
-  const startWordQuiz = () => {
+  const startWordQuiz = (options = {}) => {
+    const { directQuestions } = options;
+
+    // ★ 直指定が来たら最優先で使う（一覧・単語選択の結果を反映）
+    if (Array.isArray(directQuestions) && directQuestions.length > 0) {
+      const shuffled = shuffleArray(directQuestions);
+
+      const limited =
+        questionCount === "all"
+          ? shuffled
+          : shuffled.slice(0, Number(questionCount));
+
+      if (limited.length === 0) {
+        alert("出題できる問題がありません。");
+        return;
+      }
+
+      beginQuiz(limited);
+      return;
+    }
     // ① 単語テスト単元が1つもONになっていない
     const activeWordUnits = questions.filter(
       (q) => q.unit.includes("単語テスト") && unitModes[q.unit] === 1
@@ -4464,8 +4613,8 @@ export default function EnglishTrapQuestions() {
                             })}
                           </div>
 
-                          {/* GOボタン */}
-                          <div className="flex justify-center">
+                          {/* GOボタン + 一覧・単語選択ボタン */}
+                          <div className="flex justify-center gap-3 flex-wrap">
                             <button
                               disabled={
                                 !questionCount ||
@@ -4482,14 +4631,28 @@ export default function EnglishTrapQuestions() {
                                     return;
                                   }
 
-                                  const qs = questions.filter(
+                                  // まず Part で絞る（従来通り）
+                                  const qsAll = questions.filter(
                                     (q) =>
                                       q.unit.includes("単語テスト") &&
                                       unitModes[q.unit] !== 0
                                   );
 
+                                  // 追加：☑でさらに絞る（未設定は true 扱い）
+                                  const qs = qsAll.filter((q) => {
+                                    const key = getWordKey(q);
+                                    return wordEnabledMap[key] !== false;
+                                  });
+
+                                  if (qs.length === 0) {
+                                    showPopupMessage(
+                                      "出題する単語が0件です。チェックを入れてね！"
+                                    );
+                                    return;
+                                  }
+
                                   handleWordGo({
-                                    skipFiltering: true,
+                                    //skipFiltering: true,
                                     directQuestions: qs,
                                   });
 
@@ -4497,20 +4660,180 @@ export default function EnglishTrapQuestions() {
                                 })
                               }
                               className={`
-    px-6 py-3 rounded-full font-bold text-white shadow-lg transition
-    ${
-      questionCount &&
-      Object.keys(unitModes).some(
-        (u) => u.includes("単語テスト") && unitModes[u] !== 0
-      )
-        ? "bg-pink-500 hover:bg-pink-600"
-        : "bg-gray-300 text-gray-500 cursor-not-allowed"
-    }
-  `}
+      px-6 py-3 rounded-full font-bold text-white shadow-lg transition
+      ${
+        questionCount &&
+        Object.keys(unitModes).some(
+          (u) => u.includes("単語テスト") && unitModes[u] !== 0
+        )
+          ? "bg-pink-500 hover:bg-pink-600"
+          : "bg-gray-300 text-gray-500 cursor-not-allowed"
+      }
+    `}
                             >
                               🚀 GO！
                             </button>
+
+                            <button
+                              disabled={
+                                !Object.keys(unitModes).some(
+                                  (u) =>
+                                    u.includes("単語テスト") &&
+                                    unitModes[u] !== 0
+                                )
+                              }
+                              onClick={() =>
+                                playButtonSound(() => {
+                                  openWordListModal();
+                                })
+                              }
+                              className={`
+      px-5 py-3 rounded-full font-bold shadow-lg transition border
+      ${
+        Object.keys(unitModes).some(
+          (u) => u.includes("単語テスト") && unitModes[u] !== 0
+        )
+          ? "bg-white hover:bg-gray-50 text-[#35516e] border-gray-300"
+          : "bg-gray-200 text-gray-500 cursor-not-allowed border-gray-200"
+      }
+    `}
+                            >
+                              一覧・単語選択
+                            </button>
                           </div>
+                          {/* === 一覧・単語選択モーダル（追加） === */}
+                          {showWordListModal && (
+                            <div className="fixed inset-0 z-[9999] bg-black/50 flex items-center justify-center p-3">
+                              <div className="w-full max-w-[900px] bg-white rounded-2xl shadow-2xl border border-white/60 overflow-hidden">
+                                <div className="px-4 py-3 bg-white border-b flex items-center justify-between">
+                                  <div className="font-bold text-[#35516e]">
+                                    単語一覧・単語選択（☑を外すと出題されません）
+                                  </div>
+                                  <button
+                                    onClick={() => setShowWordListModal(false)}
+                                    className="px-3 py-1 rounded-lg border hover:bg-gray-50 font-bold text-sm"
+                                  >
+                                    閉じる
+                                  </button>
+                                </div>
+
+                                <div className="p-4">
+                                  <div className="text-sm text-gray-700 mb-2">
+                                    選択中のPart：{selectedPartCount}個 ／
+                                    全単語：{selectedWordQuestions.length}語 ／
+                                    出題される単語：
+                                    {enabledWordQuestions.length}語
+                                  </div>
+
+                                  <div className="flex gap-2 flex-wrap mb-3">
+                                    <button
+                                      onClick={() =>
+                                        setAllEnabledForCurrent(true)
+                                      }
+                                      className="px-3 py-2 rounded-xl border hover:bg-gray-50 font-bold text-sm"
+                                    >
+                                      全選択
+                                    </button>
+                                    <button
+                                      onClick={() =>
+                                        setAllEnabledForCurrent(false)
+                                      }
+                                      className="px-3 py-2 rounded-xl border hover:bg-gray-50 font-bold text-sm"
+                                    >
+                                      全解除
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        // いったん閉じるだけ（選択状態は保存済み）
+                                        setShowWordListModal(false);
+                                        showPopupMessage(
+                                          "選択を保存しました！"
+                                        );
+                                      }}
+                                      className="ml-auto px-4 py-2 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold text-sm"
+                                    >
+                                      この選択でOK
+                                    </button>
+                                  </div>
+
+                                  <div className="max-h-[65vh] overflow-y-auto border rounded-2xl">
+                                    {selectedWordQuestions.map((q) => {
+                                      const key = getWordKey(q);
+                                      const enabled =
+                                        wordEnabledMap[key] !== false;
+
+                                      // unit 表示名（単語テストを除去）
+                                      const partName = (q.unit || "")
+                                        .replace("単語テスト", "")
+                                        .trim();
+
+                                      return (
+                                        <label
+                                          key={key}
+                                          className="flex items-start gap-3 px-3 py-2 border-b last:border-b-0 hover:bg-gray-50 cursor-pointer"
+                                        >
+                                          <input
+                                            type="checkbox"
+                                            checked={enabled}
+                                            onChange={() =>
+                                              toggleWordEnabled(q)
+                                            }
+                                            className="mt-1 h-5 w-5"
+                                          />
+
+                                          <div className="flex-1">
+                                            {/* ここは「単語テスト」の設問構造に合わせて表示項目を調整可能 */}
+                                            {(() => {
+                                              const correctText =
+                                                getCorrectText(q);
+
+                                              return (
+                                                <div className="flex-1">
+                                                  <div className="text-xs text-gray-500 mb-1">
+                                                    Part：{partName || q.unit}
+                                                  </div>
+
+                                                  {/* ★英単語（正答） */}
+                                                  {correctText ? (
+                                                    <div className="text-base font-extrabold text-[#1f3b57]">
+                                                      {correctText}
+                                                    </div>
+                                                  ) : (
+                                                    <div className="text-sm text-gray-400">
+                                                      （正答データが見つかりません）
+                                                    </div>
+                                                  )}
+
+                                                  {/* 問題文（補助情報として下に） */}
+                                                  <div className="text-sm text-gray-700 mt-1">
+                                                    {q.question}
+                                                  </div>
+
+                                                  {/* meaning 等があるなら表示 */}
+                                                  {q.meaning && (
+                                                    <div className="text-sm text-gray-600 mt-1">
+                                                      {q.meaning}
+                                                    </div>
+                                                  )}
+                                                </div>
+                                              );
+                                            })()}
+
+                                            {/* もし meaning 等があるなら表示（無ければこの行は問題なし） */}
+                                            {q.meaning && (
+                                              <div className="text-sm text-gray-600">
+                                                {q.meaning}
+                                              </div>
+                                            )}
+                                          </div>
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>
