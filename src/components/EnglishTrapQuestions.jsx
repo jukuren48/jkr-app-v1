@@ -5535,7 +5535,7 @@ export default function EnglishTrapQuestions() {
                     {/* ヒントテキスト（変更なし） */}
                     {hintText && (
                       <div className="mt-4 p-3 bg-yellow-100 border border-yellow-300 rounded-lg shadow text-gray-800 text-center">
-                        {hintText}
+                        {"最初はコレ！➡ " + hintText}
                       </div>
                     )}
 
