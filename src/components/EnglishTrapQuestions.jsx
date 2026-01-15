@@ -3798,23 +3798,37 @@ export default function EnglishTrapQuestions() {
 
   const hintPenalties = [2, 5, 10];
 
-  const generateHint = () => {
-    const answer = currentQuestion?.correct; // ← correct に修正
+  const generateHint = (level) => {
+    const answerRaw = currentQuestion?.correct; // correct
+    if (!answerRaw) return "";
+
+    const answer = String(answerRaw).trim();
     if (!answer) return "";
 
-    const words = answer.trim().split(/\s+/);
-    const hintPercents = [20, 50, 100];
-    const percent = hintPercents[Math.min(hintLevel, 2)];
-    const numWords = Math.ceil((percent / 100) * words.length);
-    return words.slice(0, numWords).join(" ");
+    // 連続空白をまとめる
+    const tokens = answer.split(/\s+/);
+
+    // level: 1..3（最大3）
+    const n = Math.max(1, Math.min(level, 3));
+
+    // 単語が1つだけ → 先頭n文字
+    if (tokens.length === 1) {
+      const word = tokens[0];
+      return word.slice(0, Math.min(n, word.length));
+    }
+
+    // 複数語 → 先頭n単語
+    return tokens.slice(0, Math.min(n, tokens.length)).join(" ");
   };
 
   const handleShowHint = () => {
     if (hintLevel < 3) {
-      setStreak(0); // ← 連続正解リセット
+      setStreak(0); // 連続正解リセット
+
       const nextLevel = hintLevel + 1;
+
       setHintLevel(nextLevel);
-      setHintText(generateHint());
+      setHintText(generateHint(nextLevel)); // ★ nextLevel を渡す
 
       setHintLevels((prev) => ({
         ...prev,
