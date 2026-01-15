@@ -4141,19 +4141,11 @@ export default function EnglishTrapQuestions() {
     }
   };
 
-  const hintUsedQuestionIds = Object.entries(hintLevels || {})
-    .filter(([, level]) => level > 0)
-    .map(([qid]) => qid);
-
-  const hintUsedCount = hintUsedQuestionIds.length;
-
-  // ヒントを見た問題は正解していても加点しない
-  const adjustedCorrectCount = Math.max(0, displayCorrect - hintUsedCount);
-
-  const adjustedDisplayResult = {
-    ...displayResult,
-    correctCount: adjustedCorrectCount,
-    correctRate: adjustedCorrectRate,
+  const displayResult = finalResult ?? {
+    totalQuestions,
+    incorrectCount,
+    correctCount,
+    correctRate,
   };
 
   const {
@@ -4163,11 +4155,26 @@ export default function EnglishTrapQuestions() {
     correctRate: displayRate,
   } = displayResult;
 
+  const hintUsedQuestionIds = Object.entries(hintLevels || {})
+    .filter(([, level]) => level > 0)
+    .map(([qid]) => qid);
+
+  const hintUsedCount = hintUsedQuestionIds.length;
+
+  // ヒントを見た問題は正解していても加点しない
+  const adjustedCorrectCount = Math.max(0, displayCorrect - hintUsedCount);
+
   // ✅ 最終スコア
   const adjustedCorrectRate =
     displayTotal > 0
       ? Math.round((adjustedCorrectCount / displayTotal) * 100)
       : 0;
+
+  const adjustedDisplayResult = {
+    ...displayResult,
+    correctCount: adjustedCorrectCount,
+    correctRate: adjustedCorrectRate,
+  };
 
   return (
     <>
