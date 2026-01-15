@@ -1495,6 +1495,72 @@
     "type": "input"
   },
   {
+    "id": "a1d3f4c8-9c12-4a87-bc3e-6e8a5c1d1021",
+    "unit": "感嘆文",
+    "question": "「なんておもしろい話なんでしょう！」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "What an interesting story!",
+    "explanation": "名詞（story）があるので、感嘆文では What + a(an) + 形容詞 + 名詞 の形を使います。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "b7e29c5a-4f3b-4d6a-9a12-8c0e5a6d1022",
+    "unit": "感嘆文",
+    "question": "「なんて寒い日なんだ！」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "What a cold day!",
+    "explanation": "day は名詞なので、What a + 形容詞 + 名詞 の形になります。How a cold day! は誤りです。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "c3a8d5e1-2f49-4c7a-8b6e-91f0c2a61023",
+    "unit": "感嘆文",
+    "question": "「なんて親切な先生なんでしょう！」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "What a kind teacher!",
+    "explanation": "teacher という名詞があるため、What a + 形容詞 + 名詞 を使います。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "d9f4a1c3-8b52-4a6e-9e71-0c6a5d2e1024",
+    "unit": "感嘆文",
+    "question": "「彼はなんて速く走るんだ！」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "How fast he runs!",
+    "explanation": "動詞 runs を修飾する副詞 fast が中心なので、How + 副詞 + 主語 + 動詞 の形を使います。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "e2c7a9b6-5d1f-4e38-8a42-3c9f6b7d1025",
+    "unit": "感嘆文",
+    "question": "「この花はなんて美しいのでしょう！」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "How beautiful this flower!",
+    "explanation": "形容詞だけを強調する感嘆文では、How + 形容詞 の形を使います。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
+    "id": "f6b2d4a9-1c73-4f5e-9a08-8e3c1d5f1026",
+    "unit": "感嘆文",
+    "question": "「彼女はなんて上手にピアノを弾くのでしょう！」を英語に訳しなさい。",
+    "choices": [],
+    "correct": "How well she plays the piano!",
+    "explanation": "動詞 plays を修飾する副詞 well を強調するため、How + 副詞 + 主語 + 動詞 の形になります。",
+    "incorrectExplanations": {},
+    "format": "英作文",
+    "type": "input"
+  },
+  {
     "id": "e7d6c5b4-a3f2-4e1d-9c8b-7a6f5e4d3c08",
     "unit": "There構文",
     "question": "There (  ) three books on the desk.",
@@ -2886,7 +2952,7 @@
   {
     "id": "a2e4b9c7-81f5-44db-8d7c-92b13a4f34c9",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは学生ですよね。\n( are / a / student / you / , / aren’t / you ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあなたは学生ですよね。\n( are / a / student / you / , / aren’t / you )?",
     "choices": [],
     "correct": "You are a student, aren’t you?",
     "explanation": "基本形：肯定文＋否定のタグ。『You are a student, aren’t you?』で『あなたは学生ですよね』。",
@@ -2897,7 +2963,7 @@
   {
     "id": "b4f7e6a3-52c9-4d26-9b9f-1e56c92b4e52",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼は昨日忙しくなかったですよね。\n( wasn’t / yesterday / he / busy / , / was / he ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼は昨日忙しくなかったですよね。\n( wasn’t / yesterday / he / busy / , / was / he )?",
     "choices": [],
     "correct": "He wasn’t busy yesterday, was he?",
     "explanation": "否定文＋肯定のタグの形。『wasn’t ～, was he?』が自然な構造です。",
@@ -2908,7 +2974,7 @@
   {
     "id": "c6b3f8a1-9e4a-4a3b-93f5-4b09b9d832db",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女はピアノを弾くのが上手ですよね。\n( plays / she / well / the / piano / , / doesn’t / she ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼女はピアノを弾くのが上手ですよね。\n( plays / she / well / the / piano / , / doesn’t / she )?",
     "choices": [],
     "correct": "She plays the piano well, doesn’t she?",
     "explanation": "一般動詞のときは助動詞『do』を使ってタグを作ります。『doesn’t she?』が正しい形です。",
@@ -2919,7 +2985,7 @@
   {
     "id": "d9f1e5b8-54f1-45ab-b73a-6b5c6e1cf0d2",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこの本は面白いですよね。\n( this / , / interesting / book / is / isn’t / it ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nこの本は面白いですよね。\n( this / , / interesting / book / is / isn’t / it )?",
     "choices": [],
     "correct": "This book is interesting, isn’t it?",
     "explanation": "be動詞の肯定文＋否定タグのパターン。主語が『this book』なのでタグは『it』になります。",
@@ -2930,7 +2996,7 @@
   {
     "id": "e8c9f3a2-2b5e-4983-bd7f-85fa3a7b943d",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nドアを閉めてくれますね。（命令文＋付加疑問）\n( the / door / , / will / shut / you ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nドアを閉めてくれますね。（命令文＋付加疑問）\n( the / door / , / will / shut / you )?",
     "choices": [],
     "correct": "Shut the door, will you?",
     "explanation": "命令文＋付加疑問は『will you?』で依頼の意味になります。『won’t you?』だと少し丁寧な響きになります。",
@@ -2941,7 +3007,7 @@
   {
     "id": "a3e2b9d7-5c72-4b81-9b8a-1b3a43cfe2e7",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はほとんど外出しませんよね。\n( goes / he / , / hardly / does / he / out).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n彼はほとんど外出しませんよね。\n( goes / he / , / hardly / does / he / out)?",
     "choices": [],
     "correct": "He hardly goes out, does he?",
     "explanation": "『hardly（ほとんど～ない）』は否定の意味を含むため、タグは肯定形になります。『does he?』が正解。",
@@ -2952,7 +3018,7 @@
   {
     "id": "b5f1d8e6-6a83-4e2e-9a34-3c5d90a3b7e1",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n誰もそのことを知らないですよね。\n( knows / , / do / no / one / they / it).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\n誰もそのことを知らないですよね。\n( knows / , / do / no / one / they / it)?",
     "choices": [],
     "correct": "No one knows it, do they?",
     "explanation": "『no one』『nobody』は否定の意味を含むため、タグは肯定（do they?）になります。主語は『they』で受けるのが自然です。",
@@ -2963,7 +3029,7 @@
   {
     "id": "c8b7f2a9-2d13-4a8f-9b9c-1a54dce2e6b0",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの人はあなたのお父さんですよね。\n( that / your / , / is / father / he / isn’t ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nあの人はあなたのお父さんですよね。\n( that / your / , / is / father / he / isn’t )?",
     "choices": [],
     "correct": "That is your father, isn’t he?",
     "explanation": "『That’s ～』のタグは『isn’t it?』ではなく、主語が『he』の場合は『isn’t he?』になります。意味上の主語で一致させます。",
@@ -2974,7 +3040,7 @@
   {
     "id": "d2a5c7f4-4b19-4c3b-8e6c-8a3a72b9e0e8",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nみんなパーティーに来るんですよね。\n( everyone / the / , / will / to / won’t / come / they / party).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）を並べ替えなさい。\nみんなパーティーに来るんですよね。\n( everyone / the / , / will / to / won’t / come / they / party)?",
     "choices": [],
     "correct": "Everyone will come to the party, won’t they?",
     "explanation": "『everyone（みんな）』は単数扱いだが、タグでは慣例的に『they』で受けます。『won’t they?』が正しい形です。",
@@ -2985,7 +3051,7 @@
   {
     "id": "e6d9b1a5-48b2-4c4d-9a45-67b1e83d9cf7",
     "unit": "付加疑問文",
-    "question": "次の日本文にあう英語になるように、（　）内の語（句）に１語を補って並べ替えなさい。\nもうそろそろ出発しましょうか。\n( , / shall / go / we / now ).",
+    "question": "次の日本文にあう英語になるように、（　）内の語（句）に１語を補って並べ替えなさい。\nもうそろそろ出発しましょうか。\n( , / shall / go / we / now )?",
     "choices": [],
     "correct": "Let’s go now, shall we?",
     "explanation": "『Let’s ～, shall we?』は提案を柔らかくする付加疑問。『will we?』ではなく『shall we?』が決まり文句です。",
