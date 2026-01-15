@@ -1027,6 +1027,9 @@ export default function EnglishTrapQuestions() {
   const [hintLevel, setHintLevel] = useState(0);
   const [hintText, setHintText] = useState("");
   const [hintLevels, setHintLevels] = useState({});
+  // ヒントを見た問題（加点なし用）
+  const [hintUsedMap, setHintUsedMap] = useState({});
+
   const [showAnswer, setShowAnswer] = useState(false);
   const [addMessage, setAddMessage] = useState("");
   // 選択肢を一度だけシャッフルして保持
@@ -3796,8 +3799,6 @@ export default function EnglishTrapQuestions() {
     beginQuiz(shuffled);
   };
 
-  const hintPenalties = [2, 5, 10];
-
   const generateHint = (level) => {
     const answerRaw = currentQuestion?.correct; // correct
     if (!answerRaw) return "";
@@ -3833,6 +3834,10 @@ export default function EnglishTrapQuestions() {
       setHintLevels((prev) => ({
         ...prev,
         [currentQuestion.id]: nextLevel,
+      }));
+      setHintUsedMap((prev) => ({
+        ...prev,
+        [currentQuestion.id]: true,
       }));
     }
   };
@@ -4136,12 +4141,19 @@ export default function EnglishTrapQuestions() {
     }
   };
 
-  // ✅ 結果発表で表示する値は「本番結果」を優先する
-  const displayResult = finalResult ?? {
-    totalQuestions,
-    incorrectCount,
-    correctCount,
-    correctRate,
+  const hintUsedQuestionIds = Object.entries(hintLevels || {})
+    .filter(([, level]) => level > 0)
+    .map(([qid]) => qid);
+
+  const hintUsedCount = hintUsedQuestionIds.length;
+
+  // ヒントを見た問題は正解していても加点しない
+  const adjustedCorrectCount = Math.max(0, displayCorrect - hintUsedCount);
+
+  const adjustedDisplayResult = {
+    ...displayResult,
+    correctCount: adjustedCorrectCount,
+    correctRate: adjustedCorrectRate,
   };
 
   const {
@@ -4151,19 +4163,11 @@ export default function EnglishTrapQuestions() {
     correctRate: displayRate,
   } = displayResult;
 
-  // ✅ ヒントペナルティ
-  const totalHintPenalty = Object.values(hintLevels || {})
-    .map((level) =>
-      level === 0 ? 0 : hintPenalties.slice(0, level).reduce((a, b) => a + b, 0)
-    )
-    .reduce((a, b) => a + b, 0);
-
   // ✅ 最終スコア
-  const adjustedCorrectRate = Math.max(0, displayRate - totalHintPenalty);
-
-  if (!showQuestions && !showResult && units.length === 0 && !currentQuestion) {
-    return <div className="p-8 text-lg">読み込み中です...</div>;
-  }
+  const adjustedCorrectRate =
+    displayTotal > 0
+      ? Math.round((adjustedCorrectCount / displayTotal) * 100)
+      : 0;
 
   return (
     <>
@@ -6020,15 +6024,23 @@ export default function EnglishTrapQuestions() {
               <h2 className="text-3xl font-bold text-[#4A6572] mb-4">
                 結果発表
               </h2>
+
+              {/* ★ 最終結果を大きく表示 */}
               <p className="text-6xl font-extrabold text-[#6DBD98] mb-2">
-                {displayRate}%
+                {adjustedCorrectRate}%
               </p>
-              <p className="text-[#4A6572]">
-                ヒント利用による減点: -{totalHintPenalty}%
+
+              {/* ★ 内訳（控えめに） */}
+              <p className="text-sm text-gray-500 mb-1">
+                正解数：{adjustedCorrectCount} / {displayTotal}
               </p>
-              <p className="text-xl font-bold text-[#4A6572]">
-                最終正答率: {adjustedCorrectRate}%
-              </p>
+
+              {hintUsedCount > 0 && (
+                <p className="text-sm text-gray-500">
+                  ※ ヒントを使用した問題（{hintUsedCount}
+                  問）は加点に含めていません
+                </p>
+              )}
             </motion.div>
 
             {incorrectQuestionsList.length > 0 && (
