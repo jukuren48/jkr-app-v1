@@ -4084,32 +4084,6 @@ export default function EnglishTrapQuestions() {
     setTimeout(() => setToastMessage(""), 1500);
   };
 
-  const buildYoutubeQuery = (unit, explanation) => {
-    const u = String(unit || "").trim();
-
-    // explanation は長いとノイズなので短く・記号を整理
-    const eRaw = String(explanation || "").trim();
-    const e = eRaw
-      .replace(/[、。．，]/g, " ")
-      .replace(/[()（）「」『』【】]/g, " ")
-      .replace(/\s+/g, " ")
-      .slice(0, 60)
-      .trim();
-
-    // 「中学 英語」を固定で足して精度を上げる
-    const base = `中学 英語 ${u}`.trim();
-
-    return e ? `${base} ${e} 解説` : `${base} 解説`;
-  };
-
-  const openYoutubeSearch = (q) => {
-    const query = buildYoutubeQuery(q?.unit, q?.explanation);
-    const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(
-      query
-    )}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
-
   const baseWhiteButton = `
   border border-white/70 
   bg-white/85 
@@ -6092,22 +6066,10 @@ export default function EnglishTrapQuestions() {
                     <p className="text-green-600">
                       正解: {q.correct || q.correctAnswer}
                     </p>
-                    <p className="mt-1 text-gray-700 flex items-center gap-2 flex-wrap">
-                      <span>解説: {q.explanation}</span>
+                    <p className="mt-1 text-gray-700 flex items-center">
+                      解説: {q.explanation}
                       {q.explanation && <TTSButton text={q.explanation} />}
-
-                      {/* ▶ 解説動画（追加） */}
-                      <button
-                        onClick={() =>
-                          playButtonSound(() => openYoutubeSearch(q))
-                        }
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full shadow-md transition"
-                        title="YouTubeで解説動画を検索"
-                      >
-                        ▶ 解説動画
-                      </button>
-
-                      {/* 既存：後で先生に質問 */}
+                      {/* ← ここに新しい質問ボタンを追加 */}
                       <button
                         onClick={() =>
                           playButtonSound(() =>
@@ -6139,20 +6101,11 @@ export default function EnglishTrapQuestions() {
                       className="bg-orange-50 border border-orange-200 p-3 rounded-lg shadow-sm"
                     >
                       <p className="font-semibold">{q.question}</p>
-                      <p className="text-gray-700 flex items-center gap-2 flex-wrap">
+                      <p className="text-gray-700">
                         ✅ 正答：
                         {Array.isArray(q.correct)
                           ? q.correct.join(" / ")
                           : q.correct ?? q.correctAnswer ?? ""}
-                        <button
-                          onClick={() =>
-                            playButtonSound(() => openYoutubeSearch(q))
-                          }
-                          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full shadow-md transition"
-                          title="YouTubeで解説動画を検索"
-                        >
-                          ▶ 解説動画
-                        </button>
                       </p>
                     </li>
                   ))}
