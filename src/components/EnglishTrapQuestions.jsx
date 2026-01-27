@@ -45,7 +45,7 @@ document.body.addEventListener(
       audioCtx.resume();
     }
   },
-  { once: true }
+  { once: true },
 );
 
 document.addEventListener("touchstart", unlockAudio, { once: true });
@@ -339,7 +339,7 @@ function TTSButton({ text }) {
       const data = await res.json();
       const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
         /\s+/g,
-        ""
+        "",
       )}`;
       const audio = new Audio(audioSrc);
       await audio.play();
@@ -508,7 +508,7 @@ function HandwritingPad({
           console.warn(
             "[HandwritingPad] /api/vision-ocr failed:",
             res.status,
-            err
+            err,
           );
           throw new Error("vision-ocr fetch failed");
         }
@@ -534,7 +534,7 @@ function HandwritingPad({
       if (!cleaned) {
         setRecognizedChar("");
         alert(
-          "うまく認識できませんでした。大きめに1文字（または短く）書いて、もう一度お試しください。"
+          "うまく認識できませんでした。大きめに1文字（または短く）書いて、もう一度お試しください。",
         );
         return;
       }
@@ -593,8 +593,8 @@ function HandwritingPad({
           {recognizing
             ? "🔍 認識中..."
             : recognizedChar
-            ? `認識結果：${recognizedChar}`
-            : "（書いて認識ボタンを押してください）"}
+              ? `認識結果：${recognizedChar}`
+              : "（書いて認識ボタンを押してください）"}
         </div>
 
         {/* キャンバス */}
@@ -742,16 +742,16 @@ function HandwritingPad({
               const raw = Array.isArray(currentQuestion.correct)
                 ? currentQuestion.correct
                 : Array.isArray(currentQuestion.correctAnswers)
-                ? currentQuestion.correctAnswers
-                : currentQuestion.correctAnswer ??
-                  currentQuestion.correct ??
-                  "";
+                  ? currentQuestion.correctAnswers
+                  : (currentQuestion.correctAnswer ??
+                    currentQuestion.correct ??
+                    "");
 
               const corrects = expandCorrects(raw);
               const userNorm = normEn(newAnswer);
 
               const isPerfectMatch = corrects.some(
-                (c) => normEn(c) === userNorm
+                (c) => normEn(c) === userNorm,
               );
 
               if (isPerfectMatch) {
@@ -955,7 +955,7 @@ export default function EnglishTrapQuestions() {
       bgmGain.gain.cancelScheduledValues(now);
       bgmGain.gain.linearRampToValueAtTime(
         lowSpecMode ? 0.05 : bgmVol / 100,
-        now + 1.0
+        now + 1.0,
       );
     }
 
@@ -964,7 +964,7 @@ export default function EnglishTrapQuestions() {
       qbgmGain.gain.cancelScheduledValues(now);
       qbgmGain.gain.linearRampToValueAtTime(
         lowSpecMode ? 0.05 : bgmVol / 100,
-        now + 1.0
+        now + 1.0,
       );
     }
   }, [lowSpecMode, bgmVol, bgmGain, qbgmGain]);
@@ -1150,7 +1150,7 @@ export default function EnglishTrapQuestions() {
   const fetchMeaning = async (word) => {
     try {
       const res = await fetch(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`,
       );
       const json = await res.json();
 
@@ -1289,7 +1289,7 @@ export default function EnglishTrapQuestions() {
         is_selected,
         updated_at: new Date().toISOString(),
       },
-      { onConflict: "user_id,unit" }
+      { onConflict: "user_id,unit" },
     );
 
     if (error) {
@@ -1392,8 +1392,8 @@ export default function EnglishTrapQuestions() {
               displayName.length >= 8
                 ? "11px"
                 : displayName.length >= 6
-                ? "13px"
-                : "15px",
+                  ? "13px"
+                  : "15px",
           }}
         >
           {displayName}
@@ -1637,7 +1637,7 @@ export default function EnglishTrapQuestions() {
     try {
       localStorage.setItem(
         WORD_SELECTION_STORAGE_KEY,
-        JSON.stringify(wordEnabledMap)
+        JSON.stringify(wordEnabledMap),
       );
     } catch (e) {}
   }, [wordSelectionHydrated, wordEnabledMap]);
@@ -1649,8 +1649,8 @@ export default function EnglishTrapQuestions() {
       new Set(
         questions
           .map((q) => q.unit)
-          .filter((u) => typeof u === "string" && u.includes("単語テスト"))
-      )
+          .filter((u) => typeof u === "string" && u.includes("単語テスト")),
+      ),
     );
   }, [questions]);
 
@@ -1665,7 +1665,7 @@ export default function EnglishTrapQuestions() {
       (q) =>
         typeof q.unit === "string" &&
         q.unit.includes("単語テスト") &&
-        (unitModes[q.unit] ?? 0) !== 0
+        (unitModes[q.unit] ?? 0) !== 0,
     );
   }, [questions, unitModes]);
 
@@ -1683,8 +1683,8 @@ export default function EnglishTrapQuestions() {
       new Set(
         questions
           .map((q) => q.unit)
-          .filter((u) => typeof u === "string" && u.includes("単語テスト"))
-      )
+          .filter((u) => typeof u === "string" && u.includes("単語テスト")),
+      ),
     );
 
     for (const unit of wordUnits) {
@@ -1729,13 +1729,13 @@ export default function EnglishTrapQuestions() {
 
   const hasZeroPart = useMemo(() => {
     return selectedWordUnits.some(
-      (u) => wordUnitSelectionStatus[u]?.status === "none"
+      (u) => wordUnitSelectionStatus[u]?.status === "none",
     );
   }, [selectedWordUnits, wordUnitSelectionStatus]);
 
   const hasPartialPart = useMemo(() => {
     return selectedWordUnits.some(
-      (u) => wordUnitSelectionStatus[u]?.status === "partial"
+      (u) => wordUnitSelectionStatus[u]?.status === "partial",
     );
   }, [selectedWordUnits, wordUnitSelectionStatus]);
 
@@ -2069,7 +2069,7 @@ export default function EnglishTrapQuestions() {
     const data = await res.json();
     const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
       /\s+/g,
-      ""
+      "",
     )}`;
 
     stopAllAudio(); // 🎯 再生直前でのみ停止を呼ぶ
@@ -2112,7 +2112,7 @@ export default function EnglishTrapQuestions() {
       const data = await res.json();
       const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
         /\s+/g,
-        ""
+        "",
       )}`;
       const audio = new Audio(audioSrc);
       audio.volume = masterVol / 100;
@@ -2154,13 +2154,15 @@ export default function EnglishTrapQuestions() {
 
     const voiceName = roleVoiceMap[role] || "en-US-Neural2-F";
     const isFemale = ["adult_female", "girl1", "girl2", "narrator"].includes(
-      role
+      role,
     );
     const isChild = ["boy1", "boy2", "girl1", "girl2"].includes(role);
 
     let pitch = 0.0;
-    if (isChild && !isFemale) pitch = 3.0; // 少年 → 少し高め
-    else if (role === "boy2") pitch = -2.0; // 少年２ → 低め
+    if (isChild && !isFemale)
+      pitch = 3.0; // 少年 → 少し高め
+    else if (role === "boy2")
+      pitch = -2.0; // 少年２ → 低め
     else if (isFemale) pitch = 4.0;
 
     const speakingRate = isChild ? 1.05 : 0.95;
@@ -2217,7 +2219,7 @@ export default function EnglishTrapQuestions() {
         const data = await res.json();
         const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
           /\s+/g,
-          ""
+          "",
         )}`;
         const audio = new Audio(audioSrc);
         audio.volume = masterVol / 100;
@@ -2281,7 +2283,7 @@ export default function EnglishTrapQuestions() {
 
       const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
         /\s+/g,
-        ""
+        "",
       )}`;
       const audio = new Audio(audioSrc);
       audio.volume = masterVol / 100;
@@ -2316,7 +2318,7 @@ export default function EnglishTrapQuestions() {
       const data = await res.json();
       const audioSrc = `data:audio/mp3;base64,${data.audioContent.replace(
         /\s+/g,
-        ""
+        "",
       )}`;
       const audio = new Audio(audioSrc);
       audio.volume = masterVol / 100;
@@ -2406,7 +2408,7 @@ export default function EnglishTrapQuestions() {
 
             const lineNorm = normalize(lineClean);
             const cached = window.cachedListeningAudio.find((a) =>
-              normalize(a.text).includes(lineNorm.slice(0, 8))
+              normalize(a.text).includes(lineNorm.slice(0, 8)),
             );
 
             if (cached) {
@@ -2466,7 +2468,7 @@ export default function EnglishTrapQuestions() {
 
     try {
       const res = await fetch(
-        `/api/translate?word=${encodeURIComponent(cleanWord)}`
+        `/api/translate?word=${encodeURIComponent(cleanWord)}`,
       );
       if (!res.ok) throw new Error("Translation API error");
       const data = await res.json();
@@ -2513,8 +2515,10 @@ export default function EnglishTrapQuestions() {
 
   const wordTestUnits = Array.from(
     new Set(
-      questions.map((q) => q.unit).filter((unit) => unit.includes("単語テスト"))
-    )
+      questions
+        .map((q) => q.unit)
+        .filter((unit) => unit.includes("単語テスト")),
+    ),
   );
 
   const filtered = useMemo(() => {
@@ -2563,7 +2567,7 @@ export default function EnglishTrapQuestions() {
     }
     // ① 単語テスト単元が1つもONになっていない
     const activeWordUnits = questions.filter(
-      (q) => q.unit.includes("単語テスト") && unitModes[q.unit] === 1
+      (q) => q.unit.includes("単語テスト") && unitModes[q.unit] === 1,
     );
 
     if (activeWordUnits.length === 0) {
@@ -2574,7 +2578,7 @@ export default function EnglishTrapQuestions() {
     // ② 出題形式が未選択
     if (!selectedFormats || selectedFormats.length === 0) {
       alert(
-        "出題形式を1つ以上選んでください。（単語テストなら「単語・熟語」を選んでください）"
+        "出題形式を1つ以上選んでください。（単語テストなら「単語・熟語」を選んでください）",
       );
       return;
     }
@@ -2625,7 +2629,7 @@ export default function EnglishTrapQuestions() {
 
     // 単語単元も文法単元も unitModes が 1〜3 なら混合可能
     const activeUnits = Object.keys(unitModes).filter(
-      (u) => unitModes[u] !== 0
+      (u) => unitModes[u] !== 0,
     );
 
     if (activeUnits.length === 0) {
@@ -2883,7 +2887,7 @@ export default function EnglishTrapQuestions() {
     if (masterGainRef.current && audioCtx) {
       masterGainRef.current.gain.setValueAtTime(
         masterVol / 100,
-        audioCtx.currentTime
+        audioCtx.currentTime,
       );
     }
   }, [masterVol]);
@@ -2893,7 +2897,7 @@ export default function EnglishTrapQuestions() {
     if (sfxGainRef.current && audioCtx) {
       sfxGainRef.current.gain.setValueAtTime(
         sfxVol / 100,
-        audioCtx.currentTime
+        audioCtx.currentTime,
       );
     }
   }, [sfxVol]);
@@ -2903,7 +2907,7 @@ export default function EnglishTrapQuestions() {
     if (bgmGainRef.current && audioCtx) {
       bgmGainRef.current.gain.setValueAtTime(
         bgmVol / 100,
-        audioCtx.currentTime
+        audioCtx.currentTime,
       );
     }
   }, [bgmVol]);
@@ -2942,7 +2946,7 @@ export default function EnglishTrapQuestions() {
   useEffect(() => {
     if (!userName) {
       const name = prompt(
-        "あなたの名前（またはニックネーム）を入力してください"
+        "あなたの名前（またはニックネーム）を入力してください",
       );
       if (name && name.trim() !== "") {
         handleSetUserName(name.trim());
@@ -3383,8 +3387,8 @@ export default function EnglishTrapQuestions() {
       const raw = Array.isArray(currentQuestion.correct)
         ? currentQuestion.correct
         : Array.isArray(currentQuestion.correctAnswers)
-        ? currentQuestion.correctAnswers
-        : currentQuestion.correctAnswer ?? currentQuestion.correct ?? "";
+          ? currentQuestion.correctAnswers
+          : (currentQuestion.correctAnswer ?? currentQuestion.correct ?? "");
 
       const corrects = expandCorrects(raw);
 
@@ -3663,12 +3667,12 @@ export default function EnglishTrapQuestions() {
 
         // 今回この単元で出題された問題
         const questionsInUnit = filteredQuestions.filter(
-          (q) => q.unit === unit
+          (q) => q.unit === unit,
         );
 
         const totalThisTime = questionsInUnit.length;
         const wrongThisTime = questionsInUnit.filter(
-          (q) => mistakes[q.id]
+          (q) => mistakes[q.id],
         ).length;
 
         next[unit] = {
@@ -3846,7 +3850,7 @@ export default function EnglishTrapQuestions() {
     if (!currentQuestion) return;
 
     const isAlreadySaved = questionList.some(
-      (item) => item.id === currentQuestion.id
+      (item) => item.id === currentQuestion.id,
     );
     if (isAlreadySaved) {
       setAddMessage("この質問はすでに質問ボックスに入っています。");
@@ -3945,7 +3949,7 @@ export default function EnglishTrapQuestions() {
         formats: json,
         updated: new Date().toISOString(),
       },
-      { onConflict: "user_id" }
+      { onConflict: "user_id" },
     );
 
     if (error) {
@@ -3979,7 +3983,7 @@ export default function EnglishTrapQuestions() {
           total,
           streak,
         },
-        { onConflict: "user_id,unit" }
+        { onConflict: "user_id,unit" },
       );
 
       tasks.push(task);
@@ -4016,7 +4020,7 @@ export default function EnglishTrapQuestions() {
     .filter(
       (item) =>
         item.word.toLowerCase().includes(searchText.toLowerCase()) ||
-        item.meaning.includes(searchText)
+        item.meaning.includes(searchText),
     )
     .sort((a, b) => {
       if (sortMode === "abc") {
@@ -4046,8 +4050,8 @@ export default function EnglishTrapQuestions() {
         prev.map((item) =>
           item.id === editingWord.id
             ? { ...item, word: editWord, meaning: editMeaning }
-            : item
-        )
+            : item,
+        ),
       );
 
       setShowEditModal(false);
@@ -4084,6 +4088,11 @@ export default function EnglishTrapQuestions() {
     setTimeout(() => setToastMessage(""), 1500);
   };
 
+  const isWordFormat = (q) => {
+    const f = (q?.format ?? "").trim();
+    return f === "単語・熟語";
+  };
+
   const buildYoutubeQuery = (unit, explanation) => {
     const u = String(unit || "").trim();
 
@@ -4105,7 +4114,7 @@ export default function EnglishTrapQuestions() {
   const openYoutubeSearch = (q) => {
     const query = buildYoutubeQuery(q?.unit, q?.explanation);
     const url = `https://www.youtube.com/results?search_query=${encodeURIComponent(
-      query
+      query,
     )}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -4125,7 +4134,9 @@ export default function EnglishTrapQuestions() {
   // ========== UI ==========
   // ✅ 覚え直し問題ID一覧
   const reviewIds = new Set(
-    Array.isArray(reviewMistakes) ? reviewMistakes.map((q) => String(q.id)) : []
+    Array.isArray(reviewMistakes)
+      ? reviewMistakes.map((q) => String(q.id))
+      : [],
   );
 
   // ✅ 全体の出題数
@@ -4133,7 +4144,7 @@ export default function EnglishTrapQuestions() {
 
   // ✅ 最終的に不正解のまま終わった問題だけ数える
   const incorrectCount = filteredQuestions.filter(
-    (q) => mistakes[q.id] && !reviewIds.has(String(q.id))
+    (q) => mistakes[q.id] && !reviewIds.has(String(q.id)),
   ).length;
 
   // ✅ 正答数
@@ -4145,14 +4156,14 @@ export default function EnglishTrapQuestions() {
 
   // ✅ 不正解リスト（表示上は「覚え直し」と重複しないように除外）
   const incorrectQuestionsList = filteredQuestions.filter(
-    (q) => mistakes[q.id] && !reviewIds.has(String(q.id))
+    (q) => mistakes[q.id] && !reviewIds.has(String(q.id)),
   );
 
   // 🔍 英単語 → 日本語訳を取得する関数（必ず return の上に配置すること！）
   const fetchJapaneseMeaning = async (word) => {
     try {
       const res = await fetch(
-        `/api/translate?word=${encodeURIComponent(word)}`
+        `/api/translate?word=${encodeURIComponent(word)}`,
       );
 
       if (!res.ok) throw new Error("Translation failed");
@@ -4298,7 +4309,7 @@ export default function EnglishTrapQuestions() {
                 )}
               </div>
             </div>,
-            document.body
+            document.body,
           )}
 
         {/* ★ ここにハンバーガーメニューを置くのが正解！ */}
@@ -4499,7 +4510,7 @@ export default function EnglishTrapQuestions() {
                               saveSelectedFormatsToSupabase(updated);
                               localStorage.setItem(
                                 "selectedFormats",
-                                JSON.stringify(updated)
+                                JSON.stringify(updated),
                               );
 
                               return updated;
@@ -4689,8 +4700,8 @@ export default function EnglishTrapQuestions() {
                               new Set(
                                 questions
                                   .map((q) => q.unit)
-                                  .filter((u) => u.includes("単語テスト"))
-                              )
+                                  .filter((u) => u.includes("単語テスト")),
+                              ),
                             ).map((unit) => {
                               const name = unit
                                 .replace("単語テスト", "")
@@ -4726,10 +4737,10 @@ export default function EnglishTrapQuestions() {
     !isSelected
       ? "bg-white text-[#35516e] border-gray-300 hover:bg-gray-100"
       : selectionStatus === "all"
-      ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
-      : selectionStatus === "partial"
-      ? "bg-gradient-to-br from-yellow-200 to-yellow-400 text-[#5a4300] border-yellow-400 scale-[1.04]"
-      : "bg-white text-[#6b7280] border-gray-300 scale-[1.04]"
+        ? "bg-gradient-to-br from-blue-300 to-blue-500 text-white border-blue-500 scale-[1.04]"
+        : selectionStatus === "partial"
+          ? "bg-gradient-to-br from-yellow-200 to-yellow-400 text-[#5a4300] border-yellow-400 scale-[1.04]"
+          : "bg-white text-[#6b7280] border-gray-300 scale-[1.04]"
   }
 `}
                                 >
@@ -4754,7 +4765,7 @@ export default function EnglishTrapQuestions() {
                                 !Object.keys(unitModes).some(
                                   (u) =>
                                     u.includes("単語テスト") &&
-                                    unitModes[u] !== 0
+                                    unitModes[u] !== 0,
                                 )
                               }
                               onClick={() =>
@@ -4768,7 +4779,7 @@ export default function EnglishTrapQuestions() {
                                   const qsAll = questions.filter(
                                     (q) =>
                                       q.unit.includes("単語テスト") &&
-                                      unitModes[q.unit] !== 0
+                                      unitModes[q.unit] !== 0,
                                   );
 
                                   // 追加：☑でさらに絞る（未設定は true 扱い）
@@ -4779,7 +4790,7 @@ export default function EnglishTrapQuestions() {
 
                                   if (qs.length === 0) {
                                     showPopupMessage(
-                                      "出題する単語が0件です。チェックを入れてね！"
+                                      "出題する単語が0件です。チェックを入れてね！",
                                     );
                                     return;
                                   }
@@ -4797,7 +4808,7 @@ export default function EnglishTrapQuestions() {
       ${
         questionCount &&
         Object.keys(unitModes).some(
-          (u) => u.includes("単語テスト") && unitModes[u] !== 0
+          (u) => u.includes("単語テスト") && unitModes[u] !== 0,
         )
           ? "bg-pink-500 hover:bg-pink-600"
           : "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -4822,7 +4833,7 @@ export default function EnglishTrapQuestions() {
                                 !Object.keys(unitModes).some(
                                   (u) =>
                                     u.includes("単語テスト") &&
-                                    unitModes[u] !== 0
+                                    unitModes[u] !== 0,
                                 )
                               }
                               onClick={() =>
@@ -4834,7 +4845,7 @@ export default function EnglishTrapQuestions() {
       px-5 py-3 rounded-full font-bold shadow-lg transition border
       ${
         Object.keys(unitModes).some(
-          (u) => u.includes("単語テスト") && unitModes[u] !== 0
+          (u) => u.includes("単語テスト") && unitModes[u] !== 0,
         )
           ? "bg-white hover:bg-gray-50 text-[#35516e] border-gray-300"
           : "bg-gray-200 text-gray-500 cursor-not-allowed border-gray-200"
@@ -4890,7 +4901,7 @@ export default function EnglishTrapQuestions() {
                                         // いったん閉じるだけ（選択状態は保存済み）
                                         setShowWordListModal(false);
                                         showPopupMessage(
-                                          "選択を保存しました！"
+                                          "選択を保存しました！",
                                         );
                                       }}
                                       className="ml-auto px-4 py-2 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold text-sm"
@@ -5066,7 +5077,7 @@ export default function EnglishTrapQuestions() {
                             <button
                               onClick={() => {
                                 const originalQs = questions.filter(
-                                  (q) => q.unit === "単語テストMy単語"
+                                  (q) => q.unit === "単語テストMy単語",
                                 );
 
                                 playButtonSound(() => {
@@ -5093,8 +5104,8 @@ export default function EnglishTrapQuestions() {
                       new Set(
                         questions
                           .map((q) => q.unit)
-                          .filter((unit) => !unit.includes("単語テスト"))
-                      )
+                          .filter((unit) => !unit.includes("単語テスト")),
+                      ),
                     ).map((unit) => renderUnitButton(unit))}
                   </div>
                 </div>
@@ -5288,10 +5299,10 @@ export default function EnglishTrapQuestions() {
                       <p className="text-gray-800 leading-relaxed">
                         {isCorrect
                           ? currentQuestion.explanation
-                          : currentQuestion.incorrectExplanations?.[
+                          : (currentQuestion.incorrectExplanations?.[
                               selectedChoice
                             ] ??
-                            `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`}
+                            `正解は「${currentQuestion.correct}」。${currentQuestion.explanation}`)}
                       </p>
 
                       {/* 🔊 音声ボタン */}
@@ -5336,7 +5347,7 @@ export default function EnglishTrapQuestions() {
                         setTemporaryAnswer(
                           Array.isArray(current.correct)
                             ? current.correct.join(" / ")
-                            : current.correct ?? ""
+                            : (current.correct ?? ""),
                         );
                         setShowAnswerTemporarily(true);
                         // 🎙️ 英語TTSで正答をネイティブ発音
@@ -5498,8 +5509,10 @@ export default function EnglishTrapQuestions() {
                           const raw = Array.isArray(current.correct)
                             ? current.correct
                             : Array.isArray(current.correctAnswers)
-                            ? current.correctAnswers
-                            : current.correctAnswer ?? current.correct ?? "";
+                              ? current.correctAnswers
+                              : (current.correctAnswer ??
+                                current.correct ??
+                                "");
 
                           const correctText = Array.isArray(raw)
                             ? raw.join(" / ")
@@ -5647,7 +5660,7 @@ export default function EnglishTrapQuestions() {
                               if (!selectedWord || !wordMeaning) return;
                               saveOriginalWordToSupabase(
                                 selectedWord,
-                                wordMeaning
+                                wordMeaning,
                               );
                             }}
                             className="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded-full shadow"
@@ -5873,8 +5886,8 @@ export default function EnglishTrapQuestions() {
                       prev.map((item) =>
                         item.id === editingId
                           ? { ...item, word, meaning }
-                          : item
-                      )
+                          : item,
+                      ),
                     );
 
                     // リセット
@@ -5901,7 +5914,7 @@ export default function EnglishTrapQuestions() {
                           meaning,
                           created_at: new Date().toISOString(),
                         },
-                        { onConflict: "user_id,word" }
+                        { onConflict: "user_id,word" },
                       )
                       .select();
 
@@ -6009,7 +6022,7 @@ export default function EnglishTrapQuestions() {
                           onClick={() => {
                             if (
                               window.confirm(
-                                `「${item.word}」を削除します。\nこの操作は取り消せません。`
+                                `「${item.word}」を削除します。\nこの操作は取り消せません。`,
                               )
                             ) {
                               deleteOriginalWord(item.id);
@@ -6043,10 +6056,10 @@ export default function EnglishTrapQuestions() {
               {displayRate >= 90
                 ? "🎉 すばらしい！🥇"
                 : displayRate >= 80
-                ? "✨ よくできました！🥈"
-                : displayRate >= 70
-                ? "👍 もう少し！🥉"
-                : "💪 何度も挑戦しよう！"}
+                  ? "✨ よくできました！🥈"
+                  : displayRate >= 70
+                    ? "👍 もう少し！🥉"
+                    : "💪 何度も挑戦しよう！"}
             </p>
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -6097,15 +6110,17 @@ export default function EnglishTrapQuestions() {
                       {q.explanation && <TTSButton text={q.explanation} />}
 
                       {/* ▶ 解説動画（追加） */}
-                      <button
-                        onClick={() =>
-                          playButtonSound(() => openYoutubeSearch(q))
-                        }
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full shadow-md transition"
-                        title="YouTubeで解説動画を検索"
-                      >
-                        ▶ 解説動画
-                      </button>
+                      {!isWordFormat(q) && (
+                        <button
+                          onClick={() =>
+                            playButtonSound(() => openYoutubeSearch(q))
+                          }
+                          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full shadow-md transition"
+                          title="YouTubeで解説動画を検索"
+                        >
+                          ▶ 解説動画
+                        </button>
+                      )}
 
                       {/* 既存：後で先生に質問 */}
                       <button
@@ -6113,8 +6128,8 @@ export default function EnglishTrapQuestions() {
                           playButtonSound(() =>
                             handleAddSpecificQuestionToList(
                               q,
-                              firstMistakeAnswers[q.id]
-                            )
+                              firstMistakeAnswers[q.id],
+                            ),
                           )
                         }
                         className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded-full shadow-md transition"
@@ -6143,16 +6158,18 @@ export default function EnglishTrapQuestions() {
                         ✅ 正答：
                         {Array.isArray(q.correct)
                           ? q.correct.join(" / ")
-                          : q.correct ?? q.correctAnswer ?? ""}
-                        <button
-                          onClick={() =>
-                            playButtonSound(() => openYoutubeSearch(q))
-                          }
-                          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full shadow-md transition"
-                          title="YouTubeで解説動画を検索"
-                        >
-                          ▶ 解説動画
-                        </button>
+                          : (q.correct ?? q.correctAnswer ?? "")}
+                        {!isWordFormat(q) && (
+                          <button
+                            onClick={() =>
+                              playButtonSound(() => openYoutubeSearch(q))
+                            }
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-full shadow-md transition"
+                            title="YouTubeで解説動画を検索"
+                          >
+                            ▶ 解説動画
+                          </button>
+                        )}
                       </p>
                     </li>
                   ))}
@@ -6215,8 +6232,8 @@ export default function EnglishTrapQuestions() {
                     {round === 1
                       ? "英→日テスト"
                       : round === 2
-                      ? "日→英テスト"
-                      : "復習テスト (英→日)"}{" "}
+                        ? "日→英テスト"
+                        : "復習テスト (英→日)"}{" "}
                     ({testIndex + 1}/
                     {round === 3 ? wrongWords.length : wordList.length})
                   </h2>
@@ -6226,8 +6243,8 @@ export default function EnglishTrapQuestions() {
                     {round === 3
                       ? wrongWords[testIndex].word
                       : round === 1
-                      ? testWord.word
-                      : testWord.meaning}
+                        ? testWord.word
+                        : testWord.meaning}
                   </p>
 
                   {/* === 手書き入力欄 === */}
@@ -6245,22 +6262,22 @@ export default function EnglishTrapQuestions() {
                         round === 1
                           ? testWord.meaning // 英→日
                           : round === 2
-                          ? testWord.word // 日→英
-                          : wrongWords[testIndex].meaning; // ✅ 復習は英→日固定
+                            ? testWord.word // 日→英
+                            : wrongWords[testIndex].meaning; // ✅ 復習は英→日固定
 
                       const userAnswer =
                         round === 1
                           ? normJa(answer)
                           : round === 2
-                          ? normEn(answer)
-                          : normJa(answer); // ✅ 復習は日本語で答える
+                            ? normEn(answer)
+                            : normJa(answer); // ✅ 復習は日本語で答える
 
                       const corr =
                         round === 1
                           ? normJa(correctAnswer)
                           : round === 2
-                          ? normEn(correctAnswer)
-                          : normJa(correctAnswer);
+                            ? normEn(correctAnswer)
+                            : normJa(correctAnswer);
 
                       if (userAnswer === corr) {
                         alert("⭕ 正解！");
@@ -6336,7 +6353,7 @@ export default function EnglishTrapQuestions() {
                           <button
                             onClick={() =>
                               setWordList((prev) =>
-                                prev.filter((_, idx) => idx !== i)
+                                prev.filter((_, idx) => idx !== i),
                               )
                             }
                             className="ml-4 bg-red-400 hover:bg-red-500 text-white px-2 py-1 rounded"
