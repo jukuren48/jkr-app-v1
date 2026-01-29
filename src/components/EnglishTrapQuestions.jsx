@@ -452,6 +452,21 @@ function HandwritingPad({
   const [recognizing, setRecognizing] = useState(false);
   const [recognizedChar, setRecognizedChar] = useState("");
   const [strokes, setStrokes] = useState([]);
+  // ✅ alertの代わり：非ブロック通知（iOSでBGMが止まらない）
+  const [notice, setNotice] = useState("");
+  const noticeTimerRef = useRef(null);
+
+  const showNotice = (msg) => {
+    setNotice(msg);
+    if (noticeTimerRef.current) clearTimeout(noticeTimerRef.current);
+    noticeTimerRef.current = setTimeout(() => setNotice(""), 2500);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (noticeTimerRef.current) clearTimeout(noticeTimerRef.current);
+    };
+  }, []);
 
   // 🖊 書いた履歴
   const handleEndStroke = () => {
@@ -477,7 +492,7 @@ function HandwritingPad({
 
     // 「書いてないのに認識」事故を防ぐ（iPhoneで多い）
     if (!strokes || strokes.length === 0) {
-      alert("まだ書かれていないようです。書いてから認識してください。");
+      showNotice("まだ書かれていないようです。書いてから認識してください。");
       return;
     }
 
@@ -487,12 +502,11 @@ function HandwritingPad({
       const canvas = sigCanvas.current.getCanvas?.();
       if (!canvas) {
         console.warn("[HandwritingPad] canvas not found");
-        alert("キャンバスが取得できませんでした。");
+        showNotice("キャンバスが取得できませんでした。");
         return;
       }
 
       const dataURL = canvas.toDataURL("image/png");
-
       let text = "";
 
       // ① vision-ocr
@@ -533,7 +547,7 @@ function HandwritingPad({
 
       if (!cleaned) {
         setRecognizedChar("");
-        alert(
+        showNotice(
           "うまく認識できませんでした。大きめに1文字（または短く）書いて、もう一度お試しください。",
         );
         return;
@@ -542,7 +556,7 @@ function HandwritingPad({
       setRecognizedChar(cleaned);
     } catch (e) {
       console.warn("[HandwritingPad] recognizeChar error:", e);
-      alert("認識に失敗しました（通信やOCRの状態をご確認ください）。");
+      showNotice("認識に失敗しました（通信やOCRの状態をご確認ください）。");
     } finally {
       setRecognizing(false);
     }
@@ -595,6 +609,11 @@ function HandwritingPad({
             : recognizedChar
               ? `認識結果：${recognizedChar}`
               : "（書いて認識ボタンを押してください）"}
+          {notice && (
+            <div className="mx-3 mb-2 text-sm font-bold text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              {notice}
+            </div>
+          )}
         </div>
 
         {/* キャンバス */}
@@ -684,6 +703,11 @@ function HandwritingPad({
           </span>
         ) : (
           <span className="text-gray-400">(まだ書かれていません)</span>
+        )}
+        {notice && (
+          <div className="mx-3 mb-2 text-sm font-bold text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            {notice}
+          </div>
         )}
       </div>
 
