@@ -11,7 +11,6 @@ import { logout } from "@/lib/logout";
 import NextButtonPortal from "@/src/components/NextButtonPortal";
 import { saveStudyLog } from "@/lib/saveStudyLog";
 import { useRouter } from "next/router";
-import { useSupabase } from "@/src/providers/SupabaseProvider";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
@@ -858,7 +857,6 @@ const normJa = (s = "") =>
     .replace(/\s+/g, "");
 
 export default function EnglishTrapQuestions() {
-  const { supabase, session, plan, planLoading } = useSupabase();
   const [initialQuestionCount, setInitialQuestionCount] = useState(0);
 
   const [questions, setQuestions] = useState([]);
@@ -1188,68 +1186,6 @@ export default function EnglishTrapQuestions() {
     } catch (e) {
       return "";
     }
-  };
-
-  // ====== Free daily limit (localStorage) ======
-  const FREE_DAILY_LIMIT = 5;
-
-  // 日付キー（JSTで固定したい場合は後で改善可。まずはこれでOK）
-  const getTodayKey = () => {
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    return `${y}-${m}-${day}`;
-  };
-
-  const getFreeDailyCount = () => {
-    if (typeof window === "undefined") return 0;
-
-    const today = getTodayKey();
-    const savedDate = localStorage.getItem("freeDailyDate");
-    const savedCount = Number(localStorage.getItem("freeDailyCount") || "0");
-
-    // 日付が変わったらリセット
-    if (savedDate !== today) {
-      localStorage.setItem("freeDailyDate", today);
-      localStorage.setItem("freeDailyCount", "0");
-      return 0;
-    }
-
-    return Number.isFinite(savedCount) ? savedCount : 0;
-  };
-
-  const incFreeDailyCount = () => {
-    if (typeof window === "undefined") return 0;
-
-    const today = getTodayKey();
-
-    // 先に日付チェック＆必要ならリセット
-    const savedDate = localStorage.getItem("freeDailyDate");
-    if (savedDate !== today) {
-      localStorage.setItem("freeDailyDate", today);
-      localStorage.setItem("freeDailyCount", "0");
-    }
-
-    const current = Number(localStorage.getItem("freeDailyCount") || "0");
-    const next = (Number.isFinite(current) ? current : 0) + 1;
-    localStorage.setItem("freeDailyCount", String(next));
-    return next;
-  };
-
-  // startQuizでは“回答数”は増やさない（回答で増やす）ので、ここでは残りだけ計算
-  const getFreeRemaining = () => {
-    const used = getFreeDailyCount();
-    return Math.max(0, FREE_DAILY_LIMIT - used);
-  };
-
-  // あなたの既存モーダル/ダイアログに合わせて差し替えOK
-  const openUpgradeForFreeLimit = () => {
-    // もし upgrade モーダルをもう作っているならそれを呼ぶ
-    // openUpgrade({ title, reason, benefit }) など
-    alert(
-      `無料体験は1日${FREE_DAILY_LIMIT}問までです。スタンダードで続けられます。`,
-    );
   };
 
   const handleSetUserName = async (newName) => {
@@ -2702,118 +2638,56 @@ export default function EnglishTrapQuestions() {
   // ✅ クイズ開始処理（複数形式×複数単元対応）
   // 📌 修正版 startQuiz（My単語テスト時は絞り込みをスキップ）
   const startQuiz = (options = {}) => {
-    if (planLoading) {
-      alert("ユーザー情報を読み込み中です。少し待ってから開始してください。");
-      return;
-    }
     if (isWordOnlyMode) {
       console.log("⛔ 単語専用モード中のため通常スタートを無視");
       return;
     }
-
     const {
       skipFiltering = false, // ★ 単語GO・My単語GO 用
       directQuestions = null, // ★ 直接問題リストを渡す
     } = options;
 
     // ================================
-    // ★追加：無料 1日5問 上限チェック（開始時点）
-    // ================================
-    // plan の取り方はプロジェクトに合わせてください（例：userPlan / sessionPlan / users_extended.plan）
-    // ここでは例として plan 変数がどこかにある前提にしています。
-    // もし無いなら const plan = "free"; でまず固定して動作確認してください。
-    if (plan === "free") {
-      const remaining = getFreeRemaining();
-      if (remaining <= 0) {
-        openUpgradeForFreeLimit();
-        return;
-      }
-    }
-
-    // ================================
     // ★② 通常（文法＋単語混合）スタート
     // ================================
 
-    // ★追加：directQuestions が来ている場合はそれをベースにする
-    // （My単語/再出題などで beginQuiz に直渡ししたいケース）
-    let baseList = null;
-    if (Array.isArray(directQuestions)) {
-      baseList = directQuestions;
+    // 単語単元も文法単元も unitModes が 1〜3 なら混合可能
+    const activeUnits = Object.keys(unitModes).filter(
+      (u) => unitModes[u] !== 0,
+    );
+
+    if (activeUnits.length === 0) {
+      alert("単元を1つ以上選んでください。");
+      return;
     }
 
-    // ★追加：skipFiltering が true の場合は、フィルタせず questions を使う（directQuestionsが無ければ）
-    // ※この挙動は要望通り「絞り込みスキップ」です
-    if (!baseList && skipFiltering) {
-      baseList = questions;
-    }
+    if (typeof stopBgm === "function") stopBgm(true);
+    globalUnitBgmPlaying = false;
+    setUnitBgmPlaying(false);
+    lastBgmType = null;
 
-    // unitModes / formats に基づく通常フィルタは「baseListが未決定」の時だけ実行
-    let filtered = baseList;
+    const filtered = questions.filter((q) => {
+      const unitSelected = activeUnits.includes(q.unit);
+      const formatSelected = selectedFormats.includes(q.format || "単語・熟語");
 
-    if (!filtered) {
-      // 単語単元も文法単元も unitModes が 1〜3 なら混合可能
-      const activeUnits = Object.keys(unitModes).filter(
-        (u) => unitModes[u] !== 0,
-      );
+      if (!unitSelected || !formatSelected) return false;
 
-      if (activeUnits.length === 0) {
-        alert("単元を1つ以上選んでください。");
-        return;
-      }
+      const mode = unitModes[q.unit] || 0;
+      if (mode === 1) return true;
+      if (mode === 2) return q.type === "multiple-choice";
+      if (mode === 3) return q.type === "input";
 
-      if (typeof stopBgm === "function") stopBgm(true);
-      globalUnitBgmPlaying = false;
-      setUnitBgmPlaying(false);
-      lastBgmType = null;
+      return false;
+    });
 
-      filtered = questions.filter((q) => {
-        const unitSelected = activeUnits.includes(q.unit);
-        const formatSelected = selectedFormats.includes(
-          q.format || "単語・熟語",
-        );
-
-        if (!unitSelected || !formatSelected) return false;
-
-        const mode = unitModes[q.unit] || 0;
-        if (mode === 1) return true;
-        if (mode === 2) return q.type === "multiple-choice";
-        if (mode === 3) return q.type === "input";
-
-        return false;
-      });
-
-      if (filtered.length === 0) {
-        alert("選択した単元に合う問題がありません。");
-        return;
-      }
-    } else {
-      // ★追加：filtered（directQuestions/skipFiltering）を使う場合でもBGM停止はしたいならここで行う
-      if (typeof stopBgm === "function") stopBgm(true);
-      globalUnitBgmPlaying = false;
-      setUnitBgmPlaying(false);
-      lastBgmType = null;
-
-      if (!Array.isArray(filtered) || filtered.length === 0) {
-        alert("出題する問題がありません。");
-        return;
-      }
+    if (filtered.length === 0) {
+      alert("選択した単元に合う問題がありません。");
+      return;
     }
 
     const shuffled = shuffleArray(filtered);
-
-    // ================================
-    // ★追加：出題数を決める（無料は残り問数でキャップ）
-    // ================================
-    const qc = questionCount === "all" ? "all" : Number(questionCount);
-
-    let limited = qc === "all" ? shuffled : shuffled.slice(0, qc);
-
-    if (plan === "free") {
-      const remaining = getFreeRemaining();
-      // ここに来る時点で remaining は 1以上のはずだが保険
-      const cap = Math.max(1, remaining);
-      limited = limited.slice(0, cap);
-    }
+    const limited =
+      questionCount === "all" ? shuffled : shuffled.slice(0, questionCount);
 
     beginQuiz(limited);
   };
@@ -3528,9 +3402,6 @@ export default function EnglishTrapQuestions() {
     const currentQuestion = filteredQuestions[currentIndex];
     let isCorrectAnswer = false;
 
-    let freeCountAfterThisAnswer = null;
-    let freeLimitJustReached = false;
-
     if (
       currentQuestion.type === "multiple-choice" ||
       currentQuestion.type === "listening-choice"
@@ -3683,20 +3554,6 @@ export default function EnglishTrapQuestions() {
     setHintLevel(0);
     setHintText("");
 
-    // ★追加：無料5問カウント（回答確定時に +1）
-    if (plan === "free" && !reviewing && !isReviewMode) {
-      freeCountAfterThisAnswer = incFreeDailyCount();
-      freeLimitJustReached = freeCountAfterThisAnswer >= FREE_DAILY_LIMIT;
-    }
-
-    // ★追加：無料上限に達したら、フィードバック表示後にアップグレード誘導
-    // （showFeedback は既に true なので、少し遅らせて“答えた感”を残す）
-    if (freeLimitJustReached) {
-      setTimeout(() => {
-        openUpgradeForFreeLimit();
-      }, 350);
-    }
-
     // ====== ⭐ Supabase 保存のために必要な値を準備 ======
     const {
       data: { user },
@@ -3707,35 +3564,44 @@ export default function EnglishTrapQuestions() {
     const didReview = reviewing || isReviewMode;
     const isSuspicious = answerTime < 800; // ★AA判定（あなたの基準に合わせて調整可）
 
-    // ✅ user または currentQuestion が無い場合は保存しない（クラッシュ＆重複保存防止）
-    if (user?.id && currentQuestion?.id) {
+    // ✅ user が無い（未ログイン/セッション未確定）場合は学習ログ保存をスキップ
+    if (!user?.id) {
+      // console.log("[StudyLog] skip: user is null");
+    } else {
+      await saveStudyLog({
+        user_id: user.id,
+        unit: currentQuestion.unit,
+        question_id: currentQuestion.id,
+        is_correct: isCorrectAnswer,
+        // ...（他の項目）
+      });
+    }
+    if (!user?.id || !currentQuestion?.id) {
+      // user または currentQuestion が無い場合は保存しない
+    } else {
       await saveStudyLog({
         user_id: user.id,
         unit: currentQuestion.unit ?? "",
         question_id: currentQuestion.id,
         is_correct: isCorrectAnswer,
-        is_timeout: isTimeout,
-        answer_time: answerTime,
-        did_review: didReview,
-        is_suspicious: isSuspicious,
+        // ...
       });
     }
+
+    // ====== ⭐ Supabase に学習ログを保存 ======
+    await saveStudyLog({
+      user_id: user.id,
+      unit: currentQuestion.unit,
+      question_id: currentQuestion.id,
+      is_correct: isCorrectAnswer,
+      is_timeout: isTimeout,
+      answer_time: answerTime,
+      did_review: didReview,
+      is_suspicious: isSuspicious,
+    });
   };
 
   const handleNext = async () => {
-    // ✅ 無料制限ガード：次の問題へ進む時だけ止める（結果画面への遷移は邪魔しない）
-    const isTryingToGoNextQuestion =
-      isCorrect && currentIndex + 1 < filteredQuestions.length;
-
-    if (
-      plan === "free" &&
-      isTryingToGoNextQuestion &&
-      getFreeDailyCount() >= FREE_DAILY_LIMIT
-    ) {
-      openUpgradeForFreeLimit();
-      return;
-    }
-
     window.scrollTo({ top: 0, behavior: "smooth" });
     setCharacterMood("neutral");
 
