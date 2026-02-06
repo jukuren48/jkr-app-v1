@@ -858,6 +858,10 @@ const normJa = (s = "") =>
     .replace(/\s+/g, "");
 
 export default function EnglishTrapQuestions() {
+  // ====== Upgrade Modal ======
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [upgradeLoading, setUpgradeLoading] = useState(false);
+
   const { supabase, session, plan, planLoading } = useSupabase();
   const [initialQuestionCount, setInitialQuestionCount] = useState(0);
 
@@ -1190,6 +1194,45 @@ export default function EnglishTrapQuestions() {
     }
   };
 
+  const goStandardCheckout = async () => {
+    try {
+      setUpgradeLoading(true);
+
+      const { data } = await supabase.auth.getSession();
+      const token = data?.session?.access_token;
+
+      if (!token) {
+        alert("ログイン情報が確認できません。再ログインしてください。");
+        return;
+      }
+
+      // ★ standard の priceId（Stripeで作ったもの）
+      const PRICE_ID = "price_xxxxxxxxxxxxx"; // ← あなたのものに置き換え
+
+      const res = await fetch("/api/stripe/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ priceId: PRICE_ID }),
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || "checkout failed");
+
+      // Stripe Checkout へ
+      window.location.href = json.url;
+    } catch (e) {
+      console.error(e);
+      alert(
+        "決済ページへの移動に失敗しました。時間をおいて再度お試しください。",
+      );
+    } finally {
+      setUpgradeLoading(false);
+    }
+  };
+
   // ====== Free daily limit (localStorage) ======
   const FREE_DAILY_LIMIT = 5;
 
@@ -1245,11 +1288,7 @@ export default function EnglishTrapQuestions() {
 
   // あなたの既存モーダル/ダイアログに合わせて差し替えOK
   const openUpgradeForFreeLimit = () => {
-    // もし upgrade モーダルをもう作っているならそれを呼ぶ
-    // openUpgrade({ title, reason, benefit }) など
-    alert(
-      `無料体験は1日${FREE_DAILY_LIMIT}問までです。スタンダードで続けられます。`,
-    );
+    setUpgradeOpen(true);
   };
 
   const handleSetUserName = async (newName) => {
@@ -3507,6 +3546,14 @@ export default function EnglishTrapQuestions() {
     setLastLength(value.length);
   };
 
+  useEffect(() => {
+    // ログアウトしたらモーダルを確実に閉じる
+    if (!session) {
+      setUpgradeOpen(false);
+      setUpgradeLoading(false);
+    }
+  }, [session]);
+
   const handleTestInputChange = (e) => {
     const value = e.target.value;
     const diff = value.length - lastLengthTest;
@@ -3694,7 +3741,7 @@ export default function EnglishTrapQuestions() {
     if (freeLimitJustReached) {
       setTimeout(() => {
         openUpgradeForFreeLimit();
-      }, 350);
+      }, 80);
     }
 
     // ====== ⭐ Supabase 保存のために必要な値を準備 ======
@@ -6658,6 +6705,38 @@ export default function EnglishTrapQuestions() {
                   保存
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+        {upgradeOpen && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl">
+              <h2 className="text-xl font-bold mb-3 text-center">
+                今日の分はここまでです
+              </h2>
+
+              <p className="text-sm text-gray-700 mb-4 text-center">
+                無料体験は1日{FREE_DAILY_LIMIT}問まで学習できます。
+                <br />
+                スタンダードなら、制限なく続けられます。
+              </p>
+
+              <button
+                onClick={goStandardCheckout}
+                disabled={upgradeLoading}
+                className="w-full py-3 rounded-xl bg-[#4A6572] text-white font-bold hover:opacity-90 disabled:opacity-50"
+              >
+                {upgradeLoading
+                  ? "決済ページを準備中…"
+                  : "スタンダードで続ける（¥1,480 / 月）"}
+              </button>
+
+              <button
+                onClick={() => setUpgradeOpen(false)}
+                className="w-full mt-3 py-2 rounded-xl bg-gray-200 text-gray-800 font-bold"
+              >
+                今日はここまで
+              </button>
             </div>
           </div>
         )}
