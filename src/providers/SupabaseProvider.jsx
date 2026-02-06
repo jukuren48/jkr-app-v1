@@ -9,6 +9,7 @@ export function SupabaseContextProvider({ children }) {
 
   const [plan, setPlan] = useState("free");
   const [planLoading, setPlanLoading] = useState(true);
+  const [planLoaded, setPlanLoaded] = useState(false);
 
   // ★競合対策：最新リクエストIDだけが state 更新
   const planReqIdRef = useRef(0);
@@ -30,42 +31,33 @@ export function SupabaseContextProvider({ children }) {
     setPlanLoading(true);
 
     try {
-      // ★キャッシュ（10秒以内の再取得はスキップ）
-      const now = Date.now();
-      if (
-        lastPlanFetchRef.current.userId === userId &&
-        now - lastPlanFetchRef.current.at < 10_000
-      ) {
-        return; // finally で planLoading を戻す
-      }
-      lastPlanFetchRef.current = { userId, at: now };
+      const { data, error } = await supabase
+        .from("users_extended")
+        .select("plan")
+        .eq("user_id", userId)
+        .maybeSingle();
 
-      // ✅ maybeSingle：行が無いときに例外扱いにしにくい
-      const { data, error } = await withTimeout(
-        supabase
-          .from("users_extended")
-          .select("plan")
-          .eq("user_id", userId)
-          .maybeSingle(),
-      );
-
-      if (reqId !== planReqIdRef.current) return; // 古いリクエストは無視
+      if (reqId !== planReqIdRef.current) return;
 
       if (error) {
         console.warn("[plan] fetch error:", error);
-        setPlan("free");
+        // ★ここが重要：失敗しても plan を free に落とさない
+        // 初回未確定なら free 扱いで確定させる
+        if (!planLoaded) setPlan("free");
         return;
       }
 
-      // 行が無い（data==null）場合は free 扱い
+      // 行が無いなら free 扱い
       setPlan(data?.plan || "free");
     } catch (e) {
       if (reqId !== planReqIdRef.current) return;
       console.warn("[plan] fetch exception:", e);
-      setPlan("free");
+      // ★ここも同じ：失敗しても plan を落とさない
+      if (!planLoaded) setPlan("free");
     } finally {
       if (reqId === planReqIdRef.current) {
         setPlanLoading(false);
+        setPlanLoaded(true); // ★初回も含め確定
       }
     }
   };
@@ -122,8 +114,12 @@ export function SupabaseContextProvider({ children }) {
       // ✅ ここが重要：頻繁に来るイベントで毎回fetchしない
       // TOKEN_REFRESHED は頻繁なので plan再取得は原則スキップ（必要ならここを調整）
       if (_event === "TOKEN_REFRESHED") {
-        // ただし planLoading が true のままになる事故防止
-        setPlanLoading(false);
+        // 初回ロードが終わっていないなら plan を取りに行く
+        if (!planLoaded) {
+          await fetchPlan(newSession.user.id);
+        } else {
+          setPlanLoading(false);
+        }
         return;
       }
 
@@ -145,7 +141,9 @@ export function SupabaseContextProvider({ children }) {
   }, []);
 
   return (
-    <SupabaseContext.Provider value={{ supabase, session, plan, planLoading }}>
+    <SupabaseContext.Provider
+      value={{ supabase, session, plan, planLoading, planLoaded }}
+    >
       {children}
     </SupabaseContext.Provider>
   );

@@ -2741,7 +2741,7 @@ export default function EnglishTrapQuestions() {
   // ✅ クイズ開始処理（複数形式×複数単元対応）
   // 📌 修正版 startQuiz（My単語テスト時は絞り込みをスキップ）
   const startQuiz = (options = {}) => {
-    if (planLoading) {
+    if (!planLoaded || planLoading) {
       alert("ユーザー情報を読み込み中です。少し待ってから開始してください。");
       return;
     }
