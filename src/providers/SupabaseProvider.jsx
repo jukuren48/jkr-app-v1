@@ -103,8 +103,6 @@ export function SupabaseContextProvider({ children }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
-      setSession(newSession);
-
       // SIGNED_OUT は最優先で落とす
       if (_event === "SIGNED_OUT") {
         setSession(null);
@@ -112,6 +110,7 @@ export function SupabaseContextProvider({ children }) {
         setPlanLoading(false);
         return;
       }
+      setSession(newSession);
 
       // userがいない場合も free
       if (!newSession?.user?.id) {
