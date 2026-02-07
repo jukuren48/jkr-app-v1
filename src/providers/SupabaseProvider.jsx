@@ -11,20 +11,8 @@ export function SupabaseContextProvider({ children }) {
   const [planLoading, setPlanLoading] = useState(true);
   const [planLoaded, setPlanLoaded] = useState(false);
 
-  // ★競合対策：最新リクエストIDだけが state 更新
+  // 競合対策：最新リクエストのみ反映
   const planReqIdRef = useRef(0);
-
-  // ★無駄fetch防止：同一ユーザーで短時間は再取得しない
-  const lastPlanFetchRef = useRef({ userId: null, at: 0 });
-
-  const withTimeout = (promise, ms = 5000) => {
-    return Promise.race([
-      promise,
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("plan fetch timeout")), ms),
-      ),
-    ]);
-  };
 
   const fetchPlan = async (userId) => {
     const reqId = ++planReqIdRef.current;
@@ -37,56 +25,67 @@ export function SupabaseContextProvider({ children }) {
         .eq("user_id", userId)
         .maybeSingle();
 
+      // 古いリクエストは無視
       if (reqId !== planReqIdRef.current) return;
 
       if (error) {
         console.warn("[plan] fetch error:", error);
-        // ★ここが重要：失敗しても plan を free に落とさない
-        // 初回未確定なら free 扱いで確定させる
+        // 初回未確定のときだけ free を確定
         if (!planLoaded) setPlan("free");
         return;
       }
 
-      // 行が無いなら free 扱い
       setPlan(data?.plan || "free");
     } catch (e) {
       if (reqId !== planReqIdRef.current) return;
       console.warn("[plan] fetch exception:", e);
-      // ★ここも同じ：失敗しても plan を落とさない
       if (!planLoaded) setPlan("free");
     } finally {
       if (reqId === planReqIdRef.current) {
         setPlanLoading(false);
-        setPlanLoaded(true); // ★初回も含め確定
+        setPlanLoaded(true);
       }
     }
   };
 
   useEffect(() => {
+    let isMounted = true;
+
     const loadSession = async () => {
       try {
         const { data } = await supabase.auth.getSession();
-        const currentSession = data.session;
+        if (!isMounted) return;
 
+        const currentSession = data.session;
         setSession(currentSession);
 
-        if (currentSession?.user) {
-          // last_login 更新（既存）
-          await supabase
+        if (currentSession?.user?.id) {
+          const userId = currentSession.user.id;
+
+          // last_login 更新（失敗しても止めない）
+          supabase
             .from("users_extended")
             .update({ last_login: new Date().toISOString() })
-            .eq("user_id", currentSession.user.id);
+            .eq("user_id", userId)
+            .then(() => {})
+            .catch((e) =>
+              console.warn("[users_extended] last_login update failed:", e),
+            );
 
-          await fetchPlan(currentSession.user.id);
+          // plan取得（初回）
+          fetchPlan(userId);
         } else {
           setPlan("free");
           setPlanLoading(false);
+          setPlanLoaded(true);
         }
       } catch (e) {
         console.warn("[session] loadSession failed:", e);
+        if (!isMounted) return;
         setSession(null);
         setPlan("free");
         setPlanLoading(false);
+        setPlanLoaded(true);
       }
     };
 
@@ -94,51 +93,52 @@ export function SupabaseContextProvider({ children }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
-      // SIGNED_OUT は最優先で落とす
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      // ✅ SIGNED_OUT は最優先で即反映
       if (_event === "SIGNED_OUT") {
         setSession(null);
         setPlan("free");
         setPlanLoading(false);
+        setPlanLoaded(true);
         return;
       }
+
       setSession(newSession);
 
-      // userがいない場合も free
-      if (!newSession?.user?.id) {
+      const userId = newSession?.user?.id;
+      if (!userId) {
         setPlan("free");
         setPlanLoading(false);
+        setPlanLoaded(true);
         return;
       }
 
-      // ✅ ここが重要：頻繁に来るイベントで毎回fetchしない
-      // TOKEN_REFRESHED は頻繁なので plan再取得は原則スキップ（必要ならここを調整）
+      // TOKEN_REFRESHED は頻繁：plan未確定の時だけ取りに行く
       if (_event === "TOKEN_REFRESHED") {
-        // 初回ロードが終わっていないなら plan を取りに行く
-        if (!planLoaded) {
-          await fetchPlan(newSession.user.id);
-        } else {
-          setPlanLoading(false);
-        }
+        if (!planLoaded) fetchPlan(userId);
+        else setPlanLoading(false);
         return;
       }
 
-      // last_login 更新（既存）
-      try {
-        await supabase
-          .from("users_extended")
-          .update({ last_login: new Date().toISOString() })
-          .eq("user_id", newSession.user.id);
-      } catch (e) {
-        console.warn("[users_extended] last_login update failed:", e);
-      }
+      // last_login 更新（待たない）
+      supabase
+        .from("users_extended")
+        .update({ last_login: new Date().toISOString() })
+        .eq("user_id", userId)
+        .then(() => {})
+        .catch((e) =>
+          console.warn("[users_extended] last_login update failed:", e),
+        );
 
-      // plan取得
-      await fetchPlan(newSession.user.id);
+      // plan取得（待たない）
+      fetchPlan(userId);
     });
 
-    return () => subscription.unsubscribe();
-  }, []);
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, [planLoaded]); // planLoaded を参照しているので依存に入れる（無限ループはしない）
 
   return (
     <SupabaseContext.Provider
