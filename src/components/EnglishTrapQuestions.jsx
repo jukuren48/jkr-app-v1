@@ -862,7 +862,7 @@ export default function EnglishTrapQuestions() {
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [upgradeLoading, setUpgradeLoading] = useState(false);
 
-  const { supabase, session, plan, planLoading } = useSupabase();
+  const { supabase, session, plan, planLoading, planLoaded } = useSupabase();
   const [initialQuestionCount, setInitialQuestionCount] = useState(0);
 
   const [questions, setQuestions] = useState([]);
