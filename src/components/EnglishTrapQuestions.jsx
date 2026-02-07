@@ -1195,6 +1195,15 @@ export default function EnglishTrapQuestions() {
   };
 
   const goStandardCheckout = async () => {
+    logUpgradeEvent({
+      event: "upgrade_click_checkout",
+      context: "free_limit",
+      unit: filteredQuestions?.[currentIndex]?.unit ?? null,
+      questionId: filteredQuestions?.[currentIndex]?.id ?? null,
+      freeDailyCount:
+        typeof getFreeDailyCount === "function" ? getFreeDailyCount() : null,
+      meta: { price: "standard_monthly" }, // ここは識別子。priceIdでもOK
+    });
     try {
       setUpgradeLoading(true);
 
@@ -3554,6 +3563,24 @@ export default function EnglishTrapQuestions() {
     }
   }, [session]);
 
+  useEffect(() => {
+    if (!upgradeOpen) return;
+
+    // freeLimitに到達した時点の情報が取れるなら meta に入れる
+    logUpgradeEvent({
+      event: "upgrade_modal_impression",
+      context: "free_limit",
+      unit: filteredQuestions?.[currentIndex]?.unit ?? null,
+      questionId: filteredQuestions?.[currentIndex]?.id ?? null,
+      freeDailyCount:
+        typeof getFreeDailyCount === "function" ? getFreeDailyCount() : null,
+      meta: {
+        screen: "quiz",
+      },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [upgradeOpen]);
+
   const handleTestInputChange = (e) => {
     const value = e.target.value;
     const diff = value.length - lastLengthTest;
@@ -4416,6 +4443,41 @@ export default function EnglishTrapQuestions() {
     ...displayResult,
     correctCount: adjustedCorrectCount,
     correctRate: adjustedCorrectRate,
+  };
+
+  const logUpgradeEvent = async ({
+    event,
+    context = "free_limit",
+    unit = null,
+    questionId = null,
+    freeDailyCount = null,
+    meta = {},
+  }) => {
+    try {
+      // UIを止めない（ここは await してOKだが、呼び出し側は await しない運用推奨）
+      const { data } = await supabase.auth.getSession();
+      const userId = data?.session?.user?.id ?? null;
+
+      // 未ログインでも残したいなら user_id null のまま insert する設計もあり
+      // ただし RLS があるので、未ログインでは insert できません（今の方針ならOK）
+      if (!userId) return;
+
+      await supabase.from("upgrade_events").insert([
+        {
+          user_id: userId,
+          event,
+          context,
+          plan: plan ?? null,
+          unit,
+          question_id: questionId,
+          free_daily_count: freeDailyCount,
+          meta,
+        },
+      ]);
+    } catch (e) {
+      // 失敗してもUXに影響させない
+      console.warn("[upgrade_events] log failed:", e);
+    }
   };
 
   return (
@@ -6726,13 +6788,19 @@ export default function EnglishTrapQuestions() {
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
             <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl">
               <h2 className="text-xl font-bold mb-3 text-center">
-                今日の分はここまでです
+                今日の無料体験はここまで
               </h2>
 
               <p className="text-sm text-gray-700 mb-4 text-center">
-                無料体験は1日{FREE_DAILY_LIMIT}問まで学習できます。
+                無料体験は1日{FREE_DAILY_LIMIT}問までです。
                 <br />
-                スタンダードなら、制限なく続けられます。
+                <span className="font-semibold">
+                  スタンダードなら、制限なく続きから学習できます。
+                </span>
+                <br />
+                <span className="text-xs text-gray-600">
+                  ・間違えた問題の復習　・学習記録（Myデータ）　・学習を継続しやすい設計
+                </span>
               </p>
 
               <button
@@ -6742,15 +6810,32 @@ export default function EnglishTrapQuestions() {
               >
                 {upgradeLoading
                   ? "決済ページを準備中…"
-                  : "スタンダードで続ける（¥1,480 / 月）"}
+                  : "続きから学習する（スタンダード ¥1,480 / 月）"}
               </button>
 
               <button
-                onClick={() => setUpgradeOpen(false)}
+                onClick={() => {
+                  logUpgradeEvent({
+                    event: "upgrade_click_close",
+                    context: "free_limit",
+                    unit: filteredQuestions?.[currentIndex]?.unit ?? null,
+                    questionId: filteredQuestions?.[currentIndex]?.id ?? null,
+                    freeDailyCount:
+                      typeof getFreeDailyCount === "function"
+                        ? getFreeDailyCount()
+                        : null,
+                    meta: {},
+                  });
+                  setUpgradeOpen(false);
+                }}
                 className="w-full mt-3 py-2 rounded-xl bg-gray-200 text-gray-800 font-bold"
               >
-                今日はここまで
+                今日はここで終わる
               </button>
+
+              <p className="text-[11px] text-gray-500 mt-3 text-center">
+                ※いつでも解約できます（※実際に解約導線がある場合のみ表示）
+              </p>
             </div>
           </div>
         )}
