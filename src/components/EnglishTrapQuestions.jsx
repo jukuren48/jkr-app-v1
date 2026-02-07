@@ -5359,18 +5359,32 @@ export default function EnglishTrapQuestions() {
                 {/* === スタートボタン === */}
                 <button
                   onClick={() => {
-                    if (disabledStart) return;
+                    // ✅ まず「なぜダメか」を必ず伝える（無反応を消す）
+                    if (planLoading || !planLoaded) {
+                      alert(
+                        "ユーザー情報を読み込み中です。数秒待ってからもう一度押してください。",
+                      );
+                      return;
+                    }
+
+                    if (disabledStart) {
+                      // disabledStart の理由があるならここで表示（例）
+                      alert(
+                        "出題設定が完了していません。単元と出題形式を選んでください。",
+                      );
+                      return;
+                    }
 
                     initAudio();
                     handleStart();
                   }}
-                  disabled={disabledStart}
+                  // ✅ disabled は付けない（“無反応”を防ぐ）
+                  disabled={false}
                   className={`relative mt-10 rounded-full px-10 py-3 font-bold mx-auto block text-lg
     transition-all duration-300 active:scale-95
-
     ${
-      disabledStart
-        ? "bg-gray-400 text-white cursor-not-allowed opacity-70"
+      planLoading || !planLoaded || disabledStart
+        ? "bg-gray-400 text-white cursor-pointer opacity-70"
         : "bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:opacity-90 shadow-lg gentle-pulse cursor-pointer"
     }
   `}

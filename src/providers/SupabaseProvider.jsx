@@ -13,6 +13,7 @@ export function SupabaseContextProvider({ children }) {
 
   // 競合対策：最新リクエストのみ反映
   const planReqIdRef = useRef(0);
+  const planLoadedRef = useRef(false);
 
   const fetchPlan = async (userId) => {
     const reqId = ++planReqIdRef.current;
@@ -44,6 +45,7 @@ export function SupabaseContextProvider({ children }) {
       if (reqId === planReqIdRef.current) {
         setPlanLoading(false);
         setPlanLoaded(true);
+        planLoadedRef.current = true;
       }
     }
   };
@@ -78,6 +80,7 @@ export function SupabaseContextProvider({ children }) {
           setPlan("free");
           setPlanLoading(false);
           setPlanLoaded(true);
+          planLoadedRef.current = true;
         }
       } catch (e) {
         console.warn("[session] loadSession failed:", e);
@@ -86,6 +89,7 @@ export function SupabaseContextProvider({ children }) {
         setPlan("free");
         setPlanLoading(false);
         setPlanLoaded(true);
+        planLoadedRef.current = true;
       }
     };
 
@@ -115,7 +119,7 @@ export function SupabaseContextProvider({ children }) {
 
       // TOKEN_REFRESHED は頻繁：plan未確定の時だけ取りに行く
       if (_event === "TOKEN_REFRESHED") {
-        if (!planLoaded) fetchPlan(userId);
+        if (!planLoadedRef.current) fetchPlan(userId);
         else setPlanLoading(false);
         return;
       }
@@ -138,7 +142,7 @@ export function SupabaseContextProvider({ children }) {
       isMounted = false;
       subscription.unsubscribe();
     };
-  }, [planLoaded]); // planLoaded を参照しているので依存に入れる（無限ループはしない）
+  }, []); // planLoaded を参照しているので依存に入れる（無限ループはしない）
 
   return (
     <SupabaseContext.Provider
