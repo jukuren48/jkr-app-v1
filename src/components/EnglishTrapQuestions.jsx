@@ -870,6 +870,8 @@ export default function EnglishTrapQuestions() {
   });
   const [upgradeStatsLoading, setUpgradeStatsLoading] = useState(false);
 
+  const isAdmin = session?.user?.email === "info@juku-ren.jp";
+
   const fetchUpgradeStatsToday = async () => {
     try {
       setUpgradeStatsLoading(true);
@@ -4897,43 +4899,45 @@ export default function EnglishTrapQuestions() {
                 </motion.h2>
 
                 {/* === 今日のアップグレード導線（簡易ダッシュボード） === */}
-                <div className="mt-6 mx-auto w-[90%] max-w-md bg-white/90 rounded-2xl p-4 shadow">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-bold">今日のアップグレード導線</h3>
-                    <button
-                      onClick={fetchUpgradeStatsToday}
-                      className="text-sm px-3 py-1 rounded-lg bg-gray-200 hover:opacity-90"
-                      disabled={upgradeStatsLoading}
-                    >
-                      {upgradeStatsLoading ? "更新中…" : "更新"}
-                    </button>
-                  </div>
+                {isAdmin && (
+                  <div className="mt-6 mx-auto w-[90%] max-w-md bg-white/90 rounded-2xl p-4 shadow">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-bold">今日のアップグレード導線</h3>
+                      <button
+                        onClick={fetchUpgradeStatsToday}
+                        className="text-sm px-3 py-1 rounded-lg bg-gray-200 hover:opacity-90"
+                        disabled={upgradeStatsLoading}
+                      >
+                        {upgradeStatsLoading ? "更新中…" : "更新"}
+                      </button>
+                    </div>
 
-                  <div className="grid grid-cols-3 gap-2 mt-3 text-center">
-                    <div className="rounded-xl bg-gray-100 p-2">
-                      <div className="text-xs text-gray-600">表示</div>
-                      <div className="text-lg font-bold">
-                        {upgradeStatsToday.impressions}
+                    <div className="grid grid-cols-3 gap-2 mt-3 text-center">
+                      <div className="rounded-xl bg-gray-100 p-2">
+                        <div className="text-xs text-gray-600">表示</div>
+                        <div className="text-lg font-bold">
+                          {upgradeStatsToday.impressions}
+                        </div>
+                      </div>
+                      <div className="rounded-xl bg-gray-100 p-2">
+                        <div className="text-xs text-gray-600">クリック</div>
+                        <div className="text-lg font-bold">
+                          {upgradeStatsToday.clicks}
+                        </div>
+                      </div>
+                      <div className="rounded-xl bg-gray-100 p-2">
+                        <div className="text-xs text-gray-600">CVR</div>
+                        <div className="text-lg font-bold">
+                          {upgradeStatsToday.cvr}%
+                        </div>
                       </div>
                     </div>
-                    <div className="rounded-xl bg-gray-100 p-2">
-                      <div className="text-xs text-gray-600">クリック</div>
-                      <div className="text-lg font-bold">
-                        {upgradeStatsToday.clicks}
-                      </div>
-                    </div>
-                    <div className="rounded-xl bg-gray-100 p-2">
-                      <div className="text-xs text-gray-600">CVR</div>
-                      <div className="text-lg font-bold">
-                        {upgradeStatsToday.cvr}%
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="mt-2 text-xs text-gray-600 text-center">
-                    閉じる：{upgradeStatsToday.closes}（参考）
+                    <div className="mt-2 text-xs text-gray-600 text-center">
+                      閉じる：{upgradeStatsToday.closes}（参考）
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* === 出題数セレクター === */}
                 <h2 className="text-lg font-bold text-center mb-3 text-[#4A6572] drop-shadow-sm">
