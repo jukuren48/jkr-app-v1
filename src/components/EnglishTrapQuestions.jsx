@@ -858,6 +858,7 @@ const normJa = (s = "") =>
     .replace(/\s+/g, "");
 
 export default function EnglishTrapQuestions() {
+  const { supabase, session, plan, planLoading, planLoaded } = useSupabase();
   // ====== Upgrade Modal ======
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [upgradeLoading, setUpgradeLoading] = useState(false);
@@ -919,7 +920,6 @@ export default function EnglishTrapQuestions() {
     }
   };
 
-  const { supabase, session, plan, planLoading, planLoaded } = useSupabase();
   const [initialQuestionCount, setInitialQuestionCount] = useState(0);
 
   const [questions, setQuestions] = useState([]);
