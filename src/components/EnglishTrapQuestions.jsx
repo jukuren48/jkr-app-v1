@@ -860,65 +860,11 @@ const normJa = (s = "") =>
 export default function EnglishTrapQuestions() {
   const { supabase, session, plan, planLoading, planLoaded } = useSupabase();
   // ====== Upgrade Modal ======
+  //const ADMIN_EMAILS = ["info@juku-ren.jp"]; // 必要なら追加
+  //const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? "");
+
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [upgradeLoading, setUpgradeLoading] = useState(false);
-  // ====== Upgrade CV Dashboard ======
-  const [upgradeStatsToday, setUpgradeStatsToday] = useState({
-    impressions: 0,
-    clicks: 0,
-    closes: 0,
-    cvr: 0,
-  });
-  const [upgradeStatsLoading, setUpgradeStatsLoading] = useState(false);
-
-  const isAdmin = session?.user?.email === "jukuren48@gmail.com";
-
-  const fetchUpgradeStatsToday = async () => {
-    try {
-      setUpgradeStatsLoading(true);
-
-      const { data } = await supabase.auth.getSession();
-      const userId = data?.session?.user?.id;
-      if (!userId) return;
-
-      // 今日の0:00（ローカル時刻＝日本時間想定）
-      const start = new Date();
-      start.setHours(0, 0, 0, 0);
-
-      const { data: rows, error } = await supabase
-        .from("upgrade_events")
-        .select("event, created_at")
-        .eq("user_id", userId)
-        .gte("created_at", start.toISOString())
-        .limit(5000);
-
-      if (error) {
-        console.warn("[upgrade_events] fetch error:", error);
-        return;
-      }
-
-      const counts = (rows || []).reduce(
-        (acc, r) => {
-          if (r.event === "upgrade_modal_impression") acc.impressions += 1;
-          if (r.event === "upgrade_click_checkout") acc.clicks += 1;
-          if (r.event === "upgrade_click_close") acc.closes += 1;
-          return acc;
-        },
-        { impressions: 0, clicks: 0, closes: 0 },
-      );
-
-      const cvr =
-        counts.impressions > 0
-          ? Math.round((counts.clicks / counts.impressions) * 1000) / 10 // 小数1桁%
-          : 0;
-
-      setUpgradeStatsToday({ ...counts, cvr });
-    } catch (e) {
-      console.warn("[upgrade_events] fetch exception:", e);
-    } finally {
-      setUpgradeStatsLoading(false);
-    }
-  };
 
   const [initialQuestionCount, setInitialQuestionCount] = useState(0);
 
@@ -1353,9 +1299,9 @@ export default function EnglishTrapQuestions() {
   };
 
   // あなたの既存モーダル/ダイアログに合わせて差し替えOK
-  const openUpgradeForFreeLimit = () => {
-    setUpgradeOpen(true);
-  };
+  //const openUpgradeForFreeLimit = () => {
+  //  setUpgradeOpen(true);
+  //};
 
   const handleSetUserName = async (newName) => {
     // 空白チェック
@@ -2807,10 +2753,10 @@ export default function EnglishTrapQuestions() {
   // ✅ クイズ開始処理（複数形式×複数単元対応）
   // 📌 修正版 startQuiz（My単語テスト時は絞り込みをスキップ）
   const startQuiz = (options = {}) => {
-    if (!planLoaded || planLoading) {
-      alert("ユーザー情報を読み込み中です。少し待ってから開始してください。");
-      return;
-    }
+    //if (!planLoaded || planLoading) {
+    //  alert("ユーザー情報を読み込み中です。少し待ってから開始してください。");
+    //  return;
+    //}
     if (isWordOnlyMode) {
       console.log("⛔ 単語専用モード中のため通常スタートを無視");
       return;
@@ -2974,12 +2920,12 @@ export default function EnglishTrapQuestions() {
     setHintLevel(0);
   };
 
-  useEffect(() => {
-    // ログイン後に1回
-    if (!session?.user?.id) return;
-    fetchUpgradeStatsToday();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session?.user?.id]);
+  //useEffect(() => {
+  // ログイン後に1回
+  //  if (!session?.user?.id) return;
+  //  fetchUpgradeStatsToday();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  //}, [session?.user?.id]);
 
   // 切り替えは音量制御のみ（Myデータ経由は完全除外）
   useEffect(() => {
@@ -3619,13 +3565,13 @@ export default function EnglishTrapQuestions() {
     setLastLength(value.length);
   };
 
-  useEffect(() => {
-    // ログアウトしたらモーダルを確実に閉じる
-    if (!session) {
-      setUpgradeOpen(false);
-      setUpgradeLoading(false);
-    }
-  }, [session]);
+  //useEffect(() => {
+  // ログアウトしたらモーダルを確実に閉じる
+  //  if (!session) {
+  //    setUpgradeOpen(false);
+  //    setUpgradeLoading(false);
+  //  }
+  //}, [session]);
 
   useEffect(() => {
     if (!upgradeOpen) return;
@@ -3642,7 +3588,7 @@ export default function EnglishTrapQuestions() {
         screen: "quiz",
       },
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [upgradeOpen]);
 
   const handleTestInputChange = (e) => {
@@ -4898,17 +4844,6 @@ export default function EnglishTrapQuestions() {
                     : "出題形式を選んでください"}
                 </motion.h2>
 
-                {isAdmin && (
-                  <div className="mt-4 text-center">
-                    <button
-                      onClick={() => router.push("/admin")}
-                      className="text-sm px-3 py-2 rounded-lg bg-gray-200 hover:opacity-90 font-bold"
-                    >
-                      管理者ダッシュボードへ
-                    </button>
-                  </div>
-                )}
-
                 {/* === 出題数セレクター === */}
                 <h2 className="text-lg font-bold text-center mb-3 text-[#4A6572] drop-shadow-sm">
                   🧮 出題数を選ぼう！
@@ -5496,35 +5431,18 @@ export default function EnglishTrapQuestions() {
                 {/* === スタートボタン === */}
                 <button
                   onClick={() => {
-                    // ✅ まず「なぜダメか」を必ず伝える（無反応を消す）
-                    if (planLoading || !planLoaded) {
-                      alert(
-                        "ユーザー情報を読み込み中です。数秒待ってからもう一度押してください。",
-                      );
-                      return;
-                    }
-
-                    if (disabledStart) {
-                      // disabledStart の理由があるならここで表示（例）
-                      alert(
-                        "出題設定が完了していません。単元と出題形式を選んでください。",
-                      );
-                      return;
-                    }
-
+                    if (disabledStart) return;
                     initAudio();
                     handleStart();
                   }}
-                  // ✅ disabled は付けない（“無反応”を防ぐ）
-                  disabled={false}
+                  disabled={disabledStart}
                   className={`relative mt-10 rounded-full px-10 py-3 font-bold mx-auto block text-lg
     transition-all duration-300 active:scale-95
     ${
-      planLoading || !planLoaded || disabledStart
-        ? "bg-gray-400 text-white cursor-pointer opacity-70"
+      disabledStart
+        ? "bg-gray-400 text-white cursor-not-allowed opacity-70"
         : "bg-gradient-to-r from-pink-500 to-orange-500 text-white hover:opacity-90 shadow-lg gentle-pulse cursor-pointer"
-    }
-  `}
+    }`}
                 >
                   🚀 スタート！
                 </button>
