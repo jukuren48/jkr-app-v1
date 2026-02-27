@@ -862,16 +862,9 @@ export default function EnglishTrapQuestions() {
   // ====== Upgrade Modal ======
   //const ADMIN_EMAILS = ["info@juku-ren.jp"]; // 必要なら追加
   //const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? "");
+
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [upgradeLoading, setUpgradeLoading] = useState(false);
-  // ✅ 無料上限到達の表示制御
-  const [freeLimitBlocked, setFreeLimitBlocked] = useState(false);
-
-  // ✅ どこからでも呼べる「無料上限モーダル表示」
-  const openUpgradeForFreeLimit = () => {
-    setFreeLimitBlocked(true);
-    setUpgradeOpen(true);
-  };
 
   const [initialQuestionCount, setInitialQuestionCount] = useState(0);
 
@@ -3774,17 +3767,18 @@ export default function EnglishTrapQuestions() {
     setHintLevel(0);
     setHintText("");
 
-    // ★無料5問カウント（回答確定時に +1）
+    // ★追加：無料5問カウント（回答確定時に +1）
     if (plan === "free" && !reviewing && !isReviewMode) {
-      const used = incFreeDailyCount();
-      const reached = used >= FREE_DAILY_LIMIT;
+      freeCountAfterThisAnswer = incFreeDailyCount();
+      freeLimitJustReached = freeCountAfterThisAnswer >= FREE_DAILY_LIMIT;
+    }
 
-      if (reached) {
-        // ✅ 「5問目を解き終えた直後」に必ず案内を出す（正誤に関係なく）
-        setTimeout(() => {
-          openUpgradeForFreeLimit();
-        }, 150); // 80msだとUI更新前に走る端末があるので少し余裕
-      }
+    // ★追加：無料上限に達したら、フィードバック表示後にアップグレード誘導
+    // （showFeedback は既に true なので、少し遅らせて“答えた感”を残す）
+    if (freeLimitJustReached) {
+      setTimeout(() => {
+        openUpgradeForFreeLimit();
+      }, 80);
     }
 
     // ====== ⭐ Supabase 保存のために必要な値を準備 ======
@@ -3822,7 +3816,6 @@ export default function EnglishTrapQuestions() {
       isTryingToGoNextQuestion &&
       getFreeDailyCount() >= FREE_DAILY_LIMIT
     ) {
-      // ✅ 「止める」だけじゃなく、必ず理由と導線を出す
       openUpgradeForFreeLimit();
       return;
     }
@@ -6824,19 +6817,9 @@ export default function EnglishTrapQuestions() {
                       typeof getFreeDailyCount === "function"
                         ? getFreeDailyCount()
                         : null,
-                    meta: { action: "end_today" },
+                    meta: {},
                   });
-
-                  // ① モーダルを閉じる
                   setUpgradeOpen(false);
-
-                  // ② 「次へ押しても進めない」状態を避けるため、クイズを終了扱いにして結果へ
-                  setShowFeedback(false);
-                  setShowQuestions(false);
-                  setShowResult(true);
-
-                  // ③ 画面上部へ（スマホで特に安心）
-                  window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
                 className="w-full mt-3 py-2 rounded-xl bg-gray-200 text-gray-800 font-bold"
               >
@@ -6846,35 +6829,6 @@ export default function EnglishTrapQuestions() {
               <p className="text-[11px] text-gray-500 mt-3 text-center">
                 ※いつでも解約できます（※実際に解約導線がある場合のみ表示）
               </p>
-            </div>
-          </div>
-        )}
-        {plan === "free" && freeLimitBlocked && (
-          <div className="mt-4 p-3 rounded-xl bg-yellow-50 border border-yellow-200 text-yellow-900 text-sm">
-            <div className="font-bold mb-1">本日の無料5問に到達しました</div>
-            <div className="mb-2">
-              続きを解くにはスタンダードプランへのアップグレードが必要です。
-            </div>
-            <div className="flex gap-2">
-              <button
-                onClick={openUpgradeForFreeLimit}
-                className="px-3 py-2 rounded-lg bg-blue-600 text-white font-bold"
-              >
-                アップグレードする
-              </button>
-              <button
-                onClick={() => {
-                  // 単元選択へ戻す（あなたの状態に合わせて調整OK）
-                  setShowFeedback(false);
-                  setShowQuestions(false);
-                  setShowResult(false);
-                  setTimerActive(false);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="px-3 py-2 rounded-lg bg-white border font-bold"
-              >
-                単元選択へ戻る
-              </button>
             </div>
           </div>
         )}
