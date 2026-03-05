@@ -16,8 +16,13 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
 
   try {
-    const { priceId } = req.body;
-    if (!priceId) return res.status(400).json({ error: "Missing priceId" });
+    const { plan } = req.body;
+    const PRICE_BY_PLAN = {
+      standard: process.env.STRIPE_PRICE_ID_STANDARD,
+      premium: process.env.STRIPE_PRICE_ID_PREMIUM,
+    };
+    const priceId = PRICE_BY_PLAN[plan];
+    if (!priceId) return res.status(400).json({ error: "Invalid plan" });
 
     // ✅ Supabase JWTで本人確認（フロントから Authorization: Bearer <access_token> を送る）
     const authHeader = req.headers.authorization || "";
@@ -32,13 +37,15 @@ export default async function handler(req, res) {
     const userId = userData.user.id;
 
     // users_extended を取得（customerが既にあれば再利用）
-    const { data: ext } = await supabaseAdmin
+    const { data: ext, error: extErr } = await supabaseAdmin
       .from("users_extended")
       .select("stripe_customer_id")
       .eq("user_id", userId)
-      .single();
+      .maybeSingle();
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+    if (!appUrl)
+      return res.status(500).json({ error: "Missing NEXT_PUBLIC_APP_URL" });
 
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
@@ -60,6 +67,11 @@ export default async function handler(req, res) {
     return res.status(200).json({ url: session.url });
   } catch (e) {
     console.error("[stripe] create-checkout-session error:", e);
-    return res.status(500).json({ error: "Failed to create checkout session" });
+    return res.status(500).json({
+      error: "Failed to create checkout session",
+      code: e?.code || null,
+      type: e?.type || null,
+      message: e?.message || null, // 本番は必要なら削る
+    });
   }
 }
