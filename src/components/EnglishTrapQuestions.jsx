@@ -867,6 +867,9 @@ export default function EnglishTrapQuestions() {
   // ✅ 無料上限到達の表示制御
   const [freeLimitBlocked, setFreeLimitBlocked] = useState(false);
 
+  const isPaid = plan === "standard" || plan === "premium";
+  const canUsePaidFeatures = planLoaded && !planLoading && isPaid;
+
   // ✅ どこからでも呼べる「無料上限モーダル表示」
   const openUpgradeForFreeLimit = () => {
     setFreeLimitBlocked(true);
@@ -1212,8 +1215,9 @@ export default function EnglishTrapQuestions() {
       questionId: filteredQuestions?.[currentIndex]?.id ?? null,
       freeDailyCount:
         typeof getFreeDailyCount === "function" ? getFreeDailyCount() : null,
-      meta: { price: "standard_monthly" }, // ここは識別子。priceIdでもOK
+      meta: { plan: "standard" }, // ← price識別子をplanに寄せる
     });
+
     try {
       setUpgradeLoading(true);
 
@@ -1225,22 +1229,18 @@ export default function EnglishTrapQuestions() {
         return;
       }
 
-      // ★ standard の priceId（Stripeで作ったもの）
-      const PRICE_ID = "price_xxxxxxxxxxxxx"; // ← あなたのものに置き換え
-
       const res = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ priceId: PRICE_ID }),
+        body: JSON.stringify({ plan: "standard" }), // ✅ ここがポイント
       });
 
       const json = await res.json();
       if (!res.ok) throw new Error(json?.error || "checkout failed");
 
-      // Stripe Checkout へ
       window.location.href = json.url;
     } catch (e) {
       console.error(e);
@@ -2760,27 +2760,24 @@ export default function EnglishTrapQuestions() {
   // ✅ クイズ開始処理（複数形式×複数単元対応）
   // 📌 修正版 startQuiz（My単語テスト時は絞り込みをスキップ）
   const startQuiz = (options = {}) => {
-    //if (!planLoaded || planLoading) {
-    //  alert("ユーザー情報を読み込み中です。少し待ってから開始してください。");
-    //  return;
-    //}
+    // ✅ planの読み込み待ち（ここ復活）
+    if (!planLoaded || planLoading) {
+      alert("ユーザー情報を読み込み中です。少し待ってから開始してください。");
+      return;
+    }
+
+    // ✅ 有料判定
+    const isPaid = plan === "standard" || plan === "premium";
+
     if (isWordOnlyMode) {
       console.log("⛔ 単語専用モード中のため通常スタートを無視");
       return;
     }
 
-    const {
-      skipFiltering = false, // ★ 単語GO・My単語GO 用
-      directQuestions = null, // ★ 直接問題リストを渡す
-    } = options;
+    const { skipFiltering = false, directQuestions = null } = options;
 
-    // ================================
-    // ★追加：無料 1日5問 上限チェック（開始時点）
-    // ================================
-    // plan の取り方はプロジェクトに合わせてください（例：userPlan / sessionPlan / users_extended.plan）
-    // ここでは例として plan 変数がどこかにある前提にしています。
-    // もし無いなら const plan = "free"; でまず固定して動作確認してください。
-    if (plan === "free") {
+    // ✅ 無料上限チェック（freeのみ）
+    if (!isPaid) {
       const remaining = getFreeRemaining();
       if (remaining <= 0) {
         openUpgradeForFreeLimit();
@@ -3775,15 +3772,18 @@ export default function EnglishTrapQuestions() {
     setHintText("");
 
     // ★無料5問カウント（回答確定時に +1）
-    if (plan === "free" && !reviewing && !isReviewMode) {
+    const isPaid = plan === "standard" || plan === "premium";
+
+    // ✅ planが確定している & 無料ユーザーのみカウント
+    if (planLoaded && !planLoading && !isPaid && !reviewing && !isReviewMode) {
       const used = incFreeDailyCount();
       const reached = used >= FREE_DAILY_LIMIT;
 
       if (reached) {
-        // ✅ 「5問目を解き終えた直後」に必ず案内を出す（正誤に関係なく）
+        // 「5問目を解き終えた直後」に案内
         setTimeout(() => {
           openUpgradeForFreeLimit();
-        }, 150); // 80msだとUI更新前に走る端末があるので少し余裕
+        }, 150);
       }
     }
 
@@ -3813,16 +3813,23 @@ export default function EnglishTrapQuestions() {
   };
 
   const handleNext = async () => {
+    // ✅ plan読み込み中はブロックしない（または待たせる）
+    if (!planLoaded || planLoading) {
+      alert("ユーザー情報を読み込み中です。少し待ってから続けてください。");
+      return;
+    }
+
+    const isPaid = plan === "standard" || plan === "premium";
+
     // ✅ 無料制限ガード：次の問題へ進む時だけ止める（結果画面への遷移は邪魔しない）
     const isTryingToGoNextQuestion =
       isCorrect && currentIndex + 1 < filteredQuestions.length;
 
     if (
-      plan === "free" &&
+      !isPaid &&
       isTryingToGoNextQuestion &&
       getFreeDailyCount() >= FREE_DAILY_LIMIT
     ) {
-      // ✅ 「止める」だけじゃなく、必ず理由と導線を出す
       openUpgradeForFreeLimit();
       return;
     }

@@ -29,6 +29,7 @@ export default async function handler(req, res) {
   const buf = await buffer(req);
 
   let event;
+
   try {
     event = stripe.webhooks.constructEvent(
       buf,
@@ -36,84 +37,125 @@ export default async function handler(req, res) {
       process.env.STRIPE_WEBHOOK_SECRET,
     );
   } catch (err) {
-    console.error("[stripe] webhook signature error:", err.message);
+    console.error("❌ Webhook signature error:", err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
   try {
     switch (event.type) {
-      // ✅ 決済成功（Checkout完了）
+      // ============================
+      // 初回決済
+      // ============================
       case "checkout.session.completed": {
         const session = event.data.object;
 
         const userId = session.client_reference_id || session.metadata?.user_id;
+
         const customerId = session.customer;
         const subscriptionId = session.subscription;
 
-        if (userId) {
-          await supabaseAdmin
-            .from("users_extended")
-            .update({
-              plan: "standard",
-              stripe_customer_id: customerId || null,
-              stripe_subscription_id: subscriptionId || null,
-            })
-            .eq("user_id", userId);
-        }
+        if (!userId) break;
+
+        await supabaseAdmin
+          .from("users_extended")
+          .update({
+            plan: "standard",
+            stripe_customer_id: customerId,
+            stripe_subscription_id: subscriptionId,
+            billing_email: session.customer_details?.email ?? null,
+          })
+          .eq("user_id", userId);
+
         break;
       }
 
-      // ✅ 支払い成功（継続課金での確定）
-      case "invoice.payment_succeeded": {
+      // ============================
+      // サブスク状態更新
+      // ============================
+      case "customer.subscription.updated": {
+        const sub = event.data.object;
+
+        const subscriptionId = sub.id;
+        const status = sub.status;
+
+        const priceId = sub.items?.data?.[0]?.price?.id ?? null;
+
+        const currentPeriodEnd = sub.current_period_end
+          ? new Date(sub.current_period_end * 1000)
+          : null;
+
+        const cancelAtPeriodEnd = sub.cancel_at_period_end;
+
+        const userId = sub.metadata?.user_id;
+
+        if (!userId) break;
+
+        await supabaseAdmin
+          .from("users_extended")
+          .update({
+            subscription_status: status,
+            cancel_at_period_end: cancelAtPeriodEnd,
+            current_period_end: currentPeriodEnd,
+            stripe_price_id: priceId,
+          })
+          .eq("user_id", userId);
+
+        break;
+      }
+
+      // ============================
+      // 支払い失敗
+      // ============================
+      case "invoice.payment_failed": {
         const invoice = event.data.object;
         const subscriptionId = invoice.subscription;
 
-        if (subscriptionId) {
-          // subscriptionから user_id を引く（metadataに入れておくのが確実）
-          const sub = await stripe.subscriptions.retrieve(subscriptionId);
-          const userId = sub.metadata?.user_id;
+        if (!subscriptionId) break;
 
-          if (userId) {
-            await supabaseAdmin
-              .from("users_extended")
-              .update({
-                plan: "standard",
-                stripe_subscription_id: subscriptionId,
-                stripe_customer_id: sub.customer || null,
-                stripe_price_id: sub.items?.data?.[0]?.price?.id || null,
-              })
-              .eq("user_id", userId);
-          }
-        }
+        const sub = await stripe.subscriptions.retrieve(subscriptionId);
+
+        const userId = sub.metadata?.user_id;
+
+        if (!userId) break;
+
+        await supabaseAdmin
+          .from("users_extended")
+          .update({
+            subscription_status: "past_due",
+          })
+          .eq("user_id", userId);
+
         break;
       }
 
-      // ❌ 支払い失敗
-      case "invoice.payment_failed":
-      // ❌ 解約/停止
+      // ============================
+      // 解約
+      // ============================
       case "customer.subscription.deleted": {
         const sub = event.data.object;
+
         const userId = sub.metadata?.user_id;
 
-        if (userId) {
-          // premium（塾生）は落としたくないので「premiumなら維持」
-          const { data: ext } = await supabaseAdmin
-            .from("users_extended")
-            .select("plan")
-            .eq("user_id", userId)
-            .single();
+        if (!userId) break;
 
-          if (ext?.plan !== "premium") {
-            await supabaseAdmin
-              .from("users_extended")
-              .update({
-                plan: "free",
-                stripe_subscription_id: null,
-                stripe_price_id: null,
-              })
-              .eq("user_id", userId);
-          }
+        const { data } = await supabaseAdmin
+          .from("users_extended")
+          .select("plan")
+          .eq("user_id", userId)
+          .single();
+
+        if (data?.plan !== "premium") {
+          await supabaseAdmin
+            .from("users_extended")
+            .update({
+              plan: "free",
+              subscription_status: "canceled",
+              stripe_subscription_id: null,
+              stripe_price_id: null,
+            })
+            .eq("user_id", userId);
         }
+
         break;
       }
 
@@ -121,9 +163,9 @@ export default async function handler(req, res) {
         break;
     }
 
-    return res.status(200).json({ received: true });
-  } catch (e) {
-    console.error("[stripe] webhook handler error:", e);
-    return res.status(500).send("Webhook handler failed");
+    res.json({ received: true });
+  } catch (err) {
+    console.error("❌ webhook error:", err);
+    res.status(500).send("Webhook handler failed");
   }
 }
