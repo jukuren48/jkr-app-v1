@@ -858,7 +858,16 @@ const normJa = (s = "") =>
     .replace(/\s+/g, "");
 
 export default function EnglishTrapQuestions() {
-  const { supabase, session, plan, planLoading, planLoaded } = useSupabase();
+  const {
+    supabase,
+    session,
+    plan,
+    subscriptionStatus,
+    cancelAtPeriodEnd,
+    currentPeriodEnd,
+    planLoading,
+    planLoaded,
+  } = useSupabase();
   // ====== Upgrade Modal ======
   //const ADMIN_EMAILS = ["info@juku-ren.jp"]; // 必要なら追加
   //const isAdmin = ADMIN_EMAILS.includes(session?.user?.email ?? "");
@@ -867,7 +876,10 @@ export default function EnglishTrapQuestions() {
   // ✅ 無料上限到達の表示制御
   const [freeLimitBlocked, setFreeLimitBlocked] = useState(false);
 
-  const isPaid = plan === "standard" || plan === "premium";
+  const isPaid =
+    plan === "premium" ||
+    (plan === "standard" &&
+      ["active", "trialing"].includes(subscriptionStatus ?? ""));
   const canUsePaidFeatures = planLoaded && !planLoading && isPaid;
 
   // ✅ どこからでも呼べる「無料上限モーダル表示」
@@ -2766,9 +2778,6 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // ✅ 有料判定
-    const isPaid = plan === "standard" || plan === "premium";
-
     if (isWordOnlyMode) {
       console.log("⛔ 単語専用モード中のため通常スタートを無視");
       return;
@@ -3818,8 +3827,6 @@ export default function EnglishTrapQuestions() {
       alert("ユーザー情報を読み込み中です。少し待ってから続けてください。");
       return;
     }
-
-    const isPaid = plan === "standard" || plan === "premium";
 
     // ✅ 無料制限ガード：次の問題へ進む時だけ止める（結果画面への遷移は邪魔しない）
     const isTryingToGoNextQuestion =
