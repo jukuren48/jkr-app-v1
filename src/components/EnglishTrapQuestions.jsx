@@ -1359,6 +1359,34 @@ export default function EnglishTrapQuestions() {
     }
   };
 
+  const openBillingPortal = async () => {
+    try {
+      const { data } = await supabase.auth.getSession();
+      const token = data?.session?.access_token;
+
+      if (!token) {
+        alert("ログイン情報が確認できません。再ログインしてください。");
+        return;
+      }
+
+      const res = await fetch("/api/stripe/create-portal-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json?.error || "portal failed");
+
+      window.location.href = json.url;
+    } catch (e) {
+      console.error(e);
+      alert("契約管理ページを開けませんでした。");
+    }
+  };
+
   function log(message) {
     //console.log(message); // PC用にも出す
     setDebugLogs((prev) => [...prev.slice(-20), message]);
@@ -4660,6 +4688,16 @@ export default function EnglishTrapQuestions() {
                 className="w-full text-left bg-blue-400 hover:bg-blue-500 text-white px-3 py-2 rounded-lg font-semibold shadow"
               >
                 👤 現在のユーザーから変更：{userName}
+              </button>
+
+              <button
+                onClick={() => {
+                  setMenuOpen(false);
+                  openBillingPortal();
+                }}
+                className="w-full text-left bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg font-semibold shadow transition"
+              >
+                💳 契約内容を確認・変更する
               </button>
 
               {/* ログアウト */}
