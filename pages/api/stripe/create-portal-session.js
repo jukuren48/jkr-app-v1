@@ -49,12 +49,11 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "No Stripe customer found" });
     }
 
-    const returnUrl =
-      process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
     const session = await stripe.billingPortal.sessions.create({
       customer: ext.stripe_customer_id,
-      return_url: `https://jkr-app-v1.vercel.app/HomeCSR`,
+      return_url: `${appUrl}/HomeCSR`,
     });
 
     return res.status(200).json({ url: session.url });
