@@ -43,7 +43,7 @@ export default function MyDataPage() {
     ? chartData.filter((d) => d.accuracy !== null && d.accuracy < 80)
     : chartData;
   const sortedChartData = [...filteredChartData].sort(
-    (a, b) => a.accuracy - b.accuracy
+    (a, b) => a.accuracy - b.accuracy,
   );
   const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
 
@@ -64,13 +64,37 @@ export default function MyDataPage() {
     if (!session) return;
 
     const fetchData = async () => {
-      const params = new URLSearchParams({ period });
-      const res = await fetch(
-        `/api/me/study-summary?user_id=${session.user.id}&period=${period}`
-      );
-      if (res.ok) {
+      try {
+        const { data: authData } = await supabase.auth.getSession();
+        const token = authData?.session?.access_token;
+
+        if (!token) {
+          console.error("No access token");
+          setData([]);
+          return;
+        }
+
+        const res = await fetch(`/api/me/study-summary?period=${period}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
         const json = await res.json();
+        console.log("study-summary status =", res.status);
+        console.log("study-summary response =", json);
+
+        if (!res.ok) {
+          console.error("study-summary fetch failed:", json);
+          setData([]);
+          return;
+        }
+
         setData(json);
+      } catch (err) {
+        console.error("study-summary fetch exception:", err);
+        setData([]);
       }
     };
 
