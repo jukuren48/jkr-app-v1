@@ -2894,15 +2894,21 @@ export default function EnglishTrapQuestions() {
     const shuffled = shuffleArray(filtered);
 
     // ================================
-    // ★追加：出題数を決める（無料は残り問数でキャップ）
+    // 出題数を決める
+    // directQuestions が来た場合は、その配列をそのまま使う
     // ================================
-    const qc = questionCount === "all" ? "all" : Number(questionCount);
+    let limited;
 
-    let limited = qc === "all" ? shuffled : shuffled.slice(0, qc);
+    if (Array.isArray(directQuestions)) {
+      // すでに呼び出し元で問題数を絞ってある前提
+      limited = shuffled;
+    } else {
+      const qc = questionCount === "all" ? "all" : Number(questionCount);
+      limited = qc === "all" ? shuffled : shuffled.slice(0, qc);
+    }
 
     if (plan === "free") {
       const remaining = getFreeRemaining();
-      // ここに来る時点で remaining は 1以上のはずだが保険
       const cap = Math.max(1, remaining);
       limited = limited.slice(0, cap);
     }
@@ -3590,6 +3596,59 @@ export default function EnglishTrapQuestions() {
       vv.removeEventListener("scroll", update);
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const shouldStartWeakTraining =
+      localStorage.getItem("startWeakTraining") === "true";
+
+    if (!shouldStartWeakTraining) return;
+    if (!questions || questions.length === 0) return;
+
+    const weakUnit = localStorage.getItem("weakTrainingUnit");
+    const savedCount = localStorage.getItem("questionCount");
+    const weakCount = savedCount ? JSON.parse(savedCount) : 10;
+
+    if (!weakUnit) {
+      localStorage.removeItem("startWeakTraining");
+      return;
+    }
+
+    const normalizeUnit = (s) =>
+      String(s || "")
+        .replace(/\s+/g, "")
+        .trim();
+
+    const weakQuestions = questions.filter(
+      (q) => normalizeUnit(q.unit) === normalizeUnit(weakUnit),
+    );
+
+    if (!weakQuestions.length) {
+      alert("弱点トレーニング用の問題が見つかりませんでした。");
+      localStorage.removeItem("startWeakTraining");
+      localStorage.removeItem("weakTrainingUnit");
+      return;
+    }
+
+    // ここで先に出題数を確定
+    const limitedWeakQuestions =
+      weakCount === "all"
+        ? weakQuestions
+        : weakQuestions.slice(0, Number(weakCount));
+
+    // startQuiz内で0問に切られないようにする
+    setQuestionCount("all");
+
+    localStorage.removeItem("startWeakTraining");
+    localStorage.removeItem("weakTrainingUnit");
+
+    setTimeout(() => {
+      startQuiz({
+        directQuestions: limitedWeakQuestions,
+      });
+    }, 100);
+  }, [questions]);
 
   const handleInputChange = (e) => {
     const value = e.target.value;

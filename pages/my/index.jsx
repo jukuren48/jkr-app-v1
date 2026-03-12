@@ -18,6 +18,8 @@ export default function MyDataPage() {
   const [data, setData] = useState([]);
   const [period, setPeriod] = useState("all");
   const [showOnlyWeak, setShowOnlyWeak] = useState(false);
+  const [rankingTop10, setRankingTop10] = useState([]);
+  const [myRank, setMyRank] = useState(null);
   const aggregatedByUnit = {};
   data.forEach((l) => {
     const unit = l.unit;
@@ -45,6 +47,9 @@ export default function MyDataPage() {
   const sortedChartData = [...filteredChartData].sort(
     (a, b) => a.accuracy - b.accuracy,
   );
+  const weakTop3 = [...sortedChartData]
+    .filter((item) => item.accuracy !== null && item.accuracy !== undefined)
+    .slice(0, 3);
   const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
 
   const ROW_HEIGHT = 32; // 単元1つあたりの高さ
@@ -54,6 +59,25 @@ export default function MyDataPage() {
     if (accuracy < 50) return "#ef4444"; // 赤
     if (accuracy < 80) return "#facc15"; // 黄
     return "#22c55e"; // 緑
+  };
+  const startWeakTraining = () => {
+    if (!weakTop3.length) {
+      alert("弱点データがまだありません。");
+      return;
+    }
+
+    const weakestUnit = weakTop3[0]?.unit;
+
+    if (!weakestUnit) {
+      alert("弱点単元が取得できませんでした。");
+      return;
+    }
+
+    localStorage.setItem("weakTrainingUnit", weakestUnit);
+    localStorage.setItem("questionCount", JSON.stringify(10));
+    localStorage.setItem("startWeakTraining", "true");
+
+    router.push("/");
   };
 
   useEffect(() => {
@@ -97,8 +121,36 @@ export default function MyDataPage() {
         setData([]);
       }
     };
+    const fetchRanking = async () => {
+      try {
+        const { data: authData } = await supabase.auth.getSession();
+        const token = authData?.session?.access_token;
+
+        if (!token) return;
+
+        const res = await fetch("/api/me/weekly-ranking", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const json = await res.json();
+
+        if (!res.ok) {
+          console.error("weekly-ranking fetch failed:", json);
+          return;
+        }
+
+        setRankingTop10(json.top10 ?? []);
+        setMyRank(json.myRank ?? null);
+      } catch (err) {
+        console.error("weekly-ranking fetch exception:", err);
+      }
+    };
 
     fetchData();
+    fetchRanking();
   }, [session, period]);
 
   return (
@@ -238,6 +290,66 @@ export default function MyDataPage() {
           </div>
         </div>
       )}
+
+      <div className="mt-8 bg-white rounded-xl shadow p-4">
+        <h2 className="text-xl font-bold mb-4">🏆 今週の努力ランキング</h2>
+
+        {myRank && (
+          <p className="mb-4 text-indigo-700 font-semibold">
+            あなたの順位：{myRank.rank}位（{myRank.total_answers}問）
+          </p>
+        )}
+
+        <div className="space-y-2">
+          {rankingTop10.map((item) => {
+            const isMe = item.user_id === session?.user?.id;
+
+            return (
+              <div
+                key={item.user_id}
+                className={`p-3 rounded-lg flex justify-between ${
+                  isMe
+                    ? "bg-yellow-100 border border-yellow-400 font-bold"
+                    : "bg-gray-100"
+                }`}
+              >
+                <span>
+                  {item.rank}位 {item.display_name}
+                </span>
+                <span>{item.total_answers}問</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="mt-8 bg-white rounded-xl shadow p-4">
+        <h2 className="text-xl font-bold mb-4">🎯 あなたの弱点TOP3</h2>
+
+        {weakTop3.length === 0 ? (
+          <p className="text-gray-500">まだ十分な学習データがありません。</p>
+        ) : (
+          <div className="space-y-2">
+            {weakTop3.map((item, index) => (
+              <div
+                key={item.unit}
+                className="flex justify-between items-center px-4 py-2 rounded-lg bg-red-50 border border-red-200"
+              >
+                <span>
+                  {index + 1}位 {item.unit}
+                </span>
+                <span className="font-bold text-red-600">{item.accuracy}%</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <button
+          onClick={startWeakTraining}
+          className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl shadow transition"
+        >
+          弱点トレーニング開始
+        </button>
+      </div>
     </div>
   );
 }
