@@ -22,6 +22,8 @@ export default function MyDataPage() {
   const [myRank, setMyRank] = useState(null);
   const [reviewCount, setReviewCount] = useState(0);
   const [reviewQuestions, setReviewQuestions] = useState([]);
+  const [streak, setStreak] = useState(0);
+  const [studiedToday, setStudiedToday] = useState(false);
   const aggregatedByUnit = {};
   data.forEach((l) => {
     const unit = l.unit;
@@ -178,9 +180,38 @@ export default function MyDataPage() {
       }
     };
 
+    const fetchStreak = async () => {
+      try {
+        const { data: authData } = await supabase.auth.getSession();
+        const token = authData?.session?.access_token;
+
+        if (!token) return;
+
+        const res = await fetch("/api/me/streak", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const json = await res.json();
+
+        if (!res.ok) {
+          console.error("streak fetch failed:", json);
+          return;
+        }
+
+        setStreak(json.streak ?? 0);
+        setStudiedToday(!!json.studiedToday);
+      } catch (err) {
+        console.error("streak fetch exception:", err);
+      }
+    };
+
     fetchData();
     fetchRanking();
     fetchReviewQuestions();
+    fetchStreak();
   }, [session, period]);
 
   const hasReviewQuestions = reviewCount > 0;
@@ -326,6 +357,25 @@ export default function MyDataPage() {
           </div>
         </div>
       )}
+
+      <div className="mt-8 bg-white rounded-xl shadow p-4">
+        <h2 className="text-xl font-bold mb-4">🔥 連続学習ストリーク</h2>
+
+        <div
+          className={`text-center py-4 px-4 rounded-xl font-bold shadow-sm ${
+            studiedToday
+              ? "bg-orange-100 text-orange-700 border border-orange-300"
+              : "bg-yellow-100 text-yellow-700 border border-yellow-300"
+          }`}
+        >
+          <div className="text-3xl mb-2">🔥 {streak}日連続</div>
+          <div className="text-sm">
+            {studiedToday
+              ? "今日も学習を続けています！"
+              : "今日学習すると連続記録を伸ばせます。"}
+          </div>
+        </div>
+      </div>
 
       <div className="mt-8 bg-white rounded-xl shadow p-4">
         <h2 className="text-xl font-bold mb-4">🏆 今週の努力ランキング</h2>
