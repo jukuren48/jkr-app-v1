@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import LearningDashboard from "../../src/components/LearningDashboard";
 
 export default function MyDataPage() {
   const router = useRouter();
@@ -358,24 +359,12 @@ export default function MyDataPage() {
         </div>
       )}
 
-      <div className="mt-8 bg-white rounded-xl shadow p-4">
-        <h2 className="text-xl font-bold mb-4">🔥 連続学習ストリーク</h2>
-
-        <div
-          className={`text-center py-4 px-4 rounded-xl font-bold shadow-sm ${
-            studiedToday
-              ? "bg-orange-100 text-orange-700 border border-orange-300"
-              : "bg-yellow-100 text-yellow-700 border border-yellow-300"
-          }`}
-        >
-          <div className="text-3xl mb-2">🔥 {streak}日連続</div>
-          <div className="text-sm">
-            {studiedToday
-              ? "今日も学習を続けています！"
-              : "今日学習すると連続記録を伸ばせます。"}
-          </div>
-        </div>
-      </div>
+      <LearningDashboard
+        streak={streak}
+        studiedToday={studiedToday}
+        reviewCount={reviewCount}
+        weakTop3={weakTop3}
+      />
 
       <div className="mt-8 bg-white rounded-xl shadow p-4">
         <h2 className="text-xl font-bold mb-4">🏆 今週の努力ランキング</h2>
