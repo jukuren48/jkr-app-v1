@@ -1143,6 +1143,9 @@ export default function EnglishTrapQuestions() {
   const [round, setRound] = useState(1); // 1 = 英→日, 2 = 日→英
   const [lastLengthTest, setLastLengthTest] = useState(0);
 
+  const [weakTrainingMode, setWeakTrainingMode] = useState(false);
+  const [weakTrainingUnit, setWeakTrainingUnit] = useState("");
+
   // 単元ごとの間違い回数を記録
   const [unitStats, setUnitStats] = useState({});
 
@@ -2811,6 +2814,11 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
+    if (!options.directQuestions) {
+      setWeakTrainingMode(false);
+      setWeakTrainingUnit("");
+    }
+
     const { skipFiltering = false, directQuestions = null } = options;
 
     // ✅ 無料上限チェック（freeのみ）
@@ -3606,11 +3614,13 @@ export default function EnglishTrapQuestions() {
     if (!shouldStartWeakTraining) return;
     if (!questions || questions.length === 0) return;
 
-    const weakUnit = localStorage.getItem("weakTrainingUnit");
+    const savedUnits = localStorage.getItem("weakTrainingUnits");
     const savedCount = localStorage.getItem("questionCount");
     const weakCount = savedCount ? JSON.parse(savedCount) : 10;
 
-    if (!weakUnit) {
+    const weakUnits = savedUnits ? JSON.parse(savedUnits) : [];
+
+    if (!Array.isArray(weakUnits) || weakUnits.length === 0) {
       localStorage.removeItem("startWeakTraining");
       return;
     }
@@ -3620,32 +3630,53 @@ export default function EnglishTrapQuestions() {
         .replace(/\s+/g, "")
         .trim();
 
-    const weakQuestions = questions.filter(
-      (q) => normalizeUnit(q.unit) === normalizeUnit(weakUnit),
+    const unit1 = weakUnits[0];
+    const unit2 = weakUnits[1];
+    const unit3 = weakUnits[2];
+
+    const q1 = questions.filter(
+      (q) => normalizeUnit(q.unit) === normalizeUnit(unit1),
+    );
+    const q2 = questions.filter(
+      (q) => normalizeUnit(q.unit) === normalizeUnit(unit2),
+    );
+    const q3 = questions.filter(
+      (q) => normalizeUnit(q.unit) === normalizeUnit(unit3),
     );
 
-    if (!weakQuestions.length) {
+    const totalCount = weakCount === "all" ? 10 : Number(weakCount);
+
+    // 出題割合 50% / 30% / 20%
+    const count1 = Math.max(1, Math.round(totalCount * 0.5));
+    const count2 = Math.max(1, Math.round(totalCount * 0.3));
+    const count3 = Math.max(1, totalCount - count1 - count2);
+
+    const picked1 = shuffleArray(q1).slice(0, count1);
+    const picked2 = shuffleArray(q2).slice(0, count2);
+    const picked3 = shuffleArray(q3).slice(0, count3);
+
+    const weightedWeakQuestions = shuffleArray([
+      ...picked1,
+      ...picked2,
+      ...picked3,
+    ]);
+
+    if (!weightedWeakQuestions.length) {
       alert("弱点トレーニング用の問題が見つかりませんでした。");
       localStorage.removeItem("startWeakTraining");
-      localStorage.removeItem("weakTrainingUnit");
+      localStorage.removeItem("weakTrainingUnits");
       return;
     }
 
-    // ここで先に出題数を確定
-    const limitedWeakQuestions =
-      weakCount === "all"
-        ? weakQuestions
-        : weakQuestions.slice(0, Number(weakCount));
-
-    // startQuiz内で0問に切られないようにする
-    setQuestionCount("all");
+    setWeakTrainingMode(true);
+    setWeakTrainingUnit(weakUnits.join("・"));
 
     localStorage.removeItem("startWeakTraining");
-    localStorage.removeItem("weakTrainingUnit");
+    localStorage.removeItem("weakTrainingUnits");
 
     setTimeout(() => {
       startQuiz({
-        directQuestions: limitedWeakQuestions,
+        directQuestions: weightedWeakQuestions,
       });
     }, 100);
   }, [questions]);
@@ -5599,6 +5630,12 @@ export default function EnglishTrapQuestions() {
                   paddingBottom: `${INPUT_BAR_BASE + (kbOffset || 0)}px`,
                 }}
               >
+                {weakTrainingMode && (
+                  <div className="mb-4 bg-red-500 text-white text-center py-2 px-4 rounded-xl font-bold shadow">
+                    🔥 弱点トレーニング中：{weakTrainingUnit}
+                  </div>
+                )}
+
                 {/* ← 👆 pb-[220px] は下の手書きパッド分の余白 */}
 
                 <Character mood={characterMood} userName={userName} />

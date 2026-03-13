@@ -66,14 +66,14 @@ export default function MyDataPage() {
       return;
     }
 
-    const weakestUnit = weakTop3[0]?.unit;
+    const weakUnits = weakTop3.map((item) => item.unit).filter(Boolean);
 
-    if (!weakestUnit) {
+    if (!weakUnits.length) {
       alert("弱点単元が取得できませんでした。");
       return;
     }
 
-    localStorage.setItem("weakTrainingUnit", weakestUnit);
+    localStorage.setItem("weakTrainingUnits", JSON.stringify(weakUnits));
     localStorage.setItem("questionCount", JSON.stringify(10));
     localStorage.setItem("startWeakTraining", "true");
 
