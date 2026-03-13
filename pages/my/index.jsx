@@ -20,6 +20,8 @@ export default function MyDataPage() {
   const [showOnlyWeak, setShowOnlyWeak] = useState(false);
   const [rankingTop10, setRankingTop10] = useState([]);
   const [myRank, setMyRank] = useState(null);
+  const [reviewCount, setReviewCount] = useState(0);
+  const [reviewQuestions, setReviewQuestions] = useState([]);
   const aggregatedByUnit = {};
   data.forEach((l) => {
     const unit = l.unit;
@@ -148,10 +150,44 @@ export default function MyDataPage() {
         console.error("weekly-ranking fetch exception:", err);
       }
     };
+    const fetchReviewQuestions = async () => {
+      try {
+        const { data: authData } = await supabase.auth.getSession();
+        const token = authData?.session?.access_token;
+
+        if (!token) return;
+
+        const res = await fetch("/api/me/review-questions", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const json = await res.json();
+
+        if (!res.ok) {
+          console.error("review-questions fetch failed:", json);
+          return;
+        }
+
+        setReviewCount(json.count ?? 0);
+        setReviewQuestions(json.questions ?? []);
+      } catch (err) {
+        console.error("review-questions fetch exception:", err);
+      }
+    };
 
     fetchData();
     fetchRanking();
+    fetchReviewQuestions();
   }, [session, period]);
+
+  const hasReviewQuestions = reviewCount > 0;
+
+  const reviewBadgeText = hasReviewQuestions
+    ? `🔥 今日の復習 ${reviewCount}問`
+    : "✅ 今日の復習 今日はなし";
 
   return (
     <div className="p-6 max-w-xl mx-auto">
@@ -348,6 +384,50 @@ export default function MyDataPage() {
           className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl shadow transition"
         >
           弱点トレーニング開始
+        </button>
+      </div>
+      <div className="mt-8 bg-white rounded-xl shadow p-4">
+        <h2 className="text-xl font-bold mb-4">🧠 今日の復習問題</h2>
+
+        <div
+          className={`mb-4 text-center py-3 px-4 rounded-xl font-bold shadow-sm ${
+            hasReviewQuestions
+              ? "bg-orange-100 text-orange-700 border border-orange-300"
+              : "bg-green-100 text-green-700 border border-green-300"
+          }`}
+        >
+          {reviewBadgeText}
+        </div>
+
+        <p className="mb-4 text-gray-700 text-center">
+          {hasReviewQuestions
+            ? "最近の間違い・怪しい正解から復習問題を出題します。"
+            : "今は復習対象がありません。通常学習を進めましょう。"}
+        </p>
+
+        <button
+          onClick={() => {
+            if (!reviewQuestions.length) {
+              alert("今日の復習問題はありません。");
+              return;
+            }
+
+            localStorage.setItem("startReviewTraining", "true");
+            localStorage.setItem(
+              "reviewQuestionIds",
+              JSON.stringify(reviewQuestions.map((q) => String(q.question_id))),
+            );
+
+            router.push("/");
+          }}
+          className={`w-full font-bold py-3 rounded-xl shadow transition ${
+            hasReviewQuestions
+              ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+              : "bg-gray-300 text-gray-600 cursor-not-allowed"
+          }`}
+          disabled={!hasReviewQuestions}
+        >
+          今日の復習を始める
         </button>
       </div>
     </div>

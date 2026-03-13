@@ -1145,6 +1145,8 @@ export default function EnglishTrapQuestions() {
 
   const [weakTrainingMode, setWeakTrainingMode] = useState(false);
   const [weakTrainingUnit, setWeakTrainingUnit] = useState("");
+  const [reviewTrainingMode, setReviewTrainingMode] = useState(false);
+  const [reviewTrainingCount, setReviewTrainingCount] = useState(0);
 
   // 単元ごとの間違い回数を記録
   const [unitStats, setUnitStats] = useState({});
@@ -2817,6 +2819,8 @@ export default function EnglishTrapQuestions() {
     if (!options.directQuestions) {
       setWeakTrainingMode(false);
       setWeakTrainingUnit("");
+      setReviewTrainingMode(false);
+      setReviewTrainingCount(0);
     }
 
     const { skipFiltering = false, directQuestions = null } = options;
@@ -3677,6 +3681,48 @@ export default function EnglishTrapQuestions() {
     setTimeout(() => {
       startQuiz({
         directQuestions: weightedWeakQuestions,
+      });
+    }, 100);
+  }, [questions]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const shouldStartReview =
+      localStorage.getItem("startReviewTraining") === "true";
+
+    if (!shouldStartReview) return;
+    if (!questions || questions.length === 0) return;
+
+    const savedIds = localStorage.getItem("reviewQuestionIds");
+    const reviewIds = savedIds ? JSON.parse(savedIds) : [];
+
+    if (!Array.isArray(reviewIds) || reviewIds.length === 0) {
+      localStorage.removeItem("startReviewTraining");
+      localStorage.removeItem("reviewQuestionIds");
+      return;
+    }
+
+    const reviewQuestions = questions.filter((q) =>
+      reviewIds.includes(String(q.id)),
+    );
+
+    if (!reviewQuestions.length) {
+      alert("復習用の問題が見つかりませんでした。");
+      localStorage.removeItem("startReviewTraining");
+      localStorage.removeItem("reviewQuestionIds");
+      return;
+    }
+
+    setReviewTrainingMode(true);
+    setReviewTrainingCount(reviewQuestions.length);
+
+    localStorage.removeItem("startReviewTraining");
+    localStorage.removeItem("reviewQuestionIds");
+
+    setTimeout(() => {
+      startQuiz({
+        directQuestions: reviewQuestions,
       });
     }, 100);
   }, [questions]);
@@ -5633,6 +5679,11 @@ export default function EnglishTrapQuestions() {
                 {weakTrainingMode && (
                   <div className="mb-4 bg-red-500 text-white text-center py-2 px-4 rounded-xl font-bold shadow">
                     🔥 弱点トレーニング中：{weakTrainingUnit}
+                  </div>
+                )}
+                {reviewTrainingMode && (
+                  <div className="mb-4 bg-indigo-600 text-white text-center py-2 px-4 rounded-xl font-bold shadow">
+                    🧠 今日の復習中（{reviewTrainingCount}問）
                   </div>
                 )}
 
