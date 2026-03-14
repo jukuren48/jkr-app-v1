@@ -364,6 +364,21 @@ export default function MyDataPage() {
         studiedToday={studiedToday}
         reviewCount={reviewCount}
         weakTop3={weakTop3}
+        onStartReview={() => {
+          if (!reviewQuestions.length) {
+            alert("今日の復習問題はありません。");
+            return;
+          }
+
+          localStorage.setItem("startReviewTraining", "true");
+          localStorage.setItem(
+            "reviewQuestionIds",
+            JSON.stringify(reviewQuestions.map((q) => String(q.question_id))),
+          );
+
+          router.push("/");
+        }}
+        onStartWeakTraining={startWeakTraining}
       />
 
       <div className="mt-8 bg-white rounded-xl shadow p-4">

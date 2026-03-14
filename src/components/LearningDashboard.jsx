@@ -1,13 +1,11 @@
-import { useRouter } from "next/router";
-
 export default function LearningDashboard({
   streak,
   studiedToday,
   reviewCount,
   weakTop3,
+  onStartReview,
+  onStartWeakTraining,
 }) {
-  const router = useRouter();
-
   return (
     <div className="bg-white rounded-xl shadow p-5 mb-6">
       <h2 className="text-xl font-bold mb-4 text-center">
@@ -33,7 +31,7 @@ export default function LearningDashboard({
           <div className="text-3xl font-bold">{reviewCount}問</div>
 
           <button
-            onClick={() => router.push("/my")}
+            onClick={onStartReview}
             className="mt-3 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm"
           >
             復習する
@@ -51,7 +49,7 @@ export default function LearningDashboard({
           </div>
 
           <button
-            onClick={() => router.push("/my")}
+            onClick={onStartWeakTraining}
             className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm"
           >
             トレーニング
