@@ -1,7 +1,5 @@
-import { useSupabase } from "@/src/providers/SupabaseProvider";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { LabelList } from "recharts";
 import {
   BarChart,
   Bar,
@@ -11,61 +9,347 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import LearningDashboard from "../../src/components/LearningDashboard";
+import LearningDashboard from "@/src/components/LearningDashboard";
+import { useSupabase } from "@/src/providers/SupabaseProvider";
+import {
+  getUnderstandingMessage,
+  getRetentionMessage,
+  getPriorityMessage,
+} from "@/lib/learningMessages";
+
+function scoreColor(score) {
+  const n = Number(score);
+  if (!Number.isFinite(n)) return "#CBD5E1";
+  if (n >= 80) return "#22C55E";
+  if (n >= 60) return "#F59E0B";
+  return "#EF4444";
+}
+
+function scoreLabel(score, type = "understanding") {
+  const n = Number(score);
+  if (!Number.isFinite(n)) return "未計測";
+
+  if (type === "retention") {
+    if (n >= 70) return "しっかり定着";
+    if (n >= 40) return "忘れかけ";
+    return "要復習";
+  }
+
+  if (n >= 80) return "よく理解できています";
+  if (n >= 60) return "かなり理解しています";
+  if (n >= 40) return "まだ不安定です";
+  return "要理解";
+}
+
+function ProgressBar({ value, label }) {
+  const safeValue = Math.max(0, Math.min(100, Number(value) || 0));
+
+  return (
+    <div className="w-full">
+      <div className="flex items-center justify-between mb-1 text-sm">
+        <span className="text-slate-700 font-medium">{label}</span>
+        <span className="font-bold text-slate-800">
+          {safeValue.toFixed(0)}%
+        </span>
+      </div>
+      <div className="w-full h-3 rounded-full bg-slate-200 overflow-hidden">
+        <div
+          className="h-3 rounded-full transition-all"
+          style={{
+            width: `${safeValue}%`,
+            backgroundColor: scoreColor(safeValue),
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function HorizontalTopChart({
+  title,
+  description,
+  data,
+  dataKey,
+  onBarClick,
+  scoreType = "understanding",
+}) {
+  return (
+    <div className="bg-white rounded-2xl shadow p-6">
+      <h3 className="text-lg font-bold text-slate-900">{title}</h3>
+      <p className="text-sm text-slate-600 mt-1 mb-4">{description}</p>
+
+      {data.length === 0 ? (
+        <p className="text-slate-500">表示できるデータがありません。</p>
+      ) : (
+        <div className="w-full h-[420px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              layout="vertical"
+              data={data}
+              margin={{ top: 8, right: 24, left: 24, bottom: 8 }}
+            >
+              <XAxis type="number" domain={[0, 100]} />
+              <YAxis
+                type="category"
+                dataKey="unit"
+                width={220}
+                tick={{ fontSize: 12 }}
+              />
+              <Tooltip />
+              <Bar dataKey={dataKey} radius={[0, 8, 8, 0]} onClick={onBarClick}>
+                {data.map((entry, index) => (
+                  <Cell
+                    key={`${dataKey}-cell-${index}`}
+                    fill={scoreColor(entry[dataKey])}
+                    cursor="pointer"
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {data.length > 0 && (
+        <div className="mt-4 text-sm text-slate-600">
+          {scoreType === "priority"
+            ? "数値が高いほど、今すぐ復習した方がよい単元です。"
+            : scoreType === "retention"
+              ? "低いほど忘れかけています。"
+              : "低いほど自力での理解が不安定です。"}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function MyDataPage() {
   const router = useRouter();
   const { supabase, session } = useSupabase();
-  const [data, setData] = useState([]);
-  const [period, setPeriod] = useState("all");
-  const [showOnlyWeak, setShowOnlyWeak] = useState(false);
-  const [rankingTop10, setRankingTop10] = useState([]);
-  const [myRank, setMyRank] = useState(null);
-  const [reviewCount, setReviewCount] = useState(0);
-  const [reviewQuestions, setReviewQuestions] = useState([]);
-  const [streak, setStreak] = useState(0);
-  const [studiedToday, setStudiedToday] = useState(false);
-  const aggregatedByUnit = {};
-  data.forEach((l) => {
-    const unit = l.unit;
-    const acc = l.accuracy ?? 0;
 
-    if (!aggregatedByUnit[unit]) {
-      aggregatedByUnit[unit] = {
-        total: 0,
-        count: 0,
-      };
+  const [unitStats, setUnitStats] = useState([]);
+  const [reviewQuestions, setReviewQuestions] = useState([]);
+  const [reviewCount, setReviewCount] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [ranking, setRanking] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [chartMode, setChartMode] = useState("priority");
+  const [tableFilter, setTableFilter] = useState("all");
+
+  const fetchJson = async (url) => {
+    const { data: authData } = await supabase.auth.getSession();
+    const token = authData?.session?.access_token;
+
+    if (!token) {
+      throw new Error("No access token");
     }
 
-    aggregatedByUnit[unit].total += acc;
-    aggregatedByUnit[unit].count += 1;
-  });
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-  // logs からグラフ用データを作る
-  const chartData = Object.entries(aggregatedByUnit).map(([unit, v]) => ({
-    unit,
-    accuracy: Math.round(v.total / v.count),
-  }));
-  const filteredChartData = showOnlyWeak
-    ? chartData.filter((d) => d.accuracy !== null && d.accuracy < 80)
-    : chartData;
-  const sortedChartData = [...filteredChartData].sort(
-    (a, b) => a.accuracy - b.accuracy,
-  );
-  const weakTop3 = [...sortedChartData]
-    .filter((item) => item.accuracy !== null && item.accuracy !== undefined)
-    .slice(0, 3);
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 640;
+    const json = await res.json();
 
-  const ROW_HEIGHT = 32; // 単元1つあたりの高さ
-  const chartHeight = Math.max(sortedChartData.length * ROW_HEIGHT, 300);
-  const getBarColor = (accuracy) => {
-    if (accuracy === null || accuracy === undefined) return "#d1d5db"; // グレー
-    if (accuracy < 50) return "#ef4444"; // 赤
-    if (accuracy < 80) return "#facc15"; // 黄
-    return "#22c55e"; // 緑
+    if (!res.ok) {
+      throw new Error(json?.error || `${url} failed: ${res.status}`);
+    }
+
+    return json;
   };
-  const startWeakTraining = () => {
+
+  useEffect(() => {
+    let alive = true;
+
+    if (session === null) {
+      router.replace("/login");
+      return;
+    }
+    if (!session) return;
+
+    async function loadAll() {
+      try {
+        setLoading(true);
+
+        const [summary, reviewData, streakData, rankingData] =
+          await Promise.all([
+            fetchJson("/api/me/study-summary"),
+            fetchJson("/api/me/review-questions?limit=20"),
+            fetchJson("/api/me/streak"),
+            fetchJson("/api/me/weekly-ranking"),
+          ]);
+
+        if (!alive) return;
+
+        setUnitStats(Array.isArray(summary) ? summary : []);
+        setReviewQuestions(
+          Array.isArray(reviewData?.questions) ? reviewData.questions : [],
+        );
+        setReviewCount(Number(reviewData?.count ?? 0));
+        setStreak(Number(streakData?.streak ?? 0));
+        setRanking(
+          Array.isArray(rankingData?.ranking) ? rankingData.ranking : [],
+        );
+      } catch (error) {
+        console.error("MyDataPage load error:", error);
+        if (alive) {
+          setUnitStats([]);
+          setReviewQuestions([]);
+          setReviewCount(0);
+          setStreak(0);
+          setRanking([]);
+        }
+      } finally {
+        if (alive) setLoading(false);
+      }
+    }
+
+    loadAll();
+
+    return () => {
+      alive = false;
+    };
+  }, [session, router]);
+
+  const weakTop3 = useMemo(() => {
+    return [...unitStats]
+      .filter((item) => Number.isFinite(Number(item.review_priority)))
+      .sort(
+        (a, b) =>
+          Number(b.review_priority ?? 0) - Number(a.review_priority ?? 0),
+      )
+      .slice(0, 3);
+  }, [unitStats]);
+
+  const urgentTotal = useMemo(() => {
+    return unitStats.reduce(
+      (sum, item) => sum + Number(item.urgent_count ?? 0),
+      0,
+    );
+  }, [unitStats]);
+
+  const avgUnderstanding = useMemo(() => {
+    const valid = unitStats.filter((item) =>
+      Number.isFinite(Number(item.understanding_score)),
+    );
+    if (valid.length === 0) return null;
+    const sum = valid.reduce(
+      (acc, item) => acc + Number(item.understanding_score ?? 0),
+      0,
+    );
+    return sum / valid.length;
+  }, [unitStats]);
+
+  const avgRetention = useMemo(() => {
+    const valid = unitStats.filter((item) =>
+      Number.isFinite(Number(item.retention_score)),
+    );
+    if (valid.length === 0) return null;
+    const sum = valid.reduce(
+      (acc, item) => acc + Number(item.retention_score ?? 0),
+      0,
+    );
+    return sum / valid.length;
+  }, [unitStats]);
+
+  const priorityTop10 = useMemo(() => {
+    return [...unitStats]
+      .filter((item) => Number.isFinite(Number(item.review_priority)))
+      .sort(
+        (a, b) =>
+          Number(b.review_priority ?? 0) - Number(a.review_priority ?? 0),
+      )
+      .slice(0, 10)
+      .map((item) => ({
+        ...item,
+        review_priority: Number(item.review_priority ?? 0),
+      }));
+  }, [unitStats]);
+
+  const understandingWorst10 = useMemo(() => {
+    return [...unitStats]
+      .filter((item) => Number.isFinite(Number(item.understanding_score)))
+      .sort(
+        (a, b) =>
+          Number(a.understanding_score ?? 0) -
+          Number(b.understanding_score ?? 0),
+      )
+      .slice(0, 10)
+      .map((item) => ({
+        ...item,
+        understanding_score: Number(item.understanding_score ?? 0),
+      }));
+  }, [unitStats]);
+
+  const retentionWorst10 = useMemo(() => {
+    return [...unitStats]
+      .filter((item) => Number.isFinite(Number(item.retention_score)))
+      .sort(
+        (a, b) =>
+          Number(a.retention_score ?? 0) - Number(b.retention_score ?? 0),
+      )
+      .slice(0, 10)
+      .map((item) => ({
+        ...item,
+        retention_score: Number(item.retention_score ?? 0),
+      }));
+  }, [unitStats]);
+
+  const filteredTableData = useMemo(() => {
+    const rows = [...unitStats];
+
+    if (tableFilter === "urgent") {
+      return rows
+        .filter((item) => Number(item.urgent_count ?? 0) > 0)
+        .sort(
+          (a, b) =>
+            Number(b.review_priority ?? 0) - Number(a.review_priority ?? 0),
+        );
+    }
+
+    if (tableFilter === "low-understanding") {
+      return rows.sort(
+        (a, b) =>
+          Number(a.understanding_score ?? 0) -
+          Number(b.understanding_score ?? 0),
+      );
+    }
+
+    if (tableFilter === "low-retention") {
+      return rows.sort(
+        (a, b) =>
+          Number(a.retention_score ?? 0) - Number(b.retention_score ?? 0),
+      );
+    }
+
+    if (tableFilter === "high-priority") {
+      return rows.sort(
+        (a, b) =>
+          Number(b.review_priority ?? 0) - Number(a.review_priority ?? 0),
+      );
+    }
+
+    return rows.sort((a, b) => a.unit.localeCompare(b.unit, "ja"));
+  }, [unitStats, tableFilter]);
+
+  const handleReviewStart = () => {
+    if (!reviewQuestions.length) {
+      alert("今日の復習問題はありません。");
+      return;
+    }
+
+    localStorage.setItem("startReviewTraining", "true");
+    localStorage.setItem(
+      "reviewQuestionIds",
+      JSON.stringify(reviewQuestions.map((q) => String(q.question_id))),
+    );
+
+    router.push("/");
+  };
+
+  const handleWeakTrainingStart = () => {
     if (!weakTop3.length) {
       alert("弱点データがまだありません。");
       return;
@@ -85,404 +369,452 @@ export default function MyDataPage() {
     router.push("/");
   };
 
-  useEffect(() => {
-    if (session === null) {
-      router.replace("/login");
-      return;
+  const handleUnitBarClick = (data) => {
+    const unit = data?.unit;
+    if (!unit) return;
+
+    localStorage.setItem("startUnitFromMyData", unit);
+    localStorage.setItem("enteringQuestion", "1");
+
+    router.push("/");
+  };
+
+  const handleReviewQuestionStart = (questionId) => {
+    if (!questionId) return;
+
+    localStorage.setItem("startReviewTraining", "true");
+    localStorage.setItem(
+      "reviewQuestionIds",
+      JSON.stringify([String(questionId)]),
+    );
+
+    router.push("/");
+  };
+
+  const currentChart = useMemo(() => {
+    if (chartMode === "understanding") {
+      return {
+        title: "理解度ワースト10",
+        description: "自力での理解が不安定な単元です。",
+        data: understandingWorst10,
+        dataKey: "understanding_score",
+        scoreType: "understanding",
+      };
     }
-    if (!session) return;
 
-    const fetchData = async () => {
-      try {
-        const { data: authData } = await supabase.auth.getSession();
-        const token = authData?.session?.access_token;
+    if (chartMode === "retention") {
+      return {
+        title: "定着度ワースト10",
+        description: "以前できたけれど、忘れかけている単元です。",
+        data: retentionWorst10,
+        dataKey: "retention_score",
+        scoreType: "retention",
+      };
+    }
 
-        if (!token) {
-          console.error("No access token");
-          setData([]);
-          return;
-        }
-
-        const res = await fetch(`/api/me/study-summary?period=${period}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const json = await res.json();
-        console.log("study-summary status =", res.status);
-        console.log("study-summary response =", json);
-
-        if (!res.ok) {
-          console.error("study-summary fetch failed:", json);
-          setData([]);
-          return;
-        }
-
-        setData(json);
-      } catch (err) {
-        console.error("study-summary fetch exception:", err);
-        setData([]);
-      }
+    return {
+      title: "復習優先度 TOP10",
+      description: "今すぐ復習した方がよい単元です。",
+      data: priorityTop10,
+      dataKey: "review_priority",
+      scoreType: "priority",
     };
-    const fetchRanking = async () => {
-      try {
-        const { data: authData } = await supabase.auth.getSession();
-        const token = authData?.session?.access_token;
+  }, [chartMode, priorityTop10, understandingWorst10, retentionWorst10]);
 
-        if (!token) return;
-
-        const res = await fetch("/api/me/weekly-ranking", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const json = await res.json();
-
-        if (!res.ok) {
-          console.error("weekly-ranking fetch failed:", json);
-          return;
-        }
-
-        setRankingTop10(json.top10 ?? []);
-        setMyRank(json.myRank ?? null);
-      } catch (err) {
-        console.error("weekly-ranking fetch exception:", err);
-      }
-    };
-    const fetchReviewQuestions = async () => {
-      try {
-        const { data: authData } = await supabase.auth.getSession();
-        const token = authData?.session?.access_token;
-
-        if (!token) return;
-
-        const res = await fetch("/api/me/review-questions", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const json = await res.json();
-
-        if (!res.ok) {
-          console.error("review-questions fetch failed:", json);
-          return;
-        }
-
-        setReviewCount(json.count ?? 0);
-        setReviewQuestions(json.questions ?? []);
-      } catch (err) {
-        console.error("review-questions fetch exception:", err);
-      }
-    };
-
-    const fetchStreak = async () => {
-      try {
-        const { data: authData } = await supabase.auth.getSession();
-        const token = authData?.session?.access_token;
-
-        if (!token) return;
-
-        const res = await fetch("/api/me/streak", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        const json = await res.json();
-
-        if (!res.ok) {
-          console.error("streak fetch failed:", json);
-          return;
-        }
-
-        setStreak(json.streak ?? 0);
-        setStudiedToday(!!json.studiedToday);
-      } catch (err) {
-        console.error("streak fetch exception:", err);
-      }
-    };
-
-    fetchData();
-    fetchRanking();
-    fetchReviewQuestions();
-    fetchStreak();
-  }, [session, period]);
-
-  const hasReviewQuestions = reviewCount > 0;
-
-  const reviewBadgeText = hasReviewQuestions
-    ? `🔥 今日の復習 ${reviewCount}問`
-    : "✅ 今日の復習 今日はなし";
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-2xl shadow p-6 text-slate-700">
+            学習データを読み込み中です...
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <button
-        onClick={() => router.push("/")}
-        className="mb-4 text-blue-600 underline"
-      >
-        ← 単元選択画面に戻る
-      </button>
-
-      <h1 className="text-2xl font-bold mb-4">My学習データ</h1>
-
-      {/* 期間切り替え */}
-      <div className="flex gap-2 mb-4">
-        {["7", "30", "all"].map((p) => (
-          <button
-            key={p}
-            onClick={() => setPeriod(p)}
-            className={`px-3 py-1 rounded border ${
-              period === p ? "bg-blue-600 text-white" : ""
-            }`}
-          >
-            {p === "7" ? "7日" : p === "30" ? "30日" : "すべて"}
-          </button>
-        ))}
-      </div>
-
-      {/* グラフ */}
-      <h2 className="text-xl font-bold mt-8 mb-4">単元別 正答率</h2>
-      <button
-        onClick={() => setShowOnlyWeak((prev) => !prev)}
-        className={`mb-4 px-3 py-1 rounded text-sm border
-    ${
-      showOnlyWeak
-        ? "bg-red-100 text-red-700 border-red-300"
-        : "bg-white text-gray-700 border-gray-300"
-    }`}
-      >
-        {showOnlyWeak ? "すべて表示" : "要復習（🔴🟡）のみ表示"}
-      </button>
-
-      {chartData.length === 0 ? (
-        <p className="text-gray-500">表示できるデータがありません。</p>
-      ) : (
-        // ★ 外側：スクロール担当
-        <div className="w-full max-h-[400px] overflow-y-auto bg-white rounded shadow p-4">
-          {/* ★ 内側：実データ数に応じた高さ */}
-          <div style={{ height: `${chartHeight}px` }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={sortedChartData}
-                layout="vertical"
-                margin={{
-                  top: 10,
-                  right: 40,
-                  left: isMobile ? 40 : 100,
-                  bottom: 10,
-                }}
-              >
-                <XAxis
-                  type="number"
-                  domain={[0, 100]}
-                  tickFormatter={(v) => `${v}%`}
-                />
-
-                <YAxis
-                  type="category"
-                  dataKey="unit"
-                  width={isMobile ? 80 : 140}
-                  tick={{ fontSize: isMobile ? 10 : 12 }}
-                />
-
-                <Tooltip
-                  formatter={(value, name, props) =>
-                    `${props.payload.accuracy}%`
-                  }
-                />
-
-                <Bar
-                  dataKey="accuracy"
-                  minPointSize={6}
-                  onClick={(payload) => {
-                    const unit =
-                      payload?.payload?.unit ??
-                      payload?.activePayload?.[0]?.payload?.unit;
-
-                    if (!unit) return;
-
-                    console.log("🎯 Myデータから unit 指定:", unit);
-
-                    // ★★★★★ ここが決定打 ★★★★★
-                    try {
-                      // すべてのBGMを強制停止
-                      if (typeof window !== "undefined") {
-                        window.stopBgm?.(true);
-                        window.stopQbgm?.(true);
-                        window.resetAudioState?.();
-                      }
-                    } catch (e) {
-                      console.warn("[Audio] force stop failed:", e);
-                    }
-
-                    // Myデータ経由フラグ
-                    localStorage.setItem("fromMyData", "1");
-                    localStorage.setItem("startUnitFromMyData", unit);
-                    localStorage.setItem("enteringQuestion", "1");
-
-                    // 少しだけ待ってから遷移（音の完全停止を保証）
-                    setTimeout(() => {
-                      router.push("/");
-                    }, 50);
-                  }}
-                >
-                  {/* ★ 正答率ラベルを右側に表示 */}
-                  <LabelList
-                    dataKey="accuracy"
-                    position="right"
-                    formatter={(v) => `${v}%`}
-                    style={{
-                      fill: "#374151", // 濃いグレー（スマホでも見やすい）
-                      fontSize: 12,
-                      fontWeight: 600,
-                      pointerEvents: "none", // ← クリック判定に影響させない
-                    }}
-                  />
-
-                  {sortedChartData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={getBarColor(entry.accuracy)}
-                    />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+    <div className="min-h-screen bg-slate-50 px-4 py-8">
+      <div className="max-w-6xl mx-auto space-y-8">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900">
+              学習ダッシュボード
+            </h1>
+            <p className="text-slate-600 mt-1">
+              理解度と定着度から、今やるべき復習を見つけましょう。
+            </p>
           </div>
+
+          <button
+            onClick={() => router.push("/")}
+            className="px-4 py-2 rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-700 transition"
+          >
+            問題画面へ戻る
+          </button>
         </div>
-      )}
 
-      <LearningDashboard
-        streak={streak}
-        studiedToday={studiedToday}
-        reviewCount={reviewCount}
-        weakTop3={weakTop3}
-        onStartReview={() => {
-          if (!reviewQuestions.length) {
-            alert("今日の復習問題はありません。");
-            return;
-          }
+        <LearningDashboard
+          streak={streak}
+          reviewCount={reviewCount}
+          weakTop3={weakTop3}
+          onStartReview={handleReviewStart}
+          onStartWeakTraining={handleWeakTrainingStart}
+        />
 
-          localStorage.setItem("startReviewTraining", "true");
-          localStorage.setItem(
-            "reviewQuestionIds",
-            JSON.stringify(reviewQuestions.map((q) => String(q.question_id))),
-          );
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white rounded-2xl shadow p-5">
+            <p className="text-sm text-slate-500 mb-2">平均理解度</p>
+            <p className="text-3xl font-bold text-slate-900">
+              {avgUnderstanding == null
+                ? "--"
+                : `${avgUnderstanding.toFixed(0)}%`}
+            </p>
+            <p className="mt-2 text-sm text-slate-600">
+              {avgUnderstanding == null
+                ? "まだデータがありません"
+                : scoreLabel(avgUnderstanding, "understanding")}
+            </p>
+          </div>
 
-          router.push("/");
-        }}
-        onStartWeakTraining={startWeakTraining}
-      />
+          <div className="bg-white rounded-2xl shadow p-5">
+            <p className="text-sm text-slate-500 mb-2">平均定着度</p>
+            <p className="text-3xl font-bold text-slate-900">
+              {avgRetention == null ? "--" : `${avgRetention.toFixed(0)}%`}
+            </p>
+            <p className="mt-2 text-sm text-slate-600">
+              {avgRetention == null
+                ? "まだデータがありません"
+                : scoreLabel(avgRetention, "retention")}
+            </p>
+          </div>
 
-      <div className="mt-8 bg-white rounded-xl shadow p-4">
-        <h2 className="text-xl font-bold mb-4">🏆 今週の努力ランキング</h2>
+          <div className="bg-white rounded-2xl shadow p-5">
+            <p className="text-sm text-slate-500 mb-2">最優先復習問題数</p>
+            <p className="text-3xl font-bold text-slate-900">{urgentTotal}</p>
+            <p className="mt-2 text-sm text-slate-600">
+              今やるべき問題を優先して復習しましょう
+            </p>
+          </div>
+        </section>
 
-        {myRank && (
-          <p className="mb-4 text-indigo-700 font-semibold">
-            あなたの順位：{myRank.rank}位（{myRank.total_answers}問）
-          </p>
-        )}
+        <section className="space-y-4">
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setChartMode("priority")}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                chartMode === "priority"
+                  ? "bg-slate-800 text-white"
+                  : "bg-white text-slate-700 border border-slate-200"
+              }`}
+            >
+              復習優先度TOP10
+            </button>
 
-        <div className="space-y-2">
-          {rankingTop10.map((item) => {
-            const isMe = item.user_id === session?.user?.id;
+            <button
+              onClick={() => setChartMode("understanding")}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                chartMode === "understanding"
+                  ? "bg-slate-800 text-white"
+                  : "bg-white text-slate-700 border border-slate-200"
+              }`}
+            >
+              理解度ワースト10
+            </button>
 
-            return (
-              <div
-                key={item.user_id}
-                className={`p-3 rounded-lg flex justify-between ${
-                  isMe
-                    ? "bg-yellow-100 border border-yellow-400 font-bold"
-                    : "bg-gray-100"
+            <button
+              onClick={() => setChartMode("retention")}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition ${
+                chartMode === "retention"
+                  ? "bg-slate-800 text-white"
+                  : "bg-white text-slate-700 border border-slate-200"
+              }`}
+            >
+              定着度ワースト10
+            </button>
+          </div>
+
+          <HorizontalTopChart
+            title={currentChart.title}
+            description={currentChart.description}
+            data={currentChart.data}
+            dataKey={currentChart.dataKey}
+            scoreType={currentChart.scoreType}
+            onBarClick={handleUnitBarClick}
+          />
+        </section>
+
+        <section className="bg-white rounded-2xl shadow p-6">
+          <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">全単元一覧</h2>
+              <p className="text-sm text-slate-600 mt-1">
+                単元が多い場合は、表の方が見やすく確認できます。
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setTableFilter("all")}
+                className={`px-3 py-2 rounded-full text-sm font-semibold transition ${
+                  tableFilter === "all"
+                    ? "bg-slate-800 text-white"
+                    : "bg-slate-100 text-slate-700"
                 }`}
               >
-                <span>
-                  {item.rank}位 {item.display_name}
-                </span>
-                <span>{item.total_answers}問</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <div className="mt-8 bg-white rounded-xl shadow p-4">
-        <h2 className="text-xl font-bold mb-4">🎯 あなたの弱点TOP3</h2>
-
-        {weakTop3.length === 0 ? (
-          <p className="text-gray-500">まだ十分な学習データがありません。</p>
-        ) : (
-          <div className="space-y-2">
-            {weakTop3.map((item, index) => (
-              <div
-                key={item.unit}
-                className="flex justify-between items-center px-4 py-2 rounded-lg bg-red-50 border border-red-200"
+                すべて
+              </button>
+              <button
+                onClick={() => setTableFilter("urgent")}
+                className={`px-3 py-2 rounded-full text-sm font-semibold transition ${
+                  tableFilter === "urgent"
+                    ? "bg-slate-800 text-white"
+                    : "bg-slate-100 text-slate-700"
+                }`}
               >
-                <span>
-                  {index + 1}位 {item.unit}
-                </span>
-                <span className="font-bold text-red-600">{item.accuracy}%</span>
-              </div>
-            ))}
+                要復習だけ
+              </button>
+              <button
+                onClick={() => setTableFilter("low-understanding")}
+                className={`px-3 py-2 rounded-full text-sm font-semibold transition ${
+                  tableFilter === "low-understanding"
+                    ? "bg-slate-800 text-white"
+                    : "bg-slate-100 text-slate-700"
+                }`}
+              >
+                理解度が低い順
+              </button>
+              <button
+                onClick={() => setTableFilter("low-retention")}
+                className={`px-3 py-2 rounded-full text-sm font-semibold transition ${
+                  tableFilter === "low-retention"
+                    ? "bg-slate-800 text-white"
+                    : "bg-slate-100 text-slate-700"
+                }`}
+              >
+                定着度が低い順
+              </button>
+              <button
+                onClick={() => setTableFilter("high-priority")}
+                className={`px-3 py-2 rounded-full text-sm font-semibold transition ${
+                  tableFilter === "high-priority"
+                    ? "bg-slate-800 text-white"
+                    : "bg-slate-100 text-slate-700"
+                }`}
+              >
+                優先度が高い順
+              </button>
+            </div>
           </div>
-        )}
 
-        <button
-          onClick={startWeakTraining}
-          className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl shadow transition"
-        >
-          弱点トレーニング開始
-        </button>
-      </div>
-      <div className="mt-8 bg-white rounded-xl shadow p-4">
-        <h2 className="text-xl font-bold mb-4">🧠 今日の復習問題</h2>
+          {filteredTableData.length === 0 ? (
+            <p className="text-slate-500">表示できる単元がありません。</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 text-slate-600">
+                    <th className="text-left py-3 pr-4">単元</th>
+                    <th className="text-right py-3 px-4">正答率</th>
+                    <th className="text-right py-3 px-4">理解度</th>
+                    <th className="text-right py-3 px-4">定着度</th>
+                    <th className="text-right py-3 px-4">優先度</th>
+                    <th className="text-right py-3 px-4">要復習</th>
+                    <th className="text-right py-3 pl-4">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredTableData.map((item) => (
+                    <tr
+                      key={item.unit}
+                      className="border-b border-slate-100 hover:bg-slate-50"
+                    >
+                      <td className="py-3 pr-4 text-slate-900 font-medium">
+                        {item.unit}
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        {Number(item.accuracy ?? 0).toFixed(0)}%
+                      </td>
+                      <td
+                        className="py-3 px-4 text-right font-semibold"
+                        style={{ color: scoreColor(item.understanding_score) }}
+                      >
+                        {Number(item.understanding_score ?? 0).toFixed(0)}%
+                      </td>
+                      <td
+                        className="py-3 px-4 text-right font-semibold"
+                        style={{ color: scoreColor(item.retention_score) }}
+                      >
+                        {Number(item.retention_score ?? 0).toFixed(0)}%
+                      </td>
+                      <td className="py-3 px-4 text-right font-semibold">
+                        {Number(item.review_priority ?? 0).toFixed(0)}
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        {Number(item.urgent_count ?? 0)}
+                      </td>
+                      <td className="py-3 pl-4 text-right">
+                        <div className="flex justify-end gap-2">
+                          <button
+                            onClick={() =>
+                              router.push(
+                                `/my/unit/${encodeURIComponent(item.unit)}`,
+                              )
+                            }
+                            className="px-3 py-2 rounded-xl bg-white border border-slate-300 text-slate-800 text-xs font-semibold hover:bg-slate-50 transition"
+                          >
+                            詳細
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleUnitBarClick({ unit: item.unit })
+                            }
+                            className="px-3 py-2 rounded-xl bg-slate-800 text-white text-xs font-semibold hover:bg-slate-700 transition"
+                          >
+                            解く
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
 
-        <div
-          className={`mb-4 text-center py-3 px-4 rounded-xl font-bold shadow-sm ${
-            hasReviewQuestions
-              ? "bg-orange-100 text-orange-700 border border-orange-300"
-              : "bg-green-100 text-green-700 border border-green-300"
-          }`}
-        >
-          {reviewBadgeText}
-        </div>
+        <section className="bg-white rounded-2xl shadow p-6">
+          <div className="flex items-center justify-between gap-4 flex-wrap mb-4">
+            <div>
+              <h2 className="text-xl font-bold text-slate-900">
+                要復習問題一覧
+              </h2>
+              <p className="text-sm text-slate-600 mt-1">
+                復習で解けるかを確認しましょう。
+              </p>
+            </div>
+            <button
+              onClick={handleReviewStart}
+              className="px-4 py-2 rounded-xl bg-rose-500 text-white font-semibold hover:bg-rose-600 transition"
+            >
+              復習を始める
+            </button>
+          </div>
 
-        <p className="mb-4 text-gray-700 text-center">
-          {hasReviewQuestions
-            ? "最近の間違い・怪しい正解から復習問題を出題します。"
-            : "今は復習対象がありません。通常学習を進めましょう。"}
-        </p>
+          {reviewQuestions.length === 0 ? (
+            <p className="text-slate-500">今のところ要復習問題はありません。</p>
+          ) : (
+            <div className="space-y-3">
+              {reviewQuestions.map((q) => {
+                const understanding = Number(q.understanding_score);
+                const retention = Number(q.retention_score);
+                const priority = Number(q.review_priority);
 
-        <button
-          onClick={() => {
-            if (!reviewQuestions.length) {
-              alert("今日の復習問題はありません。");
-              return;
-            }
+                return (
+                  <div
+                    key={`${q.question_id}-${q.source ?? "review"}`}
+                    className="border border-slate-200 rounded-2xl p-4"
+                  >
+                    <div className="flex items-start justify-between gap-4 flex-wrap">
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm px-2 py-1 rounded-full bg-slate-100 text-slate-700 font-medium">
+                            {q.unit || "未分類"}
+                          </span>
+                          <span
+                            className="text-sm px-2 py-1 rounded-full text-white font-semibold"
+                            style={{ backgroundColor: scoreColor(priority) }}
+                          >
+                            {q.status_label || "要復習"}
+                          </span>
+                        </div>
 
-            localStorage.setItem("startReviewTraining", "true");
-            localStorage.setItem(
-              "reviewQuestionIds",
-              JSON.stringify(reviewQuestions.map((q) => String(q.question_id))),
-            );
+                        <div className="space-y-1">
+                          <p className="text-sm text-slate-500">問題</p>
+                          <p className="text-sm md:text-base text-slate-800 font-medium leading-relaxed">
+                            {q.question_text
+                              ? q.question_text.length > 90
+                                ? `${q.question_text.slice(0, 90)}...`
+                                : q.question_text
+                              : `問題ID: ${q.question_id}`}
+                          </p>
+                        </div>
 
-            router.push("/");
-          }}
-          className={`w-full font-bold py-3 rounded-xl shadow transition ${
-            hasReviewQuestions
-              ? "bg-indigo-600 hover:bg-indigo-700 text-white"
-              : "bg-gray-300 text-gray-600 cursor-not-allowed"
-          }`}
-          disabled={!hasReviewQuestions}
-        >
-          今日の復習を始める
-        </button>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 min-w-[280px]">
+                          <ProgressBar
+                            value={
+                              Number.isFinite(understanding) ? understanding : 0
+                            }
+                            label="理解度"
+                          />
+                          <ProgressBar
+                            value={Number.isFinite(retention) ? retention : 0}
+                            label="定着度"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-2 min-w-[160px]">
+                        <button
+                          onClick={() =>
+                            handleReviewQuestionStart(q.question_id)
+                          }
+                          className="px-4 py-2 rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-700 transition"
+                        >
+                          この問題を復習
+                        </button>
+                        <p className="text-xs text-slate-500">
+                          復習優先度:{" "}
+                          {Number.isFinite(priority)
+                            ? priority.toFixed(0)
+                            : "--"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </section>
+
+        <section className="bg-white rounded-2xl shadow p-6">
+          <h2 className="text-xl font-bold text-slate-900 mb-4">
+            今週ランキング
+          </h2>
+
+          {ranking.length === 0 ? (
+            <p className="text-slate-500">ランキングデータがありません。</p>
+          ) : (
+            <div className="space-y-3">
+              {ranking.map((row, index) => (
+                <div
+                  key={`${row.user_id ?? row.name ?? "rank"}-${index}`}
+                  className="flex items-center justify-between border border-slate-200 rounded-2xl px-4 py-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-900">
+                        {row.name ?? "ユーザー"}
+                      </p>
+                      <p className="text-sm text-slate-500">
+                        学習回数 {row.count ?? 0}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="font-bold text-slate-900">{row.count ?? 0}</p>
+                    <p className="text-xs text-slate-500">今週</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );

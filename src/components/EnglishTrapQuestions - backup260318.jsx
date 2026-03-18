@@ -12,11 +12,6 @@ import NextButtonPortal from "@/src/components/NextButtonPortal";
 import { saveStudyLog } from "@/lib/saveStudyLog";
 import { useRouter } from "next/router";
 import { useSupabase } from "@/src/providers/SupabaseProvider";
-import {
-  getUnderstandingMessage,
-  getRetentionMessage,
-  getCombinedLearningMessage,
-} from "@/lib/learningMessages";
 
 // ===== Audio Utility (iPhone対応版) =====
 let audioCtx;
@@ -1067,8 +1062,6 @@ export default function EnglishTrapQuestions() {
   const [initialQuestions, setInitialQuestions] = useState([]);
   const [firstMistakeAnswers, setFirstMistakeAnswers] = useState({});
   const [characterMood, setCharacterMood] = useState("neutral");
-  const [questionProgress, setQuestionProgress] = useState(null);
-  const [progressLoading, setProgressLoading] = useState(false);
   // ✅ iPhoneソフトキーボード表示時の“持ち上げ量”
   const [kbOffset, setKbOffset] = useState(0);
   const [inputAnswer, setInputAnswer] = useState("");
@@ -3979,35 +3972,16 @@ export default function EnglishTrapQuestions() {
 
     // ✅ user または currentQuestion が無い場合は保存しない（クラッシュ＆重複保存防止）
     if (user?.id && currentQuestion?.id) {
-      try {
-        setProgressLoading(true);
-
-        const saveResult = await saveStudyLog({
-          user_id: user.id,
-          unit: currentQuestion.unit ?? "",
-          question_id: currentQuestion.id,
-          is_correct: isCorrectAnswer,
-          is_timeout: isTimeout,
-          answer_time: answerTime,
-          did_review: didReview,
-          is_suspicious: isSuspicious,
-
-          // 今後の精度向上用
-          used_hint: hintLevel > 0,
-          is_first_try: !didReview,
-        });
-
-        if (saveResult?.ok && saveResult?.progress) {
-          setQuestionProgress(saveResult.progress);
-        } else {
-          setQuestionProgress(null);
-        }
-      } catch (error) {
-        console.error("question progress 保存エラー:", error);
-        setQuestionProgress(null);
-      } finally {
-        setProgressLoading(false);
-      }
+      await saveStudyLog({
+        user_id: user.id,
+        unit: currentQuestion.unit ?? "",
+        question_id: currentQuestion.id,
+        is_correct: isCorrectAnswer,
+        is_timeout: isTimeout,
+        answer_time: answerTime,
+        did_review: didReview,
+        is_suspicious: isSuspicious,
+      });
     }
   };
 
@@ -4101,8 +4075,6 @@ export default function EnglishTrapQuestions() {
     }
 
     setSelectedChoice(null);
-    setQuestionProgress(null);
-    setProgressLoading(false);
     setTimeout(() => setInputDisabled(false), 300);
   };
 
@@ -5792,193 +5764,6 @@ export default function EnglishTrapQuestions() {
                     <p className="text-gray-800 mt-2">
                       あなたの答え: {selectedChoice}
                     </p>
-                    {/* ✅ 理解度・定着度の見える化 */}
-                    <div className="mt-4 bg-white border border-slate-200 rounded-xl p-4 shadow">
-                      <div className="flex items-center mb-3">
-                        <span className="text-2xl mr-2">🧠</span>
-                        <h3 className="text-[#4A6572] font-bold text-lg">
-                          今回の理解度・定着度
-                        </h3>
-                      </div>
-
-                      {progressLoading ? (
-                        <p className="text-gray-600">学習状況を計算中です...</p>
-                      ) : questionProgress ? (
-                        <div className="space-y-4">
-                          {/* 理解度 */}
-                          <div>
-                            <div className="flex justify-between items-center mb-1">
-                              <span className="text-sm font-bold text-slate-700">
-                                理解度
-                              </span>
-                              <span className="text-sm font-bold text-slate-800">
-                                {Number(
-                                  questionProgress.understanding_score ?? 0,
-                                ).toFixed(0)}
-                                %
-                              </span>
-                            </div>
-                            <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
-                              <div
-                                className="h-3 rounded-full transition-all duration-500"
-                                style={{
-                                  width: `${Math.max(
-                                    0,
-                                    Math.min(
-                                      100,
-                                      Number(
-                                        questionProgress.understanding_score ??
-                                          0,
-                                      ),
-                                    ),
-                                  )}%`,
-                                  backgroundColor:
-                                    Number(
-                                      questionProgress.understanding_score ?? 0,
-                                    ) >= 80
-                                      ? "#22C55E"
-                                      : Number(
-                                            questionProgress.understanding_score ??
-                                              0,
-                                          ) >= 60
-                                        ? "#F59E0B"
-                                        : "#EF4444",
-                                }}
-                              />
-                            </div>
-                          </div>
-
-                          {/* 定着度 */}
-                          <div>
-                            <div className="flex justify-between items-center mb-1">
-                              <span className="text-sm font-bold text-slate-700">
-                                定着度
-                              </span>
-                              <span className="text-sm font-bold text-slate-800">
-                                {Number(
-                                  questionProgress.retention_score ?? 0,
-                                ).toFixed(0)}
-                                %
-                              </span>
-                            </div>
-                            <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
-                              <div
-                                className="h-3 rounded-full transition-all duration-500"
-                                style={{
-                                  width: `${Math.max(
-                                    0,
-                                    Math.min(
-                                      100,
-                                      Number(
-                                        questionProgress.retention_score ?? 0,
-                                      ),
-                                    ),
-                                  )}%`,
-                                  backgroundColor:
-                                    Number(
-                                      questionProgress.retention_score ?? 0,
-                                    ) >= 70
-                                      ? "#22C55E"
-                                      : Number(
-                                            questionProgress.retention_score ??
-                                              0,
-                                          ) >= 40
-                                        ? "#F59E0B"
-                                        : "#EF4444",
-                                }}
-                              />
-                            </div>
-                          </div>
-
-                          {/* 状態ラベル */}
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-sm font-bold text-slate-700">
-                              状態:
-                            </span>
-                            <span
-                              className="px-3 py-1 rounded-full text-sm font-bold text-white"
-                              style={{
-                                backgroundColor:
-                                  Number(
-                                    questionProgress.review_priority ?? 0,
-                                  ) >= 80
-                                    ? "#EF4444"
-                                    : Number(
-                                          questionProgress.review_priority ?? 0,
-                                        ) >= 60
-                                      ? "#F59E0B"
-                                      : "#22C55E",
-                              }}
-                            >
-                              {questionProgress.status_label ?? "要復習"}
-                            </span>
-                          </div>
-
-                          {/* コメント */}
-                          <div className="space-y-3">
-                            <div className="bg-slate-50 rounded-lg p-3 text-sm text-slate-700">
-                              <p className="font-bold text-slate-800 mb-1">
-                                理解の状態
-                              </p>
-                              <p>
-                                {
-                                  getUnderstandingMessage(
-                                    questionProgress.understanding_score,
-                                  ).short
-                                }
-                              </p>
-                              <p className="mt-1 text-slate-600">
-                                {
-                                  getUnderstandingMessage(
-                                    questionProgress.understanding_score,
-                                  ).action
-                                }
-                              </p>
-                            </div>
-
-                            <div className="bg-slate-50 rounded-lg p-3 text-sm text-slate-700">
-                              <p className="font-bold text-slate-800 mb-1">
-                                定着の状態
-                              </p>
-                              <p>
-                                {
-                                  getRetentionMessage(
-                                    questionProgress.retention_score,
-                                  ).short
-                                }
-                              </p>
-                              <p className="mt-1 text-slate-600">
-                                {
-                                  getRetentionMessage(
-                                    questionProgress.retention_score,
-                                  ).action
-                                }
-                              </p>
-                            </div>
-
-                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-sm text-slate-700">
-                              <p className="font-bold text-slate-800 mb-1">
-                                今のおすすめ
-                              </p>
-                              <p>
-                                {getCombinedLearningMessage({
-                                  understandingScore:
-                                    questionProgress.understanding_score,
-                                  retentionScore:
-                                    questionProgress.retention_score,
-                                  reviewPriority:
-                                    questionProgress.review_priority,
-                                })}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <p className="text-gray-500 text-sm">
-                          この問題の理解度・定着度はまだ計測されていません。
-                        </p>
-                      )}
-                    </div>
                     <motion.div
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
