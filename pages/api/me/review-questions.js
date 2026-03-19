@@ -1,5 +1,4 @@
 import { createClient } from "@supabase/supabase-js";
-import questionsMaster from "../data/questions.json";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -10,15 +9,15 @@ function normalizeQuestionId(value) {
   return value == null ? "" : String(value);
 }
 
-function buildQuestionTextMapFromJson() {
+function buildQuestionMap(rows) {
   const map = new Map();
-  for (const q of questionsMaster ?? []) {
-    map.set(String(q.id), {
-      question: q.question ?? "",
-      choices: q.choices ?? [],
-      correct: q.correct ?? "",
-      explanation: q.explanation ?? "",
-      level: q.level ?? "",
+  for (const row of rows ?? []) {
+    map.set(String(row.id), {
+      question: row.question ?? "",
+      choices: row.choices ?? [],
+      correct: row.correct ?? "",
+      explanation: row.explanation ?? "",
+      level: row.level ?? "",
     });
   }
   return map;
@@ -47,11 +46,6 @@ export default async function handler(req, res) {
     const userId = userData.user.id;
     const limit = Math.min(Math.max(Number(req.query.limit ?? 20), 1), 50);
 
-    const questionJsonMap = buildQuestionTextMapFromJson();
-
-    // =========================================
-    // 1) まず question_progress から優先度の高い問題を取得
-    // =========================================
     const { data: progressRows, error: progressError } = await supabaseAdmin
       .from("question_progress")
       .select(
@@ -81,9 +75,31 @@ export default async function handler(req, res) {
     }
 
     if (progressRows && progressRows.length > 0) {
+      const questionIds = progressRows
+        .map((row) => normalizeQuestionId(row.question_id))
+        .filter(Boolean);
+
+      let questionMap = new Map();
+
+      if (questionIds.length > 0) {
+        const { data: questionRows, error: questionError } = await supabaseAdmin
+          .from("questions")
+          .select("id, question, choices, correct, explanation, level")
+          .in("id", questionIds);
+
+        if (questionError) {
+          console.error(
+            "[review-questions] questions lookup error:",
+            questionError,
+          );
+        } else {
+          questionMap = buildQuestionMap(questionRows);
+        }
+      }
+
       const questions = progressRows.map((row) => {
         const qid = normalizeQuestionId(row.question_id);
-        const q = questionJsonMap.get(qid);
+        const q = questionMap.get(qid);
 
         return {
           question_id: qid,
@@ -105,10 +121,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // =========================================
-    // 2) fallback: study_logs から直近ミス / 怪しい正解を取得
-    //    ただし、対応する question_progress があれば点数を合成する
-    // =========================================
     const from = new Date();
     from.setDate(from.getDate() - 7);
 
@@ -153,36 +165,42 @@ export default async function handler(req, res) {
 
     const fallbackIds = unique.map((row) => row.question_id).filter(Boolean);
 
-    // 対応する question_progress を取得して合成
     let progressMap = new Map();
+    let questionMap = new Map();
 
     if (fallbackIds.length > 0) {
-      const { data: fallbackProgressRows, error: fallbackProgressError } =
-        await supabaseAdmin
-          .from("question_progress")
-          .select(
-            `
-            question_id,
-            understanding_score,
-            retention_score,
-            review_priority,
-            status_label,
-            last_answered_at,
-            last_correct_at
-          `,
-          )
-          .eq("user_id", userId)
-          .in("question_id", fallbackIds);
+      const { data: fallbackProgressRows } = await supabaseAdmin
+        .from("question_progress")
+        .select(
+          `
+          question_id,
+          understanding_score,
+          retention_score,
+          review_priority,
+          status_label,
+          last_answered_at,
+          last_correct_at
+        `,
+        )
+        .eq("user_id", userId)
+        .in("question_id", fallbackIds);
 
-      if (!fallbackProgressError && fallbackProgressRows) {
-        for (const row of fallbackProgressRows) {
-          progressMap.set(normalizeQuestionId(row.question_id), row);
-        }
+      for (const row of fallbackProgressRows ?? []) {
+        progressMap.set(normalizeQuestionId(row.question_id), row);
+      }
+
+      const { data: questionRows, error: questionError } = await supabaseAdmin
+        .from("questions")
+        .select("id, question, choices, correct, explanation, level")
+        .in("id", fallbackIds);
+
+      if (!questionError) {
+        questionMap = buildQuestionMap(questionRows);
       }
     }
 
     const merged = unique.map((item) => {
-      const q = questionJsonMap.get(item.question_id);
+      const q = questionMap.get(item.question_id);
       const p = progressMap.get(item.question_id);
 
       return {
