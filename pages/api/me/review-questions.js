@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import questionsMaster from "@/questions.json";
+import questionsMaster from "../../../questions.json";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
