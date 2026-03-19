@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import questionsMaster from "@/questions.json";
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -9,10 +10,16 @@ function normalizeQuestionId(value) {
   return value == null ? "" : String(value);
 }
 
-function buildQuestionTextMap(rows) {
+function buildQuestionTextMapFromJson() {
   const map = new Map();
-  for (const row of rows ?? []) {
-    map.set(String(row.id), row.question ?? "");
+  for (const q of questionsMaster ?? []) {
+    map.set(String(q.id), {
+      question: q.question ?? "",
+      choices: q.choices ?? [],
+      correct: q.correct ?? "",
+      explanation: q.explanation ?? "",
+      level: q.level ?? "",
+    });
   }
   return map;
 }
@@ -40,22 +47,24 @@ export default async function handler(req, res) {
     const userId = userData.user.id;
     const limit = Math.min(Math.max(Number(req.query.limit ?? 20), 1), 50);
 
+    const questionJsonMap = buildQuestionTextMapFromJson();
+
     // =========================================
-    // 1) question_progress から優先度の高い問題を取得
+    // 1) まず question_progress から優先度の高い問題を取得
     // =========================================
     const { data: progressRows, error: progressError } = await supabaseAdmin
       .from("question_progress")
       .select(
         `
-          question_id,
-          unit,
-          understanding_score,
-          retention_score,
-          review_priority,
-          status_label,
-          last_answered_at,
-          last_correct_at
-        `,
+        question_id,
+        unit,
+        understanding_score,
+        retention_score,
+        review_priority,
+        status_label,
+        last_answered_at,
+        last_correct_at
+      `,
       )
       .eq("user_id", userId)
       .gte("review_priority", 40)
@@ -72,38 +81,17 @@ export default async function handler(req, res) {
     }
 
     if (progressRows && progressRows.length > 0) {
-      const questionIds = progressRows
-        .map((row) => normalizeQuestionId(row.question_id))
-        .filter(Boolean);
-
-      let questionTextMap = new Map();
-
-      if (questionIds.length > 0) {
-        const { data: questionRows, error: questionError } = await supabaseAdmin
-          .from("questions")
-          .select("id, question")
-          .in("id", questionIds);
-
-        if (questionError) {
-          console.error(
-            "[review-questions] questions lookup error:",
-            questionError,
-          );
-        } else {
-          questionTextMap = buildQuestionTextMap(questionRows);
-        }
-      }
-
       const questions = progressRows.map((row) => {
         const qid = normalizeQuestionId(row.question_id);
+        const q = questionJsonMap.get(qid);
 
         return {
           question_id: qid,
-          question_text: questionTextMap.get(qid) ?? "",
+          question_text: q?.question ?? "",
           unit: row.unit ?? "",
-          understanding_score: row.understanding_score ?? 0,
-          retention_score: row.retention_score ?? 0,
-          review_priority: row.review_priority ?? 0,
+          understanding_score: row.understanding_score ?? null,
+          retention_score: row.retention_score ?? null,
+          review_priority: row.review_priority ?? null,
           status_label: row.status_label ?? "要復習",
           last_answered_at: row.last_answered_at ?? null,
           last_correct_at: row.last_correct_at ?? null,
@@ -118,7 +106,8 @@ export default async function handler(req, res) {
     }
 
     // =========================================
-    // 2) フォールバック: study_logs ベース
+    // 2) fallback: study_logs から直近ミス / 怪しい正解を取得
+    //    ただし、対応する question_progress があれば点数を合成する
     // =========================================
     const from = new Date();
     from.setDate(from.getDate() - 7);
@@ -149,11 +138,10 @@ export default async function handler(req, res) {
 
       unique.push({
         question_id: key,
-        question_text: "",
         unit: row.unit ?? "",
         understanding_score: null,
         retention_score: null,
-        review_priority: 100,
+        review_priority: null,
         status_label: row.is_suspicious ? "怪しい正解" : "直近ミス",
         last_answered_at: row.created_at ?? null,
         last_correct_at: null,
@@ -165,24 +153,55 @@ export default async function handler(req, res) {
 
     const fallbackIds = unique.map((row) => row.question_id).filter(Boolean);
 
-    if (fallbackIds.length > 0) {
-      const { data: questionRows, error: fallbackQuestionError } =
-        await supabaseAdmin
-          .from("questions")
-          .select("id, question")
-          .in("id", fallbackIds);
+    // 対応する question_progress を取得して合成
+    let progressMap = new Map();
 
-      if (!fallbackQuestionError && questionRows) {
-        const questionTextMap = buildQuestionTextMap(questionRows);
-        for (const item of unique) {
-          item.question_text = questionTextMap.get(item.question_id) ?? "";
+    if (fallbackIds.length > 0) {
+      const { data: fallbackProgressRows, error: fallbackProgressError } =
+        await supabaseAdmin
+          .from("question_progress")
+          .select(
+            `
+            question_id,
+            understanding_score,
+            retention_score,
+            review_priority,
+            status_label,
+            last_answered_at,
+            last_correct_at
+          `,
+          )
+          .eq("user_id", userId)
+          .in("question_id", fallbackIds);
+
+      if (!fallbackProgressError && fallbackProgressRows) {
+        for (const row of fallbackProgressRows) {
+          progressMap.set(normalizeQuestionId(row.question_id), row);
         }
       }
     }
 
+    const merged = unique.map((item) => {
+      const q = questionJsonMap.get(item.question_id);
+      const p = progressMap.get(item.question_id);
+
+      return {
+        question_id: item.question_id,
+        question_text: q?.question ?? "",
+        unit: item.unit,
+        understanding_score: p?.understanding_score ?? null,
+        retention_score: p?.retention_score ?? null,
+        review_priority: p?.review_priority ?? 100,
+        status_label: p?.status_label ?? item.status_label,
+        last_answered_at: p?.last_answered_at ?? item.last_answered_at,
+        last_correct_at: p?.last_correct_at ?? null,
+        source: item.source,
+      };
+    });
+
     return res.status(200).json({
-      count: unique.length,
-      questions: unique,
+      count: merged.length,
+      questions: merged,
     });
   } catch (e) {
     console.error("[review-questions] handler error:", e);

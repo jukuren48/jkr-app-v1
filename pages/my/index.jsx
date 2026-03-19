@@ -706,9 +706,14 @@ export default function MyDataPage() {
           ) : (
             <div className="space-y-3">
               {reviewQuestions.map((q) => {
-                const understanding = Number(q.understanding_score);
-                const retention = Number(q.retention_score);
-                const priority = Number(q.review_priority);
+                const understanding =
+                  q.understanding_score == null
+                    ? null
+                    : Number(q.understanding_score);
+                const retention =
+                  q.retention_score == null ? null : Number(q.retention_score);
+                const priority =
+                  q.review_priority == null ? null : Number(q.review_priority);
 
                 return (
                   <div
@@ -741,16 +746,21 @@ export default function MyDataPage() {
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 min-w-[280px]">
-                          <ProgressBar
-                            value={
-                              Number.isFinite(understanding) ? understanding : 0
-                            }
-                            label="理解度"
-                          />
-                          <ProgressBar
-                            value={Number.isFinite(retention) ? retention : 0}
-                            label="定着度"
-                          />
+                          {understanding == null ? (
+                            <div className="text-sm text-slate-500">
+                              理解度：未計測
+                            </div>
+                          ) : (
+                            <ProgressBar value={understanding} label="理解度" />
+                          )}
+
+                          {retention == null ? (
+                            <div className="text-sm text-slate-500">
+                              定着度：未計測
+                            </div>
+                          ) : (
+                            <ProgressBar value={retention} label="定着度" />
+                          )}
                         </div>
                       </div>
 
@@ -765,9 +775,7 @@ export default function MyDataPage() {
                         </button>
                         <p className="text-xs text-slate-500">
                           復習優先度:{" "}
-                          {Number.isFinite(priority)
-                            ? priority.toFixed(0)
-                            : "--"}
+                          {priority == null ? "未計測" : priority.toFixed(0)}
                         </p>
                       </div>
                     </div>
