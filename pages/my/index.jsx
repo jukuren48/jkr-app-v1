@@ -160,6 +160,44 @@ export default function MyDataPage() {
     return json;
   };
 
+  const enrichReviewQuestionsWithMaster = async (questions) => {
+    const needsText = questions.filter(
+      (q) => !q.question_text || String(q.question_text).trim() === "",
+    );
+
+    if (needsText.length === 0) {
+      return questions;
+    }
+
+    try {
+      const res = await fetch("/api/questions2");
+      if (!res.ok) {
+        throw new Error(`/api/questions2 failed: ${res.status}`);
+      }
+
+      const masterQuestions = await res.json();
+
+      const masterMap = new Map(
+        (masterQuestions ?? []).map((q) => [String(q.id), q.question ?? ""]),
+      );
+
+      return questions.map((q) => {
+        if (q.question_text && String(q.question_text).trim() !== "") {
+          return q;
+        }
+
+        const fallbackText = masterMap.get(String(q.question_id)) ?? "";
+        return {
+          ...q,
+          question_text: fallbackText,
+        };
+      });
+    } catch (error) {
+      console.error("reviewQuestions 補完エラー:", error);
+      return questions;
+    }
+  };
+
   useEffect(() => {
     let alive = true;
 
@@ -184,9 +222,14 @@ export default function MyDataPage() {
         if (!alive) return;
 
         setUnitStats(Array.isArray(summary) ? summary : []);
-        setReviewQuestions(
-          Array.isArray(reviewData?.questions) ? reviewData.questions : [],
-        );
+        const rawReviewQuestions = Array.isArray(reviewData?.questions)
+          ? reviewData.questions
+          : [];
+
+        const enrichedReviewQuestions =
+          await enrichReviewQuestionsWithMaster(rawReviewQuestions);
+
+        setReviewQuestions(enrichedReviewQuestions);
         setReviewCount(Number(reviewData?.count ?? 0));
         setStreak(Number(streakData?.streak ?? 0));
         setRanking(
@@ -737,7 +780,8 @@ export default function MyDataPage() {
                         <div className="space-y-1">
                           <p className="text-sm text-slate-500">問題</p>
                           <p className="text-sm md:text-base text-slate-800 font-medium leading-relaxed">
-                            {q.question_text
+                            {q.question_text &&
+                            String(q.question_text).trim() !== ""
                               ? q.question_text.length > 90
                                 ? `${q.question_text.slice(0, 90)}...`
                                 : q.question_text
