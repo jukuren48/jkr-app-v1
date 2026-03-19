@@ -297,6 +297,81 @@ export default function MyDataPage() {
     return sum / valid.length;
   }, [unitStats]);
 
+  const todayRecommendation = useMemo(() => {
+    if (!unitStats.length) {
+      return {
+        title: "今日はまず1問解いてみましょう",
+        message:
+          "まだ学習データが少ないので、まずは問題を解いて理解度と定着度をためていきましょう。",
+        actionLabel: "問題を解く",
+        actionType: "home",
+        unit: null,
+      };
+    }
+
+    const sortedByPriority = [...unitStats].sort(
+      (a, b) => Number(b.review_priority ?? 0) - Number(a.review_priority ?? 0),
+    );
+
+    const topUnit = sortedByPriority[0];
+    const topPriority = Number(topUnit?.review_priority ?? 0);
+    const topUnderstanding = Number(topUnit?.understanding_score ?? 0);
+    const topRetention = Number(topUnit?.retention_score ?? 0);
+    const urgentCount = Number(topUnit?.urgent_count ?? 0);
+
+    if (reviewQuestions.length > 0 && urgentTotal >= 3) {
+      return {
+        title: "今日は最優先の復習から始めましょう",
+        message: `要復習問題が ${urgentTotal} 問あります。まずは復習で、忘れかけている内容を思い出すのがおすすめです。`,
+        actionLabel: "復習を始める",
+        actionType: "review",
+        unit: null,
+      };
+    }
+
+    if (topUnit && topRetention < 50 && topUnderstanding >= 70) {
+      return {
+        title: `今日は「${topUnit.unit}」の復習がおすすめです`,
+        message: `理解度は ${topUnderstanding.toFixed(0)}% と高めですが、定着度が ${topRetention.toFixed(0)}% まで下がっています。今のうちに復習すると効果的です。`,
+        actionLabel: "この単元を復習する",
+        actionType: "unit",
+        unit: topUnit.unit,
+      };
+    }
+
+    if (topUnit && topUnderstanding < 60) {
+      return {
+        title: `今日は「${topUnit.unit}」を重点的に進めましょう`,
+        message: `この単元は理解度が ${topUnderstanding.toFixed(0)}% で、まだ不安定です。解説を確認しながら、もう一度自力で解いてみるのがおすすめです。`,
+        actionLabel: "この単元を解く",
+        actionType: "unit",
+        unit: topUnit.unit,
+      };
+    }
+
+    if (weakTop3.length > 0) {
+      return {
+        title: "今日は弱点トレーニングがおすすめです",
+        message: `復習優先度が高い単元は「${weakTop3
+          .map((x) => x.unit)
+          .slice(0, 3)
+          .join("、")}」です。苦手をまとめて練習しましょう。`,
+        actionLabel: "弱点トレーニングへ",
+        actionType: "weak",
+        unit: null,
+      };
+    }
+
+    return {
+      title: "今日は今の調子を維持しましょう",
+      message:
+        "大きく崩れている単元は少なめです。今のペースで学習を続けながら、気になる単元を1つ解いてみましょう。",
+      actionLabel: "問題を解く",
+      actionType: "home",
+      unit: null,
+    };
+  }, [unitStats, reviewQuestions, urgentTotal, weakTop3]);
+
   const priorityTop10 = useMemo(() => {
     return [...unitStats]
       .filter((item) => Number.isFinite(Number(item.review_priority)))
@@ -412,6 +487,25 @@ export default function MyDataPage() {
     router.push("/");
   };
 
+  const handleRecommendationAction = () => {
+    if (todayRecommendation.actionType === "review") {
+      handleReviewStart();
+      return;
+    }
+
+    if (todayRecommendation.actionType === "weak") {
+      handleWeakTrainingStart();
+      return;
+    }
+
+    if (todayRecommendation.actionType === "unit" && todayRecommendation.unit) {
+      handleUnitBarClick({ unit: todayRecommendation.unit });
+      return;
+    }
+
+    router.push("/");
+  };
+
   const handleUnitBarClick = (data) => {
     const unit = data?.unit;
     if (!unit) return;
@@ -504,6 +598,29 @@ export default function MyDataPage() {
           onStartReview={handleReviewStart}
           onStartWeakTraining={handleWeakTrainingStart}
         />
+
+        <section className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl shadow p-6">
+          <div className="flex items-start justify-between gap-4 flex-wrap">
+            <div className="max-w-3xl">
+              <p className="text-sm font-bold text-blue-700 mb-2">
+                📌 今日のおすすめ
+              </p>
+              <h2 className="text-2xl font-bold text-slate-900 mb-2">
+                {todayRecommendation.title}
+              </h2>
+              <p className="text-slate-700 leading-relaxed">
+                {todayRecommendation.message}
+              </p>
+            </div>
+
+            <button
+              onClick={handleRecommendationAction}
+              className="px-5 py-3 rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-700 transition"
+            >
+              {todayRecommendation.actionLabel}
+            </button>
+          </div>
+        </section>
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-2xl shadow p-5">
