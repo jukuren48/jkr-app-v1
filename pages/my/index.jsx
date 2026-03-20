@@ -267,11 +267,8 @@ export default function MyDataPage() {
   }, [unitStats]);
 
   const urgentTotal = useMemo(() => {
-    return unitStats.reduce(
-      (sum, item) => sum + Number(item.urgent_count ?? 0),
-      0,
-    );
-  }, [unitStats]);
+    return reviewQuestions.length;
+  }, [reviewQuestions]);
 
   const avgUnderstanding = useMemo(() => {
     const valid = unitStats.filter((item) =>
@@ -832,10 +829,10 @@ export default function MyDataPage() {
           </div>
 
           <div className="bg-white rounded-2xl shadow p-5">
-            <p className="text-sm text-slate-500 mb-2">最優先復習問題数</p>
+            <p className="text-sm text-slate-500 mb-2">要復習問題数</p>
             <p className="text-3xl font-bold text-slate-900">{urgentTotal}</p>
             <p className="mt-2 text-sm text-slate-600">
-              今やるべき問題を優先して復習しましょう
+              今のうちに復習しておきたい問題数です
             </p>
           </div>
         </section>

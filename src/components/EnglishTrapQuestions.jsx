@@ -1083,6 +1083,7 @@ export default function EnglishTrapQuestions() {
   const [characterMood, setCharacterMood] = useState("neutral");
   const [questionProgress, setQuestionProgress] = useState(null);
   const [progressLoading, setProgressLoading] = useState(false);
+  const [progressDebug, setProgressDebug] = useState(null);
   const [startedRecommendedReview, setStartedRecommendedReview] =
     useState(false);
   const [recommendedReviewCount, setRecommendedReviewCount] = useState(0);
@@ -1092,6 +1093,7 @@ export default function EnglishTrapQuestions() {
     understandingImproved: 0,
     retentionImproved: 0,
   });
+  const [sessionUnitSummary, setSessionUnitSummary] = useState([]);
   // ✅ iPhoneソフトキーボード表示時の“持ち上げ量”
   const [kbOffset, setKbOffset] = useState(0);
   const [inputAnswer, setInputAnswer] = useState("");
@@ -1392,6 +1394,14 @@ export default function EnglishTrapQuestions() {
     if (name && name.trim() !== "") {
       handleSetUserName(name.trim());
     }
+  };
+
+  const handleStartRecommendedUnit = () => {
+    if (!nextRecommendedUnit?.unit) return;
+
+    localStorage.setItem("startUnitFromMyData", nextRecommendedUnit.unit);
+    localStorage.setItem("enteringQuestion", "1");
+    window.location.href = "/";
   };
 
   const openBillingPortal = async () => {
@@ -2014,6 +2024,31 @@ export default function EnglishTrapQuestions() {
       return wordEnabledMap[key] !== false;
     });
   }, [selectedWordQuestions, wordEnabledMap]);
+
+  const nextRecommendedUnit = useMemo(() => {
+    if (!unitStats || typeof unitStats !== "object") return null;
+
+    const entries = Object.entries(unitStats)
+      .map(([unit, stat]) => {
+        const total = Number(stat?.total ?? 0);
+        const wrong = Number(stat?.wrong ?? 0);
+        const accuracy = total > 0 ? ((total - wrong) / total) * 100 : 0;
+
+        return {
+          unit,
+          total,
+          wrong,
+          accuracy,
+        };
+      })
+      .filter((item) => item.total > 0)
+      .sort((a, b) => {
+        if (b.wrong !== a.wrong) return b.wrong - a.wrong;
+        return a.accuracy - b.accuracy;
+      });
+
+    return entries[0] ?? null;
+  }, [unitStats]);
 
   // 🧭 問題画面が表示された瞬間にトップへスクロール
   useEffect(() => {
@@ -4022,6 +4057,12 @@ export default function EnglishTrapQuestions() {
           const nextProgress = saveResult.progress;
           setQuestionProgress(nextProgress);
 
+          if (saveResult?.changes) {
+            setProgressDebug(saveResult.changes);
+          } else {
+            setProgressDebug(null);
+          }
+
           // ✅ おすすめ復習中だけ改善数を集計
           if (startedRecommendedReview && saveResult?.changes) {
             setRecommendedReviewStats((prev) => ({
@@ -4035,6 +4076,7 @@ export default function EnglishTrapQuestions() {
           }
         } else {
           setQuestionProgress(null);
+          setProgressDebug(null);
         }
       } catch (error) {
         console.error("question progress 保存エラー:", error);
@@ -4098,6 +4140,7 @@ export default function EnglishTrapQuestions() {
 
         applyTestResultToUnitStats();
         unitStatsSaveRef.current = true;
+        buildSessionUnitSummary();
 
         // ★ 保存処理は裏で並列実行（UX向上）
         //saveStatsToSupabase(); // await を付けない！
@@ -4144,7 +4187,62 @@ export default function EnglishTrapQuestions() {
     setSelectedChoice(null);
     setQuestionProgress(null);
     setProgressLoading(false);
+    setProgressDebug(null);
     setTimeout(() => setInputDisabled(false), 300);
+  };
+
+  const buildSessionUnitSummary = () => {
+    if (!unitStats || typeof unitStats !== "object") {
+      setSessionUnitSummary([]);
+      return;
+    }
+
+    // ✅ 今回の出題で使われた単元だけを抽出
+    const sessionUnits = Array.from(
+      new Set(
+        (filteredQuestions ?? [])
+          .map((q) => q?.unit)
+          .filter((unit) => typeof unit === "string" && unit.trim() !== ""),
+      ),
+    );
+
+    const rows = sessionUnits
+      .map((unit) => {
+        const stat = unitStats[unit] || { total: 0, wrong: 0 };
+
+        const total = Number(stat?.total ?? 0);
+        const wrong = Number(stat?.wrong ?? 0);
+        const correct = Math.max(0, total - wrong);
+        const accuracy = total > 0 ? (correct / total) * 100 : 0;
+
+        let comment = "";
+        if (accuracy >= 85) {
+          comment = "かなり安定しています。この調子です。";
+        } else if (accuracy >= 70) {
+          comment = "かなり理解できています。あと少しで安定です。";
+        } else if (accuracy >= 50) {
+          comment =
+            "理解は進んでいますが、まだ不安定です。復習すると伸びやすいです。";
+        } else {
+          comment = "まだ不安定です。解説を見ながらもう一度確認しましょう。";
+        }
+
+        return {
+          unit,
+          total,
+          wrong,
+          correct,
+          accuracy: Math.round(accuracy * 10) / 10,
+          comment,
+        };
+      })
+      .filter((row) => row.total > 0)
+      .sort((a, b) => {
+        if (b.wrong !== a.wrong) return b.wrong - a.wrong;
+        return a.accuracy - b.accuracy;
+      });
+
+    setSessionUnitSummary(rows);
   };
 
   const applyTestResultToUnitStats = () => {
@@ -4282,6 +4380,7 @@ export default function EnglishTrapQuestions() {
     setHintText("");
     setTimerActive(false);
     setTimeLeft(0);
+    setSessionUnitSummary([]);
 
     // 🔽 同じ問題を最初から出す
     setFilteredQuestions([...initialQuestions]);
@@ -6825,6 +6924,67 @@ export default function EnglishTrapQuestions() {
               )}
             </motion.div>
 
+            {sessionUnitSummary.length > 0 && (
+              <div className="mb-6 bg-white border border-slate-200 rounded-2xl p-5 shadow">
+                <h3 className="text-xl font-bold text-slate-900 mb-4">
+                  📊 今回の単元ごとの結果まとめ
+                </h3>
+
+                <div className="space-y-4">
+                  {sessionUnitSummary.map((row) => (
+                    <div
+                      key={row.unit}
+                      className="border border-slate-200 rounded-xl p-4 bg-slate-50"
+                    >
+                      <div className="flex items-start justify-between gap-4 flex-wrap mb-3">
+                        <div>
+                          <h4 className="text-lg font-bold text-slate-900">
+                            {row.unit}
+                          </h4>
+                          <p className="text-sm text-slate-600 mt-1">
+                            正解 {row.correct} / {row.total}問
+                          </p>
+                        </div>
+
+                        <div
+                          className="px-3 py-1 rounded-full text-sm font-bold text-white"
+                          style={{
+                            backgroundColor:
+                              row.accuracy >= 80
+                                ? "#22C55E"
+                                : row.accuracy >= 60
+                                  ? "#F59E0B"
+                                  : "#EF4444",
+                          }}
+                        >
+                          {row.accuracy.toFixed(0)}%
+                        </div>
+                      </div>
+
+                      <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+                        <div
+                          className="h-3 rounded-full transition-all duration-500"
+                          style={{
+                            width: `${Math.max(0, Math.min(100, row.accuracy))}%`,
+                            backgroundColor:
+                              row.accuracy >= 80
+                                ? "#22C55E"
+                                : row.accuracy >= 60
+                                  ? "#F59E0B"
+                                  : "#EF4444",
+                          }}
+                        />
+                      </div>
+
+                      <p className="mt-3 text-sm text-slate-700 leading-relaxed">
+                        {row.comment}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {showRecommendedReviewDone && (
               <div className="mb-6 bg-green-50 border border-green-300 rounded-2xl p-5 shadow">
                 <p className="text-sm font-bold text-green-700 mb-2">
@@ -6857,6 +7017,107 @@ export default function EnglishTrapQuestions() {
                     </p>
                   </div>
                 </div>
+
+                {progressDebug && (
+                  <div className="mt-4 bg-slate-900 text-slate-100 rounded-xl p-4 text-sm">
+                    <p className="font-bold mb-3">🛠 開発用チェック</p>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="bg-slate-800 rounded-lg p-3">
+                        <p className="text-slate-400 text-xs mb-1">理解度</p>
+                        <p className="font-bold">
+                          {Number(
+                            progressDebug.understanding_before ?? 0,
+                          ).toFixed(1)}
+                          {" → "}
+                          {Number(
+                            progressDebug.understanding_after ?? 0,
+                          ).toFixed(1)}{" "}
+                          <span
+                            className={
+                              progressDebug.understanding_improved
+                                ? "text-green-400"
+                                : "text-slate-400"
+                            }
+                          >
+                            (
+                            {Number(progressDebug.understanding_after ?? 0) -
+                              Number(progressDebug.understanding_before ?? 0) >=
+                            0
+                              ? "+"
+                              : ""}
+                            {(
+                              Number(progressDebug.understanding_after ?? 0) -
+                              Number(progressDebug.understanding_before ?? 0)
+                            ).toFixed(1)}
+                            )
+                          </span>
+                        </p>
+                      </div>
+
+                      <div className="bg-slate-800 rounded-lg p-3">
+                        <p className="text-slate-400 text-xs mb-1">定着度</p>
+                        <p className="font-bold">
+                          {Number(progressDebug.retention_before ?? 0).toFixed(
+                            1,
+                          )}
+                          {" → "}
+                          {Number(progressDebug.retention_after ?? 0).toFixed(
+                            1,
+                          )}{" "}
+                          <span
+                            className={
+                              progressDebug.retention_improved
+                                ? "text-green-400"
+                                : "text-slate-400"
+                            }
+                          >
+                            (
+                            {Number(progressDebug.retention_after ?? 0) -
+                              Number(progressDebug.retention_before ?? 0) >=
+                            0
+                              ? "+"
+                              : ""}
+                            {(
+                              Number(progressDebug.retention_after ?? 0) -
+                              Number(progressDebug.retention_before ?? 0)
+                            ).toFixed(1)}
+                            )
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <p className="mt-3 text-xs text-slate-400 leading-relaxed">
+                      開発中の確認用表示です。数値の変化が自然かどうかをチェックするために使います。
+                    </p>
+                  </div>
+                )}
+
+                {nextRecommendedUnit && (
+                  <div className="mt-4 bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                    <p className="text-sm font-bold text-amber-700 mb-2">
+                      👉 次におすすめの単元
+                    </p>
+
+                    <h4 className="text-lg font-bold text-slate-900 mb-2">
+                      {nextRecommendedUnit.unit}
+                    </h4>
+
+                    <p className="text-sm text-slate-700 leading-relaxed">
+                      この単元はこれまでに {nextRecommendedUnit.wrong}{" "}
+                      問まちがえていて、
+                      まだ不安定な可能性があります。次はこの単元をまとめて確認するのがおすすめです。
+                    </p>
+
+                    <button
+                      onClick={handleStartRecommendedUnit}
+                      className="mt-4 px-4 py-2 rounded-xl bg-amber-500 text-white font-semibold hover:bg-amber-600 transition"
+                    >
+                      この単元を解く
+                    </button>
+                  </div>
+                )}
 
                 <div className="mt-4 flex flex-wrap gap-3">
                   <button
