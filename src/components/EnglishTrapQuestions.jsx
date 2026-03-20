@@ -947,6 +947,20 @@ export default function EnglishTrapQuestions() {
     }
   }, []);
 
+  useEffect(() => {
+    const started = localStorage.getItem("startedRecommendedReview");
+    const count = localStorage.getItem("recommendedReviewCount");
+
+    if (started === "true") {
+      setStartedRecommendedReview(true);
+      setRecommendedReviewCount(Number(count || 0));
+      setRecommendedReviewStats({
+        understandingImproved: 0,
+        retentionImproved: 0,
+      });
+    }
+  }, []);
+
   // Supabase から現在のログインユーザーを取得
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -1069,6 +1083,15 @@ export default function EnglishTrapQuestions() {
   const [characterMood, setCharacterMood] = useState("neutral");
   const [questionProgress, setQuestionProgress] = useState(null);
   const [progressLoading, setProgressLoading] = useState(false);
+  const [startedRecommendedReview, setStartedRecommendedReview] =
+    useState(false);
+  const [recommendedReviewCount, setRecommendedReviewCount] = useState(0);
+  const [showRecommendedReviewDone, setShowRecommendedReviewDone] =
+    useState(false);
+  const [recommendedReviewStats, setRecommendedReviewStats] = useState({
+    understandingImproved: 0,
+    retentionImproved: 0,
+  });
   // ✅ iPhoneソフトキーボード表示時の“持ち上げ量”
   const [kbOffset, setKbOffset] = useState(0);
   const [inputAnswer, setInputAnswer] = useState("");
@@ -3991,14 +4014,25 @@ export default function EnglishTrapQuestions() {
           answer_time: answerTime,
           did_review: didReview,
           is_suspicious: isSuspicious,
-
-          // 今後の精度向上用
           used_hint: hintLevel > 0,
           is_first_try: !didReview,
         });
 
         if (saveResult?.ok && saveResult?.progress) {
-          setQuestionProgress(saveResult.progress);
+          const nextProgress = saveResult.progress;
+          setQuestionProgress(nextProgress);
+
+          // ✅ おすすめ復習中だけ改善数を集計
+          if (startedRecommendedReview && saveResult?.changes) {
+            setRecommendedReviewStats((prev) => ({
+              understandingImproved:
+                prev.understandingImproved +
+                (saveResult.changes.understanding_improved ? 1 : 0),
+              retentionImproved:
+                prev.retentionImproved +
+                (saveResult.changes.retention_improved ? 1 : 0),
+            }));
+          }
         } else {
           setQuestionProgress(null);
         }
@@ -4078,6 +4112,13 @@ export default function EnglishTrapQuestions() {
             setShowReviewPrompt(true);
             setLoadingResult(false);
             return;
+          }
+
+          if (startedRecommendedReview) {
+            setShowRecommendedReviewDone(true);
+            localStorage.removeItem("startedRecommendedReview");
+            localStorage.removeItem("recommendedReviewCount");
+            setStartedRecommendedReview(false);
           }
 
           // 結果画面へ
@@ -6783,6 +6824,73 @@ export default function EnglishTrapQuestions() {
                 </p>
               )}
             </motion.div>
+
+            {showRecommendedReviewDone && (
+              <div className="mb-6 bg-green-50 border border-green-300 rounded-2xl p-5 shadow">
+                <p className="text-sm font-bold text-green-700 mb-2">
+                  ✅ 今日のおすすめ復習を完了しました
+                </p>
+                <h3 className="text-xl font-bold text-slate-900 mb-2">
+                  おつかれさまでした！
+                </h3>
+                <p className="text-slate-700 leading-relaxed">
+                  おすすめ復習を {recommendedReviewCount} 問やり切りました。
+                  忘れかけていた内容を確認できたので、定着につながりやすくなっています。
+                </p>
+
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="bg-white rounded-xl border border-slate-200 p-4">
+                    <p className="text-sm text-slate-500 mb-1">
+                      理解度が上がった問題
+                    </p>
+                    <p className="text-2xl font-bold text-slate-900">
+                      {recommendedReviewStats.understandingImproved}問
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-xl border border-slate-200 p-4">
+                    <p className="text-sm text-slate-500 mb-1">
+                      定着度が上がった問題
+                    </p>
+                    <p className="text-2xl font-bold text-slate-900">
+                      {recommendedReviewStats.retentionImproved}問
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <button
+                    onClick={() => {
+                      setShowRecommendedReviewDone(false);
+                      setRecommendedReviewStats({
+                        understandingImproved: 0,
+                        retentionImproved: 0,
+                      });
+                      localStorage.setItem("startWeakTraining", "true");
+                      localStorage.setItem("questionCount", JSON.stringify(10));
+                      window.location.href = "/";
+                    }}
+                    className="px-4 py-2 rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-700 transition"
+                  >
+                    次は弱点トレーニングへ
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setShowRecommendedReviewDone(false);
+                      setRecommendedReviewStats({
+                        understandingImproved: 0,
+                        retentionImproved: 0,
+                      });
+                      window.location.href = "/my";
+                    }}
+                    className="px-4 py-2 rounded-xl bg-white border border-slate-300 text-slate-800 font-semibold hover:bg-slate-50 transition"
+                  >
+                    ダッシュボードへ戻る
+                  </button>
+                </div>
+              </div>
+            )}
 
             {incorrectQuestionsList.length > 0 && (
               <div className="mt-6">

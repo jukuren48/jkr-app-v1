@@ -372,6 +372,62 @@ export default function MyDataPage() {
     };
   }, [unitStats, reviewQuestions, urgentTotal, weakTop3]);
 
+  const topReviewQuestion = useMemo(() => {
+    if (!reviewQuestions.length) return null;
+
+    const normalized = [...reviewQuestions].sort((a, b) => {
+      const aPriority =
+        a.review_priority == null ? -1 : Number(a.review_priority);
+      const bPriority =
+        b.review_priority == null ? -1 : Number(b.review_priority);
+
+      if (bPriority !== aPriority) {
+        return bPriority - aPriority;
+      }
+
+      const aRetention =
+        a.retention_score == null ? 999 : Number(a.retention_score);
+      const bRetention =
+        b.retention_score == null ? 999 : Number(b.retention_score);
+
+      if (aRetention !== bRetention) {
+        return aRetention - bRetention;
+      }
+
+      return 0;
+    });
+
+    return normalized[0] ?? null;
+  }, [reviewQuestions]);
+
+  const topReviewQuestions = useMemo(() => {
+    if (!reviewQuestions.length) return [];
+
+    return [...reviewQuestions]
+      .sort((a, b) => {
+        const aPriority =
+          a.review_priority == null ? -1 : Number(a.review_priority);
+        const bPriority =
+          b.review_priority == null ? -1 : Number(b.review_priority);
+
+        if (bPriority !== aPriority) {
+          return bPriority - aPriority;
+        }
+
+        const aRetention =
+          a.retention_score == null ? 999 : Number(a.retention_score);
+        const bRetention =
+          b.retention_score == null ? 999 : Number(b.retention_score);
+
+        if (aRetention !== bRetention) {
+          return aRetention - bRetention;
+        }
+
+        return 0;
+      })
+      .slice(0, 3);
+  }, [reviewQuestions]);
+
   const priorityTop10 = useMemo(() => {
     return [...unitStats]
       .filter((item) => Number.isFinite(Number(item.review_priority)))
@@ -528,6 +584,28 @@ export default function MyDataPage() {
     router.push("/");
   };
 
+  const handleTopReviewQuestionsStart = () => {
+    if (!topReviewQuestions.length) {
+      alert("おすすめの復習問題がありません。");
+      return;
+    }
+
+    localStorage.setItem("startReviewTraining", "true");
+    localStorage.setItem(
+      "reviewQuestionIds",
+      JSON.stringify(topReviewQuestions.map((q) => String(q.question_id))),
+    );
+
+    // ✅ 今日のおすすめ復習から来たことを記録
+    localStorage.setItem("startedRecommendedReview", "true");
+    localStorage.setItem(
+      "recommendedReviewCount",
+      String(topReviewQuestions.length),
+    );
+
+    router.push("/");
+  };
+
   const currentChart = useMemo(() => {
     if (chartMode === "understanding") {
       return {
@@ -621,6 +699,110 @@ export default function MyDataPage() {
             </button>
           </div>
         </section>
+
+        {topReviewQuestion && (
+          <section className="bg-white border border-rose-200 rounded-2xl shadow p-6">
+            <div className="flex items-start justify-between gap-4 flex-wrap">
+              <div className="max-w-3xl space-y-3">
+                <p className="text-sm font-bold text-rose-600 mb-1">
+                  🎯 今日まず解くべき1問
+                </p>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-sm px-2 py-1 rounded-full bg-slate-100 text-slate-700 font-medium">
+                    {topReviewQuestion.unit || "未分類"}
+                  </span>
+                  <span
+                    className="text-sm px-2 py-1 rounded-full text-white font-semibold"
+                    style={{
+                      backgroundColor:
+                        topReviewQuestion.review_priority == null
+                          ? "#64748B"
+                          : Number(topReviewQuestion.review_priority) >= 80
+                            ? "#EF4444"
+                            : Number(topReviewQuestion.review_priority) >= 60
+                              ? "#F59E0B"
+                              : "#22C55E",
+                    }}
+                  >
+                    {topReviewQuestion.status_label || "要復習"}
+                  </span>
+                </div>
+
+                <h3 className="text-lg md:text-xl font-bold text-slate-900 leading-relaxed">
+                  {topReviewQuestion.question_text &&
+                  String(topReviewQuestion.question_text).trim() !== ""
+                    ? topReviewQuestion.question_text.length > 120
+                      ? `${topReviewQuestion.question_text.slice(0, 120)}...`
+                      : topReviewQuestion.question_text
+                    : `問題ID: ${topReviewQuestion.question_id}`}
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 min-w-[280px]">
+                  {topReviewQuestion.understanding_score == null ? (
+                    <div className="text-sm text-slate-500">理解度：未計測</div>
+                  ) : (
+                    <ProgressBar
+                      value={Number(topReviewQuestion.understanding_score)}
+                      label="理解度"
+                    />
+                  )}
+
+                  {topReviewQuestion.retention_score == null ? (
+                    <div className="text-sm text-slate-500">定着度：未計測</div>
+                  ) : (
+                    <ProgressBar
+                      value={Number(topReviewQuestion.retention_score)}
+                      label="定着度"
+                    />
+                  )}
+                </div>
+
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {topReviewQuestion.retention_score != null &&
+                  Number(topReviewQuestion.retention_score) < 40
+                    ? "忘れかけている可能性が高い問題です。今のうちに解き直すのがおすすめです。"
+                    : topReviewQuestion.understanding_score != null &&
+                        Number(topReviewQuestion.understanding_score) < 60
+                      ? "まだ自力で安定して解けていない問題です。解説も確認しながら取り組みましょう。"
+                      : "この問題を先に確認しておくと、今日の学習が安定しやすくなります。"}
+                </p>
+
+                {topReviewQuestions.length > 1 && (
+                  <p className="text-xs text-slate-500">
+                    この問題のあとに、おすすめの復習問題があと{" "}
+                    {topReviewQuestions.length - 1} 問あります。
+                  </p>
+                )}
+              </div>
+
+              <div className="flex flex-col gap-2 min-w-[200px]">
+                <button
+                  onClick={() =>
+                    handleReviewQuestionStart(topReviewQuestion.question_id)
+                  }
+                  className="px-5 py-3 rounded-xl bg-rose-500 text-white font-semibold hover:bg-rose-600 transition"
+                >
+                  この1問を復習する
+                </button>
+
+                <button
+                  onClick={handleTopReviewQuestionsStart}
+                  className="px-5 py-3 rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-700 transition"
+                >
+                  おすすめ3問をまとめて復習
+                </button>
+
+                <p className="text-xs text-slate-500">
+                  復習優先度:{" "}
+                  {topReviewQuestion.review_priority == null
+                    ? "未計測"
+                    : Number(topReviewQuestion.review_priority).toFixed(0)}
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-2xl shadow p-5">
