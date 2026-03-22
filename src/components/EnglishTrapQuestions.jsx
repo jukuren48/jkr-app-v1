@@ -1788,7 +1788,7 @@ export default function EnglishTrapQuestions() {
       // ② unit_stats（= correct, wrong, total）
       const { data: statRows, error: statError } = await supabase
         .from("unit_stats")
-        .select("unit, correct, wrong, total")
+        .select("unit, correct, wrong, total, streak")
         .eq("user_id", user_id);
 
       if (statError) {
@@ -1799,6 +1799,7 @@ export default function EnglishTrapQuestions() {
           stats[row.unit] = {
             wrong: row.wrong ?? 0,
             total: row.total ?? 0,
+            streak: row.streak ?? 0,
           };
         });
 
@@ -4052,6 +4053,7 @@ export default function EnglishTrapQuestions() {
           used_hint: hintLevel > 0,
           is_first_try: !didReview,
         });
+        console.log("saveResult =", saveResult);
 
         if (saveResult?.ok && saveResult?.progress) {
           const nextProgress = saveResult.progress;
@@ -4566,25 +4568,29 @@ export default function EnglishTrapQuestions() {
       const total = Number(stat?.total ?? 0);
       const correct = Math.max(0, total - wrong);
       const mode = Number(unitModes[unit] ?? 0);
-      const streak = Number(stat?.streak ?? 0);
+      const streak = Number.isFinite(Number(stat?.streak))
+        ? Number(stat.streak)
+        : 0;
 
-      const task = supabase.from("unit_stats").upsert(
-        {
-          user_id,
-          unit,
-          mode,
-          correct,
-          wrong,
-          total,
-          streak,
-        },
-        { onConflict: "user_id,unit" },
-      );
+      const payload = {
+        user_id,
+        unit,
+        mode,
+        correct,
+        wrong,
+        total,
+        streak,
+      };
+
+      console.log("unit_stats 保存payload:", payload);
+
+      const task = supabase.from("unit_stats").upsert(payload, {
+        onConflict: "user_id,unit",
+      });
 
       tasks.push(task);
     }
 
-    // ★ すべて同時に実行 → 超高速化
     const results = await Promise.all(tasks);
 
     results.forEach((res, idx) => {
@@ -6112,6 +6118,106 @@ export default function EnglishTrapQuestions() {
                               </p>
                             </div>
                           </div>
+                          {progressDebug && (
+                            <div className="mt-4 bg-slate-900 text-slate-100 rounded-xl p-4 text-sm">
+                              <p className="font-bold mb-3">
+                                🛠 開発用チェック
+                              </p>
+
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div className="bg-slate-800 rounded-lg p-3">
+                                  <p className="text-slate-400 text-xs mb-1">
+                                    理解度
+                                  </p>
+                                  <p className="font-bold">
+                                    {Number(
+                                      progressDebug.understanding_before ?? 0,
+                                    ).toFixed(1)}
+                                    {" → "}
+                                    {Number(
+                                      progressDebug.understanding_after ?? 0,
+                                    ).toFixed(1)}{" "}
+                                    <span
+                                      className={
+                                        progressDebug.understanding_improved
+                                          ? "text-green-400"
+                                          : "text-slate-400"
+                                      }
+                                    >
+                                      (
+                                      {Number(
+                                        progressDebug.understanding_after ?? 0,
+                                      ) -
+                                        Number(
+                                          progressDebug.understanding_before ??
+                                            0,
+                                        ) >=
+                                      0
+                                        ? "+"
+                                        : ""}
+                                      {(
+                                        Number(
+                                          progressDebug.understanding_after ??
+                                            0,
+                                        ) -
+                                        Number(
+                                          progressDebug.understanding_before ??
+                                            0,
+                                        )
+                                      ).toFixed(1)}
+                                      )
+                                    </span>
+                                  </p>
+                                </div>
+
+                                <div className="bg-slate-800 rounded-lg p-3">
+                                  <p className="text-slate-400 text-xs mb-1">
+                                    定着度
+                                  </p>
+                                  <p className="font-bold">
+                                    {Number(
+                                      progressDebug.retention_before ?? 0,
+                                    ).toFixed(1)}
+                                    {" → "}
+                                    {Number(
+                                      progressDebug.retention_after ?? 0,
+                                    ).toFixed(1)}{" "}
+                                    <span
+                                      className={
+                                        progressDebug.retention_improved
+                                          ? "text-green-400"
+                                          : "text-slate-400"
+                                      }
+                                    >
+                                      (
+                                      {Number(
+                                        progressDebug.retention_after ?? 0,
+                                      ) -
+                                        Number(
+                                          progressDebug.retention_before ?? 0,
+                                        ) >=
+                                      0
+                                        ? "+"
+                                        : ""}
+                                      {(
+                                        Number(
+                                          progressDebug.retention_after ?? 0,
+                                        ) -
+                                        Number(
+                                          progressDebug.retention_before ?? 0,
+                                        )
+                                      ).toFixed(1)}
+                                      )
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+
+                              <p className="mt-3 text-xs text-slate-400 leading-relaxed">
+                                開発中の確認用表示です。数値の変化が自然かどうかをチェックするために使います。
+                              </p>
+                            </div>
+                          )}
                         </div>
                       ) : (
                         <p className="text-gray-500 text-sm">
@@ -7017,82 +7123,6 @@ export default function EnglishTrapQuestions() {
                     </p>
                   </div>
                 </div>
-
-                {progressDebug && (
-                  <div className="mt-4 bg-slate-900 text-slate-100 rounded-xl p-4 text-sm">
-                    <p className="font-bold mb-3">🛠 開発用チェック</p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="bg-slate-800 rounded-lg p-3">
-                        <p className="text-slate-400 text-xs mb-1">理解度</p>
-                        <p className="font-bold">
-                          {Number(
-                            progressDebug.understanding_before ?? 0,
-                          ).toFixed(1)}
-                          {" → "}
-                          {Number(
-                            progressDebug.understanding_after ?? 0,
-                          ).toFixed(1)}{" "}
-                          <span
-                            className={
-                              progressDebug.understanding_improved
-                                ? "text-green-400"
-                                : "text-slate-400"
-                            }
-                          >
-                            (
-                            {Number(progressDebug.understanding_after ?? 0) -
-                              Number(progressDebug.understanding_before ?? 0) >=
-                            0
-                              ? "+"
-                              : ""}
-                            {(
-                              Number(progressDebug.understanding_after ?? 0) -
-                              Number(progressDebug.understanding_before ?? 0)
-                            ).toFixed(1)}
-                            )
-                          </span>
-                        </p>
-                      </div>
-
-                      <div className="bg-slate-800 rounded-lg p-3">
-                        <p className="text-slate-400 text-xs mb-1">定着度</p>
-                        <p className="font-bold">
-                          {Number(progressDebug.retention_before ?? 0).toFixed(
-                            1,
-                          )}
-                          {" → "}
-                          {Number(progressDebug.retention_after ?? 0).toFixed(
-                            1,
-                          )}{" "}
-                          <span
-                            className={
-                              progressDebug.retention_improved
-                                ? "text-green-400"
-                                : "text-slate-400"
-                            }
-                          >
-                            (
-                            {Number(progressDebug.retention_after ?? 0) -
-                              Number(progressDebug.retention_before ?? 0) >=
-                            0
-                              ? "+"
-                              : ""}
-                            {(
-                              Number(progressDebug.retention_after ?? 0) -
-                              Number(progressDebug.retention_before ?? 0)
-                            ).toFixed(1)}
-                            )
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-
-                    <p className="mt-3 text-xs text-slate-400 leading-relaxed">
-                      開発中の確認用表示です。数値の変化が自然かどうかをチェックするために使います。
-                    </p>
-                  </div>
-                )}
 
                 {nextRecommendedUnit && (
                   <div className="mt-4 bg-amber-50 border border-amber-200 rounded-2xl p-4">
