@@ -1357,12 +1357,11 @@ export default function EnglishTrapQuestions() {
   //};
 
   const handleSetUserName = async (newName) => {
-    // 空白チェック
     if (!newName || newName.trim() === "") return;
+    if (!supabaseUser?.id) return;
 
     const name = newName.trim();
 
-    // Supabase の user_metadata を更新
     const { error } = await supabase.auth.updateUser({
       data: { name },
     });
@@ -1372,14 +1371,15 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // 🔰 互換性のため localStorage にも保存（後で廃止予定）
-    localStorage.setItem("userName", name);
+    // ✅ 旧グローバル値は消す
+    localStorage.removeItem("userName");
+    localStorage.removeItem("streak");
 
-    // streakリセット（あなたの仕様）
+    // ✅ ユーザー単位で扱うならこちら
+    localStorage.setItem(`streak_${supabaseUser.id}`, "0");
+
     setStreak(0);
-    localStorage.setItem("streak", "0");
 
-    // 🔥 旧仕様への互換（後でSupabase保存に切り替える）
     const savedStats = localStorage.getItem(`unitStats_${supabaseUser.id}`);
     setUnitStats(savedStats ? JSON.parse(savedStats) : {});
 
