@@ -2051,6 +2051,31 @@ export default function EnglishTrapQuestions() {
     return entries[0] ?? null;
   }, [unitStats]);
 
+  const recommendedWeakUnits = useMemo(() => {
+    if (!unitStats || typeof unitStats !== "object") return [];
+
+    return Object.entries(unitStats)
+      .map(([unit, stat]) => {
+        const total = Number(stat?.total ?? 0);
+        const wrong = Number(stat?.wrong ?? 0);
+        const accuracy = total > 0 ? ((total - wrong) / total) * 100 : 0;
+
+        return {
+          unit,
+          total,
+          wrong,
+          accuracy,
+        };
+      })
+      .filter((item) => item.total > 0)
+      .sort((a, b) => {
+        if (b.wrong !== a.wrong) return b.wrong - a.wrong;
+        return a.accuracy - b.accuracy;
+      })
+      .slice(0, 3)
+      .map((item) => item.unit);
+  }, [unitStats]);
+
   // 🧭 問題画面が表示された瞬間にトップへスクロール
   useEffect(() => {
     if (showQuestions && !showResult) {
@@ -7157,8 +7182,19 @@ export default function EnglishTrapQuestions() {
                         understandingImproved: 0,
                         retentionImproved: 0,
                       });
-                      localStorage.setItem("startWeakTraining", "true");
-                      localStorage.setItem("questionCount", JSON.stringify(10));
+
+                      if (recommendedWeakUnits.length > 0) {
+                        localStorage.setItem(
+                          "weakTrainingUnits",
+                          JSON.stringify(recommendedWeakUnits),
+                        );
+                        localStorage.setItem("startWeakTraining", "true");
+                        localStorage.setItem(
+                          "questionCount",
+                          JSON.stringify(10),
+                        );
+                      }
+
                       window.location.href = "/";
                     }}
                     className="px-4 py-2 rounded-xl bg-slate-800 text-white font-semibold hover:bg-slate-700 transition"
