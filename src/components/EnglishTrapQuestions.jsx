@@ -3316,25 +3316,28 @@ export default function EnglishTrapQuestions() {
     }
   }, [streak]);
 
-  // ✅ unitStats の保存（ユーザーごとに別管理）
+  // ✅ unitStats の保存（ユーザーIDごとに別管理）
   useEffect(() => {
-    if (userName) {
-      localStorage.setItem(`unitStats_${userName}`, JSON.stringify(unitStats));
+    if (supabaseUser?.id) {
+      localStorage.setItem(
+        `unitStats_${supabaseUser.id}`,
+        JSON.stringify(unitStats),
+      );
     }
-  }, [unitStats, userName]);
+  }, [unitStats, supabaseUser?.id]);
 
   // ✅ unitStats の復元（ユーザー切り替え時）
   useEffect(() => {
-    if (userName) {
-      const saved = localStorage.getItem(`unitStats_${userName}`);
+    if (supabaseUser?.id) {
+      const saved = localStorage.getItem(`unitStats_${supabaseUser.id}`);
       if (saved) {
         setUnitStats(JSON.parse(saved));
-        //console.log(`[LOAD] ${userName} の unitStats を復元しました`);
+        // console.log(`[LOAD] ${supabaseUser.id} の unitStats を復元しました`);
       } else {
-        setUnitStats({}); // 新しいユーザーは空
+        setUnitStats({});
       }
     }
-  }, [userName]);
+  }, [supabaseUser?.id]);
 
   // 🔽 追加: 問題切り替え時に制限時間を設定
   useEffect(() => {
