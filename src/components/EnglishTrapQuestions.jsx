@@ -972,10 +972,7 @@ export default function EnglishTrapQuestions() {
   const supabaseUserName = supabaseUser?.user_metadata?.name;
 
   // 統合されたユーザー名（最優先は Supabase → fallbackで localStorage → 最後に "あなた"）
-  const userName =
-    supabaseUserName ||
-    (typeof window !== "undefined" && localStorage.getItem("userName")) ||
-    "あなた";
+  const userName = supabaseUserName || "あなた";
 
   // ✍️ 手書き入力モード（記憶機能付き）
   const [useHandwriting, setUseHandwriting] = useState(() => {
@@ -1383,7 +1380,7 @@ export default function EnglishTrapQuestions() {
     localStorage.setItem("streak", "0");
 
     // 🔥 旧仕様への互換（後でSupabase保存に切り替える）
-    const savedStats = localStorage.getItem(`unitStats_${name}`);
+    const savedStats = localStorage.getItem(`unitStats_${supabaseUser.id}`);
     setUnitStats(savedStats ? JSON.parse(savedStats) : {});
 
     alert("名前を更新しました！");
