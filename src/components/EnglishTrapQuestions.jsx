@@ -1363,19 +1363,20 @@ export default function EnglishTrapQuestions() {
     const name = newName.trim();
 
     const { error } = await supabase.auth.updateUser({
-      data: { name },
+      data: {
+        name,
+        full_name: name,
+      },
     });
 
     if (error) {
       alert("名前の更新に失敗しました");
+      console.error("名前更新エラー:", error);
       return;
     }
 
-    // ✅ 旧グローバル値は消す
     localStorage.removeItem("userName");
     localStorage.removeItem("streak");
-
-    // ✅ ユーザー単位で扱うならこちら
     localStorage.setItem(`streak_${supabaseUser.id}`, "0");
 
     setStreak(0);
@@ -3299,16 +3300,20 @@ export default function EnglishTrapQuestions() {
   }, [currentIndex, showQuestions]);
 
   useEffect(() => {
-    if (!userName) {
+    if (!supabaseUser?.id) return;
+
+    const currentName = supabaseUser?.user_metadata?.name;
+
+    if (!currentName || String(currentName).trim() === "") {
       const name = prompt(
         "あなたの名前（またはニックネーム）を入力してください",
       );
+
       if (name && name.trim() !== "") {
         handleSetUserName(name.trim());
-        localStorage.setItem("userName", name.trim());
       }
     }
-  }, []);
+  }, [supabaseUser?.id, supabaseUser?.user_metadata?.name]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
