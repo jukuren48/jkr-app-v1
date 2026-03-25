@@ -1381,6 +1381,11 @@ export default function EnglishTrapQuestions() {
       .from("users_extended")
       .update({ display_name: name })
       .eq("user_id", supabaseUser.id);
+    console.log("users_extended update result:", {
+      profileError,
+      userId: supabaseUser.id,
+      name,
+    });
 
     if (profileError) {
       alert("プロフィール名の更新に失敗しました");
