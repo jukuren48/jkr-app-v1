@@ -1362,19 +1362,33 @@ export default function EnglishTrapQuestions() {
 
     const name = newName.trim();
 
-    const { error } = await supabase.auth.updateUser({
+    // ① Auth の user_metadata を更新
+    const { error: authError } = await supabase.auth.updateUser({
       data: {
         name,
         full_name: name,
       },
     });
 
-    if (error) {
+    if (authError) {
       alert("名前の更新に失敗しました");
-      console.error("名前更新エラー:", error);
+      console.error("Auth 名前更新エラー:", authError);
       return;
     }
 
+    // ② users_extended.display_name も更新
+    const { error: profileError } = await supabase
+      .from("users_extended")
+      .update({ display_name: name })
+      .eq("user_id", supabaseUser.id);
+
+    if (profileError) {
+      alert("プロフィール名の更新に失敗しました");
+      console.error("users_extended 更新エラー:", profileError);
+      return;
+    }
+
+    // ③ ローカルの旧値は使わない
     localStorage.removeItem("userName");
     localStorage.removeItem("streak");
     localStorage.setItem(`streak_${supabaseUser.id}`, "0");
