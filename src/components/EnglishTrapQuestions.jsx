@@ -1381,11 +1381,6 @@ export default function EnglishTrapQuestions() {
       .from("users_extended")
       .update({ display_name: name })
       .eq("user_id", supabaseUser.id);
-    console.log("users_extended update result:", {
-      profileError,
-      userId: supabaseUser.id,
-      name,
-    });
 
     if (profileError) {
       alert("プロフィール名の更新に失敗しました");
@@ -1393,7 +1388,19 @@ export default function EnglishTrapQuestions() {
       return;
     }
 
-    // ③ ローカルの旧値は使わない
+    // ③ 画面表示を即更新
+    setUserName(name);
+
+    // ④ Supabase の最新 user を取り直す
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      setSupabaseUser(user);
+    }
+
+    // ⑤ ローカルの補助データ
     localStorage.removeItem("userName");
     localStorage.removeItem("streak");
     localStorage.setItem(`streak_${supabaseUser.id}`, "0");
