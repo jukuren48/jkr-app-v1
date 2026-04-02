@@ -43,20 +43,6 @@ async function ensureAudioResume() {
   }
 }
 
-// 最初のクリック/タップで必ず呼ぶ
-document.body.addEventListener(
-  "touchstart",
-  () => {
-    if (audioCtx?.state === "suspended") {
-      audioCtx.resume();
-    }
-  },
-  { once: true },
-);
-
-document.addEventListener("touchstart", unlockAudio, { once: true });
-document.addEventListener("click", unlockAudio, { once: true });
-
 function initAudio() {
   if (!audioCtx) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
