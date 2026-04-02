@@ -3675,45 +3675,6 @@ export default function EnglishTrapQuestions() {
     playResultSound();
   }, [showResult]);
 
-  // ✅ BGMを安全に停止する関数（多重再生防止）
-  function stopBgm(immediate = false) {
-    try {
-      if (bgmSource) {
-        const now = audioCtx.currentTime;
-        if (immediate) {
-          bgmSource.stop(0);
-          //console.log("[Audio] bgm stopped immediately");
-        } else {
-          // 🎚 フェードアウト → 完全停止
-          const gain = bgmGain?.gain;
-          if (gain) {
-            gain.cancelScheduledValues(now);
-            gain.setValueAtTime(gain.value, now);
-            gain.linearRampToValueAtTime(0, now + 1.0);
-          }
-          setTimeout(() => {
-            try {
-              bgmSource.stop(0);
-              //console.log("[Audio] bgm stopped after fade");
-            } catch (e) {
-              console.warn("[Audio] bgm stop failed:", e);
-            }
-          }, 1000);
-        }
-
-        // ✅ 完全破棄
-        bgmSource.disconnect();
-        bgmSource = null;
-        globalUnitBgmPlaying = false;
-        lastBgmType = null;
-      } else {
-        //console.log("[Audio] no bgmSource to stop");
-      }
-    } catch (e) {
-      console.warn("[Audio] stopBgm() error:", e);
-    }
-  }
-
   // 🎯 問題切り替え時に毎回選択肢をシャッフル
   useEffect(() => {
     if (filteredQuestions.length === 0) return;
