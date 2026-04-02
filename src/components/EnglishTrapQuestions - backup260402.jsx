@@ -268,33 +268,16 @@ const withBGMDucking = async (fn) => {
 };
 
 async function playSFX(src) {
-  try {
-    initAudio();
+  initAudio();
 
-    if (!audioCtx || !sfxGain) return;
+  const res = await fetch(src);
+  const buf = await res.arrayBuffer();
+  const audioBuffer = await audioCtx.decodeAudioData(buf);
 
-    const url =
-      typeof window !== "undefined"
-        ? new URL(src, window.location.origin).toString()
-        : src;
-
-    const res = await fetch(url, { cache: "force-cache" });
-
-    if (!res.ok) {
-      console.warn("[playSFX] fetch failed:", res.status, url);
-      return;
-    }
-
-    const buf = await res.arrayBuffer();
-    const audioBuffer = await audioCtx.decodeAudioData(buf);
-
-    const source = audioCtx.createBufferSource();
-    source.buffer = audioBuffer;
-    source.connect(sfxGain);
-    source.start(0);
-  } catch (e) {
-    console.warn("[playSFX] failed:", src, e);
-  }
+  const source = audioCtx.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(sfxGain);
+  source.start(0);
 }
 
 // 🎲 配列をシャッフルする汎用関数（そのままでOK）
@@ -1491,9 +1474,6 @@ export default function EnglishTrapQuestions() {
 
   // 効果音付きボタンハンドラ
   const playButtonSound = (callback) => {
-    initAudio();
-    syncAudioRefs(); // ← 追加
-
     if (soundEnabled) {
       playSFX("/sounds/botan.mp3");
     }
@@ -1505,34 +1485,27 @@ export default function EnglishTrapQuestions() {
   const sfxGainRef = useRef(null);
   const bgmGainRef = useRef(null);
 
-  const syncAudioRefs = () => {
-    if (bgmGain) bgmGainRef.current = bgmGain;
-    if (sfxGain) sfxGainRef.current = sfxGain;
-  };
-
   // 🎧 現在の音声を全停止するための参照
-  const currentAudioRef = useRef(null);
-
+  const currentAudioRef = useRef([]);
+  // 🛑 すべての再生中音声を停止（単一対応・安全版）
   const stopAllAudio = () => {
     try {
-      const target = currentAudioRef.current;
-      if (!target) return;
+      if (!currentAudioRef.current) return;
 
-      if (Array.isArray(target)) {
-        target.forEach((audio) => {
+      // 旧式（配列対応）の場合にも安全に動くようフォールバック
+      if (Array.isArray(currentAudioRef.current)) {
+        currentAudioRef.current.forEach((audio) => {
           if (audio && typeof audio.pause === "function") {
-            try {
-              audio.pause();
-              audio.currentTime = 0;
-            } catch {}
+            audio.pause();
+            audio.currentTime = 0;
           }
         });
       } else {
-        if (typeof target.pause === "function") {
-          try {
-            target.pause();
-            target.currentTime = 0;
-          } catch {}
+        // ✅ 新構造：単一Audioオブジェクト
+        const audio = currentAudioRef.current;
+        if (audio && typeof audio.pause === "function") {
+          audio.pause();
+          audio.currentTime = 0;
         }
       }
 
@@ -1542,66 +1515,6 @@ export default function EnglishTrapQuestions() {
     }
   };
 
-  // WebAudio / HTMLAudio を含めて強制停止
-  const hardStopAudio = async () => {
-    try {
-      stopAllAudio();
-
-      if (bgmSource) {
-        try {
-          bgmSource.stop(0);
-        } catch {}
-        try {
-          bgmSource.disconnect();
-        } catch {}
-        bgmSource = null;
-      }
-
-      if (qbgmSource) {
-        try {
-          qbgmSource.stop(0);
-        } catch {}
-        try {
-          qbgmSource.disconnect();
-        } catch {}
-        qbgmSource = null;
-      }
-
-      globalUnitBgmPlaying = false;
-      lastBgmType = null;
-      isBgmPlaying = false;
-      isQbgmPlaying = false;
-
-      if (bgmGain) {
-        try {
-          bgmGain.gain.cancelScheduledValues(audioCtx?.currentTime || 0);
-          bgmGain.gain.value = 0;
-        } catch {}
-      }
-
-      if (qbgmGain) {
-        try {
-          qbgmGain.gain.cancelScheduledValues(audioCtx?.currentTime || 0);
-          qbgmGain.gain.value = 0;
-        } catch {}
-      }
-
-      if (sfxGain) {
-        try {
-          sfxGain.gain.cancelScheduledValues(audioCtx?.currentTime || 0);
-          sfxGain.gain.value = 0;
-        } catch {}
-      }
-
-      if (audioCtx && audioCtx.state === "running") {
-        try {
-          await audioCtx.suspend();
-        } catch {}
-      }
-    } catch (e) {
-      console.warn("hardStopAudio error:", e);
-    }
-  };
   const handleFormatChange = async (newFormat) => {
     // UI 更新
     setSelectedFormats((prev) => {
@@ -3219,22 +3132,19 @@ export default function EnglishTrapQuestions() {
   const firstLoadRef = useRef(true);
 
   useEffect(() => {
-    const handleBeforeUnload = () => {
+    // 🧹 ページロード時に古い音を止める
+    window.addEventListener("beforeunload", () => {
       try {
         stopQbgm(true);
         stopBgm(true);
         if (audioCtx) {
           audioCtx.close();
+          //console.log("[Audio] audioCtx closed on unload");
         }
       } catch (e) {
         console.warn("[Audio] unload cleanup failed:", e);
       }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
+    });
   }, []);
 
   useEffect(() => {
@@ -3252,7 +3162,6 @@ export default function EnglishTrapQuestions() {
         localStorage.getItem("fromMyData") === "1";
 
       initAudio();
-      syncAudioRefs();
 
       // === 🔇 サウンドOFF時 ===
       if (!soundEnabled) {
@@ -5159,15 +5068,9 @@ export default function EnglishTrapQuestions() {
 
               {/* ログアウト */}
               <button
-                onClick={async () => {
+                onClick={() => {
                   setMenuOpen(false);
-
-                  try {
-                    hardStopAudio();
-                    await logout();
-                  } catch (e) {
-                    console.error("ログアウト前後の音停止でエラー:", e);
-                  }
+                  logout(); // ← これで LogoutButton.jsx と同じ動作！
                 }}
                 className="w-full text-left bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg font-semibold shadow transition"
               >
