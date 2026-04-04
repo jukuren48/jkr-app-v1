@@ -5039,7 +5039,7 @@ export default function EnglishTrapQuestions() {
                 )}
               </div>
             </div>,
-            document.body,
+            //ocument.body,
           )}
 
         {/* ★ ここにハンバーガーメニューを置くのが正解！ */}
@@ -7709,32 +7709,72 @@ export default function EnglishTrapQuestions() {
           </div>
         )}
         {upgradeOpen && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl">
-              <h2 className="text-xl font-bold mb-3 text-center">
-                今日の無料体験はここまで
-              </h2>
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl border border-gray-100">
+              <div className="text-center mb-4">
+                <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold mb-3">
+                  本日の無料体験はここまで
+                </div>
 
-              <p className="text-sm text-gray-700 mb-4 text-center">
-                無料体験は1日{FREE_DAILY_LIMIT}問までです。
-                <br />
-                <span className="font-semibold">
-                  スタンダードなら、制限なく続きから学習できます。
-                </span>
-                <br />
-                <span className="text-xs text-gray-600">
-                  ・間違えた問題の復習　・学習記録（Myデータ）　・学習を継続しやすい設計
-                </span>
-              </p>
+                <h2 className="text-2xl font-extrabold text-gray-900 leading-snug">
+                  ここで止めるのは、
+                  <br />
+                  もったいないです
+                </h2>
+              </div>
+
+              <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 mb-4">
+                <div className="text-sm font-bold text-slate-800 mb-2 text-center">
+                  今日の学習状況
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 text-center">
+                  <div className="bg-white rounded-xl p-3 border">
+                    <div className="text-[11px] text-gray-500 mb-1">正解数</div>
+                    <div className="text-xl font-extrabold text-slate-800">
+                      {correctCount}問
+                    </div>
+                  </div>
+
+                  <div className="bg-white rounded-xl p-3 border">
+                    <div className="text-[11px] text-gray-500 mb-1">正答率</div>
+                    <div className="text-xl font-extrabold text-slate-800">
+                      {correctRate}%
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-sm text-gray-700 text-center mt-3 leading-relaxed">
+                  今は、
+                  <span className="font-bold text-slate-900">
+                    「わかった」を「できる」に変えやすいタイミング
+                  </span>
+                  です。
+                  <br />
+                  ここで続けると、理解が定着しやすくなります。
+                </p>
+              </div>
+
+              <div className="rounded-2xl bg-blue-50 border border-blue-200 p-4 mb-4">
+                <div className="text-sm font-bold text-blue-900 mb-2">
+                  スタンダードでできること
+                </div>
+                <ul className="text-sm text-blue-900 space-y-1">
+                  <li>・続きからそのまま学習できる</li>
+                  <li>・間違えた問題だけを復習できる</li>
+                  <li>・Myデータで学習記録を残せる</li>
+                  <li>・弱点を見つけて効率よく対策できる</li>
+                </ul>
+              </div>
 
               <button
                 onClick={goStandardCheckout}
                 disabled={upgradeLoading}
-                className="w-full py-3 rounded-xl bg-[#4A6572] text-white font-bold hover:opacity-90 disabled:opacity-50"
+                className="w-full py-3 rounded-xl bg-[#4A6572] text-white font-bold text-base hover:opacity-90 disabled:opacity-50 shadow"
               >
                 {upgradeLoading
                   ? "決済ページを準備中…"
-                  : "続きから学習する（スタンダード ¥1,480 / 月）"}
+                  : "このまま続ける（スタンダード ¥1,480 / 月）"}
               </button>
 
               <button
@@ -7751,44 +7791,42 @@ export default function EnglishTrapQuestions() {
                     meta: { action: "end_today" },
                   });
 
-                  // ① モーダルを閉じる
                   setUpgradeOpen(false);
-
-                  // ② 「次へ押しても進めない」状態を避けるため、クイズを終了扱いにして結果へ
                   setShowFeedback(false);
                   setShowQuestions(false);
                   setShowResult(true);
-
-                  // ③ 画面上部へ（スマホで特に安心）
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="w-full mt-3 py-2 rounded-xl bg-gray-200 text-gray-800 font-bold"
+                className="w-full mt-3 py-2.5 rounded-xl bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition"
               >
                 今日はここで終わる
               </button>
 
-              <p className="text-[11px] text-gray-500 mt-3 text-center">
-                ※いつでも解約できます（※実際に解約導線がある場合のみ表示）
+              <p className="text-[11px] text-gray-500 mt-3 text-center leading-relaxed">
+                ※いつでも解約できます
               </p>
             </div>
           </div>
         )}
         {plan === "free" && freeLimitBlocked && (
-          <div className="mt-4 p-3 rounded-xl bg-yellow-50 border border-yellow-200 text-yellow-900 text-sm">
-            <div className="font-bold mb-1">本日の無料5問に到達しました</div>
-            <div className="mb-2">
-              続きを解くにはスタンダードプランへのアップグレードが必要です。
+          <div className="mt-4 p-4 rounded-2xl bg-yellow-50 border border-yellow-200 text-yellow-900 text-sm">
+            <div className="font-extrabold mb-1">
+              今日の無料体験はここまでです
+            </div>
+            <div className="mb-3 leading-relaxed">
+              続きを解くにはスタンダードプランが必要です。
+              <br />
+              間違えた問題の復習や学習記録も使えるようになります。
             </div>
             <div className="flex gap-2">
               <button
                 onClick={openUpgradeForFreeLimit}
-                className="px-3 py-2 rounded-lg bg-blue-600 text-white font-bold"
+                className="px-3 py-2 rounded-lg bg-[#4A6572] text-white font-bold"
               >
-                アップグレードする
+                このまま続ける
               </button>
               <button
                 onClick={() => {
-                  // 単元選択へ戻す（あなたの状態に合わせて調整OK）
                   setShowFeedback(false);
                   setShowQuestions(false);
                   setShowResult(false);
