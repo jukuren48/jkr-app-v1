@@ -4849,6 +4849,15 @@ export default function EnglishTrapQuestions() {
   const correctRate =
     totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
+  const nearPerfectMessage =
+    totalQuestions > 0 && correctCount === totalQuestions - 1
+      ? "あと1問で満点でした。今続けると、かなり良い形で定着します。"
+      : totalQuestions > 0 && correctRate >= 80
+        ? "かなり良い流れです。今止めるのはもったいないです。"
+        : totalQuestions > 0 && correctRate >= 60
+          ? "あと少しで安定して解けるところまで来ています。"
+          : "今ここで復習すると、苦手を効率よく立て直せます。";
+
   // ✅ 不正解リスト（表示上は「覚え直し」と重複しないように除外）
   const incorrectQuestionsList = filteredQuestions.filter(
     (q) => mistakes[q.id] && !reviewIds.has(String(q.id)),
@@ -7090,7 +7099,7 @@ export default function EnglishTrapQuestions() {
         )}
 
         {/* 結果画面 */}
-        {showResult && (
+        {showResult && !upgradeOpen && (
           <div>
             <h2 className="text-2xl font-bold mb-4">結果発表</h2>
             <p className="text-2xl font-bold mb-4">
@@ -7709,23 +7718,25 @@ export default function EnglishTrapQuestions() {
           </div>
         )}
         {upgradeOpen && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
-            <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl border border-gray-100">
+          <div className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center px-4">
+            <div className="relative bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl border border-gray-100">
+              {/* 🔥 タイトル */}
               <div className="text-center mb-4">
                 <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold mb-3">
                   本日の無料体験はここまで
                 </div>
 
                 <h2 className="text-2xl font-extrabold text-gray-900 leading-snug">
-                  ここで止めるのは、
+                  この流れ、止めるのは
                   <br />
                   もったいないです
                 </h2>
               </div>
 
+              {/* 🔥 成績ブロック */}
               <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 mb-4">
                 <div className="text-sm font-bold text-slate-800 mb-2 text-center">
-                  今日の学習状況
+                  今日の結果
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 text-center">
@@ -7744,39 +7755,68 @@ export default function EnglishTrapQuestions() {
                   </div>
                 </div>
 
+                {totalQuestions > 0 && correctCount === totalQuestions - 1 && (
+                  <div className="mt-2 text-center">
+                    <div className="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">
+                      惜しい！あと1問で満点
+                    </div>
+                  </div>
+                )}
+
+                {/* 🔥 状態別メッセージ */}
                 <p className="text-sm text-gray-700 text-center mt-3 leading-relaxed">
-                  今は、
-                  <span className="font-bold text-slate-900">
-                    「わかった」を「できる」に変えやすいタイミング
-                  </span>
-                  です。
-                  <br />
-                  ここで続けると、理解が定着しやすくなります。
+                  {nearPerfectMessage}
                 </p>
+
+                {streak >= 2 && (
+                  <div className="mt-3 text-center space-y-1">
+                    <div className="inline-block px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-bold">
+                      🔥 連続正解 {streak} 問
+                    </div>
+                    <div className="text-xs text-green-700 font-bold">
+                      この流れ、止めるのはもったいないです
+                    </div>
+                  </div>
+                )}
+
+                {/* 🔥 あと一歩演出 */}
+                {correctRate >= 80 && (
+                  <p className="text-xs text-amber-700 text-center mt-2 font-bold">
+                    あと少しで完璧です
+                  </p>
+                )}
               </div>
 
+              {/* 🔥 ベネフィット */}
               <div className="rounded-2xl bg-blue-50 border border-blue-200 p-4 mb-4">
                 <div className="text-sm font-bold text-blue-900 mb-2">
                   スタンダードでできること
                 </div>
                 <ul className="text-sm text-blue-900 space-y-1">
-                  <li>・続きからそのまま学習できる</li>
-                  <li>・間違えた問題だけを復習できる</li>
-                  <li>・Myデータで学習記録を残せる</li>
-                  <li>・弱点を見つけて効率よく対策できる</li>
+                  <li>・このまま続けて学習できる</li>
+                  <li>・間違えた問題だけを効率よく克服できる</li>
+                  <li>・学習履歴を記録して成長が見える</li>
+                  <li>・弱点を自動で分析して対策できる</li>
                 </ul>
               </div>
 
+              {/* 🔥 CTA（重要） */}
               <button
                 onClick={goStandardCheckout}
                 disabled={upgradeLoading}
                 className="w-full py-3 rounded-xl bg-[#4A6572] text-white font-bold text-base hover:opacity-90 disabled:opacity-50 shadow"
               >
-                {upgradeLoading
-                  ? "決済ページを準備中…"
-                  : "このまま続ける（スタンダード ¥1,480 / 月）"}
+                {upgradeLoading ? (
+                  "決済ページを準備中…"
+                ) : (
+                  <div className="flex flex-col items-center">
+                    <span>今すぐ続ける</span>
+                    <span className="text-xs opacity-80">¥1,480 / 月</span>
+                  </div>
+                )}
               </button>
 
+              {/* サブCTA */}
               <button
                 onClick={() => {
                   logUpgradeEvent({
@@ -7802,7 +7842,7 @@ export default function EnglishTrapQuestions() {
                 今日はここで終わる
               </button>
 
-              <p className="text-[11px] text-gray-500 mt-3 text-center leading-relaxed">
+              <p className="text-[11px] text-gray-500 mt-3 text-center">
                 ※いつでも解約できます
               </p>
             </div>
